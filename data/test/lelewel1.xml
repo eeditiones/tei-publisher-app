@@ -1,6 +1,5 @@
 <?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
-	schematypens="http://purl.oclc.org/dsdl/schematron"?>
-   <?teipublisher template="lelewel.html" odd="lelewel.odd" view="page" media="web epub"?>
+	schematypens="http://purl.oclc.org/dsdl/schematron"?><?teipublisher template="lelewel.html" odd="lelewel.odd" view="page" media="web epub"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="Lelewel_S1">
    <teiHeader>
       <fileDesc>
@@ -12,24 +11,25 @@
          </publicationStmt>
          <sourceDesc>
             <p>Archiwum rodzinne Lelewelów. J. Lelewel, Listy do brata Prota. Biblioteka Narodowa,
-               Rps 9552 II; reprodukcja cyfrowa <ref target="https://polona.pl/item/listy-do-brata-prota,NDk1MjAwNzg/190/#item">Polona</ref>
-                </p>
+               Rps 9552 II; reprodukcja cyfrowa <ref
+                  target="https://polona.pl/item/listy-do-brata-prota,NDk1MjAwNzg/190">Polona</ref>
+            </p>
          </sourceDesc>
       </fileDesc>
       <profileDesc>
          <langUsage>
-               <language ident="pl">Polish</language>
+            <language ident="pl">Polish</language>
          </langUsage>
          <textClass>
-               <catRef scheme="#genre" target="#correspondence"/>
-               <catRef scheme="#form" target="#manuscript"/>
-               <catRef scheme="#feature" target="#image"/>
-               <catRef scheme="#feature" target="#pages"/>
-               <catRef scheme="#feature" target="#person"/>
-               <catRef scheme="#feature" target="#place"/>
-               <catRef scheme="#feature" target="#variants"/>
-               <catRef scheme="#feature" target="#ltr"/>
-               <catRef scheme="#period" target="#modern"/>
+            <catRef scheme="#genre" target="#correspondence"/>
+            <catRef scheme="#form" target="#manuscript"/>
+            <catRef scheme="#feature" target="#image"/>
+            <catRef scheme="#feature" target="#pages"/>
+            <catRef scheme="#feature" target="#person"/>
+            <catRef scheme="#feature" target="#place"/>
+            <catRef scheme="#feature" target="#variants"/>
+            <catRef scheme="#feature" target="#ltr"/>
+            <catRef scheme="#period" target="#modern"/>
          </textClass>
          <correspDesc>
             <correspAction type="sent">
@@ -89,7 +89,7 @@
                   </location>
                   <country>Poland</country>
                   <region>Lublin</region>
-                  <note>populated place</note>
+                  <note>settlement</note>
                   <ptr type="geonames" target="https://www.geonames.org/764324"/>
                   <ptr type="info" target="https://en.wikipedia.org/wiki/Motycz"/>
                </place>
@@ -122,7 +122,7 @@
                   </location>
                   <country>Poland</country>
                   <region>Lublin</region>
-                  <note>populated place</note>
+                  <note>settlement</note>
                   <ptr type="geonames" target="https://www.geonames.org/760811"/>
                   <ptr type="info" target="https://en.wikipedia.org/wiki/Radawiec_Du%C5%BCy"/>
                </place>
@@ -145,12 +145,14 @@
       <body>
          <div>
             <dateline>
-                    <pb facs="iiif:lelewel-86605194.jpg"/> D. 1/13 Maja 1810. Krzemieniec </dateline>
+               <pb facs="https://zas.bn.org.pl/iiif/49520078/86605194.tif" n="94r"/> D. 1/13 Maja
+               1810. Krzemieniec </dateline>
 
             <p>
-                    <persName ref="gnd-122917871">Bracie</persName> kochany! </p>
+               <persName ref="gnd-122917871">Bracie</persName> kochany! </p>
             <p>
-               <lb/>Moja to wina i bardzo wielka wina, za którą sprawiedli<lb break="no"/>wie na mnie <app>
+               <lb/>Moja to wina i bardzo wielka wina, za którą sprawiedli<lb break="no"/>wie na
+               mnie <app>
                   <lem>zażalonym</lem>
                   <rdg wit="Ż">rozżalonym</rdg>
                </app>
@@ -158,63 +160,73 @@
                   <orig>bydź</orig>
                   <reg>być</reg>
                </choice> możesz, że nic nie <lb/> wiesz, co się ze mną dzieje. Lenistwo to wszystko
-               zrzą<lb break="no"/>dziło. Oto lepiej będzie jutro napisać, a oto po <lb/>obiedzie wygodniej,
-               tylko znowu wizyta jaka prze<lb break="no"/>szkodziła. Owóż tak i całe zapusty i post cały
-               <lb/>przeszedł. Pisałeś ostatni list jeszcze w lutym <lb/>
+                  zrzą<lb break="no"/>dziło. Oto lepiej będzie jutro napisać, a oto po <lb/>obiedzie
+               wygodniej, tylko znowu wizyta jaka prze<lb break="no"/>szkodziła. Owóż tak i całe
+               zapusty i post cały <lb/>przeszedł. Pisałeś ostatni list jeszcze w lutym <lb/>
                <app>
                   <lem>za spod</lem>
                   <rdg wit="Ż">z za</rdg>
                </app>
-               <placeName ref="geo-765876">Lublina</placeName> z <placeName ref="geo-764324">Motyczy</placeName> i pisałeś, że w Lubli<lb break="no"/>nie prócz tradycji o zabawach
-               zapustowych zapo<lb break="no"/>minano dla niesnasek majętniejszych z uboższymi. <lb/>Niesnasek
+               <placeName ref="geo-765876">Lublina</placeName> z <placeName ref="geo-764324"
+                  >Motyczy</placeName> i pisałeś, że w Lubl<placeName ref="geo-765876">i<lb
+                     break="no"/>nie pró</placeName>cz tradycji o zabawach zapustowych zapo<lb
+                  break="no"/>minano dla niesnasek majętniejszych z uboższymi. <lb/>Niesnasek
                podobnych wszędzie po świecie pełno, a przecie <lb/>dlatego ludzie się bawią. I w
                   <placeName ref="geo-704143">Krzemieńcu</placeName> jakkolwiek długie były
-               <lb/>zapusty, przeszły wesoło. Mieścina ta nikczemna <lb/>w żaden sposób z Lublinem
-               równać się niemogąca, dla zbie<lb break="no"/>gu różnych okoliczności, dla <ref type="image" target="https://polona.pl/item/zamek-w-krzemiencu,MTkzNjE2MDg/0/#info">sądów,
-                  gimnazjum i sądo<lb break="no"/>wniczej komisji edukacyjnej</ref> nader ludna, ma
-               wielora<lb break="no"/>kich mieszkańców 1) mieszczan 2) prawników, 3) czy<lb break="no"/>nowników
-               rosyjskich 4) profesorów 5) studentów. <lb/>6) Kilka domów bogatych obywateli tu
-               przesiadujących. <lb/>Ostatnia ta klasa resztą pogardza, wszystkie inne <lb/>(prócz
-               studentów, którzy są w różnych cale stosunkach), <lb/>cząstkowo przynajmniej
-               wzajemnie między sobą żyją <lb/>i wyjąwszy niektóre małe scysje, bardzo zgodnie,
-               <lb/>a szczególniej między profesorami, wzajemna grzecz<lb break="no"/>ność i przyjaźń aż do
-               poufałości prawie powszechna. <lb/>I w takim zgromadzeniu bywał zwyczaj, że w czasie
-               <lb/>zapust bywały od 2 lub 3 zbierane składki powsze<lb break="no"/>chne i z nich wydawane bale
-               dla całego <placeName ref="geo-704143">Krzemień<lb break="no"/>ca</placeName>, nawet i dla
-               magnatów, którzy bytności swojej <lb/>nie odmawiali. Zaraz za przybyciem moim do
-               Krzemień<lb/>ca utrzymywałem, że to ze wszech miar musi być <pb facs="iiif:lelewel-86605195.jpg"/>
+               <lb/>zapusty, przeszły wesoło. Mieścina ta nikczemna <lb/>w żaden sposób z
+                  Lubl<placeName ref="geo-765876">inem rów</placeName>nać się niemogąca, dla zbie<lb
+                  break="no"/>gu różnych okoliczności, dla sądów, gimnazjum i sądo<lb break="no"
+               />wniczej komisji edukacyjnej nader ludna, ma wielora<lb break="no"/>kich mieszkańców
+               1) mieszczan 2) prawników, 3) czy<lb break="no"/>nowników rosyjskich 4) profesorów 5)
+               studentów. <lb/>6) Kilka domów bogatych obywateli tu przesiadujących. <lb/>Ostatnia
+               ta klasa resztą pogardza, wszystkie inne <lb/>(prócz studentów, którzy są w różnych
+               cale stosunkach), <lb/>cząstkowo przynajmniej wzajemnie między sobą żyją <lb/>i
+               wyjąwszy niektóre małe scysje, bardzo zgodnie, <lb/>a szczególniej między
+               profesorami, wzajemna grzecz<lb break="no"/>ność i przyjaźń aż do poufałości prawie
+               powszechna. <lb/>I w takim zgromadzeniu bywał zwyczaj, że w czasie <lb/>zapust bywały
+               od 2 lub 3 zbierane składki powsze<lb break="no"/>chne i z nich wydawane bale dla
+               całego <placeName ref="geo-704143">Krzemień<lb break="no"/>ca</placeName>, nawet i
+               dla magnatów, którzy bytności swojej <lb/>nie odmawiali. Zaraz za przybyciem moim do
+                  Krze<placeName ref="geo-704143">mień<lb/>ca utr</placeName>zymywałem, że to ze
+               wszech miar musi być <pb facs="https://zas.bn.org.pl/iiif/49520078/86605195.tif"
+                  n="94v"/>
                <lb/>niedogodnie, i wiele nieukontentowania sprawować. Jakoż w tym <lb/>przewidywaniu
-               moim przekonałem się i zapewniłem za po<lb break="no"/>wrotem moim do <placeName ref="geo-704143">Krzemieńca</placeName>, właśnie przed samymi zapu<lb break="no"/>stami.
-               Byłem wówczas pełen czarnej melancholii, ale <lb/>mimo tego przedsięwziąłem afektować
-               wesołość udaną i sta<lb break="no"/>rać się dopomóc do zabaw, żeby mieć satysfakcję z
-               wi<lb break="no"/>dzenia, że inni się bawią, i że kiedyś nawet jeszcze po od<lb break="no"/>daleniu się
-               moim z <placeName ref="geo-704143">Krzemieńca</placeName>, będą o mnie wspominać
-               <lb/>słodko, <app>
+               moim przekonałem się i zapewniłem za po<lb break="no"/>wrotem moim do <placeName
+                  ref="geo-704143">Krzemieńca</placeName>, właśnie przed samymi zapu<lb break="no"
+               />stami. Byłem wówczas pełen czarnej melancholii, ale <lb/>mimo tego przedsięwziąłem
+               afektować wesołość udaną i sta<lb break="no"/>rać się dopomóc do zabaw, żeby mieć
+               satysfakcję z wi<lb break="no"/>dzenia, że inni się bawią, i że kiedyś nawet jeszcze
+               po od<lb break="no"/>daleniu się moim z <placeName ref="geo-704143"
+                  >Krzemieńca</placeName>, będą o mnie wspominać <lb/>słodko, <app>
                   <lem>że</lem>
                   <rdg wit="Ż">żem</rdg>
                </app> ja tu był. Żeby to jednak uskutecznić, trzeba <lb/>się było porwać przeciw
-               zadawnionym zwyczajom, i te po<lb break="no"/>wszechne szkolnicze składki wypędzić, zostawując
-               każ<lb break="no"/>dego ochocie, żeby swoich przyjaciół lub kolegów w swym <lb/>domu zabawił,
-               wyzuwszy się całkiem ze związków tych, <lb/>które naszym się kosztem bawią, kiedy
-               interes mają <lb/>to się nisko kłaniają, a jak ten minął, profesora<lb break="no"/>mi gardzą, a
-               żon ich nigdy i znać nawet nie chcą. <lb/>Więc po wielu trudach i pracach stanęło na
-               tym, że <lb/>domy profesorów żonatych mają zasięgać pomocy <lb/>2, 3 lub 4 kawalerów,
-               i pod swoim imieniem wie- <lb/>czorne zabawki wydawać. I tym sposobem profesorskie
-               <lb/>baliki całe zapusty zapełniły, chociaż wielu czy to <lb/>żałując rubli
-               kilkunastu, czy nie chcąc <ref type="pwn" target="https://sjp.pwn.pl/sjp/subiekcja;2525065.html">subjekcji</ref>
-               podej<lb break="no"/>mować wcale się wzajemnością nie wywiązali. Na każ<lb break="no"/>dym z balików
-               podobnych od 60 do 80 osób <lb/>bywało, i każdy taki około 100 rubli srebrnych
-               kosztował. <lb/>Kontent z nich byłem dlatego, że promowując je przy <lb/>pomocy
-               innych kawalerów, mogłem swych sił za<lb break="no"/>próbować czy li potrafię być dla
-               liczniejszej kom<lb break="no"/>panii być gospodarzem. Jakoż 2 razy w ciągu <lb/>tych zapust
-               gospodarstwem zająć mi się wypadło, <lb/>i to udało się cale dobrze. Przez pilne
-               zajęcie się <lb/>zabawienia publiczności <placeName ref="geo-704143">Krzemienieckiej</placeName>, a nade <pb facs="iiif:lelewel-86605196.jpg"/>
-                    <lb/>wszystko kompanii profesorskiej miałem tę korzyść, że owa <lb/>melancholia z
-               literackich prac w Łucku podejmowana powo<lb break="no"/>li rozchodzić się poczęła i ta ochota,
-               ta wesołość zrazu <lb/>wymuszona zaczęła się zmieniać w prawdziwą i zupełnie
-               <lb/>ozdrowiałem, tylko to jeszcze mnie trapi, że do domu wżdy<lb break="no"/>cham.
-               Przyzwyczaiwszy się do szalenia w czasie zapust, <lb/>trudno było się przyuczyć do
-               pracy w czasie postu, a tru<lb break="no"/>dniej jeszcze teraz na wiosnę. Więc już teraz z owego
+               zadawnionym zwyczajom, i te po<lb break="no"/>wszechne szkolnicze składki wypędzić,
+               zostawując każ<lb break="no"/>dego ochocie, żeby swoich przyjaciół lub kolegów w swym
+               <lb/>domu zabawił, wyzuwszy się całkiem ze związków tych, <lb/>które naszym się
+               kosztem bawią, kiedy interes mają <lb/>to się nisko kłaniają, a jak ten minął,
+                  profesora<lb break="no"/>mi gardzą, a żon ich nigdy i znać nawet nie chcą.
+               <lb/>Więc po wielu trudach i pracach stanęło na tym, że <lb/>domy profesorów żonatych
+               mają zasięgać pomocy <lb/>2, 3 lub 4 kawalerów, i pod swoim imieniem wie<lb
+                  break="no"/>czorne zabawki wydawać. I tym sposobem profesorskie <lb/>baliki całe
+               zapusty zapełniły, chociaż wielu czy to <lb/>żałując rubli kilkunastu, czy nie chcąc
+                  <ref type="pwn" target="https://sjp.pwn.pl/sjp/subiekcja;2525065.html"
+                  >subjekcji</ref> podej<lb break="no"/>mować wcale się wzajemnością nie wywiązali.
+               Na każ<lb break="no"/>dym z balików podobnych od 60 do 80 osób <lb/>bywało, i każdy
+               taki około 100 rubli srebrnych kosztował. <lb/>Kontent z nich byłem dlatego, że
+               promowując je przy <lb/>pomocy innych kawalerów, mogłem swych sił za<lb break="no"
+               />próbować czy li potrafię być dla liczniejszej kom<lb break="no"/>panii być
+               gospodarzem. Jakoż 2 razy w ciągu <lb/>tych zapust gospodarstwem zająć mi się
+               wypadło, <lb/>i to udało się cale dobrze. Przez pilne zajęcie się <lb/>zabawienia
+               publiczności <placeName ref="geo-704143">Krzemienieckiej</placeName>, a nade <pb
+                  facs="https://zas.bn.org.pl/iiif/49520078/86605196.tif" n="95r"/>
+               <lb/>wszystko kompanii profesorskiej miałem tę korzyść, że owa <lb/>melancholia z
+               literackich prac w Łuck<placeName ref="geo-702569">u pod</placeName>ejmowana powo<lb
+                  break="no"/>li rozchodzić się poczęła i ta ochota, ta wesołość zrazu
+               <lb/>wymuszona zaczęła się zmieniać w prawdziwą i zupełnie <lb/>ozdrowiałem, tylko to
+               jeszcze mnie trapi, że do domu wżdy<lb break="no"/>cham. Przyzwyczaiwszy się do
+               szalenia w czasie zapust, <lb/>trudno było się przyuczyć do pracy w czasie postu, a
+                  tru<lb break="no"/>dniej jeszcze teraz na wiosnę. Więc już teraz z owego
                <lb/>zakopciałego łojowym dymem nocnego literata, masz <lb/>brata próżniaka, który
                sobie kiedy ma czas jaki wol<lb break="no"/>ny odczytuje <foreign xml:lang="fr">
                   <choice>
@@ -226,9 +238,9 @@
                <lb/>Piszesz, że w sąsiedztwie swojej kwatery znalazłeś <lb/>bardzo przyjacielski dom
                w <placeName ref="geo-760811">Radawcu</placeName>. Jeżeli ten list <lb/>jeszcze cię w
                tej samej kwaterze zaskoczy, proszę Cię, <lb/>ucałuj rączki samej niegdyś panny
-               Marianny <lb/>Czempińskiej. Choć byłem wówczas, kiedym przeby<lb break="no"/>wał przez 3 lata w
-                  <placeName ref="geo-763331">Okrzei</placeName>, jeszcze dzieckiem, wpraw<lb/>dzie
-               dojrzewającym, jednak słodkie wspomnienie<app>
+               Marianny <lb/>Czempińskiej. Choć byłem wówczas, kiedym przeby<lb break="no"/>wał
+               przez 3 lata w <placeName ref="geo-763331">Okrzei</placeName>, jeszcze dzieckiem,
+               wpraw<lb/>dzie dojrzewającym, jednak słodkie wspomnienie<app>
                   <lem>...</lem>
                   <rdg wit="Ż"/>
                </app>
@@ -237,21 +249,25 @@
                <lb/>Samemu także panu <app>
                   <lem>z Finków</lem>
                   <rdg wit="Ż">"z Finków"</rdg>
-               </app> Piaskowskiemu złóż ukło<lb break="no"/>ny i przypomnij zabraną z nim w <placeName ref="geo-7531694">Kłoczewie</placeName> znajo<lb break="no"/>mość, proś aby chciał mi być
-               przyjacielem, tak <lb/>jak jest dla Ciebie. </p>
+               </app> Piaskowskiemu złóż ukło<lb break="no"/>ny i przypomnij zabraną z nim w
+                  <placeName ref="geo-7531694">Kłoczewie</placeName> znajo<lb break="no"/>mość, proś
+               aby chciał mi być przyjacielem, tak <lb/>jak jest dla Ciebie. </p>
             <p>
-                    <lb/>Piszesz jeszcze, że mi donosisz o tym wszystkim, co <lb/> Ci się zdaje, że mnie
+               <lb/>Piszesz jeszcze, że mi donosisz o tym wszystkim, co <lb/> Ci się zdaje, że mnie
                interesować może. Wierzaj <lb/> mi, że mnie wszystko interesuje, co tylko mi
                napiszesz, ile ze <lb/>stron naszych. </p>
             <p>
-                    <lb/>Teraz lubo więcej rozrywkami zajęty, bo te mi <lb/>lepsze zdrowie dają, niż
+               <lb/>Teraz lubo więcej rozrywkami zajęty, bo te mi <lb/>lepsze zdrowie dają, niż
                literatura, jednak staram <lb/>się zatrudnić drukarnie wileńskie. Jeżeli cenzura
-               <lb/>pozwoli będą drukowane <ref type="lelewel" target="https://polona.pl/item/uwagi-nad-mateuszem-herbu-cholewa-polskim-xii-wieku-dzieiopisem-a-w-sczegolnosci-nad,MTU3ODIy/1/#info">uwagi nad Mateuszem <lb/>herbu Cholewa</ref> polskim XII wieku dziejopisem z
-               dewizą. <lb/>"Stąd też jeden za drugim owczym bieżąc pędem <pb facs="iiif:lelewel-86605197.jpg"/>
-                    <lb/>skoro zełgał najpierwszy, wszyscy łgali
-               rzędem". <lb/>Jest to uczono-głęboko-nudny komentarz nad częścią kroniki <lb/>znanej
-               pod imieniem <persName ref="gnd-119449145">Kadłubkowej</persName> chroniki, <lb/>masz
-               krótkie, ale prawdziwe zdanie. </p>
+               <lb/>pozwoli będą drukowane <ref type="lelewel"
+                  target="https://polona.pl/item/uwagi-nad-mateuszem-herbu-cholewa-polskim-xii-wieku-dzieiopisem-a-w-sczegolnosci-nad,MTU3ODIy/1/#info"
+                  >uwagi nad Mateuszem <lb/>herbu Cholewa</ref> polskim XII wieku dziejopisem z
+               dewizą. <lb/>"Stąd też jeden za drugim owczym bieżąc pędem <pb
+                  facs="https://zas.bn.org.pl/iiif/49520078/86605197.tif" n="95v"/>
+               <lb/>skoro zełgał najpierwszy, wszyscy łgali rzędem". <lb/>Jest to
+               uczono-głęboko-nudny komentarz nad częścią kroniki <lb/>znanej pod imieniem <persName
+                  ref="gnd-119449145">Kadłubkowej</persName> chroniki, <lb/>masz krótkie, ale
+               prawdziwe zdanie. </p>
             <p>
                <lb/>Pan <persName ref="gnd-103517502">Czacki</persName> dostarczył mi (tylko nieco
                za późno), <lb/>2 rękopisma <persName ref="gnd-119449145">Kadłubkowej</persName>
@@ -259,18 +275,21 @@
                tak pisane: </p>
             <p>
                <lb/>
-               <app>
-                  <lem>Immo in scopulo olofagi mox fundata est <lb/>Insignis Gracconia vrbs</lem>
-                  <rdg wit="Ż"/>
-               </app>
+               <hi rend="ms">
+                  <app>
+                     <lem>Immo in scopulo olofagi mox fundata est <lb/>Insignis Gracconia vrbs</lem>
+                     <rdg wit="Ż"/>
+                  </app>
+               </hi>
             </p>
             <p>
-               <lb/>Ależ to Ciebie mało obchodzi, a mnie niezmier<lb break="no"/>nie nudzi. Leżą już te
-               rękopisma od kilku tygo<lb break="no"/>dni i ledwiem teraz zajrzał, żeby te słów parę
-               wypi<lb break="no"/>sać. Kończę już na tym, bo godzina się <lb/>zbliża, na którą trzeba pocztę z
-               listami ułatwić, <lb/>a muszę jeszcze daleko z interesem spieszyć, przy tym
-               <lb/>przyjechał do <placeName ref="geo-704143">Krzemieńca</placeName> z <placeName ref="geo-702569">Łucka</placeName> jeden kano<lb break="no"/>nik, z którym muszę w jedno
-               miejsce iść z wizytą. </p>
+               <lb/>Ależ to Ciebie mało obchodzi, a mnie niezmier<lb break="no"/>nie nudzi. Leżą już
+               te rękopisma od kilku tygo<lb break="no"/>dni i ledwiem teraz zajrzał, żeby te słów
+               parę wypi<lb break="no"/>sać. Kończę już na tym, bo godzina się <lb/>zbliża, na którą
+               trzeba pocztę z listami ułatwić, <lb/>a muszę jeszcze daleko z interesem spieszyć,
+               przy tym <lb/>przyjechał do <placeName ref="geo-704143">Krzemieńca</placeName> z
+                  <placeName ref="geo-702569">Łucka</placeName> jeden kano<lb break="no"/>nik, z
+               którym muszę w jedno miejsce iść z wizytą. </p>
             <p>
                <lb/>
                <app>
