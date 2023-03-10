@@ -6642,8 +6642,6 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
                 <para>static site</para> 
             <para>static site</para>
           </listitem>
-              </listitem>            
-          </listitem>
         </orderedlist>
       </para>
       <para><emphasis role="bold">Dedicated server</emphasis> in this context means that a physical
