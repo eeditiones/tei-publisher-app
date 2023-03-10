@@ -25,6 +25,11 @@ h4 {
     font-size: 1.2em;
 }
 
+.abstract {
+    padding-left: 16px;
+    border-left: 4px solid var(--pb-color-focus);
+}
+
 figure {
     text-align: center;
     margin: 24px 0;
@@ -38,6 +43,13 @@ figure img {
     display: block;
     max-width: 100%;
     height: auto;
+}
+
+figure.float-right {
+    float: right;
+    max-width: 50%;
+    margin: 0 0 8px 16px;
+    padding: 8px 0 0 8px;
 }
 
 figcaption {

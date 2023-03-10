@@ -14,6 +14,7 @@
         <meta name="pb-template" content="jats.html"/>
 
         <link rel="stylesheet" href="resources/css/theme.css"/>
+        <link rel="stylesheet" href="../templates/pages/documentation.css"/>
         <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
         <style>
             @media (min-width: 769px) {
@@ -71,7 +72,7 @@
                         </div>
                     </pb-drawer>
                     <section class="breadcrumbs">
-                        <pb-view id="title-view1" src="document1" xpath="//article-meta/title-group/article-title" view="single">
+                        <pb-view id="title-view1" src="document1" xpath="//article-meta" view="single">
                             <pb-param name="header" value="short"/>
                         </pb-view>
                     </section>

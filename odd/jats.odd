@@ -1,10 +1,12 @@
 <?xml-model href="teipublisher_odds.xsd"?>
+<?teipublisher output="print epub"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
                 <title>JATS
                     
+                 
                  <desc>Processing of JATS XML (Journal Article Tag Suite)</desc>
                 </title>
             </titleStmt>
@@ -18,7 +20,9 @@
             </sourceDesc>
         </fileDesc>
         <encodingDesc>
-            <tagsDecl/>
+            <tagsDecl>
+                <rendition source="docbook.css"/>
+            </tagsDecl>
         </encodingDesc>
     </teiHeader>
     <text>
@@ -95,9 +99,11 @@
                 <elementSpec ident="th">
                     <model behaviour="cell" useSourceRendition="true">
             <outputRendition xml:space="preserve">
+            
             font-weight: bold;
 text-align: left;
 padding: 0 4px;
+            
             </outputRendition>
         </model>
                 </elementSpec>
@@ -106,11 +112,11 @@ padding: 0 4px;
             <param name="content" value="(title-group, contrib-group)"/>
         </model>
                     <model behaviour="block">
-            <param name="content" value="title-group"/>
+            <param name="content" value="abstract"/>
         </model>
                 </elementSpec>
                 <elementSpec ident="title-group" mode="add">
-                    <modelSequence>
+                    <modelSequence predicate="$parameters?header='short'">
             <model behaviour="link">
                 <param name="content" value="article-title"/>
                 <param name="uri" value="$parameters?doc"/>
@@ -154,15 +160,55 @@ padding: 0 4px;
         </model>
                 </elementSpec>
                 <elementSpec ident="contrib" mode="add">
-        <model behaviour="inline">
+                    <model behaviour="inline">
             <param name="content" value="string-join((name/given-names, name/surname), ' ')"/>
         </model>
-    </elementSpec>
+                </elementSpec>
                 <elementSpec ident="contrib-group" mode="add">
-        <model behaviour="inline">
+                    <model behaviour="inline">
             <param name="content" value="string-join(contrib, ', ')"/>
+            <outputRendition xml:space="preserve" scope="before">
+            content: ' - ';
+            </outputRendition>
         </model>
-    </elementSpec>
+                </elementSpec>
+            <elementSpec ident="code" mode="add">
+                    <model behaviour="webcomponent">
+            <param name="name" value="'pb-code-highlight'"/>
+            <param name="language" value="(@language, 'xml')[1]"/>
+            <param name="line-numbers" value="false()"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="preformat" mode="add">
+                    <model behaviour="pass-through">
+            <pb:template xmlns="" xml:space="preserve"><pre>[[content]]</pre></pb:template>
+        </model>
+                </elementSpec>
+                <elementSpec ident="monospace" mode="add">
+                    <model behaviour="inline" cssClass="code"/>
+                </elementSpec>
+                <elementSpec ident="ext-link" mode="add">
+                    <model behaviour="link">
+            <param name="uri" value="@xlink:href"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="figure" mode="add"/>
+                <elementSpec ident="fig" mode="add">
+                    <model predicate="@position='float'" behaviour="figure" cssClass="float-right">
+            <param name="content" value="(graphic, caption)"/>
+        </model>
+                    <model behaviour="figure">
+            <param name="content" value="(graphic, caption)"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="graphic" mode="add">
+                    <model behaviour="graphic">
+            <param name="url" value="@xlink:href"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="abstract" mode="add">
+                    <model behaviour="block" cssClass="abstract"/>
+                </elementSpec>
             </schemaSpec>
         </body>
     </text>
