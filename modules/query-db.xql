@@ -86,30 +86,35 @@ declare function dbs:autocomplete($doc as xs:string?, $fields as xs:string+, $q 
                             $key
                         }, 30, "lucene-index")
             case "author" return
-                collection($config:data-root)/ft:index-keys-for-field("db-author", $q,
+                collection($config:data-root)/ft:index-keys-for-field("author", $q,
                     function($key, $count) {
                         $key
                     }, 30)
             case "file" return
-                collection($config:data-root)/ft:index-keys-for-field("db-file", $q,
+                collection($config:data-root)/ft:index-keys-for-field("file", $q,
                     function($key, $count) {
                         $key
                     }, 30)
             default return
-                collection($config:data-root)/ft:index-keys-for-field("db-title", $q,
+                collection($config:data-root)/ft:index-keys-for-field("title", $q,
                     function($key, $count) {
                         $key
                     }, 30)
 };
 
-declare function dbs:query-metadata($field as xs:string?, $query as xs:string?, $sort as xs:string) {
-    ()
-    (: map default publisher field names to db- prefixed which are defined for dbk :)
-    (: let $field := if ($field = ('author', 'title', 'file')) then 'db-' || $field else $field
-
-    for $doc in collection($config:data-root)//db:article[ft:query(., $field || ":" || $query, query:options($sort))]
-        return
-        root($doc)/* :)
+declare function dbs:query-metadata($path as xs:string?, $field as xs:string?, $query as xs:string?, $sort as xs:string) {
+    let $queryExpr := 
+        if ($field = "file" or empty($query) or $query = '') then 
+            "file:*" 
+        else 
+            ($field, "text")[1] || ":" || $query
+    let $options := query:options($sort, ($field, "text")[1])
+    let $result :=
+        $config:data-default ! (
+            collection(. || "/" || $path)//db:article[ft:query(., $queryExpr, $options)]
+        )
+    return
+        query:sort($result, $sort)
 };
 
 declare function dbs:get-parent-section($node as node()) {

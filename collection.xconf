@@ -30,17 +30,17 @@
             <text match="//tei:listOrg/tei:org/tei:orgName"/>
             <text match="//tei:taxonomy/tei:category/tei:catDesc"/>
             <text qname="dbk:article">
-                <field name="db-title" expression="nav:get-metadata(., 'title')"/>
-                <field name="db-author" expression="nav:get-metadata(., 'author')"/>
-                <field name="db-file" expression="util:document-name(.)"/>
-                <field name="div" expression="."/>
+                <field name="title" expression="nav:get-metadata(., 'title')"/>
+                <field name="author" expression="nav:get-metadata(., 'author')"/>
+                <field name="file" expression="util:document-name(.)"/>
+                <field name="text" expression="."/>
                 <facet dimension="genre" expression="nav:get-metadata(., 'genre')" hierarchical="yes"/>
                 <facet dimension="language" expression="nav:get-metadata(., 'language')"/>
             </text>
             <text qname="dbk:section">
                 <ignore qname="dbk:section"/>
-                <facet dimension="genre" expression="nav:get-metadata(ancestor::dbk:article, 'genre')" hierarchical="yes"/>
-                <facet dimension="language" expression="nav:get-metadata(ancestor::dbk:article, 'language')"/>
+                <!--facet dimension="genre" expression="nav:get-metadata(ancestor::dbk:article, 'genre')" hierarchical="yes"/>
+                <facet dimension="language" expression="nav:get-metadata(ancestor::dbk:article, 'language')"/-->
             </text>
             <text qname="dbk:title"/>
             <!-- JATS -->
@@ -49,6 +49,7 @@
                 <field name="file" expression="util:document-name(.)"/>
                 <field name="title" expression="nav:get-metadata(ancestor::article, 'title')"/>
                 <field name="author" expression="nav:get-metadata(ancestor::article, 'author')"/>
+                <field name="text" expression="."/>
             </text>
         </lucene>
     </index>

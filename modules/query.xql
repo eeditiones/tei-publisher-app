@@ -21,10 +21,25 @@ module namespace query="http://www.tei-c.org/tei-simple/query";
 import module namespace tei-query="http://www.tei-c.org/tei-simple/query/tei" at "query-tei.xql";
 import module namespace docbook-query="http://www.tei-c.org/tei-simple/query/docbook" at "query-db.xql";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "navigation.xql";
 
 declare variable $query:QUERY_OPTIONS := map {
     "leading-wildcard": "yes",
     "filter-rewrite": "yes"
+};
+
+
+declare %private function query:sort($items as element()*, $sortBy as xs:string?) {
+    let $items :=
+        if (exists($config:data-exclude)) then
+            $items except $config:data-exclude
+        else
+            $items
+    return
+        if ($sortBy) then
+            nav:sort($sortBy, $items)
+        else
+            $items
 };
 
 declare %private function query:dispatch($config as map(*), $function as xs:string, $args as array(*)) {
@@ -76,8 +91,19 @@ declare function query:options($sortBy as xs:string*, $field as xs:string?) {
 };
 
 declare function query:query-metadata($root as xs:string?, $field as xs:string?, $query as xs:string?, $sort as xs:string) {
-    tei-query:query-metadata($root, $field, $query, $sort),
-    docbook-query:query-metadata($field, $query, $sort)
+    let $results := (
+        tei-query:query-metadata($root, $field, $query, $sort),
+        docbook-query:query-metadata($root, $field, $query, $sort)
+    )
+    let $mode := 
+        if ((empty($query) or $query = '') and empty(request:get-parameter-names()[starts-with(., 'facet-')])) then 
+            "browse" 
+        else 
+            "search"
+    return map {
+        "all": $results,
+        "mode": $mode
+    }
 };
 
 declare function query:get-parent-section($config as map(*), $node as node()) {

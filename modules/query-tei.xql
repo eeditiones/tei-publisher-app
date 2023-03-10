@@ -57,28 +57,12 @@ declare function teis:query-metadata($path as xs:string?, $field as xs:string?, 
         else 
             ($field, "text")[1] || ":" || $query
     let $options := query:options($sort, ($field, "text")[1])
-    let $mode := if ((empty($query) or $query = '') and empty($options?facets?*)) then "browse" else "search"
     let $result :=
         $config:data-default ! (
             collection(. || "/" || $path)//tei:text[ft:query(., $queryExpr, $options)]
         )
-    return map {
-        "all": teis:sort($result, $sort),
-        "mode": $mode
-    }
-};
-
-declare %private function teis:sort($items as element()*, $sortBy as xs:string?) {
-    let $items :=
-        if (exists($config:data-exclude)) then
-            $items except $config:data-exclude
-        else
-            $items
-    return
-        if ($sortBy) then
-            nav:sort($sortBy, $items)
-        else
-            $items
+    return 
+        query:sort($result, $sort)
 };
 
 declare function teis:autocomplete($doc as xs:string?, $fields as xs:string+, $q as xs:string) {

@@ -377,27 +377,28 @@
                                                     <paper-item value="title"><pb-i18n key="browse.title"></pb-i18n></paper-item>
                                                     <paper-item value="author"><pb-i18n key="browse.author"></pb-i18n></paper-item>
                                                 </pb-select>
-                                                <pb-select label="search.placeholder" name="field" value="${field}" data-template="pages:parse-params">
+                                                <pb-select label="search.scope" name="field" value="${field}" data-template="pages:parse-params">
                                                     <paper-item value="text"><pb-i18n key="search.content"></pb-i18n></paper-item>
                                                     <paper-item value="title"><pb-i18n key="search.title"></pb-i18n></paper-item>
                                                 </pb-select>
                                             </pb-custom-form>
                                             <pb-search id="search-form" subscribe="search" data-template="pages:parse-params" value="${query}"
                                                 subforms=".facets,.options" submit-on-load="submit-on-load">
-                                                <pb-custom-form class="facets" url="api/search/facets" event="pb-results-received" subscribe="search" emit="search"></pb-custom-form>
+                                                <paper-button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></paper-button>
                                             </pb-search>
+                                            <pb-custom-form class="facets" url="api/search/facets" event="pb-results-received" subscribe="search" emit="search"></pb-custom-form>
                                         </aside>
                                         <div id="document-list">
                                             <pb-paginate id="paginate" per-page="10" range="5" subscribe="search"></pb-paginate>
                                             <pb-browse url="api/collection" emit="search"></pb-browse>
                                         </div>
                                     </div>
-                                    <dts-client slot="page" emit="dts">
+                                    <!--dts-client slot="page" emit="dts">
                                         <dts-select-endpoint id="dts" slot="toolbar">
                                         </dts-select-endpoint>
                                         <p class="dts-info" slot="toolbar"><pb-i18n key="dts.note">Experimental: access other editions which expose the DTS API</pb-i18n></p>
                                         <pb-paginate slot="pagination" per-page="10" range="5" subscribe="dts"></pb-paginate>
-                                    </dts-client>             
+                                    </dts-client-->             
                                 </pb-tabs>
                             </div>
                         </paper-card>
@@ -411,7 +412,7 @@
                             </pb-restricted>
                             <paper-card data-i18n="[heading]odd.files" class="odds" heading="ODD Files">
                                 <div class="card-content">
-                                    <pb-manage-odds id="manage-odds" target="document-list" emit="docs"></pb-manage-odds>
+                                    <pb-manage-odds id="manage-odds" target="document-list" emit="search"></pb-manage-odds>
                                 </div>
                             </paper-card>
                         </aside>
