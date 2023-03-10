@@ -83,24 +83,6 @@
             .hi {
                 display: block;
             }
-
-            #facets h3 {
-                display: flex;
-                flex-direction: row;
-                align-self: center;
-                justify-content: space-between;
-            }
-
-            #facets h3 paper-checkbox {
-                font-size: 85%;
-            }
-
-            #facets table td:nth-child(2) {
-                color: #808080;
-                text-align: right;
-                padding-left: 1em;
-                vertical-align: middle;
-            }
         </style>
     </head>
 
@@ -163,7 +145,7 @@
                                         <paper-checkbox name="field" value="text">Search sections</paper-checkbox>
                                         <paper-checkbox name="field" value="head">Search headings</paper-checkbox>
                                     </div>
-                                    <pb-custom-form id="facets" url="api/search/facets" subscribe="results" event="pb-results-received" emit="search"/>
+                                    <pb-custom-form class="facets" url="api/search/facets" subscribe="results" event="pb-results-received" emit="search"/>
                                 </pb-search>
                             </div>
                         </paper-card>
@@ -171,26 +153,6 @@
                 </main>
             </app-header-layout>
         </pb-page>
-        <script>
-            const facets = document.getElementById('facets');
-            if (facets) {
-                facets.addEventListener('pb-custom-form-loaded', function(ev) {
-                    const elems = ev.detail.querySelectorAll('.facet');
-                    elems.forEach(facet => {
-                        facet.addEventListener('change', () => {
-                            const table = facet.closest('table');
-                            if (table) {
-                                const nested = table.querySelectorAll('.nested .facet').forEach(nested => {
-                                    if (nested != facet) {
-                                        nested.checked = false;
-                                    }
-                                });
-                            }
-                            facets._submit();
-                        });
-                    });
-                });
-            }
-        </script>
+        <script src="resources/scripts/browse.js"></script>
     </body>
 </html>
