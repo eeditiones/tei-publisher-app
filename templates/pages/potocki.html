@@ -38,8 +38,8 @@
             .content-body {
                 position: relative;
                 display: grid;
-                grid-template-columns: 1fr 35% 35%;
-                column-gap: 1em;
+                grid-template-columns: 1fr 1fr;
+                column-gap: 2em;
                 justify-content: center;
                 padding: 0 1em;
             }
@@ -50,25 +50,20 @@
                 --pb-facsimile-height: var(--pb-view-height);
             }
 
+            div.view {
+                height: var(--pb-view-height);
+                overflow: scroll;
+            }
+
             @media (max-width: 769px) {
                 pb-facsimile {
                     display: none;
                 }
             }
-            
-            .ab {
-                margin-bottom: 2em;
-            }
 
             #tocToggle {
                 display: none;
             }
-
-            .introduction {
-                font-family: var(--pb-heading-font-family);
-                padding: 1em;
-            }
-
         </style>
     </head>
 
@@ -92,12 +87,18 @@
                     </app-header>
                                     
                     <main class="content-body">
-                        <pb-view id="introduction" src="document1" subscribe="transcription" emit="transcription">
-                            <pb-param name="view" value="introduction" />
-                        </pb-view>
-                        <pb-view id="view1" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" wait-for="#facsimile"/>
-                        <pb-facsimile id="facsimile" base-uri="https://apps.existsolutions.com/cantaloupe/iiif/2/" default-zoom-level="0" show-navigation-control="show-navigation-control" show-navigator="show-navigator" subscribe="transcription"/>
-                       
+                        <div class="view">
+                            <pb-collapse opened="opened">     
+                                <h2 slot="collapse-trigger">Commentary</h2>
+                                <pb-view slot="collapse-content" id="introduction" src="document1" subscribe="transcription" emit="transcription">
+                                    <pb-param name="view" value="introduction" />
+                                </pb-view>   
+                            </pb-collapse>                    
+                            <pb-view id="view1" src="document1" column-separator=".tei-cb"
+                            append-footnotes="append-footnotes"
+                             subscribe="transcription" emit="transcription" wait-for="#facsimile"/>
+                        </div>
+                        <pb-facsimile id="facsimile" base-uri="https://apps.existsolutions.com/cantaloupe/iiif/2/" default-zoom-level="1" show-navigation-control="show-navigation-control" show-navigator="show-navigator" subscribe="transcription"/>   
                     </main>
                 </app-header-layout>
             </app-drawer-layout>
