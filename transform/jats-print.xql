@@ -21,6 +21,10 @@ import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
 import module namespace printcss="http://www.tei-c.org/tei-simple/xquery/functions/printcss";
 
+(: generated template function for element spec: preformat :)
+declare %private function model:template-preformat($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><pre>{$config?apply-children($config, $node, $params?content)}</pre></t>/*
+};
 (:~
 
     Main entry point for the transformation.
@@ -70,7 +74,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (parent::caption) then
                             html:heading($config, ., ("tei-title1", css:map-rend-to-class(.)), ., 3)
                         else
-                            html:heading($config, ., ("tei-title2", css:map-rend-to-class(.)), ., count(ancestor::sec))
+                            html:heading($config, ., ("tei-title2", css:map-rend-to-class(.)), ., count(ancestor::sec) + 1)
                     case element(p) return
                         if (ancestor::td) then
                             html:block($config, ., ("tei-p1", css:map-rend-to-class(.)), .)
@@ -97,21 +101,32 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(th) return
                         html:cell($config, ., css:get-rendition(., ("tei-th", css:map-rend-to-class(.))), ., ())
                     case element(article-meta) return
-                        if ($parameters?header='short') then
+                        if ($parameters?header='short' or $parameters?mode='breadcrumbs') then
                             html:block($config, ., ("tei-article-meta1", css:map-rend-to-class(.)), (title-group, contrib-group))
                         else
-                            html:block($config, ., ("tei-article-meta2", css:map-rend-to-class(.)), title-group)
-                    case element(title-group) return
-                        (
-                            html:link($config, ., ("tei-title-group1", css:map-rend-to-class(.)), article-title, $parameters?doc, (), map {}),
-                            html:block($config, ., ("tei-title-group2", css:map-rend-to-class(.)), subtitle)
-                        )
+                            (
+                                html:block($config, ., ("tei-article-meta2", css:map-rend-to-class(.)), title-group),
+                                html:block($config, ., ("tei-article-meta3", "flex", css:map-rend-to-class(.)), (contrib-group, pub-date)),
+                                html:block($config, ., ("tei-article-meta4", css:map-rend-to-class(.)), abstract)
+                            )
 
+                    case element(title-group) return
+                        if ($parameters?mode='breadcrumbs') then
+                            html:inline($config, ., ("tei-title-group1", css:map-rend-to-class(.)), article-title/text())
+                        else
+                            if ($parameters?header='short') then
+                                (
+                                    html:link($config, ., ("tei-title-group2", css:map-rend-to-class(.)), article-title, $parameters?doc, (), map {}),
+                                    html:block($config, ., ("tei-title-group3", css:map-rend-to-class(.)), subtitle)
+                                )
+
+                            else
+                                $config?apply($config, ./node())
                     case element(article-title) return
                         if ($parameters?header='short') then
-                            html:heading($config, ., ("tei-article-title", css:map-rend-to-class(.)), ., 5)
+                            html:heading($config, ., ("tei-article-title1", css:map-rend-to-class(.)), ., 5)
                         else
-                            $config?apply($config, ./node())
+                            html:heading($config, ., ("tei-article-title2", css:map-rend-to-class(.)), ., 1)
                     case element(subtitle) return
                         html:heading($config, ., ("tei-subtitle", css:map-rend-to-class(.)), ., 5)
                     case element(caption) return
@@ -119,7 +134,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(disp-quote) return
                         html:cit($config, ., ("tei-disp-quote", css:map-rend-to-class(.)), ., ())
                     case element(fn) return
-                        html:pass-through($config, ., ("tei-fn", css:map-rend-to-class(.)), p)
+                        printcss:note($config, ., ("tei-fn", css:map-rend-to-class(.)), ., (), ())
                     case element(label) return
                         html:block($config, ., ("tei-label", css:map-rend-to-class(.)), .)
                     case element(xref) return
@@ -128,9 +143,46 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             $config?apply($config, ./node())
                     case element(contrib) return
-                        html:inline($config, ., ("tei-contrib", css:map-rend-to-class(.)), string-join((name/given-names, name/surname), ' '))
+                        if (preceding-sibling::contrib) then
+                            html:inline($config, ., ("tei-contrib1", css:map-rend-to-class(.)), .)
+                        else
+                            html:inline($config, ., ("tei-contrib2", css:map-rend-to-class(.)), .)
                     case element(contrib-group) return
-                        html:inline($config, ., ("tei-contrib-group", css:map-rend-to-class(.)), string-join(contrib, ', '))
+                        if ($parameters?mode='breadcrumbs') then
+                            html:inline($config, ., ("tei-contrib-group1", css:map-rend-to-class(.)), contrib)
+                        else
+                            html:block($config, ., ("tei-contrib-group2", css:map-rend-to-class(.)), contrib)
+                    case element(code) return
+                        html:webcomponent($config, ., ("tei-code", css:map-rend-to-class(.)), ., 'pb-code-highlight', map {"language": (@language, 'xml')[1], "line-numbers": false()})
+                    case element(preformat) return
+                        let $params := 
+                            map {
+                                "content": .
+                            }
+
+                                                let $content := 
+                            model:template-preformat($config, ., $params)
+                        return
+                                                html:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-preformat", css:map-rend-to-class(.)), $content)
+                    case element(monospace) return
+                        html:inline($config, ., ("tei-monospace", "code", css:map-rend-to-class(.)), .)
+                    case element(ext-link) return
+                        html:link($config, ., ("tei-ext-link", css:map-rend-to-class(.)), ., @xlink:href, (), map {})
+                    case element(fig) return
+                        if (@position='float') then
+                            html:figure($config, ., ("tei-fig1", "float-right", css:map-rend-to-class(.)), (graphic, caption), ())
+                        else
+                            html:figure($config, ., ("tei-fig2", css:map-rend-to-class(.)), (graphic, caption), ())
+                    case element(graphic) return
+                        html:graphic($config, ., ("tei-graphic", css:map-rend-to-class(.)), ., @xlink:href, (), (), (), ())
+                    case element(abstract) return
+                        html:block($config, ., ("tei-abstract", "abstract", css:map-rend-to-class(.)), .)
+                    case element(name) return
+                        html:inline($config, ., ("tei-name", css:map-rend-to-class(.)), (given-names, surname))
+                    case element(surname) return
+                        html:inline($config, ., ("tei-surname", css:map-rend-to-class(.)), .)
+                    case element(pub-date) return
+                        html:block($config, ., ("tei-pub-date", css:map-rend-to-class(.)), format-date(@iso-8601-date, '[D]. [MNn] [Y]', $parameters?language, (), ()))
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return

@@ -2,7 +2,7 @@
 <!DOCTYPE article
   PUBLIC "-//NLM//DTD JATS (Z39.96) Journal Publishing DTD with OASIS Tables with MathML3 v1.1 20151215//EN"
   "JATS-journalpublishing-oasis-article1-mathml3.dtd">
-<?teipublisher odd="jats.odd" template="jats.html" view="single"?>
+<?teipublisher odd="jats.odd" template="jats.html" view="single" media="print epub"?>
 <article dtd-version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
   xmlns:mml="http://www.w3.org/1998/Math/MathML">
   <front>
@@ -15,17 +15,19 @@
         <article-title>Generating a high voltage site by going static</article-title>
       </title-group>
       <contrib-group>
-        <contrib>
-          <contrib-id/>
+        <contrib contrib-type="author">
           <name>
             <surname>Meier</surname>
             <given-names>Wolfgang</given-names>
           </name>
         </contrib>
       </contrib-group>
-      <pub-date>
-        <year/>
+      <pub-date iso-8601-date="2022-12-06" publication-format="web">
+        <day>6</day>
+        <month>12</month>
+        <year>2022</year>
       </pub-date>
+      <related-article related-article-type="version-of-record" xlink:href="https://www.e-editiones.org/posts/community-event-going-static/"/>
       <abstract>
         <p>Sometimes you don't need a fully dynamic website with sophisticated search and navigation,
           but rather a simple service, which is fast, cheap and easy to maintain. This is where static
@@ -91,7 +93,7 @@
             <ext-link ext-link-type="uri" xlink:href="https://www.11ty.dev/">11ty</ext-link>.
           Articles are written using markdown syntax and the generator takes care to transform each
           article and wrap it into the site’s HTML templates. It works great and – thanks to github
-          – the hosting is free.</p>
+          – the hosting is free<fn><p>Via <ext-link xlink:href="https://pages.github.com/">GitHub Pages</ext-link>.</p></fn>.</p>
         <p>Digital editions are rarely based on markdown though. Can we integrate TEI or other XML
           content as well? Some might say: we can always write an XSLT to generate HTML and add this
           to our static site. But this means we’d loose most of the nice features a system like TEI
@@ -295,7 +297,7 @@ eleventyConfig.addPlugin(tpPlugin, {
             retrieved from an API call to <monospace>api/idents</monospace> should be saved to the
             plugins’ global data object, <monospace>tpdata</monospace>, under the key
               <monospace>idents</monospace>. We can thus later access the list of idents to generate
-            a reference page for each. This is done using 11ty’s <bold>pagination</bold> plugin (see
+            a reference page for each. This is done using 11ty’s <bold>pagination plugin</bold><fn><p>Read more about pagination in the <ext-link xlink:href="https://www.11ty.dev/docs/pagination/">11ty documentation</ext-link></p></fn> (see
             the corresponding template in the <ext-link ext-link-type="uri"
               xlink:href="https://github.com/wolfgangmm/tei-guidelines-static/blob/main/src/ref.njk"
               >guidelines source</ext-link>).</p>

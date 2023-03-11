@@ -17,6 +17,10 @@
         <link rel="stylesheet" href="../templates/pages/documentation.css"/>
         <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
         <style>
+            #view1 {
+                max-width: 48rem;
+            }
+
             @media (min-width: 769px) {
                 .toolbar pb-navigation {
                     display: none;
@@ -49,6 +53,11 @@
                     display: none;
                 }
             }
+
+            .breadcrumbs {
+                font-family: var(--pb-base-font-family);
+                --pb-view-max-width: auto;
+            }
         </style>
     </head>
 
@@ -71,11 +80,9 @@
                             <pb-load id="toc" url="api/document/{doc}/contents?target=transcription&amp;icons=true" expand="expand" src="document1" subscribe="toc" load-once="load-once"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
                         </div>
                     </pb-drawer>
-                    <section class="breadcrumbs">
-                        <pb-view id="title-view1" src="document1" xpath="//article-meta" view="single">
-                            <pb-param name="header" value="short"/>
-                        </pb-view>
-                    </section>
+                    <pb-view id="title-view1" class="breadcrumbs" src="document1" xpath="//article-meta" view="single">
+                        <pb-param name="mode" value="breadcrumbs"/>
+                    </pb-view>
                     <main class="content-body">
                         <pb-navigation direction="backward" unit="page" emit="transcription"
                             subscribe="transcription">
