@@ -39,6 +39,12 @@
     <text>
         <body>
             <schemaSpec start="TEI teiCorpus" ident="lelewel" source="teipublisher.odd"> <elementSpec ident="pb" mode="change">
+                    <model predicate="@facs" behaviour="webcomponent">
+            <param name="name" value="'pb-facs-link'"/>
+            <param name="facs" value="@facs"/>
+            <param name="label" value="@n"/>
+            <param name="emit" value="'transcription'"/>
+        </model>
                     <model predicate="starts-with(@facs, 'iiif:')" behaviour="webcomponent">
             <param name="facs" value="replace(@facs, '^iiif:(.*)$', '$1')"/>
             <param name="emit" value="'transcription'"/>
