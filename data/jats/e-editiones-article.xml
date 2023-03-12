@@ -34,6 +34,9 @@
           site generators provide a perfect alternative to a dynamic, database-driven architecture like
           TEI Publisher. In this article we'll learn how to combine the best of both worlds.</p>
       </abstract>
+      <kwd-group kwd-group-type="genre">
+        <kwd>Documentation</kwd>
+      </kwd-group>
     </article-meta>
   </front>
   <body>
