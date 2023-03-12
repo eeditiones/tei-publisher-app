@@ -50,6 +50,7 @@
                 <field name="title" expression="nav:get-metadata(ancestor::article, 'title')"/>
                 <field name="author" expression="nav:get-metadata(ancestor::article, 'author')"/>
                 <field name="text" expression="."/>
+                <facet dimension="genre" expression="nav:get-metadata(ancestor::article, 'genre')" hierarchical="yes"/>
             </text>
         </lucene>
     </index>
