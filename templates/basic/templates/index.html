@@ -19,6 +19,12 @@
             --pb-browse-toolbar-justify-content: space-between;
         }
         
+        app-header-layout {
+            background-image: url('resources/images/network-background.jpg');
+            background-size: contain;
+            background-color: #e8fafa;
+        }
+        
         @media (max-width: 1023px) {
             main {
                 margin: 0 8px 0 8px;
@@ -37,6 +43,9 @@
             }
             #facets {
                 display: none;
+            }
+            app-header-layout {
+                background-repeat: no-repeat;
             }
         }
         
@@ -152,7 +161,7 @@
         .collection {
             margin-top: 8px;
             padding-top: 12px;
-            border-top: thin solid var(--paper-grey-300);
+            /* border-top: thin solid var(--paper-grey-300); */
         }
 
         .documents img, .documents svg {
@@ -215,6 +224,12 @@
             font-size: 1rem;
             margin: 0;
         }
+
+
+        .thumbnail img {
+            border-radius: 15px;
+        }
+      
     </style>
     </custom-style>
 </head>
