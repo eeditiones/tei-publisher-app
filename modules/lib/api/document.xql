@@ -202,7 +202,7 @@ declare %private function dapi:webcomponents($components as xs:string?) {
             font-size: var(--pb-footnote-font-size, var(--pb-content-font-size, 75%));
         }}
         </style>,
-        <script defer="defer" src="https://unpkg.com/@webcomponents/webcomponentsjs@2.4.3/webcomponents-loader.js"></script>,
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/web-components-loader/lib/index.min.js"></script>,
         switch ($config:webcomponents)
             case "dev" return
                 <script type="module" src="{$config:webcomponents-cdn}/src/pb-components-bundle.js"></script>
