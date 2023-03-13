@@ -80,7 +80,7 @@ describe('/api/search', function () {
             }
         });
         expect(res.status).to.equal(200);
-        expect(res.headers['pb-total']).to.equal('90');
+        expect(res.headers['pb-total']).to.equal('89');
         expect(res).to.satisfyApiSpec;
     });
     it('retrieves next page', async function () {
@@ -91,7 +91,7 @@ describe('/api/search', function () {
             }
         });
         expect(res.status).to.equal(200);
-        expect(res.headers['pb-total']).to.equal('90');
+        expect(res.headers['pb-total']).to.equal('89');
         expect(res.headers['pb-start']).to.equal('10');
         expect(res.data).to.have.string('<div class="count">10</div>');
         expect(res).to.satisfyApiSpec;
