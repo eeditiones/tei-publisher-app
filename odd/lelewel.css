@@ -19,3 +19,25 @@
 	.lb-hyphen.toggle {
         display: none;
     }
+
+	.person {
+		color: olivedrab;
+	}
+
+	.place {
+		color: teal;
+	}
+
+	.index {
+		font-style: italic;
+	}
+
+	.ref-lelewel {
+		font-style: italic;
+		text-decoration: none;
+	}
+
+	.ref-pwn {
+		color: orangered;
+		text-decoration: none;
+	}

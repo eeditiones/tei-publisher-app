@@ -86,6 +86,57 @@
             <param name="label" value="@n"/>
         </model>
                 </elementSpec>
+            <elementSpec ident="persName" mode="add">
+                    <model behaviour="inline" cssClass="index person"/>
+                </elementSpec>
+                <elementSpec ident="placeName" mode="add">
+                    <model behaviour="inline" cssClass="index place"/>
+                </elementSpec>
+                <elementSpec ident="ref" mode="change">
+                    <model predicate="@type=&#34;pwn&#34;" behaviour="link" cssClass="ref-pwn">
+            <param name="uri" value="@target"/>
+            <param name="target" value="'_blank'"/>
+        </model>
+                    <model predicate="@type=&#34;lelewel&#34;" behaviour="link" cssClass="ref-lelewel">
+            <param name="uri" value="@target"/>
+            <param name="target" value="'_blank'"/>
+        </model>
+                    <model predicate="not(@target)" behaviour="inline"/>
+                    <model predicate="not(node())" behaviour="link">
+            <param name="content" value="@target"/>
+            <param name="uri" value="@target"/>
+        </model>
+                    <model behaviour="link">
+            <param name="uri" value="@target"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="choice" mode="change">
+        <model predicate="orig and seg" behaviour="alternate">
+            <param name="default" value="orig"/>
+            <param name="alternate" value="seg"/>
+        </model>
+        <model output="plain" predicate="sic and corr" behaviour="inline">
+            <param name="content" value="corr[1]"/>
+        </model>
+        <model output="plain" predicate="abbr and expan" behaviour="inline">
+            <param name="content" value="expan[1]"/>
+        </model>
+        <model output="plain" predicate="orig and reg" behaviour="inline">
+            <param name="content" value="reg[1]"/>
+        </model>
+        <model predicate="sic and corr" behaviour="alternate">
+            <param name="default" value="corr[1]"/>
+            <param name="alternate" value="sic[1]"/>
+        </model>
+        <model predicate="abbr and expan" behaviour="alternate">
+            <param name="default" value="expan[1]"/>
+            <param name="alternate" value="abbr[1]"/>
+        </model>
+        <model predicate="orig and reg" behaviour="alternate">
+            <param name="default" value="reg[1]"/>
+            <param name="alternate" value="orig[1]"/>
+        </model>
+    </elementSpec>
             </schemaSpec>
         </body>
     </text>
