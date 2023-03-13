@@ -88,7 +88,7 @@
                             spelling) which can be then processed client or server-side</para>
                     </listitem>
                     <listitem>
-                        <para>new <link xlink:href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html">API documentation app</link> and web
+                        <para>new <link xlink:href="https://cdn.tei-publisher.com/api.html">API documentation app</link> and web
                             component demo pages</para>
                     </listitem>
                     <listitem>

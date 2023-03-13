@@ -73,7 +73,7 @@
       </para>
       <para>
         Only where the
-        <link xlink:show="new" xlink:href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html">available
+        <link xlink:show="new" xlink:href="https://cdn.tei-publisher.com/api.html">available
           components</link>
         are not enough, a new use case needs to be described and suitable new
         components implemented but then they can be incorporated into existing component pool for
@@ -3291,7 +3291,7 @@
             document.</para>
         <para>
           A dedicated user interface webcomponent
-          <link xlink:show="new" xlink:href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html#pb-toggle-feature.0">
+          <link xlink:show="new" xlink:href="https://cdn.tei-publisher.com/api.html#pb-toggle-feature.0">
             <tag>pb-toggle-feature</tag>
           </link>
           exists for toggling between two values of a
@@ -4135,7 +4135,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <para>
         To better understand the various components TEI Publisher provides, it is best to have
           a look at the small examples contained in the
-        <link xlink:show="new" xlink:href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html">web
+        <link xlink:show="new" xlink:href="https://cdn.tei-publisher.com/api.html">web
             components API documentation</link>
         . The list of components may be overwhelming at first
           sight. However you don’t need to learn them all. There are just a few components that
@@ -4151,7 +4151,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <variablelist>
         <varlistentry>
           <term>
-            <link xlink:show="new" xlink:href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html#pb-document.1">pb-document</link>
+            <link xlink:show="new" xlink:href="https://cdn.tei-publisher.com/api.html#pb-document.1">pb-document</link>
           </term>
           <listitem>
             <para>shows the example given above in action</para>
@@ -4159,7 +4159,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         </varlistentry>
         <varlistentry>
           <term>
-            <link xlink:show="new" xlink:href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html#pb-view.1">pb-view</link>
+            <link xlink:show="new" xlink:href="https://cdn.tei-publisher.com/api.html#pb-view.1">pb-view</link>
           </term>
           <listitem>
             <para>adds navigation buttons to read the document page by page</para>
@@ -4167,7 +4167,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         </varlistentry>
         <varlistentry>
           <term>
-            <link xlink:show="new" xlink:href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html#pb-facsimile.1">pb-facsimile</link>
+            <link xlink:show="new" xlink:href="https://cdn.tei-publisher.com/api.html#pb-facsimile.1">pb-facsimile</link>
           </term>
           <listitem>
             <para>display facsimiles via IIIF server and link to them</para>
@@ -4175,7 +4175,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         </varlistentry>
         <varlistentry>
           <term>
-            <link xlink:show="new" xlink:href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html#pb-leaflet-map.1">pb-leaflet-map</link>
+            <link xlink:show="new" xlink:href="https://cdn.tei-publisher.com/api.html#pb-leaflet-map.1">pb-leaflet-map</link>
           </term>
           <listitem>
             <para>show a map and link to geo coordinates</para>
@@ -4183,7 +4183,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         </varlistentry>
         <varlistentry>
           <term>
-            <link xlink:show="new" xlink:href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html#pb-load.1">pb-load</link>
+            <link xlink:show="new" xlink:href="https://cdn.tei-publisher.com/api.html#pb-load.1">pb-load</link>
           </term>
           <listitem>
             <para>call a server-side XQuery to retrieve additional information about the document,
@@ -4192,7 +4192,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         </varlistentry>
         <varlistentry>
           <term>
-            <link xlink:show="new" xlink:href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html#pb-search.1">pb-search</link>
+            <link xlink:show="new" xlink:href="https://cdn.tei-publisher.com/api.html#pb-search.1">pb-search</link>
           </term>
           <listitem>
             <para>execute a search on the database, retrieve the results and paginate through
@@ -4201,7 +4201,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         </varlistentry>
         <varlistentry>
           <term>
-            <link xlink:show="new" xlink:href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html#pb-grid.1">pb-grid</link>
+            <link xlink:show="new" xlink:href="https://cdn.tei-publisher.com/api.html#pb-grid.1">pb-grid</link>
           </term>
           <listitem>
             <para>dynamically add more columns to a horizontal grid of components</para>
