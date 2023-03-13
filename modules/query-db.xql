@@ -41,12 +41,19 @@ declare function dbs:query-default($fields as xs:string+, $query as xs:string, $
                 default return
                     if (exists($target-texts)) then
                         for $text in $target-texts
+                        let $sections := $config:data-root ! doc(. || "/" || $text)//db:section[ft:query(., $query, query:options($sortBy))]
                         return
-                            $config:data-root ! doc(. || "/" || $text)//db:section[ft:query(., $query, query:options($sortBy))] |
-                            $config:data-root ! doc(. || "/" || $text)//db:article[ft:query(., $query, query:options($sortBy))]
+                            if (empty($sections)) then
+                                $config:data-root ! doc(. || "/" || $text)//db:article[ft:query(., $query, query:options($sortBy))]
+                            else
+                                $sections
                     else
-                        collection($config:data-root)//db:section[ft:query(., $query, query:options($sortBy))] |
-                        collection($config:data-root)//db:article[ft:query(., $query, query:options($sortBy))]
+                        let $sections := collection($config:data-root)//db:section[ft:query(., $query, query:options($sortBy))]
+                        return
+                            if (empty($sections)) then
+                                collection($config:data-root)//db:article[ft:query(., $query, query:options($sortBy))]
+                            else
+                                $sections
     else ()
 };
 
