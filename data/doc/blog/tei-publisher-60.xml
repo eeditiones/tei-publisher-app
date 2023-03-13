@@ -88,11 +88,11 @@
                             spelling) which can be then processed client or server-side</para>
                     </listitem>
                     <listitem>
-                        <para>new <link xlink:href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html">API documentation app</link> and web
+                        <para>new <link xlink:href="https://cdn.tei-publisher.com/api.html">API documentation app</link> and web
                             component demo pages</para>
                     </listitem>
                     <listitem>
-                        <para><code><link xlink:href="https://unpkg.com/@teipublisher/pb-components@1.0.0/dist/api.html#pb-mei.1">pb-mei</link></code> component
+                        <para><code><link xlink:href="https://cdn.tei-publisher.com/api.html#pb-mei.1">pb-mei</link></code> component
                             for rendering Music Encoding Initiative documents based on <emphasis>Verovio</emphasis>; supports optional MIDI playback using
                                 <emphasis>web-midi-player</emphasis></para>
                         <informalfigure>
