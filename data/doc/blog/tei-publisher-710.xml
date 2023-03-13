@@ -47,7 +47,7 @@
                 &lt;formula notation="TeX"&gt;\frac{24}{20 - x}&lt;/formula&gt;
                           </programlisting>
         <para>can be nicely rendered in HTML thanks to the new <code>pb-formula</code> component. See the component's 
-            <link  xlink:show="new" xlink:href="https://unpkg.com/@teipublisher/pb-components@1.24.17/dist/api.html#pb-formula.1">demo page</link>
+            <link  xlink:show="new" xlink:href="https://cdn.tei-publisher.com/dist/api.html#pb-formula.1">demo page</link>
             which presents some elaborate formulae. 
         </para> 
        

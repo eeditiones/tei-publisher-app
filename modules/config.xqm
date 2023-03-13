@@ -24,7 +24,7 @@ declare namespace tei = "http://www.tei-c.org/ns/1.0";
  :)
 declare variable $config:origin-whitelist := (
     "(?:https?://localhost:.*|https?://127.0.0.1:.*)",
-    "https?://unpkg.com",
+    "https?://jsdelivr.net",
     "https?://cdpn.io",
     "https?://teipublisher.onrender.com"
 );
@@ -52,8 +52,7 @@ declare variable $config:webcomponents := "1.36.1";
  : CDN URL to use for loading webcomponents. Could be changed if you created your
  : own library extending pb-components and published it to a CDN.
  :)
-declare variable $config:webcomponents-cdn := "https://unpkg.com/@teipublisher/pb-components";
-(: declare variable $config:webcomponents-cdn := "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components"; :)
+declare variable $config:webcomponents-cdn := "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components";
 (: declare variable $config:webcomponents-cdn := "http://localhost:8000"; :)
 
 (:~
