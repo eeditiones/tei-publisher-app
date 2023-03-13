@@ -355,8 +355,8 @@ declare variable $config:taxonomy := $config:data-root || "/taxonomy.xml";
  : documents displayed in the browsing view.
  :)
 declare variable $config:data-exclude := (
-    doc($config:taxonomy)/tei:TEI,
-    collection($config:data-root || "/doc")/tei:TEI
+    doc($config:taxonomy)//tei:text,
+    collection($config:data-root || "/doc")//tei:text
 );
 
 declare variable $config:default-odd := "teipublisher.odd";

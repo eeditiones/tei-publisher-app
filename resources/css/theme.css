@@ -74,6 +74,10 @@ body {
     margin: 0;
 }
 
+html {
+    font-size: var(--pb-base-font-size);
+}
+
 *:focus {
     outline: none;
 }
@@ -348,4 +352,63 @@ pb-drawer {
 
 .version span {
     font-weight: bold;
+}
+
+/* Display KWIC search results */
+.matches {
+    margin-left: 20px;
+    margin-top: 10px;
+    font-family: var(--pb-content-font-family);
+}
+
+.matches .hi {
+    color: var(--pb-color-focus);
+}
+
+.matches .count {
+    margin-top: 1em;
+}
+
+.matches .count::before {
+    content: '[';
+}
+
+.matches .count::after {
+    content: ']';
+}
+
+.facets {
+    flex: 0;
+    min-width: 220px;
+}
+
+.facets h3 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.facets h3 paper-checkbox {
+    margin-left: 16px;
+    font-size: 11px;
+}
+
+.facets table {
+    font-size: 14px;
+}
+
+.facets table table {
+    padding-left: 16px;
+    width: 100%;
+}
+
+.facets table td {
+    padding: 4px 0;
+}
+
+.facets table td:nth-child(2) {
+    color: #808080;
+    text-align: right;
+    padding-left: 1em;
+    vertical-align: middle;
 }

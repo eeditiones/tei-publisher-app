@@ -251,19 +251,17 @@ declare function deploy:store-xconf($collection as xs:string?, $json as map(*)) 
                 <lucene>
                     <module uri="http://teipublisher.com/index" prefix="nav" at="index.xql"/>
                     <text match="/tei:TEI/tei:text">
-                        {
-                            if ($json?index = "tei:div") then
-                                <ignore qname="tei:div"/>
-                            else
-                                ()
-                        }
                         <field name="title" expression="nav:get-metadata(ancestor::tei:TEI, 'title')"/>
                         <field name="author" expression="nav:get-metadata(ancestor::tei:TEI, 'author')"/>
                         <field name="language" expression="nav:get-metadata(ancestor::tei:TEI, 'language')"/>
                         <field name="date" expression="nav:get-metadata(ancestor::tei:TEI, 'date')"/>
                         <field name="file" expression="util:document-name(.)"/>
+                        <field name="text" expression="."/>
                         <facet dimension="genre" expression="nav:get-metadata(ancestor::tei:TEI, 'genre')" hierarchical="yes"/>
                         <facet dimension="language" expression="nav:get-metadata(ancestor::tei:TEI, 'language')"/>
+                        <facet dimension="feature" expression="nav:get-metadata(ancestor::tei:TEI, 'feature')"/>
+                        <facet dimension="form" expression="nav:get-metadata(ancestor::tei:TEI, 'form')"/>
+                        <facet dimension="period" expression="nav:get-metadata(ancestor::tei:TEI, 'period')"/>
                     </text>
                     {
                         if ($json?index = "tei:div") then
@@ -283,9 +281,10 @@ declare function deploy:store-xconf($collection as xs:string?, $json as map(*)) 
                     <text match="//tei:listOrg/tei:org/tei:orgName"/>
                     <text match="//tei:taxonomy/tei:category/tei:catDesc"/>
                     <text qname="dbk:article">
-                        <ignore qname="dbk:section"/>
                         <field name="title" expression="nav:get-metadata(., 'title')"/>
+                        <field name="author" expression="nav:get-metadata(., 'author')"/>
                         <field name="file" expression="util:document-name(.)"/>
+                        <field name="text" expression="."/>
                         <facet dimension="genre" expression="nav:get-metadata(., 'genre')" hierarchical="yes"/>
                         <facet dimension="language" expression="nav:get-metadata(., 'language')"/>
                     </text>
@@ -295,6 +294,14 @@ declare function deploy:store-xconf($collection as xs:string?, $json as map(*)) 
                         <facet dimension="language" expression="nav:get-metadata(ancestor::dbk:article, 'language')"/>
                     </text>
                     <text qname="dbk:title"/>
+                    <!-- JATS -->
+                    <text qname="body">
+                        <ignore qname="sect"/>
+                        <field name="file" expression="util:document-name(.)"/>
+                        <field name="title" expression="nav:get-metadata(ancestor::article, 'title')"/>
+                        <field name="author" expression="nav:get-metadata(ancestor::article, 'author')"/>
+                        <field name="text" expression="."/>
+                    </text>
                 </lucene>
             </index>
         </collection>
@@ -407,7 +414,7 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         else
             '\$config:app-root || "/' || $dataRoot || '"'
     let $webcomponents :=
-        if ($config:webcomponents = 'local') then
+        if ($config:webcomponents = ('local', 'dev')) then
             'latest'
         else
             $config:webcomponents
@@ -428,8 +435,10 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         deploy:store-xconf($collection, $json),
         deploy:copy-collection($collection, $base || "/templates/basic", ($json?owner, "tei"), "rw-r--r--"),
         deploy:copy-collection($collection || "/templates/pages", $base || "/templates/pages", ($json?owner, "tei"), "rw-r--r--"),
+        deploy:copy-resource($collection || "/templates", $base || "/templates", "documents.html", ($json?owner, "tei"), "rw-r--r--"),
         deploy:copy-collection($collection || "/resources/fonts", $base || "/resources/fonts", ($json?owner, "tei"), "rw-r--r--"),
         deploy:copy-collection($collection || "/resources/scripts/annotations", $base || "/resources/scripts/annotations", ($json?owner, "tei"), "rw-r--r--"),
+        deploy:copy-resource($collection || "/resources/scripts", $base || "/resources/scripts", "browse.js", ($json?owner, "tei"), "rw-r--r--"),
         deploy:expand($collection || "/modules", "config.xqm", $replacements),
         deploy:store-libs($collection, ($json?owner, "tei"), "rw-r--r--"),
         deploy:expand($collection || "/modules/lib", "api.json", $replacements),

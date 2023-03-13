@@ -17,7 +17,7 @@
  :)
 xquery version "3.1";
 
-module namespace dbs="http://www.tei-c.org/tei-simple/query/docbook";
+module namespace jats="http://www.tei-c.org/tei-simple/query/jats";
 
 declare namespace db="http://docbook.org/ns/docbook";
 
@@ -25,7 +25,7 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "conf
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation/docbook" at "navigation-dbk.xql";
 import module namespace query="http://www.tei-c.org/tei-simple/query" at "query.xql";
 
-declare function dbs:query-default($fields as xs:string+, $query as xs:string, $target-texts as xs:string*,
+declare function jats:query-default($fields as xs:string+, $query as xs:string, $target-texts as xs:string*,
     $sortBy as xs:string*) {
     if(string($query)) then
         for $field in $fields
@@ -41,42 +41,35 @@ declare function dbs:query-default($fields as xs:string+, $query as xs:string, $
                 default return
                     if (exists($target-texts)) then
                         for $text in $target-texts
-                        let $sections := $config:data-root ! doc(. || "/" || $text)//db:section[ft:query(., $query, query:options($sortBy))]
                         return
-                            if (empty($sections)) then
-                                $config:data-root ! doc(. || "/" || $text)//db:article[ft:query(., $query, query:options($sortBy))]
-                            else
-                                $sections
+                            $config:data-root ! doc(. || "/" || $text)//body[ft:query(., $query, query:options($sortBy))] |
+                            $config:data-root ! doc(. || "/" || $text)//sec[ft:query(., $query, query:options($sortBy))]
                     else
-                        let $sections := collection($config:data-root)//db:section[ft:query(., $query, query:options($sortBy))]
-                        return
-                            if (empty($sections)) then
-                                collection($config:data-root)//db:article[ft:query(., $query, query:options($sortBy))]
-                            else
-                                $sections
+                        collection($config:data-root)//body[ft:query(., $query, query:options($sortBy))] |
+                        collection($config:data-root)//sec[ft:query(., $query, query:options($sortBy))]
     else ()
 };
 
-declare function dbs:autocomplete($doc as xs:string?, $fields as xs:string+, $q as xs:string) {
+declare function jats:autocomplete($doc as xs:string?, $fields as xs:string+, $q as xs:string) {
     for $field in $fields
     return
         switch ($field)
             case "text" return
                 if ($doc) then (
-                    doc($config:data-root || "/" || $doc)/util:index-keys-by-qname(xs:QName("db:section"), $q,
+                    doc($config:data-root || "/" || $doc)/util:index-keys-by-qname(xs:QName("sec"), $q,
                         function($key, $count) {
                             $key
                         }, 30, "lucene-index"),
-                    doc($config:data-root || "/" || $doc)/util:index-keys-by-qname(xs:QName("db:section"), $q,
+                    doc($config:data-root || "/" || $doc)/util:index-keys-by-qname(xs:QName("sec"), $q,
                         function($key, $count) {
                             $key
                         }, 30, "lucene-index")
                 ) else (
-                    collection($config:data-root)/util:index-keys-by-qname(xs:QName("db:section"), $q,
+                    collection($config:data-root)/util:index-keys-by-qname(xs:QName("sec"), $q,
                         function($key, $count) {
                             $key
                         }, 30, "lucene-index"),
-                    collection($config:data-root)/util:index-keys-by-qname(xs:QName("db:section"), $q,
+                    collection($config:data-root)/util:index-keys-by-qname(xs:QName("sec"), $q,
                         function($key, $count) {
                             $key
                         }, 30, "lucene-index")
@@ -109,7 +102,7 @@ declare function dbs:autocomplete($doc as xs:string?, $fields as xs:string+, $q 
                     }, 30)
 };
 
-declare function dbs:query-metadata($path as xs:string?, $field as xs:string?, $query as xs:string?, $sort as xs:string) {
+declare function jats:query-metadata($path as xs:string?, $field as xs:string?, $query as xs:string?, $sort as xs:string) {
     let $queryExpr := 
         if ($field = "file" or empty($query) or $query = '') then 
             "file:*" 
@@ -118,28 +111,28 @@ declare function dbs:query-metadata($path as xs:string?, $field as xs:string?, $
     let $options := query:options($sort, ($field, "text")[1])
     let $result :=
         $config:data-default ! (
-            collection(. || "/" || $path)//db:article[ft:query(., $queryExpr, $options)]
+            collection(. || "/" || $path)//body[ft:query(., $queryExpr, $options)]
         )
     return
         query:sort($result, $sort)
 };
 
-declare function dbs:get-parent-section($node as node()) {
-    ($node/self::db:article, $node/ancestor-or-self::db:section[1], $node)[1]
+declare function jats:get-parent-section($node as node()) {
+    ($node/self::body, $node/ancestor-or-self::sec[1], $node)[1]
 };
 
-declare function dbs:get-breadcrumbs($config as map(*), $hit as node(), $parent-id as xs:string) {
+declare function jats:get-breadcrumbs($config as map(*), $hit as node(), $parent-id as xs:string) {
     let $work := root($hit)/*
     let $work-title := nav:get-document-title($config, $work)
     return
         <div class="breadcrumbs">
             <a class="breadcrumb" href="{$parent-id}">{$work-title}</a>
             {
-                for $parentDiv in $hit/ancestor-or-self::db:section[db:title]
+                for $parentDiv in $hit/ancestor-or-self::sec[title]
                 let $id := util:node-id($parentDiv)
                 return
                     <a class="breadcrumb" href="{$parent-id}?action=search&amp;root={$id}&amp;view={$config?view}&amp;odd={$config?odd}">
-                    {$parentDiv/db:title/string()}
+                    {$parentDiv/title/string()}
                     </a>
             }
         </div>
@@ -149,11 +142,11 @@ declare function dbs:get-breadcrumbs($config as map(*), $hit as node(), $parent-
  : Expand the given element and highlight query matches by re-running the query
  : on it.
  :)
-declare function dbs:expand($data as node()) {
+declare function jats:expand($data as node()) {
     let $query := session:get-attribute($config:session-prefix || ".query")
     let $field := session:get-attribute($config:session-prefix || ".field")
     let $div := $data
-    let $result := dbs:query-default-view($div, $query, $field)
+    let $result := jats:query-default-view($div, $query, $field)
     let $expanded :=
         if (exists($result)) then
             util:expand($result, "add-exist-id=all")
@@ -164,17 +157,17 @@ declare function dbs:expand($data as node()) {
 };
 
 
-declare %private function dbs:query-default-view($context as element()*, $query as xs:string, $fields as xs:string+) {
+declare %private function jats:query-default-view($context as element()*, $query as xs:string, $fields as xs:string+) {
     for $field in $fields
     return
         switch ($field)
             case "head" return
-                $context[./descendant-or-self::db:title[ft:query(., $query, $query:QUERY_OPTIONS)]]
+                $context[./descendant-or-self::title[ft:query(., $query, $query:QUERY_OPTIONS)]]
             default return
-                $context[./descendant-or-self::db:section[ft:query(., $query, $query:QUERY_OPTIONS)]] |
-                $context[./descendant-or-self::db:article[ft:query(., $query, $query:QUERY_OPTIONS)]]
+                $context[./descendant-or-self::sec[ft:query(., $query, $query:QUERY_OPTIONS)]] |
+                $context[./descendant-or-self::body[ft:query(., $query, $query:QUERY_OPTIONS)]]
 };
 
-declare function dbs:get-current($config as map(*), $div as node()?) {
+declare function jats:get-current($config as map(*), $div as node()?) {
     $div
 };

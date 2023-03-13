@@ -9,7 +9,7 @@
     },
     "sync": {
         "server": "localhost",
-        "polling": true,
+        "polling": false,
         "interval": 500,
         "ignore": [
             ".existdb.json",
