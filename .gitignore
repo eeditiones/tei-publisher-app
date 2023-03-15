@@ -2,6 +2,8 @@ build
 generated/
 errorShots/
 .*
+!.devcontainer
+!.github
 !.gitignore
 !.existdb.json
 query-results
@@ -15,9 +17,14 @@ bower_components
 local.build.properties
 resources/scripts/*.js
 resources/scripts/*.map
+!resources/scripts/browse.js
 resources/lib/
 resources/css/leaflet/
 resources/css/prismjs
+resources/css/pagedjs
+resources/css/gridjs
+resources/css/tom-select
+resources/css/components.css
 resources/images/openseadragon
 resources/images/leaflet
 resources/i18n/common

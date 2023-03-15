@@ -47,8 +47,10 @@ describe('/{file}.html', function () {
         const res = await axios.get(`${server}/index.html`);
         expect(res.status).to.equal(200);
         const fragment = JSDOM.fragment(res.data);
-        const pbBrowse = fragment.querySelector('pb-browse-docs');
+        const pbBrowse = fragment.querySelector('#search-form');
         expect(pbBrowse).to.exist;
+        // check if templating parameter got expanded
+        expect(pbBrowse.getAttribute('value')).to.not.contain('${query}');
 
         expect(res).to.satisfyApiSpec;
     });

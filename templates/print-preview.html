@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+    <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"/>
+    <link rel="shortcut icon" type="image/png" href="resources/images/favicon-16.png" sizes="16x16"/>
+    <link rel="shortcut icon" type="image/png" href="resources/images/favicon-24.png" sizes="24x24"/>
+    <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32"/>
+    <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
+
+    <title data-template="config:app-title"/>
+    <link rel="stylesheet" href="resources/css/theme.css"/>
+    <style>
+        @media screen {
+            pb-page > aside {
+                position: fixed;
+                left: 20px;
+                top: 20px;
+            }
+    
+            paper-fab {
+                margin-bottom: 10px;
+            }
+
+            #close-action {
+                --paper-fab-background: #00ACC1;
+                margin-bottom: 10px;
+            }
+
+            #preview-toggle, #copy-action {
+                --paper-fab-background: #78909c;
+            }
+            
+            #print-action {
+                --paper-fab-background: #7E57C2;
+            }
+
+            pb-page > main {
+                margin-left: 90px;
+            }
+
+            pb-print-preview {
+                height: 100vh;
+                width: calc(100vw - 90px);
+            }
+        }
+
+        @media print {
+            pb-page > aside, pb-progress {
+                display: none;
+            }
+        }
+    </style>
+    <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
+</head>
+
+<body>
+    <pb-page data-template="pages:pb-page" unresolved="unresolved">
+        <pb-document id="document1" data-template="pages:pb-document"/>
+        <aside>
+            <paper-fab icon="icons:close" id="close-action"></paper-fab>
+            <paper-fab icon="icons:print" id="print-action"></paper-fab>
+            <paper-fab icon="icons:visibility" active="active" toggles="toggles" id="preview-toggle"
+                title="Show raw HTML instead of preview"></paper-fab>
+            <paper-fab icon="icons:content-copy" id="copy-action" title="Copy URL to download HTML for use with external tools"></paper-fab>
+        </aside>
+        <pb-progress subscribe="preview"></pb-progress>
+        <main>
+            <pb-print-preview src="document1" styles="resources/fonts/font.css,resources/css/print.css" emit="preview"></pb-print-preview>
+        </main>
+    </pb-page>
+    <div class="splash"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const preview = document.querySelector('pb-print-preview');
+            const btn = document.getElementById('print-action');
+            btn.addEventListener('click', function() {
+                preview.print();
+            });
+
+            const closeBtn = document.getElementById('close-action');
+            closeBtn.addEventListener('click', function() {
+                window.close();
+            });
+
+            const previewToggle = document.getElementById('preview-toggle');
+            previewToggle.addEventListener('active-changed', function(ev) {
+                const value = ev.detail.value;
+                if (value) {
+                    previewToggle.icon = 'icons:visibility';
+                } else {
+                    previewToggle.icon = 'icons:visibility-off';
+                }
+                preview.raw = !value;
+                preview.refresh();
+            });
+
+            const copyBtn = document.getElementById('copy-action');
+            copyBtn.addEventListener('click', function() {
+                const url = new URL(preview.getAttribute('url'), location.href);
+                console.log('Copying URL: %s', url.toString())
+                navigator.clipboard.writeText(url.toString());
+            });
+        });
+    </script>
+</body>
+
+</html>

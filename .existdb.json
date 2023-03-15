@@ -9,6 +9,8 @@
     },
     "sync": {
         "server": "localhost",
+        "polling": false,
+        "interval": 500,
         "ignore": [
             ".existdb.json",
             ".git/**",

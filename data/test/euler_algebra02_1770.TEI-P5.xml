@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><?teipublisher view="page" odd="dta.odd" template="dta.html"?><?xml-model href="http://www.deutschestextarchiv.de/basisformat.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><TEI xmlns="http://www.tei-c.org/ns/1.0">   <teiHeader>
+<?xml version="1.0" encoding="UTF-8"?><?teipublisher view="page" odd="dta.odd" template="dta.html" media="epub print"?><?xml-model href="http://www.deutschestextarchiv.de/basisformat.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><TEI xmlns="http://www.tei-c.org/ns/1.0">   <teiHeader>
 <fileDesc>
 <titleStmt>
 <title type="main">Vollständige Anleitung zur Algebra</title>
@@ -175,6 +175,12 @@ im Double-Keying-Verfahren von Nicht-Muttersprachlern erfasst und in XML/TEI P5 
 <classCode scheme="http://www.deutschestextarchiv.de/doku/klassifikation#DTACorpus">core</classCode>
 <classCode scheme="http://www.deutschestextarchiv.de/doku/klassifikation#DTACorpus">ready</classCode>
 <classCode scheme="http://www.deutschestextarchiv.de/doku/klassifikation#DTACorpus">china</classCode>
+<catRef scheme="#form" target="#print"/>
+<catRef scheme="#feature" target="#image"/>
+<catRef scheme="#feature" target="#pages"/>
+<catRef scheme="#feature" target="#formula"/>
+<catRef scheme="#feature" target="#ltr"/>
+<catRef scheme="#period" target="#early-modern"/>
 </textClass>
 </profileDesc>
 </teiHeader>

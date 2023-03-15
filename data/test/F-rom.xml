@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?teipublisher template="facsimile.html" odd="shakespeare.odd" view="page"?>
+<?teipublisher template="facsimile.html" odd="shakespeare.odd" view="page" media="pdf epub print"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
     <teiHeader>
         <fileDesc>
@@ -297,6 +297,11 @@
             <textClass>
                 <catRef scheme="#genre" target="#drama"/>
                 <catRef scheme="#form" target="#print"/>
+                <catRef scheme="#feature" target="#image"/>
+                <catRef scheme="#feature" target="#pages"/>
+                <catRef scheme="#feature" target="#columns"/>
+                <catRef scheme="#feature" target="#ltr"/>
+                <catRef scheme="#period" target="#early-modern"/>
             </textClass>
             <langUsage>
                 <language ident="en">English</language>

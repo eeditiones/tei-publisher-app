@@ -1,0 +1,112 @@
+@media print {
+
+    @page {
+        size: A4;
+        font-family: var(--pb-content-font-family);
+        
+        @top-right {
+            content: element(titleRunning);
+        }
+
+        @top-left {
+            content: '';
+        }
+
+        @footnote {
+            float: bottom;
+        }
+    }
+
+    @page:left {
+        margin-left: 2cm;
+        margin-right: 1cm;
+
+        @bottom-left-corner {
+            content: counter(page);
+        }
+    }
+
+    @page:right {
+        margin-left: 1cm;
+        margin-right: 2cm;
+
+        @bottom-right-corner {
+            content: counter(page);
+        }
+    }
+
+    .source, .translation {
+        hyphens: auto;
+        margin-left: 3cm;
+        break-after: page;
+    }
+
+    .footnote {
+        float: footnote;
+        hyphens: auto;
+    }
+
+    .alternate {
+        font-size: var(--pb-footnote-font-size);
+        float: left;
+        margin-left: -3cm;
+        width: 2.5cm;
+        clear: left;
+        text-align: left;
+    }
+
+    @supports (-prince-float: sidenote) {
+        @page {
+            @leftnote {
+                width: 2.5cm;
+                margin-right: .5cm;
+            }
+        }
+
+        .source, .translation {
+            margin-left: 0;
+        }
+
+        .alternate {
+            background-color: beige;
+            float: leftnote;
+            width: 100%;
+            margin-left: auto;
+        }
+    }
+
+    /* .translation .alternate {
+        display: none;
+    } */
+
+    .default {
+        text-decoration: underline;
+    }
+
+    .persName::after, .placeName::after, .orgName::after {
+        content: '' !important;
+    }
+
+    .doc-title .alternate {
+        display: none;
+        float: none;
+    }
+    
+    .doc-title {
+        position: running(titleRunning);
+        string-set: '';
+    }
+
+    .register {
+        break-before: page;
+    }
+    
+    .register table td:nth-child(1) {
+        width: 25%;
+        vertical-align: top;
+    }
+
+    h1:first-child {
+        margin-top: 0;
+    }
+}

@@ -1,9 +1,203 @@
 /* Generated stylesheet. Do not edit. */
 /* Global styles */
+
+/* external styles loaded from docbook.css */
+
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--pb-heading-font-family);
+    line-height: 1.2;
+    font-weight: var(--pb-heading-font-weight);
+}
+
+.doc-title {
+    font-size: 2.488em;
+}
+
+h1 {
+    font-size: 2.074em;
+}
+
+h2 {
+    font-size: 1.728em;
+}
+
 h3 {
-	font-family: serif;
-	font-weight: 400;
-	}
+    font-size: 1.44em;
+}
+
+h4 {
+    font-size: 1.2em;
+}
+
+figure {
+    text-align: center;
+    margin: 24px 0;
+    padding: 16px 0;
+    border-top: 1px solid #d6d7d9;
+    border-bottom: 1px solid #d6d7d9;
+}
+
+figure img {
+    margin: 0 auto;
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+figcaption {
+    margin-top: .5em;
+    text-align: right;
+}
+
+dt {
+    font-weight: 500;
+}
+
+.tei-procedure li>p {
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
+li>p, dd>p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+dd {
+    margin-bottom: .5em;
+}
+
+.code {
+    font-family: "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
+    font-size: 85%;
+}
+
+.note {
+    margin: 16px 14px 20px 10px;
+    padding: 12px 16px 12px 16px;
+    font-size: .85em;
+    box-shadow: 3px 4px 10px #00000052
+}
+
+.note h4 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.content a:link, .content a:visited {
+    text-decoration: none;
+    color: #d07f00;
+}
+
+.guibutton {
+    text-shadow: 2px 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+pb-edit-xml {
+    --iron-icon-height: 16px;
+    vertical-align: top;
+    cursor: pointer;
+    color: #d07f00;
+}
+
+pb-code-highlight {
+    font-size: .85em;
+}
+
+@media print {
+
+    @page {
+        size: A4;
+
+        @footnote {
+            float: bottom;
+        }
+    }
+
+    @page:left {
+        margin-left: 3cm;
+        margin-right: 2cm;
+
+        @top-left {
+            content: string(title1) ' – ' string(title2);
+            font-family: var(--pb-heading-font-family);
+        }
+
+        @bottom-left-corner {
+            content: counter(page);
+            font-family: var(--pb-heading-font-family);
+        }
+    }
+
+    @page:right {
+        margin-left: 2cm;
+        margin-right: 3cm;
+
+        @top-right {
+            content: string(title1) ' – ' string(title2);
+            font-family: var(--pb-heading-font-family);
+        }
+
+        @bottom-right-corner {
+            content: counter(page);
+            font-family: var(--pb-heading-font-family);
+        }
+    }
+
+    @page Title {
+        margin-left: 2cm;
+        margin-right: 2cm;
+
+        @top-left {
+            content: '';
+        }
+
+        @top-right {
+            content: '';
+        }
+    }
+
+    body {
+        --pb-heading-font-family: "Oswald", Verdana, "Helvetica", sans-serif;
+    }
+
+    .note {
+        box-shadow: none;
+        border-left: 4px solid #d07f00;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin: 0;
+        break-inside: avoid;
+    }
+
+    p {
+        hyphens: auto;
+        text-align: justify;
+    }
+
+    .frontmatter {
+        page: Title;
+    }
+
+    h1.title {
+        string-set: title1 content(text);
+        break-before: page;
+    }
+
+    h2 {
+        string-set: title2 content(text);
+    }
+
+    .frontmatter h1 {
+        break-before: auto;
+        page: Title;
+    }
+
+    dt {
+        break-after: avoid;
+    }
+}
 
 /* Model rendition styles */
 

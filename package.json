@@ -12,9 +12,10 @@
   },
   "license": "GPL-3.0",
   "dependencies": {
-    "@teipublisher/pb-components": "latest"
+    "@teipublisher/pb-components": "^1.43.1"
   },
   "devDependencies": {
+    "adm-zip": "^0.5.9",
     "axios": "^0.21.2",
     "chai": "^4.2.0",
     "chai-openapi-response-validator": "^0.9.4",

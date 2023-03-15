@@ -52,7 +52,7 @@ declare function sapi:search($request as map(*)) {
         let $store := (
             session:set-attribute($config:session-prefix || ".hits", $hitsAll),
             session:set-attribute($config:session-prefix || ".hitCount", $hitCount),
-            session:set-attribute($config:session-prefix || ".query", $request?parameters?query),
+            session:set-attribute($config:session-prefix || ".search", $request?parameters?query),
             session:set-attribute($config:session-prefix || ".field", $request?parameters?field),
             session:set-attribute($config:session-prefix || ".docs", $request?parameters?doc)
         )

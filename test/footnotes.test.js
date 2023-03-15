@@ -92,13 +92,9 @@ describe('/api/document/{id}/html', function () {
         expect(fragment.querySelector('dl.footnote dl.footnote')).to.be.null;
     });
 
-    it('deletes the uploaded document', function (done) {
-        util.axios.delete('document/playground%2Ffootnotes.xml')
-            .catch(function (error) {
-                expect(error.response.status).to.equal(410);
-                expect(error.response).to.satisfyApiSpec;
-                done();
-            });
+    it('deletes the uploaded document', async function () {
+        const res = await util.axios.delete('document/playground%2Ffootnotes.xml');
+        expect(res.status).to.equal(204);
     });
 
     after(util.logout);

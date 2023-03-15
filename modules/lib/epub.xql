@@ -49,8 +49,8 @@ declare function epub:generate-epub($config as map(*), $doc, $css, $filename) {
             epub:mimetype-entry(),
             epub:container-entry(),
             epub:content-opf-entry($config, $doc, $xhtml),
-            epub:title-xhtml-entry($config?metadata?language, $doc, $config),
-            epub:images-entry($doc, $xhtml),
+            if ($config?skipTitle = true()) then () else epub:title-xhtml-entry($config?metadata?language, $doc, $config),
+            epub:images-entry($config, $doc, $xhtml),
             epub:stylesheet-entry($css),
             epub:toc-ncx-entry($config, $doc),
             epub:nav-entry($config, $doc),
@@ -128,7 +128,7 @@ declare function epub:content-opf-entry($config as map(*), $text, $xhtml as elem
             <manifest>
                 <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
                 <item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/>
-                <item id="title" href="title.xhtml" media-type="application/xhtml+xml"/>
+                {if ($config?skipTitle = true()) then () else <item id="title" href="title.xhtml" media-type="application/xhtml+xml"/>}
                 {
                     $entries
                 }
@@ -152,7 +152,7 @@ declare function epub:content-opf-entry($config as map(*), $text, $xhtml as elem
                 }
             </manifest>
             <spine toc="ncx">
-                <itemref idref="title"/>
+                {if ($config?skipTitle = true()) then () else <itemref idref="title"/>}
                 {
                     $refs
                 }
@@ -162,8 +162,8 @@ declare function epub:content-opf-entry($config as map(*), $text, $xhtml as elem
         <entry name="OEBPS/content.opf" type="xml">{$content-opf}</entry>
 };
 
-declare function epub:images-entry($doc, $entries as element()*) {
-    let $root := util:collection-name($doc)
+declare function epub:images-entry($config, $doc, $entries as element()*) {
+    let $root := if ($config?imagesCollection) then $config?imagesCollection else util:collection-name($doc)
     for $relPath in distinct-values($entries//*:img/@src)
     let $path :=
         if ($config:epub-images-path) then
@@ -274,7 +274,7 @@ declare function epub:toc-nav-div($config, $root as element()) {
         let $headings := nav:get-section-heading($config?docConfig, $div)
         let $html :=
             if ($headings) then
-                normalize-space(string-join($headings//text()))
+                normalize-space(string-join($headings//text()[not(./ancestor::tei:note)]))
             else
                 "[no title]"
         let $file := epub:generate-id(nav:get-section-for-node($config?docConfig, $div))
@@ -308,12 +308,12 @@ declare function epub:toc-ncx-entry($config, $text) {
                 <text>{$config?metadata?title}</text>
             </docTitle>
             <navMap>
-                <navPoint id="navpoint-title" playOrder="1">
+                {if ($config?skipTitle = true()) then () else <navPoint id="navpoint-title" playOrder="1">
                     <navLabel>
                         <text>Title</text>
                     </navLabel>
                     <content src="title.xhtml"/>
-                </navPoint>
+                </navPoint>}
                 {
                     counter:create("teipublisher-epub-toc")[2],
                     epub:toc-ncx-div($config, nav:get-section($config?docConfig, $text)/.., 1),

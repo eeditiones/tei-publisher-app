@@ -113,10 +113,7 @@ declare function pages:load-xml($data as node()*, $view as xs:string?, $root as 
                         else
                             nav:get-first-page-start($config, $data)
                     case "single" return
-                        if ($root) then
-                            util:node-by-id($data, $root)
-                        else
-                            $data
+                        $data
                     default return
                         if ($root) then
                             util:node-by-id($data, $root)
@@ -260,6 +257,22 @@ declare function pages:toc-div($node, $model as map(*), $target as xs:string?,
 
 declare function pages:get-content($config as map(*), $div as element()) {
     nav:get-content($config, $div)
+};
+
+declare function pages:if-supported($node as node(), $model as map(*), $media as xs:string?) {
+    if ($media and exists($model?media)) then
+        if ($media = $model?media) then
+            element { node-name($node) } {
+                $node/@*,
+                templates:process($node/node(), $model)
+            }
+        else
+            ()
+    else
+        element { node-name($node) } {
+            $node/@*,
+            templates:process($node/node(), $model)
+        }
 };
 
 declare function pages:pb-page($node as node(), $model as map(*)) {

@@ -11,14 +11,13 @@
 
         <title data-template="config:app-title"/>
         <meta name="description" content="Documentation"/>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald&amp;display=swap"/>
         <link rel="stylesheet" href="resources/css/theme.css"/>
         <link rel="stylesheet" href="../templates/pages/documentation.css"/>
         <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
     </head>
 
     <body>
-        <pb-page data-template="pages:pb-page" unresolved="unresolved">
+        <pb-page data-template="pages:pb-page" unresolved="unresolved" url-template="/{+path}{#id}">
             <pb-document id="document1" data-template="pages:pb-document"/>
             <app-drawer-layout force-narrow="force-narrow">
                 <app-drawer data-template="lib:include" data-template-path="templates/drawer.html"/>

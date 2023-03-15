@@ -78,6 +78,22 @@ describe('/api/document/{id}/html', function () {
     });
 });
 
+describe('/api/document/{id}/print', function() {
+    it('retrieves as HTML optimized for print', async function() {
+        const res = await axiosInstance.get('document/test%2Forlik_to_serafin.xml/print', {
+            params: {
+                odd: "serafin.odd",
+                base: "%2Fexist%2Fapps%2Ftei-publisher%2Ftest",
+                style: ['resources%2Ffonts%2Ffont.css', 'resources%2Fcss%2Fprint.css']
+            }
+        });
+        expect(res.status).to.equal(200);
+        const fragment = JSDOM.fragment(res.data);
+        expect(fragment.querySelector('.doc-title')).to.exist;
+        expect(fragment.querySelector('.register h1')).to.exist;
+    });
+});
+
 describe('/api/document/{id}/tex', function () {
     this.slow(4000);
     it('retrieves as PDF transformed via LaTeX', async function () {

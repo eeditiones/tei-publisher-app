@@ -1,4 +1,4 @@
-<?teipublisher template="ukraina.html" odd="ukraina.odd"?>
+<?teipublisher view="div" media="web epub"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="uk" xml:id="UKR18583">
   <teiHeader>
     <fileDesc>
@@ -41,6 +41,13 @@
       <langUsage>
         <language ident="uk">українська</language>
       </langUsage>
+      <textClass>
+        <catRef scheme="#genre" target="#prose"/>
+        <catRef scheme="#form" target="#print"/>
+        <catRef scheme="#feature" target="#script"/>
+        <catRef scheme="#feature" target="#ltr"/>
+        <catRef scheme="#period" target="#modern"/>
+      </textClass>
       <textDesc>
         <authorGender xmlns="http://distantreading.net/eltec/ns" key="F"/>
         <size xmlns="http://distantreading.net/eltec/ns" key="short"/>
@@ -55,12 +62,7 @@
     </revisionDesc>
     
   </teiHeader>
-  <facsimile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <graphic url="KozachkaPeople.jpeg"/>
-      <graphic url="KozachkaVovchok.jpeg"/>
-      <graphic url="KozachkaUeUkrFlag.jpeg"/>
-      <graphic url="KozachkaStamp.jpeg"/>
-  </facsimile>
+  
   <text xml:lang="uk">
     
     <body>

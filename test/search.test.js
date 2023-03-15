@@ -38,7 +38,7 @@ describe('/api/search/autocomplete', function () {
     it('retrieves suggestions for default field', async function () {
         const res = await util.axios.get('search/autocomplete', {
             params: {
-                query: 'k'
+                query: 'koͤnig'
             }
         });
 

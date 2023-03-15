@@ -10,14 +10,17 @@
         <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
 
         <title data-template="config:app-title"/>
-        <meta name="description" content="Default single text layout"/>
-        <meta name="pb-template" content="view.html"/>
+        <meta name="description" content="Default layout for JATS documents"/>
+        <meta name="pb-template" content="jats.html"/>
 
-        <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald&amp;display=swap"/>
         <link rel="stylesheet" href="resources/css/theme.css"/>
+        <link rel="stylesheet" href="../templates/pages/documentation.css"/>
         <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
         <style>
+            #view1 {
+                max-width: 48rem;
+            }
+
             @media (min-width: 769px) {
                 .toolbar pb-navigation {
                     display: none;
@@ -50,6 +53,11 @@
                     display: none;
                 }
             }
+
+            .breadcrumbs {
+                font-family: var(--pb-base-font-family);
+                --pb-view-max-width: auto;
+            }
         </style>
     </head>
 
@@ -72,11 +80,9 @@
                             <pb-load id="toc" url="api/document/{doc}/contents?target=transcription&amp;icons=true" expand="expand" src="document1" subscribe="toc" load-once="load-once"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
                         </div>
                     </pb-drawer>
-                    <section class="breadcrumbs">
-                        <pb-view id="title-view1" src="document1" xpath="//article-meta/title-group/article-title" view="single">
-                            <pb-param name="header" value="short"/>
-                        </pb-view>
-                    </section>
+                    <pb-view id="title-view1" class="breadcrumbs" src="document1" xpath="//article-meta" view="single">
+                        <pb-param name="mode" value="breadcrumbs"/>
+                    </pb-view>
                     <main class="content-body">
                         <pb-navigation direction="backward" unit="page" emit="transcription"
                             subscribe="transcription">
