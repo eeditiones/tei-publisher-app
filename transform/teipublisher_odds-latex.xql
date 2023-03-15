@@ -33,7 +33,7 @@ declare function model:transform($options as map(*), $input as node()*) {
     let $config :=
         map:merge(($options,
             map {
-                "output": ["latex","print"],
+                "output": ["latex"],
                 "odd": "/db/apps/tei-publisher/odd/teipublisher_odds.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
@@ -45,13 +45,15 @@ declare function model:transform($options as map(*), $input as node()*) {
         
         let $output := model:apply($config, $input)
         return
-            $output
+            latex:finish($config, $output)
     )
 };
 
 declare function model:apply($config as map(*), $input as node()*) {
         let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
+        let $mode := 
+        if (exists($config?mode)) then $config?mode else ()
         let $trackIds := 
         $parameters?track-ids
         let $get := 

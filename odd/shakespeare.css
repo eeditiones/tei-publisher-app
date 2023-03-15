@@ -1,0 +1,59 @@
+.tei-speaker + * {
+    display: inline;
+}
+
+@media print {
+
+    @page:left {
+        margin-left: 1cm;
+        margin-right: 1cm;
+
+        @top-left {
+            content: string(runningHead);
+            font-family: var(--pb-heading-font-family);
+        }
+
+        @bottom-left-corner {
+            content: counter(page);
+            font-family: var(--pb-heading-font-family);
+        }
+    }
+
+    @page:right {
+        margin-left: 1cm;
+        margin-right: 1cm;
+
+        @top-right {
+            content: string(runningHead);
+            font-family: var(--pb-heading-font-family);
+        }
+
+        @bottom-right-corner {
+            content: counter(page);
+            font-family: var(--pb-heading-font-family);
+        }
+    }
+
+    body {
+        --pb-content-font-size: 11pt;
+    }
+
+    .running {
+        string-set: runningHead content(text);
+        display: none;
+    }
+
+    section {
+        columns: 2;
+    }
+
+    .tei-speaker {
+        margin-right: .5em;
+        text-indent: 1em;
+    }
+
+    h1, h2, h3 {
+        column-span: all;
+        text-align: center;
+    }
+}

@@ -43,7 +43,7 @@ declare function model:transform($options as map(*), $input as node()*) {
     let $config :=
         map:merge(($options,
             map {
-                "output": ["latex","print"],
+                "output": ["latex"],
                 "odd": "/db/apps/tei-publisher/odd/shakespeare.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
@@ -55,13 +55,15 @@ declare function model:transform($options as map(*), $input as node()*) {
         
         let $output := model:apply($config, $input)
         return
-            $output
+            latex:finish($config, $output)
     )
 };
 
 declare function model:apply($config as map(*), $input as node()*) {
         let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
+        let $mode := 
+        if (exists($config?mode)) then $config?mode else ()
         let $trackIds := 
         $parameters?track-ids
         let $get := 
@@ -102,8 +104,16 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:inline($config, ., ("tei-milestone", css:map-rend-to-class(.)), .)
                     case element(ptr) return
                         if (parent::notatedMusic) then
-                            (: No function found for behavior: pass-through :)
-                            $config?apply($config, ./node())
+                            let $params := 
+                                map {
+                                    "url": @target,
+                                    "content": .
+                                }
+
+                                                        let $content := 
+                                model:template-ptr($config, ., $params)
+                            return
+                                                        latex:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-ptr", css:map-rend-to-class(.)), $content)
                         else
                             $config?apply($config, ./node())
                     case element(label) return
@@ -281,10 +291,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             $config?apply($config, ./node())
                     case element(l) return
-                        if (preceding-sibling::*[1][self::speaker]) then
-                            latex:inline($config, ., ("tei-l1", css:map-rend-to-class(.)), .)
-                        else
-                            latex:block($config, ., css:get-rendition(., ("tei-l2", css:map-rend-to-class(.))), .)
+                        latex:block($config, ., css:get-rendition(., ("tei-l", css:map-rend-to-class(.))), .)
                     case element(closer) return
                         latex:block($config, ., ("tei-closer", css:map-rend-to-class(.)), .)
                     case element(rhyme) return
@@ -324,7 +331,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (not(parent::p)) then
                             latex:omit($config, ., ("tei-lb1", css:map-rend-to-class(.)), .)
                         else
-                            latex:break($config, ., css:get-rendition(., ("tei-lb2", css:map-rend-to-class(.))), ., 'line', @n)
+                            latex:omit($config, ., css:get-rendition(., ("tei-lb2", css:map-rend-to-class(.))), .)
                     case element(w) return
                         latex:inline($config, ., ("tei-w", css:map-rend-to-class(.)), .)
                     case element(stage) return
@@ -445,15 +452,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:block($config, ., ("tei-argument", css:map-rend-to-class(.)), .)
                     case element(date) return
                         if (text()) then
-                            latex:inline($config, ., ("tei-date1", css:map-rend-to-class(.)), .)
+                            latex:inline($config, ., ("tei-date4", css:map-rend-to-class(.)), .)
                         else
-                            if (@when and not(text())) then
-                                latex:inline($config, ., ("tei-date2", css:map-rend-to-class(.)), @when)
-                            else
-                                if (text()) then
-                                    latex:inline($config, ., ("tei-date4", css:map-rend-to-class(.)), .)
-                                else
-                                    $config?apply($config, ./node())
+                            $config?apply($config, ./node())
                     case element(title) return
                         if ($parameters?header='short') then
                             latex:heading($config, ., ("tei-title1", css:map-rend-to-class(.)), ., 5)
@@ -533,7 +534,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(spGrp) return
                         latex:block($config, ., ("tei-spGrp", css:map-rend-to-class(.)), .)
                     case element(fw) return
-                        latex:omit($config, ., ("tei-fw4", css:map-rend-to-class(.)), .)
+                        latex:omit($config, ., ("tei-fw5", css:map-rend-to-class(.)), .)
                     case element(encodingDesc) return
                         latex:omit($config, ., ("tei-encodingDesc", css:map-rend-to-class(.)), .)
                     case element(addrLine) return

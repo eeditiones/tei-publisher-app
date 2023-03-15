@@ -4,7 +4,7 @@ module namespace vapi="http://teipublisher.com/api/view";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
-import module namespace errors = "http://exist-db.org/xquery/router/errors";
+import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace templates="http://exist-db.org/xquery/html-templating";
 import module namespace lib="http://exist-db.org/xquery/html-templating/lib" at "../templates-lib.xql";
 import module namespace browse="http://www.tei-c.org/tei-simple/templates" at "../browse.xql";
@@ -30,18 +30,20 @@ declare function vapi:lookup($name as xs:string, $arity as xs:int) {
     }
 };
 
-declare function vapi:get-template($doc as xs:string, $template as xs:string?, $view as xs:string?) {
+declare function vapi:get-template($config as map(*), $template as xs:string?) {
     if ($template) then
         $template
     else
-        let $document := config:get-document($doc)
-        return
-            if (exists($document)) then
-                let $config := tpu:parse-pi(root($document), $view)
-                return
-                    $config?template
-            else
-                error($errors:NOT_FOUND, "document " || $doc || " not found")
+        $config?template
+};
+
+declare function vapi:get-config($doc as xs:string, $view as xs:string?) {
+    let $document := config:get-document($doc)
+    return
+        if (exists($document)) then
+            tpu:parse-pi(root($document), $view)
+        else
+            error($errors:NOT_FOUND, "document " || $doc || " not found")
 };
 
 declare function vapi:view($request as map(*)) {
@@ -50,19 +52,31 @@ declare function vapi:view($request as map(*)) {
             xmldb:decode($request?parameters?docid) || $request?parameters?suffix
         else
             xmldb:decode($request?parameters?docid)
-    let $templateName := head((vapi:get-template($path, $request?parameters?template, $request?parameters?view), $config:default-template))
-    let $templatePath := $config:app-root || "/templates/pages/" || $templateName
+    let $config :=
+        if ($request?parameters?suffix = '.md') then
+            map {}
+        else 
+            vapi:get-config($path, $request?parameters?view)
+    let $templateName := head((vapi:get-template($config, $request?parameters?template), $config:default-template))
+    let $templatePaths := ($config:app-root || "/templates/pages/" || $templateName, $config:app-root || "/templates/" || $templateName)
     let $template :=
-        if (doc-available($templatePath)) then
-            doc($templatePath)
-        else
-            error($errors:NOT_FOUND, "template " || $templatePath || " not found")
-    let $model := map { 
-        "doc": $path,
-        "template": $templateName
-    }
+        for-each($templatePaths, function($path) {
+            if (doc-available($path)) then
+                doc($path)
+            else
+                ()
+        }) => head()
     return
-        templates:apply($template, vapi:lookup#2, $model, tpu:get-template-config($request))
+        if (not($template)) then
+            error($errors:NOT_FOUND, "template " || $templateName || " not found")
+        else
+            let $model := map { 
+                "doc": $path,
+                "template": $templateName,
+                "media": if (map:contains($config, 'media')) then $config?media else ()
+            }
+            return
+                templates:apply($template, vapi:lookup#2, $model, tpu:get-template-config($request))
 };
 
 declare function vapi:html($request as map(*)) {
@@ -80,5 +94,5 @@ declare function vapi:handle-error($error) {
     let $path := $config:app-root || "/templates/error-page.html"
     let $template := doc($path)
     return
-        templates:apply($template, vapi:lookup#2, map { "description": $error }, $tpu:template-config)
+        templates:apply($template, vapi:lookup#2, map { "description": $error?description }, $tpu:template-config)
 };

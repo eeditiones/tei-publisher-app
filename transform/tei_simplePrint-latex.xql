@@ -27,7 +27,7 @@ declare function model:transform($options as map(*), $input as node()*) {
     let $config :=
         map:merge(($options,
             map {
-                "output": ["latex","print"],
+                "output": ["latex"],
                 "odd": "/db/apps/tei-publisher/odd/tei_simplePrint.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
@@ -39,13 +39,15 @@ declare function model:transform($options as map(*), $input as node()*) {
         
         let $output := model:apply($config, $input)
         return
-            $output
+            latex:finish($config, $output)
     )
 };
 
 declare function model:apply($config as map(*), $input as node()*) {
         let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
+        let $mode := 
+        if (exists($config?mode)) then $config?mode else ()
         let $trackIds := 
         $parameters?track-ids
         let $get := 
@@ -146,15 +148,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                             latex:inline($config, ., ("tei-corr2", css:map-rend-to-class(.)), .)
                     case element(date) return
                         if (text()) then
-                            latex:inline($config, ., ("tei-date1", css:map-rend-to-class(.)), .)
+                            latex:inline($config, ., ("tei-date4", css:map-rend-to-class(.)), .)
                         else
-                            if (@when and not(text())) then
-                                latex:inline($config, ., ("tei-date2", css:map-rend-to-class(.)), @when)
-                            else
-                                if (text()) then
-                                    latex:inline($config, ., ("tei-date4", css:map-rend-to-class(.)), .)
-                                else
-                                    $config?apply($config, ./node())
+                            $config?apply($config, ./node())
                     case element(dateline) return
                         latex:block($config, ., ("tei-dateline", css:map-rend-to-class(.)), .)
                     case element(del) return

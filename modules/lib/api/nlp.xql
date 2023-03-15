@@ -6,9 +6,9 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace nlp-config="http://teipublisher.com/api/nlp/config" at "../../nlp-config.xqm";
-import module namespace errors = "http://exist-db.org/xquery/router/errors";
+import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace http = "http://expath.org/ns/http-client";
-import module namespace router="http://exist-db.org/xquery/router";
+import module namespace router="http://e-editiones.org/roaster";
 
 declare function nlp:status($request as map(*)) {
     try {

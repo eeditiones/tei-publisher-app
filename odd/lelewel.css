@@ -1,0 +1,43 @@
+
+
+	.choice-alternate {
+		display: none;
+	}
+
+	.choice-alternate.toggle {
+		display: inline;
+	}
+
+	.choice.toggle {
+	display: none;
+	}
+
+    .lb.toggle {
+        display: none;
+    }
+
+	.lb-hyphen.toggle {
+        display: none;
+    }
+
+	.person {
+		color: olivedrab;
+	}
+
+	.place {
+		color: teal;
+	}
+
+	.index {
+		font-style: italic;
+	}
+
+	.ref-lelewel {
+		font-style: italic;
+		text-decoration: none;
+	}
+
+	.ref-pwn {
+		color: orangered;
+		text-decoration: none;
+	}

@@ -30,8 +30,8 @@ ENV PATH ${PATH}:${ANT_HOME}/bin
 FROM builder as tei
 
 ARG TEMPLATING_VERSION=1.0.4
-ARG PUBLISHER_LIB_VERSION=2.10.0
-ARG ROUTER_VERSION=0.5.1
+ARG PUBLISHER_LIB_VERSION=master
+ARG ROUTER_VERSION=1.7.3
 ARG SHARED_RESOURCES_VERSION=0.9.1
 ARG SHAKESPEARE_VERSION=1.1.2
 ARG VANGOGH_VERSION=1.0.6
@@ -51,19 +51,28 @@ RUN  git clone https://github.com/eeditiones/vangogh.git \
     && git checkout ${VANGOGH_VERSION} \
     && ant
 
+# Build tei-publisher-lib
+RUN if [ "${PUBLISHER_LIB_VERSION}" = "master" ]; then \
+        git clone https://github.com/eeditiones/tei-publisher-lib.git \
+        && cd tei-publisher-lib \
+        && ant \
+        && cp build/*.xar /tmp; \
+    else \
+        curl -L -o /tmp/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar; \
+    fi
+
 # Build tei-publisher-app
 COPY . tei-publisher-app/
 RUN  cd tei-publisher-app \
     && ant
 
-RUN curl -L -o /tmp/oas-router-${ROUTER_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/oas-router-${ROUTER_VERSION}.xar
-RUN curl -L -o /tmp/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar
+RUN curl -L -o /tmp/roaster-${ROUTER_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar
 RUN curl -L -o /tmp/templating-${TEMPLATING_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/templating-${TEMPLATING_VERSION}.xar
 RUN curl -L -o /tmp/shared-resources-${SHARED_RESOURCES_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/shared-resources-${SHARED_RESOURCES_VERSION}.xar
 
 FROM eclipse-temurin:11-jre-alpine
 
-ARG EXIST_VERSION=5.3.1
+ARG EXIST_VERSION=6.0.1
 
 RUN apk add curl
 

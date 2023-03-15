@@ -73,7 +73,7 @@
 .tei-castList { list-style: ordered; }
 .tei-l { margin-left: 1em; }
 .tei-closer2 { margin: 3em 1em 20px; }
-.tei-p { text-align: justify; }
+.tei-p2 { text-align: justify; }
 .tei-q1 { margin-left: 10px; margin-right: 10px; }
 .tei-q2:before { content: '‘'; }
 .tei-q2:after { content: '’'; }
@@ -126,3 +126,4 @@
 .tei-idno1:after { content: ', '; }
 .tei-idno3 { content: ', '; }
 .tei-placeName { text-decoration: underline; --pb-popover-theme: 'light'; }
+.tei-term { font-style: italic; }

@@ -58,11 +58,10 @@ else if (matches($exist:path, "^.*/(resources|transform|templates)/.*$")
                     <set-header name="Cache-Control" value="no-cache"/>
                 else if (contains($exist:path, "/resources/fonts/")) then
                     <set-header name="Cache-Control" value="max-age=31536000"/>
-                else (
-                    <set-header name="Cache-Control" value="max-age=31536000"/>,
-                    <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>,
-                    if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/>
-                )
+                else 
+                    (),
+                <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>,
+                if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/>
             }
             </forward>
         </dispatch>

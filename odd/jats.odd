@@ -1,10 +1,12 @@
-<?xml-model href="teipublisher_odds.xsd"?>
+<?xml-model href="teipublisher_odds.xsd"?><?teipublisher output="web print epub"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
                 <title>JATS
                     
+                 
+                 
                  <desc>Processing of JATS XML (Journal Article Tag Suite)</desc>
                 </title>
             </titleStmt>
@@ -18,7 +20,9 @@
             </sourceDesc>
         </fileDesc>
         <encodingDesc>
-            <tagsDecl/>
+            <tagsDecl>
+                <rendition source="docbook.css"/>
+            </tagsDecl>
         </encodingDesc>
     </teiHeader>
     <text>
@@ -38,7 +42,7 @@
             </outputRendition>
         </model>
                     <model behaviour="heading">
-            <param name="level" value="count(ancestor::sec)"/>
+            <param name="level" value="count(ancestor::sec) + 1"/>
         </model>
                 </elementSpec>
                 <elementSpec ident="p" mode="add">
@@ -95,22 +99,40 @@
                 <elementSpec ident="th">
                     <model behaviour="cell" useSourceRendition="true">
             <outputRendition xml:space="preserve">
+            
+            
             font-weight: bold;
 text-align: left;
 padding: 0 4px;
+            
+            
             </outputRendition>
         </model>
                 </elementSpec>
                 <elementSpec ident="article-meta" mode="add">
-                    <model predicate="$parameters?header='short'" behaviour="block">
+                    <model predicate="$parameters?header='short' or $parameters?mode='breadcrumbs'" behaviour="block">
             <param name="content" value="(title-group, contrib-group)"/>
         </model>
-                    <model behaviour="block">
-            <param name="content" value="title-group"/>
-        </model>
+                    <modelSequence>
+            <model behaviour="block">
+                <param name="content" value="title-group"/>
+            </model>
+            <model behaviour="block" cssClass="flex">
+                <param name="content" value="(contrib-group, pub-date)"/>
+                <outputRendition xml:space="preserve">
+                margin-bottom: 2em;
+                </outputRendition>
+            </model>
+            <model behaviour="block">
+                <param name="content" value="abstract"/>
+            </model>
+        </modelSequence>
                 </elementSpec>
                 <elementSpec ident="title-group" mode="add">
-                    <modelSequence>
+                    <model predicate="$parameters?mode='breadcrumbs'" behaviour="inline">
+            <param name="content" value="article-title/text()"/>
+        </model>
+                    <modelSequence predicate="$parameters?header='short'">
             <model behaviour="link">
                 <param name="content" value="article-title"/>
                 <param name="uri" value="$parameters?doc"/>
@@ -123,6 +145,9 @@ padding: 0 4px;
                 <elementSpec ident="article-title" mode="add">
                     <model predicate="$parameters?header='short'" behaviour="heading">
             <param name="level" value="5"/>
+        </model>
+                    <model behaviour="heading">
+            <param name="level" value="1"/>
         </model>
                 </elementSpec>
                 <elementSpec ident="subtitle" mode="add">
@@ -137,9 +162,7 @@ padding: 0 4px;
                     <model behaviour="cit"/>
                 </elementSpec>
                 <elementSpec ident="fn" mode="add">
-                    <model behaviour="pass-through">
-            <param name="content" value="p"/>
-        </model>
+                    <model behaviour="note"/>
                 </elementSpec>
                 <elementSpec ident="label" mode="add">
                     <model behaviour="block">
@@ -154,15 +177,78 @@ padding: 0 4px;
         </model>
                 </elementSpec>
                 <elementSpec ident="contrib" mode="add">
-        <model behaviour="inline">
-            <param name="content" value="string-join((name/given-names, name/surname), ' ')"/>
+                    <model predicate="preceding-sibling::contrib" behaviour="inline">
+            <outputRendition xml:space="preserve" scope="after">
+            content: ', ';
+            </outputRendition>
         </model>
-    </elementSpec>
+                    <model behaviour="inline"/>
+                </elementSpec>
                 <elementSpec ident="contrib-group" mode="add">
-        <model behaviour="inline">
-            <param name="content" value="string-join(contrib, ', ')"/>
+                    <model predicate="$parameters?mode='breadcrumbs'" behaviour="inline">
+            <param name="content" value="contrib"/>
+            <outputRendition xml:space="preserve" scope="before">
+            content: ' - ';
+            </outputRendition>
         </model>
-    </elementSpec>
+                    <model behaviour="block">
+            <param name="content" value="contrib"/>
+        </model>
+                </elementSpec>
+            <elementSpec ident="code" mode="add">
+                    <model behaviour="webcomponent">
+            <param name="name" value="'pb-code-highlight'"/>
+            <param name="language" value="(@language, 'xml')[1]"/>
+            <param name="line-numbers" value="false()"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="preformat" mode="add">
+                    <model behaviour="pass-through">
+            <pb:template xmlns="" xml:space="preserve"><pre>[[content]]</pre></pb:template>
+        </model>
+                </elementSpec>
+                <elementSpec ident="monospace" mode="add">
+                    <model behaviour="inline" cssClass="code"/>
+                </elementSpec>
+                <elementSpec ident="ext-link" mode="add">
+                    <model behaviour="link">
+            <param name="uri" value="@xlink:href"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="figure" mode="add"/>
+                <elementSpec ident="fig" mode="add">
+                    <model predicate="@position='float'" behaviour="figure" cssClass="float-right">
+            <param name="content" value="(graphic, caption)"/>
+        </model>
+                    <model behaviour="figure">
+            <param name="content" value="(graphic, caption)"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="graphic" mode="add">
+                    <model behaviour="graphic">
+            <param name="url" value="@xlink:href"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="abstract" mode="add">
+                    <model behaviour="block" cssClass="abstract"/>
+                </elementSpec>
+            <elementSpec ident="name" mode="add">
+                    <model behaviour="inline">
+            <param name="content" value="(given-names, surname)"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="surname" mode="add">
+                    <model behaviour="inline">
+            <outputRendition xml:space="preserve" scope="before">
+            content: ' ';
+            </outputRendition>
+        </model>
+                </elementSpec>
+                <elementSpec ident="pub-date" mode="add">
+                    <model behaviour="block">
+            <param name="content" value="format-date(@iso-8601-date, '[D]. [MNn] [Y]', $parameters?language, (), ())"/>
+        </model>
+                </elementSpec>
             </schemaSpec>
         </body>
     </text>

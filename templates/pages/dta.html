@@ -12,8 +12,6 @@
 
     <title data-template="config:app-title"></title>
     <meta name="description" content="Deutsches Textarchiv" />
-    <link rel="stylesheet" type="text/css" href="resources/fonts/font.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald&amp;display=swap" />
     <link rel="stylesheet" href="resources/css/theme.css" />
     <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
     <style>
@@ -53,7 +51,7 @@
 </head>
 
 <body>
-    <pb-page data-template="pages:pb-page" unresolved="unresolved">
+    <pb-page data-template="pages:pb-page" unresolved="unresolved" url-template="/{+path}{?root,odd,view}{#id}">
         <pb-document id="document1" data-template="pages:pb-document" />
         <app-drawer-layout force-narrow="force-narrow">
             <app-drawer data-template="lib:include" data-template-path="templates/drawer.html" />
@@ -72,7 +70,8 @@
                     </div>
                 </pb-drawer>
                 <section class="breadcrumbs">
-                    <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title[@type='main']" view="single">
+                    <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title[@type='main']" view="single"
+                        disable-history="">
                         <pb-param name="header" value="short"/>
                     </pb-view>
                 </section>

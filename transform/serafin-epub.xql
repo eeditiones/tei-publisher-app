@@ -27,6 +27,10 @@ declare %private function model:template-ptr($config as map(*), $node as node()*
   <pb-option name="appXPath" on="./rdg[contains(@label, 'original')]" off="">Original Clefs</pb-option>
 </pb-mei></t>/*
 };
+(: generated template function for element spec: text :)
+declare %private function model:template-text($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><div class="{$config?apply-children($config, $node, $params?type)}" lang="{$config?apply-children($config, $node, $params?lang)}">{$config?apply-children($config, $node, $params?content)}</div></t>/*
+};
 (:~
 
     Main entry point for the transformation.
@@ -56,6 +60,8 @@ declare function model:transform($options as map(*), $input as node()*) {
 declare function model:apply($config as map(*), $input as node()*) {
         let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
+        let $mode := 
+        if (exists($config?mode)) then $config?mode else ()
         let $trackIds := 
         $parameters?track-ids
         let $get := 
@@ -83,7 +89,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             if ($parameters?header='letter') then
                                 html:heading($config, ., ("tei-teiHeader4", css:map-rend-to-class(.)), (fileDesc/titleStmt/title[not(@type)], profileDesc/correspDesc), 5)
                             else
-                                html:metadata($config, ., ("tei-teiHeader5", css:map-rend-to-class(.)), .)
+                                html:metadata($config, ., ("tei-teiHeader6", css:map-rend-to-class(.)), .)
                     case element(supplied) return
                         if (parent::choice) then
                             html:inline($config, ., ("tei-supplied1", css:map-rend-to-class(.)), .)
@@ -160,13 +166,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:inline($config, ., ("tei-code", css:map-rend-to-class(.)), .)
                     case element(note) return
                         if (parent::person) then
-                            html:inline($config, ., ("tei-note", css:map-rend-to-class(.)), .)
+                            html:inline($config, ., ("tei-note2", css:map-rend-to-class(.)), .)
                         else
                             $config?apply($config, ./node())
                     case element(dateline) return
                         epub:block($config, ., ("tei-dateline", css:map-rend-to-class(.)), .)
                     case element(back) return
-                        epub:block($config, ., ("tei-back", css:map-rend-to-class(.)), .)
+                        html:omit($config, ., ("tei-back", css:map-rend-to-class(.)), .)
                     case element(del) return
                         html:inline($config, ., ("tei-del", css:map-rend-to-class(.)), .)
                     case element(trailer) return
@@ -216,13 +222,26 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(notatedMusic) return
                         html:figure($config, ., ("tei-notatedMusic", css:map-rend-to-class(.)), ptr, label)
                     case element(seg) return
-                        html:webcomponent($config, ., css:get-rendition(., ("tei-seg2", css:map-rend-to-class(.))), ., 'pb-highlight', map {"key": replace(@xml:id, "^\w\.(.*)$", "$1")})
+                        html:webcomponent($config, ., css:get-rendition(., ("tei-seg3", css:map-rend-to-class(.))), ., 'pb-highlight', map {"key": replace(@xml:id, "^\w\.(.*)$", "$1")})
                     case element(profileDesc) return
-                        html:omit($config, ., ("tei-profileDesc", css:map-rend-to-class(.)), .)
+                        html:omit($config, ., ("tei-profileDesc2", css:map-rend-to-class(.)), .)
                     case element(email) return
                         html:inline($config, ., ("tei-email", css:map-rend-to-class(.)), .)
                     case element(text) return
-                        html:body($config, ., ("tei-text", css:map-rend-to-class(.)), .)
+                        if (@type) then
+                            let $params := 
+                                map {
+                                    "type": @type,
+                                    "lang": if (@type='source') then 'la' else 'pl',
+                                    "content": .
+                                }
+
+                                                        let $content := 
+                                model:template-text($config, ., $params)
+                            return
+                                                        html:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-text1", "translation", css:map-rend-to-class(.)), $content)
+                        else
+                            html:section($config, ., ("tei-text2", css:map-rend-to-class(.)), .)
                     case element(floatingText) return
                         epub:block($config, ., ("tei-floatingText", css:map-rend-to-class(.)), .)
                     case element(sp) return
@@ -234,7 +253,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(cb) return
                         epub:break($config, ., ("tei-cb", css:map-rend-to-class(.)), ., 'column', @n)
                     case element(group) return
-                        epub:block($config, ., ("tei-group", css:map-rend-to-class(.)), .)
+                        epub:block($config, ., ("tei-group2", css:map-rend-to-class(.)), .)
                     case element(licence) return
                         if (@target) then
                             html:link($config, ., ("tei-licence1", "licence", css:map-rend-to-class(.)), 'Licence', @target, (), map {})
@@ -322,7 +341,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(biblScope) return
                         html:inline($config, ., ("tei-biblScope", css:map-rend-to-class(.)), .)
                     case element(desc) return
-                        html:inline($config, ., ("tei-desc", css:map-rend-to-class(.)), .)
+                        html:inline($config, ., ("tei-desc2", css:map-rend-to-class(.)), .)
                     case element(role) return
                         epub:block($config, ., ("tei-role", css:map-rend-to-class(.)), .)
                     case element(docEdition) return
@@ -549,31 +568,31 @@ declare function model:apply($config as map(*), $input as node()*) {
                         epub:block($config, ., ("tei-byline", css:map-rend-to-class(.)), .)
                     case element(persName) return
                         if (parent::person) then
-                            html:inline($config, ., ("tei-persName3", css:map-rend-to-class(.)), .)
+                            html:inline($config, ., ("tei-persName3", "persName", css:map-rend-to-class(.)), .)
                         else
-                            epub:alternate($config, ., ("tei-persName4", css:map-rend-to-class(.)), ., ., id(substring-after(@ref, '#'), root(.)))
+                            epub:alternate($config, ., ("tei-persName5", css:map-rend-to-class(.)), ., ., id(substring-after(@ref, '#'), root(.)))
                     case element(person) return
                         if (parent::listPerson) then
-                            html:inline($config, ., ("tei-person2", css:map-rend-to-class(.)), .)
+                            html:inline($config, ., ("tei-person3", css:map-rend-to-class(.)), .)
                         else
                             $config?apply($config, ./node())
                     case element(placeName) return
                         if (parent::place) then
-                            html:inline($config, ., ("tei-placeName3", css:map-rend-to-class(.)), .)
+                            html:inline($config, ., ("tei-placeName3", "placeName", css:map-rend-to-class(.)), .)
                         else
-                            epub:alternate($config, ., ("tei-placeName4", css:map-rend-to-class(.)), ., ., id(substring-after(@ref, '#'), root(.)))
+                            epub:alternate($config, ., ("tei-placeName5", css:map-rend-to-class(.)), ., ., id(substring-after(@ref, '#'), root(.)))
                     case element(orgName) return
                         if (parent::org) then
                             html:inline($config, ., ("tei-orgName2", css:map-rend-to-class(.)), .)
                         else
-                            epub:alternate($config, ., ("tei-orgName3", css:map-rend-to-class(.)), ., ., id(substring-after(@ref, '#'), root(.)))
+                            epub:alternate($config, ., ("tei-orgName4", css:map-rend-to-class(.)), ., ., id(substring-after(@ref, '#'), root(.)))
                     case element(correspAction) return
                         if (@type='sent') then
                             html:inline($config, ., ("tei-correspAction", css:map-rend-to-class(.)), (placeName, ', ', date))
                         else
                             $config?apply($config, ./node())
                     case element(place) return
-                        html:inline($config, ., ("tei-place2", css:map-rend-to-class(.)), .)
+                        html:inline($config, ., ("tei-place3", css:map-rend-to-class(.)), .)
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return

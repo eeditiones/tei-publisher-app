@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/tei_simplePrint/fo' at '/db/apps/tei-publisher/transform/tei_simplePrint-print.xql';
+import module namespace m='http://www.tei-c.org/pm/models/tei_simplePrint/print' at '/db/apps/tei-publisher/transform/tei_simplePrint-print.xql';
 
 declare variable $xml external;
 
