@@ -356,13 +356,13 @@ declare function dapi:epub($request as map(*)) {
         if (exists($work)) then
             let $entries := dapi:work2epub($request, $id, $work, $request?parameters?lang)
             return
-                (
+                ( 
                     if ($request?parameters?token) then
                         response:set-cookie("simple.token", $request?parameters?token)
                     else
                         (),
                     response:set-header("Content-Disposition", concat("attachment; filename=", concat($id, '.epub'))),
-                    response:stream-binary(
+                    response:stream-binary( 
                         compression:zip( $entries, true() ),
                         'application/epub+zip',
                         concat($id, '.epub')
@@ -373,7 +373,8 @@ declare function dapi:epub($request as map(*)) {
 };
 
 declare %private function dapi:work2epub($request as map(*), $id as xs:string, $work as document-node(), $lang as xs:string?) {
-    let $config := map:merge(($config:epub-config($work, $lang), map { 'skipTitle': $request?parameters?skip-title }))
+    let $imagesCollection := $request?parameters?images-collection
+    let $config := map:merge(($config:epub-config($work, $lang), map { 'imagesCollection': $imagesCollection, 'skipTitle': $request?parameters?skip-title }))
     let $odd := head(($request?parameters?odd, $config:default-odd))
     let $oddName := replace($odd, "^([^/\.]+).*$", "$1")
     let $cssDefault := util:binary-to-string(util:binary-doc($config:output-root || "/" || $oddName || ".css"))

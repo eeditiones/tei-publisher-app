@@ -1035,6 +1035,14 @@
 						}
 					},
 					{
+						"name": "images-collection",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"example": "/apps/tei-publisher/data"
+						}
+					},
+					{
 						"name": "skip-title",
 						"in": "query",
 						"schema": {
