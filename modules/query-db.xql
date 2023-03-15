@@ -150,7 +150,7 @@ declare function dbs:get-breadcrumbs($config as map(*), $hit as node(), $parent-
  : on it.
  :)
 declare function dbs:expand($data as node()) {
-    let $query := session:get-attribute($config:session-prefix || ".query")
+    let $query := session:get-attribute($config:session-prefix || ".search")
     let $field := session:get-attribute($config:session-prefix || ".field")
     let $div := $data
     let $result := dbs:query-default-view($div, $query, $field)

@@ -153,7 +153,7 @@ declare function teis:get-breadcrumbs($config as map(*), $hit as node(), $parent
  : on it.
  :)
 declare function teis:expand($data as node()) {
-    let $query := session:get-attribute($config:session-prefix || ".query")
+    let $query := session:get-attribute($config:session-prefix || ".search")
     let $field := session:get-attribute($config:session-prefix || ".field")
     let $div :=
         if ($data instance of element(tei:pb)) then
