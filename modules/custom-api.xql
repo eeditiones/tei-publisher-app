@@ -5,7 +5,6 @@ module namespace api="http://teipublisher.com/api/custom";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace bapi="http://teipublisher.com/api/blog" at "blog.xql";
 import module namespace dapi="http://teipublisher.com/api/documents" at "lib/api/document.xql";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace rutil="http://e-editiones.org/roaster/util";
