@@ -335,7 +335,7 @@
                     </pb-media-query>
                 </app-header>
 
-                <main data-template="browse:form">
+                <main>
                     <section class="welcome">
                         <div>
                             <h1 class="tp-title">TEI Publisher </h1>
@@ -351,7 +351,7 @@
                             <div class="card-content">
 
                                     <div class="browse" slot="page">
-                                        <aside>
+                                        <aside data-template="browse:form">
                                             <!--pb-custom-form class="options" auto-submit="[name=sort]" emit="search"-->
                                             <pb-custom-form class="options">
                                                 <input type="hidden" name="collection" value="${collection}" data-template="pages:parse-params"/>
@@ -371,7 +371,7 @@
                                             <pb-custom-form class="facets" url="api/search/facets" event="pb-results-received" subscribe="search" emit="search"></pb-custom-form>
                                         </aside>
                                         <div id="document-list">
-                                            <pb-paginate id="paginate" per-page="10" range="5" subscribe="search"></pb-paginate>
+                                            <pb-paginate id="paginate" per-page="10" range="5" subscribe="search" emit="search"></pb-paginate>
                                             <pb-load url="api/collection/{collection}" expand="" emit="search"></pb-load>
                                             <!--pb-browse url="api/collection" emit="search"></pb-browse-->
                                         </div>

@@ -48,8 +48,10 @@ declare function dapi:delete($request as map(*)) {
     return
         if ($doc) then
             let $del := xmldb:remove(util:collection-name($doc), util:document-name($doc))
-            return
+            return (
+                session:set-attribute($config:session-prefix || ".works", ()),
                 router:response(204, 'Document deleted')
+            )
         else
             error($errors:NOT_FOUND, "Document " || $id || " not found")
 };
@@ -371,7 +373,7 @@ declare function dapi:epub($request as map(*)) {
 };
 
 declare %private function dapi:work2epub($request as map(*), $id as xs:string, $work as document-node(), $lang as xs:string?) {
-    let $config := $config:epub-config($work, $lang)
+    let $config := map:merge(($config:epub-config($work, $lang), map { 'skipTitle': $request?parameters?skip-title }))
     let $odd := head(($request?parameters?odd, $config:default-odd))
     let $oddName := replace($odd, "^([^/\.]+).*$", "$1")
     let $cssDefault := util:binary-to-string(util:binary-doc($config:output-root || "/" || $oddName || ".css"))

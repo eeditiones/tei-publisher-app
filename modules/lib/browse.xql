@@ -187,7 +187,6 @@ declare function app:show-hits($node as node(), $model as map(*)) {
     if (empty($model?query) or $model?query = '' or $model?field = 'title') then
         ()
     else
-        let $log := util:log('INFO', 'Field: ' || $model?field)
         for $field in ft:highlight-field-matches($model?work, $model?field)
         let $matches := $field//exist:match
         return

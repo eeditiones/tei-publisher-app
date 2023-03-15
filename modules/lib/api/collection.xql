@@ -17,11 +17,15 @@ import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../
 
 declare function capi:list($request as map(*)) {
     let $path := if ($request?parameters?path) then xmldb:decode($request?parameters?path) else ()
-    let $works := capi:list-works($path)
+    let $params := capi:params2map($path)
+    let $cached := session:get-attribute($config:session-prefix || ".works")
+    let $useCached := capi:use-cache($params, $cached)
+    let $log := util:log("INFO", "USE CACHE: " || $useCached)
+    let $works := capi:list-works($path, if ($useCached) then $cached else (), $params)
     let $templatePath := $config:data-root || "/" || $path || "/collection.html"
     let $templateAvail := doc-available($templatePath) or util:binary-doc-available($templatePath)
     let $template := 
-        if ($templateAvail and $works?mode = 'browse') then 
+        if (not($useCached) and $templateAvail and $works?mode = 'browse') then 
             $templatePath
         else
             $config:app-root || "/templates/documents.html"
@@ -47,29 +51,35 @@ declare function capi:list($request as map(*)) {
 
 declare
     %private
-function capi:list-works($root as xs:string?) {
-    let $params := capi:params2map($root)
+function capi:list-works($root as xs:string?, $cached, $params as map(*)) {
+    (: session:clear(), :)
     let $sort := request:get-parameter("sort", "title")
     let $filter := request:get-parameter("field", ())
     let $query := request:get-parameter("query", ())
-    let $cached := session:get-attribute($config:session-prefix || ".works")
     let $filtered :=
-        (: if (capi:use-cache($params, $cached)) then (
-            $cached,
-            util:log('INFO', ('Using cached'))
-        ) else :)
+        if (exists($cached)) then
+            $cached
+        else
             query:query-metadata($root, ($filter, "div")[1], $query, $sort)
     return (
         session:set-attribute($config:session-prefix || ".timestamp", current-dateTime()),
         session:set-attribute($config:session-prefix || '.hits', $filtered?all),
         session:set-attribute($config:session-prefix || '.params', $params),
         session:set-attribute($config:session-prefix || ".works", $filtered),
+        if (empty($cached)) then
+            session:set-attribute($config:session-prefix || ".collection", $root)
+        else
+            (),
         map:merge((
             $filtered,
             map {
                 "query": $query,
                 "field": $filter,
-                "root": $root
+                "root": 
+                    if (exists($cached)) then 
+                        session:get-attribute($config:session-prefix || ".collection")
+                    else
+                        $root
             }
         ))
     )
@@ -77,10 +87,10 @@ function capi:list-works($root as xs:string?) {
 
 declare %private function capi:params2map($root as xs:string?) {
     map:merge((
-        for $param in request:get-parameter-names()[not(. = ("start", "per-page"))]
+        for $param in request:get-parameter-names()[not(. = ("start", "per-page", "page", "path"))]
         return
             map:entry($param, request:get-parameter($param, ())),
-        map { "root": $root }
+        map:entry("collection", $root)
     ))
 };
 
