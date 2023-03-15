@@ -367,7 +367,7 @@ declare %private function anno:find-offset($nodes as node()*, $offset as xs:int,
         return
             typeswitch($node)
                 case element(tei:choice) return
-                    let $primary := $node/tei:sic | $node/tei:abbr
+                    let $primary := $node/tei:sic | $node/tei:abbr | $node/tei:orig
                     let $found := anno:find-offset($primary, $offset, $pos, ())
                     return
                         if (exists($found)) then
