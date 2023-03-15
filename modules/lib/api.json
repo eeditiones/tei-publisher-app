@@ -1049,6 +1049,14 @@
 							"type": "boolean",
 							"example": "true"
 						}
+					},
+					{
+						"name": "cover-image",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"example": "images/cover.jpg"
+						}
 					}
 				],
 				"responses": {
