@@ -48,8 +48,10 @@ declare function dapi:delete($request as map(*)) {
     return
         if ($doc) then
             let $del := xmldb:remove(util:collection-name($doc), util:document-name($doc))
-            return
+            return (
+                session:set-attribute($config:session-prefix || ".works", ()),
                 router:response(204, 'Document deleted')
+            )
         else
             error($errors:NOT_FOUND, "Document " || $id || " not found")
 };
