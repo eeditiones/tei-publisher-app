@@ -124,6 +124,7 @@ declare function epub:content-opf-entry($config as map(*), $text, $xhtml as elem
                 <dc:identifier id="bookid">{$config?metadata?urn}</dc:identifier>
                 <dc:language>{$config?metadata?language}</dc:language>
                 <meta property="dcterms:modified">{current-dateTime()}</meta>
+                {if ($config?coverImage) then <meta name="cover" content="{$config?coverImage}" /> else ()}
             </metadata>
             <manifest>
                 <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
@@ -134,7 +135,7 @@ declare function epub:content-opf-entry($config as map(*), $text, $xhtml as elem
                 }
                 <item id="css" href="stylesheet.css" media-type="text/css"/>
                 {
-                for $img in distinct-values($xhtml//*:img/@src)
+                for $img in (distinct-values($xhtml//*:img/@src), $config?coverImage)
                 let $suffix := replace($img, "^.*\.([^\.]+)$", "$1")
                 let $media-type :=
                     switch ($suffix)
@@ -142,7 +143,9 @@ declare function epub:content-opf-entry($config as map(*), $text, $xhtml as elem
                         case "tif" return "image/tiff"
                         default return "image/" || $suffix
                 return
-                    <item id="{$img}" href="{$img}" media-type="{$media-type}"/>
+                    <item id="{$img}" href="{$img}" media-type="{$media-type}">{
+                        if ($config?coverImage and $config?coverImage=$img) then attribute properties { 'cover-image' } else ()
+                    }</item>
                 }
                 {
                     for $font in $config?fonts?*
@@ -164,7 +167,7 @@ declare function epub:content-opf-entry($config as map(*), $text, $xhtml as elem
 
 declare function epub:images-entry($config, $doc, $entries as element()*) {
     let $root := if ($config?imagesCollection) then $config?imagesCollection else util:collection-name($doc)
-    for $relPath in distinct-values($entries//*:img/@src)
+    for $relPath in (distinct-values($entries//*:img/@src), $config?coverImage)
     let $path :=
         if ($config:epub-images-path) then
             $config:epub-images-path || $relPath
