@@ -106,10 +106,6 @@
             padding: 0;
         }
         
-        .panels .doclist dts-client {
-            padding: 0 20px;
-        }
-        
         aside {
             flex: 1;
             display: flex;
@@ -156,12 +152,6 @@
             display: block;
             margin-bottom: 10px;
             padding: 6px 0;
-        }
-
-        .collection {
-            margin-top: 8px;
-            padding-top: 12px;
-            /* border-top: thin solid var(--paper-grey-300); */
         }
 
         .documents img, .documents svg {
@@ -225,19 +215,6 @@
             margin: 0;
         }
         
-        dts-client pb-paginate {
-            margin-bottom: 1em;
-        }
-
-        dts-client::part(title), dts-client::part(collection-title) {
-            font-family: var(--pb-heading-font-family);
-        }
-
-        dts-client::part(link) {
-            color: #303F9F;
-            text-decoration: none;
-        }
-
         .welcome {
             display: grid;
             grid-template-columns: 1fr 400px;
@@ -256,8 +233,13 @@
         }
 
         .thumbnail img {
-            border-radius: 15px;
+            border-radius:35px;
+            border-color: #184267;
+            border-style: groove;
+            box-shadow: 1px 1px 1px 1px  #184267;
         }
+
+        
       
     </style>
     </custom-style>
@@ -292,7 +274,7 @@
                                     <a href="https://faq.teipublisher.com/">FAQ</a>
                                 </paper-item>
                                 <paper-item>
-                                    <a href="${app}/doc/blog/" data-template="pages:parse-params"><pb-i18n key="menu.news">News</pb-i18n></a>
+                                    <a href="https://www.e-editiones.org/tags/release" target="_blank"><pb-i18n key="menu.news">News</pb-i18n></a>
                                 </paper-item>
                                 <paper-item>
                                     <a href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html" target="_blank">Webcomponents API</a>
@@ -309,6 +291,8 @@
                         <pb-media-query query="(min-width: 1024px)">
                             <a href="${app}/index.html" data-template="pages:parse-params">Start</a>
                             <paper-menu-button data-template="lib:include" data-template-path="templates/menu.documentation.html"/>
+                            <a href="${app}/dts.html" data-template="lib:parse-params">DTS</a>
+
                             <pb-restricted login="login" group="tei">
                                 <paper-menu-button>
                                     <a slot="dropdown-trigger">
@@ -365,9 +349,6 @@
                     <section class="panels">
                         <paper-card class="doclist" data-i18n="[heading]browse.documents" heading="documents">
                             <div class="card-content">
-                                <pb-tabs>
-                                    <paper-tab slot="tab"><pb-i18n key="browse.collections">Collections</pb-i18n></paper-tab>
-                                    <paper-tab slot="tab"><pb-i18n key="browse.dts">Distributed Text Services (Experimental)</pb-i18n></paper-tab>
 
                                     <div class="browse" slot="page">
                                         <aside data-template="browse:form">
@@ -395,12 +376,6 @@
                                             <!--pb-browse url="api/collection" emit="search"></pb-browse-->
                                         </div>
                                     </div>
-                                    <dts-client slot="page" subscribe="dts" emit="dts">
-                                        <dts-select-endpoint id="dts" slot="toolbar" emit="dts"></dts-select-endpoint>
-                                        <p class="dts-info" slot="toolbar"><pb-i18n key="dts.note">Experimental: access other editions which expose the DTS API</pb-i18n></p>
-                                        <pb-paginate slot="pagination" per-page="10" range="5" subscribe="dts" emit="dts"></pb-paginate>
-                                    </dts-client>
-                                </pb-tabs>
                             </div>
                         </paper-card>
                         <aside>
@@ -452,27 +427,6 @@
     </pb-page>
     <div class="splash"></div>
     <script src="resources/scripts/browse.js"></script>
-    <script>
-        // configuration for the DTS endpoints
-        const dtsConfig = [
-            {
-                "url": "http://localhost:8080/exist/apps/tei-publisher/api/dts",
-                "title": "Localhost"
-            },
-        {
-            "url": "https://teipublisher.com/exist/apps/vangogh/api/dts",
-            "title": "Van Gogh Letters"
-        }, {
-            "url": "https://teipublisher.com/exist/apps/shakespeare-pm/api/dts",
-            "title": "Shakespeare Plays"
-        }, {
-            "url": "https://texts.alpheios.net/api/dts",
-            "title": "Alpheios Project"
-        }];
-        window.addEventListener('WebComponentsReady', () => {
-            document.getElementById('dts').endpoints = dtsConfig;
-        });
-    </script>
 </body>
 
 </html>
