@@ -49,7 +49,7 @@ declare function epub:generate-epub($config as map(*), $doc, $css, $filename) {
             epub:mimetype-entry(),
             epub:container-entry(),
             epub:content-opf-entry($config, $doc, $xhtml),
-            epub:title-xhtml-entry($config?metadata?language, $doc, $config),
+            if ($config?skipTitle = true()) then () else epub:title-xhtml-entry($config?metadata?language, $doc, $config),
             epub:images-entry($doc, $xhtml),
             epub:stylesheet-entry($css),
             epub:toc-ncx-entry($config, $doc),
@@ -128,7 +128,7 @@ declare function epub:content-opf-entry($config as map(*), $text, $xhtml as elem
             <manifest>
                 <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
                 <item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/>
-                <item id="title" href="title.xhtml" media-type="application/xhtml+xml"/>
+                {if ($config?skipTitle = true()) then () else <item id="title" href="title.xhtml" media-type="application/xhtml+xml"/>}
                 {
                     $entries
                 }
@@ -152,7 +152,7 @@ declare function epub:content-opf-entry($config as map(*), $text, $xhtml as elem
                 }
             </manifest>
             <spine toc="ncx">
-                <itemref idref="title"/>
+                {if ($config?skipTitle = true()) then () else <itemref idref="title"/>}
                 {
                     $refs
                 }
@@ -308,12 +308,12 @@ declare function epub:toc-ncx-entry($config, $text) {
                 <text>{$config?metadata?title}</text>
             </docTitle>
             <navMap>
-                <navPoint id="navpoint-title" playOrder="1">
+                {if ($config?skipTitle = true()) then () else <navPoint id="navpoint-title" playOrder="1">
                     <navLabel>
                         <text>Title</text>
                     </navLabel>
                     <content src="title.xhtml"/>
-                </navPoint>
+                </navPoint>}
                 {
                     counter:create("teipublisher-epub-toc")[2],
                     epub:toc-ncx-div($config, nav:get-section($config?docConfig, $text)/.., 1),
