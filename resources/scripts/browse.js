@@ -44,6 +44,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const elems = ev.detail.querySelectorAll('.facet');
             elems.forEach(facet => {
                 facet.addEventListener('change', () => {
+                    if (!facet.checked) {
+                        pbRegistry.state[facet.name] = null;
+                    }
                     const table = facet.closest('table');
                     if (table) {
                         const nested = table.querySelectorAll('.nested .facet').forEach(nested => {
