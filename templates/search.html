@@ -91,53 +91,47 @@
             <app-header-layout>
                 <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
                     <app-toolbar class="menubar">
-                        <a href="${app}/index.html" class="logo" data-template="pages:parse-params"></a>
-
-                        <pb-media-query query="(min-width: 1024px)">
-                            <a href="${app}/index.html" data-template="pages:parse-params">Start</a>
-                            <paper-menu-button data-template="lib:include" data-template-path="templates/menu.documentation.html"/>
-                            <a href="${app}/dts.html" data-template="lib:parse-params">DTS</a>
-
-                            <pb-restricted login="login" group="tei">
-                                <paper-menu-button>
-                                    <a slot="dropdown-trigger">
-                                        <pb-i18n key="menu.admin.title">Admin</pb-i18n>
-                                    </a>
-                                    <paper-listbox slot="dropdown-content">
-                                        <paper-item>
-                                            <a href="${app}/manage.html" data-template="pages:parse-params"><pb-i18n key="menu.admin.appGenerator">App Generator</pb-i18n>
-                                            </a>
-                                        </paper-item>
-                                        <paper-item>
-                                            <a href="${app}/train-ner.html" data-template="pages:parse-params">
-                                                <pb-i18n key="menu.admin.train">Train Named Entity Recognition</pb-i18n>
-                                            </a>
-                                        </paper-item>
-                                    </paper-listbox>
-                                </paper-menu-button>
-                            </pb-restricted>
-                            <a href="https://github.com/eeditiones/tei-publisher-app" title="View code on GitHub" class="gitlab">
-                                <img src="resources/images/github.svg" />
+                        <a href="${app}/index.html" class="logo" data-template="lib:parse-params"></a>
+                        <a href="${app}/index.html" data-template="lib:parse-params">Start</a>
+                        <paper-menu-button>
+                            <a href="#" slot="dropdown-trigger">
+                                <pb-i18n key="menu.documentation">Documentation</pb-i18n>
                             </a>
-                            <!-- Search input -->
-                            <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"  redirect="redirect"></pb-search>
+                            <paper-listbox slot="dropdown-content">
+                                <paper-item>
+                                    <a href="${app}/doc/documentation.xml?odd=docbook.odd" data-template="lib:parse-params">
+                                        <pb-i18n key="menu.documentation">Documentation</pb-i18n>
+                                    </a>
+                                </paper-item>
+                                <paper-item>
+                                    <a href="https://faq.teipublisher.com/">FAQ</a>
+                                </paper-item>
+                                <paper-item>
+                                    <a href="https://cdn.tei-publisher.com/api.html" target="_blank">Webcomponents API</a>
+                                </paper-item>
+                                <paper-item>
+                                    <a href="${app}/api.html" data-template="lib:parse-params" target="_blank">TEI Publisher API</a>
+                                </paper-item>
+                            </paper-listbox>
+                        </paper-menu-button>
+                        <a href="https://github.com/eeditiones/tei-publisher-app" title="View code on GitHub" class="gitlab">
+                            <img src="resources/images/github.svg" height="20"/>
+                        </a>
 
-                            <!-- language selector -->
-                            <pb-lang name="lang" label="language" data-template="pages:languages"/>
-                        </pb-media-query>
-                        <pb-login id="login" group="tei">
+                        <!-- Search input -->
+                        <pb-search action="${app}/search.html" data-template="lib:parse-params" value="${query}"
+                                   redirect="redirect"></pb-search>
+
+                        <!-- language selector -->
+                        <pb-lang name="lang" data-template="pages:languages"/>
+                        <pb-login group="tei">
                             <iron-icon slot="icon" icon="account-circle"></iron-icon>
                         </pb-login>
-                        <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"
-                            subscribe="search"></pb-progress>
                     </app-toolbar>
-                    <pb-media-query query="(max-width: 1023px)">
-                        <app-toolbar class="toolbar" sticky="sticky">
-                            <!-- Search input -->
-                            <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}" redirect="redirect"></pb-search>
-                            <paper-icon-button icon="icons:menu" drawer-toggle="drawer-toggle"></paper-icon-button>
-                        </app-toolbar>
-                    </pb-media-query>
+                    <app-toolbar>
+                        <pb-paginate per-page="10" range="5" subscribe="results"></pb-paginate>
+                        <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"/>
+                    </app-toolbar>
                 </app-header>
 
                 <main>
@@ -146,7 +140,7 @@
                         <paper-card>
                             <div class="card-content">
                                 <pb-search id="search-form" subscribe="search"
-                                    data-template="pages:parse-params" value="${query}" submit-on-load="submit-on-load">
+                                    data-template="lib:parse-params" value="${query}" submit-on-load="submit-on-load">
                                     <div class="targets">
                                         <paper-checkbox name="field" value="text">Search sections</paper-checkbox>
                                         <paper-checkbox name="field" value="head">Search headings</paper-checkbox>
@@ -159,7 +153,6 @@
                 </main>
             </app-header-layout>
         </pb-page>
-        <div class="splash"></div>
         <script src="resources/scripts/browse.js"></script>
     </body>
 </html>
