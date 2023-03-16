@@ -13,6 +13,8 @@ declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
 declare namespace pb='http://teipublisher.com/1.0';
 
+declare namespace mml='http://www.w3.org/1998/Math/MathML';
+
 declare namespace xlink='http://www.w3.org/1999/xlink';
 
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
@@ -24,6 +26,16 @@ import module namespace printcss="http://www.tei-c.org/tei-simple/xquery/functio
 (: generated template function for element spec: preformat :)
 declare %private function model:template-preformat($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><pre>{$config?apply-children($config, $node, $params?content)}</pre></t>/*
+};
+(: generated template function for element spec: disp-formula :)
+declare %private function model:template-disp-formula($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><pb-formula menu="menu" display="display">
+                                {$config?apply-children($config, $node, $params?content)}
+                            </pb-formula></t>/*
+};
+(: generated template function for element spec: mml:math :)
+declare %private function model:template-mml_math($config as map(*), $node as node()*, $params as map(*)) {
+    <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">{$config?apply-children($config, $node, $params?content)}</math>
 };
 (:~
 
@@ -76,10 +88,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             html:heading($config, ., ("tei-title2", css:map-rend-to-class(.)), ., count(ancestor::sec) + 1)
                     case element(p) return
-                        if (ancestor::td) then
-                            html:block($config, ., ("tei-p1", css:map-rend-to-class(.)), .)
+                        if (ancestor::fn) then
+                            html:inline($config, ., ("tei-p1", css:map-rend-to-class(.)), .)
                         else
-                            html:paragraph($config, ., ("tei-p2", css:map-rend-to-class(.)), .)
+                            if (ancestor::td) then
+                                html:block($config, ., ("tei-p2", css:map-rend-to-class(.)), .)
+                            else
+                                html:paragraph($config, ., ("tei-p3", css:map-rend-to-class(.)), .)
                     case element(list) return
                         html:list($config, ., ("tei-list", css:map-rend-to-class(.)), ., if (@list-type = 'order') then 'ordered' else ())
                     case element(list-item) return
@@ -126,7 +141,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if ($parameters?header='short') then
                             html:heading($config, ., ("tei-article-title1", css:map-rend-to-class(.)), ., 5)
                         else
-                            html:heading($config, ., ("tei-article-title2", css:map-rend-to-class(.)), ., 1)
+                            html:heading($config, ., ("tei-article-title2", "title", css:map-rend-to-class(.)), ., 1)
                     case element(subtitle) return
                         html:heading($config, ., ("tei-subtitle", css:map-rend-to-class(.)), ., 5)
                     case element(caption) return
@@ -183,6 +198,28 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:inline($config, ., ("tei-surname", css:map-rend-to-class(.)), .)
                     case element(pub-date) return
                         html:block($config, ., ("tei-pub-date", css:map-rend-to-class(.)), format-date(@iso-8601-date, '[D]. [MNn] [Y]', $parameters?language, (), ()))
+                    case element(disp-formula) return
+                        let $params := 
+                            map {
+                                "content": .
+                            }
+
+                                                let $content := 
+                            model:template-disp-formula($config, ., $params)
+                        return
+                                                html:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-disp-formula", css:map-rend-to-class(.)), $content)
+                    case element(mml:math) return
+                        let $params := 
+                            map {
+                                "content": .
+                            }
+
+                                                let $content := 
+                            model:template-mml_math($config, ., $params)
+                        return
+                                                html:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-mml_math", css:map-rend-to-class(.)), $content)
+                    case element(article) return
+                        html:document($config, ., ("tei-article", css:map-rend-to-class(.)), .)
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return

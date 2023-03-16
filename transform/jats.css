@@ -234,6 +234,11 @@ pb-code-highlight {
         break-inside: avoid;
         -prince-float: snap;
     }
+
+    .footnote {
+        float: footnote;
+        hyphens: auto;
+    }
 }
 
 /* Model rendition styles */
