@@ -51,6 +51,7 @@
                 <field name="jats.author" expression="nav:get-metadata(ancestor::article, 'author')"/>
                 <field name="jats.text" expression="."/>
                 <facet dimension="genre" expression="nav:get-metadata(ancestor::article, 'genre')" hierarchical="yes"/>
+                <facet dimension="language" expression="head((ancestor::article/@xml:lang, 'en'))"/>
             </text>
         </lucene>
     </index>
