@@ -25,6 +25,8 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "conf
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation/docbook" at "navigation-dbk.xql";
 import module namespace query="http://www.tei-c.org/tei-simple/query" at "query.xql";
 
+declare variable $dbs:FIELD_PREFIX := "dbk.";
+
 declare function dbs:query-default($fields as xs:string+, $query as xs:string, $target-texts as xs:string*,
     $sortBy as xs:string*) {
     if(string($query)) then
@@ -93,17 +95,17 @@ declare function dbs:autocomplete($doc as xs:string?, $fields as xs:string+, $q 
                             $key
                         }, 30, "lucene-index")
             case "author" return
-                collection($config:data-root)/ft:index-keys-for-field("author", $q,
+                collection($config:data-root)/ft:index-keys-for-field($dbs:FIELD_PREFIX || "author", $q,
                     function($key, $count) {
                         $key
                     }, 30)
             case "file" return
-                collection($config:data-root)/ft:index-keys-for-field("file", $q,
+                collection($config:data-root)/ft:index-keys-for-field($dbs:FIELD_PREFIX || "file", $q,
                     function($key, $count) {
                         $key
                     }, 30)
             default return
-                collection($config:data-root)/ft:index-keys-for-field("title", $q,
+                collection($config:data-root)/ft:index-keys-for-field($dbs:FIELD_PREFIX || "title", $q,
                     function($key, $count) {
                         $key
                     }, 30)
@@ -112,9 +114,9 @@ declare function dbs:autocomplete($doc as xs:string?, $fields as xs:string+, $q 
 declare function dbs:query-metadata($path as xs:string?, $field as xs:string?, $query as xs:string?, $sort as xs:string) {
     let $queryExpr := 
         if ($field = "file" or empty($query) or $query = '') then 
-            "file:*" 
+            $dbs:FIELD_PREFIX || "file:*" 
         else 
-            ($field, "text")[1] || ":" || $query
+            $dbs:FIELD_PREFIX || ($field, "text")[1] || ":" || $query
     let $options := query:options($sort, ($field, "text")[1])
     let $result :=
         $config:data-default ! (

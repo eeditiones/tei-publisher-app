@@ -94,13 +94,15 @@ declare function query:options($sortBy as xs:string*, $field as xs:string?) {
 
 declare function query:query-metadata($root as xs:string?, $field as xs:string?, $query as xs:string?, $sort as xs:string) {
     let $results := (
-        tei-query:query-metadata($root, $field, $query, $sort),
-        docbook-query:query-metadata($root, $field, $query, $sort),
+        tei-query:query-metadata($root, $field, $query, $sort) |
+        docbook-query:query-metadata($root, $field, $query, $sort) |
         jats-query:query-metadata($root, $field, $query, $sort)
     )
+    let $log := util:log('INFO', 'Results: ' || count($results))
+    let $log := util:log('INFO', ft:facets($results, 'genre', 100))
     let $mode := 
         if ((empty($query) or $query = '') and empty(request:get-parameter-names()[starts-with(., 'facet-')])) then 
-            "browse" 
+            "browse"
         else 
             "search"
     return map {

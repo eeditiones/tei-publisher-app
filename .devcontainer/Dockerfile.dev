@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/java:17-bullseye
+FROM mcr.microsoft.com/devcontainers/java:8-bullseye
 
 ARG EXIST_VERSION=6.2.0
 ARG TEMPLATING_VERSION=1.1.0
@@ -69,7 +69,7 @@ RUN curl -L -o /usr/local/exist/autodeploy/atom-editor-${EDITOR_VERSION}.xar htt
 WORKDIR /usr/local/exist
 
 ENV EXIST_HOME=/usr/local/exist
-ENV JAVA_HOME=/usr/lib/jvm/msopenjdk-current
+ENV JAVA_HOME=/usr/local/sdkman/candidates/java/current
 
 RUN bin/client.sh -l --no-gui --xpath "system:get-version()"
 
@@ -80,8 +80,7 @@ ENV JAVA_OPTS \
     -Djetty.ssl.port=${HTTPS_PORT} \
     -Dfile.encoding=UTF8 \
     -Dsun.jnu.encoding=UTF-8 \
-    -XX:+UseNUMA \
-    -XX:+UseZGC \
+    -XX:+UseG1GC \
     -XX:+UseStringDeduplication \
     -XX:+UseContainerSupport \
     -XX:MaxRAMPercentage=${JVM_MAX_RAM_PERCENTAGE:-75.0} \ 

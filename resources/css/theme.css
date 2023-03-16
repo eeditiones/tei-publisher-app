@@ -386,6 +386,7 @@ pb-drawer {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content:space-between;
 }
 
 .facets h3 paper-checkbox {
@@ -395,6 +396,7 @@ pb-drawer {
 
 .facets table {
     font-size: 14px;
+    width:100%;
 }
 
 .facets table table {
@@ -411,4 +413,8 @@ pb-drawer {
     text-align: right;
     padding-left: 1em;
     vertical-align: middle;
+}
+
+.gitlab img {
+    max-height: var(--pb-logo-image-height);
 }

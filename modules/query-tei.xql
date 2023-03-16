@@ -61,14 +61,14 @@ declare function teis:query-metadata($path as xs:string?, $field as xs:string?, 
     let $queryExpr := 
         if ($field = "file" or empty($query) or $query = '') then 
             "file:*" 
-        else 
+        else
             ($field, "text")[1] || ":" || $query
     let $options := query:options($sort, ($field, "text")[1])
     let $result :=
         $config:data-default ! (
             collection(. || "/" || $path)//tei:text[ft:query(., $queryExpr, $options)]
         )
-    return 
+    return
         query:sort($result, $sort)
 };
 

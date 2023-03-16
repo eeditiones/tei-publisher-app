@@ -30,10 +30,10 @@
             <text match="//tei:listOrg/tei:org/tei:orgName"/>
             <text match="//tei:taxonomy/tei:category/tei:catDesc"/>
             <text qname="dbk:article">
-                <field name="title" expression="nav:get-metadata(., 'title')"/>
-                <field name="author" expression="nav:get-metadata(., 'author')"/>
-                <field name="file" expression="util:document-name(.)"/>
-                <field name="text" expression="."/>
+                <field name="dbk.title" expression="nav:get-metadata(., 'title')"/>
+                <field name="dbk.author" expression="nav:get-metadata(., 'author')"/>
+                <field name="dbk.file" expression="util:document-name(.)"/>
+                <field name="dbk.text" expression="."/>
                 <facet dimension="genre" expression="nav:get-metadata(., 'genre')" hierarchical="yes"/>
                 <facet dimension="language" expression="nav:get-metadata(., 'language')"/>
             </text>
@@ -46,10 +46,10 @@
             <!-- JATS -->
             <text qname="body">
                 <ignore qname="sect"/>
-                <field name="file" expression="util:document-name(.)"/>
-                <field name="title" expression="nav:get-metadata(ancestor::article, 'title')"/>
-                <field name="author" expression="nav:get-metadata(ancestor::article, 'author')"/>
-                <field name="text" expression="."/>
+                <field name="jats.file" expression="util:document-name(.)"/>
+                <field name="jats.title" expression="nav:get-metadata(ancestor::article, 'title')"/>
+                <field name="jats.author" expression="nav:get-metadata(ancestor::article, 'author')"/>
+                <field name="jats.text" expression="."/>
                 <facet dimension="genre" expression="nav:get-metadata(ancestor::article, 'genre')" hierarchical="yes"/>
             </text>
         </lucene>
