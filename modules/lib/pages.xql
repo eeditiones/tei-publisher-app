@@ -67,8 +67,8 @@ declare function pages:pb-document($node as node(), $model as map(*), $odd as xs
  :)
 declare function pages:load-components($node as node(), $model as map(*)) {
     if (not($node/preceding::script[@data-template="pages:load-components"])) then (
-        <script defer="defer" src="https://cdn.jsdelivr.net/npm/web-components-loader/lib/index.min.js"></script>,
-        <script defer="defer" src="https://cdn.jsdelivr.net/npm/web-animations-js/web-animations.min.js"></script>
+        <script defer="defer" src="https://unpkg.com/@webcomponents/webcomponentsjs@2.4.3/webcomponents-loader.js"></script>,
+        <script defer="defer" src="https://unpkg.com/web-animations-js@2.3.2/web-animations-next-lite.min.js"></script>
     ) else
         (),
     switch ($config:webcomponents)
