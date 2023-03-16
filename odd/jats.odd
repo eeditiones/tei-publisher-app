@@ -1,5 +1,5 @@
 <?xml-model href="teipublisher_odds.xsd"?><?teipublisher output="web print epub"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:pb="http://teipublisher.com/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -248,6 +248,22 @@ padding: 0 4px;
                     <model behaviour="block">
             <param name="content" value="format-date(@iso-8601-date, '[D]. [MNn] [Y]', $parameters?language, (), ())"/>
         </model>
+                </elementSpec>
+                <elementSpec ident="disp-formula" mode="add">
+                    <model behaviour="pass-through">
+                        <pb:template xmlns="">
+                            <pb-formula menu="menu" display="display">
+                                [[content]]
+                            </pb-formula>
+                        </pb:template>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="mml:math">
+                    <model behaviour="pass-through">
+                        <pb:template xmlns="">
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">[[content]]</math>
+                        </pb:template>
+                    </model>
                 </elementSpec>
             </schemaSpec>
         </body>
