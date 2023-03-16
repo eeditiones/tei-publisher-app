@@ -412,3 +412,7 @@ pb-drawer {
     padding-left: 1em;
     vertical-align: middle;
 }
+
+.gitlab img {
+    max-height: var(--pb-logo-image-height);
+}
