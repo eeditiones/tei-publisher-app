@@ -1,5 +1,5 @@
 <?xml-model href="teipublisher_odds.xsd"?><?teipublisher output="web print epub"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:pb="http://teipublisher.com/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -7,7 +7,8 @@
                     
                  
                  
-                 <desc>Processing of JATS XML (Journal Article Tag Suite)</desc>
+                 
+                  <desc>Processing of JATS XML (Journal Article Tag Suite)</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
@@ -46,6 +47,7 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="p" mode="add">
+                    <model predicate="ancestor::fn" behaviour="inline"/>
                     <model predicate="ancestor::td" behaviour="block"/>
                     <model behaviour="paragraph"/>
                 </elementSpec>
@@ -101,9 +103,13 @@
             <outputRendition xml:space="preserve">
             
             
+            
+            
             font-weight: bold;
 text-align: left;
 padding: 0 4px;
+            
+            
             
             
             </outputRendition>
@@ -146,7 +152,7 @@ padding: 0 4px;
                     <model predicate="$parameters?header='short'" behaviour="heading">
             <param name="level" value="5"/>
         </model>
-                    <model behaviour="heading">
+                    <model behaviour="heading" cssClass="title">
             <param name="level" value="1"/>
         </model>
                 </elementSpec>
@@ -251,19 +257,22 @@ padding: 0 4px;
                 </elementSpec>
                 <elementSpec ident="disp-formula" mode="add">
                     <model behaviour="pass-through">
-                        <pb:template xmlns="">
+            <pb:template xmlns="" xml:space="preserve">
                             <pb-formula menu="menu" display="display">
                                 [[content]]
                             </pb-formula>
                         </pb:template>
-                    </model>
+        </model>
                 </elementSpec>
                 <elementSpec ident="mml:math">
                     <model behaviour="pass-through">
-                        <pb:template xmlns="">
+            <pb:template xmlns="" xml:space="preserve">
                             <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">[[content]]</math>
                         </pb:template>
-                    </model>
+        </model>
+                </elementSpec>
+            <elementSpec ident="article" mode="add">
+                    <model behaviour="document"/>
                 </elementSpec>
             </schemaSpec>
         </body>
