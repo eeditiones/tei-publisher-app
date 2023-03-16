@@ -24,7 +24,7 @@ declare function sapi:autocomplete($request as map(*)) {
     return
         array {
             for $item in $items
-            gruop by $item
+            group by $item
             return
                 map {
                     "text": $item,
