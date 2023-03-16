@@ -1,15 +1,21 @@
-<app-toolbar class="menubar">
-    <a href="${app}/index.html" class="logo" data-template="pages:parse-params"></a>
-    <pb-media-query query="min-width: 1024px">
-        <a href="${app}/index.html" data-template="pages:parse-params">Start</a>
-        <paper-menu-button data-template="lib:include" data-template-path="templates/menu.documentation.html"/>
-        <a href="https://www.e-editiones.org/tags/release" target="_blank"><pb-i18n key="menu.news">News</pb-i18n></a>
-        <a href="${app}/dts.html" data-template="pages:parse-params">DTS</a>
-
+<div class="drawer-content">
+    <pb-media-query query="(max-width: 1023px)">
+        <pb-login id="login" group="tei"/>
+        <h3><a href="${app}/index.html" data-template="lib:parse-params">Start</a></h3>
+        <h3><a href="https://www.e-editiones.org/tags/release" target="_blank"><pb-i18n key="menu.news">News</pb-i18n></a></h3>
+        <h3><a href="${app}/dts.html" data-template="lib:parse-params">DTS</a></h3>
+        <pb-collapse>
+            <h3 slot="collapse-trigger"><pb-i18n key="menu.documentation">Documentation</pb-i18n></h3>
+            <paper-listbox slot="collapse-content">
+                <div data-template="lib:include" data-template-path="templates/documentation-items.html"/>
+            </paper-listbox>
+        </pb-collapse>
         <paper-menu-button id="download-button">
-            <a slot="dropdown-trigger" data-i18n="[title]menu.download.title" title="i18n(download)">
-                <pb-i18n key="menu.download.title">Download</pb-i18n>
-            </a>
+            <h3>
+                <a slot="dropdown-trigger" data-i18n="[title]menu.download.title" title="i18n(download)">
+                    <pb-i18n key="menu.download.title">Download</pb-i18n>
+                </a>
+            </h3>
             <paper-listbox slot="dropdown-content" data-template="lib:parse-params">
                 <paper-item data-template="pages:if-supported" data-template-media="print">
                     <a href="${app}/print/${doc}" target="_new">Print CSS</a>
@@ -68,35 +74,15 @@
                 </paper-listbox>
             </paper-menu-button>
         </pb-restricted>
+        <h3>
+            <a href="https://github.com/eeditiones/tei-publisher-app" target="_blank" title="View code on GitHub" class="gitlab">
+                <img src="resources/images/github.svg"/>
+            </a>
+        </h3>
 
-        <a href="https://github.com/eeditiones/tei-publisher-app" title="View code on GitHub" class="gitlab">
-            <img src="resources/images/github.svg"/>
-        </a>
-    </pb-media-query>
+        <pb-search action="${app}/search.html" value="${query}"
+        data-template="lib:parse-params" 
+        redirect="redirect"/>   
 
-    <!-- Search input -->
-    <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
-       redirect="redirect"></pb-search>
-    <pb-media-query query="min-width: 1024px">
-       <pb-lang name="lang" data-template="pages:languages"/>
-       <pb-login id="login" group="tei"/>
     </pb-media-query>
-    
-    <pb-media-query query="(max-width: 1023px)">
-        <paper-icon-button icon="icons:menu" drawer-toggle="drawer-toggle"></paper-icon-button>
-    </pb-media-query>
-    
-    <paper-dialog id="downloadDialog">
-        <h2>
-            <pb-i18n key="dialogs.generatingFile">Generating file ...</pb-i18n>
-        </h2>
-        <paper-dialog-scrollable>
-            <pb-i18n key="dialogs.downloadMessage"></pb-i18n>
-        </paper-dialog-scrollable>
-        <div class="buttons">
-            <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
-                <pb-i18n key="dialogs.close">Close</pb-i18n>
-            </paper-button>
-        </div>
-    </paper-dialog>
-</app-toolbar>
+</div>
