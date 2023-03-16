@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/java:17-bullseye
+FROM mcr.microsoft.com/devcontainers/java:8-bullseye
 
 ARG EXIST_VERSION=6.2.0
 ARG TEMPLATING_VERSION=1.1.0
@@ -80,8 +80,7 @@ ENV JAVA_OPTS \
     -Djetty.ssl.port=${HTTPS_PORT} \
     -Dfile.encoding=UTF8 \
     -Dsun.jnu.encoding=UTF-8 \
-    -XX:+UseNUMA \
-    -XX:+UseZGC \
+    -XX:+UseG1GC \
     -XX:+UseStringDeduplication \
     -XX:+UseContainerSupport \
     -XX:MaxRAMPercentage=${JVM_MAX_RAM_PERCENTAGE:-75.0} \ 
