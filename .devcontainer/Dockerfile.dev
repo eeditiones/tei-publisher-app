@@ -69,7 +69,7 @@ RUN curl -L -o /usr/local/exist/autodeploy/atom-editor-${EDITOR_VERSION}.xar htt
 WORKDIR /usr/local/exist
 
 ENV EXIST_HOME=/usr/local/exist
-ENV JAVA_HOME=/usr/lib/jvm/msopenjdk-current
+ENV JAVA_HOME=/usr/local/sdkman/candidates/java/current
 
 RUN bin/client.sh -l --no-gui --xpath "system:get-version()"
 
