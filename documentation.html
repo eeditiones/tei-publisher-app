@@ -10,7 +10,7 @@
         .footnote .fn-number {
             float: left;
             font-size: var(--pb-footnote-font-size, var(--pb-content-font-size, 75%));
-        }</style><script defer src="https://cdn.jsdelivr.net/npm/web-components-loader/lib/index.min.js"></script><script type="module" src="https://cdn.jsdelivr.net/npm/@teipublisher/pb-components/dist/pb-components-bundle.min.js"></script></head>
+        }</style><script defer src="https://unpkg.com/@webcomponents/webcomponentsjs@2.4.3/webcomponents-loader.js"></script><script type="module" src="https://unpkg.com/@teipublisher/pb-components@1.42.3/dist/pb-components-bundle.js"></script></head>
   <div class="tei-info1 frontmatter"><h1 class="tei-title6 doc-title">TEI Publisher Documentation</h1><span class="tei-author4"></span></div>
   <div class="tei-section3" id="introduction"><pb-observable data="0,3.6" emit="transcription">
     <h1 class="tei-title7 title">Introduction</h1>
@@ -60,7 +60,7 @@
       </p>
       <p class="tei-para">
         Only where the
-        <a href="https://cdn.tei-publisher.com/api.html" class="tei-link4" target="_new">available
+        <a href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html" class="tei-link4" target="_new">available
           components</a>
         are not enough, a new use case needs to be described and suitable new
         components implemented but then they can be incorporated into existing component pool for
@@ -2793,7 +2793,7 @@
             document.</p>
         <p class="tei-para">
           A dedicated user interface webcomponent
-          <a href="https://cdn.tei-publisher.com/api.html#pb-toggle-feature.0" class="tei-link4" target="_new">
+          <a href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html#pb-toggle-feature.0" class="tei-link4" target="_new">
             <span class="tei-tag code">pb-toggle-feature</span>
           </a>
           exists for toggling between two values of a
@@ -3607,7 +3607,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <p class="tei-para">
         To better understand the various components TEI Publisher provides, it is best to have
           a look at the small examples contained in the
-        <a href="https://cdn.tei-publisher.com/api.html" class="tei-link4" target="_new">web
+        <a href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html" class="tei-link4" target="_new">web
             components API documentation</a>
         . The list of components may be overwhelming at first
           sight. However you don’t need to learn them all. There are just a few components that
@@ -3621,33 +3621,33 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       </p>
       <p class="tei-para">In particular you may want to look at the following examples:</p>
       <dl><dt>
-            <a href="https://cdn.tei-publisher.com/api.html#pb-document.1" class="tei-link4" target="_new">pb-document</a>
+            <a href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html#pb-document.1" class="tei-link4" target="_new">pb-document</a>
           </dt><dd>
             <p class="tei-para">shows the example given above in action</p>
           </dd><dt>
-            <a href="https://cdn.tei-publisher.com/api.html#pb-view.1" class="tei-link4" target="_new">pb-view</a>
+            <a href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html#pb-view.1" class="tei-link4" target="_new">pb-view</a>
           </dt><dd>
             <p class="tei-para">adds navigation buttons to read the document page by page</p>
           </dd><dt>
-            <a href="https://cdn.tei-publisher.com/api.html#pb-facsimile.1" class="tei-link4" target="_new">pb-facsimile</a>
+            <a href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html#pb-facsimile.1" class="tei-link4" target="_new">pb-facsimile</a>
           </dt><dd>
             <p class="tei-para">display facsimiles via IIIF server and link to them</p>
           </dd><dt>
-            <a href="https://cdn.tei-publisher.com/api.html#pb-leaflet-map.1" class="tei-link4" target="_new">pb-leaflet-map</a>
+            <a href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html#pb-leaflet-map.1" class="tei-link4" target="_new">pb-leaflet-map</a>
           </dt><dd>
             <p class="tei-para">show a map and link to geo coordinates</p>
           </dd><dt>
-            <a href="https://cdn.tei-publisher.com/api.html#pb-load.1" class="tei-link4" target="_new">pb-load</a>
+            <a href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html#pb-load.1" class="tei-link4" target="_new">pb-load</a>
           </dt><dd>
             <p class="tei-para">call a server-side XQuery to retrieve additional information about the document,
                 in this case actors appearing in the play</p>
           </dd><dt>
-            <a href="https://cdn.tei-publisher.com/api.html#pb-search.1" class="tei-link4" target="_new">pb-search</a>
+            <a href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html#pb-search.1" class="tei-link4" target="_new">pb-search</a>
           </dt><dd>
             <p class="tei-para">execute a search on the database, retrieve the results and paginate through
                 them</p>
           </dd><dt>
-            <a href="https://cdn.tei-publisher.com/api.html#pb-grid.1" class="tei-link4" target="_new">pb-grid</a>
+            <a href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html#pb-grid.1" class="tei-link4" target="_new">pb-grid</a>
           </dt><dd>
             <p class="tei-para">dynamically add more columns to a horizontal grid of components</p>
           </dd></dl>
@@ -5956,13 +5956,13 @@ declare variable $config:facets := [
           in any HTML5 page, no matter if it was written by hand, is generated by PHP, Python or a
           CMS.</p>
       <p class="tei-para">For a start, the page should import two scripts in its header:</p>
-      <pb-code-highlight class="tei-programlisting5" language="html" line-numbers="line-numbers">&lt;script src="https://cdn.jsdelivr.net/npm/web-components-loader/lib/index.min.js"&gt;&lt;/script&gt;
-&lt;script type="module" src="https://cdn.jsdelivr.net/npm/@teipublisher/pb-components/dist/pb-components-bundle.min.js"&gt;&lt;/script&gt;</pb-code-highlight>
+      <pb-code-highlight class="tei-programlisting5" language="html" line-numbers="line-numbers">&lt;script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.4.3/webcomponents-loader.js"&gt;&lt;/script&gt;
+&lt;script type="module" src="https://unpkg.com/@teipublisher/pb-components@latest/dist/pb-components-bundle.js"&gt;&lt;/script&gt;</pb-code-highlight>
       <p class="tei-para">
         This imports necessary
         <span class="tei-code2 code">pb-components</span>
         libraries from
-        <span class="tei-code2 code">jsdelivr.net</span>
+        <span class="tei-code2 code">unpkg.com</span>
         CDN which is considered the best practice for web sites.
       </p>
       <p class="tei-para">
