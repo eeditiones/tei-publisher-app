@@ -21,8 +21,10 @@
 
         app-header-layout {
             background-image: url('resources/images/network-background.jpg');
-            background-size: contain;
+            background-size: 100% auto;
+            background-repeat-x: no-repeat;
             background-color: #e8fafa;
+            min-height: 100vh;
         }
         
         @media (max-width: 1023px) {
@@ -45,7 +47,7 @@
                 display: none;
             }
             app-header-layout {
-                background-repeat: no-repeat;
+                background-repeat-y: no-repeat;
             }
         }
         

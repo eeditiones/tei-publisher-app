@@ -20,9 +20,11 @@
         }
         
         app-header-layout {
-            background-image: url('resources/images/network-background.jpg');
-            background-size: contain;
+            background-image: url('resources/images/triangle-background.jpg');
+            background-size: 100% auto;
+            background-repeat-x: no-repeat;
             background-color: #e8fafa;
+            min-height: 100vh;
         }
         
         @media (max-width: 1023px) {
@@ -45,7 +47,7 @@
                 display: none;
             }
             app-header-layout {
-                background-repeat: no-repeat;
+                background-repeat-y: no-repeat;
             }
         }
         
@@ -224,12 +226,36 @@
             font-size: 1rem;
             margin: 0;
         }
+        
+        .welcome {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            align-items: center;
+            min-height: 15vh;
+            width: 100%;
+        }
 
+        .side {
+            max-width: 40vw;
+            padding-left: 3em;
+        }
+
+        .side strong {
+            color: var(--pb-color-focus);
+        }
 
         .thumbnail img {
-            border-radius: 15px;
+            border-radius:35px;
+            border-color: #19232d;
+            border-style: groove;
+            box-shadow: 1px 1px 1px 1px  #19232d;
         }
-      
+
+        /* hide Download menu button */
+        #download-button {
+            display: none;
+        }
+        
     </style>
     </custom-style>
 </head>
@@ -240,56 +266,14 @@
             <app-drawer slot="drawer" align="right">
                 <div class="drawer-content">
                     <pb-media-query query="(max-width: 1023px)">
-                        <!-- language selector -->
-                        <pb-lang name="lang" data-template="pages:languages"/>
+                        <div data-template="lib:include" data-template-path="templates/menu-drawer.html"/>
                     </pb-media-query>
                 </div>
             </app-drawer>
             <app-header-layout>
                 <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
-                    <app-toolbar class="menubar">
-                        <a href="${app}/index.html" class="logo" data-template="pages:parse-params"></a>
-                        <pb-media-query query="(min-width: 1024px)">
-                            <a href="${app}/index.html" data-template="pages:parse-params">Start</a>
-                            <pb-restricted login="login" group="tei">
-                                <paper-menu-button>
-                                    <a slot="dropdown-trigger">
-                                        <pb-i18n key="menu.admin.title">Admin</pb-i18n>
-                                    </a>
-                                    <paper-listbox slot="dropdown-content">
-                                        <paper-item>
-                                            <pb-download url="api/apps/download">
-                                                <pb-i18n key="appgen.xar-download">Download App as .xar</pb-i18n>
-                                            </pb-download>
-                                        </paper-item>
-                                        <paper-item data-template="pages:edit-odd-list"></paper-item>
-                                        <paper-item>
-                                            <a href="${app}/api.html" data-template="lib:parse-params" target="_blank">API Documentation</a>
-                                        </paper-item>
-                                    </paper-listbox>
-                                </paper-menu-button>
-                            </pb-restricted>
-                            <!-- Search input -->
-                            <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"  redirect="redirect"></pb-search>
-
-                            <!-- language selector -->
-                            <pb-lang name="lang" label="language" data-template="pages:languages"/>
-                        </pb-media-query>
-                        <pb-login id="login" group="tei">
-                            <iron-icon slot="icon" icon="account-circle"></iron-icon>
-                        </pb-login>
-                        <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"
-                            subscribe="search"></pb-progress>
-                    </app-toolbar>
-                    <pb-media-query query="(max-width: 1023px)">
-                        <app-toolbar class="toolbar" sticky="sticky">
-                            <!-- Search input -->
-                            <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}" redirect="redirect"></pb-search>
-                            <paper-icon-button icon="icons:menu" drawer-toggle="drawer-toggle"></paper-icon-button>
-                        </app-toolbar>
-                    </pb-media-query>
+                    <app-toolbar data-template="lib:include" data-template-path="templates/menu.html" />
                 </app-header>
-
                 <main>
                     <section>
                         <h1 class="tp-title" data-template="config:app-title"></h1>
@@ -339,7 +323,8 @@
                 <footer class="version">
                     TEI Publisher <span data-template="pages:version"/> /
                     web components <pb-version></pb-version> /
-                    API <span data-template="pages:api-version"/>
+                    API <span data-template="pages:api-version"/> /
+                    background by <a href="http://www.freepik.com">Freepik</a>
                 </footer>
             </app-header-layout>
         </app-drawer-layout>
