@@ -69,8 +69,7 @@ declare function teis:query-metadata($path as xs:string?, $field as xs:string?, 
             collection(. || "/" || $path)//tei:text[ft:query(., $queryExpr, $options)]
         )
     return
-        $result
-        (: query:sort($result, $sort) :)
+        query:sort($result, $sort)
 };
 
 declare function teis:autocomplete($doc as xs:string?, $fields as xs:string+, $q as xs:string) {
