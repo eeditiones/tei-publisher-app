@@ -53,7 +53,7 @@ declare %private function model:template-title2($config as map(*), $node as node
                             </h1></t>/*
 };
 (: generated template function for element spec: section :)
-declare %private function model:template-section3($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-section4($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><pb-observable data="{$config?apply-children($config, $node, $params?root)},{$config?apply-children($config, $node, $params?nodeId)}" emit="transcription">{$config?apply-children($config, $node, $params?content)}</pb-observable></t>/*
 };
 (: generated template function for element spec: link :)
@@ -179,9 +179,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 }
 
                                                         let $content := 
-                                model:template-section3($config, ., $params)
+                                model:template-section4($config, ., $params)
                             return
-                                                        html:block(map:merge(($config, map:entry("template", true()))), ., ("tei-section3", css:map-rend-to-class(.)), $content)                            => model:map($node, $trackIds)
+                                                        html:block(map:merge(($config, map:entry("template", true()))), ., ("tei-section4", css:map-rend-to-class(.)), $content)                            => model:map($node, $trackIds)
                     case element(para) return
                         html:paragraph($config, ., ("tei-para", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(emphasis) return
@@ -242,7 +242,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             if (parent::cell|parent::para|parent::ab) then
                                 html:inline($config, ., ("tei-programlisting4", "code", css:map-rend-to-class(.)), .)                                => model:map($node, $trackIds)
                             else
-                                html:webcomponent($config, ., ("tei-programlisting5", css:map-rend-to-class(.)), text(), 'pb-code-highlight', map {"language": (@language, 'xml')[1], "line-numbers": true()})                                => model:map($node, $trackIds)
+                                html:webcomponent($config, ., ("tei-programlisting5", css:map-rend-to-class(.)), text(), 'pb-code-highlight', map {"language": (@language, 'xml')[1], "line-numbers": false()})                                => model:map($node, $trackIds)
                     case element(synopsis) return
                         html:webcomponent($config, ., ("tei-synopsis4", css:map-rend-to-class(.)), text(), 'pb-code-highlight', map {"language": @language})                        => model:map($node, $trackIds)
                     case element(example) return

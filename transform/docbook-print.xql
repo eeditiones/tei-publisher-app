@@ -55,7 +55,7 @@ declare %private function model:template-title2($config as map(*), $node as node
                             </h1></t>/*
 };
 (: generated template function for element spec: section :)
-declare %private function model:template-section3($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-section4($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><pb-observable data="{$config?apply-children($config, $node, $params?root)},{$config?apply-children($config, $node, $params?nodeId)}" emit="transcription">{$config?apply-children($config, $node, $params?content)}</pb-observable></t>/*
 };
 (: generated template function for element spec: link :)
@@ -176,17 +176,7 @@ declare function model:apply($config as map(*), $input as node()*) {
 
                         else
                             (: More than one model without predicate found for ident section. Choosing first one. :)
-                            let $params := 
-                                map {
-                                    "root": util:node-id($parameters?root),
-                                    "nodeId": util:node-id($get(.)),
-                                    "content": .
-                                }
-
-                                                        let $content := 
-                                model:template-section3($config, ., $params)
-                            return
-                                                        html:block(map:merge(($config, map:entry("template", true()))), ., ("tei-section3", css:map-rend-to-class(.)), $content)
+                            html:section($config, ., ("tei-section3", css:map-rend-to-class(.)), .)
                     case element(para) return
                         html:paragraph($config, ., ("tei-para", css:map-rend-to-class(.)), .)
                     case element(emphasis) return
@@ -247,7 +237,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             if (parent::cell|parent::para|parent::ab) then
                                 html:inline($config, ., ("tei-programlisting4", "code", css:map-rend-to-class(.)), .)
                             else
-                                html:webcomponent($config, ., ("tei-programlisting5", css:map-rend-to-class(.)), text(), 'pb-code-highlight', map {"language": (@language, 'xml')[1], "line-numbers": true()})
+                                html:webcomponent($config, ., ("tei-programlisting5", css:map-rend-to-class(.)), text(), 'pb-code-highlight', map {"language": (@language, 'xml')[1], "line-numbers": false()})
                     case element(synopsis) return
                         html:block($config, ., ("tei-synopsis3", "programlisting", css:map-rend-to-class(.)), .)
                     case element(example) return

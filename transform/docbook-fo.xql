@@ -172,7 +172,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             )
 
                         else
-                            fo:block($config, ., ("tei-section4", css:map-rend-to-class(.)), .)
+                            fo:block($config, ., ("tei-section5", css:map-rend-to-class(.)), .)
                     case element(para) return
                         fo:paragraph($config, ., ("tei-para", css:map-rend-to-class(.)), .)
                     case element(emphasis) return

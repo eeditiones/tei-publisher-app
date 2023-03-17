@@ -292,7 +292,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             )
 
                         else
-                            latex:block($config, ., ("tei-section4", css:map-rend-to-class(.)), .)
+                            latex:block($config, ., ("tei-section5", css:map-rend-to-class(.)), .)
                     case element(para) return
                         latex:paragraph($config, ., ("tei-para", css:map-rend-to-class(.)), .)
                     case element(emphasis) return
