@@ -612,7 +612,8 @@
             password <parameter>simple</parameter>. </para>
         </note>
         <para>You will find other collections lower down, each showcasing a different encoding
-          scheme, like JATS or Markdown or a special use case scenario, like <link linkend="web-annotations">Annotations</link>.</para>
+          scheme, like JATS or Markdown or a special use case scenario, like <link
+            linkend="web-annotations">Annotations</link>.</para>
       </section>
       <section xml:id="demo-collection">
         <title>TEI Publisher Demo collection</title>
