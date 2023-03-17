@@ -1183,11 +1183,10 @@
             <para> The view should change and display the letter's content with only basic
               formatting applied. Since our ODD has just been created and is empty, we see the
               content with standard formatting applied. Our ODD by default inherits from <filename>
-              teipublisher.odd</filename> , which likewise extends <filename>tei_simplePrint.odd</filename>
-              . The latter is maintained by the TEI community and contains processing model
-              declarations for the most important TEI elements. Thanks to this inheritance
-              mechanism, many documents display nicely without requiring a lot of additional
-              customization. </para>
+                teipublisher.odd</filename>. The latter is maintained by the e-editiones community
+              and contains processing model declarations for the most important TEI elements. Thanks
+              to this inheritance mechanism, many documents display nicely without requiring a lot
+              of additional customization. </para>
           </step>
           <step>
             <para> From the menu, select <guimenu>Admin</guimenu> / <guimenuitem>Edit ODD</guimenuitem>
@@ -1203,7 +1202,7 @@
           to chain ODD customizations together and rather change or add project specific rules to
           more generic ODD than copy them in extenso. ODD chaining allows for the future upgrades as
           your base ODDs may be updated by standardization bodies which maintain them. Commonly
-          project ODDs would extend <filename>teipublisher.odd</filename> , a generic TEI Publisher
+          project ODDs would extend <filename>teipublisher.odd</filename>, a generic TEI Publisher
           set of processing rules. </para>
         <para>Beginning with version 3.0 of TEI Publisher, you have the choice between writing the
           ODD by hand or using a visual editor. Both approaches can be combined and mixed. The
@@ -1265,11 +1264,12 @@
             earlier version.</emphasis>
           </para>
         </note>
-        <para> We need to overwrite the processing model rules for <tag>dateline</tag> . Enter <parameter>
-          dateline</parameter> into the input box next to the <guibutton>New</guibutton> button in
-          the left panel and click the button. This will insert a processing model rule for <tag>
-          dateline</tag> into the right panel. Because <tag>dateline</tag> already exist in the base
-          ODD, <filename>tei_simplePrint.odd</filename> , you'll see a single model which was copied
+        <para> We need to overwrite the processing model rules for <tag>dateline</tag> . Enter
+            <parameter> dateline</parameter> into the input box next to the
+            <guibutton>New</guibutton> button in the left panel and click the button. This will
+          insert a processing model rule for <tag> dateline</tag> into the right panel. Because
+            <tag>dateline</tag> already exist in the base ODD,
+            <filename>teipublisher.odd</filename>, you'll see a single model which was copied
           from the base ODD. </para>
         <figure>
           <title> Screen after adding <tag>dateline</tag>
@@ -1490,17 +1490,13 @@
           <para> If you edit the ODD XML by hand, there are some caveats you need to be aware of:
             the visual editor will automatically check if there are existing <tag>elementSpec</tag>
             s for a new element in any of the ODDs your ODD inherits from. When editing by hand, you
-            need to do this yourself. It's best to always have the base ODDs: <link
-              xlink:href="odd/tei_simplePrint.odd" role="source">
-              <filename>tei_simplePrint.odd</filename>
-            </link> and <link
+            need to do this yourself. It's best to always have the base <link
               xlink:href="odd/teipublisher.odd" role="source">
               <filename>teipublisher.odd</filename>
-            </link> open on the side. Both are
-            located in the same collection as your odd, i.e. <filename>/db/apps/tei-publisher/odd</filename>
-            . </para>
-          <para> For example, to modify the element spec for <tag>dateline</tag> , check <filename>
-            tei_simplePrint.odd</filename> , where you'll find a definition already. Copy it over to
+            </link> open on the side. It is located in the same collection as your odd, i.e.
+              <filename>/db/apps/tei-publisher/odd</filename> . </para>
+          <para> For example, to modify the element spec for <tag>dateline</tag>, check <filename>
+              teipublisher.odd</filename>, where you'll find a definition already. Copy it over to
             your ODD and start modifying it. </para>
           <para> Pay attention to the <option>@mode</option> attribute on <tag>elementSpec</tag> .
             You must set this to <parameter>change</parameter> if you are overwriting an elementSpec
