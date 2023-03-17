@@ -170,8 +170,8 @@
         <para> On the server a new package, <filename>oas-router</filename>, reads the API
           specification and uses it to map HTTP requests to XQuery functions which perform actual
           API operations. Other packages, particularly UI web components (
-            <filename>pb-components</filename> ) and TEI Processing Model library (
-            <filename>tei-publisher-lib</filename> ) underwent necessary changes to communicate with
+            <filename>pb-components</filename>) and TEI Processing Model library (
+            <filename>tei-publisher-lib</filename>) underwent necessary changes to communicate with
           the new API as well as retain full backwards compatibility. </para>
 
         <para>Beyond the structural changes a number of reported issues has been fixed and broader
@@ -1665,7 +1665,7 @@
             <listitem>
               <para> the <parameter>@cssClass</parameter> attribute may be used to specify the name
                 of a CSS style in an associated CSS stylesheet (read more on <link
-                  linkend="external-css">specifying CSS styles in the ODD</link> ) which is to be
+                  linkend="external-css">specifying CSS styles in the ODD</link>) which is to be
                 applied to each occurrence of a specified element found (in a given context, for a
                 specified output), </para>
             </listitem>
@@ -1987,7 +1987,7 @@
               <term>list</term>
               <listitem>
                 <para> Creates an ordered or unordered list, depending on the type attribute (e.g.
-                    <parameter> type="ordered"</parameter> ). If a label is present before each
+                    <parameter> type="ordered"</parameter>). If a label is present before each
                   item, a description list is output instead, using the label as definition term. </para>
                 <informaltable>
                   <thead>
@@ -2138,7 +2138,7 @@
         encapsulated within the component and do not "pollute" the global browser space. This also
         has a downside though: CSS rules defined outside the <tag>pb-view</tag> have no influence on
         the text styling inside the component (with some exceptions, mainly for properties which are
-        inherited down the HTML tree, e.g. <parameter>font-family</parameter> ). </para>
+        inherited down the HTML tree, e.g. <parameter>font-family</parameter>). </para>
       <para> However, putting <emphasis>all</emphasis> styling information into
           <tag>outputRendition</tag> tags within the ODD is also not a good idea - it adds a lot of
         redundancy and mixes editorial responsibilities with web design concerns. </para>
@@ -2476,7 +2476,7 @@
           <title> Introducing <tag>pb:template</tag>
           </title>
           <para> TEI Publisher thus supports an extension to the ODD syntax in its own namespace (
-              <parameter> http://teipublisher.com/1.0</parameter> ). </para>
+              <parameter> http://teipublisher.com/1.0</parameter>). </para>
           <para> Within the ODD, a <tag>model</tag> may define a <tag>pb:template</tag> element
             containing a code template. The template is expanded first and the result is passed into
             the behaviour specified for the model, replacing the default
@@ -2765,7 +2765,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <title>External stylesheets</title>
       <para> ODD specification allows for explicit declaration of an external CSS file which may
         define styles and CSS classes to be applied to tranformed sources (in <code>
-          encodingDesc/tagsDecl/rendition</code> ), e.g. </para>
+          encodingDesc/tagsDecl/rendition</code>), e.g. </para>
       <programlisting language="xml" xml:space="preserve">
                   &lt;rendition source="docbook.css"/&gt;
           </programlisting>
@@ -2820,7 +2820,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         snippet will display the first page/section of two completely different documents as you can
         see below in the embedded <link xlink:show="new" xlink:href="https://codepen.io/"
           >Codepen</link> (to learn more on embedding Publisher output and components see <link
-          linkend="embedding">further chapters</link> ) </para>
+          linkend="embedding">further chapters</link>) </para>
       <programlisting language="xml" xml:space="preserve">
 &lt;pb-page&gt;
   &lt;pb-document id="document1" path="test/kant_rvernunft_1781.TEI-P5.xml" odd="dta" view="page"&gt;&lt;/pb-document&gt;
@@ -2888,7 +2888,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
               <listitem>
                 <para>
                   <parameter>page</parameter> : displays the document page by page. This requires
-                  page break indicators to be present ( <tag>pb</tag> in TEI, not supported for
+                  page break indicators to be present (<tag>pb</tag> in TEI, not supported for
                   docbook). </para>
               </listitem>
               <listitem>
@@ -3173,8 +3173,8 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
 
         </listitem>
         <listitem>
-          <para> save the file under a different name into the same collection ( <filename>
-              templates/pages</filename> ) </para>
+          <para> save the file under a different name into the same collection (<filename>
+              templates/pages</filename>) </para>
         </listitem>
       </orderedlist>
 
@@ -4059,7 +4059,7 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
         <listitem>
           <para> This file is usually generated by calling
               <filename>modules/generate-pm-config.xql</filename> (see the <link
-              linkend="multiple-odds">corresponding section</link> ). It defines the functions to be
+              linkend="multiple-odds">corresponding section</link>). It defines the functions to be
             called for rendering TEI content via the processing model. It imports the modules
             generated from your ODD and assigns them to variables as function pointers. This
             approach is much more efficient than the dynamic lookups done by the main TEI Publisher
@@ -4637,7 +4637,7 @@ declare variable $config:data-root := $config:app-root || "/data";
             xlink:href="https://exist-db.org/exist/apps/doc/indexing.xml" xlink:show="new">eXist-db
             documentation</link> for details but it is common practice to store a collection
           configuration in the data package and rely on mechanisms of pre-install script (
-            <filename> pre-install.xql</filename> ) to copy the file to its required position in
+            <filename> pre-install.xql</filename>) to copy the file to its required position in
             <filename> /db/system/config</filename> . </para>
         <para> Similar consideration applies if fulltext index makes use of any external function
           module, which in TEI Publisher and generated apps is commonly the case for facet and field
@@ -4771,7 +4771,7 @@ declare variable $config:data-default := $config:data-root;
               <listitem>
                 <para>
                   <parameter>page</parameter> : displays the document page by page. This requires
-                  page break indicators to be present ( <tag>pb</tag> in TEI, not supported for
+                  page break indicators to be present (<tag>pb</tag> in TEI, not supported for
                   docbook). </para>
               </listitem>
               <listitem>
@@ -4866,7 +4866,7 @@ declare variable $config:data-default := $config:data-root;
             code into a separate function, we can keep the index configuration clean and short. </para>
           <para> The default <filename>index.xql</filename> already does some advanced
             preprocessing, in particular for the "genre" facet: each of the sample documents
-            references a central taxonomy (contained in <filename>data/taxonomy.xml</filename> ).
+            references a central taxonomy (contained in <filename>data/taxonomy.xml</filename>).
             The references are resolved at indexing time by following the <tag>catRef</tag>
             element's <parameter>@target</parameter> attribute. Note that we create a hierarchical
             facet, because e.g. "Philosophy" is a sub-category of "Prose". The code in function
@@ -5065,7 +5065,7 @@ declare variable $config:facets := [
         references the <tag>pb-document</tag> to use as source in its <option>src</option>
         attribute. The Shakespeare does tag page breaks, so we switch to page-by-page view via the
           <option> view</option> attribute to show the user only one page at a time. The default
-        would be to use a division-by-division view ( <code>view="div"</code> ), but you could also
+        would be to use a division-by-division view (<code>view="div"</code>), but you could also
         request the entire content at once using <code>view="single"</code> . </para>
       <para>
         <tag>pb-navigation</tag> adds forward/backward navigation buttons to the page, allowing the
@@ -5074,7 +5074,7 @@ declare variable $config:facets := [
           <tag> iron-icon</tag> (both <tag>paper-button</tag> and <tag>iron-icon</tag> are part of
         the standard <link xlink:show="new"
           xlink:href="https://www.webcomponents.org/author/PolymerElements">Polymer elements
-          library</link> ). </para>
+          library</link>). </para>
       <para> Another example of embedding TEI Publisher web components into a static website can be
         found on our <link xlink:href="https://teipublisher.onrender.com/">demo blog</link> . It was
         created with <link xlink:href="https://gohugo.io">Hugo</link>, a very popular website
@@ -5436,7 +5436,7 @@ static get styles() {
         import './src/pb-clipboard.js';
       </programlisting>
       <para> Run <code>npm build:production</code> to generate a distribution bundle. The generated
-        library (located in <filename>dist</filename> ) will include everything, including the
+        library (located in <filename>dist</filename>) will include everything, including the
         version of the <code>pb-components</code> library you are building upon and all
         dependencies. As a result, you can use it as a drop-in replacement for
           <code>pb-components</code> package: in your custom project, for TEI Publisher itself or
