@@ -566,26 +566,27 @@
       <title>Browsing Documents</title>
       <section xml:id="start-page">
         <title>The Start Page</title>
-        <para>The start page of TEI Publisher serves as an entry point to explore and experiment.</para>
+        <para>The start page of TEI Publisher serves as an entry point to explore and
+          experiment.</para>
         <para>On a newly installed TEI Publisher the main application panel offers the choice
           between browsing local collections directly or using DTS API to access remote resources.
-          Narrower panel to the right displays the list of ODD files provided with the TEI
-          Publisher.</para>
+          Left side panel presents search and filtering options. Another panel to the right displays
+          the list of ODD files provided with the TEI Publisher.</para>
 
         <figure>
-          <title>Start Page Collections</title>
+          <title>First options in the start page collection listing</title>
           <mediaobject>
             <imageobject>
-              <imagedata fileref="start-page-collections.png" width="512px" />
+              <imagedata fileref="start-page-collections.png" width="512px"/>
             </imageobject>
           </mediaobject>
         </figure>
-        <para> The usual starting point is the <emphasis role="bold">TEI Publisher Demo Collection</emphasis>
-          with which users can explore a range of <link linkend="selected-use-cases">selected use
-          cases</link> , demonstrating various genres, encoding styles and presentation layouts.
-          Various customization aspects are handled using different ODDs and view templates. We
-          suggest to have a look at each of them to see what TEI Publisher can achieve out of the
-          box. </para>
+        <para> The usual starting point is the <emphasis role="bold">TEI Publisher Demo
+            Collection</emphasis> with which users can explore a range of <link
+            linkend="selected-use-cases">selected use cases</link> , demonstrating various genres,
+          encoding styles and presentation layouts. Various customization aspects are handled using
+          different ODDs and view templates. We suggest to have a look at each of them to see what
+          TEI Publisher can achieve out of the box. </para>
 
         <note>
           <title>Note</title>
@@ -601,15 +602,17 @@
           documents. You can upload your own XML and ODD (e.g. TEI, DocBook or DOCX) documents by
           either clicking on the <code>Upload</code> button or dragging and dropping files onto the
           upload panel. Read more on this subject in the <link linkend="upload">Upload</link>
-          section </para>
+          section. </para>
         <note>
           <title>Note</title>
           <para> You need to be <emphasis role="bold">logged in</emphasis> for most advanced actions
             like creating or editing ODDs. The login button to the right of the menu bar allows you
             to log in. By default, there's a user named <parameter>tei-demo</parameter> with
             password <parameter>demo</parameter> , and a user <parameter>tei</parameter> with
-            password <parameter>simple</parameter> . </para>
+            password <parameter>simple</parameter>. </para>
         </note>
+        <para>You will find other collections lower down, each showcasing a different encoding
+          scheme, like JATS or Markdown or a special use case scenario, like <link linkend="web-annotations">Annotations</link>.</para>
       </section>
       <section xml:id="demo-collection">
         <title>TEI Publisher Demo collection</title>
