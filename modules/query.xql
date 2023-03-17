@@ -98,8 +98,6 @@ declare function query:query-metadata($root as xs:string?, $field as xs:string?,
         docbook-query:query-metadata($root, $field, $query, $sort) |
         jats-query:query-metadata($root, $field, $query, $sort)
     )
-    let $log := util:log('INFO', 'Results: ' || count($results))
-    let $log := util:log('INFO', ft:facets($results, 'genre', 100))
     let $mode := 
         if ((empty($query) or $query = '') and empty(request:get-parameter-names()[starts-with(., 'facet-')])) then 
             "browse"

@@ -20,12 +20,11 @@ declare function capi:list($request as map(*)) {
     let $params := capi:params2map($path)
     let $cached := session:get-attribute($config:session-prefix || ".works")
     let $useCached := capi:use-cache($params, $cached)
-    let $log := util:log("INFO", "USE CACHE: " || $useCached)
     let $works := capi:list-works($path, if ($useCached) then $cached else (), $params)
     let $templatePath := $config:data-root || "/" || $path || "/collection.html"
     let $templateAvail := doc-available($templatePath) or util:binary-doc-available($templatePath)
     let $template := 
-        if (not($useCached) and $templateAvail and $works?mode = 'browse') then 
+        if ($templateAvail and $works?mode = 'browse') then 
             $templatePath
         else
             $config:app-root || "/templates/documents.html"
