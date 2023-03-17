@@ -8,7 +8,7 @@
 	"servers": [
 		{
 			"description": "Endpoint for testing on localhost",
-			"url": "http://localhost:8080/exist/apps/tei-publisher"
+			"url": "/exist/apps/tei-publisher"
 		}
 	],
 	"tags": [

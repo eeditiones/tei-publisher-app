@@ -426,7 +426,7 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         "^(.*\$config:data-root\s*:=).*;$": $dataRoot || ";",
         "^(.*\$config:default-odd :=).*;$": '"' || head(deploy:get-odds($json)) || '";',
         "^(.*\$config:odd-available :=).*;$": '(' || string-join(deploy:get-odds($json) ! ('"' || . || '"'), ', ') || ');',
-        '^(.*"url"\s*:).*$': '"http://localhost:8080/exist/apps/' || $json?abbrev || '"'
+        '^(.*"url"\s*:).*$': '"/exist/apps/' || $json?abbrev || '"'
     }
     let $created := (
         deploy:store-expath-descriptor($collection, $json),
@@ -442,6 +442,7 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         deploy:expand($collection || "/modules", "config.xqm", $replacements),
         deploy:store-libs($collection, ($json?owner, "tei"), "rw-r--r--"),
         deploy:expand($collection || "/modules/lib", "api.json", $replacements),
+        deploy:copy-resource($collection || "/modules", $base || "/modules", "custom-api.json", ($json?owner, "tei"), "rw-r--r--"),
         deploy:expand($collection || "/modules", "custom-api.json", $replacements),
         deploy:copy-odd($collection, $json),
         deploy:create-transform($collection),
