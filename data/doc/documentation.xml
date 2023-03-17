@@ -684,34 +684,56 @@
             presenting samples of:</para>
           <itemizedlist>
             <listitem>
-              <para> A 15th century manuscript letter to <emphasis role="bold">Mikołaj Orlik</emphasis>
-                demonstrating alignment between Latin original and parallel Polish translation, </para>
+              <para> A 15th century manuscript letter to <emphasis role="bold">Mikołaj
+                  Orlik</emphasis> demonstrating alignment between Latin original and parallel
+                Polish translation.</para>
             </listitem>
             <listitem>
-              <para> A 16th century manuscript letter of <emphasis role="bold">Hernán Cortés</emphasis>
-                showcasing parallel transcription/translation and facsimile view and transcription
-                enhanced with commentaries and explicitly encoded transcriptional features, </para>
+              <para> A 16th century manuscript letter of <emphasis role="bold">Hernán
+                  Cortés</emphasis> showcasing parallel transcription/translation and facsimile view
+                and transcription enhanced with commentaries and explicitly encoded transcriptional
+                features.</para>
             </listitem>
             <listitem>
-              <para> A 16th century manuscript letter of <emphasis role="bold">Mauritius Ferber</emphasis>
-                with a collapsible metadata panel in addition to the parallel transcription and
-                facsimile view, </para>
+              <para> A 16th century manuscript letter of <emphasis role="bold">Mauritius
+                  Ferber</emphasis> with a collapsible metadata panel in addition to the parallel
+                transcription and facsimile view.</para>
             </listitem>
             <listitem>
-              <para> An early 19th century manuscript collocative dictionary of Polish <emphasis
-                  role="bold">Bogactwa mowy polskiej</emphasis> featuring interactive highlights for
-                regions of interest of the facsimile when hovering over dictionary headwords, </para>
+              <para> An early 19th century letter of a Polish historian <emphasis role="bold"
+                  >Joachim Lelewel</emphasis> to his brother showcases possibly the simplest way of
+                encoding and displaying facsimiles: with complete URLs given in
+                  <code>pb/@facs</code> attribute. It also demonstrates how TEI encoding of
+                hyphenated words could be processed for display in diplomatic vs normalized
+                view.</para>
             </listitem>
             <listitem>
               <para> A letter from <emphasis role="bold">Van Gogh</emphasis> to Paul Gauguin written
-                in 1888. This intentionally reproduces the flexible column layout pioneered by the <link
-                  xlink:show="new" xlink:href="http://vangoghletters.org">Vincent Van Gogh Letters</link>
-                online edition, which is a model example for correspondence. </para>
+                in 1888. This intentionally reproduces the flexible column layout pioneered by the
+                  <link xlink:show="new" xlink:href="http://vangoghletters.org">Vincent Van Gogh
+                  Letters</link> online edition, which is a model example for correspondence.
+              </para>
             </listitem>
             <listitem>
               <para> A 20th century manuscript letter from <emphasis>Robert Graves</emphasis> where
                 emphasis has been put on visualizing rich encoding of semantic information in the
                 letter, in particular geographic and prosopographical data. </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+        <listitem>
+          <para>For a taste of completely different encoding style we present several 19th century
+            lexicons and dictionaries:</para>
+          <itemizedlist>
+            <listitem>
+              <para> A manuscript collocative dictionary of Polish <emphasis role="bold">Bogactwa
+                  mowy polskiej</emphasis> featuring interactive highlights for regions of interest
+                of the facsimile when hovering over dictionary headwords. Internal composition is
+                based on the <code>entryFree</code> element with a rich microstructure.</para>
+            </listitem>
+            <listitem>
+              <para> A printed bibliography where TEI encoding aims to provide a basic researchable
+                structure to somewhat idiosyncratic attitude of the 19th century scholar.</para>
             </listitem>
           </itemizedlist>
         </listitem>
