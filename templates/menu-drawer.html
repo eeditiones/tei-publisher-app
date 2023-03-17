@@ -3,13 +3,16 @@
         <pb-login id="login" group="tei"/>
         <h3><a href="${app}/index.html" data-template="lib:parse-params">Start</a></h3>
         <h3><a href="https://www.e-editiones.org/tags/release" target="_blank"><pb-i18n key="menu.news">News</pb-i18n></a></h3>
-        <h3><a href="${app}/dts.html" data-template="lib:parse-params">DTS</a></h3>
         <pb-collapse>
             <h3 slot="collapse-trigger"><pb-i18n key="menu.documentation">Documentation</pb-i18n></h3>
             <paper-listbox slot="collapse-content">
                 <div data-template="lib:include" data-template-path="templates/documentation-items.html"/>
             </paper-listbox>
         </pb-collapse>
+        <h3>
+            <a href="${app}/dts.html" data-template="lib:parse-params">DTS</a>
+        </h3>
+
         <paper-menu-button id="download-button">
             <h3>
                 <a slot="dropdown-trigger" data-i18n="[title]menu.download.title" title="i18n(download)">
@@ -74,15 +77,13 @@
                 </paper-listbox>
             </paper-menu-button>
         </pb-restricted>
-        <h3>
+        <h3 class="github">
             <a href="https://github.com/eeditiones/tei-publisher-app" target="_blank" title="View code on GitHub" class="gitlab">
-                <img src="resources/images/github.svg"/>
+                <img src="resources/images/github-mark.svg" class="github-mark"/>
+                <span>View code on Github</span>
             </a>
         </h3>
 
-        <pb-search action="${app}/search.html" value="${query}"
-        data-template="lib:parse-params" 
-        redirect="redirect"/>   
 
     </pb-media-query>
 </div>
