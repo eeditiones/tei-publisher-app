@@ -60,7 +60,7 @@ declare variable $config:enable-proxy-caching :=
  : In this case, change $config:webcomponents-cdn to point to http://localhost:port 
  : (default: 8000, but check where your server is running).
  :)
-declare variable $config:webcomponents := "dev";
+declare variable $config:webcomponents := "2.1.0";
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your
