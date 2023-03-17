@@ -31,7 +31,54 @@
             </sourceDesc>
         </fileDesc>
         <encodingDesc>
-            <tagsDecl/>
+            <tagsDecl>
+              <rendition xml:id="allcaps">text-transform: uppercase;</rendition>
+              <rendition xml:id="blackletter">font-family: fantasy;</rendition>
+              <rendition xml:id="bold">font-weight: bold;</rendition>
+              <rendition xml:id="bottombraced">padding-bottom: 2pt; border-bottom: dashed gray
+                2pt;</rendition>
+              <rendition xml:id="block">display:block;</rendition>
+              <rendition xml:id="boxed">padding: 2pt; border: solid black 1pt;</rendition>
+              <rendition xml:id="centre">text-align: center;</rendition>
+              <rendition xml:id="cursive">font-family: cursive;</rendition>
+              <rendition xml:id="doublestrikethrough">text-decoration: line-through; color:
+                red;</rendition>
+              <rendition xml:id="doubleunderline">text-decoration: underline; color: red;</rendition>
+              <rendition xml:id="dropcap">font-size : 6em; font-family: cursive; font-weight : bold;
+                vertical-align: top; height: 1em; line-height: 1em; float : left; width : 1em; color :
+                #c00; margin: 0em; padding: 0px;</rendition>
+              <rendition xml:id="float">float:right; display: block; font-size: smaller; clear: right;
+                padding: 4pt; width: 15%; </rendition>
+              <rendition xml:id="hyphen"/>
+              <rendition xml:id="inline">display:inline;</rendition>
+              <rendition xml:id="italic">font-style: italic;</rendition>
+              <rendition xml:id="justify">text-align: justify;</rendition>
+              <rendition xml:id="larger">font-size: larger;</rendition>
+              <rendition xml:id="left">text-align: left;</rendition>
+              <rendition xml:id="leftbraced">padding-left: 2pt; border-left: dotted gray 2pt; </rendition>
+              <rendition xml:id="letterspace">letter-spacing: 0.5em;</rendition>
+              <rendition xml:id="literal">font-family:monospace; white-space:pre;</rendition>
+              <rendition xml:id="normalstyle">font-style:roman;</rendition>
+              <rendition xml:id="normalweight">font-weight:normal;</rendition>
+              <rendition xml:id="right">text-align: right;</rendition>
+              <rendition xml:id="rightbraced">padding-right: 2pt; border-right: dotted gray 2pt; </rendition>
+              <rendition xml:id="rotateleft">-webkit-transform: rotate(90deg); transform:
+                rotate(90deg);</rendition>
+              <rendition xml:id="rotateright">-webkit-transform: rotate(-90deg); transform:
+                rotate(-90deg);</rendition>
+              <rendition xml:id="rules">border: 1px solid black; padding:
+                2px;border-collapse:collapse;border-spacing:0;</rendition>
+              <rendition xml:id="smallcaps">font-variant: small-caps;</rendition>
+              <rendition xml:id="smaller">font-size: smaller;</rendition>
+              <rendition xml:id="strikethrough">text-decoration: line-through;</rendition>
+              <rendition xml:id="subscript">vertical-align: bottom; font-size: smaller;</rendition>
+              <rendition xml:id="superscript">vertical-align: super; font-size: smaller;</rendition>
+              <rendition xml:id="topbraced">padding-top: 2pt; border-top: dotted gray 2pt; </rendition>
+              <rendition xml:id="typewriter">font-family:monospace;</rendition>
+              <rendition xml:id="underline">text-decoration: underline;</rendition>
+              <rendition xml:id="wavyunderline">text-decoration: underline; text-decoration-style:
+                wavy;</rendition>
+            </tagsDecl>
         </encodingDesc>
         <revisionDesc>
             <change when="2023-03-17">merge teipublisher.odd with tei_simplePrint.odd and rework default models</change>
