@@ -1,0 +1,88 @@
+<div class="drawer-content">
+    <pb-media-query query="(max-width: 1023px)">
+        <pb-login id="login" group="tei"/>
+        <h3><a href="${app}/index.html" data-template="lib:parse-params">Start</a></h3>
+        <h3><a href="https://www.e-editiones.org/tags/release" target="_blank"><pb-i18n key="menu.news">News</pb-i18n></a></h3>
+        <h3><a href="${app}/dts.html" data-template="lib:parse-params">DTS</a></h3>
+        <pb-collapse>
+            <h3 slot="collapse-trigger"><pb-i18n key="menu.documentation">Documentation</pb-i18n></h3>
+            <paper-listbox slot="collapse-content">
+                <div data-template="lib:include" data-template-path="templates/documentation-items.html"/>
+            </paper-listbox>
+        </pb-collapse>
+        <paper-menu-button id="download-button">
+            <h3>
+                <a slot="dropdown-trigger" data-i18n="[title]menu.download.title" title="i18n(download)">
+                    <pb-i18n key="menu.download.title">Download</pb-i18n>
+                </a>
+            </h3>
+            <paper-listbox slot="dropdown-content" data-template="lib:parse-params">
+                <paper-item data-template="pages:if-supported" data-template-media="print">
+                    <a href="${app}/print/${doc}" target="_new">Print CSS</a>
+                </paper-item>
+                <paper-item data-template="pages:if-supported" data-template-media="latex">
+                    <pb-download type="tex" src="document1" dialog="downloadDialog" data-i18n="[title]menu.download.pdf-latex" title="i18n(pdf-latex)">
+                        <pb-i18n key="menu.download.pdf-latex">Download</pb-i18n>
+                    </pb-download>
+                </paper-item>
+                <paper-item data-template="pages:if-supported" data-template-media="latex">
+                    <pb-download type="tex" src="document1" dialog="downloadDialog" data-i18n="[title]menu.download.pdf-latex" title="i18n(pdf-latex)" source="source">
+                        <pb-i18n key="menu.download.latex-source"></pb-i18n>
+                    </pb-download>
+                </paper-item>
+                <paper-item data-template="pages:if-supported" data-template-media="fo">
+                    <pb-download type="pdf" src="document1" dialog="downloadDialog" data-i18n="[title]menu.download.pdf-fo" title="i18n(pdf-fo)">
+                        <pb-i18n key="menu.download.pdf-fo"></pb-i18n>
+                    </pb-download>
+                </paper-item>
+                <paper-item data-template="pages:if-supported" data-template-media="fo">
+                    <pb-download type="pdf" src="document1" dialog="downloadDialog" data-i18n="[title]menu.download.fo-source" title="pdf-fo" source="source">
+                        <pb-i18n key="menu.download.fo-source"></pb-i18n>
+                    </pb-download>
+                </paper-item>
+                <paper-item data-template="pages:if-supported" data-template-media="epub">
+                    <pb-download type="epub" src="document1" dialog="downloadDialog">
+                        ePUB
+                    </pb-download>
+                </paper-item>
+                <paper-item>
+                    <pb-edit-xml src="document1" data-i18n="[title]menu.download.view-tei" title="view-tei">
+                        XML
+                    </pb-edit-xml>
+                </paper-item>
+            </paper-listbox>
+        </paper-menu-button>
+        <pb-restricted login="login">
+            <paper-menu-button>
+                <a slot="dropdown-trigger"><pb-i18n key="menu.admin.title">Admin</pb-i18n></a>
+                <paper-listbox slot="dropdown-content">
+                    <paper-item>
+                        <pb-download data-template="pages:edit-odd-link" src="document1" subscribe="transcription">
+                            <pb-i18n key="menu.admin.edit-odd">Edit ODD</pb-i18n>
+                        </pb-download>
+                    </paper-item>
+                    <paper-item>
+                        <a href="${app}/manage.html" data-template="lib:parse-params">
+                            <pb-i18n key="menu.admin.appGenerator"/>
+                        </a>
+                    </paper-item>
+                    <paper-item>
+                        <a href="${app}/train-ner.html" data-template="lib:parse-params">
+                            <pb-i18n key="menu.admin.train">Train Named Entity Recognition</pb-i18n>
+                        </a>
+                    </paper-item>
+                </paper-listbox>
+            </paper-menu-button>
+        </pb-restricted>
+        <h3>
+            <a href="https://github.com/eeditiones/tei-publisher-app" target="_blank" title="View code on GitHub" class="gitlab">
+                <img src="resources/images/github.svg"/>
+            </a>
+        </h3>
+
+        <pb-search action="${app}/search.html" value="${query}"
+        data-template="lib:parse-params" 
+        redirect="redirect"/>   
+
+    </pb-media-query>
+</div>

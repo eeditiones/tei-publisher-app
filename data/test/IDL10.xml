@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?teipublisher template="dantiscus.html" odd="dantiscus2.odd" view="page"?>
+<?teipublisher template="dantiscus.html" odd="dantiscus2.odd" view="page" media="print"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
    <teiHeader>
       <fileDesc>
@@ -41,6 +41,18 @@
          </sourceDesc>
       </fileDesc>
       <profileDesc>
+         <textClass>
+            <catRef scheme="#genre" target="#correspondence"/>
+            <catRef scheme="#form" target="#manuscript"/>
+            <catRef scheme="#feature" target="#image"/>
+            <catRef scheme="#feature" target="#person"/>
+            <catRef scheme="#feature" target="#place"/>
+            <catRef scheme="#feature" target="#ltr"/>
+            <catRef scheme="#period" target="#early-modern"/>
+         </textClass>
+         <langUsage>
+            <language ident="la">Latin</language>
+         </langUsage>
          <correspDesc>
             <correspAction type="sent">
                <persName ref="IDPe32" ana="from">Mauritius Ferber</persName>

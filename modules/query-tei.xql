@@ -41,20 +41,35 @@ declare function teis:query-default($fields as xs:string+, $query as xs:string, 
                 default return
                     if (exists($target-texts)) then
                         for $text in $target-texts
+                        let $divisions := $config:data-root ! doc(. || "/" || $text)//tei:div[ft:query(., $query, query:options($sortBy))]
                         return
-                            $config:data-root ! doc(. || "/" || $text)//tei:div[ft:query(., $query, query:options($sortBy))] |
-                            $config:data-root ! doc(. || "/" || $text)//tei:text[ft:query(., $query, query:options($sortBy))]
+                            if (empty($divisions)) then
+                                $config:data-root ! doc(. || "/" || $text)//tei:text[ft:query(., $query, query:options($sortBy))]
+                            else
+                                $divisions
                     else
-                        collection($config:data-root)//tei:div[ft:query(., $query, query:options($sortBy))] |
-                        collection($config:data-root)//tei:text[ft:query(., $query, query:options($sortBy))]
+                        let $divisions := collection($config:data-root)//tei:div[ft:query(., $query, query:options($sortBy))]
+                        return
+                            if (empty($divisions)) then
+                                collection($config:data-root)//tei:text[ft:query(., $query, query:options($sortBy))]
+                            else
+                                $divisions
     else ()
 };
 
-declare function teis:query-metadata($field as xs:string, $query as xs:string, $sort as xs:string) {
-    for $rootCol in $config:data-root
-    for $doc in collection($rootCol)//tei:text[ft:query(., $field || ":(" || $query || ")", query:options($sort))]
+declare function teis:query-metadata($path as xs:string?, $field as xs:string?, $query as xs:string?, $sort as xs:string) {
+    let $queryExpr := 
+        if ($field = "file" or empty($query) or $query = '') then 
+            "file:*" 
+        else
+            ($field, "text")[1] || ":" || $query
+    let $options := query:options($sort, ($field, "text")[1])
+    let $result :=
+        $config:data-default ! (
+            collection(. || "/" || $path)//tei:text[ft:query(., $queryExpr, $options)]
+        )
     return
-        $doc/ancestor::tei:TEI
+        query:sort($result, $sort)
 };
 
 declare function teis:autocomplete($doc as xs:string?, $fields as xs:string+, $q as xs:string) {
@@ -138,7 +153,7 @@ declare function teis:get-breadcrumbs($config as map(*), $hit as node(), $parent
  : on it.
  :)
 declare function teis:expand($data as node()) {
-    let $query := session:get-attribute($config:session-prefix || ".query")
+    let $query := session:get-attribute($config:session-prefix || ".search")
     let $field := session:get-attribute($config:session-prefix || ".field")
     let $div :=
         if ($data instance of element(tei:pb)) then

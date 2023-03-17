@@ -1,3 +1,5 @@
+@import url("../fonts/font.css");
+
 /* Due to a safari issue, relative paths to background images won't work as variables, so we list them here */
 
 .logo {
@@ -70,6 +72,10 @@ body {
     font: var(--pb-base-font);
     color: var(--pb-color-primary);
     margin: 0;
+}
+
+html {
+    font-size: var(--pb-base-font-size);
 }
 
 *:focus {
@@ -348,91 +354,67 @@ pb-drawer {
     font-weight: bold;
 }
 
-/* ==========================================================================
-   Print styles.
-   ========================================================================== */
-
-/* The print preview */
-.printPreview {
-    padding: 4rem 2rem;
-}
-.printPreview paper-button {
-    font-size: 1em;
-    margin-bottom: 1rem;
-    padding: 4px 10px 4px 4px;
-    background-color: transparent;
-    border: 1px solid #e9e7e7;
-}
-.printPreview paper-button:nth-of-type(2) {
-    margin-left: 2rem;
-    background-color: #eee;
-    border: #e1e1e1;
+/* Display KWIC search results */
+.matches {
+    margin-left: 20px;
+    margin-top: 10px;
+    font-family: var(--pb-content-font-family);
 }
 
-.printPreview .letter-title {
-    font-family: --pb-letter-font-family;
+.matches .hi {
+    color: var(--pb-color-focus);
 }
 
-.printPreview .popover {
-    text-decoration-line: underline;
-    text-decoration-color: #8F9194;
-    text-underline-offset: 3px;
+.matches .count {
+    margin-top: 1em;
 }
 
-.printPreview .pb {
-    color: #8F9194;
+.matches .count::before {
+    content: '[';
 }
 
-.printPreview .closer {
-    text-align: center;
+.matches .count::after {
+    content: ']';
 }
 
-.printPreview .signature {
+.facets {
+    flex: 0;
+    min-width: 220px;
+}
+
+.facets h3 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:space-between;
+}
+
+.facets h3 paper-checkbox {
+    margin-left: 16px;
+    font-size: 11px;
+}
+
+.facets table {
+    font-size: 14px;
+    width:100%;
+}
+
+.facets table table {
+    padding-left: 16px;
+    width: 100%;
+}
+
+.facets table td {
+    padding: 4px 0;
+}
+
+.facets table td:nth-child(2) {
+    color: #808080;
     text-align: right;
+    padding-left: 1em;
+    vertical-align: middle;
 }
 
-@media print {
-    *,
-    *::before,
-    *::after { background: transparent !important; color: black !important; text-shadow: none !important; box-shadow: none !important; filter:none !important; -ms-filter: none !important; }
-    a, a:visited { text-decoration: underline; }
-    a[href]:after { content: " (" attr(href) ")"; }
-    abbr[title]:after { content: " (" attr(title) ")"; }
-    .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; }
-    pre, blockquote { border: 1px solid #999; page-break-inside: avoid; }
-    thead { display: table-header-group; }
-    tr, img { page-break-inside: avoid; }
-    img { max-width: 100% !important; }
-    @page { margin: 1.5cm 0.5cm; }
-    p, h2, h3 { orphans: 3; widows: 3; }
-    h2, h3 { page-break-after: avoid; }
-
-    nav,
-    footer,
-    object,
-    aside,
-    select,
-    .menubar,
-    .splash,
-    .toolbar,
-    .edition-nav,
-    .corresp-nav { display: none !important; }
-    #reference-view1 { display: block; }
-    body {font-size: 11pt;}
-    h1 { font-size: 16pt;}
-    h2 {font-size: 15pt;}
-    h3 {font-size: 14pt;}
-    h4 {font-size: 13pt;}
-    .letter-title {font-family: --pb-letter-font-family}
-    .popover { text-decoration-color: #8F9194; }
-    .signature { text-align: right; }
-    .closer { text-align: center; }
-    .pb { color: #8F9194; }
-    .tei-summary, .footnotes {font-size: 11pt;}
-    a { word-wrap: break-word; }
-    .hidden-print { display: none !important; }
-    #info iron-icon,
-    .letter #register
-     { display: none !important; }
-    pb-facsimile { page-break-inside: avoid; }
+.gitlab img {
+    max-height: var(--pb-logo-image-height);
 }

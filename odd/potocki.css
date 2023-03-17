@@ -1,0 +1,62 @@
+.content {
+    margin: 0;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.verse:nth-child(odd) {
+    margin-left: 2em;
+}
+
+.verse:nth-child(even) {
+    margin-left: 1em;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.content.margin-right {
+    margin-right: 100px;
+}
+
+.margin-note {
+    width: 100px;
+    margin-right: -100px;
+}
+
+.introduction {
+    margin-top: 1em;
+    /* font-family: Roboto, Noto, sans-serif; */
+}
+
+.introduction img {
+    border-radius: 20px;
+}
+
+.quote {
+    font-style: italic;
+}
+
+.authors {
+    margin-top: 2em;
+}
+
+.person {
+    color: maroon;
+}
+
+.distinct {
+    font-style: italic;
+    color: darkolivegreen;
+}
+
+
+.graphic {
+    margin-top: 2em;
+    max-width: 100%;
+    object-fit: contain;
+}

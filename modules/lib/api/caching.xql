@@ -2,7 +2,7 @@ xquery version "3.1";
 
 module namespace cutil="http://teipublisher.com/api/cache";
 
-import module namespace router="http://exist-db.org/xquery/router";
+import module namespace router="http://e-editiones.org/roaster";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 
 declare function cutil:check-last-modified($request as map(*), $nodes as node()*, $callback as function(*)) {

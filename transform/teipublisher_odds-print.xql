@@ -5,7 +5,7 @@
  :)
 xquery version "3.1";
 
-module namespace model="http://www.tei-c.org/pm/models/teipublisher_odds/fo";
+module namespace model="http://www.tei-c.org/pm/models/teipublisher_odds/print";
 
 declare default element namespace "http://www.tei-c.org/ns/1.0";
 
@@ -21,7 +21,9 @@ declare namespace teix='http://www.tei-c.org/ns/Examples';
 
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
-import module namespace fo="http://www.tei-c.org/tei-simple/xquery/functions/fo";
+import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
+
+import module namespace printcss="http://www.tei-c.org/tei-simple/xquery/functions/printcss";
 
 (:~
 
@@ -33,25 +35,27 @@ declare function model:transform($options as map(*), $input as node()*) {
     let $config :=
         map:merge(($options,
             map {
-                "output": ["fo","print"],
+                "output": ["print","web"],
                 "odd": "/db/apps/tei-publisher/odd/teipublisher_odds.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }
         ))
-    let $config := fo:init($config, $input)
     
     return (
-        
+        html:prepare($config, $input),
+    
         let $output := model:apply($config, $input)
         return
-            $output
+            html:finish($config, $output)
     )
 };
 
 declare function model:apply($config as map(*), $input as node()*) {
         let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
+        let $mode := 
+        if (exists($config?mode)) then $config?mode else ()
         let $trackIds := 
         $parameters?track-ids
         let $get := 
@@ -62,13 +66,15 @@ declare function model:apply($config as map(*), $input as node()*) {
                 .
             return
                             typeswitch(.)
+                    case element(exist:match) return
+                        html:match($config, ., .)
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())
                         else
                             .
                     case text() | xs:anyAtomicType return
-                        fo:escapeChars(.)
+                        html:escapeChars(.)
                     default return 
                         $config?apply($config, ./node())
 
@@ -89,7 +95,7 @@ declare function model:apply-children($config as map(*), $node as element(), $co
                     else
                         $config?apply($config, .)
                 default return
-                    fo:escapeChars(.)
+                    html:escapeChars(.)
         )
 };
 

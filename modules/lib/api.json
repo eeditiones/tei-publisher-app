@@ -198,6 +198,75 @@
 				}
 			}
 		},
+		"/print/{docid}": {
+			"get": {
+				"summary": "Generate a print preview using Paged Media CSS",
+				"tags": ["view"],
+				"operationId": "vapi:view",
+				"x-error-handler": "vapi:handle-error",
+				"parameters": [
+					{
+						"name": "docid",
+						"in": "path",
+						"description": "Relative path to the document",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"example": "test/orlik_to_serafin.xml"
+						},
+						"allowReserved": true
+					},
+					{
+						"name": "template",
+						"in": "query",
+						"description": "Name of the template to be used. Overwrites any default template setting.",
+						"schema": {
+							"type": "string",
+							"default": "print-preview.html"
+						}
+					},
+					{
+						"name": "odd",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "HTML view for the document",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "The document was not found",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "An error occurred",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
 		"/{docid}.md": {
 			"get": {
 				"summary": "Retrieve the HTML template for a markdown file and render it",
@@ -371,7 +440,7 @@
 				"tags": ["collection"],
 				"operationId": "capi:upload",
 				"x-constraints": {
-					"group": "tei"
+					"groups": ["tei"]
 				},
 				"requestBody": {
 					"content": {
@@ -463,7 +532,7 @@
 				"tags": ["collection"],
 				"operationId": "capi:upload",
 				"x-constraints": {
-					"group": "tei"
+					"groups": ["tei"]
 				},
 				"parameters": [
 					{
@@ -613,7 +682,7 @@
 				"tags": ["documents"],
 				"operationId": "dapi:delete",
 				"x-constraints": {
-					"group": "tei"
+					"groups": ["tei"]
 				},
 				"parameters": [
 					{
@@ -671,6 +740,86 @@
 						"schema": {
 							"type": "boolean",
 							"default": true
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Returns the entire document as HTML",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Document not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/document/{id}/print": {
+			"get": {
+				"summary": "Retrieve document content as HTML optimized for Print CSS",
+				"tags": ["documents"],
+				"operationId": "dapi:print",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"example": "test/F-rom.xml"
+						}
+					},
+					{
+						"name": "odd",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"example": "shakespeare.odd"
+						}
+					},
+					{
+						"name": "base",
+						"description": "Base URI to use for resolving links and images",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "wc",
+						"description": "Include TEI Publisher webcomponents if set. 'page' will also inject a <pb-page> wrapper if not present, using parameter 'base' as endpoint.",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "style",
+						"description": "Additional CSS stylesheet URLs to be loaded",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Additional script URLs to be loaded",
+						"name": "script",
+						"in": "query",
+						"schema": {
+							"type": "string"
 						}
 					}
 				],
@@ -891,6 +1040,30 @@
 						"schema": {
 							"type": "string",
 							"example": "1.4"
+						}
+					},
+					{
+						"name": "images-collection",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"example": "/apps/tei-publisher/data"
+						}
+					},
+					{
+						"name": "skip-title",
+						"in": "query",
+						"schema": {
+							"type": "boolean",
+							"example": "true"
+						}
+					},
+					{
+						"name": "cover-image",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"example": "images/cover.jpg"
 						}
 					}
 				],
@@ -1266,7 +1439,7 @@
 				"tags": ["odd"],
 				"operationId": "oapi:delete-odd",
 				"x-constraints": {
-					"group": "tei"
+					"groups": ["tei"]
 				},
 				"parameters": [
 					{
@@ -1295,7 +1468,7 @@
 				"tags": ["odd"],
 				"operationId": "oapi:create-odd",
 				"x-constraints": {
-					"group": "tei"
+					"groups": ["tei"]
 				},
 				"parameters": [
 					{
@@ -1350,7 +1523,7 @@
 				"tags": ["odd"],
 				"operationId": "oapi:save-odd",
 				"x-constraints": {
-					"group": "tei"
+					"groups": ["tei"]
 				},
 				"parameters": [
 					{
@@ -1477,7 +1650,7 @@
 				"operationId": "oapi:recompile",
 				"tags": ["odd"],
 				"x-constraints": {
-					"group": "tei"
+					"groups": ["tei"]
 				},
 				"parameters": [
 					{
@@ -1814,38 +1987,44 @@
 				"summary": "Login the user",
 				"description": "Login the given user",
 				"tags": ["user"],
-				"operationId": "rutil:login",
-				"parameters": [
-					{
-						"name": "user",
-						"in": "query",
-						"description": "Name of the user",
-						"schema": {
-							"type": "string",
-							"example": "tei",
-							"nullable": true
-						}
-					},
-					{
-						"name": "password",
-						"in": "query",
-						"schema": {
-							"type": "string",
-							"format": "password",
-							"example": "simple",
-							"nullable": true
-						}
-					},
-					{
-						"name": "logout",
-						"in": "query",
-						"description": "Set to some value to log out the current user",
-						"schema": {
-							"type": "string",
-							"nullable": true
-						}
-					}
-				],
+				"operationId": "auth:login",
+				"requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "nullable": true,
+                                "properties": {
+                                    "user": {
+                                        "description": "Name of the user",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                }
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "type": "object",
+                                "nullable": true,
+                                "properties": {
+                                    "user": {
+                                        "description": "Name of the user",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
 				"responses": {
 					"200": {
 						"description": "OK",
@@ -1865,6 +2044,9 @@
 										},
 										"dba": {
 											"type": "boolean"
+										},
+										"domain": {
+											"type": "string"
 										}
 									}
 								}
@@ -2133,7 +2315,7 @@
 				"tags": ["dts"],
 				"operationId": "dts:import",
 				"x-constraints": {
-					"group": "tei"
+					"groups": ["tei"]
 				},
 				"parameters": [
 					{
@@ -2276,7 +2458,7 @@
 				"tags": ["annotations"],
 				"operationId": "anno:save",
 				"x-constraints": {
-					"group": "tei"
+					"groups": ["tei"]
 				},
 				"requestBody": {
 					"description": "An array of annotations to be applied",

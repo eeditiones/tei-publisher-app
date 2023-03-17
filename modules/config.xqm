@@ -24,8 +24,10 @@ declare namespace tei = "http://www.tei-c.org/ns/1.0";
  :)
 declare variable $config:origin-whitelist := (
     "(?:https?://localhost:.*|https?://127.0.0.1:.*)",
+    "https?://jsdelivr.net",
     "https?://unpkg.com",
     "https?://cdpn.io",
+    "https://cdn.tei-publisher.com",
     "https?://teipublisher.onrender.com"
 );
 
@@ -58,14 +60,15 @@ declare variable $config:enable-proxy-caching :=
  : In this case, change $config:webcomponents-cdn to point to http://localhost:port 
  : (default: 8000, but check where your server is running).
  :)
-declare variable $config:webcomponents := "1.36.1";
+declare variable $config:webcomponents := "2.1.0";
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your
  : own library extending pb-components and published it to a CDN.
  :)
-declare variable $config:webcomponents-cdn := "https://unpkg.com/@teipublisher/pb-components";
-(: declare variable $config:webcomponents-cdn := "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components"; :)
+(: declare variable $config:webcomponents-cdn := "https://unpkg.com/@teipublisher/pb-components"; :)
+declare variable $config:webcomponents-cdn := "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components";
+(: declare variable $config:webcomponents-cdn := "https://cdn.tei-publisher.com/"; :)
 (: declare variable $config:webcomponents-cdn := "http://localhost:8000"; :)
 
 (:~
@@ -124,13 +127,13 @@ declare variable $config:facets := [
     map {
         "dimension": "genre",
         "heading": "facets.genre",
-        "max": 5,
+        "max": 10,
         "hierarchical": true()
     },
     map {
         "dimension": "language",
         "heading": "facets.language",
-        "max": 5,
+        "max": 10,
         "hierarchical": false(),
         "output": function($label) {
             switch($label)
@@ -140,8 +143,27 @@ declare variable $config:facets := [
                 case "fr" return "French"
                 case "en" return "English"
                 case "pl" return "Polish"
+                case "uk" return "Ukrainian"
                 default return $label
         }
+    },
+    map {
+        "dimension": "feature",
+        "heading": "facets.feature",
+        "max": 15,
+        "hierarchical": false()
+    },
+    map {
+        "dimension": "period",
+        "heading": "facets.period",
+        "max": 15,
+        "hierarchical": false()
+    },
+    map {
+        "dimension": "form",
+        "heading": "facets.form",
+        "max": 15,
+        "hierarchical": false()
     }
 ];
 
@@ -235,7 +257,7 @@ return
  : arguments.
  :)
 declare variable $config:tex-command := function ($file) {
-    ("/usr/local/texlive/2020/bin/x86_64-darwin/pdflatex", "-interaction=nonstopmode", $file)
+    ("/usr/bin/pdflatex", "-interaction=nonstopmode", $file)
 };
 
 (:
@@ -303,10 +325,13 @@ return
 declare variable $config:context-path :=
     let $prop := util:system-property("teipublisher.context-path")
     return
-        if (empty($prop) or $prop = "auto") then
-            request:get-context-path() || substring-after($config:app-root, "/db")
-        else
-            $prop
+        if (not(empty($prop)) and $prop != "auto") 
+            then ($prop)
+        else if(not(empty(request:get-header("X-Forwarded-Host"))))
+            then ("")
+        else ( 
+            request:get-context-path() || substring-after($config:app-root, "/db") 
+        )  
 ;
 
 (:~
@@ -320,13 +345,19 @@ declare variable $config:data-root := $config:app-root || "/data";
  :)
 declare variable $config:data-default := $config:data-root;
 
+
+(:~
+ : Location of the taxonomies.
+ :)
+declare variable $config:taxonomy := $config:data-root || "/taxonomy.xml";
+
 (:~
  : A sequence of root elements which should be excluded from the list of
  : documents displayed in the browsing view.
  :)
 declare variable $config:data-exclude := (
-    doc($config:data-root || "/taxonomy.xml")/tei:TEI,
-    collection($config:data-root || "/doc")/tei:TEI
+    doc($config:taxonomy)//tei:text,
+    collection($config:data-root || "/doc")//tei:text
 );
 
 declare variable $config:default-odd := "teipublisher.odd";

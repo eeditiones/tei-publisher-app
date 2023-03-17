@@ -4,15 +4,25 @@
         "dockerfile": "Dockerfile.dev",
         "args": {
             "HTTP_PORT": "8080",
-            "HTTPS_PORT": "8443"
+            "HTTPS_PORT": "8443",
+            "INSTALL_TEXLIVE": "false"
         }
     },
     "runArgs": ["--name=TEIPublisherDev"],
     "forwardPorts": [ 8080, 8001 ],
-    "extensions": [ "exist-db.existdb-vscode", "42crunch.vscode-openapi", "redhat.vscode-xml" ],
+    "customizations": {
+        "vscode": {
+            "extensions": [ "exist-db.existdb-vscode", "42crunch.vscode-openapi", "redhat.vscode-xml" ]
+        }
+    },
     "overrideCommand": false,
     "postCreateCommand": [
         "${containerWorkspaceFolder}/.devcontainer/init.sh"
     ],
-    "postStartCommand": "${containerWorkspaceFolder}/.devcontainer/python-api.sh"
+    "postStartCommand": "${containerWorkspaceFolder}/.devcontainer/python-api.sh",
+    "features": {
+        "ghcr.io/devcontainers/features/node:1": {
+            "version": "latest"
+        }
+    }
 }

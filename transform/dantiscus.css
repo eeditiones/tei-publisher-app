@@ -111,7 +111,7 @@
 .tei-castList { list-style: ordered; }
 .tei-l { margin-left: 1em; }
 .tei-closer { margin-top: 1em; margin-left: 1em; margin-left: 1em; }
-.tei-p { text-align: justify; }
+.tei-p2 { text-align: justify; }
 .tei-q1 { margin-left: 10px; margin-right: 10px; }
 .tei-q2:before { content: '‘'; }
 .tei-q2:after { content: '’'; }

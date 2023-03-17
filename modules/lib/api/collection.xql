@@ -2,7 +2,7 @@ xquery version "3.1";
 
 module namespace capi="http://teipublisher.com/api/collection";
 
-import module namespace errors = "http://exist-db.org/xquery/router/errors";
+import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace browse="http://www.tei-c.org/tei-simple/templates" at "../browse.xql";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pages.xql";
@@ -12,13 +12,19 @@ import module namespace lib="http://exist-db.org/xquery/html-templating/lib";
 import module namespace docx="http://existsolutions.com/teipublisher/docx";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
 import module namespace custom="http://teipublisher.com/api/custom" at "../../custom-api.xql";
+import module namespace query="http://www.tei-c.org/tei-simple/query" at "../query.xql";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 
 declare function capi:list($request as map(*)) {
     let $path := if ($request?parameters?path) then xmldb:decode($request?parameters?path) else ()
+    let $params := capi:params2map($path)
+    let $cached := session:get-attribute($config:session-prefix || ".works")
+    let $useCached := capi:use-cache($params, $cached)
+    let $works := capi:list-works($path, if ($useCached) then $cached else (), $params)
     let $templatePath := $config:data-root || "/" || $path || "/collection.html"
     let $templateAvail := doc-available($templatePath) or util:binary-doc-available($templatePath)
     let $template := 
-        if ($templateAvail) then 
+        if ($templateAvail and $works?mode = 'browse') then 
             $templatePath
         else
             $config:app-root || "/templates/documents.html"
@@ -34,8 +40,67 @@ declare function capi:list($request as map(*)) {
             ()
         }
     }
+    let $model := map:merge(($works, map {
+        "app": $config:context-path,
+        "mode": "browse"
+    }))
     return
-        templates:apply(doc($template), $lookup, map { "root": $path }, tpu:get-template-config($request))
+        templates:apply(doc($template), $lookup, $model, tpu:get-template-config($request))
+};
+
+declare
+    %private
+function capi:list-works($root as xs:string?, $cached, $params as map(*)) {
+    (: session:clear(), :)
+    let $sort := request:get-parameter("sort", "title")
+    let $filter := request:get-parameter("field", ())
+    let $query := request:get-parameter("query", ())
+    let $filtered :=
+        if (exists($cached)) then
+            $cached
+        else
+            query:query-metadata($root, ($filter, "div")[1], $query, $sort)
+    return (
+        session:set-attribute($config:session-prefix || ".timestamp", current-dateTime()),
+        session:set-attribute($config:session-prefix || '.hits', $filtered?all),
+        session:set-attribute($config:session-prefix || '.params', $params),
+        session:set-attribute($config:session-prefix || ".works", $filtered),
+        if (empty($cached)) then
+            session:set-attribute($config:session-prefix || ".collection", $root)
+        else
+            (),
+        map:merge((
+            $filtered,
+            map {
+                "query": $query,
+                "field": $filter,
+                "root": 
+                    if (exists($cached)) then 
+                        session:get-attribute($config:session-prefix || ".collection")
+                    else
+                        $root
+            }
+        ))
+    )
+};
+
+declare %private function capi:params2map($root as xs:string?) {
+    map:merge((
+        for $param in request:get-parameter-names()[not(. = ("start", "per-page", "page", "path"))]
+        return
+            map:entry($param, request:get-parameter($param, ())),
+        map:entry("collection", $root)
+    ))
+};
+
+declare %private function capi:use-cache($params as map(*), $cached) {
+    let $cachedParams := session:get-attribute($config:session-prefix || ".params")
+    let $timestamp := session:get-attribute($config:session-prefix || ".timestamp")
+    return
+        if (exists($cached) and exists($cachedParams) and deep-equal($params, $cachedParams) and exists($timestamp)) then
+            empty(xmldb:find-last-modified-since(collection($config:data-root), $timestamp))
+        else
+            false()
 };
 
 declare function capi:upload($request as map(*)) {

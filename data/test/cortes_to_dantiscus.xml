@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?teipublisher template="cortez-with-translation.html" odd="dantiscus.odd" view="page"?>
+<?teipublisher template="cortez-with-translation.html" odd="dantiscus.odd" view="page" media="epub"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="CIDTC5772">
    <teiHeader>
       <fileDesc>
@@ -48,9 +48,17 @@
          <textClass>
             <catRef scheme="#genre" target="#correspondence"/>
             <catRef scheme="#form" target="#manuscript"/>
+            <catRef scheme="#feature" target="#translation"/>
+            <catRef scheme="#feature" target="#pages"/>
+            <catRef scheme="#feature" target="#alignment"/>
+            <catRef scheme="#feature" target="#person"/>
+            <catRef scheme="#feature" target="#place"/>
+            <catRef scheme="#feature" target="#ltr"/>
+            <catRef scheme="#period" target="#early-modern"/>
          </textClass>
          <langUsage>
             <language ident="es">Spanish</language>
+            <language ident="pl">Polish</language>
          </langUsage>
          <particDesc>
             <listPerson>

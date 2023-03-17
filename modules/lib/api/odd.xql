@@ -7,8 +7,8 @@ declare namespace pb="http://teipublisher.com/1.0";
 
 declare default element namespace "http://www.tei-c.org/ns/1.0";
 
-import module namespace router="http://exist-db.org/xquery/router";
-import module namespace errors = "http://exist-db.org/xquery/router/errors";
+import module namespace router="http://e-editiones.org/roaster";
+import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
@@ -65,7 +65,7 @@ declare function oapi:recompile($request as map(*)) {
             if ($pi?output) then
                 tokenize($pi?output)
             else
-                ("web", "print", "latex", "epub")
+                ("web", "print", "latex", "epub", "fo")
         return
             try {
                 for $output in pmu:process-odd(
@@ -235,7 +235,7 @@ return
 };
 
 declare %private function oapi:compile($odd) {
-    for $module in ("web", "print", "latex", "epub")
+    for $module in ("web", "print", "latex", "epub", "fo")
     let $result :=
         pmu:process-odd(
             odd:get-compiled($config:odd-root, $odd || ".odd"),

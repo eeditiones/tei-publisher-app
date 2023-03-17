@@ -6,7 +6,7 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../.
 
 declare function iapi:version($request as map(*)) {
     map {
-        "api": $request?info?version,
+        "api": $request?spec?info?version,
         "app": map {
             "name": $config:expath-descriptor/@abbrev/string(),
             "version": $config:expath-descriptor/@version/string()

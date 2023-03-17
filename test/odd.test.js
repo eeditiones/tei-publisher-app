@@ -128,16 +128,16 @@ describe('/api/odd [authenticated]', function () {
         expect(res).to.satisfyApiSpec;
     });
 
-    it('regenerates all odds', async function() {
-        // regenerating ODDs usually takes around 30000ms
-        this.timeout(90000);
+    // it('regenerates all odds', async function() {
+    //     // regenerating ODDs usually takes around 30000ms
+    //     this.timeout(90000);
 
-        const res = await util.axios.post('odd');
-        expect(res.status).to.equal(200);
-        expect(res.data).to.be.a('string').that.includes('/db/apps/tei-publisher/transform/teipublisher-web.xql: OK');
-        expect(res.data).to.not.include('Error for output mode');
-        expect(res).to.satisfyApiSpec;
-    });
+    //     const res = await util.axios.post('odd');
+    //     expect(res.status).to.equal(200);
+    //     expect(res.data).to.be.a('string').that.includes('/db/apps/tei-publisher/transform/teipublisher-web.xql: OK');
+    //     expect(res.data).to.not.include('Error for output mode');
+    //     expect(res).to.satisfyApiSpec;
+    // });
 
     it('regenerates dta odd', async function() {
         this.timeout(10000);

@@ -15,10 +15,10 @@
                         <a href="https://faq.teipublisher.com/">FAQ</a>
                     </paper-item>
                     <paper-item>
-                        <a href="${app}/doc/blog/" data-template="lib:parse-params"><pb-i18n key="menu.news">News</pb-i18n></a>
+                        <a href="https://www.e-editiones.org/tags/release" target="_blank"><pb-i18n key="menu.news">News</pb-i18n></a>
                     </paper-item>
                     <paper-item>
-                        <a href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html" target="_blank">Webcomponents API</a>
+                        <a href="https://cdn.tei-publisher.com/api.html" target="_blank">Webcomponents API</a>
                     </paper-item>
                     <paper-item>
                         <a href="${app}/api.html" data-template="lib:parse-params" target="_blank">TEI Publisher API</a>
@@ -84,7 +84,7 @@
             </pb-restricted>
         </pb-media-query>
         <div class="settings">
-            <h3>Settings</h3>
+            <h3><pb-i18n key="document.settings">Settings</pb-i18n></h3>
             <pb-toggle-feature emit="transcription" subscribe="transcription" name="view" on="page" off="div"
                 init-from-view="init-from-view"><pb-i18n key="document.view-type">Page View</pb-i18n></pb-toggle-feature>
             <pb-select-odd emit="transcription" subscribe="transcription" src="document1"></pb-select-odd>

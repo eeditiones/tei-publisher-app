@@ -3,14 +3,18 @@
         <lucene>
             <module uri="http://teipublisher.com/index" prefix="nav" at="index.xql"/>
             <text match="/tei:TEI/tei:text">
-                <ignore qname="tei:div"/>
+                <!--ignore qname="tei:div"/-->
                 <field name="title" expression="nav:get-metadata(ancestor::tei:TEI, 'title')"/>
                 <field name="author" expression="nav:get-metadata(ancestor::tei:TEI, 'author')"/>
                 <field name="language" expression="nav:get-metadata(ancestor::tei:TEI, 'language')"/>
                 <field name="date" expression="nav:get-metadata(ancestor::tei:TEI, 'date')"/>
                 <field name="file" expression="util:document-name(.)"/>
+                <field name="text" expression="."/>
                 <facet dimension="genre" expression="nav:get-metadata(ancestor::tei:TEI, 'genre')" hierarchical="yes"/>
                 <facet dimension="language" expression="nav:get-metadata(ancestor::tei:TEI, 'language')"/>
+                <facet dimension="feature" expression="nav:get-metadata(ancestor::tei:TEI, 'feature')"/>
+                <facet dimension="form" expression="nav:get-metadata(ancestor::tei:TEI, 'form')"/>
+                <facet dimension="period" expression="nav:get-metadata(ancestor::tei:TEI, 'period')"/>
             </text>
             <text qname="tei:div">
                 <!-- exclude nested divs which are indexed separately -->
@@ -26,25 +30,28 @@
             <text match="//tei:listOrg/tei:org/tei:orgName"/>
             <text match="//tei:taxonomy/tei:category/tei:catDesc"/>
             <text qname="dbk:article">
-                <ignore qname="dbk:section"/>
-                <field name="db-title" expression="nav:get-metadata(., 'title')"/>
-                <field name="db-author" expression="nav:get-metadata(., 'author')"/>
-                <field name="db-file" expression="util:document-name(.)"/>
+                <field name="dbk.title" expression="nav:get-metadata(., 'title')"/>
+                <field name="dbk.author" expression="nav:get-metadata(., 'author')"/>
+                <field name="dbk.file" expression="util:document-name(.)"/>
+                <field name="dbk.text" expression="."/>
                 <facet dimension="genre" expression="nav:get-metadata(., 'genre')" hierarchical="yes"/>
                 <facet dimension="language" expression="nav:get-metadata(., 'language')"/>
             </text>
             <text qname="dbk:section">
                 <ignore qname="dbk:section"/>
-                <facet dimension="genre" expression="nav:get-metadata(ancestor::dbk:article, 'genre')" hierarchical="yes"/>
-                <facet dimension="language" expression="nav:get-metadata(ancestor::dbk:article, 'language')"/>
+                <!--facet dimension="genre" expression="nav:get-metadata(ancestor::dbk:article, 'genre')" hierarchical="yes"/>
+                <facet dimension="language" expression="nav:get-metadata(ancestor::dbk:article, 'language')"/-->
             </text>
             <text qname="dbk:title"/>
             <!-- JATS -->
             <text qname="body">
                 <ignore qname="sect"/>
-                <field name="file" expression="util:document-name(.)"/>
-                <field name="title" expression="nav:get-metadata(ancestor::article, 'title')"/>
-                <field name="author" expression="nav:get-metadata(ancestor::article, 'author')"/>
+                <field name="jats.file" expression="util:document-name(.)"/>
+                <field name="jats.title" expression="nav:get-metadata(ancestor::article, 'title')"/>
+                <field name="jats.author" expression="nav:get-metadata(ancestor::article, 'author')"/>
+                <field name="jats.text" expression="."/>
+                <facet dimension="genre" expression="nav:get-metadata(ancestor::article, 'genre')" hierarchical="yes"/>
+                <facet dimension="language" expression="head((ancestor::article/@xml:lang, 'en'))"/>
             </text>
         </lucene>
     </index>
