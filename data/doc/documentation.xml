@@ -912,12 +912,12 @@
           <para> structural divisions in the document are encoded with <tag>div</tag> elements </para>
         </listitem>
       </itemizedlist>
-      <para> We acknowledge that TEI offers other ways to encode these features, e.g. generic <tag>
-        milestone</tag> element or specialized numbered division elements like <tag>div1</tag> , <tag>
-        div2</tag> . TEI documents using alternative encodings will be still displayed as specified
-        in the ODD, it is only for the sake of navigation or division-based full text search that we
-        had to assume certain conventions to be able to decide what to show as the next page, column
-        or division. </para>
+      <para> We acknowledge that TEI offers other ways to encode these features, e.g. generic
+          <tag>milestone</tag> element or specialized numbered division elements like
+          <tag>div1</tag>, <tag>div2</tag>. TEI documents using alternative encodings will be still
+        displayed as specified in the ODD, it is only for the sake of navigation or division-based
+        full text search that we had to assume certain conventions to be able to decide what to show
+        as the next page, column or division. </para>
       <para> We believe our choice represents most common way of using TEI but, for those who
         followed the path less travelled, the chapter on <link linkend="new-vocabulary-navigation">
         customization</link> briefly discusses how to change relevant functionality. </para>
@@ -2688,85 +2688,11 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           <para>Sometimes you may like to implement a generic behaviour which takes arbitrary
             parameters from the user. This means the parameter list of your behaviour will not be
             fixed.</para>
-          <para> To facilitate this, a behaviour function may declare a final parameter <code>$optional
-            as map(*)</code> . If the processor finds <tag>param</tag> children in the model which
-            cannot be mapped to an explicitly declared parameter, it stores all such extra
-            parameters as a key/value pairs in the <parameter>$optional</parameter> map. </para>
-        </section>
-      </section>
-
-
-      <section xml:id="odd-by-example">
-        <title>Building a Sample-Based ODD</title>
-        <para> If you do not want to start a customized ODD from a blank template, you can
-          alternatively generate one that covers the classes and elements of a selection of TEI
-          files stored in TEI Publisher's data collection. Simply select one or more sample
-          documents in the list to the left, enter a name and title into the form and click on <guibutton>Create
-          from examples</guibutton> . Note that if you haven't removed the default examples TEI
-          files that shipped with tei-publisher their markup will be included in the constructed ODD
-          as well. </para>
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="BuildODD.gif" />
-          </imageobject>
-        </mediaobject>
-        <para> This method uses the <filename>oddbyexample.xsl</filename> stylesheet that is part of
-          the TEI consortium's <link xlink:show="new"
-            xlink:href="https://github.com/TEIC/Stylesheets">stylesheets</link> . Users with a
-          corpus of one or more TEI files can generate a custom odd that contains explicit additions
-          and deletions for all possible TEI modules, as well as, <tag>valList</tag> for attribute
-          values in the input corpus. </para>
-        <para> By default the basis of the comparison for which elements have been modified in the
-          examples is the full <filename>tei_all.odd</filename> . </para>
-        <section xml:id="odd-by-example-advanced">
-          <title>Advanced Use</title>
-          <para> To further tweak the building process you can call the functions of the <filename>
-            odd-by-example.xql</filename> module from your own XQuery code. If you wish to generate
-            your own basis for the comparison you can call the following function to store a
-            compiled ODD in the default odd location of tei-publisher: </para>
-          <programlisting language="XQuery" xml:space="preserve">obe:compile-odd(doc('../odd/my-file.odd'), 'my-file-name')</programlisting>
-          <note>
-            <title>Note</title>
-            <para> Due to a bug in the <filename>odd2odd.xsl</filename> stylesheet the output of
-              this function is not always valid. To use it for further processing you need to make
-              sure that only valid documents are used for further processing </para>
-          </note>
-          <para>You can also modify the transformation parameters of:</para>
-          <programlisting language="XQuery" xml:space="preserve">obe:process-example(doc('../data/test/myTEI.xml'), 'odd-name', 'simplePrint')</programlisting>
-          <para>The above example uses simplePrint as a basis for building the new ODD. The full
-            list of configurable options are:</para>
-          <programlisting language="xml" xml:space="preserve">&lt;parameters&gt;
-  &lt;!-- the document corpus --&gt;
-  &lt;param name="corpus" value="."/&gt;
-  &lt;!-- name of odd --&gt;
-  &lt;param name="schema" value="{substring-before($output, '.odd')}"/&gt;
-  &lt;!-- the source of the TEI (just needs *Spec)--&gt;
-  &lt;param name="defaultSource" value="{$base}"/&gt;
-  &lt;!-- should we make valList for @rend and @rendition --&gt;
-  &lt;param name="enumerateRend" value="false"/&gt;
-  &lt;!-- whether to do all the global attributes --&gt;
-  &lt;param name="keepGlobals" value="true"/&gt;
-  &lt;!-- should elements in teiHeader be included?--&gt;
-  &lt;param name="includeHeader" value="true"/&gt;
-  &lt;!-- should we make valList for @type --&gt;
-  &lt;param name="enumerateType" value="true"/&gt;
-  &lt;!-- should we deal with non-TEI namespaces --&gt;
-  &lt;param name="processNonTEI" value="false"/&gt;
-  &lt;!-- do you want moduleRef generated with @include or @except? --&gt;
-  &lt;!-- seems broken see https://github.com/TEIC/Stylesheets/issues/212 --&gt;
-  &lt;param name="method" value="include"/&gt;
-  &lt;!-- turn on debug messages --&gt;
-  &lt;param name="debug" value="false"/&gt;
-  &lt;!-- turn on messages --&gt;
-  &lt;param name="verbose" value="false"/&gt;
-  &lt;!-- which files to look at? provide suffix --&gt;
-  &lt;param name="suffix" value="xml"/&gt;
-  &lt;!-- should P4 files be considered? --&gt;
-  &lt;param name="processP4" value="false"/&gt;
-  &lt;!-- should P5 files be considered? --&gt;
-  &lt;param name="processP5" value="true"/&gt;
-&lt;/parameters&gt;
-          </programlisting>
+          <para> To facilitate this, a behaviour function may declare a final parameter
+              <code>$optional as map(*)</code> . If the processor finds <tag>param</tag> children in
+            the model which cannot be mapped to an explicitly declared parameter, it stores all such
+            extra parameters as a key/value pairs in the <parameter>$optional</parameter> map.
+          </para>
         </section>
       </section>
     </section>
