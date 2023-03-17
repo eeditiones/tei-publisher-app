@@ -19,8 +19,8 @@
         editors to publish their materials without becoming programmers, but also does not force
         them into a one-size-fits-all framework. Experienced developers will benefit as well by
         writing less code, avoiding redundancy, improve maintenance and interoperability - to just
-        name a few. TEI Publisher is all about <emphasis role="bold">standards</emphasis> ,
-          <emphasis role="bold">modularity</emphasis> , <emphasis role="bold">reusability</emphasis>
+        name a few. TEI Publisher is all about <emphasis role="bold">standards</emphasis>,
+          <emphasis role="bold">modularity</emphasis>, <emphasis role="bold">reusability</emphasis>
         and <emphasis role="bold">sustainability</emphasis> ! </para>
       <para>In Publisher, it all starts with your source documents - regardless if they are in TEI
         or other form of XML: DocBook, MS Word (DOCX) or JATS. No matter how the source material has
@@ -159,7 +159,7 @@
       </section>
       <section xml:id="v7">
         <title>What's new in TEI Publisher 7.0.0</title>
-        <para>Version 7 brought another major refactoring and restructuring of TEI Publisher app ,
+        <para>Version 7 brought another major refactoring and restructuring of TEI Publisher app,
           particularly regarding the server-side modules.</para>
         <para> TEI Publisher now exposes a well-defined, clear <link xlink:href="../api.html"
             xlink:show="new">API specification</link> following the <link xlink:show="new"
@@ -167,7 +167,7 @@
           used in TEI Publisher by client-side UI components but can be equally well utilized by
           independent software which harnesses functionality exposed via the API without being
           forced to rely on Publisher's client-side components. </para>
-        <para> On the server a new package, <filename>oas-router</filename> , reads the API
+        <para> On the server a new package, <filename>oas-router</filename>, reads the API
           specification and uses it to map HTTP requests to XQuery functions which perform actual
           API operations. Other packages, particularly UI web components (
             <filename>pb-components</filename> ) and TEI Processing Model library (
@@ -181,7 +181,7 @@
           assure that e.g. parameter and response types correspond exactly to the definition.</para>
 
         <para> Thanks to community contributions via <link xlink:show="new"
-            xlink:href="https://crwd.in/tei-publisher">Crowdin</link> , TEI Publisher is now
+            xlink:href="https://crwd.in/tei-publisher">Crowdin</link>, TEI Publisher is now
           available in 20 languages. </para>
 
         <para> See chapter on <link linkend="updating">Updating</link> for information how to update
@@ -455,7 +455,7 @@
           creates a virtual environment including everything required for the service to run. Using
           our <link xlink:show="new"
             xlink:href="https://cloud.docker.com/u/existdb/repository/registry-1.docker.io/existdb/tei-publisher"
-            >docker image</link> , eXist will already be set up to include TEI Publisher as well as
+            >docker image</link>, eXist will already be set up to include TEI Publisher as well as
           the Shakespeare and Van Gogh demo apps. </para>
         <procedure>
           <step>
@@ -585,7 +585,7 @@
         </figure>
         <para> The usual starting point is the <emphasis role="bold">TEI Publisher Demo
             Collection</emphasis> with which users can explore a range of <link
-            linkend="selected-use-cases">selected use cases</link> , demonstrating various genres,
+            linkend="selected-use-cases">selected use cases</link>, demonstrating various genres,
           encoding styles and presentation layouts. Various customization aspects are handled using
           different ODDs and view templates. We suggest to have a look at each of them to see what
           TEI Publisher can achieve out of the box. </para>
@@ -610,7 +610,7 @@
           <para> You need to be <emphasis role="bold">logged in</emphasis> for most advanced actions
             like creating or editing ODDs. The login button to the right of the menu bar allows you
             to log in. By default, there's a user named <parameter>tei-demo</parameter> with
-            password <parameter>demo</parameter> , and a user <parameter>tei</parameter> with
+            password <parameter>demo</parameter>, and a user <parameter>tei</parameter> with
             password <parameter>simple</parameter>. </para>
         </note>
         <para>You will find other collections lower down, each showcasing a different encoding
@@ -669,12 +669,12 @@
             toggle <guibutton>Page View</guibutton> in the <guibutton>Settings</guibutton> panel) as
             well as generation of multiple output formats from single set of processing models in
             the ODD (try choosing <parameter>PDF</parameter> or <parameter>ePub</parameter> options
-            in the <guibutton>Download</guibutton> ). <emphasis>Purchas his pilgrimages</emphasis> ,
+            in the <guibutton>Download</guibutton>). <emphasis>Purchas his pilgrimages</emphasis>,
             from the <emphasis>EEBO-TCP</emphasis> project, while roughly similar in structure is
             much earlier work (1613) and demonstrates extensive use of marginal notes. </para>
         </listitem>
         <listitem>
-          <para> Shakespeare's <emphasis>Romeo and Juliet</emphasis> , from <emphasis>Bodleian First
+          <para> Shakespeare's <emphasis>Romeo and Juliet</emphasis>, from <emphasis>Bodleian First
               Folio</emphasis> project uses dedicated TEI elements to encode structure of the play
             but it also showcases the parallel transcription and facsimile alignment for its
             presentation which is obviously of general application and could be used for any genre,
@@ -747,9 +747,9 @@
           illustrating other genres and perspectives.</para>
         <para> We'd like to stress that preparing showcases above has been only possible thanks to
           numerous projects releasing their sources openly, in particular the <link xlink:show="new"
-            xlink:href="http://firstfolio.bodleian.ox.ac.uk">Bodleian First Folio</link> , <link
+            xlink:href="http://firstfolio.bodleian.ox.ac.uk">Bodleian First Folio</link>, <link
             xlink:show="new" xlink:href="http://www.deutschestextarchiv.de">Deutsches
-            Textarchiv</link> , <link xlink:show="new" xlink:href="http://vangoghletters.org"
+            Textarchiv</link>, <link xlink:show="new" xlink:href="http://vangoghletters.org"
             >Vincent Van Gogh Museum</link> and <link xlink:show="new"
             xlink:href="https://www.textcreationpartnership.org/tcp-eebo"> EEBO-TCP</link> . We'd
           also like to thank William Graves and Anna Skolimowska for sharing their correspondence
@@ -798,7 +798,7 @@
       <para> We have already mentioned in the very first section that the TEI Processing Model lies
         at the heart of the Publisher - the ODD file associated with a document defines the rules of
         transformation of the XML source file into HTML. Detailed discussion of the Processing Model
-        can be found in <link linkend="pm-syntax">following chapters</link> , for now it is
+        can be found in <link linkend="pm-syntax">following chapters</link>, for now it is
         sufficient to say this is where decisions if a TEI element should be rendered inline, with a
         tooltip, or as a marginal note, are made. Simplifying things a bit the
           <emphasis>text</emphasis> of the document that you see rendered in your browser is an
@@ -868,7 +868,7 @@
         <para> By means of example - a table of content component assumes that the document
           structure is represented by means of nested <parameter>div</parameter> elements and
           section titles are given in <parameter>head</parameter> element. If your project rather
-          chooses numbered divisions ( <parameter>div1</parameter> , <parameter>div2</parameter> )
+          chooses numbered divisions (<parameter>div1</parameter>, <parameter>div2</parameter>)
           etc it may be advisable to adjust this to avoid customizing all navigation, table of
           contents and so on, but it is one of very rare cases where TEI Publisher exposes any
           predilection for a particular flavour of TEI. </para>
@@ -984,7 +984,7 @@
               <para> Named styles can be strong indicators for the semantics of the text fragment.
                 Styles whose name starts with <code>tei:</code> are thus recognized as TEI elements
                 with the same name. If a character sequence uses a style called
-                  <code>tei:persName</code> , it will be wrapped into a TEI <tag>persName</tag>
+                  <code>tei:persName</code>, it will be wrapped into a TEI <tag>persName</tag>
                 element in the output, e.g. <code>&lt;persName&gt;Johann Wolfgang
                   Goethe&lt;/persName&gt;</code> . A place name should be marked with a style <code>
                   tei:placeName</code> and reconstructed text could be encoded by applying a style
@@ -999,7 +999,7 @@
                 lists of paragraphs, so the only way to reconstruct the logical structure is to use
                 Word headings and outline level associated with these to determine division
                 boundaries. </para>
-              <para> In the first pass, all paragraph styles starting with <code>heading</code> ,
+              <para> In the first pass, all paragraph styles starting with <code>heading</code>,
                   <code> title</code> or <code>subtitle</code> generate a <tag>tei:head</tag>
                 element. The outline level assigned to the heading is recorded as well. </para>
               <para> Subsequently, in a second pass through the generated output, divisions are
@@ -1038,7 +1038,7 @@
             <term>Images</term>
             <listitem>
               <para> Embedded images are stored into a subcollection starting with the name of the
-                docx file being processed and suffixed with <code>.media</code> , eg.
+                docx file being processed and suffixed with <code>.media</code>, eg.
                   <code>&lt;graphic url="test.docx.media/image1.png"/&gt;</code>
               </para>
             </listitem>
@@ -1309,7 +1309,7 @@
           form appears, allowing you to change the model configuration. In our example we are happy
           with <emphasis>what</emphasis> is happening with the dateline, so we don't need to change
           the behaviour but we do want to fix <emphasis>how</emphasis> it is styled by justifying it
-          to the right. Rendition can be defined in an <tag>outputRendition</tag> , so click on the
+          to the right. Rendition can be defined in an <tag>outputRendition</tag>, so click on the
             <guibutton> +</guibutton> button next to <guibutton>Renditions</guibutton> . In the form
           input being inserted below, enter your styling requirements in css. </para>
         <para> The processing model uses <tag>outputRendition</tag> and CSS to define visual
@@ -1429,7 +1429,7 @@
       <section xml:id="odd-customization-parameters">
         <title>Parameters</title>
         <para> All behaviours accept one or more parameters which are defined in the TEI guidelines.
-          Every behaviour has an implicit parameter called <parameter>content</parameter> , and, as
+          Every behaviour has an implicit parameter called <parameter>content</parameter>, and, as
           the name suggests, it specifies which part of the source document should be processed: by
           default it uses the nested content of the node. You may overwrite this default and assign
           it another value. Some behaviours take other specialized parameters. For example, the
@@ -1447,7 +1447,7 @@
           user's language. </para>
         <para> Add a new element spec for <tag>date</tag> . You'll already see 4 predefined models.
           The first two are for print only, but the third one does indeed use behaviour <function>
-            alternate</function> , which is exactly what we want. Change the parameter value for
+            alternate</function>, which is exactly what we want. Change the parameter value for
             <parameter> alternate</parameter> to format the date: </para>
         <figure>
           <title> Format the normalized date in <parameter>@when</parameter>
@@ -1552,7 +1552,7 @@
         <para> A processing model defines on an abstract level how a given element may be
           transformed to produce one or more outputs. The model is expressed in terms of <emphasis
             role="bold">behaviours</emphasis> and their parameters, using high-level formatting
-          concepts, such as <parameter>block</parameter> , <parameter>inline</parameter> ,
+          concepts, such as <parameter>block</parameter>, <parameter>inline</parameter>,
             <parameter> note</parameter> or <parameter>heading</parameter> . A processing model is
           thus a template description, used to generate the code needed by the publishing
           application to process the source document into required output. </para>
@@ -1743,7 +1743,7 @@
         <section xml:id="behaviours-available">
           <title>Available Behaviours</title>
           <para> Behaviour functions accept a range of parameters, depending on the function in
-            question. Where these parameters are left unspecified in the <tag>model</tag> , default
+            question. Where these parameters are left unspecified in the <tag>model</tag>, default
             values are used. All functions take at least one parameter:
               <parameter>content</parameter> . It will be added by default unless specified and
             contains the nested content of the currently processed node. You may change this by
@@ -2299,7 +2299,7 @@
           are not running MacTeX, you likely need to adjust the path to the LaTeX binary in the
           XQuery configuration module <filename>modules/config.xqm</filename> . Search for the
           variable <parameter>$config:tex-command</parameter> and adjust it to point to a binary of
-            <command> xelatex</command> , <command>pdflatex</command> or <command>lualatex</command>
+            <command> xelatex</command>, <command>pdflatex</command> or <command>lualatex</command>
           . </para>
       </section>
       <section xml:id="output-media-epub">
@@ -2420,8 +2420,8 @@
       <section xml:id="external-parameters">
         <title>External Parameters</title>
         <para> The script calling the processing model may pass external parameters into the ODD.
-          They will be available in the variable <parameter>$parameters</parameter> , which is an
-          XQuery map. Access parameters using <code>?</code> , the XQuery lookup operator. </para>
+          They will be available in the variable <parameter>$parameters</parameter>, which is an
+          XQuery map. Access parameters using <code>?</code>, the XQuery lookup operator. </para>
         <para>For example, one can use this feature to control how specific parts of the document
           are output, without having to define a separate output mode, which would result in much
           more code. Below we display a shortened header for the document, containing simply its
@@ -2451,7 +2451,7 @@
             <tag>pb-toggle-feature</tag>
           </link> exists for toggling between two values of a parameter. Example below would produce
           a checkbox which when on results in the value of <parameter> $parameters?mode</parameter>
-          set to <parameter>diplomatic</parameter> , otherwise to <parameter> norm</parameter> . </para>
+          set to <parameter>diplomatic</parameter>, otherwise to <parameter> norm</parameter> . </para>
         <programlisting language="xml" xml:space="preserve">&lt;pb-toggle-feature name="mode" on="diplomatic" off="norm"&gt;Diplomatic View&lt;/pb-toggle-feature&gt;</programlisting>
       </section>
       <section xml:id="pm-extensions-templates">
@@ -2468,7 +2468,7 @@
           complex projects with just two or three extension behaviours. Things start to become more
           difficult if you try to output LaTeX though: there are hundreds of packages to use, and
           users typically define their own macros or environments for all recurring typesetting
-          tasks. For example, to print a TEI <tag>persName</tag> , experienced LaTeX users would
+          tasks. For example, to print a TEI <tag>persName</tag>, experienced LaTeX users would
           normally create a corresponding <code>\persName</code> macro and handle the formatting
           details there. Unfortunately, out of the box the TEI processing model does not facilitate
           this level of customization. </para>
@@ -2490,7 +2490,7 @@
 &lt;/elementSpec&gt;</programlisting>
           <para> The template can reference other parameters defined within the <tag>model</tag> by
             enclosing the parameter name in double brackets. In the example above we're referencing
-            the default parameter <parameter>content</parameter> , which contains the nested content
+            the default parameter <parameter>content</parameter>, which contains the nested content
             of the <tag>persName</tag> tag. The parameter will be processed before it is passed into
             the template, so if <tag>persName</tag> contains nested TEI markup, the corresponding
             processing model rules will be applied first. </para>
@@ -2501,7 +2501,7 @@
           <para> You may also specify additional parameters to be included in the template. For
             example, the TEI document may contain a glossary of terms which are referenced in the
             text using <code>&lt;term ref="#termid"&gt;text&lt;/term&gt;</code> . In LaTeX this
-            would translate to <code>\glslink{ref}{text}</code> , which can be easily produced by
+            would translate to <code>\glslink{ref}{text}</code>, which can be easily produced by
             the following <tag>model</tag> : </para>
           <programlisting language="xml" xml:space="preserve">&lt;elementSpec ident="term" mode="add"&gt;
     &lt;model behaviour="inline" output="latex"&gt;
@@ -2509,7 +2509,7 @@
         &lt;pb:template&gt;\glslink{[[ref]]}{[[content]]}&lt;/pb:template&gt;
     &lt;/model&gt;
 &lt;/elementSpec&gt;</programlisting>
-          <para> We define an additional parameter <parameter>ref</parameter> , which contains the
+          <para> We define an additional parameter <parameter>ref</parameter>, which contains the
             id string from the <parameter>@ref</parameter> attribute, stripping out the leading '#'. </para>
           <para>The templating mechanism is not limited to LaTeX, but may also be used to generate
             HTML or FO, for example, if you have to generate a complex HTML fragment to represent a
@@ -2548,7 +2548,7 @@
       &lt;/videoobject&gt;
     &lt;/mediaobject&gt;
 &lt;/figure&gt;</programlisting>
-          <para> In the HTML output we would need to transform this into an <tag>iframe</tag> , so
+          <para> In the HTML output we would need to transform this into an <tag>iframe</tag>, so
             the reader can view the video embedded in the page. We can achieve this with a <tag>
               pb:template</tag> as sketched in the previous section, but it would be nice to turn
             this into a general-purpose behaviour, which we can re-use in other situations requiring
@@ -2574,14 +2574,14 @@
           </note>
           <para> All behaviours should be included in the TEI header or - to be exact: the <tag>
               tagsDecl</tag> inside the <tag>encodingDesc</tag> . You may have multiple behaviour
-            declarations with the same <parameter>@ident</parameter> , given that they apply to
+            declarations with the same <parameter>@ident</parameter>, given that they apply to
             different <parameter>@output</parameter> modes. Parameters specified via
               <tag>pb:param</tag> without <parameter>@value</parameter> attribute are expected to be
             passed to the behaviour from the calling model. A parameter may be empty though. If you
             define an XPath expression as <parameter>@value</parameter> attribute, the result of the
             XPath evaluation will be used as value for the parameter. </para>
           <para> The new behaviour will be named <function>iframe</function> and takes three
-            parameters: <parameter>src</parameter> , <parameter>width</parameter> and <parameter>
+            parameters: <parameter>src</parameter>, <parameter>width</parameter> and <parameter>
               height</parameter> . It can now be called from a <tag>model</tag> as follows: </para>
           <programlisting xml:space="preserve">&lt;model behaviour="iframe"&gt;
     &lt;param name="width" value="@width"/&gt;
@@ -2589,7 +2589,7 @@
     &lt;param name="src" value="@fileref"/&gt;
 &lt;/model&gt;</programlisting>
           <para> For further code examples, please have a look at <link xlink:href="odd/docbook.odd"
-              role="source">docbook.odd</link> , which is used for viewing the documentation. </para>
+              role="source">docbook.odd</link>, which is used for viewing the documentation. </para>
           <note>
             <title>Note</title>
             <para> At the time of writing, the graphical ODD editor in TEI Publisher does not yet
@@ -2700,7 +2700,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     {replace(string-join($content/node()), "^\s+?(.*)\s+$", "$1")}
     &lt;/pre&gt;
 };</programlisting>
-          <para> It defines one function, <function>pmf:code</function> , which can be called from
+          <para> It defines one function, <function>pmf:code</function>, which can be called from
             the ODD as follows, provided that the <filename>ext-html.xql</filename> module has been
             configured as described in the <link linkend="extension-configuration">previous
               section</link> . </para>
@@ -2773,7 +2773,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         thus accessible for its content. </para>
       <para> External stylesheets for <code>pb-view</code> can also be specified via
           <code>load-css</code> component configuration attribute. In this scenario, unlike with ODD
-          <code>rendition</code> , regenerating the ODD is not required for changes to the CSS file
+          <code>rendition</code>, regenerating the ODD is not required for changes to the CSS file
         to be applied, otherwise both methods are functionally equivalent. </para>
 
       <programlisting language="html" xml:space="preserve">
@@ -2835,7 +2835,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
 
       <programlisting role="codepen" xlink:href="wolfgangmm#WNvYYWB"/>
       <para>
-        <tag>pb-page</tag> , <tag>pb-document</tag> and <tag>pb-view</tag> are three web components
+        <tag>pb-page</tag>, <tag>pb-document</tag> and <tag>pb-view</tag> are three web components
         from <code>pb-components</code> library, while <tag>main</tag> is a standard HTML5 tag. The
         name of the custom element <emphasis role="bold">must</emphasis> start with a prefix to
         distinguish it from standard HTML. This concept should be familiar to XML people. For TEI
@@ -2868,7 +2868,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           <listitem>
             <para> the name - without suffix - of the ODD to use for rendering the document. In the
               example, the first document is encoded in TEI and thus transformed through <filename>
-                dta.odd</filename> , while the second is written in DocBook and passed through
+                dta.odd</filename>, while the second is written in DocBook and passed through
                 <filename> docbook.odd</filename> . </para>
           </listitem>
         </varlistentry>
@@ -3008,7 +3008,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <para> To allow for maximum flexibility, nearly all of the TEI Publisher webcomponents
         communicate via events: this way avoids hard wiring and components may appear anywhere on
         the page. For example, the controls for paginating through a document do not directly talk
-        to the document view: they just send an <emphasis>event</emphasis> , indicating the users'
+        to the document view: they just send an <emphasis>event</emphasis>, indicating the users'
         wish to navigate backward or forward. Components listening for this event may then react to
         it by refreshing the text being displayed. </para>
       <para> Since you can have multiple text views showing content from different sources, every
@@ -3043,8 +3043,8 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <para> TEI Publisher currently includes several different page templates, which combine the
         building blocks described above with off-the-shelf components to achieve a certain page
         layout and composition. If you look at the HTML code, you'll see a mix of
-          <parameter>pb-</parameter> elements and <parameter>app-</parameter> ,
-          <parameter>paper-</parameter> , <parameter>iron-</parameter> elements. The last three
+          <parameter>pb-</parameter> elements and <parameter>app-</parameter>,
+          <parameter>paper-</parameter>, <parameter>iron-</parameter> elements. The last three
         belong to the <emphasis>Polymer</emphasis> collection and you can find them documented in
         the public <link xlink:href="https://www.webcomponents.org/">webcomponent registry</link> .
         TEI Publisher components are not yet available there, though we may move some of the general
@@ -3271,7 +3271,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     <para> Previous versions of the TEI Publisher included a number of XQuery modules implementing
       the server-side functionality, located in <parameter>modules</parameter> collection. In
       version 7, a new approach has been introduced. Formal <link xlink:href="../api.html"
-        xlink:show="new">API specification</link> , based on the <link xlink:show="new"
+        xlink:show="new">API specification</link>, based on the <link xlink:show="new"
         xlink:href="http://spec.openapis.org/oas/v3.0.3">Open API standard</link> defines all the
       server-side API endpoints available in Publisher. </para>
 
@@ -3432,7 +3432,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         </mediaobject>
       </figure>
       <para> To reference a custom function declared directly in
-          <filename>modules/custom-api.xql</filename> , use the prefix
+          <filename>modules/custom-api.xql</filename>, use the prefix
           <parameter>custom:</parameter> in the <parameter>operationId</parameter> . For functions
         in imported modules, use the prefix defined in the import statement. </para>
     </section>
@@ -3501,7 +3501,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           attribute specifying the key of the i18n label to use preceded by the name of the
           attribute that needs to be translated. In the example below it's the <code>heading</code>
           attribute that needs to be filled with the translated version of <emphasis>ODD
-            Files</emphasis> label. The label is stored in JSON file under <code>odd.files</code> ,
+            Files</emphasis> label. The label is stored in JSON file under <code>odd.files</code>,
           so <code> [heading]odd.files</code> needs to be used for the <code>data-i18n</code>
           attribute. </para>
         <programlisting language="xml" xml:space="preserve">
@@ -3568,7 +3568,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           <listitem>
             <para> the namespace prefix used to distinguish between different collections of
               language files. By default, TEI Publisher expects custom language files to be in a
-              namespace called <code>app</code> , though this can be configured. </para>
+              namespace called <code>app</code>, though this can be configured. </para>
           </listitem>
         </varlistentry>
       </variablelist>
@@ -3587,8 +3587,8 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           common</code> and should not be overwritten. </para>
       <para> Listing below demonstrates a fictional <filename>en.js</filename> with a custom set of
         labels. A new top-level key has been added as well as 3 subkeys for the <code>menu</code>
-        section. Now the project has access to a number of new i18n keys: <code>menu.about</code> ,
-          <code> menu.contact</code> , <code>menu.statute</code> and <code>greeting</code> . </para>
+        section. Now the project has access to a number of new i18n keys: <code>menu.about</code>,
+          <code> menu.contact</code>, <code>menu.statute</code> and <code>greeting</code> . </para>
       <para> Furthermore, a value for <code>menu.documentation</code> has been specified. That key
         already existed in Publisher (set to "Documentation") but the version from custom file will
         take precedence and be used in the custom app. </para>
@@ -3730,7 +3730,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
                   resources/odd</filename> subcollection where app's own ODD files are stored. </para>
               <para> All of the app styling is done via a set of modularized less stylesheets,
                 residing in <filename>resources/css</filename> . The main file is <filename>
-                  style.less</filename> , which defines a number of core parameters. Ideally this
+                  style.less</filename>, which defines a number of core parameters. Ideally this
                 should be the only file you ever need to modify. </para>
             </listitem>
           </varlistentry>
@@ -3832,7 +3832,7 @@ declare variable $config:odd-available :=("shakespeare.odd");</programlisting>
           <step>
             <para> In eXide, open <filename>modules/generate-pm-config.xql</filename> (path relative
               to your app root) and execute it once. This will regenerate the XQuery module
-                <filename> modules/pm-config.xql</filename> , which registers all the ODD modules
+                <filename> modules/pm-config.xql</filename>, which registers all the ODD modules
               known to the app. </para>
           </step>
           <step>
@@ -3855,14 +3855,14 @@ declare variable $config:odd-available :=("shakespeare.odd");</programlisting>
             possible though to organize documents into a <link linkend="subcollections">hierarchy of
               collections</link> beneath <parameter>$config:data-root</parameter> and use different
             ODDs and general view settings for each collection or document type. </para>
-          <para> To do so, search for the function <function>config:collection-config</function> ,
+          <para> To do so, search for the function <function>config:collection-config</function>,
             which by default returns an empty sequence - meaning that the default configuration
             should be used. Comment this out and enable the switch/case statement below to return a
             different config depending on the current collection. The
               <parameter>$collection</parameter> and <parameter>$docUri</parameter> parameters be
             relative paths, i.e. relative to <parameter> $config:data-root</parameter> . So for a
             single level hierarchy as used in TEI Publisher by default,
-              <parameter>$collection</parameter> will be either <code>test</code> , <code>
+              <parameter>$collection</parameter> will be either <code>test</code>, <code>
               playground</code> or <code>doc</code> . For multi-level hierarchies it might also be
             e.g. <code>volume1/transcripts</code> . In this case a simple switch/case might not be
             enough, but you can just replace it with an if/then/else and apply any path matching you
@@ -4006,7 +4006,7 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
           app </para>
       </listitem>
       <listitem>
-        <para> to change XQuery modules in <filename>modules</filename> , excluding those in
+        <para> to change XQuery modules in <filename>modules</filename>, excluding those in
             <filename> modules/lib</filename>
         </para>
       </listitem>
@@ -4248,7 +4248,7 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
         recommend to clone the source code of both, TEI Publisher 7 and the custom application, into
         a local directory. The commands shown below were used on a Linux system for <link
           xlink:href="https://github.com/eeditiones/dodis-wall/commit/491267575a97c101361e10de4001db2f97cc3d29"
-          >updating the Dodis demo app</link> , but with appropriate adjustments to the syntax the
+          >updating the Dodis demo app</link>, but with appropriate adjustments to the syntax the
         same actions could be performed on a different operating system. Alternatively the migration
         can be executed using eXide's file manager. </para>
       <para>If you decide to work with the command line, as suggested here, clone TEI Publisher 7
@@ -4301,7 +4301,7 @@ cp ../tei-publisher-app/templates/drawer.html templates/</programlisting>
           <para> TEI Publisher 7 expects all HTML files to reside in the
               <filename>templates</filename> subfolder. Previous versions used a mix of locations
             with some HTML files in the root of the app. You should thus copy your
-              <filename>index.html</filename> , <filename> search.html</filename> ,
+              <filename>index.html</filename>, <filename> search.html</filename>,
               <filename>error-page.html</filename> and any other custom HTML files into
               <filename>templates</filename> first. </para>
         </note>
@@ -4341,7 +4341,7 @@ cp ../tei-publisher-app/templates/drawer.html templates/</programlisting>
           </listitem>
           <listitem>
             <para> Check for missing variables or functions and copy these from <filename>
-                tei-publisher-app/templates/basic/modules/config.xqm</filename> , in particular: </para>
+                tei-publisher-app/templates/basic/modules/config.xqm</filename>, in particular: </para>
             <itemizedlist>
               <listitem>
                 <para>$config:odd-available</para>
@@ -4411,7 +4411,7 @@ rm modules/view.xql</programlisting>
         <title>Change API endpoints</title>
         <para> Finally, to be able to view and test the API of your custom app, you should change
           the endpoints in the Open API specification files. In both,
-            <code>modules/lib/api.json</code> and <code>modules/custom-api.json</code> , change the
+            <code>modules/lib/api.json</code> and <code>modules/custom-api.json</code>, change the
           url property in the following section: </para>
         <programlisting language="javascript" xml:space="preserve">
 "servers": [
@@ -4434,7 +4434,7 @@ rm modules/view.xql</programlisting>
           <para> generate a new application with TEI Publisher 7 and merge your changes in into the
             newly generated app. This is the recommended method. If your customizations were limited
             to e.g. ODD files, CSS styles, templates, index configurations or adding your own code
-            in <filename>modules/</filename> , it should all go very smoothly. </para>
+            in <filename>modules/</filename>, it should all go very smoothly. </para>
         </listitem>
         <listitem>
           <para>update your generated app by modifying the HTML templates you use and copying files
@@ -4542,7 +4542,7 @@ declare variable $config:webcomponents := "0.9.11";</programlisting>
               in your application. </para>
           </step>
           <step>
-            <para> In all HTML files <emphasis>you changed for your app</emphasis> , check
+            <para> In all HTML files <emphasis>you changed for your app</emphasis>, check
                 <tag>head</tag> and remove any <tag>script</tag> element or <tag>link</tag> doing an
               import like: </para>
             <programlisting language="html">&lt;link rel="import" href="components/dependencies-dev.html"/&gt;</programlisting>
@@ -4618,7 +4618,7 @@ declare variable $config:webcomponents := "0.9.11";</programlisting>
 declare variable $config:data-root := $config:app-root || "/data";
     </programlisting>
       <para> Switching to a separate data package is as simple as changing this variable, e.g.
-        assuming that we store our data in <code>/db/apps/lgpn-ling-data/data</code> , the <code>
+        assuming that we store our data in <code>/db/apps/lgpn-ling-data/data</code>, the <code>
           data-root</code> should be defined as: </para>
       <programlisting language="xquery" xml:space="preserve">
       declare variable $config:data-root := '/db/apps/lgpn-ling-data/data';
@@ -4737,7 +4737,7 @@ declare variable $config:data-default := $config:data-root;
         instruction exists at the start of the document, telling it which ODD and view template to
         use (along with other configuration parameters). For example, the following processing
         instruction associates the document with the view template
-          <filename>translation.html</filename> , the ODD <filename>dantiscus.odd</filename> , and
+          <filename>translation.html</filename>, the ODD <filename>dantiscus.odd</filename>, and
         switches to a page-by-page display (along TEI page break boundaries): </para>
       <programlisting language="xml" xml:space="preserve">&lt;?teipublisher template="translation.html" odd="dantiscus.odd" view="page"?&gt;</programlisting>
       <para>When viewing the document by structural divisions, two additional settings control the
@@ -4761,7 +4761,7 @@ declare variable $config:data-default := $config:data-root;
           <term>view</term>
           <listitem>
             <para> Default view to show when browsing the document. Supported values are <parameter>
-                div</parameter> , <parameter>page</parameter> or <parameter>single</parameter> : </para>
+                div</parameter>, <parameter>page</parameter> or <parameter>single</parameter> : </para>
             <orderedlist>
               <listitem>
                 <para>
@@ -4850,7 +4850,7 @@ declare variable $config:data-default := $config:data-root;
             and the result defines the string values which will be associated with the specified
             facet dimension. </para>
           <para> For a description of how full-text indexes and facets are defined in the <filename>
-              collection.xconf</filename> , please refer to the <link xlink:show="new"
+              collection.xconf</filename>, please refer to the <link xlink:show="new"
               xlink:href="http://exist-db.org/exist/apps/doc/lucene">eXist documentation</link> .
           </para>
         </listitem>
@@ -4860,7 +4860,7 @@ declare variable $config:data-default := $config:data-root;
           <filename>index.xql</filename>
         </term>
         <listitem>
-          <para> If you open the default <filename>collection.xconf</filename> , you'll see that
+          <para> If you open the default <filename>collection.xconf</filename>, you'll see that
             most facet expressions call a function <function>nav:get-metadata</function> . This
             function is declared in <filename>index.xql</filename> . By externalizing most of the
             code into a separate function, we can keep the index configuration clean and short. </para>
@@ -4976,7 +4976,7 @@ declare variable $config:facets := [
         on <link xlink:show="new" xlink:href="https://codepen.io">codepen.io</link> but communicates
         with the TEI Publisher instance on <link xlink:show="new"
           xlink:href="https://teipublisher.com">teipublisher.com</link> which stores the documents.
-        The magic happens in the <code>endpoint</code> attribute passed to <tag>pb-page</tag> ,
+        The magic happens in the <code>endpoint</code> attribute passed to <tag>pb-page</tag>,
         which tells the components where to talk to: </para>
       <programlisting role="codepen" xlink:href="wolfgangmm#YzXEvvw"/>
       <para> You can actually edit the code above: for example, try to change the path for the first
@@ -5033,7 +5033,7 @@ declare variable $config:facets := [
         you could specify a concrete version number to make sure your website uses a fixed release. </para>
 
       <para> Now let's actually use the components to display Shakespeare's <emphasis>Romeo and
-          Juliet</emphasis> : in the HTML <tag>body</tag> , include the following snippet: </para>
+          Juliet</emphasis> : in the HTML <tag>body</tag>, include the following snippet: </para>
       <programlisting language="html" xml:space="preserve">&lt;pb-page endpoint="https://teipublisher.com/exist/apps/tei-publisher"&gt;
     &lt;pb-document id="document1" path="test/F-rom.xml" odd="shakespeare"&gt;&lt;/pb-document&gt;
     &lt;!-- Navigate to previous page --&gt;
@@ -5077,7 +5077,7 @@ declare variable $config:facets := [
           library</link> ). </para>
       <para> Another example of embedding TEI Publisher web components into a static website can be
         found on our <link xlink:href="https://teipublisher.onrender.com/">demo blog</link> . It was
-        created with <link xlink:href="https://gohugo.io">Hugo</link> , a very popular website
+        created with <link xlink:href="https://gohugo.io">Hugo</link>, a very popular website
         generator which offers hundreds of ready-made themes to choose from. Here content is written
         in markdown, but its not a problem to embed TEI content served by TEI Publisher. </para>
     </section>
@@ -5087,7 +5087,7 @@ declare variable $config:facets := [
     <title>Creating Custom Web Components</title>
     <para> In some cases an app may need to add its own web components to the collection provided by
       TEI Publisher. Please consider following <emphasis role="bold">open-source-first
-        approach</emphasis> , as we do, and contributing your component back to the community, for
+        approach</emphasis>, as we do, and contributing your component back to the community, for
       others to use. </para>
     <para> For that reason, we recommend here a setup which leads to relatively smooth integration
       with <code>pb-components</code> in the future. </para>
@@ -5152,7 +5152,7 @@ declare variable $config:facets := [
       </mediaobject>
     </figure>
     <para> If you are using Visual Studio code <filename>.vscode/component.code-snippets</filename>
-      will provide you with code templates. If you create a new file in <filename>src</filename> ,
+      will provide you with code templates. If you create a new file in <filename>src</filename>,
       e.g. <filename>pb-foo.js</filename> and start typing <emphasis>litelement</emphasis> you will
       be offered a LitElement template. Otherwise you can copy the template manually or copy
       existing <tag>pb-clipboard</tag> element and tweak it. </para>
@@ -5262,7 +5262,7 @@ static get properties() {
       </programlisting>
 
       <para> We glanced over yet another interesting function invoked in the <code>render</code>
-        method. <code>translate</code> , which accepts as an argument a key identifying a
+        method. <code>translate</code>, which accepts as an argument a key identifying a
         corresponding label in i18n language files. It could be one of keys shipping with TEI
         Publisher, but here, for a new component we need a more specific label, presenting the user
         with a short, informative text to be displayed when hovering over <emphasis>
@@ -5274,7 +5274,7 @@ static get properties() {
       </programlisting>
       <para> Please refer to the chapter on <link linkend="i18n">i18n</link> for in-depth discussion
         of the subject. Here we'll just mention that additional language files for new components
-        should be placed in <filename>i18n/app</filename> , mimicking the location and format of
+        should be placed in <filename>i18n/app</filename>, mimicking the location and format of
         Publisher. </para>
       <programlisting language="js" xml:space="preserve">
 {
@@ -5467,7 +5467,7 @@ static get styles() {
       </procedure>
 
       <para> For example, to use the git source of <code>pb-extension-template</code> in <filename>
-          package.json</filename> , change the dependencies as follows: </para>
+          package.json</filename>, change the dependencies as follows: </para>
       <programlisting language="js" xml:space="preserve">
 "dependencies": {
    "@teipublisher/pb-extension-template": "git+https://github.com/eeditiones/pb-extension-template#master"
@@ -5513,7 +5513,7 @@ static get styles() {
       transformed into a range of available output formats: HTML, ePub etc.</para>
     <para> All other aspects are interconnected and depend on the understanding what constitutes the
       basic unit of the text: TEI primarily considers <emphasis>divisions</emphasis> or <emphasis>
-        pages</emphasis> , DocBook rather <emphasis>sections</emphasis> . Therefore navigation for
+        pages</emphasis>, DocBook rather <emphasis>sections</emphasis> . Therefore navigation for
       TEI document will be switching between <tag>div</tag> s or reconstructed XML fragments between
       subsequent <tag>pb</tag> s, while talking about pages in DocBook documents makes no sense and
         <tag> section</tag> s are the main structural units. </para>
@@ -5623,7 +5623,7 @@ static get styles() {
     <section xml:id="new-vocabulary-default-view">
       <title>Default view and page template</title>
       <para> Rendering of the document is governed by a number of parameters, particularly
-          <parameter> view</parameter> , <parameter>ODD</parameter> and
+          <parameter> view</parameter>, <parameter>ODD</parameter> and
           <parameter>template</parameter> : </para>
       <para> Even when these parameters are not explicitly specified, TEI Publisher and apps
         generated from it, will fall back to the default values specified in <filename>
@@ -5673,7 +5673,7 @@ static get styles() {
       <para>
         <filename>modules/navigation.xql</filename> is the main "control room" for all tasks related
         to navigation. You will note that it imports custom modules for all supported vocabularies:
-          <emphasis> TEI</emphasis> , <emphasis>JATS</emphasis> and <emphasis>DocBook</emphasis> .
+          <emphasis> TEI</emphasis>, <emphasis>JATS</emphasis> and <emphasis>DocBook</emphasis> .
         All requests are dispatched to specialized modules, depending on the namespace of the
         document (cf. <function> config:document-type</function> function). </para>
       <programlisting language="xquery" xml:space="preserve">
@@ -6349,7 +6349,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             <term>tokenize-regex</term>
             <listitem>
               <para>an optional regular expression used to split values before searching the text
-                for other occurrences. This is useful if you have variant names separated by , or ;
+                for other occurrences. This is useful if you have variant names separated by, or ;
                 and each variant should be searched for separately.</para>
             </listitem>
           </varlistentry>
