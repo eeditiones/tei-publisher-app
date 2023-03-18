@@ -2417,42 +2417,119 @@
         <para>Note that outputting text nodes is a performance critical operation, so use with care.
           Too complex processing may dramatically slow down rendering.</para>
       </section>
-      <section xml:id="external-parameters">
-        <title>External Parameters</title>
-        <para> The script calling the processing model may pass external parameters into the ODD.
-          They will be available in the variable <parameter>$parameters</parameter>, which is an
-          XQuery map. Access parameters using <code>?</code>, the XQuery lookup operator. </para>
-        <para>For example, one can use this feature to control how specific parts of the document
-          are output, without having to define a separate output mode, which would result in much
-          more code. Below we display a shortened header for the document, containing simply its
-          title, but only if the parameter "header" is set to "short":</para>
-        <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="fileDesc"&gt;
+
+
+      <section xml:id="setting-parameters">
+        <title>Setting processing parameters for the ODD</title>
+
+        <para>Depending on the application context we often wish to differentiate the desired
+          processing output. For example when displaying the list of documents available in an
+          edition we usually only want to see a rather short entry comprising of the author and
+          title, but when viewing an individual document we certainly want to present all associated
+          metadata, not to mention arrange that information visually in a distinct way. </para>
+        <para>To this end, we can pass external parameters into the ODD, which inform the processor
+          which of the processing scenarios we wish to follow.</para>
+
+        <para>More about this, the most common, use case for passing parameters in the ODD you can
+          read in a <link linkend="external-parameters">subsequent section</link>.</para>
+        <para> In version 3.0.0 of the <code>tei-publisher-lib</code> we added two carefully chosen
+          features to our implementation of the TEI Processing Model: </para>
+        <itemizedlist>
+          <listitem>
+            <para>a method to specify a processing mode passed to all subsequently called
+              models</para>
+          </listitem>
+          <listitem>
+            <para>a way to set a parameter, so it will be available to subsequently processed
+              models</para>
+          </listitem>
+        </itemizedlist>
+
+
+        <para> The first is implemented as a specialization of the second. Both features are
+          intended for relatively rare cases, where the standard mechanisms for handling the flow of
+          processing are not enough. This mainly applies to cases in which you have to process the
+          same part of the TEI document multiple times in the same processing context (usually
+            <code>pb-view</code>). None of the examples shipping with TEI Publisher needs these
+          features, but in elaborate editions we do encounter situations which cannot be handled
+          without them. </para>
+        <section xml:id="external-parameters">
+          <title>External Parameters</title>
+          <para> The script calling the processing model may pass external parameters into the ODD.
+            They will be available in the variable <parameter>$parameters</parameter>, which is an
+            XQuery map. Access parameters using <code>?</code>, the XQuery lookup operator. </para>
+          <para>For example, one can use this feature to control how specific parts of the document
+            are output, without having to define a separate output mode, which would result in much
+            more code. Below we display a shortened header for the document, containing simply its
+            title, but only if the parameter "header" is set to "short":</para>
+          <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="fileDesc"&gt;
     &lt;model predicate="$parameters?header='short' behaviour="block" cssClass="header-short"&gt;
       &lt;param name="content" value="titleStmt"/&gt;
     &lt;/model&gt;
   ...
 &lt;/elementSpec&gt;</programlisting>
-        <para> The <tag>pb-view</tag> webcomponent also lets you define arbitrary parameters to be
-          passed to the ODD via <tag>pb-param</tag>. For example, the breadcrumbs shown above this
-          documentation page are realized by setting a parameter <parameter>mode</parameter> and can
-          be queried in model predicates with <parameter>$parameters?mode='breadcrumbs'</parameter>
-          . </para>
-        <programlisting language="xml" xml:space="preserve">&lt;section class="breadcrumbs"&gt;
+          <para> The <tag>pb-view</tag> webcomponent also lets you define arbitrary parameters to be
+            passed to the ODD via <tag>pb-param</tag>. For example, the breadcrumbs shown above this
+            documentation page are realized by setting a parameter <parameter>mode</parameter> and
+            can be queried in model predicates with
+              <parameter>$parameters?mode='breadcrumbs'</parameter> . </para>
+          <programlisting language="xml" xml:space="preserve">&lt;section class="breadcrumbs"&gt;
     &lt;pb-view id="title-view1" src="document1" subscribe="transcription"&gt;
         &lt;pb-param name="mode" value="breadcrumbs"/&gt;
     &lt;/pb-view&gt;
 &lt;/section&gt;</programlisting>
-        <para>If the parameter is set, the processing model rules in the ODD will output the
-          headings of all ancestor sections of the current division only, ignoring everything else.
-          This approach helps to reuse the same ODD for viewing specific aspects of the
-          document.</para>
-        <para> A dedicated user interface webcomponent <link xlink:show="new"
-            xlink:href="https://cdn.tei-publisher.com/api.html#pb-toggle-feature.0">
-            <tag>pb-toggle-feature</tag>
-          </link> exists for toggling between two values of a parameter. Example below would produce
-          a checkbox which when on results in the value of <parameter> $parameters?mode</parameter>
-          set to <parameter>diplomatic</parameter>, otherwise to <parameter> norm</parameter>. </para>
-        <programlisting language="xml" xml:space="preserve">&lt;pb-toggle-feature name="mode" on="diplomatic" off="norm"&gt;Diplomatic View&lt;/pb-toggle-feature&gt;</programlisting>
+          <para>If the parameter is set, the processing model rules in the ODD will output the
+            headings of all ancestor sections of the current division only, ignoring everything
+            else. This approach helps to reuse the same ODD for viewing specific aspects of the
+            document.</para>
+          <para> A dedicated user interface webcomponent <link xlink:show="new"
+              xlink:href="https://cdn.tei-publisher.com/api.html#pb-toggle-feature.0">
+              <tag>pb-toggle-feature</tag>
+            </link> exists for toggling between two values of a parameter. Example below would
+            produce a checkbox which when on results in the value of <parameter>
+              $parameters?mode</parameter> set to <parameter>diplomatic</parameter>, otherwise to
+              <parameter> norm</parameter>. </para>
+          <programlisting language="xml" xml:space="preserve">&lt;pb-toggle-feature name="mode" on="diplomatic" off="norm"&gt;Diplomatic View&lt;/pb-toggle-feature&gt;</programlisting>
+        </section>
+        <section xml:id="pm-mode">
+          <title>Processing Modes </title>
+          <para>Distinguishing between processing modes is a common feature in XSLT. It comes handy
+            if you need to process the same XML more than once for different purposes. One common
+            example would be to render a person reference once in the running text and again, as a
+            footnote, but then perhaps together with the associated commentary but without
+            information about textual features related to the process of writing, like scribal
+            errrors in the spelling or gaps and stains on the parchment. As a rule of thumb, setting
+            a mode is helpful where it would not be possible to distinguish the scenario to apply
+            neither by the context in which the element appears in the XML source nor by the
+            external parameter passed into the ODD. </para>
+          <para>tei-publisher-lib 3 allows you to specify this new extension attribute,
+              <code>@pb:mode</code>, on a <code>model</code>. The value of the attribute will be
+            taken as the name of the mode, and subsequently called models can check it (e.g. in a
+              <code>model</code>
+            <emphasis>predicate</emphasis>) via this special variable, e.g.
+              <code>$mode="register"</code> if your model definition specified this value, e.g.
+              <code>&lt;model behaviour="block" pb:mode="register"&gt;</code>. </para>
+        </section>
+
+        <section xml:id="pm-set-param">
+          <title>Setting Parameters within the ODD</title>
+          <para>A logical follow-up for setting the processing mode described in the previous
+            section and <link linkend="external-parameters">passing external parameters</link> this
+            extension allows to set an arbitrary parameter which is passed on to all models
+            subsequently called as a result of processing the current element. </para>
+          <para>The syntax is the same as for the standard <code>&lt;param name="foo"
+              value="baz"/&gt;</code>. Just the name of the element changes to
+              <code>&lt;pb:set-param&gt;</code>, marking this as a special parameter which is
+            "inherited" by subsequent models. </para>
+          <para>Common motivation to use this feature would be for efficiency, to compute certain
+            value once and just use it many times afterwards. Let's imagine that every paragraph
+            exposes a citation button which always starts with the author, title and other
+            information from the publication statement part of the TEI file and only ends with a
+            paragraph number. We could easily prepare the initial sequence on a division level and
+            have it available to all nested paragraphs, thus saving the processing time required to
+            look up from the paragraph to the TEI header every time. </para>
+        </section>
+
       </section>
       <section xml:id="pm-extensions-templates">
         <title>Code Templates and Custom Behaviours</title>
