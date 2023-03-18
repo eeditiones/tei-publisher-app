@@ -2824,19 +2824,23 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         scripted and styled without the fear of collision with other parts of the page, but poses
         additional challenges when adjusting the look and feel of a component to fit a project's
         theme.</para>
-      <para> For Publisher, encapsulation of web components means that definitions in <code>
-          theme.css</code> or equivalent project customization CSS files are not able to directly
-        govern web components styling. </para>
+      <para> For Publisher, encapsulation of web components means that definitions in
+          <code>theme.css</code> or equivalent project customization CSS files are not able to
+        directly govern web components styling. </para>
       <para> While some aspects of component styling remained unaccessible for customization in
-        versions preceding Publisher 6, currently <code>pb-components</code> expose style properties
-        to the outside world via standard CSS variables. This way variables like <code>
+        versions preceding Publisher 6, from that version <code>pb-components</code> expose style
+        properties to the outside world via standard CSS variables. This way variables like <code>
           --pb-footnote-color</code> defined in <code>theme.css</code> can be accessed by e.g.
           <code> pb-view</code> component and thus determine the color of the footnote marker in the
         rendered transcription. </para>
 
-      <para>Note that while you cannot change the inner appearance of a component except by setting
-        its custom CSS properties, you can style the component itself within the HTML template, e.g.
-        to position it within the layout of the page.</para>
+      <para>Note that with this method while you cannot change the inner appearance of a component
+        except by setting its custom CSS properties, you can style the component itself within the
+        HTML template, e.g. to position it within the layout of the page.</para>
+      <para>With TEI Publisher 7, or, more precisely, version 1.43.0 of the
+          <code>tei-publisher-components</code> a much more robust method is available by simply
+        specifying a <code>theme</code> property for <code>pb-page</code>. </para>
+      <programlisting language="xml" xml:space="preserve">&lt;pb-page data-template="pages:pb-page" ... theme="resources/css/components.css"&gt;</programlisting>
     </section>
     <section xml:id="css-styling-external">
       <title>External stylesheets</title>
