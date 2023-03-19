@@ -110,7 +110,7 @@ declare function jats:query-metadata($path as xs:string?, $field as xs:string?, 
             $jats:FIELD_PREFIX || "file:*" 
         else 
             $jats:FIELD_PREFIX || ($field, "text")[1] || ":" || $query
-    let $options := query:options($sort, ($field, "text")[1])
+    let $options := query:options($sort, ($jats:FIELD_PREFIX || $field, "text")[1])
     let $result :=
         $config:data-default ! (
             collection(. || "/" || $path)//body[ft:query(., $queryExpr, $options)]
