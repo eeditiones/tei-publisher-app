@@ -47,11 +47,11 @@
             <text qname="body">
                 <ignore qname="sect"/>
                 <field name="jats.file" expression="util:document-name(.)"/>
-                <field name="jats.title" expression="nav:get-metadata(ancestor::article, 'title')"/>
-                <field name="jats.author" expression="nav:get-metadata(ancestor::article, 'author')"/>
-                <field name="jats.text" expression="."/>
-                <facet dimension="genre" expression="nav:get-metadata(ancestor::article, 'genre')" hierarchical="yes"/>
-                <facet dimension="language" expression="head((ancestor::article/@xml:lang, 'en'))"/>
+                <field name="jats.title" expression="nav:get-metadata(., 'title')"/>
+                <field name="jats.author" expression="nav:get-metadata(., 'author')"/>
+                <field name="jats.text" expression="nav:get-metadata(., 'content')"/>
+                <facet dimension="genre" expression="nav:get-metadata(., 'genre')" hierarchical="yes"/>
+                <facet dimension="language" expression="head((./@xml:lang, 'en'))"/>
             </text>
         </lucene>
     </index>
