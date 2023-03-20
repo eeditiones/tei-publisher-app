@@ -4,7 +4,7 @@ main {
 }
 
 app-header-layout {
-    background-image: url('resources/images/network-background.jpg');
+    background-image: url('../images/network-background.jpg');
     background-size: 100% auto;
     background-repeat-x: no-repeat;
     background-color: #e8fafa;
