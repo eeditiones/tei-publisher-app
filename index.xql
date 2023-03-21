@@ -32,20 +32,21 @@ declare function idx:get-metadata($root as element(), $field as xs:string) {
                     $header//tei:msDesc/tei:head, $header//tei:titleStmt/tei:title[@type = 'main'],
                     $header//tei:titleStmt/tei:title,
                     $root/dbk:info/dbk:title,
-                    $root//article-meta/title-group/article-title,
-                    $root//article-meta/title-group/subtitle
+                    root($root)//article-meta/title-group/article-title,
+                    root($root)//article-meta/title-group/subtitle
                 ), " - ")
             case "author" return (
                 $header//tei:correspDesc/tei:correspAction/tei:persName,
                 $header//tei:titleStmt/tei:author,
                 $root/dbk:info/dbk:author,
-                $root//article-meta/contrib-group/contrib/name
+                root($root)//article-meta/contrib-group/contrib/name
             )
             case "language" return
                 head((
                     $header//tei:langUsage/tei:language/@ident,
                     $root/@xml:lang,
-                    $header/@xml:lang
+                    $header/@xml:lang,
+                    root($root)/*/@xml:lang
                 ))
             case "date" return head((
                 $header//tei:correspDesc/tei:correspAction/tei:date/@when,
@@ -57,7 +58,7 @@ declare function idx:get-metadata($root as element(), $field as xs:string) {
             case "genre" return (
                 idx:get-genre($header),
                 $root/dbk:info/dbk:keywordset[@vocab="#genre"]/dbk:keyword,
-                $root//article-meta/kwd-group[@kwd-group-type="genre"]/kwd
+                root($root)//article-meta/kwd-group[@kwd-group-type="genre"]/kwd
             )
             case "feature" return (
                 idx:get-classification($header, 'feature'),
@@ -70,6 +71,10 @@ declare function idx:get-metadata($root as element(), $field as xs:string) {
             case "period" return (
                 idx:get-classification($header, 'period'),
                 $root/dbk:info/dbk:keywordset[@vocab="#period"]/dbk:keyword
+            )
+            case "content" return (
+                root($root)//body,
+                $root/dbk:section
             )
             default return
                 ()

@@ -29,6 +29,15 @@ declare variable $query:QUERY_OPTIONS := map {
     "filter-rewrite": "yes"
 };
 
+declare function query:field-prefix($elem as element()) {
+    switch (namespace-uri($elem))
+        case "http://www.tei-c.org/ns/1.0" return
+            ""
+        case "http://docbook.org/ns/docbook" return
+            "dbk."
+        default return
+            "jats."
+};
 
 declare %private function query:sort($items as element()*, $sortBy as xs:string?) {
     let $items :=

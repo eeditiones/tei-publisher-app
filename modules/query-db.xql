@@ -117,7 +117,7 @@ declare function dbs:query-metadata($path as xs:string?, $field as xs:string?, $
             $dbs:FIELD_PREFIX || "file:*" 
         else 
             $dbs:FIELD_PREFIX || ($field, "text")[1] || ":" || $query
-    let $options := query:options($sort, ($field, "text")[1])
+    let $options := query:options($sort, $dbs:FIELD_PREFIX || ($field, "text")[1])
     let $result :=
         $config:data-default ! (
             collection(. || "/" || $path)//db:article[ft:query(., $queryExpr, $options)]
