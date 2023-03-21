@@ -93,24 +93,20 @@ pb-collapse > div{
     margin-bottom: 40px;
 }
 
-.panels .doclist {
-    --paper-tabs-selection-bar-color: #607D8B;
+main .panels .doclist {
     --paper-tab-content: {
         font-family: var(--pb-heading-font-family);
         font-weight: 400;
-    }
-;
+    };
     --paper-card-header: {
         background-color: #607D8B;
-    }
-;
+    };
     --paper-card-header-text: {
         font-family: var(--pb-heading-font-family);
         font-size: 16px;
         font-weight: 400;
         color:white;
-    }
-;
+    };
 }
 
 .panels .doclist .card-content {
@@ -135,15 +131,13 @@ aside .upload {
     --paper-card-header: {
         background-color: #d1dae0;
         color:black;
-    }
-;
+    };
     --paper-card-header-text: {
         font-family: var(--pb-heading-font-family);
         font-size: 16px;
         font-weight: 400;
         color: black;
-    }
-;
+    };
 }
 
 aside .upload {
@@ -281,7 +275,7 @@ h5 {
 }
 
 /* hide Download menu button */
-#download-button {
+#download-button, .menu-edit-odd {
     display: none;
 }
 pb-manage-odds{
