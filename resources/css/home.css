@@ -49,7 +49,7 @@ li.document{
     padding-bottom:1rem;
     max-width:calc(100% - 1rem);
     gap:1em;
-
+    position: relative;
 }
 
 .documents .document-select {
@@ -111,16 +111,14 @@ pb-collapse > div{
 
 .attribution{
     position: absolute;
-    bottom: 1px;
+    bottom: 1rem;
     font-size: 0.6em;
-    right: -1px;
+    left: 0;
     color: blue;
     background: rgba(255,255,255,0.6);
     padding: 0 0.375em;
     border-top-left-radius: 0.25em;
 }
-
-
 
 @media (max-width: 1023px) {
     main {
