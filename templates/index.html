@@ -13,10 +13,45 @@
     <link rel="stylesheet" href="resources/css/theme.css" />
     <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
     <link rel="stylesheet" href="resources/css/home.css" />
+    <link rel="preload" as="image" href="resources/images/network-background.jpg"/>
+
+    <custom-style>
+        <style>
+            main .panels .doclist {
+                --paper-tab-content: {
+                    font-family: var(--pb-heading-font-family);
+                    font-weight: 400;
+                };
+                --paper-card-header: {
+                    background-color: #607D8B;
+                };
+                --paper-card-header-text: {
+                    font-family: var(--pb-heading-font-family);
+                    font-size: 16px;
+                    font-weight: 400;
+                    color:white;
+                };
+            }
+            aside .odds,
+            aside .upload {
+                --paper-card-header: {
+                    background-color: #d1dae0;
+                    color:black;
+                };
+                --paper-card-header-text: {
+                    font-family: var(--pb-heading-font-family);
+                    font-size: 16px;
+                    font-weight: 400;
+                    color: black;
+                };
+            }
+        </style>
+    </custom-style>
+
 </head>
 
 <body>
-    <pb-page data-template="pages:pb-page" api-version="1.0" unresolved="unresolved" theme="resources/css/components.css">
+    <pb-page data-template="pages:pb-page" api-version="1.0" unresolved="unresolved" theme="resources/css/home.css">
         <app-drawer-layout force-narrow="force-narrow">
             <app-drawer slot="drawer" align="right">
                 <div class="drawer-content">

@@ -10,11 +10,118 @@ app-header-layout {
     background-color: #e8fafa;
     min-height: 100vh;
 }
+.documents ul {
+    list-style: none;
+}
 
+.documents div {
+    margin: 0;
+}
+
+.documents .error {
+    color: #c02020;
+}
+
+.documents a,
+.documents a:visited {
+    color: #303F9F;
+    text-decoration: none;
+}
+
+.documents li {
+    display:grid;
+    grid-template-columns:9rem auto;
+    grid-gap:1rem;
+    margin-bottom: 10px;
+    padding: 6px 0;
+    border-bottom: thin solid var(--paper-grey-300);
+}
+
+.documents li:last-child {
+    border: none;
+}
+li.document{
+    display:flex;
+    flex-wrap:wrap;
+    margin-bottom: 10px;
+    padding: 6px 0;
+    border-bottom: thin solid var(--paper-grey-300);
+    padding-bottom:1rem;
+    max-width:calc(100% - 1rem);
+    gap:1em;
+
+}
+
+.documents .document-select {
+    flex: 0 0;
+    margin-right: 20px;
+}
+
+.document-info{
+    width:70%;
+    min-width:min(28em,100%);
+
+}
 pb-collapse > div{
     font-size:1.2rem;
-    padding:1rem 0;
+    padding:0.5rem 0;
 }
+
+.thumbnail{
+    width: 8em;
+    height: 8em;
+    width:8em;
+    background-repeat: no-repeat ;
+    background-position: center center;
+    background-size: cover;
+    box-shadow:2px 2px 4px rgba(33,33,33,0.5);
+    position:relative;
+}
+.thumbnail img {
+    border-radius:35px;
+    border-color: #19232d;
+    border-style: groove;
+    box-shadow: 1px 1px 1px 1px  #19232d;
+}
+
+.thumbnail.demo{
+    background-image: url(../images/close-up-view-online-shopping-concept.jpg);
+    /*
+    background-repeat: no-repeat ;
+    background-position: center center;
+    background-size: cover;
+    */
+}
+.thumbnail.play{
+    background-image: url(../images/young-student-studying-online-through-laptop-during-new-normal-digital-remix.jpg);
+}
+.thumbnail.docs{
+    background-image: url(../images/html-css-collage-concept-with-person.jpg);
+    filter:brightness(1.2);
+}
+.thumbnail.annotate{
+    background-image: url(../images/business-woman-working-office-desktop.jpg);
+}
+.thumbnail.markdown{
+    background-image: url(../images/closeup-computer-keyboard.jpg);
+}
+.thumbnail.jats{
+    background-image: url(../images/pile-colorful-magazines-table.jpg);
+}
+
+.attribution{
+    position: absolute;
+    bottom: 1px;
+    font-size: 0.6em;
+    right: -1px;
+    color: blue;
+    background: rgba(255,255,255,0.6);
+    padding: 0 0.375em;
+    border-top-left-radius: 0.25em;
+}
+
+
+
 @media (max-width: 1023px) {
     main {
         margin: 0 8px 0 8px;
@@ -24,6 +131,12 @@ pb-collapse > div{
     }
     .documents {
         padding-left: 10px;
+    }
+    .documents li{
+        display:block;
+    }
+    .documents li .thumbnail{
+        display:block;
     }
     .documents .label {
         display: none;
@@ -77,6 +190,10 @@ pb-collapse > div{
     font-size: 26px;
     margin-top: 12px;
 }
+.panels {
+    margin-bottom: 40px;
+    min-height:80vh;
+}
 
 @media (min-width: 1024px) {
     .toolbar {
@@ -93,6 +210,7 @@ pb-collapse > div{
     margin-bottom: 40px;
 }
 
+/* needs to be inline within a custom-style element to work - see index.html header
 main .panels .doclist {
     --paper-tab-content: {
         font-family: var(--pb-heading-font-family);
@@ -108,6 +226,7 @@ main .panels .doclist {
         color:white;
     };
 }
+*/
 
 .panels .doclist .card-content {
     padding: 0;
@@ -126,6 +245,7 @@ aside {
     flex-direction: column;
 }
 
+/* needs to be inline within a custom-style element to work - see index.html header
 aside .odds,
 aside .upload {
     --paper-card-header: {
@@ -139,6 +259,7 @@ aside .upload {
         color: black;
     };
 }
+*/
 
 aside .upload {
     margin-bottom: 20px;
@@ -147,6 +268,7 @@ aside .upload {
 
 .browse aside {
     padding: 0 8px;
+    border-right:2px solid #efefef;
 }
 
 pb-select {
@@ -178,40 +300,6 @@ pb-select {
     }
 }
 
-.documents ul {
-    list-style: none;
-}
-
-.documents div {
-    margin: 0;
-}
-
-.documents .error {
-    color: #c02020;
-}
-
-.documents a,
-.documents a:visited {
-    color: #303F9F;
-    text-decoration: none;
-}
-
-.documents li {
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 10px;
-    padding: 6px 0;
-    border-bottom: thin solid var(--paper-grey-300);
-}
-
-.documents li:last-child {
-    border: none;
-}
-
-.documents .document-select {
-    flex: 0 0;
-    margin-right: 20px;
-}
 
 .drawer-content iron-icon,
 .drawer-content .github-mark{
@@ -253,26 +341,16 @@ h5 {
 .side {
     max-width: 20em;
     padding-left: 2em;
-    background:rgba(255,255,255,0.75);
-    box-shadow:6px 1px 10px rgba(255,255,255,0.75);
     justify-self:end;
     color:white;
-}
-.welcome .side{
     background:rgba(53,66,75,0.75);
-    box-shadow:6px 1px 10px rgba(53,66,75,0.75);
+    box-shadow:2px 1px 2px rgba(53,66,75,0.85);
 }
 
 .side strong {
     color: var(--pb-color-focus);
 }
 
-.thumbnail img {
-    border-radius:35px;
-    border-color: #19232d;
-    border-style: groove;
-    box-shadow: 1px 1px 1px 1px  #19232d;
-}
 
 /* hide Download menu button */
 #download-button, .menu-edit-odd {
