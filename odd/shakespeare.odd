@@ -44,6 +44,7 @@
                     <model behaviour="webcomponent" cssClass="facs">
             <param name="name" value="'pb-facs-link'"/>
             <param name="content" value="@n"/>
+            <param name="emit" value="'transcription'"/>
             <param name="facs" value="replace(@facs, '^FFimg:(.*)$', '$1')"/>
             <outputRendition xml:space="preserve">
             font-size: 16px;
