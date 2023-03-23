@@ -272,7 +272,9 @@
             </app-drawer>
             <app-header-layout>
                 <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
-                    <app-toolbar data-template="lib:include" data-template-path="templates/menu.html" />
+                    <app-toolbar data-template="lib:include" data-template-path="templates/menu.html">
+                        <pb-progress subscribe="search" indeterminate="indeterminate" bottom-item="bottom-item" data-target="menubar-after"/>
+                    </app-toolbar>
                 </app-header>
                 <main>
                     <section>
