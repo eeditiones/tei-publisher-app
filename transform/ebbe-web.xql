@@ -170,7 +170,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 html:block($config, ., css:get-rendition(., ("tei-q3", css:map-rend-to-class(.))), .)                                => model:map($node, $trackIds)
                     case element(pb) return
                         if (starts-with(@facs, 'iiif:')) then
-                            html:webcomponent($config, ., css:get-rendition(., ("tei-pb", "facs", css:map-rend-to-class(.))), @n, 'pb-facs-link', map {"facs": replace(@facs, '^iiif:(.*)$', '$1')})                            => model:map($node, $trackIds)
+                            html:webcomponent($config, ., css:get-rendition(., ("tei-pb", "facs", css:map-rend-to-class(.))), @n, 'pb-facs-link', map {"emit": 'transcription', "facs": replace(@facs, '^iiif:(.*)$', '$1')})                            => model:map($node, $trackIds)
                         else
                             $config?apply($config, ./node())
                     case element(epigraph) return

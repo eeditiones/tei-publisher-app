@@ -100,7 +100,7 @@
                         <param name="facs"
                             value="let $zone := id(substring-after(@facs, '#'), root($parameters?root)) return  'http://vangoghletters.org/vg/facsimiles/' ||     $zone/graphic[@mimeType=&#34;image/png&#34;]/@url"/>
                         <param name="name" value="'pb-facs-link'"/>
-                        <param name="emit" value="'transcription'"/>
+                        <param name="emit" value="'transcription'"/>                        
                         <outputRendition xml:space="preserve">
             font-size: .85em;
 background-color: #C0C0C0;

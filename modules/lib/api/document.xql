@@ -456,7 +456,7 @@ declare function dapi:get-fragment($request as map(*), $docs as node()*, $path a
                 else
                     $xml?data
             let $data :=
-                if (empty($request?parameters?xpath) and $request?parameters?highlight and exists(session:get-attribute($config:session-prefix || ".query"))) then
+                if (empty($request?parameters?xpath) and $request?parameters?highlight and exists(session:get-attribute($config:session-prefix || ".search"))) then
                     query:expand($xml?config, $mapped)[1]
                 else
                     $mapped
