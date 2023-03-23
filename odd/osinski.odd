@@ -57,6 +57,7 @@
                     <model predicate="starts-with(@facs, 'iiif:')" behaviour="webcomponent" cssClass="facs" useSourceRendition="true">
             <param name="name" value="'pb-facs-link'"/>
             <param name="content" value="@n"/>
+            <param name="emit" value="'transcription'"/>
             <param name="facs" value="replace(@facs, '^iiif:(.*)$', '$1')"/>
             <outputRendition xml:space="preserve">
             font-size: 16px;
