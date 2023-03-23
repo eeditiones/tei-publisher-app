@@ -159,7 +159,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             else
                                 epub:block($config, ., css:get-rendition(., ("tei-q3", css:map-rend-to-class(.))), .)
                     case element(pb) return
-                        html:webcomponent($config, ., ("tei-pb2", "facs", css:map-rend-to-class(.)), @n, 'pb-facs-link', map {"facs": replace(@facs, '^FFimg:(.*)$', '$1')})
+                        html:webcomponent($config, ., ("tei-pb2", "facs", css:map-rend-to-class(.)), @n, 'pb-facs-link', map {"emit": 'transcription', "facs": replace(@facs, '^FFimg:(.*)$', '$1')})
                     case element(epigraph) return
                         epub:block($config, ., ("tei-epigraph", css:map-rend-to-class(.)), .)
                     case element(lb) return

@@ -164,7 +164,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 epub:block($config, ., css:get-rendition(., ("tei-q3", css:map-rend-to-class(.))), .)
                     case element(pb) return
                         if (starts-with(@facs, 'iiif:')) then
-                            html:webcomponent($config, ., ("tei-pb1", "facs", css:map-rend-to-class(.)), @n, 'pb-facs-link', map {"facs": replace(@facs, '^iiif:(.*)$', '$1')})
+                            html:webcomponent($config, ., ("tei-pb1", "facs", css:map-rend-to-class(.)), @n, 'pb-facs-link', map {"emit": 'transcription', "facs": replace(@facs, '^iiif:(.*)$', '$1')})
                         else
                             html:omit($config, ., ("tei-pb2", css:map-rend-to-class(.)), .)
                     case element(epigraph) return

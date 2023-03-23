@@ -161,7 +161,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (count(../*) = 1 and count(ancestor::*) = 1) then
                             html:inline($config, ., css:get-rendition(., ("tei-pb2", css:map-rend-to-class(.))), '[Empty page]')                            => model:map($node, $trackIds)
                         else
-                            html:webcomponent($config, ., ("tei-pb3", css:map-rend-to-class(.)), ., 'pb-facs-link', map {"facs": let $name := replace(util:document-name($parameters?root), '^([^\.]+)\..*$', '$1') return  ``[`{$name}`/`{$name}`_`{substring-after(@facs, '#f')}`_800px.jpg]``})                            => model:map($node, $trackIds)
+                            html:webcomponent($config, ., ("tei-pb3", css:map-rend-to-class(.)), ., 'pb-facs-link', map {"emit": 'transcription', "facs": let $name := replace(util:document-name($parameters?root), '^([^\.]+)\..*$', '$1') return  ``[`{$name}`/`{$name}`_`{substring-after(@facs, '#f')}`_800px.jpg]``})                            => model:map($node, $trackIds)
                     case element(epigraph) return
                         html:block($config, ., ("tei-epigraph", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(lb) return
