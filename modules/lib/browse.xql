@@ -158,20 +158,20 @@ declare function app:dispatch-action($node as node(), $model as map(*), $action 
                         try {
                             xmldb:remove(util:collection-name($doc), util:document-name($doc))
                         } catch * {
-                            <p class="error">Failed to remove document {$path} (insufficient permissions?)</p>
+                            <p class="error"><pb-i18n key="browse.document-remove-failed="></pb-i18n> {$path} (insufficient permissions?)</p>
                         }
                     else
-                        <p>Document not found: {$path}</p>
+                        <p><pb-i18n key="browse.document-not-found"></pb-i18n>: {$path}</p>
             return
                 <div id="action-alert" class="alert alert-success">
-                    <p>Removed {count($docs) - count($result)} documents.</p>
+                    <p><pb-i18n key="browse.documents-removed"></pb-i18n>: {count($docs) - count($result)}</p>
                     { $result }
                 </div>
         case "delete-odd" return
             let $docs := request:get-parameter("docs[]", ())
             return
                 <div id="action-alert" class="alert alert-success">
-                    <p>Removed {count($docs)} documents.</p>
+                    <p><pb-i18n key="browse.documents-removed"></pb-i18n>: {count($docs)}</p>
                     {
                         for $path in $docs
                         let $doc := doc($config:odd-root || "/" || $path)
