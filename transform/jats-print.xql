@@ -37,6 +37,10 @@ declare %private function model:template-disp-formula($config as map(*), $node a
 declare %private function model:template-mml_math($config as map(*), $node as node()*, $params as map(*)) {
     <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">{$config?apply-children($config, $node, $params?content)}</math>
 };
+(: generated template function for element spec: ref :)
+declare %private function model:template-ref($config as map(*), $node as node()*, $params as map(*)) {
+    ``[`{string-join($config?apply-children($config, $node, $params?authors))}`: `{string-join($config?apply-children($config, $node, $params?title))}`. `{string-join($config?apply-children($config, $node, $params?source))}``{string-join($config?apply-children($config, $node, $params?year))}`]``
+};
 (:~
 
     Main entry point for the transformation.
@@ -141,7 +145,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if ($parameters?header='short') then
                             html:heading($config, ., ("tei-article-title1", css:map-rend-to-class(.)), ., 5)
                         else
-                            html:heading($config, ., ("tei-article-title2", "title", css:map-rend-to-class(.)), ., 1)
+                            if (ancestor::article-meta) then
+                                html:heading($config, ., ("tei-article-title2", "title", css:map-rend-to-class(.)), ., 1)
+                            else
+                                if (ancestor::ref-list) then
+                                    html:pass-through($config, ., ("tei-article-title3", css:map-rend-to-class(.)), .)
+                                else
+                                    $config?apply($config, ./node())
                     case element(subtitle) return
                         html:heading($config, ., ("tei-subtitle", css:map-rend-to-class(.)), ., 5)
                     case element(caption) return
@@ -149,12 +159,15 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(disp-quote) return
                         html:cit($config, ., ("tei-disp-quote", css:map-rend-to-class(.)), ., ())
                     case element(fn) return
-                        printcss:note($config, ., ("tei-fn", css:map-rend-to-class(.)), ., (), ())
+                        if (label) then
+                            printcss:note($config, ., ("tei-fn1", css:map-rend-to-class(.)), node() except label, (), ())
+                        else
+                            printcss:note($config, ., ("tei-fn2", css:map-rend-to-class(.)), ., (), ())
                     case element(label) return
                         html:block($config, ., ("tei-label", css:map-rend-to-class(.)), .)
                     case element(xref) return
                         if (@ref-type='fn') then
-                            printcss:note($config, ., ("tei-xref", css:map-rend-to-class(.)), let $rid := @rid return root($parameters?root)//fn[@id=$rid], (), ())
+                            html:pass-through($config, ., ("tei-xref", css:map-rend-to-class(.)), let $rid := @rid return root($parameters?root)//fn[@id=$rid])
                         else
                             $config?apply($config, ./node())
                     case element(contrib) return
@@ -193,11 +206,11 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(abstract) return
                         html:block($config, ., ("tei-abstract", "abstract", css:map-rend-to-class(.)), .)
                     case element(name) return
-                        html:inline($config, ., ("tei-name", css:map-rend-to-class(.)), (given-names, surname))
+                        html:inline($config, ., ("tei-name", css:map-rend-to-class(.)), (given-names,surname))
                     case element(surname) return
                         html:inline($config, ., ("tei-surname", css:map-rend-to-class(.)), .)
                     case element(pub-date) return
-                        html:block($config, ., ("tei-pub-date", css:map-rend-to-class(.)), format-date(@iso-8601-date, '[D]. [MNn] [Y]', $parameters?language, (), ()))
+                        html:block($config, ., ("tei-pub-date", css:map-rend-to-class(.)), if (matches(@iso-8601-date, "^\d{4}-\d{2}$")) then   format-date(@iso-8601-date || "-01", '[MNn] [Y]', $parameters?language, (), ()) else   format-date(@iso-8601-date, '[D]. [MNn] [Y]', $parameters?language, (), ()))
                     case element(disp-formula) return
                         let $params := 
                             map {
@@ -220,6 +233,24 @@ declare function model:apply($config as map(*), $input as node()*) {
                                                 html:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-mml_math", css:map-rend-to-class(.)), $content)
                     case element(article) return
                         html:document($config, ., ("tei-article", css:map-rend-to-class(.)), .)
+                    case element(back) return
+                        html:block($config, ., ("tei-back", css:map-rend-to-class(.)), ref-list)
+                    case element(ref-list) return
+                        html:list($config, ., ("tei-ref-list", css:map-rend-to-class(.)), ., ())
+                    case element(ref) return
+                        let $params := 
+                            map {
+                                "title": .//article-title,
+                                "source": if (exists(.//source)) then (" In. ",.//source, (", ")) else (),
+                                "authors": let $names := for $name in  .//person-group[@person-group-type='author']/name return normalize-space($name) return string-join($names, ', '),
+                                "year": .//year,
+                                "content": .
+                            }
+
+                                                let $content := 
+                            model:template-ref($config, ., $params)
+                        return
+                                                html:listItem(map:merge(($config, map:entry("template", true()))), ., ("tei-ref", css:map-rend-to-class(.)), $content, ())
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return
