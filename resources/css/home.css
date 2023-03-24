@@ -236,7 +236,7 @@ main .panels .doclist {
 
 .panels .doclist .browse {
     display: grid;
-    grid-template-columns: 30% 70%;
+    grid-template-columns: 40% 60%;
     column-gap: 6px;
     padding: 0 0.25em;
 }
@@ -309,10 +309,6 @@ pb-select {
     .facets table td:nth-child(1){
         width:40%;
         font-size:0.75em;
-    }
-    .facets table td:nth-child(2){
-        /*display:none;*/
-        text-align:left;
     }
 
 }
