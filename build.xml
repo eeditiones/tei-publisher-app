@@ -1,93 +1,111 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project default="all" name="TEI-Publisher">
-    <xmlproperty file="expath-pkg.xml" />
-    <property file="local.build.properties" />
-    <property file="build.properties" />
+    <xmlproperty file="${basedir}/expath-pkg.xml" />
+    <property file="${basedir}/local.build.properties" />
+    <property file="${basedir}/build.properties" />
     <property name="project.version" value="${package(version)}" />
     <property name="project.app" value="${package(abbrev)}" />
     <property name="server.url" value="http://demo.exist-db.org/exist/apps/public-repo/public/" />
-    <property name="build" value="build" />
-    <property name="scripts.dir" value="node_modules/@teipublisher/pb-components/dist" />
+    <property name="build" value="${basedir}/build" />
+    <property name="app.build.dir" value="${build}/${project.app}-${project.version}" />
+    <property name="git.repo.path" value="${basedir}/.git" />
+    <available file="${git.repo.path}" type="dir" property="git.present" />
+    <property name="scripts.dir" value="${basedir}/node_modules/@teipublisher/pb-components/dist" />
 
     <condition property="git.commit" value="${git.commit}" else="">
         <isset property="git.commit" />
     </condition>
 
-    <target name="all" depends="xar" />
+    <target name="all" depends="clean,prepare,xar" description="main target, create xar file in build folder"/>
 
-    <target name="rebuild" depends="clean,all" />
-
-    <target name="clean">
-        <delete dir="${build}" />
-        <delete dir="resources/scripts" includes="*.js *.map" />
-        <delete dir="resources/images/leaflet" />
-        <delete dir="resources/images/openseadragon" />
-        <delete dir="resources/i18n/common" />
-        <delete dir="resources/css" includes="leaflet/** prismjs/** pagedjs/** gridjs/** tom-select/**" />
-        <delete dir="resources/lib" />
+    <target name="clean" description="delte all build artefacts">
+        <delete includeemptydirs="true" failonerror="false">
+            <fileset dir="${build}" includes="**/*" />
+        </delete>
     </target>
 
-    <target name="prepare">
-        <copy todir="resources/scripts">
+    <target name="prepare" depends="git.revision" description="create build dir, assembly and filter resources">
+        <mkdir dir="${build}" />
+        <mkdir dir="${app.build.dir}" />
+        <copy todir="${app.build.dir}">
+            <fileset dir="${basedir}">
+                <exclude name=".babelrc" />
+                <exclude name=".devcontainer/**" />
+                <exclude name=".editorconfig" />
+                <exclude name=".existdb.json" />
+                <exclude name=".git/**" />
+                <exclude name=".github/**" />
+                <exclude name=".idea/" />
+                <exclude name=".travis.yml" />
+                <exclude name=".vscode/**" />
+                <exclude name="*.tmpl" />
+                <exclude name="*.properties" />
+                <exclude name="build/**" />
+                <exclude name="build.xml" />
+                <exclude name="cache/**" />
+                <exclude name="Dockerfile*" />
+                <exclude name="node_modules/**" />
+                <exclude name="package*.json" />
+                <exclude name="rollup.config.js" />
+                <exclude name="webtest/**" />
+                </fileset>
+        </copy>
+        <copy todir="${app.build.dir}" overwrite="true" verbose="true">
+            <fileset file="*.xml.tmpl" />
+            <filterchain>
+                <replacetokens>
+                    <token key="name" value="${app.name}" />
+                    <token key="version" value="${app.version}" />
+                    <token key="url" value="${app.url}" />
+                    <token key="title" value="${app.title}" />
+                    <token key="commit-id" value="${git.revision}" />
+                    <token key="commit-time" value="${git.time}" />
+                </replacetokens>
+                <tokenfilter>
+                    <!-- until we move template processing to XSLT, take care with special
+                    characters -->
+                    <replacestring from="&amp;" to="&amp;amp;" />
+                </tokenfilter>
+            </filterchain>
+            <globmapper from="*.tmpl" to="*" />
+        </copy>
+    </target>
+
+    <target name="xar-local" depends="clean,prepare,npm.install" description="run 'npm install' and run 'build' target">
+        <copy todir="${app.build.dir}/resources/images">
+            <fileset dir="${basedir}/node_modules/@teipublisher/pb-components/images">
+                <include name="leaflet/*" />
+                <include name="openseadragon/*" />
+            </fileset>
+        </copy>
+        <copy todir="${app.build.dir}/resources/scripts">
             <fileset dir="${scripts.dir}">
                 <include name="*.js" />
                 <include name="*.map" />
             </fileset>
         </copy>
-        <copy todir="resources/images">
-            <fileset dir="node_modules/@teipublisher/pb-components/images">
-                <include name="leaflet/*"/>
-                <include name="openseadragon/*"/>
+        <copy todir="${app.build.dir}/resources/css">
+            <fileset dir="${basedir}/node_modules/@teipublisher/pb-components/css" />
+        </copy>
+
+        <copy todir="${app.build.dir}/resources/lib">
+            <fileset dir="${basedir}/node_modules/@teipublisher/pb-components/lib">
             </fileset>
         </copy>
-        <copy todir="resources/css">
-            <fileset dir="node_modules/@teipublisher/pb-components/css"/>
-        </copy>
-        <copy todir="resources/lib">
-            <fileset dir="node_modules/@teipublisher/pb-components/lib"/>
-        </copy>
-        
-        <copy todir="resources/i18n/common">
+        <copy todir="${app.build.dir}/resources/i18n/common">
             <fileset dir="${scripts.dir}/../i18n/common" />
         </copy>
+        <antcall target="xar"/>
     </target>
 
-    <target name="xar-local" depends="clean,npm.install,prepare,xar" />
-
-    <target name="xar">
-        <mkdir dir="${build}" />
-        <zip destfile="${build}/${project.app}-${project.version}${git.commit}.xar">
-            <fileset dir=".">
-                <exclude name="${build}/*" />
-                <exclude name=".git*" />
-                <exclude name="*.tmpl" />
-                <exclude name="*.properties" />
-                <exclude name="webtest/**" />
-                <exclude name="cache/**" />
-                <exclude name=".idea/" />
-                <exclude name=".vscode/**" />
-                <exclude name="package*.json" />
-                <exclude name="rollup.config.js" />
-                <exclude name=".existdb.json" />
-                <exclude name=".editorconfig" />
-                <exclude name=".devcontainer"/>
-                <exclude name="node_modules/**" />
-                <exclude name="Dockerfile*"/>
-                <exclude name=".github/**"/>
-                <exclude name=".babelrc"/>
-                <exclude name=".travis.yml"/>
-            </fileset>
+    <target name="xar" description="create XAR file of folder ${app.build.dir}">
+        <zip basedir="${app.build.dir}"
+            destfile="${build}/${project.app}-${project.version}${git.commit}.xar">
         </zip>
     </target>
 
-    <target name="npm.install">
-        <exec executable="${npm}" outputproperty="npm.output">
-            <arg line="install" />
-        </exec>
-        <echo message="${npm.output}" />
-    </target>
 
-    <target name="upload">
+    <target name="upload" description="deploy tei-publisher xar file to target server">
         <input message="Enter password:" addproperty="server.pass" defaultvalue="">
             <handler type="secure" />
         </input>
@@ -96,5 +114,35 @@
             <arg line="-T ${build}/${xar} -u admin:${server.pass} ${server.url}/${xar}" />
         </exec>
     </target>
+
+    <target name="npm.install" description="run 'npm install' for usage of local webcomponents">
+        <exec executable="${npm}" outputproperty="npm.output">
+            <arg line="install" />
+        </exec>
+        <echo message="${npm.output}" />
+    </target>
+
+    <target name="git.revision" description="Store git revision in ${repository.version}" if="git.present">
+        <exec executable="git" outputproperty="git.revision" failifexecutionfails="false" errorproperty="">
+          <arg value="--git-dir=${git.repo.path}"/>
+          <arg value="rev-parse"/>
+          <arg value="HEAD"/>
+        </exec>
+        <condition property="repository.version" value="${git.revision}" else="unknown">
+          <and>
+            <isset property="git.revision"/>
+            <length string="${git.revision}" trim="yes" length="0" when="greater"/>
+          </and>
+        </condition>
+        <echo>Git repo: ${repository.version}</echo>
+        <exec executable="git" outputproperty="git.time" failifexecutionfails="false" errorproperty="">
+          <arg value="--git-dir=${git.repo.path}"/>
+          <arg value="show"/>
+          <arg value="-s"/>
+          <arg value="--format=%ct"/>
+          <arg value="${git.revision}"/>
+        </exec>
+        <echo>Git time: ${git.time}</echo>
+      </target>
 
 </project>
