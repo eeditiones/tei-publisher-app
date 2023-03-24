@@ -8,7 +8,8 @@
                  
                  
                  
-                  <desc>Processing of JATS XML (Journal Article Tag Suite)</desc>
+                  
+                 <desc>Processing of JATS XML (Journal Article Tag Suite)</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
@@ -105,9 +106,11 @@
             
             
             
+            
             font-weight: bold;
 text-align: left;
 padding: 0 4px;
+            
             
             
             
@@ -252,7 +255,7 @@ padding: 0 4px;
                 </elementSpec>
                 <elementSpec ident="pub-date" mode="add">
                     <model behaviour="block">
-            <param name="content" value="format-date(@iso-8601-date, '[D]. [MNn] [Y]', $parameters?language, (), ())"/>
+            <param name="content" value="if (matches(@iso-8601-date, &#34;^\d{4}-\d{2}$&#34;)) then   format-date(@iso-8601-date || &#34;-01&#34;, '[MNn] [Y]', $parameters?language, (), ()) else   format-date(@iso-8601-date, '[D]. [MNn] [Y]', $parameters?language, (), ())"/>
         </model>
                 </elementSpec>
                 <elementSpec ident="disp-formula" mode="add">
