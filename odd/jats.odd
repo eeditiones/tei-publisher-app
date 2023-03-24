@@ -9,6 +9,7 @@
                  
                  
                   
+                 
                  <desc>Processing of JATS XML (Journal Article Tag Suite)</desc>
                 </title>
             </titleStmt>
@@ -107,9 +108,11 @@
             
             
             
+            
             font-weight: bold;
 text-align: left;
 padding: 0 4px;
+            
             
             
             
@@ -155,9 +158,10 @@ padding: 0 4px;
                     <model predicate="$parameters?header='short'" behaviour="heading">
             <param name="level" value="5"/>
         </model>
-                    <model behaviour="heading" cssClass="title">
+                    <model predicate="ancestor::article-meta" behaviour="heading" cssClass="title">
             <param name="level" value="1"/>
         </model>
+                    <model predicate="ancestor::ref-list" behaviour="pass-through"/>
                 </elementSpec>
                 <elementSpec ident="subtitle" mode="add">
                     <model behaviour="heading">
@@ -247,7 +251,7 @@ padding: 0 4px;
                 </elementSpec>
             <elementSpec ident="name" mode="add">
                     <model behaviour="inline">
-            <param name="content" value="(given-names, surname)"/>
+            <param name="content" value="(given-names,surname)"/>
         </model>
                 </elementSpec>
                 <elementSpec ident="surname" mode="add">
@@ -284,6 +288,20 @@ padding: 0 4px;
             <elementSpec ident="back" mode="add">
                     <model behaviour="block">
             <param name="content" value="ref-list"/>
+        </model>
+                </elementSpec>
+            <elementSpec ident="ref-list" mode="add">
+                    <model behaviour="list"/>
+                </elementSpec>
+                <elementSpec ident="ref" mode="add">
+                    <model behaviour="listItem">
+            <param name="title" value=".//article-title"/>
+            <param name="source" value="if (exists(.//source)) then (.//source, (&#34;. &#34;)) else ()"/>
+            <param name="authors" value="string-join(.//person-group[@person-group-type='author']/name, ', ')"/>
+            <param name="year" value=".//year"/>
+            <param name="pub-id" value=".//pub-id"/>
+            <param name="publication-type" value="let $type := ./element-citation/@publication-type/string() return   upper-case(substring($type,1,1)) || substring($type,2)"/>
+            <pb:template xmlns="" xml:space="preserve">[[authors]]: [[source]] In: [[title]], [[year]]</pb:template>
         </model>
                 </elementSpec>
             </schemaSpec>
