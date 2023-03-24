@@ -10,6 +10,7 @@
                  
                   
                  
+                 
                  <desc>Processing of JATS XML (Journal Article Tag Suite)</desc>
                 </title>
             </titleStmt>
@@ -109,9 +110,11 @@
             
             
             
+            
             font-weight: bold;
 text-align: left;
 padding: 0 4px;
+            
             
             
             
@@ -296,12 +299,10 @@ padding: 0 4px;
                 <elementSpec ident="ref" mode="add">
                     <model behaviour="listItem">
             <param name="title" value=".//article-title"/>
-            <param name="source" value="if (exists(.//source)) then (.//source, (&#34;. &#34;)) else ()"/>
-            <param name="authors" value="string-join(.//person-group[@person-group-type='author']/name, ', ')"/>
+            <param name="source" value="if (exists(.//source)) then (&#34; In. &#34;,.//source, (&#34;, &#34;)) else ()"/>
+            <param name="authors" value="let $names := for $name in  .//person-group[@person-group-type='author']/name return normalize-space($name) return string-join($names, ', ')"/>
             <param name="year" value=".//year"/>
-            <param name="pub-id" value=".//pub-id"/>
-            <param name="publication-type" value="let $type := ./element-citation/@publication-type/string() return   upper-case(substring($type,1,1)) || substring($type,2)"/>
-            <pb:template xmlns="" xml:space="preserve">[[authors]]: [[source]] In: [[title]], [[year]]</pb:template>
+            <pb:template xmlns="" xml:space="preserve">[[authors]]: [[title]]. [[source]][[year]]</pb:template>
         </model>
                 </elementSpec>
             </schemaSpec>
