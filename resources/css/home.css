@@ -1,5 +1,7 @@
+main, header{
+    margin:0 1rem;
+}
 main {
-    margin: 0 20px 0 20px;
     --pb-browse-toolbar-justify-content: space-between;
 }
 
@@ -120,10 +122,12 @@ pb-collapse > div{
     border-top-left-radius: 0.25em;
 }
 
+.facets{
+    font-size: 0.8em;
+    min-width:initial;
+}
+
 @media (max-width: 1023px) {
-    main {
-        margin: 0 8px 0 8px;
-    }
     .doclist {
         margin-bottom: 20px;
     }
@@ -232,9 +236,9 @@ main .panels .doclist {
 
 .panels .doclist .browse {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 30% 70%;
     column-gap: 6px;
-    padding: 0;
+    padding: 0 0.25em;
 }
 
 aside {
@@ -292,6 +296,26 @@ pb-select {
     margin-right: 40px;
 }
 
+@media (max-width: 480px) {
+    .facets table td{
+        font-size:0.5em;
+    }
+}
+@media (max-width: 768px) {
+    h3 paper-checkbox{
+        display:none;
+    }
+
+    .facets table td:nth-child(1){
+        width:40%;
+        font-size:0.75em;
+    }
+    .facets table td:nth-child(2){
+        /*display:none;*/
+        text-align:left;
+    }
+
+}
 @media (max-width: 1023px) {
     .documents img, .documents svg  {
         display: none;
@@ -332,8 +356,7 @@ h5 {
     min-height: 15vh;
     width: 100%;
     grid-gap:0.5rem;
-    margin:0 0.5rem;
-    max-width:calc(100vw - 1rem);
+    max-width: calc(100vw - 2rem);
 }
 
 .side {
