@@ -236,7 +236,7 @@ main .panels .doclist {
 
 .panels .doclist .browse {
     display: grid;
-    grid-template-columns: 40% 60%;
+    grid-template-columns: minmax(9rem, 20%) minmax(60%,80%);
     column-gap: 6px;
     padding: 0 0.25em;
 }
