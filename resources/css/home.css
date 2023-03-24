@@ -378,3 +378,8 @@ pb-manage-odds{
     --pb-manage-odds-icon-color:#555;
 }
 
+@media (max-width: 440px) {
+    pb-paginate::part(count) {
+        display: none;
+    }
+}
