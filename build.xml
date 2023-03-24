@@ -18,7 +18,7 @@
 
     <target name="all" depends="clean,prepare,xar" description="main target, create xar file in build folder"/>
 
-    <target name="clean" description="delte all build artefacts">
+    <target name="clean" description="delete all build artefacts">
         <delete includeemptydirs="true" failonerror="false">
             <fileset dir="${build}" includes="**/*" />
         </delete>

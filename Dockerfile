@@ -23,9 +23,9 @@ RUN curl -L -o apache-ant-${ANT_VERSION}-bin.tar.gz http://www.apache.org/dist/a
 
 ENV PATH ${PATH}:${ANT_HOME}/bin
 
-# RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
-#     && apt-get install -y nodejs \
-#     && curl -L https://www.npmjs.com/install.sh | sh
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs \
+    && curl -L https://www.npmjs.com/install.sh | sh
 
 FROM builder as tei
 
@@ -33,8 +33,8 @@ FROM builder as tei
 ARG TEMPLATING_VERSION=1.1.0
 ARG PUBLISHER_LIB_VERSION=3.0.0
 ARG ROUTER_VERSION=1.8.0
-ARG SHAKESPEARE_VERSION=migrate-to-tp8
-ARG VANGOGH_VERSION=migrate-to-TP8
+ARG SHAKESPEARE_VERSION=2.0.0
+ARG VANGOGH_VERSION=2.0.0
 
 # add key
 RUN  mkdir -p ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
@@ -43,13 +43,15 @@ RUN  mkdir -p ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 RUN  git clone https://github.com/eeditiones/shakespeare.git \
     && cd shakespeare \
     && git checkout ${SHAKESPEARE_VERSION} \
-    && ant
+    && sed -i 's/$config:webcomponents :=.*;/$config:webcomponents := "local";/' modules/config.xqm \
+    && ant xar-local
 
 # Build vangogh
 RUN  git clone https://github.com/eeditiones/vangogh.git \
     && cd vangogh \
     && git checkout ${VANGOGH_VERSION} \
-    && ant
+    && sed -i 's/$config:webcomponents :=.*;/$config:webcomponents := "local";/' modules/config.xqm \
+    && ant xar-local
 
 # Build tei-publisher-lib
 RUN if [ "${PUBLISHER_LIB_VERSION}" = "master" ]; then \
@@ -64,12 +66,13 @@ RUN if [ "${PUBLISHER_LIB_VERSION}" = "master" ]; then \
 # Build tei-publisher-app
 COPY . tei-publisher-app/
 RUN  cd tei-publisher-app \
-    && ant
+    && sed -i 's/$config:webcomponents :=.*;/$config:webcomponents := "local";/' modules/config.xqm \
+    && ant xar-local
 
 RUN curl -L -o /tmp/roaster-${ROUTER_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar
 RUN curl -L -o /tmp/templating-${TEMPLATING_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/templating-${TEMPLATING_VERSION}.xar
 
-FROM duncdrum/existdb:6.2.0-j8
+FROM duncdrum/existdb:6.2.0-debug-j8
 
 COPY --from=tei /tmp/tei-publisher-app/build/*.xar /exist/autodeploy/
 COPY --from=tei /tmp/shakespeare/build/*.xar /exist/autodeploy/
@@ -108,6 +111,6 @@ ENV JAVA_TOOL_OPTIONS \
   -XX:+ExitOnOutOfMemoryError
 
 # pre-populate the database by launching it once and change default pw
-RUN [ "java", "org.exist.start.Main", "client", "--no-gui",  "-l", "-u", "admin", "-P", "", "-x", "sm:passwd('admin','none')" ]
+RUN [ "java", "org.exist.start.Main", "client", "--no-gui",  "-l", "-u", "admin", "-P", "" ]
 
 EXPOSE ${HTTP_PORT}
