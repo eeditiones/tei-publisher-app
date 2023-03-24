@@ -88,11 +88,6 @@ pb-collapse > div{
 
 .thumbnail.demo{
     background-image: url(../images/chris-lawton-zvKx6ixUhWQ-unsplash.jpg);
-    /*
-    background-repeat: no-repeat ;
-    background-position: center center;
-    background-size: cover;
-    */
 }
 .thumbnail.play{
     background-image: url(../images/nick-monica-FSQhX5lrkIg-unsplash.jpg);
