@@ -171,6 +171,10 @@ padding: 0 4px;
                     <model behaviour="cit"/>
                 </elementSpec>
                 <elementSpec ident="fn" mode="add">
+                    <model predicate="label" behaviour="note">
+            <param name="n" value="label/string()"/>
+            <param name="content" value="node() except label"/>
+        </model>
                     <model behaviour="note"/>
                 </elementSpec>
                 <elementSpec ident="label" mode="add">
@@ -181,7 +185,7 @@ padding: 0 4px;
         </model>
                 </elementSpec>
                 <elementSpec ident="xref" mode="add">
-                    <model predicate="@ref-type='fn'" behaviour="note">
+                    <model predicate="@ref-type='fn'" behaviour="pass-through">
             <param name="content" value="let $rid := @rid return root($parameters?root)//fn[@id=$rid]"/>
         </model>
                 </elementSpec>
@@ -276,6 +280,11 @@ padding: 0 4px;
                 </elementSpec>
             <elementSpec ident="article" mode="add">
                     <model behaviour="document"/>
+                </elementSpec>
+            <elementSpec ident="back" mode="add">
+                    <model behaviour="block">
+            <param name="content" value="ref-list"/>
+        </model>
                 </elementSpec>
             </schemaSpec>
         </body>
