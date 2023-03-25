@@ -944,6 +944,8 @@
       <para>The JATS ODD currently supports <link xlink:href="https://jats.nlm.nih.gov/publishing/tag-library/1.2/">NISO
         JATS Version 1.2</link>. It covers many elements commonly used for journal articles in the humanities, but
         certainly not everything. Extending it should be straightforward though.</para>
+      <para>By default, all documents in collection <filename>data/jats</filename> are associated with the JATS ODD (see
+        <varname>config:collection-config</varname> in <filename>modules/config.xqm</filename>.</para>
     </section>
 
     <section xml:id="docx">

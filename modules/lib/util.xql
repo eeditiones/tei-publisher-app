@@ -39,7 +39,8 @@ declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd
         "depth": $defaultConfig?depth,
         "fill": $defaultConfig?fill,
         "type": config:document-type($doc/*),
-        "template": $defaultConfig?template
+        "template": $defaultConfig?template,
+        "media": $defaultConfig?media
     }
     let $pis :=
         map:merge(

@@ -489,6 +489,13 @@ declare function config:dts-metadata($doc as document-node()) {
  :)
 declare function config:collection-config($collection as xs:string?, $docUri as xs:string?) {
     switch ($collection)
+        case "jats" return
+            map {
+                "template": "jats.html",
+                "odd": "jats.odd",
+                "view": "single",
+                "media": ("print", "epub")
+            }
         (: For annotations we need to overwrite document-specific settings :)
         case "annotate" return
             map {
