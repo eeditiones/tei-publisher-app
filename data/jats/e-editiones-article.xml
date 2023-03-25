@@ -7,8 +7,10 @@
   xmlns:mml="http://www.w3.org/1998/Math/MathML">
   <front>
     <journal-meta>
-      <journal-id/>
-      <issn/>
+      <journal-id>E-ED</journal-id>
+      <journal-title-group>
+        <journal-title>e-editiones Blog</journal-title>
+      </journal-title-group>
     </journal-meta>
     <article-meta>
       <title-group>
@@ -353,11 +355,4 @@ eleventyConfig.addPlugin(tpPlugin, {
       </sec>
     </sec>
   </body>
-  <back>
-    <ref-list>
-      <ref>
-        <mixed-citation/>
-      </ref>
-    </ref-list>
-  </back>
 </article>

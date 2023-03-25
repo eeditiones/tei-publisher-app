@@ -12,6 +12,7 @@
                  
                  
                  
+                 
                  <desc>Processing of JATS XML (Journal Article Tag Suite)</desc>
                 </title>
             </titleStmt>
@@ -113,9 +114,11 @@
             
             
             
+            
             font-weight: bold;
 text-align: left;
 padding: 0 4px;
+            
             
             
             
@@ -132,7 +135,7 @@ padding: 0 4px;
             <param name="content" value="(title-group, contrib-group)"/>
         </model>
                     <modelSequence>
-            <model behaviour="block">
+            <model behaviour="pass-through">
                 <param name="content" value="title-group"/>
             </model>
             <model behaviour="block" cssClass="flex">
@@ -195,6 +198,9 @@ padding: 0 4px;
         </model>
                 </elementSpec>
                 <elementSpec ident="xref" mode="add">
+                    <model predicate="@ref-type='bibr'" behaviour="link">
+            <param name="uri" value="'#' || @rid"/>
+        </model>
                     <model predicate="@ref-type='fn'" behaviour="pass-through">
             <param name="content" value="let $rid := @rid return root($parameters?root)//fn[@id=$rid]"/>
         </model>
@@ -264,11 +270,10 @@ padding: 0 4px;
         </model>
                 </elementSpec>
                 <elementSpec ident="surname" mode="add">
-                    <model behaviour="inline">
-            <outputRendition xml:space="preserve" scope="before">
-            content: ' ';
-            </outputRendition>
+                    <model predicate="../given-names" behaviour="inline">
+            <param name="content" value="(' ', .)"/>
         </model>
+                    <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="pub-date" mode="add">
                     <model behaviour="block">
@@ -300,20 +305,29 @@ padding: 0 4px;
         </model>
                 </elementSpec>
             <elementSpec ident="ref-list" mode="add">
-                    <model behaviour="list"/>
+                    <modelSequence>
+            <model behaviour="pass-through">
+                <param name="content" value="title"/>
+            </model>
+            <model behaviour="list" cssClass="references">
+                <param name="type" value="'ordered'"/>
+                <param name="content" value="ref"/>
+            </model>
+        </modelSequence>
                 </elementSpec>
                 <elementSpec ident="ref" mode="add">
-                    <model behaviour="listItem">
+                    <model behaviour="pass-through">
             <param name="title" value=".//article-title"/>
-            <param name="source" value="if (exists(.//source)) then (&#34; In. &#34;,.//source, (&#34;, &#34;)) else ()"/>
+            <param name="source" value="if (exists(.//source)) then (&#34; In: &#34;,.//source, (&#34;, &#34;)) else ()"/>
             <param name="authors" value="let $names := for $name in  .//person-group[@person-group-type='author']/name return normalize-space($name) return string-join($names, ', ')"/>
             <param name="year" value=".//year"/>
-            <pb:template xmlns="" xml:space="preserve">[[authors]]: [[title]]. [[source]][[year]]</pb:template>
+            <param name="id" value="@id"/>
+            <pb:template xmlns="" xml:space="preserve"><li id="[[id]]">[[authors]]: [[title]]. [[source]][[year]]</li></pb:template>
         </model>
                 </elementSpec>
             <elementSpec ident="journal-meta" mode="add">
                     <model behaviour="block" cssClass="journal-meta">
-            <param name="content" value="(.//journal-title, publisher)"/>
+            <param name="content" value="(.//journal-title, publisher, issn)"/>
         </model>
                 </elementSpec>
                 <elementSpec ident="journal-title" mode="add">
@@ -324,6 +338,9 @@ padding: 0 4px;
                 </elementSpec>
                 <elementSpec ident="publisher" mode="add">
                     <model behaviour="inline" cssClass="publisher"/>
+                </elementSpec>
+            <elementSpec ident="issn" mode="add">
+                    <model behaviour="inline" cssClass="issn"/>
                 </elementSpec>
             </schemaSpec>
         </body>
