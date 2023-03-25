@@ -889,7 +889,7 @@
 
   <section xml:id="supported-input-formats">
     <title>Supported XML vocabularies</title>
-    <para>TEI Publisher started as a publishing toolbox for TEI but the principles of TEI Processing
+    <para>TEI Publisher started as a publishing toolbox for TEI but the principles of the TEI Processing
       Model were never limited to a single vocabulary. Publisher very quickly extended support to
       other XML formats. Currently TEI, DocBook, JATS and MS Word DOCX are supported out of the box
       (DOCX via automated conversion to TEI on upload).</para>
@@ -916,7 +916,7 @@
           </para>
         </listitem>
       </itemizedlist>
-      <para> We acknowledge that TEI offers other ways to encode these features, e.g. generic
+      <para>We acknowledge that TEI offers other ways to encode these features, e.g. generic
           <tag>milestone</tag> element or specialized numbered division elements like
           <tag>div1</tag>, <tag>div2</tag>. TEI documents using alternative encodings will be still
         displayed as specified in the ODD, it is only for the sake of navigation or division-based
@@ -926,7 +926,6 @@
         followed the path less travelled, the chapter on <link linkend="new-vocabulary-navigation">
           customization</link> briefly discusses how to change relevant functionality. </para>
     </section>
-
     <section xml:id="format-docbook">
       <title>DocBook</title>
       <para> DocBook support is demonstrated by this very document you are now reading, <filename>
@@ -940,7 +939,12 @@
           &lt;?teipublisher odd="docbook.odd" template="documentation.html" depth="3"?&gt;
         </programlisting>
     </section>
-
+    <section xml:id="format-jats">
+      <title>JATS (Journal Publishing Tag Library)</title>
+      <para>The JATS ODD currently supports <link xlink:href="https://jats.nlm.nih.gov/publishing/tag-library/1.2/">NISO
+        JATS Version 1.2</link>. It covers many elements commonly used for journal articles in the humanities, but
+        certainly not everything. Extending it should be straightforward though.</para>
+    </section>
 
     <section xml:id="docx">
       <title>MS Word DOCX format conversion</title>
@@ -2320,6 +2324,8 @@
           certain layout aspects. Thanks to this, using the <command>print page</command> dialog of
           your browser will result in a much nicer page layout than if you just tried to print TEI
           Publisher's document view.</para>
+        <para>You can find a more detailed discussion of the feature along with some CSS examples in this <link xlink:href="https://www.e-editiones.org/posts/print-css/">article on the
+          e-editiones homepage</link>.</para>
         <para>The preview page uses TEI Publisher's <code>pb-print-preview</code> web component.
           This component will retrieve the full HTML of the document, enhanced with additional CSS
           stylesheets for print, and passes it to paged.js for the page formatting. For testing
