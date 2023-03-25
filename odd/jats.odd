@@ -11,6 +11,7 @@
                   
                  
                  
+                 
                  <desc>Processing of JATS XML (Journal Article Tag Suite)</desc>
                 </title>
             </titleStmt>
@@ -111,9 +112,11 @@
             
             
             
+            
             font-weight: bold;
 text-align: left;
 padding: 0 4px;
+            
             
             
             
@@ -133,7 +136,7 @@ padding: 0 4px;
                 <param name="content" value="title-group"/>
             </model>
             <model behaviour="block" cssClass="flex">
-                <param name="content" value="(contrib-group, pub-date)"/>
+                <param name="content" value="(contrib-group, (pub-date[@iso-8601-date], pub-date)[1])"/>
                 <outputRendition xml:space="preserve">
                 margin-bottom: 2em;
                 </outputRendition>
@@ -198,11 +201,14 @@ padding: 0 4px;
                 </elementSpec>
                 <elementSpec ident="contrib" mode="add">
                     <model predicate="preceding-sibling::contrib" behaviour="inline">
+            <param name="content" value="name"/>
             <outputRendition xml:space="preserve" scope="after">
             content: ', ';
             </outputRendition>
         </model>
-                    <model behaviour="inline"/>
+                    <model behaviour="inline">
+            <param name="content" value="name"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="contrib-group" mode="add">
                     <model predicate="$parameters?mode='breadcrumbs'" behaviour="inline">
@@ -304,6 +310,20 @@ padding: 0 4px;
             <param name="year" value=".//year"/>
             <pb:template xmlns="" xml:space="preserve">[[authors]]: [[title]]. [[source]][[year]]</pb:template>
         </model>
+                </elementSpec>
+            <elementSpec ident="journal-meta" mode="add">
+                    <model behaviour="block" cssClass="journal-meta">
+            <param name="content" value="(.//journal-title, publisher)"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="journal-title" mode="add">
+                    <model behaviour="inline" cssClass="journal-title"/>
+                </elementSpec>
+                <elementSpec ident="journal-title-group" mode="add">
+                    <model behaviour="inline" cssClass="journal-title-group"/>
+                </elementSpec>
+                <elementSpec ident="publisher" mode="add">
+                    <model behaviour="inline" cssClass="publisher"/>
                 </elementSpec>
             </schemaSpec>
         </body>

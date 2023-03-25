@@ -117,6 +117,14 @@ pb-code-highlight {
     font-size: .85em;
 }
 
+.journal-meta {
+    font-size: var(--pb-footnote-font-size);
+}
+
+.journal-title + .publisher::before {
+    content: ", ";
+}
+
 @media print {
 
     @page {
