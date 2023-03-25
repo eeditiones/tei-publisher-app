@@ -30,9 +30,9 @@ declare variable $deploy:EXPATH_DESCRIPTOR :=
     <package xmlns="http://expath.org/ns/pkg"
         version="0.1" spec="1.0">
         <dependency processor="http://exist-db.org" semver-min="5.3.0"/>
-        <dependency package="http://exist-db.org/html-templating"/>
+        <dependency package="http://exist-db.org/html-templating" semver="1"/>
         <dependency package="http://existsolutions.com/apps/tei-publisher-lib" semver="3"/>
-        <dependency package="http://e-editiones.org/roaster" semver-min="1.7.3"/>
+        <dependency package="http://e-editiones.org/roaster" semver="1"/>
     </package>
 ;
 
