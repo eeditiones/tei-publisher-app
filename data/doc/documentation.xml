@@ -7002,6 +7002,36 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         </varlistentry>
       </variablelist>
     </section>
+    <section>
+      <title>Web components</title>
+      <para>By default TEI Publisher and apps generated from it load the user interface components from a global CDN
+        (content delivery network). For a long time this was the generally recommended approach. CDNs promised
+        reliability and fast, globally distributed access to resources. Web browsers can cache those resources
+        efficiently across applications.</para>
+      <para>However, we recently experienced more and more difficulties with some CDN, in particular the one used by TEI
+      Publisher by default. As a result, pages may appear inaccessible or slow to users, though TEI Publisher itself is
+      responsive and fast.</para>
+      <para>For production deployments we therefore recommend to consider self-hosting the required component libraries.
+        This means: all javascript libraries are downloaded and bundled with your custom application. The build scripts
+        shipped with TEI Publisher and generated apps make this rather easy. The necessary steps are as follows:</para>
+      <procedure>
+        <step>
+          <para>make sure you have <link xlink:href="https://nodejs.org">nodejs</link> with npm
+            installed; also check if the build property <code>npm</code> in your
+            <code>build.xml</code> (for generated apps) or <code>build.properties</code> (TEI Publisher app) points to
+            the npm binary.</para>
+        </step>
+        <step>
+          <para>edit <filename>modules/config.xqm</filename> and change the value of variable
+            <code>$config:webcomponents</code>to "local":</para>
+          <synopsis language="xquery">declare variable $config:webcomponents := "local";</synopsis>
+        </step>
+        <step>
+          <para>build your application package with the command <code>ant xar-local</code> (instead of just calling
+            ant)</para>
+        </step>
+      </procedure>
+    </section>
   </section>
 
 </article>
