@@ -6336,6 +6336,22 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           </varlistentry>
         </variablelist></para>
     </section>
+    <section>
+      <title>Named Entity Recognition</title>
+      <para>TEI Publisher 8 includes experimental support for detecting and tagging named entities in texts. The idea is to further simplify the work of editors when annotating documents via TEI Publisher’s web-based annotation editor by automatically identifying potential candidates for people, places etc.</para>
+      <para>For named entity recognition to be available in the web-based annotation editor, a separate Python service
+        is needed: clone the <link xlink:href="https://github.com/eeditiones/tei-publisher-ner">tei-publisher-ner</link> repository and follow the instructions in the README.</para>
+      <figure>
+        <title>NER in action</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="wikipedia.gif"></imagedata>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>One of the distinguishing features of this solution is that it makes it rather easy to train a recognition
+        model on your own data sets. Head over to the <link xlink:href="https://www.e-editiones.org/posts/names-sell-named-entity-recognition-in-tei-publisher/">article on e-editiones</link> to read more about the service, how to use it, and how to train it.</para>
+    </section>
   </section>
   <section>
     <title>Configuring the Annotation Editor</title>
