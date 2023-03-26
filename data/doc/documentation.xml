@@ -1,4 +1,4 @@
-<?teipublisher odd="docbook.odd" template="documentation.html" depth="5" fill="2" media="latex,print,fo,epub"?>
+<?teipublisher odd="docbook.odd" template="documentation.html" depth="5" fill="2" media="latex print fo epub"?>
 <?xml-model href="https://docbook.org/xml/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
   version="5.0" xml:lang="en">
@@ -835,12 +835,29 @@
     <section xml:id="upload">
       <title>Uploading your own documents</title>
       <para> If you read this, in all likelihood you already have some documents of your own you
-        might want published, whether they are in TEI, DocBook, MS Word DOCX or other XML format.
+        might want published, whether they are in TEI, DocBook, JATS, MS Word DOCX or other XML format.
         The first step is to upload them into the database. You need to be <emphasis role="bold"
           >logged in</emphasis> and in the Playground area to do it (check the short info on the
           <guibutton> Start</guibutton> page for user name and password). Then uploading is just a
         question of dragging your documents onto the <guibutton>Upload</guibutton> area. They will
         become available in the document list immediately after upload is completed. </para>
+      <para>TEI Publisher installs two default application users:</para>
+      <variablelist>
+        <varlistentry>
+          <term>tei-demo (default password: <emphasis>demo</emphasis>)</term>
+          <listitem>
+            <para>This user can upload to the playground, annotations and jats collections. It can create new ODDs and
+              edit them. However, it cannot recompile ODDs other than the ones it created.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>tei (default password: <emphasis>simple</emphasis></term>
+          <listitem>
+            <para>has full access to all collections, can change all ODDs, generate apps etc. On a public server we
+              strongly recommend to change at least this user's password.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
       <figure>
         <title>The Upload Panel</title>
         <mediaobject>
@@ -2318,8 +2335,8 @@
       </section>
       <section xml:id="output-print-css">
         <title>Print CSS</title>
-        <para>This output mode targets printed HTML. Browser support for the corresponding CSS
-          specifications is not very good, but there are various tools to improve this. If you
+        <para>This output mode targets printed HTML via the CSS Paged Media specification (often also called Print CSS).
+          Though it has improved, browser support is still insufficient. However, there are tools to fill the gap. If you
           select the print CSS download option for any of the documents in TEI Publisher, which
           support it, you will be directed to a preview page. This page uses a library called <link
             xlink:href="https://pagedjs.org/">paged.js</link> to "teach" the browser how to handle
@@ -2332,7 +2349,8 @@
           This component will retrieve the full HTML of the document, enhanced with additional CSS
           stylesheets for print, and passes it to paged.js for the page formatting. For testing
           purposes you can also click on the bottom-most button with the <guibutton>eye</guibutton>
-          icon to see the raw HTML (without paged.js applied).</para>
+          icon to see the raw HTML (without paged.js applied). This is handy if you want to inspect the HTML node
+          hierarchy or the CSS classes assigned.</para>
         <para>To generate the HTML of the document, the component calls Publisher's API
           endpoint:</para>
 
@@ -2373,7 +2391,7 @@
           other, mainly commercial tools, which you may use to generate PDF out of your HTML. Those
           include e.g. <link xlink:href="https://www.princexml.com/">Prince XML</link>, <link
             xlink:href="https://www.pdfreactor.com/">PDF Reactor</link> or <link
-            xlink:href="https://antennahouse.com/">Antennahouse</link>. Each of those may have
+              xlink:href="https://antennahouse.com/">Antennahouse</link>. A full list can be found on <link xlink:href="https://www.print-css.rocks/tools">print-css.rocks</link>. Each of those may have
           different strengths and weaknesses. Please try yourself.</para>
 
         <para>For command line tools, you can use the API endpoint described above to retrieve the
@@ -4297,7 +4315,7 @@ git checkout v8.0.0</programlisting>
             <varname>$config:enable-proxy-caching</varname> needs to be copied.</para>
         </step>
         <step>
-          <para>In <filename>modules/custom-api.json</filename> (and any other module with API endpoints), replace the
+          <para>In <filename>modules/custom-api.xql</filename> (and any other module with API endpoints), replace the
             following import namespaces:</para>
           <itemizedlist>
             <listitem>
@@ -4322,20 +4340,38 @@ git checkout v8.0.0</programlisting>
       </procedure>
       <section>
         <title>Other changes to pay attention to</title>
-        <para><code>tei-publisher-lib</code> 3.x.x reassigns the output mode <emphasis>print</emphasis> to
-          generate HTML output targetted at print. In older version <emphasis>print</emphasis> was defined as
-          an alias for <emphasis>fo</emphasis>. You may thus have to change your ODDs if you used the fo mode. A more 
-          elaborate explanation of the changes is presented in this
-          <link xlink:href="https://www.e-editiones.org/posts/tei-publisher-lib-3/" xlink:show="new"
-            >e-editiones article</link>.</para>
-        <para>The behaviour of the <code>pb-facsimile</code> and <code>pb-facs-link</code> webcomponents has changed:
-          <code>pb-facs-link</code> must now emit to the event channel <code>pb-facsimile</code> is listening to.
-          Previously emitting to the default channel was enough. You should thus change all <code>pb-facs-link</code>
-          elements generated by your ODD to include an <code>@emit</code> attribute targetting the correct channel.</para>
-        <para>If links, in particular in the menu, stop working and the indicated URL contains <code>${...}</code>, check the 
-          corresponding code in the HTML template. If
-          it has an attribute <code>data-template="lib:parse-params"</code>, change it to
-          <code>data-template="pages:parse-params"</code>.</para>
+        <variablelist>
+          <varlistentry>
+            <term>print/fo output modes</term>
+            <listitem>
+              <para><code>tei-publisher-lib</code> 3.x.x reassigns the output mode <emphasis>print</emphasis> to
+                generate HTML output targetted at print. In older version <emphasis>print</emphasis> was defined as
+                an alias for <emphasis>fo</emphasis>. You may thus have to change your ODDs if you used the fo mode. A more 
+                elaborate explanation of the changes is presented in this
+                <link xlink:href="https://www.e-editiones.org/posts/tei-publisher-lib-3/" xlink:show="new"
+                  >e-editiones article</link>.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>pb-facsimile/pb-facs-link</term>
+            <listitem>
+              <para>The behaviour of the <code>pb-facsimile</code> and <code>pb-facs-link</code> webcomponents has changed:
+                <code>pb-facs-link</code> must now emit to the event channel <code>pb-facsimile</code> is listening to.
+                Previously emitting to the default channel was enough. You should thus change all <code>pb-facs-link</code>
+                elements generated by your ODD to include an <code>@emit</code> attribute targetting the correct channel.</para>    
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>HTML template links</term>
+            <listitem>
+              <para>If links, in particular in the menu, stop working and the indicated URL contains <code>${...}</code>, check the 
+                corresponding code in the HTML template. If
+                it has an attribute <code>data-template="lib:parse-params"</code>, change it to
+                <code>data-template="pages:parse-params"</code>. It should also be safe to run a search/replace
+                operation on all <filename>.html</filename> files in <filename>templates/</filename>.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
       </section>
     </section>
     <section xml:id="upgrade7">
@@ -4949,6 +4985,32 @@ declare variable $config:data-default := $config:data-root;
               to fill the page by showing the first child division as well. The <tag>fill</tag>
               paramter defines the number of elements which should at least be present on a page. If
               not, the software tries to fill it up. </para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>media</term>
+          <listitem>
+            <para>A space separated list of output media types supported for this document. TEI Publisher 8 uses this
+              information to limit the
+              download options shown to the user. The output type
+              <code>web</code> is always assumed to work and does not need to be specified. Other supported output media types
+            are:</para>
+            <itemizedlist>
+              <listitem>
+                <para>epub</para>
+              </listitem>
+              <listitem>
+                <para>print</para>
+              </listitem>
+              <listitem>
+                <para>fo</para>
+              </listitem>
+              <listitem>
+                <para>latex</para>
+              </listitem>
+            </itemizedlist>
+            <para>For example, this documentation uses the following settings in its processing instruction:</para>
+            <synopsis language="xml"><![CDATA[media="latex print fo epub"]]></synopsis>
           </listitem>
         </varlistentry>
       </variablelist>
