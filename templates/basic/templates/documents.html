@@ -9,7 +9,7 @@
             <li class="document">
                 <pb-restricted login="login" group="tei">
                     <div class="document-select">
-                        <paper-checkbox data-template="lib:parse-params" name="documentCheckbox" value="${ident}"></paper-checkbox>
+                        <paper-checkbox data-template="pages:parse-params" name="documentCheckbox" value="${ident}"></paper-checkbox>
                     </div>
                 </pb-restricted>
                 <div class="document-info">
@@ -21,7 +21,7 @@
                                 <iron-icon icon="file-download"></iron-icon>
                                 <span class="label"><pb-i18n key="menu.download.title">Download</pb-i18n></span>
                             </paper-button>
-                            <paper-listbox slot="dropdown-content" data-template="lib:parse-params">
+                            <paper-listbox slot="dropdown-content" data-template="pages:parse-params">
                                 <paper-item data-template="pages:if-supported" data-template-media="print">
                                     <a href="${app}/print/${ident}" target="_new">Print CSS</a>
                                 </paper-item>
@@ -51,7 +51,7 @@
                                     </pb-download>
                                 </paper-item>
                                 <paper-item>
-                                    <pb-edit-xml data-i18n="[title]menu.download.view-tei" title="i18n(view-tei)" path="${path}" data-template="lib:parse-params">
+                                    <pb-edit-xml data-i18n="[title]menu.download.view-tei" title="i18n(view-tei)" path="${path}" data-template="pages:parse-params">
                                         XML
                                     </pb-edit-xml>
                                 </paper-item>

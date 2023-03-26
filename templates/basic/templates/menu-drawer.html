@@ -1,9 +1,9 @@
 <div class="drawer-content">
     <pb-media-query query="(max-width: 1023px)">
         <pb-login id="login" group="tei"/>
-        <h3><a href="${app}/index.html" data-template="lib:parse-params">Start</a></h3>
+        <h3><a href="${app}/index.html" data-template="pages:parse-params">Start</a></h3>
         <h3><a href="https://www.e-editiones.org/tags/release" target="_blank"><pb-i18n key="menu.news">News</pb-i18n></a></h3>
-        <h3><a href="${app}/dts.html" data-template="lib:parse-params">DTS</a></h3>
+        <h3><a href="${app}/dts.html" data-template="pages:parse-params">DTS</a></h3>
         <pb-collapse>
             <h3 slot="collapse-trigger"><pb-i18n key="menu.documentation">Documentation</pb-i18n></h3>
             <paper-listbox slot="collapse-content">
@@ -16,7 +16,7 @@
                     <pb-i18n key="menu.download.title">Download</pb-i18n>
                 </a>
             </h3>
-            <paper-listbox slot="dropdown-content" data-template="lib:parse-params">
+            <paper-listbox slot="dropdown-content" data-template="pages:parse-params">
                 <paper-item data-template="pages:if-supported" data-template-media="print">
                     <a href="${app}/print/${doc}" target="_new">Print CSS</a>
                 </paper-item>
@@ -62,12 +62,12 @@
                         </pb-download>
                     </paper-item>
                     <paper-item>
-                        <a href="${app}/manage.html" data-template="lib:parse-params">
+                        <a href="${app}/manage.html" data-template="pages:parse-params">
                             <pb-i18n key="menu.admin.appGenerator"/>
                         </a>
                     </paper-item>
                     <paper-item>
-                        <a href="${app}/train-ner.html" data-template="lib:parse-params">
+                        <a href="${app}/train-ner.html" data-template="pages:parse-params">
                             <pb-i18n key="menu.admin.train">Train Named Entity Recognition</pb-i18n>
                         </a>
                     </paper-item>
@@ -81,7 +81,7 @@
         </h3>
 
         <pb-search action="${app}/search.html" value="${query}"
-        data-template="lib:parse-params" 
+        data-template="pages:parse-params" 
         redirect="redirect"/>   
 
     </pb-media-query>

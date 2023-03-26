@@ -6,7 +6,7 @@
             <a slot="dropdown-trigger" data-i18n="[title]menu.download.title" title="i18n(download)">
                 <pb-i18n key="menu.download.title">Download</pb-i18n>
             </a>
-            <paper-listbox slot="dropdown-content" data-template="lib:parse-params">
+            <paper-listbox slot="dropdown-content" data-template="pages:parse-params">
                 <paper-item data-template="pages:if-supported" data-template-media="print">
                     <a href="${app}/print/${doc}" target="_new">Print CSS</a>
                 </paper-item>
@@ -53,7 +53,7 @@
                         </pb-download>
                     </paper-item>
                     <paper-item>
-                        <a href="${app}/api.html" data-template="lib:parse-params" target="_blank">API Documentation</a>
+                        <a href="${app}/api.html" data-template="pages:parse-params" target="_blank">API Documentation</a>
                     </paper-item>
                     <paper-item>
                         <a href="https://cdn.tei-publisher.com/" target="_blank">Webcomponents API</a>
