@@ -6947,43 +6947,60 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
     </section>
     <section xml:id="hosting">
       <title>Hosting</title>
-      <para>There are various hosting options for the TEI Publisher. Many academic providers and
-        research infrastructures (e.g. Huma-Num) routinely support eXist-db and TEI Publisher
-        installations while others can do so upon request. A recent <link xlink:show="new"
-          xlink:href="https://sources-online.org/">sources-online.org</link> initiative offers
-        hosting for editions which includes TEI Publisher and IIIF support.</para>
-      <para>Roughly three different types of hosting can be distinguished: <orderedlist>
+      <para>Where and how to host a custom edition built with TEI Publisher is one of the most frequent questions we
+        receive. Fortunately there are various options and we're doing our best to help academic users by providing
+        various tools to simplify the task, as well as cooperating with providers.</para>
+      <para>Some options are:</para>
+      <variablelist>
+        <varlistentry>
+          <term>dedicated server</term>
           <listitem>
-            <para>dedicated server</para>
+            <para>means a physical or virtual machine on which eXist-db, TEI Publisher and a proxy server can be
+              installed and configured. Many academic providers and
+              research infrastructures (e.g. Huma-Num) routinely support dedicated eXist-db and TEI Publisher
+              installations while others can do so upon request.</para>
           </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>dockerized installation</term>
           <listitem>
-            <para>Docker-based installation</para>
+            <para>we provide a ready-to-use configuration including TEI Publisher, a proxy and the named entity
+              recognition service in the <link xlink:show="new"
+                xlink:href="https://github.com/eeditiones/teipublisher-docker-compose"
+                >teipublisher-docker-compose</link> Github repository. The readme describes how to customize this
+              configuration for your own custom edition.</para>
+            <para>To use this option you need to find a hosting provider, which supports running a dockerized
+              architecture with <emphasis>docker compose</emphasis> (just search for a virtual cloud server with docker
+              preinstalled). Fortunately this is quite common and - unless you intend to
+              run a heavy duty service – the costs are very acceptable. With this option,
+              rebuilding the entire setup is quick and easy, which makes it the perfect solution for sites still being
+              under development. On the downside, performance may not be as good as with a dedicated server, but it is
+              hard to give any reliable figures. You'll have to see yourself. </para>
           </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>static site</term>
           <listitem>
-            <para>static site</para>
-            <para>static site</para>
-            <para>static site</para>
+            <para>the newest kid on the block: instead of running TEI Publisher, eXist etc., you can transform your
+              custom edition into a static site. This means that the entire application is converted to a pregenerated
+              set of static HTML pages and helper files. The generated files can be hosted on any web server, including
+              free services like GitHub Pages. It is a particularly fitting solution for smaller editions without extensive
+              search features. The article <link xlink:show="new"
+                xlink:href="https://www.e-editiones.org/posts/community-event-going-static/">Generating a
+                high voltage site by going static</link> describes how such a static site can be generated
+              and discusses in detail the advantages and drawbacks of this solution.</para>
           </listitem>
-        </orderedlist>
-      </para>
-      <para><emphasis role="bold">Dedicated server</emphasis> in this context means that a physical
-        or virtual machine is available on which eXist-db, TEI Publisher and a proxy server are
-        installed and configured.</para>
-      <para><emphasis role="bold">Dockerized installation</emphasis> means that a Docker
-        configuration has been prepared which automates the tasks of setting up the server with
-        eXist, TEI Publisher and all related services (including proxy server). The e-editiones
-          <link xlink:show="new"
-          xlink:href="https://github.com/eeditiones/teipublisher-docker-compose"
-          >teipublisher-docker-compose</link> Github repository describes how to set up such an
-        architecture.</para>
-      <para>With a <emphasis role="bold">static site</emphasis>, no TEI Publisher and therefore no
-        eXist-db is needed for hosting, since the entire application is converted to a pregenerated
-        set of static HTML pages which can be hosted on any web server, including at no cost via
-        GitHub Pages. It is a particularly fitting solution for smaller editions without extensive
-        search features. The article <link xlink:show="new"
-          xlink:href="https://www.e-editiones.org/posts/community-event-going-static/">Generating a
-          high voltage site by going static</link> describes how such a static site can be generated
-        and discusses in detail the advantages and drawbacks of this solution.</para>
+        </varlistentry>
+        <varlistentry>
+          <term>all-inclusive hosting options</term>
+          <listitem>
+            <para>in cooperation with e-editiones, <link xlink:href="https://www.archives-online.org/">Archives Online</link> provides a complete hosting solution for scholarly
+              editions based on TEI Publisher and IIIF on <link xlink:show="new"
+              xlink:href="https://sources-online.org/">sources-online.org</link>. This covers long-term maintenance and
+              support of an edition project. If you are interested in having an edition hosted, please contact <link xlink:href="info@archives-online.org">Archives Online</link>.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
     </section>
   </section>
 
