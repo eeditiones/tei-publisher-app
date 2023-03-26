@@ -6871,21 +6871,80 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         xlink:show="new" xlink:href="https://exist-db.org/exist/apps/doc/production_good_practice"
         >Production Use - Good Practice</link> of the eXist-db documentation. One important point is
       to always run eXist-db in production behind a proxy server, which serves as an intermediary to
-      control and protect access to a server on which the database runs. More information about
-      proxy servers and eXist-db can be found in the article <link xlink:show="new"
-        xlink:href="https://exist-db.org/exist/apps/doc/production_web_proxying">Proxying eXist-db
-        behind a Web Server</link>.</para>
-    <para>One common function of a proxy server is "hiding" or translating requests to the
-      collection where TEI Publisher applications actually live to a shorter and more memorable
-      domain name. As a consequence, the internal application links must be correctly set, depending
-      on the context in which the app operates. TEI Publisher based apps allow developers to control
-      this behaviour via a special variable in <code>modules/config.xqm</code> called
-        <code>$config:context-path</code>. </para>
-    <para>The variable <code>$config:context-path</code> by default determines the context path
-      depending on the presence of the <code>teipublisher.context-path</code> system variable or the
-        <code>X-Forwarded-Host</code> HTTP header. If the proxy server sets the
-        <code>X-Forwarded-Host</code> HTTP header, TEI Publisher app will recognize it is running
-      behind a proxy and adjust the context path on its own.</para>
+      control and protect access to a server on which the database runs.</para>
+    <section>
+      <title>Running behind a proxy</title>
+      <para>To set up a proxy, we suggest looking at the docker compose configuration we provide. It includes
+        <link xlink:href="https://github.com/eeditiones/teipublisher-docker-compose/tree/master/conf">configuration templates</link> for the nginx proxy. More general information about
+        proxy servers and eXist-db can be found in the article <link xlink:show="new"
+          xlink:href="https://exist-db.org/exist/apps/doc/production_web_proxying">Proxying eXist-db
+          behind a Web Server</link>.</para>
+      <para>What does a proxy do for you? It can</para>
+      <orderedlist>
+        <listitem>
+          <para>handle domains and protect parts of the database you don't want external users to access. For example, you can
+            access the Escher edition using its <link xlink:href="https://www.briefedition.alfred-escher.ch/">public URL</link> and
+            you will directly land on the home page of the edition. What you can't see is that the Escher is just one out of several editions hosted
+            within the same eXist database. It is the proxy's job to direct you to the correct application
+            matching the public URL, so it appears to you as if there were only one edition. Other editions in the same
+            database are hidden and effectively protected.</para>
+        </listitem>
+        <listitem>
+          <para>enforce a secured connection: communication between the users browser and the proxy will be secured by
+            HTTPS. And because all traffic is routed through the proxy, it is safe to keep the eXist database running on HTTP.</para>
+        </listitem>
+        <listitem>
+          <para>cache specific pages, so TEI Publisher does not need to transform TEI to HTML every time</para>
+        </listitem>
+      </orderedlist>
+      <para>In the following sections we'll discuss specific settings you should pay attention to when running TEI
+        Publisher behind a proxy.</para>
+      <section>
+        <title>Context paths</title>
+      <para>If you would like the proxy to directly route traffic for a public URL to a specific application within
+        eXist, you also need to make sure that all internal application links are correctly set, depending
+        on the context in which the app operates. The link to "Start" (i.e. the home page of the edition) in the menu would be an
+        example. While you are developing the app, you want this link to point to
+        <code>/exist/apps/my-edition/</code> (we call this the <emphasis>context path</emphasis>).
+        When deploying the app to production (i.e. behind a proxy), this link should change and just point to
+        the root of the host. The context path should thus be empty.</para>
+      <para>TEI Publisher based apps allow developers to control
+        this behaviour via a special variable in <code>modules/config.xqm</code> called
+        <code>$config:context-path</code>.</para>
+      <para>The default setting for <code>$config:context-path</code> is determined as follows:</para>
+      <procedure>
+        <step>
+          <para>if a Java system property called <code>teipublisher.context-path</code> is set, use its value as context
+          path</para>
+        </step>
+        <step>
+          <para>otherwise look at the HTTP request header <code>X-Forwarded-Host</code> and if present, assume that
+            we're running behind a proxy and the context path should be empty</para>
+        </step>
+        <step>
+          <para>finally, try to determine the context path by checking the install location of the application within
+            eXist. This will lead to a context path like <code>/exist/apps/my-edition/</code></para>
+        </step>
+      </procedure>
+      <para>This procedure should work for most cases, so manually adjusting <code>$config:context-path</code> should
+        rarely be necessary.</para>
+      </section>
+      <section>
+        <title>Caching</title>
+        <para>While you can use a proxy to cache arbitrary contents based on timeouts and cache expiration, TEI
+          Publisher 8 includes some support for a more intelligent caching approach: if enabled, TEI Publisher will
+          answer to the <code>If-Modified-Since</code> HTTP header sent by the proxy. If any of the resources targetted
+          by the request have been modified since the given timestamp, TEI Publisher will process the request as usual.
+          However, if it finds that no modifications were applied in the meantime, it simply returns a 304 response
+          code, telling the proxy that it can safely use its cached version.</para>
+        <para>To enable this feature, set the variable <code>$config:enable-proxy-caching</code> to true.</para>
+        <note>
+          <para>At the time of writing, only the most important API calls in TEI Publisher support
+            <code>If-Modified-Since</code>. Those include the API call for displaying a single page or division, which
+            is the most frequently called operation.</para> 
+        </note>
+      </section>
+    </section>
     <section xml:id="hosting">
       <title>Hosting</title>
       <para>There are various hosting options for the TEI Publisher. Many academic providers and
