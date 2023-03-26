@@ -257,7 +257,7 @@ return
  : arguments.
  :)
 declare variable $config:tex-command := function ($file) {
-    ("/usr/bin/pdflatex", "-interaction=nonstopmode", $file)
+    ("pdflatex", "-interaction=nonstopmode", $file)
 };
 
 (:

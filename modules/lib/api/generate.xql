@@ -60,7 +60,7 @@ declare variable $deploy:ANT_FILE :=
         <xmlproperty file="expath-pkg.xml"/>
 
         <!-- Adjust path below to match location of your npm binary -->
-        <property name="npm" value="/usr/local/bin/npm"/>
+        <property name="npm" value="npm"/>
 
         <property name="project.version" value="${{package(version)}}"/>
         <property name="project.app" value="${{package(abbrev)}}"/>
