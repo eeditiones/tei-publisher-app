@@ -400,7 +400,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:inline($config, ., ("tei-time", css:map-rend-to-class(.)), .)
                     case element(title) return
                         if ($parameters?header='short') then
-                            latex:heading($config, ., ("tei-title1", css:map-rend-to-class(.)), ., 5)
+                            latex:heading($config, ., ("tei-title1", "docTitle", css:map-rend-to-class(.)), ., 5)
                         else
                             if (parent::titleStmt/parent::fileDesc) then
                                 (

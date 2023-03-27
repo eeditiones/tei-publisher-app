@@ -151,7 +151,7 @@ p * {
 .tei-foreign { font-style:italic; }
 .tei-sic2:before { content: '{'; }
 .tei-sic2:after { content: '}'; }
-.tei-fw2 { display: inline-block; margin-top: .5em; margin-bottom: 1em; color: #CCC; }
+.tei-fw2 { display: inline-block; margin-bottom: 1em; color: #CCC; }
 .tei-fw3 { margin-top: 1em; color: #A0A0A0; }
 .tei-fw4 { color: #A0A0A0; }
 .tei-fw5 { margin-top: 1em; color: #A0A0A0; }

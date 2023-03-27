@@ -380,7 +380,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:inline($config, ., ("tei-time", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(title) return
                         if ($parameters?header='short') then
-                            html:heading($config, ., ("tei-title1", css:map-rend-to-class(.)), ., 5)                            => model:map($node, $trackIds)
+                            html:heading($config, ., ("tei-title1", "docTitle", css:map-rend-to-class(.)), ., 5)                            => model:map($node, $trackIds)
                         else
                             if (parent::titleStmt/parent::fileDesc) then
                                 (

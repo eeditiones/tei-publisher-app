@@ -373,7 +373,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         fo:inline($config, ., ("tei-time", css:map-rend-to-class(.)), .)
                     case element(title) return
                         if ($parameters?header='short') then
-                            fo:heading($config, ., ("tei-title1", css:map-rend-to-class(.)), ., 5)
+                            fo:heading($config, ., ("tei-title1", "docTitle", css:map-rend-to-class(.)), ., 5)
                         else
                             if (parent::titleStmt/parent::fileDesc) then
                                 (
