@@ -26,10 +26,15 @@
                 --pb-serif-font-family: "Oswald", Verdana, "Helvetica", sans-serif;
             }
 
+            .text {
+                height: var(--pb-view-height);
+                display: grid;
+                grid-template-rows: auto 1fr;
+            }
+            
             #view1 {
                 flex: 1 1;
                 padding: 0 16px;
-                height: var(--pb-view-height);
                 overflow: auto;
             }
 
