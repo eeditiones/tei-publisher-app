@@ -39,7 +39,7 @@ declare %private function model:template-mml_math($config as map(*), $node as no
 };
 (: generated template function for element spec: ref :)
 declare %private function model:template-ref($config as map(*), $node as node()*, $params as map(*)) {
-    ``[`{string-join($config?apply-children($config, $node, $params?authors))}`: `{string-join($config?apply-children($config, $node, $params?title))}`. `{string-join($config?apply-children($config, $node, $params?source))}``{string-join($config?apply-children($config, $node, $params?year))}`]``
+    <t xmlns=""><li id="{$config?apply-children($config, $node, $params?id)}">{$config?apply-children($config, $node, $params?authors)}: {$config?apply-children($config, $node, $params?title)}. {$config?apply-children($config, $node, $params?source)}{$config?apply-children($config, $node, $params?year)}</li></t>/*
 };
 (:~
 
@@ -124,8 +124,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                             epub:block($config, ., ("tei-article-meta1", css:map-rend-to-class(.)), (title-group, contrib-group))
                         else
                             (
-                                epub:block($config, ., ("tei-article-meta2", css:map-rend-to-class(.)), title-group),
-                                epub:block($config, ., ("tei-article-meta3", "flex", css:map-rend-to-class(.)), (contrib-group, pub-date)),
+                                html:pass-through($config, ., ("tei-article-meta2", css:map-rend-to-class(.)), title-group),
+                                epub:block($config, ., ("tei-article-meta3", "flex", css:map-rend-to-class(.)), (contrib-group, (pub-date[@iso-8601-date], pub-date)[1])),
                                 epub:block($config, ., ("tei-article-meta4", css:map-rend-to-class(.)), abstract)
                             )
 
@@ -166,15 +166,18 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(label) return
                         epub:block($config, ., ("tei-label", css:map-rend-to-class(.)), .)
                     case element(xref) return
-                        if (@ref-type='fn') then
-                            html:pass-through($config, ., ("tei-xref", css:map-rend-to-class(.)), let $rid := @rid return root($parameters?root)//fn[@id=$rid])
+                        if (@ref-type='bibr') then
+                            html:link($config, ., ("tei-xref1", css:map-rend-to-class(.)), ., '#' || @rid, (), map {})
                         else
-                            $config?apply($config, ./node())
+                            if (@ref-type='fn') then
+                                html:pass-through($config, ., ("tei-xref2", css:map-rend-to-class(.)), let $rid := @rid return root($parameters?root)//fn[@id=$rid])
+                            else
+                                $config?apply($config, ./node())
                     case element(contrib) return
                         if (preceding-sibling::contrib) then
-                            html:inline($config, ., ("tei-contrib1", css:map-rend-to-class(.)), .)
+                            html:inline($config, ., ("tei-contrib1", css:map-rend-to-class(.)), name)
                         else
-                            html:inline($config, ., ("tei-contrib2", css:map-rend-to-class(.)), .)
+                            html:inline($config, ., ("tei-contrib2", css:map-rend-to-class(.)), name)
                     case element(contrib-group) return
                         if ($parameters?mode='breadcrumbs') then
                             html:inline($config, ., ("tei-contrib-group1", css:map-rend-to-class(.)), contrib)
@@ -208,7 +211,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(name) return
                         html:inline($config, ., ("tei-name", css:map-rend-to-class(.)), (given-names,surname))
                     case element(surname) return
-                        html:inline($config, ., ("tei-surname", css:map-rend-to-class(.)), .)
+                        if (../given-names) then
+                            html:inline($config, ., ("tei-surname1", css:map-rend-to-class(.)), (' ', .))
+                        else
+                            html:inline($config, ., ("tei-surname2", css:map-rend-to-class(.)), .)
                     case element(pub-date) return
                         epub:block($config, ., ("tei-pub-date", css:map-rend-to-class(.)), if (matches(@iso-8601-date, "^\d{4}-\d{2}$")) then   format-date(@iso-8601-date || "-01", '[MNn] [Y]', $parameters?language, (), ()) else   format-date(@iso-8601-date, '[D]. [MNn] [Y]', $parameters?language, (), ()))
                     case element(disp-formula) return
@@ -236,21 +242,36 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(back) return
                         epub:block($config, ., ("tei-back", css:map-rend-to-class(.)), ref-list)
                     case element(ref-list) return
-                        html:list($config, ., ("tei-ref-list", css:map-rend-to-class(.)), ., ())
+                        (
+                            html:pass-through($config, ., ("tei-ref-list1", css:map-rend-to-class(.)), title),
+                            html:list($config, ., ("tei-ref-list2", "references", css:map-rend-to-class(.)), ref, 'ordered')
+                        )
+
                     case element(ref) return
                         let $params := 
                             map {
                                 "title": .//article-title,
-                                "source": if (exists(.//source)) then (" In. ",.//source, (", ")) else (),
+                                "source": if (exists(.//source)) then (" In: ",.//source, (", ")) else (),
                                 "authors": let $names := for $name in  .//person-group[@person-group-type='author']/name return normalize-space($name) return string-join($names, ', '),
                                 "year": .//year,
+                                "id": @id,
                                 "content": .
                             }
 
                                                 let $content := 
                             model:template-ref($config, ., $params)
                         return
-                                                html:listItem(map:merge(($config, map:entry("template", true()))), ., ("tei-ref", css:map-rend-to-class(.)), $content, ())
+                                                html:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-ref", css:map-rend-to-class(.)), $content)
+                    case element(journal-meta) return
+                        epub:block($config, ., ("tei-journal-meta", "journal-meta", css:map-rend-to-class(.)), (.//journal-title, publisher, issn))
+                    case element(journal-title) return
+                        html:inline($config, ., ("tei-journal-title", "journal-title", css:map-rend-to-class(.)), .)
+                    case element(journal-title-group) return
+                        html:inline($config, ., ("tei-journal-title-group", "journal-title-group", css:map-rend-to-class(.)), .)
+                    case element(publisher) return
+                        html:inline($config, ., ("tei-publisher", "publisher", css:map-rend-to-class(.)), .)
+                    case element(issn) return
+                        html:inline($config, ., ("tei-issn", "issn", css:map-rend-to-class(.)), .)
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return
