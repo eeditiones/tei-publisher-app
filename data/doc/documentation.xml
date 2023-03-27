@@ -4263,6 +4263,9 @@ git checkout v8.0.0</programlisting>
             The version used is defined by a single variable in
               <filename>modules/config.xqm</filename> :</para>
           <synopsis language="xquery">declare variable $config:webcomponents := "2.4.2";</synopsis>
+          <para>You may also want to switch to a different CDN. TEI Publisher by default used unpkg.com, which recently
+            became slightly unreliable. Change the corresponding variable to:</para>
+          <synopsis language="xquery">declare variable $config:webcomponents-cdn := "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components";</synopsis>
         </step>
         <step>
           <para>Just updating to the new <code>tei-publisher-lib</code> version requires two changes:</para>
