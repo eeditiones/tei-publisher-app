@@ -4374,6 +4374,17 @@ git checkout v8.0.0</programlisting>
                 operation on all <filename>.html</filename> files in <filename>templates/</filename>.</para>
             </listitem>
           </varlistentry>
+          <varlistentry>
+            <term>changed start page and templates</term>
+            <listitem>
+              <para>The start page of the TEI Publisher app has changed: it now integrates a full text search and
+                drops the `pb-browse-docs` component in favour of a plain `pb-load` and associated form controls. This
+                gives users more flexibility.</para>
+              <para>Old start pages using `pb-browse-docs` will still work as before, so you don't need to take any
+                action here. However, if you would like to upgrade, you'll need to manually compare and update
+                `templates/index.html`.</para>
+            </listitem>
+          </varlistentry>
         </variablelist>
       </section>
     </section>
