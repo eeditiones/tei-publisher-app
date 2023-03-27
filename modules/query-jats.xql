@@ -145,7 +145,7 @@ declare function jats:get-breadcrumbs($config as map(*), $hit as node(), $parent
  : on it.
  :)
 declare function jats:expand($data as node()) {
-    let $query := session:get-attribute($config:session-prefix || ".query")
+    let $query := session:get-attribute($config:session-prefix || ".search")
     let $field := session:get-attribute($config:session-prefix || ".field")
     let $div := $data
     let $result := jats:query-default-view($div, $query, $field)
@@ -159,7 +159,7 @@ declare function jats:expand($data as node()) {
 };
 
 
-declare %private function jats:query-default-view($context as element()*, $query as xs:string, $fields as xs:string+) {
+declare %private function jats:query-default-view($context as node()*, $query as xs:string, $fields as xs:string+) {
     for $field in $fields
     return
         switch ($field)
