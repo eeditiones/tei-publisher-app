@@ -21,7 +21,7 @@
         writing less code, avoiding redundancy, improve maintenance and interoperability - to just
         name a few. TEI Publisher is all about <emphasis role="bold">standards</emphasis>, <emphasis
           role="bold">modularity</emphasis>, <emphasis role="bold">reusability</emphasis> and
-          <emphasis role="bold">sustainability</emphasis> ! </para>
+          <emphasis role="bold">sustainability</emphasis>! </para>
       <para>In Publisher, it all starts with your source documents - regardless if they are in TEI
         or other form of XML: DocBook, MS Word (DOCX) or JATS. No matter how the source material has
         been encoded, it can be easily transformed into a range of output formats for publication -
@@ -790,7 +790,7 @@
 
     <section xml:id="odd-experiments">
       <title>Experimenting with ODDs and page templates</title>
-      <para> All TEI Publisher's sample documents are TEI XML files which are transformed into a
+      <para> All TEI Publisher's sample documents are XML files which are transformed into a
         HTML webpage for display in the browser. Two major factors determine how the final page is
         going to look like: an <emphasis role="bold">ODD</emphasis> and a <emphasis role="bold">page
           template</emphasis>. </para>
@@ -838,9 +838,7 @@
         might want published, whether they are in TEI, DocBook, JATS, MS Word DOCX or other XML format.
         The first step is to upload them into the database. You need to be <emphasis role="bold"
           >logged in</emphasis> and in the Playground area to do it (check the short info on the
-          <guibutton> Start</guibutton> page for user name and password). Then uploading is just a
-        question of dragging your documents onto the <guibutton>Upload</guibutton> area. They will
-        become available in the document list immediately after upload is completed. </para>
+          <guibutton> Start</guibutton> page for user name and password).</para>
       <para>TEI Publisher installs two default application users:</para>
       <variablelist>
         <varlistentry>
@@ -858,6 +856,9 @@
           </listitem>
         </varlistentry>
       </variablelist>
+      <para>Upon successful login, uploading is just a
+        question of dragging your documents onto the <guibutton>Upload</guibutton> area. They will
+        become available in the document list immediately after upload is completed. </para>
       <figure>
         <title>The Upload Panel</title>
         <mediaobject>
@@ -959,8 +960,8 @@
     <section xml:id="format-jats">
       <title>JATS (Journal Publishing Tag Library)</title>
       <para>The JATS ODD currently supports <link xlink:href="https://jats.nlm.nih.gov/publishing/tag-library/1.2/">NISO
-        JATS Version 1.2</link>. It covers many elements commonly used for journal articles in the humanities, but
-        certainly not everything. Extending it should be straightforward though.</para>
+        JATS Version 1.2</link>. It covers many elements commonly used for journal articles in the humanities, and can be 
+        easily customized for more specific use cases or encoding flavours.</para>
       <para>By default, all documents in collection <filename>data/jats</filename> are associated with the JATS ODD (see
         <varname>config:collection-config</varname> in <filename>modules/config.xqm</filename>.</para>
     </section>
@@ -1195,7 +1196,7 @@
             <para> Log in and fill out the form at the bottom of the panel listing ODD files. Choose
               a name for the ODD, e.g. <option>myletter</option> (without a suffix) and a title,
               which will appear in the list after creation. Click on <guibutton>Create</guibutton>
-              (not <guibutton>Create from examples</guibutton>). </para>
+              button.</para>
             <para>The newly created ODD should appear in the side panel.</para>
           </step>
           <step>
@@ -1213,7 +1214,7 @@
               formatting applied. Since our ODD has just been created and is empty, we see the
               content with standard formatting applied. Our ODD by default inherits from <filename>
                 teipublisher.odd</filename>. The latter is maintained by the e-editiones community
-              and contains processing model declarations for the most important TEI elements. Thanks
+              and contains processing model declarations for the most common TEI elements. Thanks
               to this inheritance mechanism, many documents display nicely without requiring a lot
               of additional customization. </para>
           </step>
@@ -1705,9 +1706,9 @@
           <para> When more than one of these options is used, they are understood to be combined in
             accordance with the rules for multiple declaration of the styling language used. </para>
           <para> It is strongly recommended that use <tag>outputRendition</tag> should be limited to
-            strictly editorial decisions, such as 'conjectures are to be displayed in square
-            brackets' and not as means to record all typesetting and layout specific design choices.
-            The latter are discussion in the <link linkend="css-styling">Custom CSS styling</link>
+            strictly editorial decisions, such as '<emphasis>conjectures are to be displayed in square
+            brackets</emphasis>' and not as means to record all typesetting and layout specific design choices.
+            The latter are discussed in the <link linkend="css-styling">Custom CSS styling</link>
             chapter. </para>
           <para> The processing model library translates the CSS styles into the target media
             format. Restrictions apply due to differences between the output formats. Not all CSS
@@ -2187,7 +2188,7 @@
       <para>Choose one of the two approaches, but do not mix them. In both cases make sure to
         recompile the ODD after changes as the CSS is merged into the generated code!</para>
 
-      <para> New addition in Publisher 6.0 allows to pass the external CSS file in
+      <para>An addition introduced in Publisher 6.0 allows to pass the external CSS file in
           <code>load-css</code> attribute of <code>pb-view</code>. Recompiling ODD in this case is
         not necessary, otherwise it is functionally equivalent to using ODD <code>rendition</code>.
       </para>
@@ -2336,10 +2337,10 @@
       <section xml:id="output-print-css">
         <title>Print CSS</title>
         <para>This output mode targets printed HTML via the CSS Paged Media specification (often also called Print CSS).
-          Though it has improved, browser support is still insufficient. However, there are tools to fill the gap. If you
-          select the print CSS download option for any of the documents in TEI Publisher, which
-          support it, you will be directed to a preview page. This page uses a library called <link
-            xlink:href="https://pagedjs.org/">paged.js</link> to "teach" the browser how to handle
+          Though recently improved, browser support is still incomplete. However, there are numerous tools to fill the gap. 
+          Select the print CSS download option for any of the documents in TEI Publisher which
+          support it and you will be directed to a preview page. This page uses a library called <link
+            xlink:href="https://pagedjs.org/">paged.js</link> to "<emphasis>teach</emphasis>" the browser how to handle
           certain layout aspects. Thanks to this, using the <command>print page</command> dialog of
           your browser will result in a much nicer page layout than if you just tried to print TEI
           Publisher's document view.</para>
@@ -2386,7 +2387,7 @@
           </varlistentry>
         </variablelist>
 
-        <para>For sure, being an open source project, paged.js does not support every fancy layout
+        <para>As an open source project, paged.js does not support every fancy layout
           you may wish for. For example, support for formatting footnotes will be limited. There are
           other, mainly commercial tools, which you may use to generate PDF out of your HTML. Those
           include e.g. <link xlink:href="https://www.princexml.com/">Prince XML</link>, <link
@@ -2456,8 +2457,8 @@
         <para>To this end, we can pass external parameters into the ODD, which inform the processor
           which of the processing scenarios we wish to follow.</para>
 
-        <para>More about this, the most common, use case for passing parameters in the ODD you can
-          read in a <link linkend="external-parameters">subsequent section</link>.</para>
+        <para>In a <link linkend="external-parameters">External parameters</link> section you can read more about this, 
+          the most common, use case for passing parameters in the ODD.</para>
         <para> In version 3.0.0 of the <code>tei-publisher-lib</code> we added two carefully chosen
           features to our implementation of the TEI Processing Model: </para>
         <itemizedlist>
@@ -2540,10 +2541,10 @@
         <section xml:id="pm-set-param">
           <title>Setting Parameters within the ODD</title>
           <para>A logical follow-up for setting the processing mode described in the previous
-            section and <link linkend="external-parameters">passing external parameters</link> this
+            section and <link linkend="external-parameters">passing external parameters</link>, this
             extension allows to set an arbitrary parameter which is passed on to all models
             subsequently called as a result of processing the current element. </para>
-          <para>The syntax is the same as for the standard <code>&lt;param name="foo"
+          <para>The syntax is almost the same as for the standard <code>&lt;param name="foo"
               value="baz"/&gt;</code>. Just the name of the element changes to
               <code>&lt;pb:set-param&gt;</code>, marking this as a special parameter which is
             "inherited" by subsequent models. </para>
@@ -2578,7 +2579,7 @@
         <section xml:id="pb-template">
           <title> Introducing <tag>pb:template</tag>
           </title>
-          <para> TEI Publisher thus supports an extension to the ODD syntax in its own namespace (
+          <para> TEI Publisher supports an extension to the ODD syntax in its own namespace (
               <parameter> http://teipublisher.com/1.0</parameter>). </para>
           <para> Within the ODD, a <tag>model</tag> may define a <tag>pb:template</tag> element
             containing a code template. The template is expanded first and the result is passed into
@@ -2639,10 +2640,9 @@
           <title>Defining New Behaviours in the ODD</title>
           <para>By combining code templates with parameters we can come up with a very simple
             mechanism to define new behaviours right inside the ODD!</para>
-          <para> Take the TEI Publisher documentation as an example: it is written in docbook 5 and
+          <para> Take the TEI Publisher documentation as an example: it is written in Docbook 5 and
             transformed via ODD. The documentation includes some videos which are hosted on youtube.
-            In docbook those are represented by <tag>videodata</tag> elements inside a <tag>
-              videoobject</tag> : </para>
+            In DocBook these are represented by <tag>videodata</tag> elements inside a <tag>videoobject</tag>.</para>
           <programlisting xml:space="preserve">&lt;figure xml:id="edit-odd"&gt;
     &lt;title&gt;Screencast&lt;/title&gt;
     &lt;mediaobject&gt;
@@ -2671,9 +2671,9 @@
             <title>Note</title>
             <para> Note how we have to reset the namespace on the <tag>pb:template</tag> ? This is
               required because the default namespace in an ODD document is the TEI namespace. You
-              thus need to reset it whenever you want to output elements in another or no namespace
+              therefore need to reset it whenever you want to output elements in another or no namespace
               inside a template. Without this, the iframe would end up in the TEI namespace.
-              Webbrowsers will usually ignore it, but it will be wrong nevertheless. </para>
+              Web browsers will usually ignore it, but it would be incorrect nevertheless. </para>
           </note>
           <para> All behaviours should be included in the TEI header or - to be exact: the <tag>
               tagsDecl</tag> inside the <tag>encodingDesc</tag>. You may have multiple behaviour
@@ -2696,8 +2696,8 @@
           <note>
             <title>Note</title>
             <para> At the time of writing, the graphical ODD editor in TEI Publisher does not yet
-              support defining your own behaviours via <tag>pb-behaviour</tag>. You thus have to
-              make those changes in the source XML using eXide, oXygen or another XML editor. You
+              support defining your own behaviours via <tag>pb-behaviour</tag>. You have to
+              make these changes in the source XML using eXide, oXygen or another XML editor. You
               can, however, use the graphical editor to continue editing the ODD afterwards. It is
               smart enough to not overwrite your hand-written code upon save. </para>
           </note>
@@ -2831,7 +2831,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     <title>Custom CSS styling</title>
 
     <para> CSS stylesheet <code>resources/css/theme.css</code> defines styles used by all pages of
-      the TEI Publisher and publisher-generated applications. Nevertheless, users <emphasis
+      the TEI Publisher and Publisher-generated applications. Nevertheless, users <emphasis
         role="bold">should not</emphasis> directly modify this file but create a project-specific
       css customization file and include it alongside <code>theme.css</code> instead. </para>
     <programlisting language="html" xml:space="preserve">
@@ -2853,21 +2853,22 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <para> For Publisher, encapsulation of web components means that definitions in
           <code>theme.css</code> or equivalent project customization CSS files are not able to
         directly govern web components styling. </para>
-      <para> While some aspects of component styling remained unaccessible for customization in
-        versions preceding Publisher 6, from that version <code>pb-components</code> expose style
-        properties to the outside world via standard CSS variables. This way variables like <code>
-          --pb-footnote-color</code> defined in <code>theme.css</code> can be accessed by e.g.
-          <code> pb-view</code> component and thus determine the color of the footnote marker in the
-        rendered transcription. </para>
-
-      <para>Note that with this method while you cannot change the inner appearance of a component
-        except by setting its custom CSS properties, you can style the component itself within the
+      <para>Note that while you cannot directly change the inner appearance of a component, 
+        you can style the component itself within the
         HTML template, e.g. to position it within the layout of the page.</para>
-      <para>With TEI Publisher 7, or, more precisely, version 1.43.0 of the
-          <code>tei-publisher-components</code> a much more robust method is available by simply
-        specifying a <code>theme</code> property for <code>pb-page</code>. </para>
+
+      <para>With TEI Publisher 8, or, more precisely, version 1.43.0 of the
+          <code>tei-publisher-components</code>, a very robust method of applying styles throughout the page
+        is available by simply specifying a <code>theme</code> property for <code>pb-page</code>.</para>
       <programlisting language="xml" xml:space="preserve">&lt;pb-page data-template="pages:pb-page" ... theme="resources/css/components.css"&gt;</programlisting>
-    </section>
+    
+      <para>In older versions, some aspects of component styling remained unaccessible for customization. 
+        From Publisher version 6 <code>pb-components</code> certain style
+        properties are exposed to the outside world via standard CSS variables. This way variables like 
+        <code>--pb-footnote-color</code> defined in <code>theme.css</code> can be accessed by e.g.
+        <code>pb-view</code> component and thus determine the color of the footnote marker in the
+        rendered transcription. </para>
+      </section>
     <section xml:id="css-styling-external">
       <title>External stylesheets</title>
       <para> ODD specification allows for explicit declaration of an external CSS file which may
@@ -2976,7 +2977,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
             <para> the name - without suffix - of the ODD to use for rendering the document. In the
               example, the first document is encoded in TEI and thus transformed through <filename>
                 dta.odd</filename>, while the second is written in DocBook and passed through
-                <filename> docbook.odd</filename>. </para>
+                <filename>docbook.odd</filename>. </para>
           </listitem>
         </varlistentry>
       </variablelist>
@@ -4964,14 +4965,14 @@ declare variable $config:data-default := $config:data-root;
             <orderedlist>
               <listitem>
                 <para>
-                  <parameter>div</parameter> : displays one structural division (TEI div, docbook
+                  <parameter>div</parameter> : displays one structural division (TEI div, DocBook
                   section …) at a time </para>
               </listitem>
               <listitem>
                 <para>
                   <parameter>page</parameter> : displays the document page by page. This requires
                   page break indicators to be present (<tag>pb</tag> in TEI, not supported for
-                  docbook). </para>
+                  DocBook). </para>
               </listitem>
               <listitem>
                 <para>
@@ -5742,8 +5743,8 @@ static get styles() {
       subsequent <tag>pb</tag> s, while talking about pages in DocBook documents makes no sense and
         <tag> section</tag> s are the main structural units. </para>
     <para> This structure has its consequences for further aspects: generating TOC in TEI will
-      analyze nested <tag>div</tag> / <tag>head</tag> structures but only <tag>section</tag> / <tag>
-        title</tag> in DocBook. Likewise, KWIC display in TEI will be showing matches in
+      analyze nested <tag>div</tag> / <tag>head</tag> structures but only <tag>section</tag> / 
+      <tag>title</tag> in DocBook. Likewise, KWIC display in TEI will be showing matches in
         <tag>div</tag> context but <tag>section</tag> in DocBook, so Lucene indexes need to be
       defined on these elements in their appropriate namespaces. Ditto for facets and fields used
       for sorting and filtering. </para>
@@ -6043,7 +6044,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         be then reloaded into the annotation editor and you can continue.</para>
       <para>As already indicated, it is possible to handle common nested encoding structures like
           <tag> choice</tag> or <tag>app</tag> as annotations. Nevertheless the inner elements, i.e.
-          <tag> lem</tag>, <tag>rdg</tag>, <tag>sic</tag>, <tag>corr</tag> or <tag>orig</tag>,
+          <tag>lem</tag>, <tag>rdg</tag>, <tag>sic</tag>, <tag>corr</tag> or <tag>orig</tag>,
           <tag>reg</tag>, need to have simple text content: they cannot be annotated themselves (at
         least not in the current version).</para>
     </section>
@@ -6893,7 +6894,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         proxy servers and eXist-db can be found in the article <link xlink:show="new"
           xlink:href="https://exist-db.org/exist/apps/doc/production_web_proxying">Proxying eXist-db
           behind a Web Server</link>.</para>
-      <para>What does a proxy do for you? It can</para>
+      <para>What does a proxy do for you? It can:</para>
       <orderedlist>
         <listitem>
           <para>handle domains and protect parts of the database you don't want external users to access. For example, you can
@@ -6921,7 +6922,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         example. While you are developing the app, you want this link to point to
         <code>/exist/apps/my-edition/</code> (we call this the <emphasis>context path</emphasis>).
         When deploying the app to production (i.e. behind a proxy), this link should change and just point to
-        the root of the host. The context path should thus be empty.</para>
+        the root of the host. The context path should therefore be empty.</para>
       <para>TEI Publisher based apps allow developers to control
         this behaviour via a special variable in <code>modules/config.xqm</code> called
         <code>$config:context-path</code>.</para>
@@ -7023,7 +7024,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         reliability and fast, globally distributed access to resources. Web browsers can cache those resources
         efficiently across applications.</para>
       <para>However, we recently experienced more and more difficulties with some CDN, in particular the one used by TEI
-      Publisher by default. As a result, pages may appear inaccessible or slow to users, though TEI Publisher itself is
+      Publisher by default. As a result, pages may appear inaccessible or slow to users, even though TEI Publisher itself is
       responsive and fast.</para>
       <para>For production deployments we therefore recommend to consider self-hosting the required component libraries.
         This means: all javascript libraries are downloaded and bundled with your custom application. The build scripts
@@ -7037,12 +7038,12 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         </step>
         <step>
           <para>edit <filename>modules/config.xqm</filename> and change the value of variable
-            <code>$config:webcomponents</code>to "local":</para>
+            <code>$config:webcomponents</code> to "local":</para>
           <synopsis language="xquery">declare variable $config:webcomponents := "local";</synopsis>
         </step>
         <step>
           <para>build your application package with the command <code>ant xar-local</code> (instead of just calling
-            ant)</para>
+            ant) and deploy as usual</para>
         </step>
       </procedure>
     </section>
