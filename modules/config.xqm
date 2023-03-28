@@ -326,7 +326,7 @@ declare variable $config:context-path :=
     let $prop := util:system-property("teipublisher.context-path")
     return
         if (exists($prop)) then
-            if ($prop == "auto") then
+            if ($prop = "auto") then
                 request:get-context-path() || substring-after($config:app-root, "/db") 
             else
                 $prop
