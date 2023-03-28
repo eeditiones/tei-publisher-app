@@ -86,9 +86,9 @@ WORKDIR /exist
 ARG HTTP_PORT=8080
 ARG HTTPS_PORT=8443
 
-ENV NER_ENDPOINT=http://localhost:8001
-ENV CONTEXT_PATH=auto
-ENV PROXY_CACHING=false
+ARG NER_ENDPOINT=http://localhost:8001
+ARG CONTEXT_PATH=auto
+ARG PROXY_CACHING=false
 
 ENV JAVA_TOOL_OPTIONS \
   -Dfile.encoding=UTF8 \
@@ -113,4 +113,4 @@ ENV JAVA_TOOL_OPTIONS \
 # pre-populate the database by launching it once and change default pw
 RUN [ "java", "org.exist.start.Main", "client", "--no-gui",  "-l", "-u", "admin", "-P", "" ]
 
-EXPOSE ${HTTP_PORT}
+EXPOSE ${HTTP_PORT} ${HTTPS_PORT}
