@@ -39,8 +39,8 @@
             </text>
             <text qname="dbk:section">
                 <ignore qname="dbk:section"/>
-                <!--facet dimension="genre" expression="nav:get-metadata(ancestor::dbk:article, 'genre')" hierarchical="yes"/>
-                <facet dimension="language" expression="nav:get-metadata(ancestor::dbk:article, 'language')"/-->
+                <facet dimension="genre" expression="nav:get-metadata(ancestor::dbk:article, 'genre')" hierarchical="yes"/>
+                <facet dimension="language" expression="nav:get-metadata(ancestor::dbk:article, 'language')"/>
             </text>
             <text qname="dbk:title"/>
             <!-- JATS -->

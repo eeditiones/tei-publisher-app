@@ -57,7 +57,7 @@ declare function idx:get-metadata($root as element(), $field as xs:string) {
             ))
             case "genre" return (
                 idx:get-genre($header),
-                $root/dbk:info/dbk:keywordset[@vocab="#genre"]/dbk:keyword,
+                root($root)//dbk:info/dbk:keywordset[@vocab="#genre"]/dbk:keyword,
                 root($root)//article-meta/kwd-group[@kwd-group-type="genre"]/kwd
             )
             case "feature" return (
