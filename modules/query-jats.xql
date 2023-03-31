@@ -22,7 +22,7 @@ module namespace jats="http://www.tei-c.org/tei-simple/query/jats";
 declare namespace db="http://docbook.org/ns/docbook";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace nav="http://www.tei-c.org/tei-simple/navigation/docbook" at "navigation-dbk.xql";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation/jats" at "navigation-jats.xql";
 import module namespace query="http://www.tei-c.org/tei-simple/query" at "query.xql";
 
 declare variable $jats:FIELD_PREFIX := "jats.";
