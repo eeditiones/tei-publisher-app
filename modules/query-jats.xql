@@ -43,13 +43,21 @@ declare function jats:query-default($fields as xs:string+, $query as xs:string, 
                 default return
                     if (exists($target-texts)) then
                         for $text in $target-texts
-                        return
-                            $config:data-root ! doc(. || "/" || $text)//body[ft:query(., $query, query:options($sortBy))] |
-                            $config:data-root ! doc(. || "/" || $text)//sec[ft:query(., $query, query:options($sortBy))]
+                            let $divisions := $config:data-root ! doc(. || "/" || $text)//sec[ft:query(., $query, query:options($sortBy))]
+                            return
+                                if (empty($divisions)) then
+                                    $config:data-root ! doc(. || "/" || $text)//body[ft:query(., $query, query:options($sortBy))]
+                                else
+                                    $divisions
+                        
                     else
-                        collection($config:data-root)//body[ft:query(., $query, query:options($sortBy))] |
-                        collection($config:data-root)//sec[ft:query(., $query, query:options($sortBy))]
-    else ()
+                        let $divisions := collection($config:data-root)//sec[ft:query(., $query, query:options($sortBy))]
+                            return
+                                if (empty($divisions)) then
+                                    collection($config:data-root)//body[ft:query(., $query, query:options($sortBy))]
+                                else
+                                    $divisions
+   else ()
 };
 
 declare function jats:autocomplete($doc as xs:string?, $fields as xs:string+, $q as xs:string) {

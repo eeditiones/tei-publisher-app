@@ -45,13 +45,18 @@
             <text qname="dbk:title"/>
             <!-- JATS -->
             <text qname="body">
-                <ignore qname="sect"/>
+                <!-- <ignore qname="sect"/> -->
                 <field name="jats.file" expression="util:document-name(.)"/>
                 <field name="jats.title" expression="nav:get-metadata(., 'title')"/>
                 <field name="jats.author" expression="nav:get-metadata(., 'author')"/>
                 <field name="jats.text" expression="nav:get-metadata(., 'content')"/>
                 <facet dimension="genre" expression="nav:get-metadata(., 'genre')" hierarchical="yes"/>
                 <facet dimension="language" expression="head((./@xml:lang, 'en'))"/>
+            </text>
+            <text qname="sec">
+                <ignore qname="sec"/>
+                <facet dimension="genre" expression="nav:get-metadata(., 'genre')" hierarchical="yes"/>
+                <facet dimension="language" expression="head((root(.)/@xml:lang, 'en'))"/>
             </text>
         </lucene>
     </index>
