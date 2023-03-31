@@ -41,6 +41,7 @@
                 }
 
                 .content-body #view1 {
+                    min-height: var(--pb-view-height);
                     flex: 1;
                 }
                 
@@ -91,7 +92,7 @@
                     
                     <main class="content-body">
                         <pb-view id="view1" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
-                        <pb-facsimile id="facsimile" base-uri="https://apps.existsolutions.com/cantaloupe/iiif/2/" default-zoom-level="0" show-navigation-control="show-navigation-control" show-navigator="show-navigator" subscribe="transcription"/>
+                        <pb-facsimile id="facsimile" base-uri="https://apps.existsolutions.com/cantaloupe/iiif/2/" default-zoom-level="1" show-navigation-control="show-navigation-control" show-navigator="show-navigator" subscribe="transcription"/>
                     </main>
                     
                 </app-header-layout>
