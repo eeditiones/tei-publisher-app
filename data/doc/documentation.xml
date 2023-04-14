@@ -4312,7 +4312,7 @@ git checkout v8.0.0</programlisting>
             your modifications.</para>
         </step>
         <step>
-          <para>Copy <filename>modules/nlp-config.xqm</filename>.</para>
+          <para>Copy <filename>modules/nlp-config.xqm</filename> and <filename>modules/annotation-config.xqm</filename>.</para>
         </step>
         <step>
           <para>Check your <filename>modules/config.xqm</filename> for differences. In particular the variable
