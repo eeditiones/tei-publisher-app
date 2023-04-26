@@ -292,6 +292,7 @@ declare function pages:pb-page($node as node(), $model as map(*)) {
     )
     return
         element { node-name($node) } {
+            if(not($node/@language)) then attribute language { $config:default-language } else(),
             $node/@*,
             attribute app-root { $config:context-path },
             attribute template { $model?template },
