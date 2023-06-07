@@ -18,7 +18,7 @@ If you need professional support or consulting, feel free to send your inquiry t
 
 ## Installation
 
-A prebuilt version of the app can be installed from exist-db's central app repository. On your exist-db installation, open the package manager in the dashboard and select "TEI Publisher" for installation. This should automatically install dependencies such as the "TEI Publisher: Processing Model Libraries."
+A prebuilt version of the app can be installed from exist-db's central app repository. On your exist-db installation, open the package manager in the dashboard and select “TEI Publisher” for installation. This should automatically install dependencies such as the “TEI Publisher: Processing Model Libraries.”
 
 **Important**: TEI Publisher from version 5.0.0 requires [eXist-db 5.0.0](https://bintray.com/existdb/releases/exist/5.0.0/view/files) or later.
 
@@ -79,10 +79,10 @@ Following instructions are only relevant for developers who want to contribute t
 ## Docker 
 
 ### Build Docker Image
-* execute `docker build -t existdb/teipublisher:6.0.0 .` in your terminal
+* execute `docker build -t existdb/teipublisher:8.0.0 .` in your terminal
 
 ### Run Docker Image
-* execute `docker run --publish 8080:8080 --detach --name tp existdb/teipublisher:6.0.0` in your terminal
+* execute `docker run --publish 8080:8080 --detach --name teipublisher existdb/teipublisher:8.0.0` in your terminal
 * open `localhost:8080` in your browser
 
 ### How to run a completely dockerized development environment in vscode
@@ -93,7 +93,7 @@ Make sure you have [Visual Studio Code](https://code.visualstudio.com/download) 
 
 Make sure you do not have eXist running on 8080. 
 
-1. install “Remote - Containers” extension in vscode. In addition we highly recommend to install the "existdb-vscode" and "vscode-xml" extensions.
+1. install “Remote - Containers” extension in vscode. In addition we highly recommend to install the “existdb-vscode” and “vscode-xml” extensions.
 1. cmd-shift-p and find “Remote Containers: Clone Repository in Container Volume”
 1. confirm “Clone a repository from GitHub in a Container Volume”
 1. type “tei-publisher-app” and select “eeditiones/tei-publisher-app”
