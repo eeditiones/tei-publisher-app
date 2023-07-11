@@ -12,7 +12,8 @@
   },
   "license": "GPL-3.0",
   "dependencies": {
-    "@teipublisher/pb-components": "^2.4.5"
+    "@teipublisher/pb-components": "^2.4.5",
+    "normalize.css": "^8.0.1"
   },
   "devDependencies": {
     "adm-zip": "^0.5.9",

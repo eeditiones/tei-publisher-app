@@ -86,6 +86,9 @@
         </copy>
         <copy todir="${app.build.dir}/resources/css">
             <fileset dir="${basedir}/node_modules/@teipublisher/pb-components/css" />
+            <fileset dir="${basedir}/node_modules/normalize.css">
+                <include name="normalize.css" />
+            </fileset>
         </copy>
 
         <copy todir="${app.build.dir}/resources/lib">
