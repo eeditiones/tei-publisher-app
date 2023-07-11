@@ -27,7 +27,7 @@ declare function capi:list($request as map(*)) {
         if ($templateAvail and $works?mode = 'browse') then 
             $templatePath
         else
-            $config:app-root || "/templates/documents.html"
+            $config:app-root || "/templates/partials/document-list-entries.html"
     let $lookup := function($name as xs:string, $arity as xs:int) {
         try {
             let $cfun := custom:lookup($name, $arity)
