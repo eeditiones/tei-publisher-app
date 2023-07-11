@@ -1,28 +1,20 @@
+@import url("./normalize.css");
 @import url("../fonts/font.css");
 
-/* Due to a safari issue, relative paths to background images won't work as variables, so we list them here */
+:root {
+    --ratio: 1.5;
+    --s-5: calc(var(--s-4) / var(--ratio));
+    --s-4: calc(var(--s-3) / var(--ratio));
+    --s-3: calc(var(--s-2) / var(--ratio));
+    --s-2: calc(var(--s-1) / var(--ratio));
+    --s-1: calc(var(--s0) / var(--ratio));
+    --s0: 1rem;
+    --s1: calc(var(--s0) * var(--ratio));
+    --s2: calc(var(--s1) * var(--ratio));
+    --s3: calc(var(--s2) * var(--ratio));
+    --s4: calc(var(--s3) * var(--ratio));
+    --s5: calc(var(--s4) * var(--ratio));
 
-.logo {
-    background-image: url("../images/tei-publisher-logo-contrast-color.svg");
-}
-
-.splash {
-    background-image: url("../images/tei-publisher-logo-color.svg");
-}
-
-.menubar {
-    background-image: none;
-}
-
-.toolbar {
-    background-image: none;
-}
-
-app-header {
-    background-image: none;
-}
-
-body {
     --pb-splash-image-size: 360px auto;
     --pb-splash-background-color: var(--pb-color-inverse);
     --pb-logo-image-width: 140px;
@@ -70,17 +62,72 @@ body {
     --pb-highlight-color: #F9E976;
     --paper-input-container-focus-color: var(--pb-color-focus);
     --pb-view-max-width: 920px;
+
+}
+
+*:focus {
+    outline: none;
+}
+
+body {
+    font-size: var(--pb-base-font-size);
     font: var(--pb-base-font);
     color: var(--pb-color-primary);
     margin: 0;
 }
 
-html {
-    font-size: var(--pb-base-font-size);
+/* utility classes (taken from every-layout.dev) */
+
+.center-l {
+    box-sizing: content-box;
+    max-width: 78rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--s0);
+    padding-right: var(--s0);
 }
 
-*:focus {
-    outline: none;
+.stack {
+    /* ↓ The space is set as a custom property */
+    --space: 1.5rem;
+}
+
+.stack > * {
+    /* ↓ Any extant vertical margins are removed */
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.stack > * + * {
+    /* ↓ Top margin is only applied to successive elements */
+    margin-top: var(--space);
+}
+
+/* end utility classes (taken from every-layout.dev) */
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--pb-heading-font-family);
+    font-weight: var(--pb-heading-font-weight);
+    line-height: var(--pb-heading-line-height);
+}
+
+.document-list {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+
+/* Due to a safari issue, relative paths to background images won't work as variables, so we list them here */
+
+.logo {
+    background-image: url("../images/tei-publisher-logo-contrast-color.svg");
+}
+
+.splash {
+    background-image: url("../images/tei-publisher-logo-color.svg");
+}
+
+.toolbar {
+    background-image: none;
 }
 
 .splash {
@@ -183,6 +230,8 @@ app-drawer-layout:not([narrow]) [drawer-toggle] {
 }
 
 .menubar {
+    background-image: none;
+    display: flex;
     justify-content: space-between;
     background-color: var(--pb-menubar-background-color);
     color: var(--pb-menubar-color);
@@ -260,10 +309,6 @@ pb-view-type {
     }
 }
 
-/* .breadcrumbs {
-    margin: 10px 0 0 20px;
-} */
-
 pb-view, pb-view-annotate {
     font-family: var(--pb-content-font-family);
     font-size: var(--pb-content-font-size);
@@ -285,12 +330,6 @@ pb-view, pb-view-annotate {
 
 pb-popover {
     text-align: left !important;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: var(--pb-heading-font-family);
-    font-weight: var(--pb-heading-font-weight);
-    line-height: var(--pb-heading-line-height);
 }
 
 pb-drawer {

@@ -1,0 +1,69 @@
+<html>
+    <head data-template="lib:include" data-template-path="templates/partials/head.html">
+        <title data-target="title-template" data-template="config:app-title"> </title>
+        <!-- stock standard head contents in head.html include -->
+        <link data-target="script-preload" rel="preload" as="image" href="resources/images/network-background.jpg"/>
+    </head>
+    <body>
+       <pb-page data-template="pages:pb-page" api-version="1.0" unresolved="unresolved" theme="resources/css/home.css">
+        <nav data-template="lib:include" data-template-path="templates/partials/menu.html">
+            <pb-progress subscribe="search" indeterminate="indeterminate" bottom-item="bottom-item" data-target="menubar-after"/>
+        </nav>
+        <header class="welcome center-l">
+            <div>
+                <h1 class="tp-title">The Instant Publishing Toolbox</h1>
+            </div>
+            <div class="side">
+                <p><pb-i18n key="browse.login-1">Log in as</pb-i18n> <strong>tei-demo</strong> <pb-i18n key="browse.login-2">with password</pb-i18n> <strong>demo</strong> <pb-i18n key="browse.login-3">to experiment with your own files and ODDs</pb-i18n></p>
+            </div>
+        </header>
+        <main class="center-l document-list">
+            <aside data-template="browse:form">
+                <!--pb-custom-form class="options" auto-submit="[name=sort]" emit="search"-->
+                <pb-custom-form class="options" data-template="pages:parse-params">
+                    <input type="hidden" name="collection" value="${collection}"/>
+                    <pb-select label="browse.sort" name="sort" value="${sort}">
+                        <paper-item value="title"><pb-i18n key="browse.title"></pb-i18n></paper-item>
+                        <paper-item value="author"><pb-i18n key="browse.author"></pb-i18n></paper-item>
+                    </pb-select>
+                    <pb-select label="search.scope" name="field" value="${field}">
+                        <paper-item value="text"><pb-i18n key="search.content"></pb-i18n></paper-item>
+                        <paper-item value="title"><pb-i18n key="search.title"></pb-i18n></paper-item>
+                    </pb-select>
+                </pb-custom-form>
+                <pb-search id="search-form" subscribe="search" data-template="pages:parse-params" value="${query}"
+                    subforms=".facets,.options" submit-on-load="submit-on-load">
+                    <paper-button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></paper-button>
+                </pb-search>
+                <pb-custom-form class="facets" url="api/search/facets" event="pb-results-received" subscribe="search" emit="search"></pb-custom-form>
+            </aside>
+            <section id="document-list">
+                <!-- <header><pb-i18n key="browse.documents">documents</pb-i18n></header> -->
+                <pb-paginate id="paginate" per-page="10" range="5" subscribe="search" emit="search"></pb-paginate>
+                <pb-load url="api/collection/{collection}" expand="" emit="search"> </pb-load>
+                <!--pb-browse url="api/collection" emit="search"></pb-browse-->
+            </section>
+            <!-- <aside class="drawer-content" data-template="lib:include" data-template-path="templates/menu-drawer.html"></aside> -->
+                    <!-- <aside>
+                        <pb-restricted login="login" can-write="can-write">
+                            <paper-card class="upload" data-i18n="[heading]upload.upload" heading="Upload">
+                                <div class="card-content">
+                                    <pb-upload id="upload" emit="search" subscribe="search" accept=".xml, .tei, .odd, .docx, .md, .mei" event="pb-search-resubmit"></pb-upload>
+                                </div>
+                            </paper-card>
+                        </pb-restricted>
+                        <paper-card data-i18n="[heading]odd.files" class="odds" heading="ODD Files">
+                            <div class="card-content">
+                                <pb-manage-odds id="manage-odds" target="document-list" emit="search"></pb-manage-odds>
+                            </div>
+                        </paper-card>
+                    </aside> -->
+            </main>
+            <footer data-template="lib:include" data-template-path="templates/partials/footer.html"></footer>
+            <paper-dialog data-template="lib:include" data-template-path="templates/partials/dialog-download.html"> </paper-dialog>
+            <paper-dialog data-template="lib:include" data-template-path="templates/partials/dialog-error.html"> </paper-dialog>
+        </pb-page>
+        <div class="splash"></div>
+        <script src="resources/scripts/browse.js"></script>
+    </body>
+</html>
