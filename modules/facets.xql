@@ -37,13 +37,19 @@ declare function facets:sort($facets as map(*)?) {
 };
 
 declare function facets:print-table($config as map(*), $nodes as element()+, $values as xs:string*, $params as xs:string*) {
-    let $all := exists($config?max) and request:get-parameter("all-" || $config?dimension, ())
+    let $all := request:get-parameter("all-" || $config?dimension, ())
     let $count := if ($all) then 50 else $config?max
     let $facets :=
-        if (exists($values)) then
-            ft:facets($nodes, $config?dimension, $count, $values)
+        if ($all) then
+            if (exists($values)) then
+                ft:facets($nodes, $config?dimension, (), $values)
+            else
+                ft:facets($nodes, $config?dimension, ())
         else
-            ft:facets($nodes, $config?dimension, $count)
+            if (exists($values)) then
+                ft:facets($nodes, $config?dimension, $count, $values)
+            else
+                ft:facets($nodes, $config?dimension, $count)
     return
         if (map:size($facets) > 0) then
             <table>
@@ -63,22 +69,22 @@ declare function facets:print-table($config as map(*), $nodes as element()+, $va
                                 </paper-checkbox>
                             </td>
                             <td>{$freq}</td>
-                        </tr>
-                    })
-                }),
-                if (empty($params)) then
-                    ()
-                else
-                    let $nested := facets:print-table($config, $nodes, ($values, head($params)), tail($params))
-                    return
-                        if ($nested) then
-                            <tr class="nested">
-                                <td colspan="2">
-                                {$nested}
-                                </td>
-                            </tr>
-                        else
+                        </tr>,
+                        if (empty($params)) then
                             ()
+                        else
+                            let $nested := facets:print-table($config, $nodes, ($values, head($params)), tail($params))
+                            return
+                                if ($nested and head($params) eq $label) then
+                                    <tr class="nested">
+                                        <td colspan="2">
+                                        {$nested}
+                                        </td>
+                                    </tr>
+                                else
+                                    ()
+                            })
+                })
             }
             </table>
         else
@@ -88,12 +94,26 @@ declare function facets:print-table($config as map(*), $nodes as element()+, $va
 declare function facets:display($config as map(*), $nodes as element()+) {
     let $params := request:get-parameter("facet-" || $config?dimension, ())
     let $table := facets:print-table($config, $nodes, (), $params)
+
+    let $maxcount := 50
+    (: maximum number shown :)
+    let $max := head(($config?max, 50))
+
+    (: facet count for current values selected :)
+    let $fcount :=
+    map:size(
+     if (count($params)) then
+            ft:facets($nodes, $config?dimension, $maxcount, $params)
+        else
+            ft:facets($nodes, $config?dimension, $maxcount)
+    )
+
     where $table
     return
         <div>
             <h3><pb-i18n key="{$config?heading}">{$config?heading}</pb-i18n>
-            {
-                if (exists($config?max)) then
+             {
+                if ($fcount > $max) then
                     <paper-checkbox class="facet" name="all-{$config?dimension}">
                         { if (request:get-parameter("all-" || $config?dimension, ())) then attribute checked { "checked" } else () }
                         <pb-i18n key="facets.show">Show top 50</pb-i18n>
@@ -102,8 +122,10 @@ declare function facets:display($config as map(*), $nodes as element()+) {
                     ()
             }
             </h3>
+            <div class="facet-block">
             {
                 $table
             }
+            </div>
         </div>
 };
