@@ -422,7 +422,10 @@ declare function dapi:get-fragment($request as map(*), $docs as node()*, $path a
             let $config := tpu:parse-pi(root($document), $view)
             let $data :=
                 if (count($request?parameters?id) = 1) then
-                    nav:get-section-for-node($config, $document/id($request?parameters?id))
+                    if ($view = "div") then
+                        nav:get-section-for-node($config, $document/id($request?parameters?id))
+                    else
+                        $document/id($request?parameters?id)
                 else
                     let $ms1 := $document/id($request?parameters?id[1])
                     let $ms2 := $document/id($request?parameters?id[2])

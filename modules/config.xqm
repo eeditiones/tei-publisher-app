@@ -60,7 +60,7 @@ declare variable $config:enable-proxy-caching :=
  : In this case, change $config:webcomponents-cdn to point to http://localhost:port 
  : (default: 8000, but check where your server is running).
  :)
-declare variable $config:webcomponents := "2.4.5";
+declare variable $config:webcomponents := "2.8.0";
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your
@@ -395,7 +395,7 @@ declare variable $config:expath-descriptor := doc(concat($config:app-root, "/exp
 
 declare variable $config:session-prefix := $config:expath-descriptor/@abbrev/string();
 
-declare variable $config:default-fields := ();
+declare variable $config:default-fields := ("lemma");
 
 declare variable $config:dts-collections := map {
     "id": "default",

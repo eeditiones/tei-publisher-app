@@ -25,6 +25,168 @@
         }
     },
     "paths": {
+        "/encyclopedia": {
+            "get": {
+                "summary": "Show encyclopedia entry",
+                "operationId": "vapi:view",
+				"x-error-handler": "vapi:handle-error",
+				"parameters": [
+					{
+						"name": "file",
+						"in": "query",
+						"schema": {
+							"type": "string",
+                            "default": "pages/tei-lex"
+						}
+					},
+                    {
+						"name": "docid",
+						"in": "query",
+						"description": "Relative path to the document",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"example": "test/orlik_to_serafin.xml",
+                            "default": "test/DamenConvLex-1834.xml"
+						},
+						"allowReserved": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "HTML of the page",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "The document was not found",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+            }
+        },
+        "/encyclopedia/{search}": {
+            "get": {
+                "summary": "Show encyclopedia entry",
+                "operationId": "vapi:view",
+				"x-error-handler": "vapi:handle-error",
+				"parameters": [
+					{
+						"name": "file",
+						"in": "query",
+						"schema": {
+							"type": "string",
+                            "default": "pages/tei-lex"
+						}
+					},
+                    {
+						"name": "docid",
+						"in": "query",
+						"description": "Relative path to the document",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"example": "test/orlik_to_serafin.xml",
+                            "default": "test/DamenConvLex-1834.xml"
+						},
+						"allowReserved": true
+					},
+					{
+						"name": "search",
+						"in": "path",
+						"description": "headword query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "HTML of the page",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "The document was not found",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+            }
+        },
+        "/api/lemma": {
+            "get": {
+                "summary": "List places",
+                "description": "Retrieve list of places in format required by pb-split-list",
+                "operationId": "custom:lemmata",
+                "parameters": [
+					{
+						"name": "category",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					},
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 20
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "schema":{
+                            "type": "string"
+                        }
+                    }
+					,
+					{
+						"name": "lang",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					}
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Categories and places to display",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     },
     "security": [
         {
