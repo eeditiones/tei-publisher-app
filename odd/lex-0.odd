@@ -28,7 +28,19 @@
             </sourceDesc>
         </fileDesc>
         <encodingDesc>
-            <tagsDecl/>
+            <tagsDecl>
+                <rendition selector="h3">
+                    font-size: 1.5rem;
+                    margin: 0 0 1rem 0;
+                </rendition>
+                <rendition selector="h3 > span + span">
+                    font-size: 1rem;
+                    padding-left: 1rem;
+                </rendition>
+                <rendition selector=".author::after">
+                    content: ", ";
+                </rendition>
+            </tagsDecl>
         </encodingDesc>
         <revisionDesc>
             <change when="2023-07-12Z">Initial version</change>
@@ -69,7 +81,7 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="author" mode="change">
-                    <model predicate="ancestor::teiHeader" behaviour="block"/>
+                    <model predicate="ancestor::teiHeader" behaviour="inline" cssClass="author"/>
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="bibl" mode="change">
@@ -97,6 +109,90 @@
         </model>
                     <model behaviour="inline"/>
                 </elementSpec>
+            <elementSpec ident="fileDesc" mode="change">
+        <modelSequence predicate="$parameters?header='short'">
+            <model behaviour="block" cssClass="header-short">
+                <param name="content" value="titleStmt"/>
+            </model>
+            <model behaviour="block" cssClass="header-short">
+                <param name="content" value="editionStmt"/>
+            </model>
+            <model behaviour="block" cssClass="header-short">
+                <param name="content" value="publicationStmt"/>
+            </model>
+        </modelSequence>
+        <modelSequence>
+            <model behaviour="pass-through">
+                <param name="title" value="titleStmt/title"/>
+                <param name="content" value="(titleStmt/author, publicationStmt/date)"/>
+                <param name="level" value="3"/>
+                <pb:template xmlns="">
+                    <h3>[[title]]<span>[[content]]</span></h3>
+                </pb:template>
+            </model>
+            <model behaviour="pass-through">
+                <param name="content" value="root($parameters?root)//front/div[@type='preface']"/>
+                <pb:template xmlns="">
+                    <pb-collapse>
+                        <div slot="collapse-trigger">Preface</div>
+                        <div slot="collapse-content">[[content]]</div>
+                    </pb-collapse>
+                </pb:template>
+            </model>
+        </modelSequence>
+    </elementSpec>
+                <elementSpec ident="TEI" mode="change">
+        <model behaviour="document">
+            <param name="content" value="teiHeader/fileDesc"/>
+        </model>
+    </elementSpec>
+                <elementSpec ident="title" mode="change">
+        <model predicate="$parameters?header='short'" behaviour="heading">
+            <param name="level" value="5"/>
+        </model>
+        <modelSequence predicate="parent::titleStmt/parent::fileDesc">
+            <model predicate="preceding-sibling::title" behaviour="text">
+                <param name="content" value="' — '"/>
+            </model>
+            <model behaviour="inline"/>
+        </modelSequence>
+        <model predicate="not(@level) and parent::bibl" behaviour="inline"/>
+        <modelSequence predicate="@level='m' or not(@level)">
+            <model behaviour="inline">
+                <outputRendition xml:space="preserve">
+                font-style: italic;
+                </outputRendition>
+            </model>
+            <model predicate="ancestor::biblFull" behaviour="text">
+                <param name="content" value="', '"/>
+            </model>
+        </modelSequence>
+        <modelSequence predicate="@level='s' or @level='j'">
+            <model behaviour="inline">
+                <outputRendition xml:space="preserve">
+                font-style: italic;
+                </outputRendition>
+            </model>
+            <model predicate="following-sibling::* and     (  ancestor::biblFull)" behaviour="text">
+                <param name="content" value="', '"/>
+            </model>
+        </modelSequence>
+        <modelSequence predicate="@level='u' or @level='a'">
+            <model behaviour="inline">
+                <outputRendition xml:space="preserve">
+                font-style: italic;
+                </outputRendition>
+            </model>
+            <model predicate="following-sibling::* and     (    ancestor::biblFull)" behaviour="text">
+                <param name="content" value="'. '"/>
+            </model>
+        </modelSequence>
+        <model behaviour="inline">
+            <outputRendition xml:space="preserve">
+            font-style: italic;
+            </outputRendition>
+        </model>
+    </elementSpec>
             </schemaSpec>
         </body>
     </text>

@@ -20,8 +20,9 @@
             .content-body {
                 display: grid;
                 grid-template-columns: 25vw 1fr;
-                grid-template-rows: auto 1fr;
-                grid-template-areas: 
+                grid-template-rows: auto auto 1fr;
+                grid-template-areas:
+                    "header header"
                     "form text"
                     "list text";
                 column-gap: 1rem;
@@ -44,7 +45,13 @@
                 grid-area: text;
                 overflow: auto;
             }
-            
+            header {
+                grid-area: header;
+            }
+            header pb-view {
+                margin: 1rem 0;
+                --pb-view-max-width: auto;
+            }
             .term a:link, .term a:visited, .term a:hover {
                 text-decoration: none;
                 color: var(--pb-link-color);
@@ -69,6 +76,9 @@
                         <app-toolbar data-template="lib:include" data-template-path="templates/toolbar.html"/>
                     </app-header>
                     <main class="content-body">
+                        <header>
+                            <pb-view src="document1" view="single"></pb-view>
+                        </header>
                         <pb-custom-form id="options" auto="" auto-submit="paper-input,paper-icon-button" emit="transcription">
                             <paper-input id="query" name="search" label="Suche" value="${search}" data-template="pages:parse-params">
                                 <paper-icon-button icon="search" slot="suffix"/>
