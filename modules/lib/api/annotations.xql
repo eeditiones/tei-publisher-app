@@ -498,3 +498,7 @@ declare %private function anno:transform($nodes as node()*, $start, $end, $inAnn
 declare function anno:wrap($annotation as map(*), $content as function(*)) {
     annocfg:annotations($annotation?type, $annotation?properties, $content)
 };
+
+declare function anno:form-template($request as map(*)) {
+    collection($annocfg:local-authority-forms)/id($request?parameters?id)/child::*
+};

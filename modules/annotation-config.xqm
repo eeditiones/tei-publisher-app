@@ -7,6 +7,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
 declare variable $anno:local-authority-file := $config:data-root || "/register.xml";
+declare variable $anno:local-authority-forms := $config:data-root || "/registers";
 
 (:~
  : Create TEI for the given type, properties and content of an annotation and return it.

@@ -2809,6 +2809,53 @@
 				}
 			}
 		},
+		"/api/forms/template/{id}": {
+            "get": {
+                "summary": "Retrieve XML template document to be used as a form instance",
+                "description": "Retrieve whole document as XML",
+                "tags": [
+                    "xml"
+                ],
+                "operationId": "anno:form-template",
+                "x-constraints": {
+                    "group": "tei"
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "person-template"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the entire form instance template as XML",
+                        "content": {
+                            "application/xml": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Document not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
         "/api/register/search/{type}" : {
             "get": {
 				"summary": "Search for a register entry",
