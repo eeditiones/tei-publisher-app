@@ -14,6 +14,7 @@
     <meta name="description" content="Shakespeare Play" />
     <link rel="stylesheet" href="resources/css/theme.css" />
     <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
+    <script type="module" src="pb-tify.js" data-template="pages:load-components"></script>
     <style>
         body {
             --pb-view-height: calc(100vh - 212px);
@@ -32,13 +33,13 @@
             padding: 0 20px;
         }
 
-        .content-body pb-facsimile {
+        .content-body pb-tify {
             flex: 1 1;
             --pb-facsimile-height: var(--pb-view-height);
         }
 
         @media (max-width: 769px) {
-            pb-facsimile {
+            pb-tify {
                 display: none;
             }
         }
@@ -71,11 +72,8 @@
                 </section>
                 <main class="content-body">
                     <pb-view id="view1" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes"
-                        subscribe="transcription" emit="transcription" wait-for="#facsimile" />
-                    <pb-facsimile id="facsimile" base-uri="https://apps.existsolutions.com/cantaloupe/iiif/2/"
-                        default-zoom-level="0" show-navigation-control="show-navigation-control"
-                        show-navigator="show-navigator"
-                        subscribe="transcription" />
+                        subscribe="transcription" emit="transcription"/>
+                    <pb-tify subscribe="transcription" manifest="api/iiif/${docid}" data-template="pages:parse-params"></pb-tify>
                 </main>
             </app-header-layout>
         </app-drawer-layout>

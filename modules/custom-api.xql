@@ -11,6 +11,7 @@ import module namespace rutil="http://e-editiones.org/roaster/util";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
 import module namespace roaster="http://e-editiones.org/roaster";
+import module namespace iiif="https://stonesutras.org/api/iiif" at "iiif.xql";
 
 declare function api:lookup($name as xs:string, $arity as xs:integer) {
     try {
@@ -85,7 +86,7 @@ declare function api:lemmata($request as map(*)) {
         }
 };
 
-declare function api:output-lemma($list, $category as xs:string, $search as xs:string?) {
+declare %private function api:output-lemma($list, $category as xs:string, $search as xs:string?) {
     array {
         for $lemma in $list
         let $lemmaField := ft:field($lemma, "lemma")
@@ -96,8 +97,4 @@ declare function api:output-lemma($list, $category as xs:string, $search as xs:s
                 </pb-link>
             </div>
     }
-};
-
-declare function api:encyclopedia-redirect($request as map(*)) {
-    roaster:response(301, "text/html", "redirect", map { "Location": "./encyclopedia/A" })
 };

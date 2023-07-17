@@ -28,6 +28,7 @@
         "/encyclopedia": {
             "get": {
                 "summary": "Show encyclopedia entry",
+				"description": "Registers a custom URL for the encyclopedia example (Damen Conversations Lexikon) to be used instead of the document name.",
                 "operationId": "vapi:view",
 				"x-error-handler": "vapi:handle-error",
 				"parameters": [
@@ -79,6 +80,7 @@
         "/encyclopedia/{search}": {
             "get": {
                 "summary": "Show encyclopedia entry",
+				"description": "Search endpoint used for the encyclopedia example (Damen Conversations Lexikon)",
                 "operationId": "vapi:view",
 				"x-error-handler": "vapi:handle-error",
 				"parameters": [
@@ -138,8 +140,8 @@
         },
         "/api/lemma": {
             "get": {
-                "summary": "List places",
-                "description": "Retrieve list of places in format required by pb-split-list",
+                "summary": "List encyclopedia headwords",
+                "description": "Retrieve list of headwords in format required by pb-split-list. Used by the encyclopedia sample (Damen Conversations Lexikon)",
                 "operationId": "custom:lemmata",
                 "parameters": [
 					{
@@ -180,6 +182,34 @@
                             "application/json": {
                                 "schema":{
                                     "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+		"/api/iiif/{path}": {
+            "get": {
+                "summary": "Retrieve IIIF presentation manifest for document",
+                "operationId": "iiif:manifest",
+                "parameters": [
+                    {
+                        "name": "path",
+                        "in": "path",
+                        "required": true,
+                        "schema":{
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "IIIF manifest",
+                        "content": {
+                            "application/ld+json":{
+                                "schema": {
+                                    "type": "string"
                                 }
                             }
                         }
