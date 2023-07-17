@@ -46,14 +46,15 @@
             <param name="content" value="@n"/>
             <param name="emit" value="'transcription'"/>
             <param name="facs" value="replace(@facs, '^FFimg:(.*)$', '$1')"/>
+            <param name="order" value="count($get(.)/preceding::pb) + 1"/>
             <outputRendition xml:space="preserve">
             font-size: 16px;
-                            color: #888888;
-                            cursor: pointer;
-                            display: inline;
-                            display: block;
-                            margin-right: -32px;
-                            float: right;
+color: #888888;
+cursor: pointer;
+display: inline;
+display: block;
+margin-right: -32px;
+float: right;
             </outputRendition>
         </model>
                 </elementSpec>
@@ -149,16 +150,20 @@
         </model>
                     <model output="web" predicate="@type='catchword'" behaviour="block" cssClass="catchword">
             <outputRendition xml:space="preserve">
+            
             float: right;
                             margin-top: 1em;
                             color: #CCC;
+            
             </outputRendition>
         </model>
                     <model output="web" predicate="@type='sig'" behaviour="block" cssClass="sig">
             <outputRendition xml:space="preserve">
+            
             text-align: center;
                             margin-top: 1em;
                             color: #CCC;
+            
             </outputRendition>
         </model>
                     <model behaviour="omit"/>
