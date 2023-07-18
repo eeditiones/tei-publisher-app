@@ -372,6 +372,11 @@ declare variable $config:data-exclude := (
     collection($config:data-root || "/doc")//tei:text
 );
 
+(:~
+ : The root of the collection hierarchy containing registers data.
+ :)
+declare variable $config:registers-root := $config:app-root || "/data/registers";
+
 declare variable $config:default-odd := "teipublisher.odd";
 
 (:~~

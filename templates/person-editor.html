@@ -28,14 +28,14 @@
 
         <fx-submission 
             id="load"
-            url="api/person/{instance('parameters')//id}"
+            url="api/entry/{instance('parameters')//id}"
             method="GET"
             replace="instance">
                 <fx-message event="submit-done">Data loaded</fx-message>
         </fx-submission>
         <fx-submission 
             id="save"
-            url="api/person/save"
+            url="api/entry/save"
             method="PUT"
             replace="instance">
                 <fx-message event="submit-done">Data saved</fx-message>
@@ -94,12 +94,11 @@
         <!-- // end section general -->
 
         <!-- begin section name variants -->
-        <section >
+        <section>
             <fx-group>
-                <details>
-                    <summary>
-                        <h3>Name variants ({count(//form[@type='variant'])})</h3>
-                    </summary>
+                
+                    <h3>Name variants ({count(//form[@type='variant'])})</h3>
+                    
                     <fx-trigger class="add-button">
                         <button>add</button>
                         <fx-insert
@@ -130,7 +129,6 @@
                             </fx-trigger>
                         </template>
                     </fx-repeat>
-                </details>
             </fx-group>
         </section>
         <!-- // end section name variants -->

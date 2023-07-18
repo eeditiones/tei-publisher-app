@@ -39,6 +39,128 @@
         }
     ],
     "paths": {
+        "/api/entry/{id}": {
+            "get": {
+                "summary": "Retrieve XML document for a given entry",
+                "description": "Retrieve whole document as XML",
+                "tags": [
+                    "xml"
+                ],
+                "operationId": "rapi:entry",
+                
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "gnd-139890289"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the entire entry as XML",
+                        "content": {
+                            "application/xml": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Entry id not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete an entry from the register",
+                "tags": ["update"],
+                "operationId": "rapi:delete",
+                "x-constraints": {
+                    "group": "tei"
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema":{
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "required": true,
+                        "schema":{
+                            "type": "string",
+                            "default": "person"
+                        }
+                    }
+                ],
+                "responses": {
+                    "410": {
+                        "description": "Entry deleted"
+                    }
+                }
+            }
+        },
+
+        "/api/entry/save": {
+        "put": {
+            "summary": "Save a register entry",
+            "description": "Replace an entry with the current version from the editor",
+            "tags": [ "update" ],
+            "operationId": "rapi:save",
+            "x-constraints": {
+                "group": "tei"
+            },
+            
+            "requestBody": {
+                "content": {
+                    "application/xml": {
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "201": {
+                    "description": "Entry was saved",
+                    "content": {
+                        "application/xml": {
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "401": {
+                    "description": "Permission denied",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    },
+
         "/encyclopedia": {
             "get": {
                 "summary": "Encyclopedia root page",

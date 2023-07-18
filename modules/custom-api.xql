@@ -12,6 +12,7 @@ import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/ut
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
 import module namespace roaster="http://e-editiones.org/roaster";
 import module namespace iiif="https://stonesutras.org/api/iiif" at "iiif.xql";
+import module namespace rapi="http://teipublisher.com/api/registers" at "registers.xql";
 
 declare function api:lookup($name as xs:string, $arity as xs:integer) {
     try {
