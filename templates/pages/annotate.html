@@ -15,6 +15,8 @@
 
         <link rel="stylesheet" href="resources/css/theme.css"/>
         <link rel="stylesheet" href="templates/pages/annotate.css"/>
+        <link rel="stylesheet" href="resources/css/fore.css"/>
+        <script type="module" src="resources/scripts/fore/fore-dev.js"></script>
         <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
         <script type="text/javascript" src="resources/scripts/annotations/annotations.js"></script>
     </head>
@@ -111,6 +113,7 @@
                                 <pb-select-odd emit="preview"></pb-select-odd>
                             </header>
                             <pb-tabs>
+                                <paper-tab slot="tab">AUTHORITY</paper-tab>
                                 <paper-tab slot="tab">HTML</paper-tab>
                                 <paper-tab slot="tab">TEI</paper-tab>
                                 <paper-tab slot="tab">JSON</paper-tab>
@@ -126,6 +129,25 @@
             </app-drawer-layout>
             <paper-dialog id="authority-dialog">
                 <paper-dialog-scrollable>
+                    <fx-fore>
+                        <fx-model>
+                            <fx-instance id="i-default">
+                                <data>
+                                    <type></type>
+                                </data>
+                            </fx-instance>
+                        </fx-model>
+                        <fx-action  event="pb-authority-lookup" target="#document">
+                            <fx-message>Authority {event('type')}</fx-message>
+                            <fx-setvalue ref="instance('i-default')/type" value="event('type')"></fx-setvalue>
+                        </fx-action>
+                        <fx-trigger>
+                            <iron-icon icon="add"></iron-icon>
+<!--                            <fx-load url="templates/{type}-editor.html" attach-to="#authority-editor"></fx-load>-->
+                            <fx-load url="templates/person-editor.html" attach-to="#authority-editor"></fx-load>
+                        </fx-trigger>
+                        <section id="authority-editor"></section>
+                    </fx-fore>
                     <pb-authority-lookup subscribe="transcription" emit="transcription">
                         <pb-authority connector="Custom" name="organization">
                             <pb-authority connector="GND" prefix="gnd"></pb-authority>

@@ -700,3 +700,15 @@ fx-fore.action-log{
     background: var(--paper-orange-500);
 }
 
+/* overwrites for annotations authority forms */
+fx-control, label{
+    display:block;
+
+}
+#authority-editor main{
+    display:block;
+}
+section.person{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(15rem, 1fr));
+}

@@ -58,8 +58,9 @@
             </fx-trigger>
             
         </section>
-        <section>
-            <h2>Person</h2>
+        <h2>Person</h2>
+            <section class="person">
+
             <!-- Basic name forms -->
             <fx-group id="general" ref="//person" class="col-2">
                 <fx-control class="tp-input -form-control" ref="persName[@type='main']">
@@ -124,8 +125,7 @@
                                
                             <fx-trigger>
                                 <button>delete</button>
-                                <fx-delete
-                                        nodeset="//form[@type='variant'][index('r-nameVariant')]"></fx-delete>
+                                <fx-delete ref="."/>
                             </fx-trigger>
                         </template>
                     </fx-repeat>
