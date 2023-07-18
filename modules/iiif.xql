@@ -11,6 +11,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
  :)
 declare variable $iiif:IMAGE_API_BASE := "https://apps.existsolutions.com/cantaloupe/iiif/2/";
 
+(:~ Contact the IIIF image api to get the dimensions of an image :)
 declare %private function iiif:image-info($path as xs:string) {
     let $request := <http:request method="GET" href="{$iiif:IMAGE_API_BASE}/{$path}/info.json"/>
     let $response := http:send-request($request)
@@ -37,6 +38,9 @@ declare %private function iiif:structures($catalog as element(), $canvases as ma
     }
 };
 
+(:~
+ : Create the list of canvases: for each pb element in the document, one canvas is output.
+ :)
 declare %private function iiif:canvases($doc as node()) {
     for $pb in $doc//tei:body//tei:pb
     let $id := substring-after($pb/@facs, "FFimg:")
@@ -68,17 +72,26 @@ declare %private function iiif:canvases($doc as node()) {
                     "on": "https://e-editiones.org/canvas/page-" || $pb/@n || ".json"
                 }
             ],
-            "rendering": map {
-                "@id": request:get-scheme() || "://" || request:get-server-name() || ":" ||
-                    replace(
-                        string-join((request:get-server-port(), $config:context-path, config:get-identifier($pb)), "/"), 
-                        "//", "/"
-                    ) ||
-                    "?root=" || util:node-id($pb),
-                "label": "View page in application",
-                "format": "text/html"
+            (: Extension property to keep track of the corresponding page as shown in a pb-view.
+             : This should either contain a root or id parameter which could be used to navigate
+             : to the correct page in the transcription.
+             :)
+            "https://teipublisher.com/page": map {
+                "root": util:node-id($pb)
             }
         }
+};
+
+(:~ Generate absolute link to be used in the "rendering" property :)
+declare %private function iiif:link($relpath as xs:string) {
+    let $host := request:get-scheme() || "://" || request:get-server-name()
+    let $port :=
+        if (request:get-server-port() = (80, 443)) then
+            ()
+        else
+            ":" || request:get-server-port()
+    return
+        string-join(($host, $port, replace($config:context-path || "/" || $relpath, "//", "/")))
 };
 
 (:~
@@ -100,6 +113,18 @@ declare function iiif:manifest($request as map(*)) {
                 map { "label": "Creator", "value": nav:get-metadata($doc, "author")/string() }
             ],
             "license": nav:get-metadata($doc, "license"),
+            "rendering": [
+                map {
+                    "@id": iiif:link("print/" || encode-for-uri($id)),
+                    "label": "Print preview",
+                    "format": "text/html"
+                },
+                map {
+                    "@id": iiif:link("api/document/" || encode-for-uri($id) || "/epub"),
+                    "label": "ePub",
+                    "format": "application/epub+zip"
+                }
+            ],
             "sequences": [
                 map {
                     "@type": "sc:Sequence",
