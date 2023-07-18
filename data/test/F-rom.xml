@@ -294,6 +294,11 @@
             </sourceDesc>
         </fileDesc>
         <profileDesc>
+            <abstract>
+                <ab>Demonstrates page-by-page browsing of a play with two-column layout. Integrates a <ref target="https://cdn.tei-publisher.com/@2.9.0/dist/api.html#pb-tify.0">IIIF presentation
+                    API viewer</ref> for the page images. The IIIF presentation manifest is created on the fly using API
+                    endpoint <ref target="api.html">/api/iiif/{path}</ref>. </ab>
+            </abstract>
             <textClass>
                 <catRef scheme="#genre" target="#drama"/>
                 <catRef scheme="#form" target="#print"/>

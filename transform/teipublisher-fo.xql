@@ -254,7 +254,15 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(p) return
                         fo:paragraph($config, ., css:get-rendition(., ("tei-p2", css:map-rend-to-class(.))), .)
                     case element(pb) return
-                        fo:break($config, ., css:get-rendition(., ("tei-pb", css:map-rend-to-class(.))), ., 'page', (concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else '')))
+                        if (@facs) then
+                            (: No function found for behavior: webcomponent :)
+                            $config?apply($config, ./node())
+                        else
+                            if (starts-with(@facs, 'iiif:')) then
+                                (: No function found for behavior: webcomponent :)
+                                $config?apply($config, ./node())
+                            else
+                                fo:break($config, ., css:get-rendition(., ("tei-pb3", css:map-rend-to-class(.))), ., 'page', (concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else '')))
                     case element(postscript) return
                         fo:block($config, ., ("tei-postscript", css:map-rend-to-class(.)), .)
                     case element(ptr) return
@@ -352,11 +360,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                             (
                                 fo:block($config, ., ("tei-fileDesc1", "header-short", css:map-rend-to-class(.)), titleStmt),
                                 fo:block($config, ., ("tei-fileDesc2", "header-short", css:map-rend-to-class(.)), editionStmt),
-                                fo:block($config, ., ("tei-fileDesc3", "header-short", css:map-rend-to-class(.)), publicationStmt)
+                                fo:block($config, ., ("tei-fileDesc3", "header-short", css:map-rend-to-class(.)), publicationStmt),
+                                (: Output abstract containing demo description :)
+                                fo:block($config, ., ("tei-fileDesc4", "sample-description", css:map-rend-to-class(.)), ../profileDesc/abstract)
                             )
 
                         else
-                            fo:title($config, ., ("tei-fileDesc4", css:map-rend-to-class(.)), titleStmt)
+                            fo:title($config, ., ("tei-fileDesc5", css:map-rend-to-class(.)), titleStmt)
                     case element(profileDesc) return
                         fo:omit($config, ., ("tei-profileDesc", css:map-rend-to-class(.)), .)
                     case element(revisionDesc) return
@@ -373,7 +383,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         fo:inline($config, ., ("tei-time", css:map-rend-to-class(.)), .)
                     case element(title) return
                         if ($parameters?header='short') then
-                            fo:heading($config, ., ("tei-title1", "docTitle", css:map-rend-to-class(.)), ., 5)
+                            fo:heading($config, ., ("tei-title1", css:map-rend-to-class(.)), ., 5)
                         else
                             if (parent::titleStmt/parent::fileDesc) then
                                 (

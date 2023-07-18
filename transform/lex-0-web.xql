@@ -31,11 +31,11 @@ declare %private function model:template-ref($config as map(*), $node as node()*
 </pb-link></t>/*
 };
 (: generated template function for element spec: fileDesc :)
-declare %private function model:template-fileDesc4($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-fileDesc5($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><h3>{$config?apply-children($config, $node, $params?title)}<span>{$config?apply-children($config, $node, $params?content)}</span></h3></t>/*
 };
 (: generated template function for element spec: fileDesc :)
-declare %private function model:template-fileDesc5($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-fileDesc6($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><pb-collapse>
                         <div slot="collapse-trigger">Preface</div>
                         <div slot="collapse-content">{$config?apply-children($config, $node, $params?content)}</div>
@@ -427,7 +427,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                             (
                                 html:block($config, ., ("tei-fileDesc1", "header-short", css:map-rend-to-class(.)), titleStmt)                                => model:map($node, $trackIds),
                                 html:block($config, ., ("tei-fileDesc2", "header-short", css:map-rend-to-class(.)), editionStmt)                                => model:map($node, $trackIds),
-                                html:block($config, ., ("tei-fileDesc3", "header-short", css:map-rend-to-class(.)), publicationStmt)                                => model:map($node, $trackIds)
+                                html:block($config, ., ("tei-fileDesc3", "header-short", css:map-rend-to-class(.)), publicationStmt)                                => model:map($node, $trackIds),
+                                html:block($config, ., ("tei-fileDesc4", "sample-description", css:map-rend-to-class(.)), ../profileDesc/abstract)                                => model:map($node, $trackIds)
                             )
 
                         else
@@ -440,18 +441,18 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     }
 
                                                                 let $content := 
-                                    model:template-fileDesc4($config, ., $params)
+                                    model:template-fileDesc5($config, ., $params)
                                 return
-                                                                html:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-fileDesc4", css:map-rend-to-class(.)), $content)                                => model:map($node, $trackIds),
+                                                                html:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-fileDesc5", css:map-rend-to-class(.)), $content)                                => model:map($node, $trackIds),
                                 let $params := 
                                     map {
                                         "content": root($parameters?root)//front/div[@type='preface']
                                     }
 
                                                                 let $content := 
-                                    model:template-fileDesc5($config, ., $params)
+                                    model:template-fileDesc6($config, ., $params)
                                 return
-                                                                html:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-fileDesc5", css:map-rend-to-class(.)), $content)                                => model:map($node, $trackIds)
+                                                                html:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-fileDesc6", css:map-rend-to-class(.)), $content)                                => model:map($node, $trackIds)
                             )
 
                     case element(sic) return
