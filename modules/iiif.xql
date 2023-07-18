@@ -67,7 +67,17 @@ declare %private function iiif:canvases($doc as node()) {
                     },
                     "on": "https://e-editiones.org/canvas/page-" || $pb/@n || ".json"
                 }
-            ]
+            ],
+            "rendering": map {
+                "@id": request:get-scheme() || "://" || request:get-server-name() || ":" ||
+                    replace(
+                        string-join((request:get-server-port(), $config:context-path, config:get-identifier($pb)), "/"), 
+                        "//", "/"
+                    ) ||
+                    "?root=" || util:node-id($pb),
+                "label": "View page in application",
+                "format": "text/html"
+            }
         }
 };
 
