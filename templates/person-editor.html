@@ -35,7 +35,7 @@
         </fx-submission>
         <fx-submission 
             id="save"
-            url="api/entry/save"
+            url="api/entry/{instance('parameters')//id}"
             method="PUT"
             replace="instance">
                 <fx-message event="submit-done">Data saved</fx-message>

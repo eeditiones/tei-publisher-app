@@ -55,7 +55,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "example": "gnd-139890289"
+                            "example": "gnd-139890289" 
                         }
                     }
                 ],
@@ -87,7 +87,7 @@
                 "tags": ["update"],
                 "operationId": "rapi:delete",
                 "x-constraints": {
-                    "group": "tei"
+                    "group": ["tei"]
                 },
                 "parameters": [
                     {
@@ -113,31 +113,18 @@
                         "description": "Entry deleted"
                     }
                 }
-            }
-        },
-
-        "/api/entry/save": {
-        "put": {
-            "summary": "Save a register entry",
-            "description": "Replace an entry with the current version from the editor",
-            "tags": [ "update" ],
-            "operationId": "rapi:save",
-            "x-constraints": {
-                "group": "tei"
             },
-            
-            "requestBody": {
-                "content": {
-                    "application/xml": {
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            },
-            "responses": {
-                "201": {
-                    "description": "Entry was saved",
+        
+            "put": {
+                "summary": "Save a register entry",
+                "description": "Replace an entry with the current version from the editor",
+                "tags": [ "update" ],
+                "operationId": "rapi:save",
+                "x-constraints": {
+                    "group": ["tei"]
+                },
+                
+                "requestBody": {
                     "content": {
                         "application/xml": {
                             "schema": {
@@ -146,20 +133,50 @@
                         }
                     }
                 },
-                "401": {
-                    "description": "Permission denied",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object"
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "example": "person"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "example": "gnd-0000001"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Entry was saved",
+                        "content": {
+                            "application/xml": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Permission denied",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
                             }
                         }
                     }
                 }
             }
-        }
-
-    },
+        },
 
         "/encyclopedia": {
             "get": {
