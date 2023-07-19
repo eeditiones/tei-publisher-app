@@ -14,7 +14,7 @@
     <fx-model id="model-1">
         <fx-instance
             id="default"
-            src="api/forms/template/person-default"
+            src="../api/forms/template/person-default"
             xpath-default-namespace="http://www.tei-c.org/ns/1.0"/>
 
         <fx-instance 
@@ -23,12 +23,12 @@
 
         <fx-instance
                 id="i-template"
-                src="api/forms/template/person-template"
+                src="../api/forms/template/person-template"
                 xpath-default-namespace="http://www.tei-c.org/ns/1.0"/>
 
         <fx-submission 
             id="load"
-            url="api/entry/{instance('parameters')//id}"
+            url="../api/entry/{instance('parameters')//id}"
             method="GET"
             replace="instance">
                 <fx-message event="submit-done">Data loaded</fx-message>
@@ -59,7 +59,7 @@
             
         </section>
         <h2>Person</h2>
-            <section class="person">
+        <section class="person">
 
             <!-- Basic name forms -->
             <fx-group id="general" ref="//person" class="col-2">
@@ -97,9 +97,7 @@
         <!-- begin section name variants -->
         <section>
             <fx-group>
-                
-                    <h3>Name variants ({count(//form[@type='variant'])})</h3>
-                    
+                <header>Name variants ({count(//form[@type='variant'])})</header>
                     <fx-trigger class="add-button">
                         <button>add</button>
                         <fx-insert
@@ -135,9 +133,11 @@
 
     </main>
    
+<!--
     <pre>
         {log('default')}
     </pre>
+-->
 </fx-fore>
 
 </body>

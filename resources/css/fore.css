@@ -707,6 +707,7 @@ fx-control, label{
 }
 #authority-editor main{
     display:block;
+    height: auto;
 }
 section.person{
     display:grid;
