@@ -1,8 +1,7 @@
 <person xmlns="http://www.tei-c.org/ns/1.0" xml:id="person-default">
-    <person xml:id="uuid-0001">
-        <persName type="main">foo</persName>
+    <person xml:id="NEW">
+        <persName type="main"></persName>
         <persName type="sort"/>
-
         <birth>
            <date notBefore="" notAfter=""/>
            <placeName ref=""/>
@@ -11,10 +10,6 @@
            <date notBefore="" notAfter=""/>
            <placeName ref=""/>
         </death>
-
         <note type="bio"/>
-
-        <!-- may include optional repeatable optional content -->
-        <!-- name[@type='variant'] and socecstatus -->
      </person>
 </person>

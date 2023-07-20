@@ -35,7 +35,6 @@
         </fx-submission>
         <fx-submission 
             id="save"
-            url="api/entry/{instance('parameters')//id}"
             method="PUT"
             replace="instance">
                 <fx-message event="submit-done">Data saved</fx-message>
@@ -47,9 +46,22 @@
 
     <main>
         <!-- begin section general -->
+        <section>
+            Save the form
+            <fx-trigger>
+                <button>save</button>
+                    <fx-send submission="save" if="instance('parameters')//id" url="api/entry/{instance('parameters')//id}" ></fx-send>
+                    <fx-send submission="save" if="not(instance('parameters')//id)" url="api/entry/NEW" ></fx-send>
+            </fx-trigger>
+        </section>
+        <h2>Person</h2>
         <section class="person">
             <!-- Basic name forms -->
             <fx-group id="general" ref="//person" class="col-2">
+                <fx-control class="tp-input -form-control" ref="@xml:id">
+                    <label class="tp-label">Person ID</label>
+                    <fx-hint></fx-hint>
+                </fx-control>
                 <fx-control class="tp-input -form-control" ref="persName[@type='main']">
                     <label class="tp-label">Canonical form</label>
                     <fx-hint>Joachim Lelewel</fx-hint>

@@ -376,6 +376,21 @@ declare variable $config:data-exclude := (
  : The root of the collection hierarchy containing registers data.
  :)
 declare variable $config:registers-root := $config:app-root || "/data/registers";
+declare variable $config:registers-map := map {
+    "person": map {
+        "id": "pb-persons",
+        "prefix": "person-"
+    },
+    "places": map {
+        "id": "pb-places",
+        "prefix": "place-"
+    },
+    "taxonomy": map {
+        "id": "pb-taxonomy",
+        "prefix": "category-"
+    }
+};
+
 
 declare variable $config:default-odd := "teipublisher.odd";
 

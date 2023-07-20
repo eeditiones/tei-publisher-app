@@ -59,39 +59,23 @@ declare function rapi:save($request as map(*)) {
     let $f:= util:log('INFO', 'saving record')
 
     (: todo, change depending on the form type :)
-    let $data := $request?body//tei:person
-
-    let $type := local-name($data)
+    let $user := request:get-attribute("teipublisher.com.login.user")
     let $id := xmldb:decode($request?parameters?id)
+    let $type := local-name($request?body//tei:person)
 
-    let $record := collection($config:registers-root)/id($id)
+    let $data := rapi:prepare-record($request?body//tei:person, $user, $type)
+
+    let $record := rapi:insert-point($type)/id($id)
 
     return
         if ($record) then
             (: update existing record :)
             let $f:= util:log('INFO', 'found')
             return
-
-            (
-                update replace $record with $data,
-                map {
-                    "status": "found and updated"
-                },
-                $data
-            )
+                (rapi:replace-entry($record, $data), $data)
         else
-            let $record := $data
-            let $target := rapi:insert-point($type)
-            return (
-                update insert $record into $target,
-                map {
-                    "status": "updated"
-                },
-                $data
-            )
+                (rapi:add-entry($data, $type), $data)
 };
-
-
 
 (:~
  : Return the insertion point to which a local authority record should be saved.
@@ -99,14 +83,78 @@ declare function rapi:save($request as map(*)) {
 declare function rapi:insert-point($type as xs:string) {
     switch ($type)
         case "place" return
-            collection($config:registers-root)/id('tp-places')//tei:listPlace
+            collection($config:registers-root)/id('pb-places')//tei:listPlace
         case "organization" return
-            collection($config:registers-root)/id('tp-organizations')//tei:listOrg
+            collection($config:registers-root)/id('pb-organizations')//tei:listOrg
         case "term" return
             doc($annocfg:local-authority-file)//tei:taxonomy
         default return
-            collection($config:registers-root)/id('tp-persons')//tei:listPerson
+            collection($config:registers-root)/id('pb-persons')//tei:listPerson
+};
+
+declare function rapi:add-entry($record, $type) {
+    let $target := rapi:insert-point($type)
+
+    return
+        update insert $record into $target
+};
+
+declare function rapi:replace-entry($record, $data) {
+        update replace $record with $data
+};
+
+declare function rapi:prepare-record($node as item()*, $resp, $type) {
+
+    let $id := if ($node/@xml:id='NEW') then rapi:next($type) else $node/@xml:id
+
+    return
+      typeswitch($node)
+        (: normalize-space for all text nodes :)
+        case text()
+            return normalize-space($node)
+        case element(tei:person) 
+            return
+                element {node-name($node)} {
+                (: copy attributes :)
+                for $att in $node/@* except ($node/@xml:id, $node/@resp, $node/@when)
+                   return
+                      $att
+                ,
+                attribute xml:id {$id}
+                ,
+                attribute when {format-date(current-date(), '[Y]-[M,2]-[D,2]')}
+                ,
+                attribute resp {$resp}
+                ,
+                for $child in $node/node()
+                   return $child
+              }
+        
+        (: all the rest pass it through :)
+        default 
+            return $node
+
+};
+
+declare function rapi:next($type) {
+    let $config := $config:registers-map?($type)
+
+    let $all-ids := collection($config:registers-root)/id($config?id)//tei:person[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
+    
+    let $last := if (count($all-ids)) then sort($all-ids)[last()] else 1
+    let $next :=
+            try {
+                xs:integer($last) + 1
+            } catch * {
+                'error_'
+            }
+    
+    return $config?prefix || rapi:pad($next, 6)
+
 };
 
 
-   
+declare function rapi:pad($value, $len) {
+    if (string-length($value) < $len) then rapi:pad('0' || $value, $len)
+    else $value
+};
