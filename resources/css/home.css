@@ -60,9 +60,11 @@ li.document{
 }
 
 .document-info{
-    /* width:70%; */
-    min-width:min(28em,100%);
+    min-width:min(28em,100%);    
+}
 
+a ~ .document-info {
+    width:70%;
 }
 
 .documents .sample-description {
