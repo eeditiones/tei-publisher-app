@@ -1,3 +1,12 @@
+(:~
+ : Open API module to generate a IIIF presentation manifest.
+ : By default walks through all pb in the document, using the @facs
+ : attribute to resolve images. It contacts the configured image api service
+ : to retrieve measurements for each image.
+ :
+ : While the XQuery code is quite generic, it may need to be adjusted for
+ : concrete use-cases.
+ :)
 module namespace iiif="https://stonesutras.org/api/iiif";
 
 import module namespace http="http://expath.org/ns/http-client" at "java:org.exist.xquery.modules.httpclient.HTTPClientModule";
@@ -22,20 +31,6 @@ declare %private function iiif:image-info($path as xs:string) {
                 parse-json($data)
         else
             ()
-};
-
-declare %private function iiif:structures($catalog as element(), $canvases as map(*)*) {
-    array {
-        for $canvas at $p in $canvases
-        return
-            map {
-                "@id": "https://e-editiones.org/iiif/presentation/" || $catalog/@xml:id || "/range/" || $p,
-                "@type": "sc:Range",
-                "canvases": [
-                    $canvas("@id")
-                ]
-            }
-    }
 };
 
 (:~
@@ -107,10 +102,12 @@ declare function iiif:manifest($request as map(*)) {
             "@context": "http://iiif.io/api/presentation/2/context.json",
             "@id": "https://e-editiones.org/manifest.json",
             "@type": "sc:Manifest",
-            "label": $doc//tei:titleStmt/tei:title[@type="distinctive"]/string(),
+            "label": nav:get-metadata($doc, "title")/string(),
             "metadata": [
                 map { "label": "Title", "value": nav:get-metadata($doc, "title")/string() },
-                map { "label": "Creator", "value": nav:get-metadata($doc, "author")/string() }
+                map { "label": "Creator", "value": nav:get-metadata($doc, "author")/string() },
+                map { "label": "Language", "value": nav:get-metadata($doc, "language") },
+                map { "label": "Date", "value": nav:get-metadata($doc, "date")/string() }
             ],
             "license": nav:get-metadata($doc, "license"),
             "rendering": [

@@ -9,7 +9,7 @@
         <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
 
         <title data-template="config:app-title"/>
-        <meta name="description" content="Adagia Erasmus of Rotterdam"/>
+        <meta name="description" content="Encyclopedia"/>
         <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
 
@@ -87,7 +87,7 @@
                         <pb-split-list class="register-split-list" url="api/lemma" subforms="#options" target="#list"
                             emit="transcription" subscribe="transcription"/>
                         <pb-view id="view" src="document1" subscribe="detail" view="other"
-                            map="encyclopedia">
+                            map="encyclopedia" append-footnotes="">
                         </pb-view>
                     </main>
                 </app-header-layout>

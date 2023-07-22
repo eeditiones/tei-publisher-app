@@ -93,18 +93,17 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="ref" mode="change">
+                    <model predicate="@type='footnote'" behaviour="note">
+            <param name="content" value="id(@target, root($parameters?root))/node()"/>
+        </model>
                     <model predicate="@type='entry'" behaviour="inline">
-            <param name="target" value="substring-after(@target, '#')"/>
-            <pb:template xmlns="" xml:space="preserve"><pb-link emit="detail" history="">
-  <pb-param name="search" value="[[content]]"/>
+            <param name="content" value="."/>
+            <param name="search" value="normalize-space(.)"/>
+            <pb:template xmlns="" xml:space="preserve"><pb-link emit="detail" history="" params="{{&#34;search&#34;: &#34;[[search]]&#34;}}">
   [[content]]
 </pb-link></pb:template>
         </model>
                     <model predicate="@target" behaviour="link">
-            <param name="uri" value="@target"/>
-        </model>
-                    <model predicate="not(node())" behaviour="link">
-            <param name="content" value="@target"/>
             <param name="uri" value="@target"/>
         </model>
                     <model behaviour="inline"/>
@@ -196,6 +195,9 @@
             </outputRendition>
         </model>
                 </elementSpec>
+            <elementSpec ident="note" mode="change">
+        <model behaviour="omit"/>
+    </elementSpec>
             </schemaSpec>
         </body>
     </text>
