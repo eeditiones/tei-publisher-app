@@ -10,7 +10,8 @@
 <body>
 <!--<fx-fore refresh-on-view>-->
 <fx-fore>
-    <fx-send event="ready" submission="load"></fx-send>
+    <fx-send event="ready" if="instance('parameters')//id" submission="load" url="../api/entry/{instance('parameters')//id}"></fx-send>
+    <fx-send event="ready" if="not(instance('parameters')//id)" submission="load" url="../api/entry/NEW"></fx-send>
     <fx-model id="model-1">
         <fx-instance
             id="default"
@@ -28,7 +29,6 @@
 
         <fx-submission 
             id="load"
-            url="../api/entry/{instance('parameters')//id}"
             method="GET"
             replace="instance">
                 <fx-message event="submit-done">Data loaded</fx-message>
@@ -50,8 +50,8 @@
             Save the form
             <fx-trigger>
                 <button>save</button>
-                    <fx-send submission="save" if="instance('parameters')//id" url="api/entry/{instance('parameters')//id}" ></fx-send>
-                    <fx-send submission="save" if="not(instance('parameters')//id)" url="api/entry/NEW" ></fx-send>
+                    <fx-send submission="save" if="instance('parameters')//id" url="../api/entry/{instance('parameters')//id}"></fx-send>
+                    <fx-send submission="save" if="not(instance('parameters')//id)" url="../api/entry/NEW" ></fx-send>
             </fx-trigger>
         </section>
         <h2>Person</h2>
