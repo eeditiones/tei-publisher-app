@@ -25,15 +25,19 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare function rapi:entry($request as map(*)) {
     let $id := xmldb:decode($request?parameters?id)
     let $entry := collection($config:registers-root)/id($id)
+    let $type := xmldb:decode($request?parameters?type)
 
     return
       if ($id) then
             if ($entry) then
                 <data>{$entry}</data>
             else 
-                <data>{collection($config:registers-root)/id('person-default')}</data>
+                
+                let $entry-template := $config:registers-map?($type)?default
+                return
+                    <data>{collection($config:registers-root)/id($entry-template)/child::*}</data>
         else
-            error($errors:BAD_REQUEST, "No entry id specified")
+            error($errors:BAD_REQUEST, "No " || $type || " entry id specified")
 };
 
 
@@ -56,40 +60,45 @@ declare function rapi:delete($request as map(*)) {
 };
 
 declare function rapi:save($request as map(*)) {
-    let $f:= util:log('INFO', 'saving record')
 
-    (: todo, change depending on the form type :)
     let $user := request:get-attribute("teipublisher.com.login.user")
-    let $id := xmldb:decode($request?parameters?id)
-    let $type := local-name($request?body//tei:person)
+    let $body := $request?body/child::*/child::*
 
-    let $data := rapi:prepare-record($request?body//tei:person, $user, $type)
+    let $type := local-name($body)
+    let $f:= util:log('INFO', 'saving record: ' || $type)
 
+    let $id := ($body/@xml:id, xmldb:decode($request?parameters?id))[1]
+
+    let $data := rapi:prepare-record($body, $user, $type)
     let $record := rapi:insert-point($type)/id($id)
 
     return
         if ($record) then
             (: update existing record :)
-            let $f:= util:log('INFO', 'found')
+            let $f:= util:log('INFO', 'update: ' || $type)
             return
-                (rapi:replace-entry($record, $data), $data)
+                (rapi:replace-entry($record, $data), <data>{$data}</data>)
         else
-                (rapi:add-entry($data, $type), $data)
+            let $f:= util:log('INFO', 'create: ' || $type)
+            return
+                (rapi:add-entry($data, $type), <data>{$data}</data>)
 };
 
 (:~
  : Return the insertion point to which a local authority record should be saved.
  :)
 declare function rapi:insert-point($type as xs:string) {
+    let $root := $config:registers-map?($type)?id
+    return 
     switch ($type)
         case "place" return
-            collection($config:registers-root)/id('pb-places')//tei:listPlace
+            collection($config:registers-root)/id($root)//tei:listPlace
         case "organization" return
-            collection($config:registers-root)/id('pb-organizations')//tei:listOrg
+            collection($config:registers-root)/id($root)//tei:listOrg
         case "term" return
             doc($annocfg:local-authority-file)//tei:taxonomy
         default return
-            collection($config:registers-root)/id('pb-persons')//tei:listPerson
+            collection($config:registers-root)/id($root)//tei:listPerson
 };
 
 declare function rapi:add-entry($record, $type) {
@@ -104,8 +113,9 @@ declare function rapi:replace-entry($record, $data) {
 };
 
 declare function rapi:prepare-record($node as item()*, $resp, $type) {
+    let $new := $type || '-NEW'
 
-    let $id := if ($node/@xml:id='NEW') then rapi:next($type) else $node/@xml:id
+    let $id := if ($node/@xml:id=$new) then rapi:next($type) else $node/@xml:id
 
     return
       typeswitch($node)
@@ -139,14 +149,19 @@ declare function rapi:prepare-record($node as item()*, $resp, $type) {
 declare function rapi:next($type) {
     let $config := $config:registers-map?($type)
 
-    let $all-ids := collection($config:registers-root)/id($config?id)//tei:person[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
+    let $all-ids := 
+    switch ($type)
+        case 'place'
+            return collection($config:registers-root)/id($config?id)//tei:place[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
+        default 
+            return collection($config:registers-root)/id($config?id)//tei:person[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
     
     let $last := if (count($all-ids)) then sort($all-ids)[last()] else 1
     let $next :=
             try {
                 xs:integer($last) + 1
             } catch * {
-                'error_'
+                '_error'
             }
     
     return $config?prefix || rapi:pad($next, 6)

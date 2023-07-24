@@ -1,0 +1,9 @@
+<place xmlns="http://www.tei-c.org/ns/1.0" xml:id="place-template">
+   <place>
+      <!-- repeatable for all name variants of a person -->
+      <name type="variant"></name>  
+      <ptr type="external">
+         <ptr type="" target=""/>
+      </ptr>      
+   </place>
+</place>

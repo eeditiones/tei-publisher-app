@@ -379,14 +379,22 @@ declare variable $config:registers-root := $config:app-root || "/data/registers"
 declare variable $config:registers-map := map {
     "person": map {
         "id": "pb-persons",
+        "default": "person-default",
         "prefix": "person-"
     },
     "places": map {
         "id": "pb-places",
+        "default": "place-default",
         "prefix": "place-"
     },
-    "taxonomy": map {
+    "organization": map {
+        "id": "pb-organization",
+        "default": "organization-default",
+        "prefix": "category-"
+    },
+    "term": map {
         "id": "pb-taxonomy",
+        "default": "term-default",
         "prefix": "category-"
     }
 };

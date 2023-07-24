@@ -57,6 +57,16 @@
                             "type": "string",
                             "example": "gnd-139890289" 
                         }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "place",
+                            "default": "person"
+                        }
                     }
                 ],
                 "responses": {

@@ -1,5 +1,5 @@
 <person xmlns="http://www.tei-c.org/ns/1.0" xml:id="person-default">
-    <person xml:id="NEW">
+    <person xml:id="person-NEW">
         <persName type="main"></persName>
         <persName type="sort"/>
         <birth>
