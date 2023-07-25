@@ -700,16 +700,99 @@ fx-fore.action-log{
     background: var(--paper-orange-500);
 }
 
-/* overwrites for annotations authority forms */
+/* overwrites for annotations  */
+/* overwrites for annotations  */
+/* overwrites for annotations  */
+/* overwrites for annotations  */
+/* overwrites for annotations  */
+aside.preview{
+    margin-top:2rem;
+}
+button.apply{
+    font-size:1.2rem;
+    padding:0.25rem 0.5rem;
+}
+
+.preview fx-fore{
+
+}
+.annotation-toolbar{
+    background:#efefef;
+    z-index:999;
+}
 fx-control, label{
     display:block;
 
 }
-#authority-editor main{
+
+
+main .text{
+    justify-self:center;
+    margin-top:2rem;
+}
+#authority-editor{
+    height:auto;
+}
+#authority-editor main,
+#authority-editor-side main{
     display:block;
-    height: auto;
+    margin:0;
 }
 section.person{
     display:grid;
     grid-template-columns:repeat(auto-fit, minmax(15rem, 1fr));
+}
+fx-fore header{
+    padding:0.5rem;
+    font-size:1.2rem;
+    border-top:thin solid #dddddd;
+}
+fx-fore .actions{
+    text-align:right;
+    padding:0.25rem 0.5rem;
+}
+fx-fore button{
+    padding:0.5rem 1rem;
+
+}
+fx-fore #r-nameVariant fx-repeatitem{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    align-items:end;
+
+}
+fx-fore fx-group{
+    padding:1rem 0.5rem;
+    width:100%;
+}
+.fx-ready aside {
+    height:100vh;
+    padding:1rem;
+}
+.fx-ready main {
+    grid-template-columns:1fr 38rem;
+    height:auto;
+    margin-top:3rem;
+    overflow:auto;
+}
+
+
+fx-fore fx-case:last-child{
+    margin-bottom:5rem;
+}
+.header-toolbar{
+    display:flex;
+    justify-content:space-between;
+    position:fixed;
+    width:100%;
+    background:#efefef;
+    padding:0;
+    z-index:100;
+}
+.header-toolbar .icon-group{
+    padding:0.5rem 1rem;
+}
+body{
+    width:100vw;
+    height:100vh;
 }

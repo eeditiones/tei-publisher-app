@@ -43,24 +43,11 @@
         </fx-submission>
     </fx-model>
 
-    <header>
-        <h1>TEI Publisher Person Register</h1>
-    </header>
+    <header>Person Register</header>
 
     <main>
         <!-- begin section general -->
-        <section>
-            Save the form
-
-            <fx-trigger>
-                <button>save</button>
-                <fx-send submission="save"></fx-send>
-            </fx-trigger>
-            
-        </section>
-        <h2>Person</h2>
         <section class="person">
-
             <!-- Basic name forms -->
             <fx-group id="general" ref="//person" class="col-2">
                 <fx-control class="tp-input -form-control" ref="persName[@type='main']">
@@ -129,6 +116,13 @@
                     </fx-repeat>
             </fx-group>
         </section>
+        <section class="actions">
+            <fx-trigger>
+                <button class="apply">apply</button>
+                <fx-send submission="save"/>
+            </fx-trigger>
+        </section>
+
         <!-- // end section name variants -->
 
     </main>

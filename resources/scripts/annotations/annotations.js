@@ -140,7 +140,8 @@ window.addEventListener("WebComponentsReady", () => {
 	 * @param {any} data details of the selected authority entry
 	 */
 	function authoritySelected(data) {
-		authorityDialog.close();
+		// authorityDialog.close();
+		window.pbEvents.emit("hide-authorities", "transcription", {});
 		refInput.forEach((input) => { input.value = data.properties.ref });
 		if (autoSave) {
 			save();
@@ -352,7 +353,10 @@ window.addEventListener("WebComponentsReady", () => {
 					type,
 					query: selection,
 				});
-				authorityDialog.open();
+				//authorityDialog.open();
+        		window.pbEvents.emit("show-authorities", "transcription", {});
+
+
 			}
 			showForm(type);
 			text = selection;
@@ -651,7 +655,9 @@ window.addEventListener("WebComponentsReady", () => {
 				type,
 				query: text,
 			});
-			authorityDialog.open();
+			//authorityDialog.open();
+    		window.pbEvents.emit("show-authorities", "transcription", {});
+
 		}
 		showForm(type, ev.detail.properties);
 	});
