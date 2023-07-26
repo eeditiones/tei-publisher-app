@@ -24,7 +24,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare function rapi:entry($request as map(*)) {
     let $id := xmldb:decode($request?parameters?id)
-    let $entry := collection($config:registers-root)/id($id)
+    let $entry := collection($config:register-root)/id($id)
     let $type := xmldb:decode($request?parameters?type)
 
     return
@@ -33,9 +33,9 @@ declare function rapi:entry($request as map(*)) {
                 <data>{$entry}</data>
             else 
                 
-                let $entry-template := $config:registers-map?($type)?default
+                let $entry-template := $config:register-map?($type)?default
                 return
-                    <data>{collection($config:registers-root)/id($entry-template)/child::*}</data>
+                    <data>{collection($config:register-root)/id($entry-template)/child::*}</data>
         else
             error($errors:BAD_REQUEST, "No " || $type || " entry id specified")
 };
@@ -44,7 +44,7 @@ declare function rapi:entry($request as map(*)) {
 declare function rapi:delete($request as map(*)) {
     let $id := xmldb:decode($request?parameters?id)
     let $type := xmldb:decode($request?parameters?type)
-    let $entry := collection($config:registers-root)/id($id)
+    let $entry := collection($config:register-root)/id($id)
 
     return
       if ($entry) then
@@ -92,17 +92,17 @@ declare function rapi:save($request as map(*)) {
  : Return the insertion point to which a local authority record should be saved.
  :)
 declare function rapi:insert-point($type as xs:string) {
-    let $root := $config:registers-map?($type)?id
+    let $root := $config:register-map?($type)?id
     return 
     switch ($type)
         case "place" return
-            collection($config:registers-root)/id($root)//tei:listPlace
+            collection($config:register-root)/id($root)//tei:listPlace
         case "organization" return
-            collection($config:registers-root)/id($root)//tei:listOrg
+            collection($config:register-root)/id($root)//tei:listOrg
         case "term" return
-            collection($config:registers-root)//tei:taxonomy
+            collection($config:register-root)//tei:taxonomy
         default return
-            collection($config:registers-root)/id($root)//tei:listPerson
+            collection($config:register-root)/id($root)//tei:listPerson
 };
 
 declare function rapi:add-entry($record, $type) {
@@ -151,14 +151,14 @@ declare function rapi:prepare-record($node as item()*, $resp, $type) {
 };
 
 declare function rapi:next($type) {
-    let $config := $config:registers-map?($type)
+    let $config := $config:register-map?($type)
 
     let $all-ids := 
     switch ($type)
         case 'place'
-            return collection($config:registers-root)/id($config?id)//tei:place[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
+            return collection($config:register-root)/id($config?id)//tei:place[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
         default 
-            return collection($config:registers-root)/id($config?id)//tei:person[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
+            return collection($config:register-root)/id($config?id)//tei:person[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
     
     let $last := if (count($all-ids)) then sort($all-ids)[last()] else 1
     let $next :=

@@ -40,7 +40,7 @@ declare function anno:save-local-copy($request as map(*)) {
     let $data := $request?body
     let $type := $request?parameters?type
     let $id := xmldb:decode($request?parameters?id)
-    let $record := collection($config:registers-root)/id($id)
+    let $record := collection($config:register-root)/id($id)
     return
         if ($record) then
             map {
@@ -63,7 +63,7 @@ declare function anno:save-local-copy($request as map(*)) {
 declare function anno:register-entry($request as map(*)) {
     let $type := $request?parameters?type
     let $id := $request?parameters?id
-    let $entry := collection($config:registers-root)/id($id)
+    let $entry := collection($config:register-root)/id($id)
     let $strings := annocfg:local-search-strings($type, $entry)
     return
         if ($entry) then
@@ -501,5 +501,5 @@ declare function anno:wrap($annotation as map(*), $content as function(*)) {
 };
 
 declare function anno:form-template($request as map(*)) {
-    collection($annocfg:local-authority-forms)/id($request?parameters?id)/child::*
+    collection($config:register-forms)/id($request?parameters?id)/child::*
 };

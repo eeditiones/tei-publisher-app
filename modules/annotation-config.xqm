@@ -7,7 +7,6 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
 declare variable $anno:local-authority-file := $config:data-root || "/register.xml";
-declare variable $anno:local-authority-forms := $config:data-root || "/registers/templates";
 
 (:~
  : Create TEI for the given type, properties and content of an annotation and return it.
@@ -157,6 +156,7 @@ declare function anno:create-record($type as xs:string, $id as xs:string, $data 
             ()
 };
 
+(: FACTOR OUT TO REGISTERS :)
 declare function anno:normalize-gender($value) {
     switch ($value)
         case "Männlich"
@@ -172,14 +172,17 @@ declare function anno:normalize-gender($value) {
             return 
                 <gender value="{$value}" xmlns="http://www.tei-c.org/ns/1.0">{$value}</gender>
 };
+
 (:~
  : Query the local register for existing authority entries matching the given type and query string. 
+
+ FACTOR OUT TO REGISTERS?
  :)
 declare function anno:query($type as xs:string, $query as xs:string?) {
     try {
         switch ($type)
             case "place" return
-                for $place in collection($config:registers-root)//tei:place[ft:query(tei:placeName, $query)]
+                for $place in collection($config:register-root)//tei:place[ft:query(tei:placeName, $query)]
                 return
                     map {
                         "id": $place/@xml:id/string(),
@@ -188,7 +191,7 @@ declare function anno:query($type as xs:string, $query as xs:string?) {
                         "link": $place/tei:ptr/@target/string()
                     }
             case "person" return
-                for $person in collection($config:registers-root)//tei:person[ft:query(tei:persName, $query)]
+                for $person in collection($config:register-root)//tei:person[ft:query(tei:persName, $query)]
                 return
                     map {
                         "id": $person/@xml:id/string(),
@@ -197,7 +200,7 @@ declare function anno:query($type as xs:string, $query as xs:string?) {
                         "link": $person/tei:ptr/@target/string()
                     }
             case "organization" return
-                for $org in collection($config:registers-root)//tei:org[ft:query(tei:orgName, $query)]
+                for $org in collection($config:register-root)//tei:org[ft:query(tei:orgName, $query)]
                 return
                     map {
                         "id": $org/@xml:id/string(),
@@ -206,7 +209,7 @@ declare function anno:query($type as xs:string, $query as xs:string?) {
                         "link": $org/tei:ptr/@target/string()
                     }
             case "term" return
-                for $term in collection($config:registers-root)//tei:taxonomy[ft:query(tei:category, $query)]
+                for $term in collection($config:register-root)//tei:taxonomy[ft:query(tei:category, $query)]
                 return
                     map {
                         "id": $term/@xml:id/string(),
@@ -220,24 +223,10 @@ declare function anno:query($type as xs:string, $query as xs:string?) {
 };
 
 (:~
- : Return the insertion point to which a local authority record should be appended
- : when creating a local copy.
- :)
-declare function anno:insert-point($type as xs:string) {
-    switch ($type)
-        case "place" return
-            doc($anno:local-authority-file)//tei:listPlace
-        case "organization" return
-            doc($anno:local-authority-file)//tei:listOrg
-        case "term" return
-            doc($anno:local-authority-file)//tei:taxonomy
-        default return
-            doc($anno:local-authority-file)//tei:listPerson
-};
-
-(:~
  : For the given local authority entry, return a sequence of other strings (e.g. alternate names) 
  : which should be used when parsing the text for occurrences.
+
+ FACTOR OUT TO REGISTERS?
  :)
 declare function anno:local-search-strings($type as xs:string, $entry as element()?) {
     switch($type)

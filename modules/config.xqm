@@ -375,8 +375,10 @@ declare variable $config:data-exclude := (
 (:~
  : The root of the collection hierarchy containing registers data.
  :)
-declare variable $config:registers-root := $config:app-root || "/data/registers";
-declare variable $config:registers-map := map {
+declare variable $config:register-root := $config:data-root || "/registers";
+declare variable $config:register-forms := $config:data-root || "/registers/templates";
+
+declare variable $config:register-map := map {
     "person": map {
         "id": "pb-persons",
         "default": "person-default",
