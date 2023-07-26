@@ -6,22 +6,14 @@ import module namespace router="http://e-editiones.org/roaster";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace annocfg = "http://teipublisher.com/api/annotations/config" at "annotation-config.xqm";
+import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
 
-(:  
-import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
-import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
-import module namespace nav-tei="http://www.tei-c.org/tei-simple/navigation/tei" at "../../navigation-tei.xql";
-import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../../navigation.xql";
-import module namespace query="http://www.tei-c.org/tei-simple/query" at "../../query.xql";
-import module namespace mapping="http://www.tei-c.org/tei-simple/components/map" at "../../map.xql";
-import module namespace process="http://exist-db.org/xquery/process" at "java:org.exist.xquery.modules.process.ProcessModule";
-import module namespace xslfo="http://exist-db.org/xquery/xslfo" at "java:org.exist.xquery.modules.xslfo.XSLFOModule";
-import module namespace epub="http://exist-db.org/xquery/epub" at "../epub.xql";
-import module namespace docx="http://existsolutions.com/teipublisher/docx";
-import module namespace cutil="http://teipublisher.com/api/cache" at "caching.xql";
-:)
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
+(:~
+ : Resolve register entry by id and type and return the record for use in the editing form
+ : If a record doesn't exist, use the default record template for a given register type
+ :)
 declare function rapi:entry($request as map(*)) {
     let $id := xmldb:decode($request?parameters?id)
     let $entry := collection($config:register-root)/id($id)
@@ -31,8 +23,7 @@ declare function rapi:entry($request as map(*)) {
       if ($id) then
             if ($entry) then
                 <data>{$entry}</data>
-            else 
-                
+            else
                 let $entry-template := $config:register-map?($type)?default
                 return
                     <data>{collection($config:register-root)/id($entry-template)/child::*}</data>
@@ -59,14 +50,16 @@ declare function rapi:delete($request as map(*)) {
             error($errors:NOT_FOUND, "Entry for " || $type || ": " || $id || " not found")
 };
 
+(:~
+ : Save register entry coming from the editing form
+ : If a record exists with this id it is updated, otherwise a new one is created
+:)
 declare function rapi:save($request as map(*)) {
 
     let $user := request:get-attribute("teipublisher.com.login.user")
     let $body := $request?body/child::*/child::*
 
     let $type := local-name($body)
-    let $f:= util:log('INFO', 'saving record: ' || $type)
-
     let $id := ($body/@xml:id, xmldb:decode($request?parameters?id))[1]
 
     let $data := rapi:prepare-record($body, $user, $type)
@@ -75,17 +68,23 @@ declare function rapi:save($request as map(*)) {
     return
         if ($record) then
             (: update existing record :)
-            let $f:= util:log('INFO', 'update: ' || $type)
-            return
-                (rapi:replace-entry($record, $data), <data>{$data}</data>, map {
-                        "status": "updated"
-                    })
+                (rapi:replace-entry($record, $data), 
+                    <data>{$data}</data>, 
+                    map {"status": "updated"})
         else
-            let $f:= util:log('INFO', 'create: ' || $type)
-            return
-                (rapi:add-entry($data, $type), <data>{$data}</data>, map {
-                        "status": "updated"
-                    })
+                (rapi:add-entry($data, $type), 
+                    <data>{$data}</data>, 
+                    map {"status": "created"})
+};
+
+declare function rapi:add-entry($record, $type) {
+    let $target := rapi:insert-point($type)
+    return
+        update insert $record into $target
+};
+
+declare function rapi:replace-entry($record, $data) {
+        update replace $record with $data
 };
 
 (:~
@@ -105,17 +104,11 @@ declare function rapi:insert-point($type as xs:string) {
             collection($config:register-root)/id($root)//tei:listPerson
 };
 
-declare function rapi:add-entry($record, $type) {
-    let $target := rapi:insert-point($type)
-
-    return
-        update insert $record into $target
-};
-
-declare function rapi:replace-entry($record, $data) {
-        update replace $record with $data
-};
-
+(: Adjust content of a register entry coming from the editing form
+ : if xml:id is a new entry placeholder, find the next available id
+ : add resp and when attributes 
+ : all the rest is just passed
+ :)
 declare function rapi:prepare-record($node as item()*, $resp, $type) {
     let $new := $type || '-NEW'
 
@@ -123,9 +116,6 @@ declare function rapi:prepare-record($node as item()*, $resp, $type) {
 
     return
       typeswitch($node)
-        (: normalize-space for all text nodes :)
-        case text()
-            return normalize-space($node)
         case element(tei:person) 
             return
                 element {node-name($node)} {
@@ -150,6 +140,13 @@ declare function rapi:prepare-record($node as item()*, $resp, $type) {
 
 };
 
+(:~ 
+: Determine next available id starting with a prefix chosen for a register type 
+: prefixes for each type are specified in $config:register-map
+
+: Algorithm assumes the trailing part of existing ids to be an integer, so it can use the next number 
+: Numbers are padded with leading zeros
+:)
 declare function rapi:next($type) {
     let $config := $config:register-map?($type)
 
@@ -172,8 +169,219 @@ declare function rapi:next($type) {
 
 };
 
-
 declare function rapi:pad($value, $len) {
-    if (string-length($value) < $len) then rapi:pad('0' || $value, $len)
-    else $value
+    if (string-length($value) < $len) then 
+        rapi:pad('0' || $value, $len)
+    else 
+        $value
+};
+
+
+declare function rapi:query-register($request as map(*)) {
+    let $type := $request?parameters?type
+    let $query := $request?parameters?query
+    return
+        array {
+            rapi:query($type, $query)
+        }
+};
+
+(:~
+ : Query the local register for existing authority entries matching the given type and query string. 
+ :)
+declare function rapi:query($type as xs:string, $query as xs:string?) {
+    try {
+        switch ($type)
+            case "place" return
+                for $place in collection($config:register-root)//tei:place[ft:query(tei:placeName, $query)]
+                return
+                    map {
+                        "id": $place/@xml:id/string(),
+                        "label": $place/tei:placeName[@type="full"]/string(),
+                        "details": ``[`{$place/tei:note/string()}` - `{$place/tei:country/string()}`, `{$place/tei:region/string()}`]``,
+                        "link": $place/tei:ptr/@target/string()
+                    }
+            case "person" return
+                for $person in collection($config:register-root)//tei:person[ft:query(tei:persName, $query)]
+                return
+                    map {
+                        "id": $person/@xml:id/string(),
+                        "label": $person/tei:persName[@type="full"]/string(),
+                        "details": ``[`{$person/tei:note/string()}` - `{$person/tei:country/string()}`, `{$person/tei:region/string()}`]``,
+                        "link": $person/tei:ptr/@target/string()
+                    }
+            case "organization" return
+                for $org in collection($config:register-root)//tei:org[ft:query(tei:orgName, $query)]
+                return
+                    map {
+                        "id": $org/@xml:id/string(),
+                        "label": $org/tei:orgName[@type="full"]/string(),
+                        "details": $org/tei:note/string(),
+                        "link": $org/tei:ptr/@target/string()
+                    }
+            case "term" return
+                for $term in collection($config:register-root)//tei:taxonomy[ft:query(tei:category, $query)]
+                return
+                    map {
+                        "id": $term/@xml:id/string(),
+                        "label": $term/tei:catDesc/string()
+                    }
+            default return
+                ()
+    } catch * {
+        ()
+    }
+};
+
+
+(:~
+ : Create a local copy of an external authority record (like GND) based on the given type, id and data
+ : passed in by the client.
+
+ Data available in $data parameter is governed by the authority connector, see e.g. gnd.js in tei-publisher-components
+ :)
+declare function rapi:create-record($type as xs:string, $id as xs:string, $data as map(*)) {
+    switch ($type)
+        case "place" return
+            <place xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
+                <placeName type="full">{$data?name}</placeName>
+                {
+                    if (exists($data?lat) and exists($data?lng)) then
+                        <location>
+                            <geo>{string-join(($data?lat,  $data?lng), ' ')}</geo>
+                        </location>
+                    else
+                        ()
+                }
+                <country>{$data?country}</country>
+                <region>{$data?region}</region>
+                <note>{$data?note}</note>
+                <ptr type="geonames" target="{$data?links?1}"/>
+                {
+                    array:subarray($data?links, 2) => array:for-each(function ($link) {
+                        <ptr xmlns="http://www.tei-c.org/ns/1.0" type="info" target="{$link}"/>
+                    })
+                }
+            </place>
+        case "person" return
+            <person xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
+                <persName type="full">{$data?name}</persName>
+                <persName type="sort">{$data?name}</persName>
+                {rapi:normalize-gender($data?gender)}
+                {
+                    if (exists($data?birth)) then
+                        <birth>
+                            <date when="{$data?birth}"/>
+                            <placeName ref="{$data?placeOfBirth?id}">{$data?placeOfBirth?label}</placeName>                       
+                        </birth>
+                    else
+                        (),
+                    if (exists($data?death)) then
+                        <death>
+                            <date when="{$data?death}"/>
+                            <placeName ref="{$data?placeOfDeath?id}">{$data?placeOfDeath?label}</placeName>                       
+                        </death>
+                    else
+                        ()
+                }
+                <note type="bio">{$data?note}</note>
+                {
+                    if (exists($data?profession)) then
+                        for $prof in $data?profession?*
+                        return
+                            <occupation>{$prof}</occupation>
+                    else
+                        ()
+                }
+            </person>
+        case "organization" return
+            <org xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
+                <orgName type="full">{$data?name}</orgName>
+            </org>
+        case "term" return
+            <category xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
+                <catDesc>{$data?name}</catDesc>
+            </category>
+        default return
+            ()
+};
+
+(: normalize GND gender values for common cases :)
+declare function rapi:normalize-gender($value) {
+    switch ($value)
+        case "Männlich"
+            return 
+                <gender value="M" xmlns="http://www.tei-c.org/ns/1.0">male</gender>
+        case "Weiblich"
+            return 
+                <gender value="M" xmlns="http://www.tei-c.org/ns/1.0">female</gender>
+        case "Unbekannt"
+            return 
+                <gender value="U" xmlns="http://www.tei-c.org/ns/1.0">unknown</gender>
+        default
+            return 
+                <gender value="{$value}" xmlns="http://www.tei-c.org/ns/1.0">{$value}</gender>
+};
+(:~
+ : For the given local authority entry, return a sequence of other strings (e.g. alternate names) 
+ : which should be used when parsing the text for occurrences.
+
+ :)
+declare function rapi:local-search-strings($type as xs:string, $entry as element()?) {
+    switch($type)
+        case "place" return $entry/tei:placeName/string()
+        case "organization" return $entry/tei:orgName/string()
+        case "term" return $entry/tei:catDesc/string()
+        default return $entry/tei:persName/string()
+};
+
+
+(:~
+ : Save a local copy of an authority entry - if it has not been stored already -
+ : based on the information provided by the client.
+ :
+ : Dispatches the actual record creation to rapi:create-record.
+ :)
+declare function rapi:save-local-copy($request as map(*)) {
+    let $data := $request?body
+    let $type := $request?parameters?type
+    let $id := xmldb:decode($request?parameters?id)
+    let $record := collection($config:register-root)/id($id)
+    return
+        if ($record) then
+            map {
+                "status": "found"
+            }
+        else
+            let $record := rapi:create-record($type, $id, $data)
+            let $target := rapi:insert-point($type)
+            return (
+                update insert $record into $target,
+                map {
+                    "status": "updated"
+                }
+            )
+};
+
+(:~ 
+ : Search for an authority entry in the local register.
+:)
+declare function rapi:register-entry($request as map(*)) {
+    let $type := $request?parameters?type
+    let $id := $request?parameters?id
+    let $entry := collection($config:register-root)/id($id)
+    let $strings := rapi:local-search-strings($type, $entry)
+    return
+        if ($entry) then
+            map {
+                "id": $entry/@xml:id/string(),
+                "strings": array { $strings },
+                "details": <div>{$pm-config:web-transform($entry, map {}, "annotations.odd")}</div>
+            }
+        else
+            error($errors:NOT_FOUND, "Entry for " || $id || " not found")
+};
+
+declare function rapi:form-template($request as map(*)) {
+    collection($config:register-forms)/id($request?parameters?id)/child::*
 };

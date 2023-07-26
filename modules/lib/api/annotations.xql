@@ -21,61 +21,6 @@ declare function anno:find-references($request as map(*)) {
     )
 };
 
-declare function anno:query-register($request as map(*)) {
-    let $type := $request?parameters?type
-    let $query := $request?parameters?query
-    return
-        array {
-            annocfg:query($type, $query)
-        }
-};
-
-(:~
- : Save a local copy of an authority entry - if it has not been stored already -
- : based on the information provided by the client.
- :
- : Dispatches the actual record creation to annocfg:create-record.
- :)
-declare function anno:save-local-copy($request as map(*)) {
-    let $data := $request?body
-    let $type := $request?parameters?type
-    let $id := xmldb:decode($request?parameters?id)
-    let $record := collection($config:register-root)/id($id)
-    return
-        if ($record) then
-            map {
-                "status": "found"
-            }
-        else
-            let $record := annocfg:create-record($type, $id, $data)
-            let $target := rapi:insert-point($type)
-            return (
-                update insert $record into $target,
-                map {
-                    "status": "updated"
-                }
-            )
-};
-
-(:~ 
- : Search for an authority entry in the local register.
-:)
-declare function anno:register-entry($request as map(*)) {
-    let $type := $request?parameters?type
-    let $id := $request?parameters?id
-    let $entry := collection($config:register-root)/id($id)
-    let $strings := annocfg:local-search-strings($type, $entry)
-    return
-        if ($entry) then
-            map {
-                "id": $entry/@xml:id/string(),
-                "strings": array { $strings },
-                "details": <div>{$pm-config:web-transform($entry, map {}, "annotations.odd")}</div>
-            }
-        else
-            error($errors:NOT_FOUND, "Entry for " || $id || " not found")
-};
-
 (:~
  : Merge and optionally save the annotations passed in the request body.
  :)
@@ -498,8 +443,4 @@ declare %private function anno:transform($nodes as node()*, $start, $end, $inAnn
 
 declare function anno:wrap($annotation as map(*), $content as function(*)) {
     annocfg:annotations($annotation?type, $annotation?properties, $content)
-};
-
-declare function anno:form-template($request as map(*)) {
-    collection($config:register-forms)/id($request?parameters?id)/child::*
 };

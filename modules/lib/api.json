@@ -2816,7 +2816,7 @@
                 "tags": [
                     "xml"
                 ],
-                "operationId": "anno:form-template",
+                "operationId": "rapi:form-template",
                 "x-constraints": {
                     "group": "tei"
                 },
@@ -2859,7 +2859,7 @@
         "/api/register/search/{type}" : {
             "get": {
 				"summary": "Search for a register entry",
-				"operationId": "anno:query-register",
+				"operationId": "rapi:query-register",
                 "tags": ["register"],
 				"parameters": [
 					{
@@ -2900,7 +2900,7 @@
                 "summary": "Create a local entry",
                 "description": "Create a local register entry based on the provided data",
                 "tags": ["register"],
-                "operationId": "anno:save-local-copy",
+                "operationId": "rapi:save-local-copy",
                 "requestBody": {
                     "description": "JSON record providing base information for the entry",
                     "content": {
@@ -2946,7 +2946,7 @@
             },
             "get": {
                 "summary": "Retrieve a register entry",
-                "operationId": "anno:register-entry",
+                "operationId": "rapi:register-entry",
                 "tags": ["register"],
                 "parameters": [
                     {
