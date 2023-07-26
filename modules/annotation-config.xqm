@@ -179,7 +179,7 @@ declare function anno:query($type as xs:string, $query as xs:string?) {
     try {
         switch ($type)
             case "place" return
-                for $place in doc($anno:local-authority-file)//tei:place[ft:query(tei:placeName, $query)]
+                for $place in collection($config:registers-root)//tei:place[ft:query(tei:placeName, $query)]
                 return
                     map {
                         "id": $place/@xml:id/string(),
@@ -188,7 +188,7 @@ declare function anno:query($type as xs:string, $query as xs:string?) {
                         "link": $place/tei:ptr/@target/string()
                     }
             case "person" return
-                for $person in doc($anno:local-authority-file)//tei:person[ft:query(tei:persName, $query)]
+                for $person in collection($config:registers-root)//tei:person[ft:query(tei:persName, $query)]
                 return
                     map {
                         "id": $person/@xml:id/string(),
@@ -197,7 +197,7 @@ declare function anno:query($type as xs:string, $query as xs:string?) {
                         "link": $person/tei:ptr/@target/string()
                     }
             case "organization" return
-                for $org in doc($anno:local-authority-file)//tei:org[ft:query(tei:orgName, $query)]
+                for $org in collection($config:registers-root)//tei:org[ft:query(tei:orgName, $query)]
                 return
                     map {
                         "id": $org/@xml:id/string(),
@@ -206,7 +206,7 @@ declare function anno:query($type as xs:string, $query as xs:string?) {
                         "link": $org/tei:ptr/@target/string()
                     }
             case "term" return
-                for $term in doc($anno:local-authority-file)//tei:taxonomy[ft:query(tei:category, $query)]
+                for $term in collection($config:registers-root)//tei:taxonomy[ft:query(tei:category, $query)]
                 return
                     map {
                         "id": $term/@xml:id/string(),

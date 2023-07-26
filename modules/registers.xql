@@ -100,7 +100,7 @@ declare function rapi:insert-point($type as xs:string) {
         case "organization" return
             collection($config:registers-root)/id($root)//tei:listOrg
         case "term" return
-            doc($annocfg:local-authority-file)//tei:taxonomy
+            collection($config:registers-root)//tei:taxonomy
         default return
             collection($config:registers-root)/id($root)//tei:listPerson
 };

@@ -40,7 +40,7 @@ declare function anno:save-local-copy($request as map(*)) {
     let $data := $request?body
     let $type := $request?parameters?type
     let $id := xmldb:decode($request?parameters?id)
-    let $record := collection($config:registers)/id($id)
+    let $record := collection($config:registers-root)/id($id)
     return
         if ($record) then
             map {
