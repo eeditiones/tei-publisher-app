@@ -3,11 +3,11 @@
         <persName type="main"></persName>
         <persName type="sort"/>
         <birth>
-           <date notBefore="" notAfter=""/>
+           <date when=""/>
            <placeName ref=""/>
         </birth>
         <death>
-           <date notBefore="" notAfter=""/>
+           <date when=""/>
            <placeName ref=""/>
         </death>
         <note type="bio"/>

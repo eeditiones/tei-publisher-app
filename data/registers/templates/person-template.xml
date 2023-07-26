@@ -8,6 +8,6 @@
       </name>        
 
       <!-- repeatable for all professions or roles of a person -->
-      <socecStatus ref=""/>
+      <occupation/>
    </person>
 </person>

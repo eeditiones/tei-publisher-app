@@ -56,12 +56,10 @@
         </section>
         <h2>Person</h2>
         <section class="person">
-            <!-- Basic name forms -->
             <fx-group id="general" ref="//person" class="col-2">
-                <fx-control class="tp-input -form-control" ref="@xml:id">
-                    <label class="tp-label">Person ID</label>
-                    <fx-hint></fx-hint>
-                </fx-control>
+                <h3>Person ID</h3>
+                <fx-output ref="@xml:id"></fx-output>
+
                 <fx-control class="tp-input -form-control" ref="persName[@type='main']">
                     <label class="tp-label">Canonical form</label>
                     <fx-hint>Joachim Lelewel</fx-hint>
@@ -72,24 +70,41 @@
                 </fx-control>
             </fx-group>
 
+        </section>
+        <section class="person">
+            <!-- Basic name forms -->
+            
             <fx-group id="birth" ref="//person/birth" class="col-2">
+                <h3>Birth</h3>
+                <fx-control class="tp-input -form-control" ref="date/@when">
+                    <label class="tp-label">Date normalized (YYYY-MM-DD)</label>
+                    <fx-hint>YYYY-MM-DD</fx-hint>
+                </fx-control>
+                <fx-control class="tp-input -form-control" ref="date">
+                    <label class="tp-label">Date descriptive</label>
+                    <fx-hint>1786-03-22</fx-hint>
+                </fx-control>
                 <fx-control class="tp-input -form-control" ref="placeName">
                     <label class="tp-label">Place of birth</label>
                     <fx-hint>Warsaw</fx-hint>
                 </fx-control>
+            </fx-group>     
+            
+            <fx-group id="birth" ref="//person/death" class="col-2">
+                <h3>Death</h3>
+                <fx-control class="tp-input -form-control" ref="date/@when">
+                    <label class="tp-label">Date normalized (YYYY-MM-DD)</label>
+                    <fx-hint>YYYY-MM-DD</fx-hint>
+                </fx-control>
                 <fx-control class="tp-input -form-control" ref="date">
-                    <label class="tp-label">Date of birth</label>
+                    <label class="tp-label">Date descriptive</label>
                     <fx-hint>1786-03-22</fx-hint>
                 </fx-control>
-                <fx-control class="tp-input -form-control" ref="date/@notBefore">
-                    <label class="tp-label">not before</label>
-                    <fx-hint>1786-03-22</fx-hint>
+                <fx-control class="tp-input -form-control" ref="placeName">
+                    <label class="tp-label">Place of death</label>
+                    <fx-hint>Warsaw</fx-hint>
                 </fx-control>
-                <fx-control class="tp-input -form-control" ref="date/@notAfter">
-                    <label class="tp-label">not after</label>
-                    <fx-hint>1786-03-22</fx-hint>
-                </fx-control>
-            </fx-group>           
+            </fx-group>     
         </section>
         <!-- // end section general -->
 

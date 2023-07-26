@@ -117,17 +117,25 @@ declare function anno:create-record($type as xs:string, $id as xs:string, $data 
         case "person" return
             <person xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
                 <persName type="full">{$data?name}</persName>
+                <persName type="sort">{$data?name}</persName>
+                {anno:normalize-gender($data?gender)}
                 {
                     if (exists($data?birth)) then
-                        <birth when="{$data?birth}"/>
+                        <birth>
+                            <date when="{$data?birth}"/>
+                            <placeName ref="{$data?placeOfBirth?id}">{$data?placeOfBirth?label}</placeName>                       
+                        </birth>
                     else
                         (),
                     if (exists($data?death)) then
-                        <death when="{$data?death}"/>
+                        <death>
+                            <date when="{$data?death}"/>
+                            <placeName ref="{$data?placeOfDeath?id}">{$data?placeOfDeath?label}</placeName>                       
+                        </death>
                     else
                         ()
                 }
-                <note>{$data?note}</note>
+                <note type="bio">{$data?note}</note>
                 {
                     if (exists($data?profession)) then
                         for $prof in $data?profession?*
@@ -149,6 +157,21 @@ declare function anno:create-record($type as xs:string, $id as xs:string, $data 
             ()
 };
 
+declare function anno:normalize-gender($value) {
+    switch ($value)
+        case "Männlich"
+            return 
+                <gender value="M" xmlns="http://www.tei-c.org/ns/1.0">male</gender>
+        case "Weiblich"
+            return 
+                <gender value="M" xmlns="http://www.tei-c.org/ns/1.0">female</gender>
+        case "Unbekannt"
+            return 
+                <gender value="U" xmlns="http://www.tei-c.org/ns/1.0">unknown</gender>
+        default
+            return 
+                <gender value="{$value}" xmlns="http://www.tei-c.org/ns/1.0">{$value}</gender>
+};
 (:~
  : Query the local register for existing authority entries matching the given type and query string. 
  :)

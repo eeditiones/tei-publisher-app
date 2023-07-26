@@ -9,6 +9,7 @@ import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace annocfg = "http://teipublisher.com/api/annotations/config" at "../../annotation-config.xqm";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
+import module namespace rapi="http://teipublisher.com/api/registers" at "../../registers.xql";
 
 declare function anno:find-references($request as map(*)) {
     map:merge(
@@ -47,7 +48,7 @@ declare function anno:save-local-copy($request as map(*)) {
             }
         else
             let $record := annocfg:create-record($type, $id, $data)
-            let $target := annocfg:insert-point($type)
+            let $target := rapi:insert-point($type)
             return (
                 update insert $record into $target,
                 map {

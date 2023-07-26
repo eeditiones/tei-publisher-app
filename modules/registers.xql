@@ -77,11 +77,15 @@ declare function rapi:save($request as map(*)) {
             (: update existing record :)
             let $f:= util:log('INFO', 'update: ' || $type)
             return
-                (rapi:replace-entry($record, $data), <data>{$data}</data>)
+                (rapi:replace-entry($record, $data), <data>{$data}</data>, map {
+                        "status": "updated"
+                    })
         else
             let $f:= util:log('INFO', 'create: ' || $type)
             return
-                (rapi:add-entry($data, $type), <data>{$data}</data>)
+                (rapi:add-entry($data, $type), <data>{$data}</data>, map {
+                        "status": "updated"
+                    })
 };
 
 (:~
