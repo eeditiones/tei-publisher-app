@@ -1,11 +1,11 @@
 <person xmlns="http://www.tei-c.org/ns/1.0" xml:id="person-template">
    <person>
       <!-- repeatable for all name variants of a person -->
-      <name type="variant">
+      <persName type="variant">
          <addname/>
          <forename/>
          <surname/>
-      </name>        
+      </persName>        
 
       <!-- repeatable for all professions or roles of a person -->
       <occupation/>

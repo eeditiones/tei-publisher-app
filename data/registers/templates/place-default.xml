@@ -2,6 +2,8 @@
     <place xml:id="place-NEW">
         <placeName type="main"></placeName>
         <placeName type="sort"/>
+        <country/>
+        <region/>
         <location>
          <geo></geo>
         </location>

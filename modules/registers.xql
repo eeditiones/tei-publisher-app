@@ -133,7 +133,23 @@ declare function rapi:prepare-record($node as item()*, $resp, $type) {
                 for $child in $node/node()
                    return $child
               }
-        
+        case element(tei:place) 
+            return
+                element {node-name($node)} {
+                (: copy attributes :)
+                for $att in $node/@* except ($node/@xml:id, $node/@resp, $node/@when)
+                   return
+                      $att
+                ,
+                attribute xml:id {$id}
+                ,
+                attribute when {format-date(current-date(), '[Y]-[M,2]-[D,2]')}
+                ,
+                attribute resp {$resp}
+                ,
+                for $child in $node/node()
+                   return $child
+              }
         (: all the rest pass it through :)
         default 
             return $node

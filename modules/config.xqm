@@ -384,7 +384,7 @@ declare variable $config:register-map := map {
         "default": "person-default",
         "prefix": "person-"
     },
-    "places": map {
+    "place": map {
         "id": "pb-places",
         "default": "place-default",
         "prefix": "place-"
