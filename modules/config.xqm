@@ -321,6 +321,7 @@ return
  : The context path to use for links within the application, e.g. menus.
  : The default should work when running on top of a standard eXist installation,
  : but may need to be changed if the app is behind a proxy.
+ : The context path is determined as follows:
  :)
 declare variable $config:context-path :=
     let $prop := util:system-property("teipublisher.context-path")
