@@ -321,7 +321,16 @@ return
  : The context path to use for links within the application, e.g. menus.
  : The default should work when running on top of a standard eXist installation,
  : but may need to be changed if the app is behind a proxy.
+ :
  : The context path is determined as follows:
+ :
+ : 1. if a system property `teipublisher.context-path` is set:
+ :  a. with value 'auto': determine context path by looking at the incoming request. This will
+ :     usually resolve to e.g. "/exist/apps/tei-publisher/".
+ :  b. otherwise use the value of the property
+ : 2. if an HTTP header X-Forwarded-Host is set, assume that eXist is running behind a proxy
+ :    and the app should be mapped to the root of the website (i.e. without /exist/apps/...)
+ : 3. otherwise determine path from request as in 1a.
  :)
 declare variable $config:context-path :=
     let $prop := util:system-property("teipublisher.context-path")
