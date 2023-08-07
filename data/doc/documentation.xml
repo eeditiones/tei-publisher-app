@@ -3401,6 +3401,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     data-template="pages:parse-params"></pb-tify>]]></synopsis>
           </step>
         </procedure>
+        <para>The relevant XQuery module is intentionally included in the custom and not the default API, thus it won't be copied into generated apps. The reason for this is that the code will always be edition-specific and thus has to be adjusted. If you would like to use the feature in your custom app, please copy the relevant module and the endpoint declaration, then modify it to match your use case.</para>
       </section>
     </section>
   </section>
