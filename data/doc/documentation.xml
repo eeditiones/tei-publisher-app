@@ -3363,6 +3363,46 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         the translation to explicitly mark page boundaries of the original, thus mapping algorithm
         aims to display closest corresponding fragment of the translated text.</para>
     </section>
+    <section xml:id="facsimiles">
+      <title>Facsimiles and other images</title>
+      <para>While you can use the <parameter>graphic</parameter> behaviour in the ODD to embed simple images, high-resolution images will usually be served by a separate IIIF service (running outside eXist/TEI Publisher). As of version 8.1.0 of TEI Publisher, two web components are available to handle images provided via the IIIF protocol:</para>
+      <variablelist>
+        <varlistentry>
+          <term>pb-facsimile</term>
+          <listitem>
+            <para>A viewer implementing the IIIF image API for viewing one or more images. The names/paths of those images need to be known beforehand and should be registered with the component via <tag>pb-facs-link</tag> or custom javascript. The viewer is based on <link xlink:href="https://openseadragon.github.io/">OpenSeadragon</link>.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>pb-tify</term>
+          <listitem>
+            <para>Supports IIIF presentation manifests: instead of registering a list of images, it expects all relevant metadata - including the list of images - to be provided in a single, standardized manifest. Under the hood, <tag>pb-tify</tag> is based on <link xlink:href="https://tify.rocks/">tify</link>, which also uses <link xlink:href="https://openseadragon.github.io/">OpenSeadragon</link> for the image display functionality. Available since version 2.10.0 of tei-publisher-components.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+      <section xml:id="passing-facsimiles">
+        <title>Passing the list of images to <tag>pb-facsimile</tag></title>
+        <para>Usually the facsimiles to be shown are registered with <tag>pb-facsimile</tag> by outputting a <tag>pb-facs-link</tag> web component via the ODD. In most cases this is done when processing a TEI <tag>pb</tag> or <tag>surface</tag>. The name of the image will be taken from the <parameter>@facs</parameter> attribute and copied to the <tag>pb-facs-link</tag>. To resolve the full API link, <tag>pb-facsimile</tag> prepends the <parameter>base-uri</parameter> configured on it. However, you can also specify an absolute URL on the <tag>pb-facs-link</tag>. Read more about troubleshooting IIIF links in the <link xlink:href="https://faq.teipublisher.com/images/image-endpoints/">FAQ</link>.</para>
+      </section>
+      <section xml:id="presentation-manifests">
+        <title>Using IIIF presentation manifests</title>
+        <para>A IIIF presentation manifest is a JSON structure describing a collection of resources. <tag>pb-tify</tag> expects to load a single manifest and takes all necessary information from there. If you have an external image database, it may already be able to deliver a manifest. If not, you can easily generate one on the fly by creating an API endpoint. This approach is demonstrated by the Shakespeare example in TEI Publisher, which proceeds as follows:</para>
+        <procedure>
+          <step>
+            <para><filename>modules/custom-api.json</filename> defines an endpoint <parameter>/api/iiif/{path}</parameter> and the corresponding handler in <filename>modules/iiif.xql</filename>, function <function>iiif:manifest</function>. The <parameter>path</parameter> parameter is expected to point to an existing TEI document.</para>
+          </step>
+          <step>
+            <para>The XQuery code in function <function>iiif:canvases</function> walks through each <tag>pb</tag> element in the TEI to output a IIIF canvas for the linked image.</para>
+          </step>
+          <step><para>Function <function>iiif:manifest</function> adds additional metadata fields like title, language or download links to the manifest.</para></step>
+          <step>
+            <para><filename>templates/pages/shakespeare.html</filename> includes the <tag>pb-tify</tag> web component, pointing it to the custom API endpoint:</para>
+            <synopsis language="xml" xml:space="preserve"><![CDATA[<pb-tify subscribe="transcription" emit="transcription" manifest="api/iiif/${docid}" 
+    data-template="pages:parse-params"></pb-tify>]]></synopsis>
+          </step>
+        </procedure>
+      </section>
+    </section>
   </section>
 
   <section xml:id="api">
