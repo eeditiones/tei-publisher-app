@@ -31,6 +31,7 @@
 				"description": "Registers a custom URL for the encyclopedia example (Damen Conversations Lexikon) to be used instead of the document name.",
                 "operationId": "vapi:view",
 				"x-error-handler": "vapi:handle-error",
+                "tags": ["encyclopedia"],
 				"parameters": [
 					{
 						"name": "file",
@@ -83,6 +84,7 @@
 				"description": "Search endpoint used for the encyclopedia example (Damen Conversations Lexikon)",
                 "operationId": "vapi:view",
 				"x-error-handler": "vapi:handle-error",
+                "tags": ["encyclopedia"],
 				"parameters": [
 					{
 						"name": "file",
@@ -143,6 +145,7 @@
                 "summary": "List encyclopedia headwords",
                 "description": "Retrieve list of headwords in format required by pb-split-list. Used by the encyclopedia sample (Damen Conversations Lexikon)",
                 "operationId": "custom:lemmata",
+                "tags": ["encyclopedia"],
                 "parameters": [
 					{
 						"name": "category",
@@ -182,6 +185,104 @@
                             "application/json": {
                                 "schema":{
                                     "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/documentation": {
+            "get": {
+                "summary": "Display the documentation",
+                "operationId": "vapi:view",
+				"x-error-handler": "vapi:handle-error",
+                "parameters": [
+                    {
+						"name": "file",
+						"in": "query",
+						"schema": {
+							"type": "string",
+                            "default": "pages/documentation"
+						}
+					},
+                    {
+                        "name": "docid",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "default": "doc/documentation.xml"
+                        }
+                    },
+                    {
+                        "name": "base",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "default": "doc/documentation.xml"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "HTML template for documentation",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/documentation/{id}": {
+            "get": {
+                "summary": "Display the documentation",
+                "operationId": "vapi:view",
+				"x-error-handler": "vapi:handle-error",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+						"name": "file",
+						"in": "query",
+						"schema": {
+							"type": "string",
+                            "default": "pages/documentation"
+						}
+					},
+                    {
+                        "name": "docid",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "default": "doc/documentation.xml"
+                        }
+                    },
+                    {
+                        "name": "base",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "default": "../doc/documentation.xml"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "HTML template for documentation",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
                                 }
                             }
                         }

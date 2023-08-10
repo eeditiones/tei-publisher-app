@@ -417,7 +417,7 @@ declare function dapi:get-fragment($request as map(*), $docs as node()*, $path a
                 else
                     ()
 
-        else if (exists($request?parameters?id) and $request?parameters?view != 'single') then (
+        else if (exists($request?parameters?id) and $request?parameters?id != "" and $request?parameters?view != 'single') then (
             for $document in $docs
             let $config := tpu:parse-pi(root($document), $view)
             let $data :=
