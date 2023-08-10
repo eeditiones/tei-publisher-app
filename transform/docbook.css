@@ -4,6 +4,13 @@
 /* external styles loaded from docbook.css */
 
 
+body {
+    --pb-heading-font-family: "Oswald", Verdana, "Helvetica", sans-serif;
+    --pb-heading-font-weight: 400 !important;
+    --pb-color-focus: #f6a623;
+    --pb-footnote-font-size: 13px;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--pb-heading-font-family);
     line-height: 1.2;
@@ -87,10 +94,7 @@ dd {
 }
 
 .note {
-    margin: 16px 14px 20px 10px;
-    padding: 12px 16px 12px 16px;
     font-size: .85em;
-    box-shadow: 3px 4px 10px #00000052
 }
 
 .note h4 {
@@ -121,6 +125,33 @@ pb-edit-xml {
 
 pb-code-highlight {
     font-size: .85em;
+}
+
+.journal-meta {
+    font-size: var(--pb-footnote-font-size);
+}
+
+.journal-title + .publisher:before {
+    content: ", ";
+}
+
+.issn:before {
+    content: ", ISSN: "
+}
+
+.footnotes {
+    margin-top: 1em;
+    padding-top: .5em;
+    position: relative;
+}
+
+.footnotes:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    border-top: 1px solid var(--pb-color-lighter);
 }
 
 @media print {
@@ -214,6 +245,14 @@ pb-code-highlight {
 
     h1.title {
         string-set: title1 content(text);
+        break-before: page;
+    }
+
+    .journal-meta + h1.title {
+        break-before: avoid;
+    }
+
+    .journal-meta {
         break-before: page;
     }
 

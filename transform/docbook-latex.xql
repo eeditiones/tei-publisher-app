@@ -386,7 +386,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:inline($config, ., ("tei-tag", "code", css:map-rend-to-class(.)), .)
                     case element(link) return
                         if (@linkend) then
-                            latex:link($config, ., ("tei-link3", css:map-rend-to-class(.)), ., concat('?odd=', request:get-parameter('odd', ()), '&amp;view=',                             request:get-parameter('view', ()), '&amp;id=', @linkend), map {})
+                            (: No function found for behavior: webcomponent :)
+                            $config?apply($config, ./node())
                         else
                             if (@xlink:show='new') then
                                 latex:link($config, ., ("tei-link4", css:map-rend-to-class(.)), ., @xlink:href, map {"target": '_new'})
