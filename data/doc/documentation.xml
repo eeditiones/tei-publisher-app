@@ -3631,8 +3631,12 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       </variablelist>
       <para>Both examples need two route definitions: the first corresponding to the root page displayed, i.e. if the user has not selected a chapter or headword, the second to represent the detail view of a chapter or headword. For the documentation, <link xlink:href="modules/custom-api.json" role="source">modules/custom-api.json</link> thus has configurations for <code>/documentation</code> as well as <code>/documentation/{id}</code>. In both cases we simply copied and modified the configuration for the standard path, i.e. <code>"/{docid}"</code>, from <link xlink:href="modules/lib/api.json" role="source">modules/lib/api.json</link>.</para>
     <para>The default endpoint takes various parameter, including two required ones: <parameter>docid</parameter> for the path to the TEI document, and <parameter>template</parameter> to specify the HTML template to use. For the documentation those will always be the same, i.e. <filename>doc/documentation.xml</filename> and <filename>pages/documentation.html</filename>, so we can pass them as a default value. This way we can reuse the existing operation (<function>vapi:view</function>) and don't have to write a custom handler function in XQuery!</para>
-      <para>We also add two parameters, <parameter>id</parameter> and <parameter>base</parameter>. The first will take the <option>xml:id</option> of the chapter we're looking for. <parameter>id</parameter> is one of the standard parameters picked up by the <tag>pb-view</tag> in the HTML when loading the actual content to display. <parameter>base</parameter> will be used in the template to set the HTML <tag>base</tag> tag in the HTML head. This is required to tell the browser where images and other resources should be loaded from.</para>
-      <para>The complete definition looks like this:</para>
+      <para>We also add two parameters, <parameter>id</parameter> and <parameter>base</parameter>. The first will take the <option>xml:id</option> of the chapter we're looking for. <parameter>id</parameter> is one of the standard parameters picked up by the <tag>pb-view</tag> in the HTML when loading the actual content to display. <parameter>base</parameter> will be used in the template to set the HTML <tag>base</tag> tag in the HTML head. This is required to tell the browser where images and other resources should be loaded from:</para>
+      <programlisting language="html" xml:space="preserve"><![CDATA[<head>
+  <base href="${base}" data-template="pages:parse-params"/>
+  ...
+</head>]]></programlisting>
+      <para>The complete definition of the route in <link xlink:href="modules/custom-api.json" role="source">modules/custom-api.json</link> looks like this:</para>
       <programlisting language="javascript" xml:space="preserve"><![CDATA[
 "/documentation/{id}": {
   "get": {
