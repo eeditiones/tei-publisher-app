@@ -21,6 +21,14 @@ declare function api:lookup($name as xs:string, $arity as xs:integer) {
     }
 };
 
+(:~
+ : Encylopedia example: "Damen Conversations Lexikon"
+ :
+ : Outputs a list of lemmata. The returned JSON structure will be in the format
+ : required by `<pb-split-list>`.
+ :
+ : @see templates/pages/tei-lex.html
+ :)
 declare function api:lemmata($request as map(*)) {
     let $search := normalize-space($request?parameters?search)
     let $letterParam := $request?parameters?category

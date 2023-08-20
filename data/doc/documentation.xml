@@ -3417,12 +3417,14 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       the index. These requests need to be received and processed by the server with the eXist
       instance running and only then data will be returned to the browser. </para>
 
-    <para> Previous versions of the TEI Publisher included a number of XQuery modules implementing
+    <para>Previous versions of TEI Publisher included a number of XQuery modules implementing
       the server-side functionality, located in <parameter>modules</parameter> collection. In
-      version 7, a new approach has been introduced. Formal <link xlink:href="../api.html"
+      version 7, a new approach has been introduced. A formal <link xlink:href="../api.html"
         xlink:show="new">API specification</link>, based on the <link xlink:show="new"
-        xlink:href="http://spec.openapis.org/oas/v3.0.3">Open API standard</link> defines all the
-      server-side API endpoints available in Publisher. </para>
+        xlink:href="http://spec.openapis.org/oas/v3.0.3">Open API standard</link>, defines all the
+      server-side API endpoints available in Publisher. The library responsible for interpreting the Open API specification 
+      and routing requests to XQuery endpoints is called <link xlink:href="https://github.com/eeditiones/roaster">roaster</link>
+      and can also be used outside TEI Publisher.</para>
 
     <para>The image below presents a section of the API handling all ODD-related operations:
       creating, retrieving, updating, deleting, recompiling; syntax check for a code fragment
@@ -3561,29 +3563,32 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         provisions have been made to allow users to add their own API endpoints. The <link
           xlink:href="../api.html#operations-tag-default" xlink:show="new">Custom API</link> section
         demonstrates how project-specific functionality can be added within the OAS API scheme. </para>
-      <para> All that is required is to edit the <filename>modules/custom-api.json</filename> file
+      <para>All that is required is to edit the <link xlink:href="modules/custom-api.json" role="source">modules/custom-api.json</link> file
         and add specifications for custom endpoints in JSON format. The
           <parameter>operationId</parameter> property specifies the XQuery function to be called to
-        process the request. All function module with the function definition needs to be imported
-        into <filename> modules/custom-api.xql</filename> so that the request can be correctly
+        process the request. All function modules with API functions need to be imported
+        into <link xlink:href="modules/custom-api.xql" role="source">modules/custom-api.xql</link> so that the request can be correctly
         resolved. </para>
-      <para> The function implementation can either be added to the XQuery module <filename>
+      <para>The function implementation can either be added to the XQuery module <filename>
           modules/custom-api.xql</filename> or to a new module, which should be imported into this
-        file to make it known. See the <link xlink:show="new"
-          xlink:href="https://github.com/eeditiones/oas-router">README</link> of the oas-router
-        package for more information about how to write a request handler function. </para>
-      <figure>
-        <title>Custom API specification - show article</title>
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="api-custom-json.png" width="900px"/>
-          </imageobject>
-        </mediaobject>
-      </figure>
-      <para> To reference a custom function declared directly in
-          <filename>modules/custom-api.xql</filename>, use the prefix <parameter>custom:</parameter>
-        in the <parameter>operationId</parameter>. For functions in imported modules, use the prefix
-        defined in the import statement. </para>
+        file to make it known. The <filename>modules/custom-api.xql</filename> shipping with TEI Publisher already 
+        includes one custom endpoint used for the <link xlink:href="../encyclopedia" xlink:show="new">"Damen Conversations Lexikon"</link>: it returns a JSON structure for consumption
+        by <tag>pb-split-list</tag>, displaying the list of available lemmata in the encyclopedia.</para>
+      <para>In addition, it imports a separate module from <link xlink:href="modules/iiif.xql" role="source">modules/iiif.xql</link>, containing functions for
+        generating a IIIF presentation manifest (see the <link xlink:href="../test/F-rom.xml" xlink:show="new">Shakespeare example</link>):</para>
+      <synopsis language="xquery">import module namespace iiif="https://stonesutras.org/api/iiif" at "iiif.xql";</synopsis>
+      <para>To reference a custom function in the <parameter>operationId</parameter> parameter of
+        <filename>modules/custom-api.json</filename>, use the prefix <parameter>custom:</parameter> if the corresponding XQuery
+        function is available in <filename>modules/custom-api.xql</filename>. If it resides in an imported module, use
+        the prefix defined for the import. For the IIIF module import above, this would be <option>iiif</option>, so the operationId
+        would read:</para>
+        
+      <synopsis>"operationId": "iiif:manifest",</synopsis>
+        
+      <para>To learn more about the Open API functionality supported by roaster and the different fields and parameters available through
+        the passed in <code>$request</code> parameter, see the <link xlink:show="new"
+          xlink:href="https://github.com/eeditiones/roaster">README</link> of <emphasis>roaster</emphasis>.</para>
+      
     </section>
   </section>
 

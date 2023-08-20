@@ -24,10 +24,24 @@
             }
         }
     },
+    "tags": [
+        {
+            "name": "encyclopedia",
+            "description": "Endpoints used by the 'Damen Conversations Lexikon'"
+        },
+        {
+            "name": "documentation",
+            "description": "Endpoints for displaying the documentation using a custom URL"
+        },
+        {
+            "name": "iiif",
+            "description": "Endpoints providing IIIF presentation manifests"
+        }
+    ],
     "paths": {
         "/encyclopedia": {
             "get": {
-                "summary": "Show encyclopedia entry",
+                "summary": "Encyclopedia root page",
 				"description": "Registers a custom URL for the encyclopedia example (Damen Conversations Lexikon) to be used instead of the document name.",
                 "operationId": "vapi:view",
 				"x-error-handler": "vapi:handle-error",
@@ -80,7 +94,7 @@
         },
         "/encyclopedia/{search}": {
             "get": {
-                "summary": "Show encyclopedia entry",
+                "summary": "Show encyclopedia entry matching {search}",
 				"description": "Search endpoint used for the encyclopedia example (Damen Conversations Lexikon)",
                 "operationId": "vapi:view",
 				"x-error-handler": "vapi:handle-error",
@@ -194,9 +208,11 @@
         },
         "/documentation": {
             "get": {
-                "summary": "Display the documentation",
+                "summary": "Select the HTML template for viewing the documentation",
+                "description": "Returns the root of the documentation",
                 "operationId": "vapi:view",
 				"x-error-handler": "vapi:handle-error",
+                "tags": ["documentation"],
                 "parameters": [
                     {
 						"name": "file",
@@ -239,7 +255,9 @@
         },
         "/documentation/{id}": {
             "get": {
-                "summary": "Display the documentation",
+                "summary": "Select the HTML template for viewing the documentation",
+                "description": "Shows a particular chapter as indicated by the id",
+                "tags": ["documentation"],
                 "operationId": "vapi:view",
 				"x-error-handler": "vapi:handle-error",
                 "parameters": [
@@ -294,6 +312,7 @@
             "get": {
                 "summary": "Retrieve IIIF presentation manifest for document",
                 "operationId": "iiif:manifest",
+                "tags": ["iiif"],
                 "parameters": [
                     {
                         "name": "path",
