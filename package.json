@@ -1,6 +1,6 @@
 {
   "name": "tei-publisher-app",
-  "version": "8.0.0",
+  "version": "8.1.0",
   "description": "TEI Publisher facilitates the integration of the TEI Processing Model into exist-db applications",
   "scripts": {
     "test": "mocha --exit",
