@@ -3591,6 +3591,130 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       
     </section>
   </section>
+  <section xml:id="url-routing">
+    <title>URL Routing</title>
+    <section xml:id="custom-urls">
+      <title>Creating custom URLs</title>
+      <para>By default, TEI Publisher addresses the different example pages by the name of the XML document displayed, which means users will see
+        the relative path to the document in the URL. A request to <code>/test/adagia.xml</code> will be handled by the Open API route matching the 
+        path <code>"/{docid}"</code>, which then calls the XQuery function <function>vapi:view</function> to retrieve the HTML template 
+        associated with the TEI document and return it to the browser:</para>
+      <programlisting language="javascript" xml:space="preserve"><![CDATA[
+"/{docid}": {
+	"get": {
+		"summary": "Retrieve the HTML template used for displaying a document",
+		"description": "Get the HTML template associated with the given document. This is called whenever the users tries to view a document. The actual content of the document will then be loaded by the template.",
+		"tags": ["view"],
+		"operationId": "vapi:view",
+		"x-error-handler": "vapi:handle-error",
+		...
+	}
+}
+]]></programlisting>
+      <para>Addressing by relative path is convenient for a heterogenous collection like the one in TEI Publisher, but for a more homogenous
+        edition, you may prefer other addressing schemes, e.g. using an identifier. For example, the Alfred Escher Briefedition uses URLs like 
+        <link xlink:href="https://briefedition.alfred-escher.ch/briefe/B0017" xlink:show="new">https://briefedition.alfred-escher.ch/briefe/B0017</link>. Using an abstract identifier has the advantage that bookmarked URLs
+        remain accessible even if the implementation changes (as happened for Escher), given that the identifier is stable. An even more complex addressing scheme can be found in the <link xlink:href="https://www.johannconradfischer.com" xlink:show="new">Johann Conrad Fischer</link> edition. Here the different travel journals are addressed by the year they cover, and the chapter to show is given as a number. Additionally, the language is given in the first path parameter, so the resulting URLs have the form: <code>/language/year/chapter</code>, e.g. <code>/de/1794/9</code>. Obviously implementing a scheme like this requires a bit more tweaking, so we'll concentrate on simpler cases like the one in Escher.
+      </para>
+      <para>TEI Publisher includes two examples, which deviate from the default addressing scheme:</para>
+      <variablelist>
+        <varlistentry>
+          <term>TEI Publisher documentation</term>
+          <listitem><para>The entire documentation is contained in one file. Users may want to copy or bookmark a specific section, whose identifier is thus encoded in the URL using a scheme <code>/documentation/{identifier}</code>.</para></listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><link xlink:href="../encyclopedia" xlink:show="new">Damen Conversations Lexikon</link></term>
+          <listitem>
+            <para>An early 19th century encyclopedia in German. An encyclopedia or dictionary is usually not read page by page. Instead users will want to browse to a particular headword they are interested in. Accordingly, the URL should reflect the chosen headword rather than the document. URLs are thus of the form <code>/encyclopedia/{headword}</code>.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+      <para>Both examples need two route definitions: the first corresponding to the root page displayed, i.e. if the user has not selected a chapter or headword, the second to represent the detail view of a chapter or headword. For the documentation, <link xlink:href="modules/custom-api.json" role="source">modules/custom-api.json</link> thus has configurations for <code>/documentation</code> as well as <code>/documentation/{id}</code>. In both cases we simply copied and modified the configuration for the standard path, i.e. <code>"/{docid}"</code>, from <link xlink:href="modules/lib/api.json" role="source">modules/lib/api.json</link>.</para>
+    <para>The default endpoint takes various parameter, including two required ones: <parameter>docid</parameter> for the path to the TEI document, and <parameter>template</parameter> to specify the HTML template to use. For the documentation those will always be the same, i.e. <filename>doc/documentation.xml</filename> and <filename>pages/documentation.html</filename>, so we can pass them as a default value. This way we can reuse the existing operation (<function>vapi:view</function>) and don't have to write a custom handler function in XQuery!</para>
+      <para>We also add two parameters, <parameter>id</parameter> and <parameter>base</parameter>. The first will take the <option>xml:id</option> of the chapter we're looking for. <parameter>id</parameter> is one of the standard parameters picked up by the <tag>pb-view</tag> in the HTML when loading the actual content to display. <parameter>base</parameter> will be used in the template to set the HTML <tag>base</tag> tag in the HTML head. This is required to tell the browser where images and other resources should be loaded from.</para>
+      <para>The complete definition looks like this:</para>
+      <programlisting language="javascript" xml:space="preserve"><![CDATA[
+"/documentation/{id}": {
+  "get": {
+      "summary": "Select the HTML template for viewing the documentation",
+      "description": "Shows a particular chapter as indicated by the id",
+      "tags": ["documentation"],
+      "operationId": "vapi:view",
+      "x-error-handler": "vapi:handle-error",
+      "parameters": [
+          {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                  "type": "string"
+              }
+          },
+          {
+    				"name": "template",
+    				"in": "query",
+    				"schema": {
+  						"type": "string",
+              "default": "pages/documentation.html"
+					  }
+					},
+            {
+                "name": "docid",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "default": "doc/documentation.xml"
+                }
+            },
+            {
+                "name": "base",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "default": "../doc/documentation.xml"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "HTML template for documentation",
+                "content": {
+                    "text/html": {
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}]]></programlisting>
+      <para>This handles the server-side routing of requests. However, there's also a client-side aspect, which we'll cover in the next chapter.</para>
+    </section>
+    <section xml:id="client-side-urls">
+      <title>Adjusting the client-side URL handling</title>
+      <para>With the two routes we set up for the documentation in the previous section, we cover the cases in which the entire page is loaded or reloaded by the browser, either by following a link, selecting a bookmark or pasting an URL into the location bar. However, TEI Publisher is a highly dynamic application and users can interact with the page without reloading it, e.g. by navigating to the next page of the document, selecting a toggle, clickling a link in the table of contents etc. Client-side interactions like this also need to be recorded and should be reflected in the URL, so users can copy or bookmark it. And the bookmarked link should later reconstitute the page in the state it was in when the bookmark was created.</para>
+      <para>All client-side web components in TEI Publisher therefore use a central state registry to track their state and reflect it in the URL. You can see this in action when you open any of the larger sample documents and navigate between its pages using the navigation buttons: the URL shown in the browser's location bar will change. For simple documents like <link xlink:href="../test/kant_rvernunft_1781.TEI-P5.xml" xlink:show="new">Kant's Kritik</link>, the current page displayed will be encoded in the <parameter>root</parameter>. If the divisions or pages to navigate by have an <option>xml:id</option>, this will be used instead and placed into the <parameter>id</parameter> parameter. The path to the TEI document is also tracked (it's the <code>test/kant_rvernunft_1781.TEI-P5.xml</code> part of the URL), though you won't see it change while navigating.</para>
+      <para>For the documentation we deviate from this default pattern with the relative URL becoming <code>documentation/{id}</code>. We thus need to inform the client-side components about the change, so they know how to store their state into the URL. The central <tag>pb-page</tag> component provides two attributes for this:</para>
+      <variablelist>
+        <varlistentry>
+          <term>url-template</term>
+          <listitem>
+            <para>A template expression containing placeholders for the parameters to be filled in. The template uses the same syntax and library as the popular <link xlink:href="https://expressjs.com/en/guide/routing.html#route-paths" xlink:show="new">Express javascript framework</link>.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>url-ignore</term>
+          <listitem>
+            <para>A comma-separated list of parameter names which should <emphasis>not</emphasis> be reflected in the URL.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+      <para>The expression passed to url-template may reference any of the default parameters known to TEI Publisher components, in particular <option>path</option>, <option>odd</option>, <option>view</option> or <option>id</option>. Additionally, any parameter supplied to a <tag>pb-view</tag> via the <tag>pb-param</tag> element can be referenced. Just have a look at the constructed URLs in the browser to see which parameters are being tracked for a specific page. Within TEI Publisher, URL templates will usually be rather simple. For the full syntax supported check the underlying <link xlink:href="https://www.npmjs.com/package/path-to-regexp" xlink:show="new">javascript library</link>.</para>
+      <para>To handle the URL for the documentation example, we set the URL template to <code>documentation/:id?</code>. This injects the <option>id</option> parameter as part of the path, e.g. <code>/documentation/api</code>. The ? after the parameter indicates that it is optional. We also do not want the <option>path</option> to the document to appear anywhere (it is always the same in the case), so we add it to <option>url-ignore</option>. The resulting <tag>pb-page</tag> would thus look as follows:</para>
+      <synopsis language="html"><![CDATA[<pb-page url-template="documentation/:id?" url-ignore="odd,view,path" data-template="pages:pb-page" unresolved="unresolved" >]]></synopsis>
+    </section>
+  </section>
 
   <section xml:id="i18n">
     <title>Language versions</title>

@@ -215,11 +215,11 @@
                 "tags": ["documentation"],
                 "parameters": [
                     {
-						"name": "file",
+						"name": "template",
 						"in": "query",
 						"schema": {
 							"type": "string",
-                            "default": "pages/documentation"
+                            "default": "pages/documentation.html"
 						}
 					},
                     {
@@ -270,11 +270,11 @@
                         }
                     },
                     {
-						"name": "file",
+						"name": "template",
 						"in": "query",
 						"schema": {
 							"type": "string",
-                            "default": "pages/documentation"
+                            "default": "pages/documentation.html"
 						}
 					},
                     {
