@@ -6873,7 +6873,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           change the location by modifying the variable
             <varname>$anno:local-authority-file</varname> in the annotation configuration,
             <filename>modules/annotation-config.xqm</filename>. You can also change the function
-            <function>anno:insert-point</function> to configure where exactly the local entity
+            <function>rapi:insert-point</function> to configure where exactly the local entity
           definitions will be stored.</para>
         <para>Currently, it is not possible to use the Reconciliation connector described above in
           the context of the Custom connector. This will be added in a future release.</para>

@@ -9,12 +9,12 @@
 <body>
 <!--<fx-fore refresh-on-view>-->
 <fx-fore>
-    <fx-send event="ready" if="instance('parameters')//id" submission="load" url="api/entry/{instance('parameters')//id}"></fx-send>
-    <fx-send event="ready" if="not(instance('parameters')//id)" submission="load" url="api/entry/place-NEW"></fx-send>
+    <fx-send event="ready" if="instance('parameters')//id" submission="load" url="../api/entry/{instance('parameters')//id}"></fx-send>
+    <fx-send event="ready" if="not(instance('parameters')//id)" submission="load" url="../api/entry/place-NEW"></fx-send>
     <fx-model id="model-1">
         <fx-instance
             id="default"
-            src="api/forms/template/place-default"
+            src="../api/forms/template/place-default"
             xpath-default-namespace="http://www.tei-c.org/ns/1.0"/>
 
         <fx-instance 
@@ -23,12 +23,12 @@
 
         <fx-instance
                 id="i-template"
-                src="api/forms/template/place-template"
+                src="../api/forms/template/place-template"
                 xpath-default-namespace="http://www.tei-c.org/ns/1.0"/>
 
         <fx-submission 
             id="load"
-            url="api/entry/{instance('parameters')//id}"
+            url="../api/entry/{instance('parameters')//id}"
             method="GET"
             replace="instance">
                 <fx-message event="submit-done">Data loaded</fx-message>
@@ -38,13 +38,21 @@
             id="save"
             method="PUT"
             replace="instance">
-                <fx-message event="submit-done">Data saved</fx-message>
+                <fx-action event="submit-done">
+                    <fx-message>Data saved</fx-message>
+                    <fx-dispatch name="pb-authority-lookup">
+                        <fx-property name="type" value="place"/>
+                        <fx-property name="query" expr="instance('default')//placeName[@type='main']/string()"/>
+                    </fx-dispatch>
+                </fx-action>
+                
                 <fx-message event="submit-error">Failed to save data</fx-message>
         </fx-submission>
     </fx-model>
 
     <header>
        Place Register
+       {instance('default')//placeName[@type='main']}
     </header>
 
     <main>
@@ -119,8 +127,8 @@
             Save the form
             <fx-trigger>
                 <button>save</button>
-                    <fx-send submission="save" if="instance('parameters')//id" url="api/entry/{instance('parameters')//id}" ></fx-send>
-                    <fx-send submission="save" if="not(instance('parameters')//id)" url="api/entry/NEW" ></fx-send>
+                    <fx-send submission="save" if="instance('parameters')//id" url="../api/entry/{instance('parameters')//id}" ></fx-send>
+                    <fx-send submission="save" if="not(instance('parameters')//id)" url="../api/entry/NEW" ></fx-send>
             </fx-trigger>
         </section>
     </main>

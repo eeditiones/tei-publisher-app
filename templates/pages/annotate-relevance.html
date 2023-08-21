@@ -130,6 +130,9 @@
                         <!-- ### store the type of authority until user chooses to open form by clicking toolbar icon -->
                         <fx-action event="pb-authority-lookup" target="#document">
                             <fx-setvalue ref="instance('i-default')/type" value="event('type')"/>
+                            <fx-message>Trigger lookup {event('type')} </fx-message>
+                            <fx-message>Trigger lookup {event('query')} </fx-message>
+                            <fx-action src="../resources/scripts/fx-emit.js"></fx-action>
                         </fx-action>
 
                         <!-- ### show the authoritySearch panel -->
@@ -235,8 +238,8 @@
                                     <!-- ### load the authority editor for authority type -->
                                     <fx-action event="click">
                                         <fx-setvalue ref="../authority-editor">true</fx-setvalue>
-                                        <!--                                        <fx-load url="templates/{type}-editor.html" attach-to="#authority-editor"></fx-load>-->
-                                        <fx-load url="templates/person-editor.html" attach-to="#authority-editor"></fx-load>
+                                        <fx-load url="templates/{instance('i-default')/type}-editor.html" attach-to="#authority-editor"></fx-load>
+                                        <!-- <fx-load url="templates/person-editor.html" attach-to="#authority-editor"></fx-load> -->
                                     </fx-action>
                                 </paper-icon-button>
                             </header>
