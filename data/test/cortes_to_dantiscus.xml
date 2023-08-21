@@ -45,6 +45,9 @@
          </sourceDesc>
       </fileDesc>
       <profileDesc>
+         <abstract>
+            <p>Letter showcasing a more complex alignment between transcription and translation. The translation does not contain page breaks, so the alignment has to be computed dynamically for each page using a mapping function. Also shows client-side toggling between normalized, diplomatic and reading view.</p>
+         </abstract>
          <textClass>
             <catRef scheme="#genre" target="#correspondence"/>
             <catRef scheme="#form" target="#manuscript"/>

@@ -19,6 +19,9 @@
 			</sourceDesc>
 		</fileDesc>
 		<profileDesc>
+			<abstract>
+				<p>Demonstrates how musical notation (in MEI) can be embedded using the <tag>notatedMusic</tag> TEI element. This feature is part of the TEI Publisher base ODD and thus works without further customization.</p>
+			</abstract>
             <textClass>
                 <catRef scheme="#genre" target="#prose"/>
                 <catRef scheme="#form" target="#print"/>
