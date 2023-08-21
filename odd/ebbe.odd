@@ -239,6 +239,10 @@
             <model behaviour="block" cssClass="header-short">
                 <param name="content" value="publicationStmt"/>
             </model>
+            <model behaviour="block" cssClass="sample-description">
+                <desc>Output abstract containing demo description</desc>
+                <param name="content" value="../profileDesc/abstract"/>
+            </model>
         </modelSequence>
                     <model behaviour="title">
             <param name="content" value="titleStmt"/>
