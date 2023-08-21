@@ -2744,6 +2744,13 @@
             call from within an ODD parameter, e.g. for formatting a date, outputting a number etc.
             To make those functions available to all output modes, just skip the
               <parameter>@mode</parameter> attribute. </para>
+          <note>
+            <title>Note</title>
+            <para>Starting with tei-publisher-lib 3.1.0, the module import path given in the "at" attribute
+              no longer needs to be absolute. A relative path (e.g. <filename>ext-html.xql</filename>) will be interpreted relative
+              to the <filename>modules</filename> collection.
+            </para>
+          </note>
         </section>
         <section xml:id="extension-modules-behaviours">
           <title>Implementing Custom Behaviours</title>

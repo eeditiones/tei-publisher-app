@@ -8,6 +8,9 @@
 
     "mode" is the mode identification string passed to pmu:process.
     The "odd" is defined by its name, without the .odd suffix.
+
+    Note: starting with tei-publisher-lib 3.1.0, the module import paths can be relative
+    to the modules/ collection.
 -->
 <modules>
     <!-- General latex extension functions -->
