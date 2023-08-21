@@ -24,9 +24,8 @@ declare %private function model:template-ptr($config as map(*), $node as node()*
                               </pb-mei></t>/*
 };
 (: generated template function for element spec: ref :)
-declare %private function model:template-ref($config as map(*), $node as node()*, $params as map(*)) {
-    <t xmlns=""><pb-link emit="detail" history="">
-  <pb-param name="search" value="{$config?apply-children($config, $node, $params?content)}"/>
+declare %private function model:template-ref2($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><pb-link emit="detail" history="" params="{{&#34;search&#34;: &#34;{$config?apply-children($config, $node, $params?search)}&#34;}}">
   {$config?apply-children($config, $node, $params?content)}
 </pb-link></t>/*
 };
@@ -233,7 +232,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             else
                                 html:inline($config, ., css:get-rendition(., ("tei-hi3", css:map-rend-to-class(.))), .)                                => model:map($node, $trackIds)
                     case element(note) return
-                        html:note($config, ., ("tei-note", css:map-rend-to-class(.)), ., @place, @n)                        => model:map($node, $trackIds)
+                        html:omit($config, ., ("tei-note", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(code) return
                         html:inline($config, ., ("tei-code", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(postscript) return
@@ -265,23 +264,23 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(graphic) return
                         html:graphic($config, ., ("tei-graphic", css:map-rend-to-class(.)), ., @url, @width, @height, @scale, desc)                        => model:map($node, $trackIds)
                     case element(ref) return
-                        if (@type='entry') then
-                            let $params := 
-                                map {
-                                    "target": substring-after(@target, '#'),
-                                    "content": .
-                                }
-
-                                                        let $content := 
-                                model:template-ref($config, ., $params)
-                            return
-                                                        html:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-ref1", css:map-rend-to-class(.)), $content)                            => model:map($node, $trackIds)
+                        if (@type='footnote') then
+                            html:note($config, ., ("tei-ref1", css:map-rend-to-class(.)), id(@target, root($parameters?root))/node(), (), ())                            => model:map($node, $trackIds)
                         else
-                            if (@target) then
-                                html:link($config, ., ("tei-ref2", css:map-rend-to-class(.)), ., @target, (), map {})                                => model:map($node, $trackIds)
+                            if (@type='entry') then
+                                let $params := 
+                                    map {
+                                        "content": .,
+                                        "search": normalize-space(.)
+                                    }
+
+                                                                let $content := 
+                                    model:template-ref2($config, ., $params)
+                                return
+                                                                html:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-ref2", css:map-rend-to-class(.)), $content)                                => model:map($node, $trackIds)
                             else
-                                if (not(node())) then
-                                    html:link($config, ., ("tei-ref3", css:map-rend-to-class(.)), @target, @target, (), map {})                                    => model:map($node, $trackIds)
+                                if (@target) then
+                                    html:link($config, ., ("tei-ref3", css:map-rend-to-class(.)), ., @target, (), map {})                                    => model:map($node, $trackIds)
                                 else
                                     html:inline($config, ., ("tei-ref4", css:map-rend-to-class(.)), .)                                    => model:map($node, $trackIds)
                     case element(titlePart) return

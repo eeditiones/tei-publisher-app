@@ -177,7 +177,15 @@ declare function model:apply($config as map(*), $input as node()*) {
                             else
                                 html:block($config, ., css:get-rendition(., ("tei-q3", css:map-rend-to-class(.))), .)
                     case element(pb) return
-                        html:break($config, ., css:get-rendition(., ("tei-pb", css:map-rend-to-class(.))), ., 'page', (concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else '')))
+                        if (@facs) then
+                            (: Use the url from the facs attribute to link with IIIF image :)
+                            html:webcomponent($config, ., ("tei-pb1", css:map-rend-to-class(.)), ., 'pb-facs-link', map {"facs": @facs, "label": @n, "emit": 'transcription'})
+                        else
+                            if (starts-with(@facs, 'iiif:')) then
+                                (: If facs attribute starts with iiif prefix, use the trailing part as a link to the IIIF image :)
+                                html:webcomponent($config, ., ("tei-pb2", css:map-rend-to-class(.)), ., 'pb-facs-link', map {"facs": replace(@facs, '^iiif:(.*)$', '$1'), "label": 'Page', "emit": 'transcription'})
+                            else
+                                html:break($config, ., css:get-rendition(., ("tei-pb3", css:map-rend-to-class(.))), ., 'page', (concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else '')))
                     case element(epigraph) return
                         html:block($config, ., ("tei-epigraph", css:map-rend-to-class(.)), .)
                     case element(lb) return
@@ -429,11 +437,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                             (
                                 html:block($config, ., ("tei-fileDesc1", "header-short", css:map-rend-to-class(.)), titleStmt),
                                 html:block($config, ., ("tei-fileDesc2", "header-short", css:map-rend-to-class(.)), editionStmt),
-                                html:block($config, ., ("tei-fileDesc3", "header-short", css:map-rend-to-class(.)), publicationStmt)
+                                html:block($config, ., ("tei-fileDesc3", "header-short", css:map-rend-to-class(.)), publicationStmt),
+                                (: Output abstract containing demo description :)
+                                html:block($config, ., ("tei-fileDesc4", "sample-description", css:map-rend-to-class(.)), ../profileDesc/abstract)
                             )
 
                         else
-                            html:title($config, ., ("tei-fileDesc4", css:map-rend-to-class(.)), titleStmt)
+                            html:title($config, ., ("tei-fileDesc5", css:map-rend-to-class(.)), titleStmt)
                     case element(sic) return
                         if (parent::choice and count(parent::*/*) gt 1) then
                             html:inline($config, ., ("tei-sic1", css:map-rend-to-class(.)), .)
