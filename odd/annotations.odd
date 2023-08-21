@@ -3,7 +3,8 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Annotations</title>
+                <title>Annotations
+                <desc>ODD used by the web-based annotation editor. Contains special rules to mark entities with the correct CSS classes</desc></title>
             </titleStmt>
             <publicationStmt>
                 <publisher>eXistSolutions GmbH</publisher>

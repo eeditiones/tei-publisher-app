@@ -3,7 +3,8 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Deutsches Textarchiv (dta) (Custom ODD)</title>
+                <title>Deutsches Textarchiv (dta) (Custom ODD)
+                    <desc>A simple ODD to render documents encoded according to the <ref target="https://www.deutschestextarchiv.de/doku/basisformat/">DTA base format</ref></desc></title>
                 <title type="short">Deutsches Textarchiv</title>
             </titleStmt>
             <publicationStmt>
