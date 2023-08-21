@@ -41,6 +41,7 @@
          </sourceDesc>
       </fileDesc>
       <profileDesc>
+         <abstract><p>A 16th century manuscript letter of Mauritius Ferber with a collapsible metadata panel in addition to the parallel transcription and facsimile view.</p></abstract>
          <textClass>
             <catRef scheme="#genre" target="#correspondence"/>
             <catRef scheme="#form" target="#manuscript"/>

@@ -53,6 +53,10 @@
             </sourceDesc>
         </fileDesc>
         <profileDesc>
+            <abstract>
+                <p>A 20th century manuscript letter from Robert Graves where emphasis has been put on visualizing rich encoding 
+                    of semantic information in the letter, in particular geographic and prosopographical data. The map is displayed with a <code>pb-leaflet</code> component.</p>
+             </abstract>
             <textClass>
                 <catRef scheme="#genre" target="#correspondence"/>
                 <catRef scheme="#form" target="#manuscript"/>

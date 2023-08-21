@@ -28,6 +28,9 @@
          </sourceDesc>
       </fileDesc>
       <profileDesc>
+         <abstract>
+            <p>A manuscript collocative dictionary of Polish <hi>Bogactwa mowy polskiej</hi> featuring interactive highlights for regions of interest of the facsimile when hovering over dictionary headwords. Internal composition is based on the entryFree element with a rich microstructure.</p>
+         </abstract>
          <textClass>
             <catRef scheme="#genre" target="#lexicography"/>
             <catRef scheme="#form" target="#manuscript"/>

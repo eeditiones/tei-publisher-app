@@ -42,7 +42,9 @@
          </sourceDesc>
       </fileDesc>
       <profileDesc>
-         <abstract><p>Demonstrates aligning the transcription with a translation on the segment level. Both are contained in the same document and selected via an XPath expression passed to the <tag>pb-view</tag>. The corresponding segments are highlighted on mouseover.</p></abstract>
+         <abstract><p>
+            A 15th century manuscript letter to Mikołaj Orlik demonstrating alignment between Latin original and parallel Polish translation on the segment level. Both are contained in the same document and selected via an XPath expression passed to the <tag>pb-view</tag>. The corresponding segments are highlighted on mouseover.</p>
+         </abstract>
          <textClass>
             <catRef scheme="#genre" target="#correspondence"/>
             <catRef scheme="#form" target="#manuscript"/>

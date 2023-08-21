@@ -30,6 +30,10 @@
          </sourceDesc>
       </fileDesc>
       <profileDesc>
+         <abstract>
+            <p>For a taste of less common encoding style: a printed bibliography where TEI encoding aims to provide a basic researchable structure to somewhat idiosyncratic attitude of the 19th century scholar.
+               Presented with a side-by-side facsimile.</p>
+         </abstract>
          <textClass>
             <catRef scheme="#form" target="#print"/>
             <catRef scheme="#genre" target="#lexicography"/>

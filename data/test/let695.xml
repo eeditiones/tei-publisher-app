@@ -65,6 +65,10 @@
       </sourceDesc>
     </fileDesc>
     <profileDesc>
+      <abstract>
+        <p>A letter from Van Gogh to Paul Gauguin written in 1888. This intentionally reproduces the flexible column layout pioneered by the Vincent Van Gogh Letters online edition, which is a model example for correspondence.</p>
+        <p>The source encoding makes use of custom Van Gogh project namespace along the TEI structure. Alignment between original text and translation is achieved with a custom mapping function which leverages the conventions applied when assigning page identifiers in Van Gogh project.</p>
+      </abstract>
       <textClass>
         <catRef scheme="#genre" target="#correspondence"/>
         <catRef scheme="#form" target="#manuscript"/>

@@ -25,6 +25,22 @@
          </sourceDesc>
       </fileDesc>
       <profileDesc>
+         <abstract>
+            <p>
+               This is a prototype for a multiaspect edition of a collection of 17th century poems, <hi>Moralia</hi>. 
+               Most of these short texts have been to a lesser or greater extent based on famous <hi>Adagia</hi> by Erasmus of Rotterdam.
+               </p>
+               <p>
+               The TEI encoding preserves original spelling and punctuation along their normalized forms as well as 
+               physical structure of the manuscript lines and pages and their correspondence with the facsimile.
+               Extensive commentary is given at various granularities: as an introductory article to each of the pieces as a whole, as well as
+               for smaller sections of interest, exploring various connections between the edited text, Adagia, and works of classical authors referred to by Erasmus or Potocki.
+               Finally, at the linguistic level, archaic words or phrases are also elucidated and linked to external resources.
+            </p>
+            <p>
+               Display of these various levels of information can be controlled by the reader thanks to collapsible sections and <code>pb-toggle-feature</code> components.
+            </p>
+         </abstract>
          <particDesc>
             <listPerson>
                <person xml:id="gnd-118595091">
