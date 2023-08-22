@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/dta/print' at '/db/apps/tei-publisher/transform/dta-print.xql';
+import module namespace m='http://www.tei-c.org/pm/models/dta/print' at 'dta-print.xql';
 
 declare variable $xml external;
 

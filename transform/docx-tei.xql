@@ -35,6 +35,8 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace tei="http://existsolutions.com/xquery/functions/tei";
 
+import module namespace global="http://www.tei-c.org/tei-simple/config" at "../modules/config.xqm";
+
 (: generated template function for element spec: r :)
 declare %private function model:template-r6($config as map(*), $node as node()*, $params as map(*)) {
     <persName xmlns="http://www.tei-c.org/ns/1.0" ref="http://d-nb.info/gnd/{$config?apply-children($config, $node, $params?ref)}">{$config?apply-children($config, $node, $params?content)}</persName>

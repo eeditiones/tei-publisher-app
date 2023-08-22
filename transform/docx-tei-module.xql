@@ -1,6 +1,6 @@
 module namespace pml='http://www.tei-c.org/pm/models/docx/tei/module';
 
-import module namespace m='http://www.tei-c.org/pm/models/docx/tei' at '/db/apps/tei-publisher/transform/docx-tei.xql';
+import module namespace m='http://www.tei-c.org/pm/models/docx/tei' at 'docx-tei.xql';
 
 (: Generated library module to be directly imported into code which
  : needs to transform TEI nodes using the ODD this module is based on.

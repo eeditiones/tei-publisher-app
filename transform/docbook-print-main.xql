@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/docbook/print' at '/db/apps/tei-publisher/transform/docbook-print.xql';
+import module namespace m='http://www.tei-c.org/pm/models/docbook/print' at 'docbook-print.xql';
 
 declare variable $xml external;
 

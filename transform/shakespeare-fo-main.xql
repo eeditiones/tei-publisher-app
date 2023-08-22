@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/shakespeare/fo' at '/db/apps/tei-publisher/transform/shakespeare-fo.xql';
+import module namespace m='http://www.tei-c.org/pm/models/shakespeare/fo' at 'shakespeare-fo.xql';
 
 declare variable $xml external;
 

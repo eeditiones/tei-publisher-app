@@ -1,6 +1,6 @@
 module namespace pml='http://www.tei-c.org/pm/models/dantiscus/fo/module';
 
-import module namespace m='http://www.tei-c.org/pm/models/dantiscus/fo' at '/db/apps/tei-publisher/transform/dantiscus-fo.xql';
+import module namespace m='http://www.tei-c.org/pm/models/dantiscus/fo' at 'dantiscus-fo.xql';
 
 (: Generated library module to be directly imported into code which
  : needs to transform TEI nodes using the ODD this module is based on.

@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/potocki/print' at '/db/apps/tei-publisher/transform/potocki-print.xql';
+import module namespace m='http://www.tei-c.org/pm/models/potocki/print' at 'potocki-print.xql';
 
 declare variable $xml external;
 

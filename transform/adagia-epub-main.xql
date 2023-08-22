@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/adagia/epub' at '/db/apps/tei-publisher/transform/adagia-epub.xql';
+import module namespace m='http://www.tei-c.org/pm/models/adagia/epub' at 'adagia-epub.xql';
 
 declare variable $xml external;
 

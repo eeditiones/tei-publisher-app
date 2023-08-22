@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/ebbe/web' at '/db/apps/tei-publisher/transform/ebbe-web.xql';
+import module namespace m='http://www.tei-c.org/pm/models/ebbe/web' at 'ebbe-web.xql';
 
 declare variable $xml external;
 

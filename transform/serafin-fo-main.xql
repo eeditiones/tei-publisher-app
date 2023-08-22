@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/serafin/fo' at '/db/apps/tei-publisher/transform/serafin-fo.xql';
+import module namespace m='http://www.tei-c.org/pm/models/serafin/fo' at 'serafin-fo.xql';
 
 declare variable $xml external;
 

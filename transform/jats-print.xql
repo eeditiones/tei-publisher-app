@@ -23,6 +23,8 @@ import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
 import module namespace printcss="http://www.tei-c.org/tei-simple/xquery/functions/printcss";
 
+import module namespace global="http://www.tei-c.org/tei-simple/config" at "../modules/config.xqm";
+
 (: generated template function for element spec: preformat :)
 declare %private function model:template-preformat($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><pre>{$config?apply-children($config, $node, $params?content)}</pre></t>/*

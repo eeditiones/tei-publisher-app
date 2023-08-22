@@ -23,6 +23,8 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
+import module namespace global="http://www.tei-c.org/tei-simple/config" at "../modules/config.xqm";
+
 (:~
 
     Main entry point for the transformation.

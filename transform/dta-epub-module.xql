@@ -1,6 +1,6 @@
 module namespace pml='http://www.tei-c.org/pm/models/dta/epub/module';
 
-import module namespace m='http://www.tei-c.org/pm/models/dta/epub' at '/db/apps/tei-publisher/transform/dta-epub.xql';
+import module namespace m='http://www.tei-c.org/pm/models/dta/epub' at 'dta-epub.xql';
 
 (: Generated library module to be directly imported into code which
  : needs to transform TEI nodes using the ODD this module is based on.

@@ -19,6 +19,8 @@ import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
 import module namespace printcss="http://www.tei-c.org/tei-simple/xquery/functions/printcss";
 
+import module namespace global="http://www.tei-c.org/tei-simple/config" at "../modules/config.xqm";
+
 (: generated template function for element spec: ptr :)
 declare %private function model:template-ptr($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><pb-mei url="{$config?apply-children($config, $node, $params?url)}" player="player">
@@ -488,11 +490,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 (
                                     html:block($config, ., ("tei-fileDesc2", "header-short", css:map-rend-to-class(.)), titleStmt),
                                     html:block($config, ., ("tei-fileDesc3", "header-short", css:map-rend-to-class(.)), editionStmt),
-                                    html:block($config, ., ("tei-fileDesc4", "header-short", css:map-rend-to-class(.)), publicationStmt)
+                                    html:block($config, ., ("tei-fileDesc4", "header-short", css:map-rend-to-class(.)), publicationStmt),
+                                    (: Output abstract containing demo description :)
+                                    html:block($config, ., ("tei-fileDesc5", "sample-description", css:map-rend-to-class(.)), ../profileDesc/abstract)
                                 )
 
                             else
-                                html:title($config, ., ("tei-fileDesc5", css:map-rend-to-class(.)), titleStmt)
+                                html:title($config, ., ("tei-fileDesc6", css:map-rend-to-class(.)), titleStmt)
                     case element(sic) return
                         if (parent::choice and count(parent::*/*) gt 1) then
                             html:inline($config, ., ("tei-sic1", css:map-rend-to-class(.)), .)

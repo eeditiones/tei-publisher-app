@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/vangogh/epub' at '/db/apps/tei-publisher/transform/vangogh-epub.xql';
+import module namespace m='http://www.tei-c.org/pm/models/vangogh/epub' at 'vangogh-epub.xql';
 
 declare variable $xml external;
 

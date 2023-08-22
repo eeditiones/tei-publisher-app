@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/annotations/print' at '/db/apps/tei-publisher/transform/annotations-print.xql';
+import module namespace m='http://www.tei-c.org/pm/models/annotations/print' at 'annotations-print.xql';
 
 declare variable $xml external;
 

@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/jats/epub' at '/db/apps/tei-publisher/transform/jats-epub.xql';
+import module namespace m='http://www.tei-c.org/pm/models/jats/epub' at 'jats-epub.xql';
 
 declare variable $xml external;
 

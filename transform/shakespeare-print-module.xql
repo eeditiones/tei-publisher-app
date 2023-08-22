@@ -1,6 +1,6 @@
 module namespace pml='http://www.tei-c.org/pm/models/shakespeare/print/module';
 
-import module namespace m='http://www.tei-c.org/pm/models/shakespeare/print' at '/db/apps/tei-publisher/transform/shakespeare-print.xql';
+import module namespace m='http://www.tei-c.org/pm/models/shakespeare/print' at 'shakespeare-print.xql';
 
 (: Generated library module to be directly imported into code which
  : needs to transform TEI nodes using the ODD this module is based on.

@@ -1,6 +1,6 @@
 module namespace pml='http://www.tei-c.org/pm/models/docx-output/epub/module';
 
-import module namespace m='http://www.tei-c.org/pm/models/docx-output/epub' at '/db/apps/tei-publisher/transform/docx-output-epub.xql';
+import module namespace m='http://www.tei-c.org/pm/models/docx-output/epub' at 'docx-output-epub.xql';
 
 (: Generated library module to be directly imported into code which
  : needs to transform TEI nodes using the ODD this module is based on.

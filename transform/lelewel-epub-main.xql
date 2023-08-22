@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/lelewel/epub' at '/db/apps/tei-publisher/transform/lelewel-epub.xql';
+import module namespace m='http://www.tei-c.org/pm/models/lelewel/epub' at 'lelewel-epub.xql';
 
 declare variable $xml external;
 

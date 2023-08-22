@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/graves/epub' at '/db/apps/tei-publisher/transform/graves-epub.xql';
+import module namespace m='http://www.tei-c.org/pm/models/graves/epub' at 'graves-epub.xql';
 
 declare variable $xml external;
 

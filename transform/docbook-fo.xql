@@ -19,6 +19,8 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace fo="http://www.tei-c.org/tei-simple/xquery/functions/fo";
 
+import module namespace global="http://www.tei-c.org/tei-simple/config" at "../modules/config.xqm";
+
 (: Code listing :)
 declare %private function model:code($config as map(*), $node as node()*, $class as xs:string+, $content) {
     $node ! (

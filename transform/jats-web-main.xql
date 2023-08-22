@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/jats/web' at '/db/apps/tei-publisher/transform/jats-web.xql';
+import module namespace m='http://www.tei-c.org/pm/models/jats/web' at 'jats-web.xql';
 
 declare variable $xml external;
 

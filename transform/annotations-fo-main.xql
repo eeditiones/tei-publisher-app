@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/annotations/fo' at '/db/apps/tei-publisher/transform/annotations-fo.xql';
+import module namespace m='http://www.tei-c.org/pm/models/annotations/fo' at 'annotations-fo.xql';
 
 declare variable $xml external;
 

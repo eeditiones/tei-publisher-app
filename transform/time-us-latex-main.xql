@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/time-us/latex' at '/db/apps/tei-publisher/transform/time-us-latex.xql';
+import module namespace m='http://www.tei-c.org/pm/models/time-us/latex' at 'time-us-latex.xql';
 
 declare variable $xml external;
 

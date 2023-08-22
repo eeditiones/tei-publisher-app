@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/annotations/web' at '/db/apps/tei-publisher/transform/annotations-web.xql';
+import module namespace m='http://www.tei-c.org/pm/models/annotations/web' at 'annotations-web.xql';
 
 declare variable $xml external;
 

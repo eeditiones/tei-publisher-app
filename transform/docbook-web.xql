@@ -19,6 +19,8 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
+import module namespace global="http://www.tei-c.org/tei-simple/config" at "../modules/config.xqm";
+
 (: Generated behaviour function for ident definitionList :)
 declare %private function model:definitionList($config as map(*), $node as node()*, $class as xs:string+, $content) {
     $node ! (

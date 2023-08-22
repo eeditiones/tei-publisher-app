@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/vangogh/web' at '/db/apps/tei-publisher/transform/vangogh-web.xql';
+import module namespace m='http://www.tei-c.org/pm/models/vangogh/web' at 'vangogh-web.xql';
 
 declare variable $xml external;
 

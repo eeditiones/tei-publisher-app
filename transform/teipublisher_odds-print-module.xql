@@ -1,6 +1,6 @@
 module namespace pml='http://www.tei-c.org/pm/models/teipublisher_odds/print/module';
 
-import module namespace m='http://www.tei-c.org/pm/models/teipublisher_odds/print' at '/db/apps/tei-publisher/transform/teipublisher_odds-print.xql';
+import module namespace m='http://www.tei-c.org/pm/models/teipublisher_odds/print' at 'teipublisher_odds-print.xql';
 
 (: Generated library module to be directly imported into code which
  : needs to transform TEI nodes using the ODD this module is based on.

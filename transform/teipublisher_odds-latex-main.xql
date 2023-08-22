@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/teipublisher_odds/latex' at '/db/apps/tei-publisher/transform/teipublisher_odds-latex.xql';
+import module namespace m='http://www.tei-c.org/pm/models/teipublisher_odds/latex' at 'teipublisher_odds-latex.xql';
 
 declare variable $xml external;
 
