@@ -3396,14 +3396,14 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         <para>A IIIF presentation manifest is a JSON structure describing a collection of resources. <tag>pb-tify</tag> expects to load a single manifest and takes all necessary information from there. If you have an external image database, it may already be able to deliver a manifest. If not, you can easily generate one on the fly by creating an API endpoint. This approach is demonstrated by the Shakespeare example in TEI Publisher, which proceeds as follows:</para>
         <procedure>
           <step>
-            <para><filename>modules/custom-api.json</filename> defines an endpoint <parameter>/api/iiif/{path}</parameter> and the corresponding handler in <filename>modules/iiif.xql</filename>, function <function>iiif:manifest</function>. The <parameter>path</parameter> parameter is expected to point to an existing TEI document.</para>
+            <para><link xlink:href="modules/custom-api.json" role="source">modules/custom-api.json</link> defines an endpoint <parameter>/api/iiif/{path}</parameter> and the corresponding handler in <filename>modules/iiif.xql</filename>, function <function>iiif:manifest</function>. The <parameter>path</parameter> parameter is expected to point to an existing TEI document.</para>
           </step>
           <step>
             <para>The XQuery code in function <function>iiif:canvases</function> walks through each <tag>pb</tag> element in the TEI to output a IIIF canvas for the linked image.</para>
           </step>
           <step><para>Function <function>iiif:manifest</function> adds additional metadata fields like title, language or download links to the manifest.</para></step>
           <step>
-            <para><filename>templates/pages/shakespeare.html</filename> includes the <tag>pb-tify</tag> web component, pointing it to the custom API endpoint:</para>
+            <para><link xlink:href="templates/pages/shakespeare.html" role="source">templates/pages/shakespeare.html</link> includes the <tag>pb-tify</tag> web component, pointing it to the custom API endpoint:</para>
             <synopsis language="xml" xml:space="preserve"><![CDATA[<pb-tify subscribe="transcription" emit="transcription" manifest="api/iiif/${docid}" 
     data-template="pages:parse-params"></pb-tify>]]></synopsis>
           </step>
@@ -3724,6 +3724,11 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <para>The expression passed to url-template may reference any of the default parameters known to TEI Publisher components, in particular <parameter>path</parameter>, <parameter>odd</parameter>, <parameter>view</parameter> or <parameter>id</parameter>. Additionally, any parameter supplied to a <tag>pb-view</tag> via the <tag>pb-param</tag> element can be referenced. Just have a look at the constructed URLs in the browser to see which parameters are being tracked for a specific page. Within TEI Publisher, URL templates will usually be rather simple. For the full syntax supported check the underlying <link xlink:href="https://www.npmjs.com/package/path-to-regexp" xlink:show="new">javascript library</link>.</para>
       <para>To handle the URL for the documentation example, we set the URL template to <code>documentation/:id?</code>. This injects the <option>id</option> parameter as part of the path, e.g. <code>/documentation/api</code>. The ? after the parameter indicates that it is optional. We also do not want the <code>path</code> to the document to appear anywhere (it is always the same in the case), so we add it to <code>url-ignore</code>. The resulting <tag>pb-page</tag> would thus look as follows:</para>
       <synopsis language="html"><![CDATA[<pb-page url-template="documentation/:id?" url-ignore="odd,view,path" data-template="pages:pb-page" unresolved="unresolved" >]]></synopsis>
+        <note>
+          <title>A note on history handling</title>
+          <para>It is important that only one central text component on the page writes and reads the URL. Usually this will be the main <tag>pb-view</tag>. Other components, e.g. for the translation, should be made dependent and restore their state based on the state of the main component. If multiple components write their state, browsing back via the browser history may not work properly, or you may see undesired effects due to conflicting parameters.</para>
+          <para>To prevent a dependent <tag>pb-view</tag> from writing to the URL, use the attribute <parameter>disable-history</parameter>. To make a <tag>pb-view</tag> load its contents <emphasis>after</emphasis> the main text view, set attribute <parameter>on-update</parameter> and make sure, the dependent component listens to the event channel written by the main component.</para>
+        </note>
     </section>
   </section>
 
