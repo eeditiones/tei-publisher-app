@@ -17,8 +17,6 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
-import module namespace global="http://www.tei-c.org/tei-simple/config" at "../modules/config.xqm";
-
 (: generated template function for element spec: teiHeader :)
 declare %private function model:template-teiHeader($config as map(*), $node as node()*, $params as map(*)) {
     ``[\def\volume{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
