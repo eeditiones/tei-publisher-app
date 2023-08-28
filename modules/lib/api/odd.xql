@@ -223,7 +223,8 @@ return
         return 
             router:response(201, "application/json", map {
                 "path": $stored,
-                "report": $report
+                "report": $report,
+                "source": $updated
             })
     else 
             router:response(401, "application/json", map {
