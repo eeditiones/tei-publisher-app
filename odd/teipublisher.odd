@@ -1,10 +1,11 @@
 <?xml-model href="teipublisher_odds.xsd"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
+<TEI xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
                 <title>TEI Publisher ODD
-                    <desc>Base ODD from which all other ODDs inherit</desc>
+                    
+                 <desc>Base ODD from which all other ODDs inherit</desc>
                 </title>
                 <title type="short">TEI Publisher Base</title>
             </titleStmt>
@@ -213,7 +214,7 @@
                   <elementSpec ident="del" mode="change">
                     <model behaviour="inline">
             <outputRendition xml:space="preserve">
-             text-decoration: line-through;
+            text-decoration: line-through;
             </outputRendition>
         </model>
                 </elementSpec>
@@ -405,7 +406,7 @@
                   <elementSpec ident="notatedMusic" mode="add">
                     <model behaviour="figure">
             <param name="title" value="label"/>
-            <param name="content" value="ptr"/>
+            <param name="content" value="(ptr, mei:mdiv)"/>
         </model>
                 </elementSpec>
                   <elementSpec ident="note" mode="change">
@@ -459,6 +460,7 @@
                 </elementSpec>
                   <elementSpec ident="ptr" mode="add">
                     <model predicate="parent::notatedMusic" behaviour="pass-through">
+            <desc>Load and display external MEI</desc>
             <param name="url" value="@target"/>
             <pb:template xmlns="" xml:space="preserve"><pb-mei url="[[url]]" player="player">
                               <pb-option name="appXPath" on="./rdg[contains(@label, 'original')]" off="">Original Clefs</pb-option>
@@ -474,7 +476,7 @@
                   <elementSpec ident="q" mode="change">
                     <model predicate="l" behaviour="block" useSourceRendition="true">
             <outputRendition xml:space="preserve">
-            margin-left: 10px; margin-right: 10px; 
+            margin-left: 10px; margin-right: 10px;
             </outputRendition>
         </model>
                     <model predicate="ancestor::p or ancestor::cell" behaviour="inline" useSourceRendition="true">
@@ -487,7 +489,7 @@
         </model>
                     <model behaviour="block" useSourceRendition="true">
             <outputRendition xml:space="preserve">
-            margin-left: 10px; margin-right: 10px; 
+            margin-left: 10px; margin-right: 10px;
             </outputRendition>
         </model>
                 </elementSpec>
@@ -506,7 +508,7 @@
             <desc>If it is inside a paragraph then it is inline, otherwise it is block
                         level</desc>
             <outputRendition xml:space="preserve">
-            margin-left: 10px; margin-right: 10px; 
+            margin-left: 10px; margin-right: 10px;
             </outputRendition>
         </model>
                 </elementSpec>
@@ -722,7 +724,7 @@
                   <elementSpec ident="titlePage" mode="change">
                     <model behaviour="block" useSourceRendition="true">
             <outputRendition xml:space="preserve">
-             text-align: center;
+            text-align: center;
             </outputRendition>
         </model>
                 </elementSpec>
@@ -770,6 +772,13 @@
                   <elementSpec ident="w" mode="change">
                     <model behaviour="inline"/>
                 </elementSpec>      
+            <elementSpec ident="mei:mdiv" mode="add">
+        <model behaviour="pass-through">
+            <desc>Single MEI mdiv needs to be wrapped to create complete MEI document</desc>
+            <param name="data" value="let $title := root($parameters?root)//titleStmt/title let $data :=   &lt;mei xmlns=&#34;http://www.music-encoding.org/ns/mei&#34; meiversion=&#34;4.0.0&#34;&gt;     &lt;meiHead&gt;         &lt;fileDesc&gt;             &lt;titleStmt&gt;                 &lt;title&gt;&lt;/title&gt;             &lt;/titleStmt&gt;             &lt;pubStmt&gt;&lt;/pubStmt&gt;         &lt;/fileDesc&gt;     &lt;/meiHead&gt;     &lt;music&gt;         &lt;body&gt;{.}&lt;/body&gt;     &lt;/music&gt;   &lt;/mei&gt; return   serialize($data)"/>
+            <pb:template xmlns="" xml:space="preserve"><pb-mei player="player" data="[[data]]"/></pb:template>
+        </model>
+    </elementSpec>
             </schemaSpec>
         </body>
     </text>
