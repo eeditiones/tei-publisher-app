@@ -476,7 +476,7 @@
               changes you make may not persist if the docker container is deleted or updated to a
               newer release. If you want to be sure that your changes are safe, you should specify a
               local volume for storing the database by adding:</para>
-            <synopsis>-v exist-data:/exist-data</synopsis>
+            <synopsis>-v exist-data:/exist/data</synopsis>
             <para>See below for an explanation of the parameters:</para>
             <variablelist>
               <varlistentry>
