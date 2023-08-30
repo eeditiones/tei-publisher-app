@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/shakespeare/epub' at '/db/apps/tei-publisher/transform/shakespeare-epub.xql';
+import module namespace m='http://www.tei-c.org/pm/models/shakespeare/epub' at 'shakespeare-epub.xql';
 
 declare variable $xml external;
 

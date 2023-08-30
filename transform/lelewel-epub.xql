@@ -407,11 +407,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                             (
                                 epub:block($config, ., ("tei-fileDesc1", "header-short", css:map-rend-to-class(.)), titleStmt),
                                 epub:block($config, ., ("tei-fileDesc2", "header-short", css:map-rend-to-class(.)), editionStmt),
-                                epub:block($config, ., ("tei-fileDesc3", "header-short", css:map-rend-to-class(.)), publicationStmt)
+                                epub:block($config, ., ("tei-fileDesc3", "header-short", css:map-rend-to-class(.)), publicationStmt),
+                                (: Output abstract containing demo description :)
+                                epub:block($config, ., ("tei-fileDesc4", "sample-description", css:map-rend-to-class(.)), ../profileDesc/abstract)
                             )
 
                         else
-                            html:title($config, ., ("tei-fileDesc4", css:map-rend-to-class(.)), titleStmt)
+                            html:title($config, ., ("tei-fileDesc5", css:map-rend-to-class(.)), titleStmt)
                     case element(sic) return
                         if (parent::choice and count(parent::*/*) gt 1) then
                             html:inline($config, ., ("tei-sic1", css:map-rend-to-class(.)), .)

@@ -182,6 +182,9 @@
             </tagsDecl>
         </encodingDesc>
         <profileDesc>
+            <abstract>
+                <p>Page-by-page display of a monography encoded using the base format of the <ref target="https://www.deutschestextarchiv.de/">Deutsches Textarchiv</ref>. The ODD is very simple. Facsimiles are loaded as images from an external (non-IIIF) server.</p>
+            </abstract>
             <langUsage>
                 <language ident="de">German</language>
             </langUsage>

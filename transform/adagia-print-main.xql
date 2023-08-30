@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/adagia/print' at '/db/apps/tei-publisher/transform/adagia-print.xql';
+import module namespace m='http://www.tei-c.org/pm/models/adagia/print' at 'adagia-print.xql';
 
 declare variable $xml external;
 

@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/lelewel/print' at '/db/apps/tei-publisher/transform/lelewel-print.xql';
+import module namespace m='http://www.tei-c.org/pm/models/lelewel/print' at 'lelewel-print.xql';
 
 declare variable $xml external;
 

@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/dta/latex' at '/db/apps/tei-publisher/transform/dta-latex.xql';
+import module namespace m='http://www.tei-c.org/pm/models/dta/latex' at 'dta-latex.xql';
 
 declare variable $xml external;
 

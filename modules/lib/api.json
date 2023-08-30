@@ -1578,6 +1578,9 @@
 										},
 										"report": {
 											"type": "string"
+										},
+										"source": {
+											"type": "string"
 										}
 									}
 								}

@@ -157,7 +157,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             else
                                 html:block($config, ., css:get-rendition(., ("tei-q3", css:map-rend-to-class(.))), .)                                => model:map($node, $trackIds)
                     case element(pb) return
-                        html:webcomponent($config, ., ("tei-pb2", "facs", css:map-rend-to-class(.)), @n, 'pb-facs-link', map {"emit": 'transcription', "facs": replace(@facs, '^FFimg:(.*)$', '$1')})                        => model:map($node, $trackIds)
+                        html:webcomponent($config, ., ("tei-pb2", "facs", css:map-rend-to-class(.)), @n, 'pb-facs-link', map {"emit": 'transcription', "facs": replace(@facs, '^FFimg:(.*)$', '$1'), "order": count($get(.)/preceding::pb) + 1})                        => model:map($node, $trackIds)
                     case element(epigraph) return
                         html:block($config, ., ("tei-epigraph", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(lb) return
@@ -395,11 +395,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                             (
                                 html:block($config, ., ("tei-fileDesc1", "header-short", css:map-rend-to-class(.)), titleStmt)                                => model:map($node, $trackIds),
                                 html:block($config, ., ("tei-fileDesc2", "header-short", css:map-rend-to-class(.)), editionStmt)                                => model:map($node, $trackIds),
-                                html:block($config, ., ("tei-fileDesc3", "header-short", css:map-rend-to-class(.)), publicationStmt)                                => model:map($node, $trackIds)
+                                html:block($config, ., ("tei-fileDesc3", "header-short", css:map-rend-to-class(.)), publicationStmt)                                => model:map($node, $trackIds),
+                                (: Output abstract containing demo description :)
+                                html:block($config, ., ("tei-fileDesc4", "sample-description", css:map-rend-to-class(.)), ../profileDesc/abstract)                                => model:map($node, $trackIds)
                             )
 
                         else
-                            html:title($config, ., ("tei-fileDesc4", css:map-rend-to-class(.)), titleStmt)                            => model:map($node, $trackIds)
+                            html:title($config, ., ("tei-fileDesc5", css:map-rend-to-class(.)), titleStmt)                            => model:map($node, $trackIds)
                     case element(sic) return
                         if (parent::choice and count(parent::*/*) gt 1) then
                             html:inline($config, ., ("tei-sic1", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)

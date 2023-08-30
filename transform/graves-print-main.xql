@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/graves/print' at '/db/apps/tei-publisher/transform/graves-print.xql';
+import module namespace m='http://www.tei-c.org/pm/models/graves/print' at 'graves-print.xql';
 
 declare variable $xml external;
 

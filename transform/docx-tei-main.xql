@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/docx/tei' at '/db/apps/tei-publisher/transform/docx-tei.xql';
+import module namespace m='http://www.tei-c.org/pm/models/docx/tei' at 'docx-tei.xql';
 
 declare variable $xml external;
 

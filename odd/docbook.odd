@@ -9,7 +9,8 @@
                   
                  
                  
-                  <desc>Processing of Docbook format</desc>
+                  
+                 <desc>Processing of Docbook format</desc>
                 </title>
                 <title type="short">Docbook v5 </title>
             </titleStmt>
@@ -237,6 +238,7 @@
             
             
             
+            
 
 
 
@@ -253,6 +255,7 @@
 
 
 
+            
             
             
             
@@ -312,8 +315,10 @@
             
             
             
+            
             font-weight: 400;
 font-style: italic;
+            
             
             
             
@@ -436,10 +441,12 @@ font-style: italic;
             <param name="content" value="text()"/>
             <outputRendition xml:space="preserve">
             
+            
             font-family: monospace;
 margin: 1em 0 1em .5em;
 padding: 1em 0 1em .5em;
 white-space: pre-wrap;
+            
             
             </outputRendition>
         </model>
@@ -483,6 +490,7 @@ white-space: pre-wrap;
             
             
             
+            
 
 
 
@@ -493,6 +501,7 @@ white-space: pre-wrap;
 
 
 
+            
             
             
             
@@ -552,6 +561,7 @@ white-space: pre-wrap;
             
             
             
+            
 
 
 
@@ -567,6 +577,7 @@ padding: 1em 0 1em .5em;
 
 
 
+            
             
             
             
@@ -618,8 +629,11 @@ padding: 1em 0 1em .5em;
                             </pb-edit-xml>
                         </pb:template>
         </model>
-                    <model predicate="@linkend" behaviour="link">
+                    <model predicate="@linkend" behaviour="webcomponent">
             <param name="uri" value="concat('?odd=', request:get-parameter('odd', ()), '&amp;amp;view=',                             request:get-parameter('view', ()), '&amp;amp;id=', @linkend)"/>
+            <param name="name" value="'pb-link'"/>
+            <param name="xml-id" value="@linkend"/>
+            <param name="emit" value="'transcription'"/>
         </model>
                     <model predicate="@xlink:show='new'" behaviour="link">
             <param name="uri" value="@xlink:href"/>
@@ -679,6 +693,7 @@ Not available in PDF edition. Go to \url{[[content]]} to view.
             
             
             
+            
 
 
 
@@ -692,6 +707,7 @@ border-left: 3px solid #c0c0c0;
 
 
 
+            
             
             
             

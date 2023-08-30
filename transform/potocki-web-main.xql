@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/potocki/web' at '/db/apps/tei-publisher/transform/potocki-web.xql';
+import module namespace m='http://www.tei-c.org/pm/models/potocki/web' at 'potocki-web.xql';
 
 declare variable $xml external;
 

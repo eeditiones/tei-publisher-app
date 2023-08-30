@@ -13,6 +13,14 @@
                 <p>Information about the source</p>
             </sourceDesc>
         </fileDesc>
+        <profileDesc>
+            <abstract>
+                <p>Sample automatically converted from Word DOCX format into TEI, demonstrating all features covered by the transformation.</p>
+            </abstract>
+            <textClass>
+                <catRef scheme="#feature" target="#docx"/>
+            </textClass>
+        </profileDesc>
     </teiHeader>
     <text>
         <body>

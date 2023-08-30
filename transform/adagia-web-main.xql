@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/adagia/web' at '/db/apps/tei-publisher/transform/adagia-web.xql';
+import module namespace m='http://www.tei-c.org/pm/models/adagia/web' at 'adagia-web.xql';
 
 declare variable $xml external;
 

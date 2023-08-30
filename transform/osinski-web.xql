@@ -408,11 +408,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 (
                                     html:block($config, ., ("tei-fileDesc2", "header-short", css:map-rend-to-class(.)), titleStmt)                                    => model:map($node, $trackIds),
                                     html:block($config, ., ("tei-fileDesc3", "header-short", css:map-rend-to-class(.)), editionStmt)                                    => model:map($node, $trackIds),
-                                    html:block($config, ., ("tei-fileDesc4", "header-short", css:map-rend-to-class(.)), publicationStmt)                                    => model:map($node, $trackIds)
+                                    html:block($config, ., ("tei-fileDesc4", "header-short", css:map-rend-to-class(.)), publicationStmt)                                    => model:map($node, $trackIds),
+                                    (: Output abstract containing demo description :)
+                                    html:block($config, ., ("tei-fileDesc5", "sample-description", css:map-rend-to-class(.)), ../profileDesc/abstract)                                    => model:map($node, $trackIds)
                                 )
 
                             else
-                                html:title($config, ., ("tei-fileDesc5", css:map-rend-to-class(.)), titleStmt)                                => model:map($node, $trackIds)
+                                html:title($config, ., ("tei-fileDesc6", css:map-rend-to-class(.)), titleStmt)                                => model:map($node, $trackIds)
                     case element(sic) return
                         if (parent::choice and count(parent::*/*) gt 1) then
                             html:inline($config, ., ("tei-sic1", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)

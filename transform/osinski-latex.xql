@@ -409,11 +409,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 (
                                     latex:block($config, ., ("tei-fileDesc2", "header-short", css:map-rend-to-class(.)), titleStmt),
                                     latex:block($config, ., ("tei-fileDesc3", "header-short", css:map-rend-to-class(.)), editionStmt),
-                                    latex:block($config, ., ("tei-fileDesc4", "header-short", css:map-rend-to-class(.)), publicationStmt)
+                                    latex:block($config, ., ("tei-fileDesc4", "header-short", css:map-rend-to-class(.)), publicationStmt),
+                                    (: Output abstract containing demo description :)
+                                    latex:block($config, ., ("tei-fileDesc5", "sample-description", css:map-rend-to-class(.)), ../profileDesc/abstract)
                                 )
 
                             else
-                                latex:title($config, ., ("tei-fileDesc5", css:map-rend-to-class(.)), titleStmt)
+                                latex:title($config, ., ("tei-fileDesc6", css:map-rend-to-class(.)), titleStmt)
                     case element(sic) return
                         if (parent::choice and count(parent::*/*) gt 1) then
                             latex:inline($config, ., ("tei-sic1", css:map-rend-to-class(.)), .)

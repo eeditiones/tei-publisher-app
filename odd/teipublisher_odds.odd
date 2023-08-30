@@ -3,7 +3,8 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>TEI Publisher Customization for ODD Authoring</title>
+        <title>TEI Publisher Customization for ODD Authoring
+          <desc>Utility ODD defining extensions to the TEI Processing Model. Used to generate a schema for validation.</desc></title>
         <author>Wolfgang Meier</author>
       </titleStmt>
       <publicationStmt>

@@ -1,6 +1,6 @@
 module namespace pml='http://www.tei-c.org/pm/models/adagia/epub/module';
 
-import module namespace m='http://www.tei-c.org/pm/models/adagia/epub' at '/db/apps/tei-publisher/transform/adagia-epub.xql';
+import module namespace m='http://www.tei-c.org/pm/models/adagia/epub' at 'adagia-epub.xql';
 
 (: Generated library module to be directly imported into code which
  : needs to transform TEI nodes using the ODD this module is based on.

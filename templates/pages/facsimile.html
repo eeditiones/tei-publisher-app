@@ -11,7 +11,7 @@
     <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64" />
 
     <title data-template="config:app-title"></title>
-    <meta name="description" content="Shakespeare Play" />
+    <meta name="description" content="Basic side-by-side facsimile and transcription" />
     <link rel="stylesheet" href="resources/css/theme.css" />
     <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
     <style>
@@ -72,7 +72,7 @@
                 <main class="content-body">
                     <pb-view id="view1" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes"
                         subscribe="transcription" emit="transcription" wait-for="#facsimile" />
-                    <pb-facsimile id="facsimile" base-uri="https://apps.existsolutions.com/cantaloupe/iiif/2/"
+                    <pb-facsimile id="facsimile"
                         default-zoom-level="0" show-navigation-control="show-navigation-control"
                         show-navigator="show-navigator"
                         subscribe="transcription" />

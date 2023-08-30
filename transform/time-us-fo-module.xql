@@ -1,6 +1,6 @@
 module namespace pml='http://www.tei-c.org/pm/models/time-us/fo/module';
 
-import module namespace m='http://www.tei-c.org/pm/models/time-us/fo' at '/db/apps/tei-publisher/transform/time-us-fo.xql';
+import module namespace m='http://www.tei-c.org/pm/models/time-us/fo' at 'time-us-fo.xql';
 
 (: Generated library module to be directly imported into code which
  : needs to transform TEI nodes using the ODD this module is based on.

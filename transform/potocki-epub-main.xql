@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/potocki/epub' at '/db/apps/tei-publisher/transform/potocki-epub.xql';
+import module namespace m='http://www.tei-c.org/pm/models/potocki/epub' at 'potocki-epub.xql';
 
 declare variable $xml external;
 

@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/lelewel/fo' at '/db/apps/tei-publisher/transform/lelewel-fo.xql';
+import module namespace m='http://www.tei-c.org/pm/models/lelewel/fo' at 'lelewel-fo.xql';
 
 declare variable $xml external;
 

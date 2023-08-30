@@ -173,9 +173,9 @@
 .tei-q2:before { content: '‘'; }
 .tei-q2:after { content: '’'; }
 .tei-q3 { margin-left: 10px; margin-right: 10px; }
-.tei-pb { display: block; margin-left: 4pt; color: grey; float: right; }
-.tei-pb:before { content: '[Page '; }
-.tei-pb:after { content: ']'; }
+.tei-pb3 { display: block; margin-left: 4pt; color: grey; float: right; }
+.tei-pb3:before { content: '[Page '; }
+.tei-pb3:after { content: ']'; }
 .tei-docTitle { font-size: larger; }
 .tei-titlePage { text-align: center; }
 .tei-stage { font-style: italic; }

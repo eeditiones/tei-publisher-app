@@ -60,10 +60,17 @@ li.document{
 }
 
 .document-info{
-    width:70%;
-    min-width:min(28em,100%);
-
+    min-width:min(28em,100%);    
 }
+
+a ~ .document-info {
+    width:70%;
+}
+
+.documents .sample-description {
+    font-size: var(--pb-footnote-font-size);
+}
+
 pb-collapse > div{
     font-size:1.2rem;
     padding:0.5rem 0;

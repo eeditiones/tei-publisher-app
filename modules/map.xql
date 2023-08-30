@@ -10,6 +10,25 @@ import module namespace nav="http://www.tei-c.org/tei-simple/navigation/tei" at 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 (:~
+ : Mapping function for the Konversationslexikon: locate the entry to display
+ : by looking up the lemma specified in the search parameter.
+ :)
+declare function mapping:encyclopedia($root as element(), $userParams as map(*)) {
+    let $search := request:get-parameter("search", ())
+    return
+        if (empty($search)) then
+            <p xmlns="http://www.tei-c.org/ns/1.0">No query specified</p>
+        else
+            let $search := xmldb:decode($search)
+            let $byId := id($search, root($root))
+            return
+                if ($byId) then
+                    $byId
+                else
+                    root($root)//tei:entry[tei:form/tei:term=$search]
+};
+
+(:~
  : For the Van Gogh letters: find the page break in the translation corresponding
  : to the one shown in the transcription.
  :)

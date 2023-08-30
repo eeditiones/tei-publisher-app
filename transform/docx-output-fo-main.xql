@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/docx-output/fo' at '/db/apps/tei-publisher/transform/docx-output-fo.xql';
+import module namespace m='http://www.tei-c.org/pm/models/docx-output/fo' at 'docx-output-fo.xql';
 
 declare variable $xml external;
 

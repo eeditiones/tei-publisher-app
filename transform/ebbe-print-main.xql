@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/ebbe/print' at '/db/apps/tei-publisher/transform/ebbe-print.xql';
+import module namespace m='http://www.tei-c.org/pm/models/ebbe/print' at 'ebbe-print.xql';
 
 declare variable $xml external;
 

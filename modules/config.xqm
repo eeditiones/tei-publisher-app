@@ -60,7 +60,7 @@ declare variable $config:enable-proxy-caching :=
  : In this case, change $config:webcomponents-cdn to point to http://localhost:port 
  : (default: 8000, but check where your server is running).
  :)
-declare variable $config:webcomponents := "2.4.5";
+declare variable $config:webcomponents := "2.12.2";
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your
@@ -321,6 +321,16 @@ return
  : The context path to use for links within the application, e.g. menus.
  : The default should work when running on top of a standard eXist installation,
  : but may need to be changed if the app is behind a proxy.
+ :
+ : The context path is determined as follows:
+ :
+ : 1. if a system property `teipublisher.context-path` is set:
+ :  a. with value 'auto': determine context path by looking at the incoming request. This will
+ :     usually resolve to e.g. "/exist/apps/tei-publisher/".
+ :  b. otherwise use the value of the property
+ : 2. if an HTTP header X-Forwarded-Host is set, assume that eXist is running behind a proxy
+ :    and the app should be mapped to the root of the website (i.e. without /exist/apps/...)
+ : 3. otherwise determine path from request as in 1a.
  :)
 declare variable $config:context-path :=
     let $prop := util:system-property("teipublisher.context-path")
@@ -395,7 +405,7 @@ declare variable $config:expath-descriptor := doc(concat($config:app-root, "/exp
 
 declare variable $config:session-prefix := $config:expath-descriptor/@abbrev/string();
 
-declare variable $config:default-fields := ();
+declare variable $config:default-fields := ("lemma");
 
 declare variable $config:dts-collections := map {
     "id": "default",

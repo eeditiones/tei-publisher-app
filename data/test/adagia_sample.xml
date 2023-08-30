@@ -25,6 +25,7 @@
          </sourceDesc>
       </fileDesc>
       <profileDesc>
+         <abstract><p>Adagium 203 with English and Polish translations. Corresponding sections are highlighted on hover.</p></abstract>
          <textClass>
             <catRef scheme="#genre" target="#correspondence"/>
             <catRef scheme="#form" target="#print"/>

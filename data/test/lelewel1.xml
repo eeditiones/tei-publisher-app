@@ -17,6 +17,11 @@
          </sourceDesc>
       </fileDesc>
       <profileDesc>
+         <abstract>
+            <p>
+               An early 19th century letter of a Polish historian Joachim Lelewel to his brother showcases possibly the simplest way of encoding and displaying facsimiles: with complete URLs given in pb/@facs attribute. It also demonstrates how TEI encoding of hyphenated words could be processed for display in diplomatic vs normalized view.
+            </p>
+         </abstract>
          <langUsage>
             <language ident="pl">Polish</language>
          </langUsage>

@@ -29,6 +29,9 @@
             <text match="//tei:listPerson/tei:person/tei:persName"/>
             <text match="//tei:listOrg/tei:org/tei:orgName"/>
             <text match="//tei:taxonomy/tei:category/tei:catDesc"/>
+            <text qname="tei:entry" index="no">
+                <field name="lemma" expression="tei:form/tei:term"/>
+            </text>
             <text qname="dbk:article">
                 <field name="dbk.title" expression="nav:get-metadata(., 'title')"/>
                 <field name="dbk.author" expression="nav:get-metadata(., 'author')"/>
@@ -59,5 +62,8 @@
                 <facet dimension="language" expression="head((root(.)/@xml:lang, 'en'))"/>
             </text>
         </lucene>
+        <range>
+            <create qname="tei:term" type="xs:string"/>
+        </range>
     </index>
 </collection>

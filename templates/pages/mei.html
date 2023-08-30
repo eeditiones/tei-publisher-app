@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+        <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-16.png" sizes="16x16"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-24.png" sizes="24x24"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
+
+        <title data-template="config:app-title"/>
+        <meta name="description" content="Default view supporting embedded musical notation"/>
+        <meta name="pb-template" content="mei.html"/>
+
+        <link rel="stylesheet" href="resources/css/theme.css"/>
+        <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
+        <style>
+            @media (min-width: 769px) {
+                .toolbar pb-navigation {
+                    display: none;
+                }
+            }
+
+            .content-body {
+                position: relative;
+                display: flex;
+                justify-content: center;
+                --pb-mei-min-width: 50vw;
+            }
+
+            .content-body pb-navigation {
+                position: fixed;
+                bottom: 45%;
+                --paper-fab-background: #35424b;
+                color: white;
+            }
+
+            .content-body pb-navigation[direction=backward] {
+                left: 20px;
+            }
+
+            .content-body pb-navigation[direction=forward] {
+                right: 20px;
+            }
+
+            @media (max-width: 769px) {
+                .content-body pb-navigation {
+                    display: none;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <pb-page data-template="pages:pb-page" unresolved="unresolved">
+            <pb-document id="document1" data-template="pages:pb-document"/>
+            <app-drawer-layout force-narrow="force-narrow">
+                <app-drawer data-template="lib:include" data-template-path="templates/drawer.html"/>
+                <app-header-layout>
+                    <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
+                        <app-toolbar data-template="lib:include" data-template-path="templates/menu.html"/>
+                        <app-toolbar data-template="lib:include" data-template-path="templates/toolbar.html"/>
+                    </app-header>
+
+                    <pb-drawer toggle="tocToggle" class="toc" emit="toc" subscribe="transcription">
+                        <div class="drawer-content">
+                            <h3>
+                                <pb-i18n key="document.contents">Contents</pb-i18n>
+                            </h3>
+                            <pb-load id="toc" url="api/document/{doc}/contents?target=transcription&amp;icons=true" expand="expand" src="document1" subscribe="toc" load-once="load-once"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
+                        </div>
+                    </pb-drawer>
+                    <section class="breadcrumbs">
+                        <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title[1]" view="single">
+                            <pb-param name="header" value="short"/>
+                        </pb-view>
+                    </section>
+                    <main class="content-body">
+                        <pb-navigation direction="backward" unit="page" emit="transcription"
+                            subscribe="transcription">
+                            <paper-fab icon="icons:chevron-left"/>
+                        </pb-navigation>
+                        <pb-view id="view1" src="document1"
+                            column-separator=".tei-cb" append-footnotes="append-footnotes"
+                            subscribe="transcription" emit="transcription"/>
+                        <pb-navigation direction="forward" unit="page" emit="transcription"
+                            subscribe="transcription">
+                            <paper-fab icon="icons:chevron-right"/>
+                        </pb-navigation>
+                    </main>
+                </app-header-layout>
+            </app-drawer-layout>
+        </pb-page>
+        <div class="splash"></div>
+        <script type="module" src="pb-mei.js" data-template="pages:load-components"></script>
+    </body>
+</html>

@@ -159,7 +159,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             else
                                 epub:block($config, ., css:get-rendition(., ("tei-q3", css:map-rend-to-class(.))), .)
                     case element(pb) return
-                        html:webcomponent($config, ., ("tei-pb2", "facs", css:map-rend-to-class(.)), @n, 'pb-facs-link', map {"emit": 'transcription', "facs": replace(@facs, '^FFimg:(.*)$', '$1')})
+                        html:webcomponent($config, ., ("tei-pb2", "facs", css:map-rend-to-class(.)), @n, 'pb-facs-link', map {"emit": 'transcription', "facs": replace(@facs, '^FFimg:(.*)$', '$1'), "order": count($get(.)/preceding::pb) + 1})
                     case element(epigraph) return
                         epub:block($config, ., ("tei-epigraph", css:map-rend-to-class(.)), .)
                     case element(lb) return
@@ -397,11 +397,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                             (
                                 epub:block($config, ., ("tei-fileDesc1", "header-short", css:map-rend-to-class(.)), titleStmt),
                                 epub:block($config, ., ("tei-fileDesc2", "header-short", css:map-rend-to-class(.)), editionStmt),
-                                epub:block($config, ., ("tei-fileDesc3", "header-short", css:map-rend-to-class(.)), publicationStmt)
+                                epub:block($config, ., ("tei-fileDesc3", "header-short", css:map-rend-to-class(.)), publicationStmt),
+                                (: Output abstract containing demo description :)
+                                epub:block($config, ., ("tei-fileDesc4", "sample-description", css:map-rend-to-class(.)), ../profileDesc/abstract)
                             )
 
                         else
-                            html:title($config, ., ("tei-fileDesc4", css:map-rend-to-class(.)), titleStmt)
+                            html:title($config, ., ("tei-fileDesc5", css:map-rend-to-class(.)), titleStmt)
                     case element(sic) return
                         if (parent::choice and count(parent::*/*) gt 1) then
                             html:inline($config, ., ("tei-sic1", css:map-rend-to-class(.)), .)

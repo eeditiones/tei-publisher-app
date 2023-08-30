@@ -163,6 +163,10 @@ im Double-Keying-Verfahren von Nicht-Muttersprachlern erfasst und in XML/TEI P5 
 </tagsDecl>
 </encodingDesc>
 <profileDesc>
+    <abstract>
+        <p>Another example taken from the <ref target="https://www.deutschestextarchiv.de/">DTA</ref> demonstrating
+            embedded mathematical formulas.</p>
+    </abstract>
 <langUsage>
 <language ident="de">German</language>
 </langUsage>

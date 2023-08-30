@@ -46,6 +46,9 @@
          </sourceDesc>
       </fileDesc>
       <profileDesc>
+         <abstract>
+            <p>Another letter showing complex alignment between transcription and translation. The translation does not contain page breaks, so the alignment has to be computed dynamically for each page using a mapping function. Additionally incorporates a IIF view of the facsimile in the middle column.</p>
+         </abstract>
          <textClass>
             <catRef scheme="#genre" target="#correspondence"/>
             <catRef scheme="#form" target="#manuscript"/>

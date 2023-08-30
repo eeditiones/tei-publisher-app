@@ -273,7 +273,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                                         html:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-link2", css:map-rend-to-class(.)), $content)                            => model:map($node, $trackIds)
                         else
                             if (@linkend) then
-                                html:link($config, ., ("tei-link3", css:map-rend-to-class(.)), ., concat('?odd=', request:get-parameter('odd', ()), '&amp;view=',                             request:get-parameter('view', ()), '&amp;id=', @linkend), (), map {})                                => model:map($node, $trackIds)
+                                html:webcomponent($config, ., ("tei-link3", css:map-rend-to-class(.)), ., 'pb-link', map {"uri": concat('?odd=', request:get-parameter('odd', ()), '&amp;view=',                             request:get-parameter('view', ()), '&amp;id=', @linkend), "xml-id": @linkend, "emit": 'transcription'})                                => model:map($node, $trackIds)
                             else
                                 if (@xlink:show='new') then
                                     html:link($config, ., ("tei-link4", css:map-rend-to-class(.)), ., @xlink:href, '_new', map {})                                    => model:map($node, $trackIds)

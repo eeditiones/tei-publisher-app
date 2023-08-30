@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/time-us/fo' at '/db/apps/tei-publisher/transform/time-us-fo.xql';
+import module namespace m='http://www.tei-c.org/pm/models/time-us/fo' at 'time-us-fo.xql';
 
 declare variable $xml external;
 

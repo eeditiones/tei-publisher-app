@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/annotations/latex' at '/db/apps/tei-publisher/transform/annotations-latex.xql';
+import module namespace m='http://www.tei-c.org/pm/models/annotations/latex' at 'annotations-latex.xql';
 
 declare variable $xml external;
 

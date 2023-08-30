@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/osinski/fo' at '/db/apps/tei-publisher/transform/osinski-fo.xql';
+import module namespace m='http://www.tei-c.org/pm/models/osinski/fo' at 'osinski-fo.xql';
 
 declare variable $xml external;
 

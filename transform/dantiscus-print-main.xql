@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/dantiscus/print' at '/db/apps/tei-publisher/transform/dantiscus-print.xql';
+import module namespace m='http://www.tei-c.org/pm/models/dantiscus/print' at 'dantiscus-print.xql';
 
 declare variable $xml external;
 

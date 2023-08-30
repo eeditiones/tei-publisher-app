@@ -1,6 +1,6 @@
 module namespace pml='http://www.tei-c.org/pm/models/dantiscus2/epub/module';
 
-import module namespace m='http://www.tei-c.org/pm/models/dantiscus2/epub' at '/db/apps/tei-publisher/transform/dantiscus2-epub.xql';
+import module namespace m='http://www.tei-c.org/pm/models/dantiscus2/epub' at 'dantiscus2-epub.xql';
 
 (: Generated library module to be directly imported into code which
  : needs to transform TEI nodes using the ODD this module is based on.
