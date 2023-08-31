@@ -3727,7 +3727,8 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         <note>
           <title>A note on history handling</title>
           <para>It is important that only one central text component on the page writes and reads the URL. Usually this will be the main <tag>pb-view</tag>. Other components, e.g. for the translation, should be made dependent and restore their state based on the state of the main component. If multiple components write their state, browsing back via the browser history may not work properly, or you may see undesired effects due to conflicting parameters.</para>
-          <para>To prevent a dependent <tag>pb-view</tag> from writing to the URL, use the attribute <parameter>disable-history</parameter>. To make a <tag>pb-view</tag> load its contents <emphasis>after</emphasis> the main text view, set attribute <parameter>on-update</parameter> and make sure, the dependent component listens to the event channel written by the main component.</para>
+          <para>TEI Publisher supports different ways to make one <tag>pb-view</tag> depend on another, e.g. via a mapping function (<parameter>map</parameter> attribute). A mapped view will never write to the browser history.</para>
+          <para>In other cases, to explicitely prevent a dependent <tag>pb-view</tag> from writing to the URL, use the attribute <parameter>disable-history</parameter>. To make a <tag>pb-view</tag> load its contents <emphasis>after</emphasis> the main text view, set attribute <parameter>on-update</parameter> and make sure, the dependent component listens to the event channel written by the main component.</para>
         </note>
     </section>
   </section>
