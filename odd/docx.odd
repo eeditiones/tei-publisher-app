@@ -5,30 +5,7 @@
         <fileDesc>
             <titleStmt>
                 <title>Word DOCX
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                 
-                 
-                 
-                  
-                 
-                    
-                  
-                 
-                  
-                 <desc>Convert DOCX via ODD</desc>
+                 <desc>Import transformation to convert DOCX to TEI.</desc>
                 </title>
                 <title type="short">DOCX Import</title>
             </titleStmt>

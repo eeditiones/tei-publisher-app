@@ -3,7 +3,7 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>TEI Lex-0</title>
+                <title>TEI Lex-0<desc>ODD for the "Damen Conversations Lexikon" (simple TEI Lex-0 encoding)</desc></title>
             </titleStmt>
             <publicationStmt>
                 <publisher>eXistSolutions GmbH</publisher>
