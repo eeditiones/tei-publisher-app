@@ -100,7 +100,7 @@ declare %private function api:output-lemma($list, $category as xs:string, $searc
         let $lemmaField := ft:field($lemma, "lemma")
         return
             <div class="term">
-                <pb-link emit="detail" params='{{"search": "{$lemmaField}"}}'>
+                <pb-link emit="detail" subscribe="detail" params='{{"search": "{$lemmaField}"}}'>
                     {$lemmaField}
                 </pb-link>
             </div>
