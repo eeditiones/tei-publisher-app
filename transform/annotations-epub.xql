@@ -11,6 +11,8 @@ declare default element namespace "http://www.tei-c.org/ns/1.0";
 
 declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
+declare namespace mei='http://www.music-encoding.org/ns/mei';
+
 declare namespace pb='http://teipublisher.com/1.0';
 
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
@@ -36,6 +38,10 @@ declare %private function model:template-choice2($config as map(*), $node as nod
 (: generated template function for element spec: choice :)
 declare %private function model:template-choice3($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><span class="annotation annotation-reg" data-type="reg" data-annotation="{{&#34;reg&#34;: &#34;{$config?apply-children($config, $node, $params?reg)}&#34;}}">{$config?apply-children($config, $node, $params?orig)}</span></t>/*
+};
+(: generated template function for element spec: mei:mdiv :)
+declare %private function model:template-mei_mdiv($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><pb-mei player="player" data="{$config?apply-children($config, $node, $params?data)}"/></t>/*
 };
 (: generated template function for element spec: app :)
 declare %private function model:template-app($config as map(*), $node as node()*, $params as map(*)) {
@@ -140,6 +146,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         epub:block($config, ., css:get-rendition(., ("tei-l", css:map-rend-to-class(.))), .)
                     case element(ptr) return
                         if (parent::notatedMusic) then
+                            (: Load and display external MEI :)
                             let $params := 
                                 map {
                                     "url": @target,
@@ -401,6 +408,18 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:inline($config, ., ("tei-corr2", css:map-rend-to-class(.)), .)
                     case element(foreign) return
                         html:inline($config, ., ("tei-foreign", css:map-rend-to-class(.)), .)
+                    case element(mei:mdiv) return
+                        (: Single MEI mdiv needs to be wrapped to create complete MEI document :)
+                        let $params := 
+                            map {
+                                "data": let $title := root($parameters?root)//titleStmt/title let $data :=   <mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="4.0.0">     <meiHead>         <fileDesc>             <titleStmt>                 <title></title>             </titleStmt>             <pubStmt></pubStmt>         </fileDesc>     </meiHead>     <music>         <body>{.}</body>     </music>   </mei> return   serialize($data),
+                                "content": .
+                            }
+
+                                                let $content := 
+                            model:template-mei_mdiv($config, ., $params)
+                        return
+                                                html:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-mei_mdiv", css:map-rend-to-class(.)), $content)
                     case element(cit) return
                         if (child::quote and child::bibl) then
                             (: Insert citation :)
@@ -470,7 +489,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(seg) return
                         html:inline($config, ., css:get-rendition(., ("tei-seg", css:map-rend-to-class(.))), .)
                     case element(notatedMusic) return
-                        html:figure($config, ., ("tei-notatedMusic", css:map-rend-to-class(.)), ptr, label)
+                        html:figure($config, ., ("tei-notatedMusic", css:map-rend-to-class(.)), (ptr, mei:mdiv), label)
                     case element(profileDesc) return
                         html:omit($config, ., ("tei-profileDesc", css:map-rend-to-class(.)), .)
                     case element(row) return

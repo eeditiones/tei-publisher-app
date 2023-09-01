@@ -11,6 +11,8 @@ declare default element namespace "http://www.tei-c.org/ns/1.0";
 
 declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
+declare namespace mei='http://www.music-encoding.org/ns/mei';
+
 declare namespace pb='http://teipublisher.com/1.0';
 
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
@@ -34,6 +36,10 @@ declare %private function model:template-formula3($config as map(*), $node as no
 (: generated template function for element spec: ab :)
 declare %private function model:template-ab($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><pb-facs-link facs="{$config?apply-children($config, $node, $params?facs)}" coordinates="{$config?apply-children($config, $node, $params?coordinates)}" emit="transcription">{$config?apply-children($config, $node, $params?content)}</pb-facs-link></t>/*
+};
+(: generated template function for element spec: mei:mdiv :)
+declare %private function model:template-mei_mdiv($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><pb-mei player="player" data="{$config?apply-children($config, $node, $params?data)}"/></t>/*
 };
 (: generated template function for element spec: respStmt :)
 declare %private function model:template-respStmt($config as map(*), $node as node()*, $params as map(*)) {
@@ -136,6 +142,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:block($config, ., css:get-rendition(., ("tei-l", css:map-rend-to-class(.))), .)
                     case element(ptr) return
                         if (parent::notatedMusic) then
+                            (: Load and display external MEI :)
                             let $params := 
                                 map {
                                     "url": @target,
@@ -418,6 +425,18 @@ declare function model:apply($config as map(*), $input as node()*) {
                             latex:inline($config, ., ("tei-corr2", css:map-rend-to-class(.)), .)
                     case element(foreign) return
                         latex:inline($config, ., ("tei-foreign", css:map-rend-to-class(.)), .)
+                    case element(mei:mdiv) return
+                        (: Single MEI mdiv needs to be wrapped to create complete MEI document :)
+                        let $params := 
+                            map {
+                                "data": let $title := root($parameters?root)//titleStmt/title let $data :=   <mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="4.0.0">     <meiHead>         <fileDesc>             <titleStmt>                 <title></title>             </titleStmt>             <pubStmt></pubStmt>         </fileDesc>     </meiHead>     <music>         <body>{.}</body>     </music>   </mei> return   serialize($data),
+                                "content": .
+                            }
+
+                                                let $content := 
+                            model:template-mei_mdiv($config, ., $params)
+                        return
+                                                latex:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-mei_mdiv", css:map-rend-to-class(.)), $content)
                     case element(cit) return
                         if (@type='example') then
                             latex:block($config, ., ("tei-cit1", "example", css:map-rend-to-class(.)), .)
@@ -489,7 +508,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             latex:inline($config, ., css:get-rendition(., ("tei-seg2", css:map-rend-to-class(.))), .)
                     case element(notatedMusic) return
-                        latex:figure($config, ., ("tei-notatedMusic", css:map-rend-to-class(.)), ptr, label)
+                        latex:figure($config, ., ("tei-notatedMusic", css:map-rend-to-class(.)), (ptr, mei:mdiv), label)
                     case element(profileDesc) return
                         latex:omit($config, ., ("tei-profileDesc", css:map-rend-to-class(.)), .)
                     case element(row) return

@@ -11,6 +11,8 @@ declare default element namespace "http://www.tei-c.org/ns/1.0";
 
 declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
+declare namespace mei='http://www.music-encoding.org/ns/mei';
+
 declare namespace pb='http://teipublisher.com/1.0';
 
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
@@ -30,6 +32,10 @@ declare %private function model:template-ptr($config as map(*), $node as node()*
     <t xmlns=""><pb-mei url="{$config?apply-children($config, $node, $params?url)}" player="player">
                               <pb-option name="appXPath" on="./rdg[contains(@label, 'original')]" off="">Original Clefs</pb-option>
                               </pb-mei></t>/*
+};
+(: generated template function for element spec: mei:mdiv :)
+declare %private function model:template-mei_mdiv($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><pb-mei player="player" data="{$config?apply-children($config, $node, $params?data)}"/></t>/*
 };
 (:~
 
@@ -273,7 +279,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             latex:block($config, ., ("tei-listBibl2", css:map-rend-to-class(.)), .)
                     case element(notatedMusic) return
-                        latex:figure($config, ., ("tei-notatedMusic", css:map-rend-to-class(.)), ptr, label)
+                        latex:figure($config, ., ("tei-notatedMusic", css:map-rend-to-class(.)), (ptr, mei:mdiv), label)
                     case element(note) return
                         latex:note($config, ., ("tei-note", css:map-rend-to-class(.)), ., @place, @n)
                     case element(opener) return
@@ -294,6 +300,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:block($config, ., ("tei-postscript", css:map-rend-to-class(.)), .)
                     case element(ptr) return
                         if (parent::notatedMusic) then
+                            (: Load and display external MEI :)
                             let $params := 
                                 map {
                                     "url": @target,
@@ -469,6 +476,18 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:inline($config, ., ("tei-unclear", css:map-rend-to-class(.)), .)
                     case element(w) return
                         latex:inline($config, ., ("tei-w", css:map-rend-to-class(.)), .)
+                    case element(mei:mdiv) return
+                        (: Single MEI mdiv needs to be wrapped to create complete MEI document :)
+                        let $params := 
+                            map {
+                                "data": let $title := root($parameters?root)//titleStmt/title let $data :=   <mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="4.0.0">     <meiHead>         <fileDesc>             <titleStmt>                 <title></title>             </titleStmt>             <pubStmt></pubStmt>         </fileDesc>     </meiHead>     <music>         <body>{.}</body>     </music>   </mei> return   serialize($data),
+                                "content": .
+                            }
+
+                                                let $content := 
+                            model:template-mei_mdiv($config, ., $params)
+                        return
+                                                latex:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-mei_mdiv", css:map-rend-to-class(.)), $content)
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())
