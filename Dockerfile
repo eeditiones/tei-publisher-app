@@ -3,6 +3,7 @@ FROM openjdk:8-jdk-slim as builder
 
 USER root
 
+ENV NODE_MAJOR 20
 ENV ANT_VERSION 1.10.13
 ENV ANT_HOME /etc/ant-${ANT_VERSION}
 
@@ -10,7 +11,15 @@ WORKDIR /tmp
 
 RUN apt-get update && apt-get install -y \
     git \
-    curl
+    curl \
+    ca-certificates \
+    gnupg
+
+RUN mkdir -p /etc/apt/keyrings && \
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_MAJOR}.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && \
+    apt-get update && \
+    apt-get install nodejs -y
 
 RUN curl -L -o apache-ant-${ANT_VERSION}-bin.tar.gz http://www.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz \
     && mkdir ant-${ANT_VERSION} \
@@ -23,9 +32,9 @@ RUN curl -L -o apache-ant-${ANT_VERSION}-bin.tar.gz http://www.apache.org/dist/a
 
 ENV PATH ${PATH}:${ANT_HOME}/bin
 
-RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
-    && apt-get install -y nodejs \
-    && curl -L https://www.npmjs.com/install.sh | sh
+# RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
+#     && apt-get install -y nodejs \
+#     && curl -L https://www.npmjs.com/install.sh | sh
 
 FROM builder as tei
 
