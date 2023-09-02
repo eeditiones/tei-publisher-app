@@ -454,7 +454,7 @@
           Publisher. Docker is a tool to simplify the installation of applications and services. It
           creates a virtual environment including everything required for the service to run. Using
           our <link xlink:show="new"
-            xlink:href="https://cloud.docker.com/u/existdb/repository/registry-1.docker.io/existdb/tei-publisher"
+            xlink:href="https://hub.docker.com/r/existdb/teipublisher"
             >docker image</link>, eXist will already be set up to include TEI Publisher as well as
           the Shakespeare and Van Gogh demo apps. </para>
         <procedure>
