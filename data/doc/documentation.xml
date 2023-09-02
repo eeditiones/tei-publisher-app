@@ -4393,21 +4393,46 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
 
   <section xml:id="updating">
     <title>Updating Applications</title>
-    <para>With TEI Publisher 8, we have factored out a number of functions away from the
+    <para>Custom applications are created from a specific version of TEI Publisher and may need to be updated over time to benefit from bug fixes and new features. If you followed the <link linkend="customization-best-practice">best practice recommendations</link>, you can always update the core of TEI Publisher by replacing the <filename>modules/lib</filename> directory with the newer version. However, you may also need to adjust the configuration and code modules outside this directory to match the new release (details concerning a particular version are documented below). This obviously also applies to any custom code you have added or modified yourself. In general we would recommend the following procedure:</para>
+    <procedure>
+      <step><para>Replace <filename>modules/lib</filename></para></step>
+      <step><para>Check <filename>expath-pkg.xml</filename> for changed dependencies</para></step>
+      <step><para>Build your app and try to install it. This may result in errors to fix (e.g. variables/functions missing in <filename>modules/config.xqm</filename>.</para></step>
+      <step><para>Once the app starts and is functionally working, you can look into replacing other files, e.g. the global CSS file in <filename>resources/css/theme.css</filename></para></step>
+    </procedure>
+    
+    <para>For apps created with TEI Publisher 6 updating to 7 or 8 requires only small modifications.
+      Migrating from earlier versions, like 4 or 5, requires more effort, and is described in futher
+      sections.</para>
+    <section xml:id="upgrade-810">
+      <title>Upgrading from TEI Publisher 8 to 8.1</title>
+      <para>This should be fairly simple and only requires to steps:</para>
+      <procedure>
+        <step>
+          <para>Update server-side modules: those live in <filename>modules/lib</filename>. You can
+            safely remove the entire folder and replace it with the corresponding one from the new
+            version.</para>
+        </step>
+        <step>
+          <para>Update the webcomponents library to at least 2.12.6 (also see the <link
+              xlink:href="https://faq.teipublisher.com/webcomponents/version-upgrade/">faq</link>).
+            The version used is defined by a single variable in
+              <filename>modules/config.xqm</filename> :</para>
+          <synopsis language="xquery">declare variable $config:webcomponents := "2.12.6";</synopsis>
+          <para>You may also want to switch to a different CDN. TEI Publisher by default used unpkg.com, which recently
+            became slightly unreliable. Change the corresponding variable to:</para>
+          <synopsis language="xquery">declare variable $config:webcomponents-cdn := "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components";</synopsis>
+        </step>
+      </procedure>
+    </section>
+    <section xml:id="upgrade7-8">
+      <title>Upgrading from TEI Publisher 7 to 8</title>
+      <para>With TEI Publisher 8, we have factored out a number of functions away from the
         <code>modules/lib</code> to give users more control over their searches and presentation of
       the search results, which requires porting these functions into query modules of older apps.
       Recent breaking change to the <code>tei-publisher-lib</code>, a consequence of offering the
       Print CSS as a default print output also requires some manual updates.</para>
-    <para>With TEI Publisher 7, we have redesigned the server-side API. Combined with the
-      client-side reorganization brought by TEI Publisher 6, this will make future updates for
-      generated applications a lot easier. Client-side UI and server-side API are now cleanly
-      separated from any custom app elements.</para>
-    <para>For apps created with TEI Publisher 6 updating to 7 requires only small modifications.
-      Migrating from earlier versions, like 4 or 5, requires more effort, and is described in futher
-      sections.</para>
-    <section xml:id="upgrade7-8">
-      <title>Upgrading from TEI Publisher 7 to 8</title>
-      <para>TEI Publisher 8 introduces a few changes, which have to be addressed during an update:</para>
+      <para>The following changes have to be addressed during an update:</para>
       <orderedlist>
         <listitem>
           <para><code>tei-publisher-lib</code> was updated to version 3, including breaking changes</para>
@@ -4632,6 +4657,10 @@ git checkout v8.0.0</programlisting>
     </section>
     <section xml:id="update6-7">
       <title>Upgrading from TEI Publisher 6 to 7</title>
+      <para>With TEI Publisher 7, we have redesigned the server-side API. Combined with the
+        client-side reorganization brought by TEI Publisher 6, this will make future updates for
+        generated applications a lot easier. Client-side UI and server-side API are now cleanly
+        separated from any custom app elements.</para>
       <para> To upgrade a custom application generated with TEI Publisher 6 to version 7, we
         recommend to clone the source code of both, TEI Publisher 7 and the custom application, into
         a local directory. The commands shown below were used on a Linux system for <link
