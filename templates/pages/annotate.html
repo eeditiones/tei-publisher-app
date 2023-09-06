@@ -38,6 +38,7 @@
                                 <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.organisation" title="organization" data-type="organization" data-shortcut="⌘+⇧+o,ctrl+⇧+o" icon="social:people" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.place" title="Place" data-type="place" icon="maps:place" data-shortcut="⌘+⇧+q,ctrl+⇧+q" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.term" title="Term" data-type="term" icon="icons:bookmark" data-shortcut="⌘+⇧+t,ctrl+⇧+t" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.wikidata" title="Wikidata entity" data-type="wikidata" icon="icons:android" data-shortcut="⌘+⇧+r,ctrl+⇧+w" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action" data-i18n="[title]annotations.date" title="Date" data-type="date" icon="icons:today" data-shortcut="⌘+⇧+d,ctrl+⇧+d" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action" data-i18n="[title]annotations.ref" title="Reference" data-type="link" icon="icons:link" data-shortcut="⌘+⇧+l,ctrl+⇧+l" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action" data-i18n="[title]annotations.abbreviation" title="Abbreviation" data-type="abbreviation" icon="icons:translate" data-shortcut="⌘+⇧+b,ctrl+⇧+b" disabled="disabled"></paper-icon-button>
@@ -54,6 +55,9 @@
                                         <paper-input class="form-ref" name="ref" data-i18n="[label]annotations.reference" label="Reference">
                                             <paper-icon-button slot="prefix" icon="search" data-i18n="[label]annotations.lookup"></paper-icon-button>
                                         </paper-input>
+                                        <paper-input class="form-key" name="key" data-i18n="[label]annotations.key" label="Key"></paper-input>
+                                        <paper-input class="form-type" name="type" data-i18n="[label]annotations.type" label="Type"></paper-input>
+                                        <paper-input class="form-details" name="details" data-i18n="[label]annotations.details" label="Details"></paper-input>
                                         <div class="authority-info"><pb-i18n key="dialogs.loading">Loading ...</pb-i18n></div>
                                     </div>
                                     <div class="annotation-form date">
@@ -140,6 +144,8 @@
                         <pb-authority connector="Custom" name="person">
                             <pb-authority connector="GND" prefix="gnd"></pb-authority>
                         </pb-authority>
+                        <pb-authority connector="ReconciliationService" debug="debug"
+                                      name="wikidata" endpoint="https://wikidata.reconci.link/en/api"/>
                     </pb-authority-lookup>
                 </paper-dialog-scrollable>
                 <div class="buttons">
