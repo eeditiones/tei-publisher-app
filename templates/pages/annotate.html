@@ -144,8 +144,10 @@
                         <pb-authority connector="Custom" name="person">
                             <pb-authority connector="GND" prefix="gnd"></pb-authority>
                         </pb-authority>
-                        <pb-authority connector="ReconciliationService" debug="debug"
-                                      name="wikidata" endpoint="https://wikidata.reconci.link/en/api"/>
+                        <pb-authority connector="Custom" name="wikidata">
+                            <pb-authority connector="ReconciliationService" debug="debug"
+                                          prefix="" endpoint="https://wikidata.reconci.link/en/api"></pb-authority>
+                        </pb-authority>
                     </pb-authority-lookup>
                 </paper-dialog-scrollable>
                 <div class="buttons">

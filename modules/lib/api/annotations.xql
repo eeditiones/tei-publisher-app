@@ -39,7 +39,7 @@ declare function anno:save-local-copy($request as map(*)) {
     let $data := $request?body
     let $type := $request?parameters?type
     let $id := xmldb:decode($request?parameters?id)
-    let $record := doc($annocfg:local-authority-file)/id($id)
+    let $record := doc($annocfg:local-authority-file)//*[@xml:id = $id]
     return
         if ($record) then
             map {
@@ -61,8 +61,9 @@ declare function anno:save-local-copy($request as map(*)) {
 :)
 declare function anno:register-entry($request as map(*)) {
     let $type := $request?parameters?type
-    let $id := $request?parameters?id
-    let $entry := doc($annocfg:local-authority-file)/id($id)
+    let $id := xmldb:decode($request?parameters?id)
+    let $entry := doc($annocfg:local-authority-file)//*[@xml:id = $id]
+    
     let $strings := annocfg:local-search-strings($type, $entry)
     return
         if ($entry) then
