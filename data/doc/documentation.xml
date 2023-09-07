@@ -6829,8 +6829,11 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           attribute:</para>
         <programlisting language="xml" xml:space="preserve">&lt;pb-authority connector="Reconciliation" name="term" prefix="wd" endpoint="https://wikidata.reconci.link/api"/></programlisting>
         <para>This will retrieve authority entries from wikidata.</para>
-        <para>Currently, the Reconciliation connector cannot be used as a data provider for the
-          Custom connector described below. This will be added in a future release.</para>
+        <para>Besides the identifier for the reconciled entity, the Reconciliation connector offers
+          more fields in the <varname>properties</varname> map to merge into your TEI file: a
+          <varname>key</varname> (label), a <varname>type</varname> (of the entitiy), and a
+          <varname>description</varname>. This depends on the service providing this information,
+          of course.</para>
       </section>
       <section>
         <title>Custom Connector</title>
@@ -6875,8 +6878,6 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             <filename>modules/annotation-config.xqm</filename>. You can also change the function
             <function>anno:insert-point</function> to configure where exactly the local entity
           definitions will be stored.</para>
-        <para>Currently, it is not possible to use the Reconciliation connector described above in
-          the context of the Custom connector. This will be added in a future release.</para>
       </section>
     </section>
     <section>
