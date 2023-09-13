@@ -1,6 +1,6 @@
-main {
+.fx-ready main {
     display: grid;
-    grid-template-columns: 280px 1fr 30%;
+    grid-template-columns: 1fr 24rem;
     grid-template-rows: 100%;
     gap: 0 10px;
     height: calc(100vh - 150px);
@@ -8,8 +8,16 @@ main {
     --pb-popover-max-width: 360px;
     --pb-annotation-stripes-light: #e0e0ef;
     --pb-annotation-stripes-dark: #50505f;
+    margin-top:1rem;
+    padding:0 1rem;
+}
+#add-authority{
+    position: absolute;
+    right:1rem;
 }
 
+.edit-panel{
+}
 .annotation-editor {
     display: grid;
     grid-template-columns: auto;
@@ -27,9 +35,32 @@ main .toolbar {
     padding: 0 8px;
 }
 
-#authority-dialog {
-    width: 33vw;
+
+
+fx-group.search{
+    max-height:30rem;
+    overflow:auto;
 }
+
+fx-fore fx-group{
+    padding:0.5rem;
+    margin:0;
+}
+
+fx-fore > fx-group{
+    border:thin solid #efefef;
+    margin-bottom:1rem;
+}
+
+fx-fore header{
+    font-size:1rem;
+}
+
+
+header paper-icon-button{
+    display: inline-block;
+}
+
 
 pb-authority-lookup {
     min-height: 60vw;
@@ -112,35 +143,35 @@ pb-tabs pre {
     border-radius: 8px;
 }
 
-#occurrences {
+.occurrences {
     overflow: auto;
     margin-top: 16px;
     padding: 0 8px;
     font-size: .85rem;
 }
 
-#occurrences h4 {
+.occurrences h4 {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: var(--pb-color-inverse);
 }
 
-#occurrences ul {
+.occurrences ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-#occurrences li {
+.occurrences li {
     margin-bottom: 12px;
 }
 
-#occurrences .id-warning {
+.occurrences .id-warning {
     border-bottom: 1px dotted #ff3333;
 }
 
-#occurrences mark {
+.occurrences mark {
     padding: 2px 4px;
 }
 
@@ -155,4 +186,24 @@ paper-icon-button[data-type="edit"] {
 #ner-action {
     display: none; /* Hide initially, show later if NER is available */
     margin-left: 40px;
+}
+
+[nonrelevant]{
+    visibility:hidden;
+    display:block;
+}
+fx-fore fx-group > section{
+    overflow:hidden;
+}
+
+fx-fore fx-group{
+    display:grid;
+    grid-template-rows:1fr;
+    transition:grid-template-rows .4s;
+    height:auto;
+}
+fx-fore fx-group[nonrelevant]{
+    transition:grid-template-rows .4s;
+    grid-template-rows:0fr;
+    height:0;
 }

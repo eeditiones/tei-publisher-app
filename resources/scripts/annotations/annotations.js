@@ -6,6 +6,7 @@
  */
 
 
+
 function disableButtons(disable, range) {
 	document.querySelectorAll(".annotation-action:not([data-type=edit])").forEach((button) => {
 		button.disabled = disable;
@@ -86,7 +87,7 @@ window.addEventListener("WebComponentsReady", () => {
 	const occurrences = occurDiv.querySelector("ul");
 	const saveBtn = document.getElementById("form-save");
 	const refInput = document.querySelectorAll(".form-ref");
-	const authorityDialog = document.getElementById("authority-dialog");
+	// const authorityDialog = document.getElementById("authority-dialog");
 	const nerDialog = document.getElementById("ner-dialog");
 	let autoSave = false;
 	let type = "";
@@ -130,6 +131,8 @@ window.addEventListener("WebComponentsReady", () => {
 	}
 
 	function hideForm() {
+		window.pbEvents.emit("hide-all-panels", {});
+
 		form.style.display = "none";
 		occurDiv.style.display = "none";
 	}
@@ -354,6 +357,7 @@ window.addEventListener("WebComponentsReady", () => {
 					query: selection,
 				});
 				//authorityDialog.open();
+        		window.pbEvents.emit("show-annotation", "transcription", {});
         		window.pbEvents.emit("show-authorities", "transcription", {});
 
 
@@ -546,13 +550,17 @@ window.addEventListener("WebComponentsReady", () => {
 		checkNERAvailable();
 	});
 
+	// todo: what's this for? -> fishes the type and query params from iron-form and opens dialog
 	document.querySelectorAll('.form-ref [slot="prefix"]').forEach(elem => {
 		elem.addEventListener("click", () => {
 			window.pbEvents.emit("pb-authority-lookup", "transcription", {
 				type,
 				query: text,
 			});
-			authorityDialog.open();
+			// todo:
+			// authorityDialog.open();
+			window.pbEvents.emit("show-annotation", "transcription", {});
+
 		});
 	});
 
@@ -656,7 +664,7 @@ window.addEventListener("WebComponentsReady", () => {
 				query: text,
 			});
 			//authorityDialog.open();
-    		window.pbEvents.emit("show-authorities", "transcription", {});
+    		window.pbEvents.emit("show-annotation", "transcription", {});
 
 		}
 		showForm(type, ev.detail.properties);

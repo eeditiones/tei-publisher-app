@@ -159,6 +159,7 @@ app-drawer-layout:not([narrow]) [drawer-toggle] {
     display: none;
 }
 
+
 .caveat-content {
     overflow: auto;
     height: 100%;

@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+        <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-16.png" sizes="16x16"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-24.png" sizes="24x24"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
+
+        <title data-template="config:app-title"/>
+        <meta name="description" content="Annotation Editing"/>
+        <meta name="pb-template" content="annotate.html"/>
+
+        <link rel="stylesheet" href="resources/css/theme.css"/>
+        <link rel="stylesheet" href="templates/pages/annotate.css"/>
+        <link rel="stylesheet" href="resources/css/fore.css"/>
+        <script type="module" src="resources/scripts/fore/fore-dev.js"></script>
+        <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
+        <script type="text/javascript" src="resources/scripts/annotations/annotations.js"></script>
+    </head>
+
+    <body>
+<!--
+    <fx-fore class="initialRun fx-ready" style="visibility: visible;">
+        <fx-model>
+            <fx-instance id="popup" type="xml">
+                <data>
+                    <clientx></clientx>
+                    <clienty></clienty>
+                </data>
+            </fx-instance>
+            <fx-function signature="isTextSelected() as xs:boolean" type="text/javascript" style="display: none;">
+                return window.getSelection().toString() !== '';
+            </fx-function>
+        </fx-model>
+        <fx-action event="mouseup" target="#document" style="display: none;">
+            <fx-setvalue ref="clientx" value="event('clientX')" style="display: none;"></fx-setvalue>
+            <fx-setvalue ref="clienty" value="event('clientY')" style="display: none;"></fx-setvalue>
+        </fx-action>
+        <fx-action event="click" phase="capture" style="display: none;">
+            <fx-message style="display: none;">clicked target </fx-message>
+        </fx-action>
+        <fx-action event="pb-selection-changed" target="#document" if="isTextSelected()" style="display: none;">
+            <fx-message style="display: none;">Annotation Selection changed </fx-message>
+            <fx-toggle case="show" style="display: none;"></fx-toggle>
+        </fx-action>
+        <fx-action event="mousedown" target="#document" style="display: none;">
+            <fx-toggle case="hide" style="display: none;"></fx-toggle>
+        </fx-action>
+
+        <fx-switch style="position:fixed; left:697px;top:383px;z-index:999;" tabindex="0">
+            <fx-case id="hide" class="selected-case"></fx-case>
+            <fx-case id="show" class="">
+                <div class="annotation-toolbar">
+                    <fx-message event="click" phase="capture" style="display: none;">annotion button clicked</fx-message>
+                    &lt;!&ndash;paper-icon-button id="clear-all" icon="icons:refresh"></paper-icon-button&ndash;&gt;
+                    <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.person" title="Person [⌘ ⇧ p] [⌘ ⇧ p]" data-type="person" data-shortcut="⌘+⇧+p,ctrl+⇧+p" icon="social:person" role="button" tabindex="0" aria-disabled="false" style=""></paper-icon-button>
+                    <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.organisation" title="organization [⌘ ⇧ o] [⌘ ⇧ o]" data-type="organization" data-shortcut="⌘+⇧+o,ctrl+⇧+o" icon="social:people" role="button" tabindex="0" aria-disabled="false" style=""></paper-icon-button>
+                    <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.place" title="Place [⌘ ⇧ q] [⌘ ⇧ q]" data-type="place" icon="maps:place" data-shortcut="⌘+⇧+q,ctrl+⇧+q" role="button" tabindex="0" aria-disabled="false" style=""></paper-icon-button>
+                    <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.term" title="Term [⌘ ⇧ t] [⌘ ⇧ t]" data-type="term" icon="icons:bookmark" data-shortcut="⌘+⇧+t,ctrl+⇧+t" role="button" tabindex="0" aria-disabled="false" style=""></paper-icon-button>
+                    <paper-icon-button class="annotation-action" data-i18n="[title]annotations.date" title="Date [⌘ ⇧ d] [⌘ ⇧ d]" data-type="date" icon="icons:today" data-shortcut="⌘+⇧+d,ctrl+⇧+d" role="button" tabindex="0" aria-disabled="false" style=""></paper-icon-button>
+                    <paper-icon-button class="annotation-action" data-i18n="[title]annotations.ref" title="Reference [⌘ ⇧ l] [⌘ ⇧ l]" data-type="link" icon="icons:link" data-shortcut="⌘+⇧+l,ctrl+⇧+l" role="button" tabindex="0" aria-disabled="false" style=""></paper-icon-button>
+                    <paper-icon-button class="annotation-action" data-i18n="[title]annotations.abbreviation" title="Abbreviation [⌘ ⇧ b] [⌘ ⇧ b]" data-type="abbreviation" icon="icons:translate" data-shortcut="⌘+⇧+b,ctrl+⇧+b" role="button" tabindex="0" aria-disabled="false" style=""></paper-icon-button>
+                    <paper-icon-button class="annotation-action" title="Sic [⌘ ⇧ e] [⌘ ⇧ e]" data-type="sic" icon="editor:strikethrough-s" data-shortcut="⌘+⇧+e,ctrl+⇧+e" role="button" tabindex="0" aria-disabled="false" style=""></paper-icon-button>
+                    <paper-icon-button class="annotation-action" data-i18n="[title]annotations.reg" title="Regularization [⌘ ⇧ g] [⌘ ⇧ g]" data-type="reg" icon="editor:wrap-text" data-shortcut="⌘+⇧+g,ctrl+⇧+g" role="button" tabindex="0" aria-disabled="false" style=""></paper-icon-button>
+                    <paper-icon-button class="annotation-action" data-i18n="[title]annotations.app" title="Apparatus [⌘ ⇧ v] [⌘ ⇧ v]" data-type="app" icon="icons:visibility" data-shortcut="⌘+⇧+v,ctrl+⇧+v" role="button" tabindex="0" aria-disabled="false" style=""></paper-icon-button>
+                    <paper-icon-button class="annotation-action" data-i18n="[title]annotations.hi" title="Highlight [⌘ ⇧ h] [⌘ ⇧ h]" data-type="hi" icon="editor:format-bold" data-shortcut="⌘+⇧+h,ctrl+⇧+h" role="button" tabindex="0" aria-disabled="false" style=""></paper-icon-button>
+                    <paper-icon-button class="annotation-action" data-i18n="[title]annotations.modify" title="Edit [⌘ ⇧ m] [⌘ ⇧ m]" data-type="edit" icon="editor:mode-edit" data-shortcut="⌘+⇧+m,ctrl+⇧+m" role="button" tabindex="0" aria-disabled="false" style=""></paper-icon-button>
+                    <paper-icon-button id="ner-action" icon="social:group-add" data-i18n="[title]annotations.ner.title" role="button" tabindex="0" aria-disabled="false"></paper-icon-button>
+                </div>
+            </fx-case>
+        </fx-switch>
+    </fx-fore>
+-->
+        <pb-page data-template="pages:pb-page" unresolved="unresolved" require-language="require-language" locales="resources/i18n/{{ns}}/{{lng}}.json">
+            <pb-document id="document1" data-template="pages:pb-document"/>
+            <app-drawer-layout force-narrow="force-narrow">
+                <app-drawer data-template="lib:include" data-template-path="templates/drawer.html"/>
+                <app-header-layout>
+                    <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
+                        <app-toolbar data-template="lib:include" data-template-path="templates/menu.html"/>
+                        <app-toolbar data-template="lib:include" data-template-path="templates/toolbar.html"/>
+                    </app-header>
+
+                    <main>
+                        <aside class="annotation-editor">
+x                            <pb-popover for="foobar">
+                                <div class="toolbar">
+                                    <!--paper-icon-button id="clear-all" icon="icons:refresh"></paper-icon-button-->
+                                    <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.person" title="Person" data-type="person" data-shortcut="⌘+⇧+p,ctrl+⇧+p" icon="social:person" disabled="disabled"></paper-icon-button>
+                                    <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.organisation" title="organization" data-type="organization" data-shortcut="⌘+⇧+o,ctrl+⇧+o" icon="social:people" disabled="disabled"></paper-icon-button>
+                                    <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.place" title="Place" data-type="place" icon="maps:place" data-shortcut="⌘+⇧+q,ctrl+⇧+q" disabled="disabled"></paper-icon-button>
+                                    <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.term" title="Term" data-type="term" icon="icons:bookmark" data-shortcut="⌘+⇧+t,ctrl+⇧+t" disabled="disabled"></paper-icon-button>
+                                    <paper-icon-button class="annotation-action" data-i18n="[title]annotations.date" title="Date" data-type="date" icon="icons:today" data-shortcut="⌘+⇧+d,ctrl+⇧+d" disabled="disabled"></paper-icon-button>
+                                    <paper-icon-button class="annotation-action" data-i18n="[title]annotations.ref" title="Reference" data-type="link" icon="icons:link" data-shortcut="⌘+⇧+l,ctrl+⇧+l" disabled="disabled"></paper-icon-button>
+                                    <paper-icon-button class="annotation-action" data-i18n="[title]annotations.abbreviation" title="Abbreviation" data-type="abbreviation" icon="icons:translate" data-shortcut="⌘+⇧+b,ctrl+⇧+b" disabled="disabled"></paper-icon-button>
+                                    <paper-icon-button class="annotation-action" title="Sic" data-type="sic" icon="editor:strikethrough-s" data-shortcut="⌘+⇧+e,ctrl+⇧+e" disabled="disabled"></paper-icon-button>
+                                    <paper-icon-button class="annotation-action" data-i18n="[title]annotations.reg" title="Regularization" data-type="reg" icon="editor:wrap-text" data-shortcut="⌘+⇧+g,ctrl+⇧+g" disabled="disabled"></paper-icon-button>
+                                    <paper-icon-button class="annotation-action" data-i18n="[title]annotations.app" title="Apparatus" data-type="app" icon="icons:visibility" data-shortcut="⌘+⇧+v,ctrl+⇧+v" disabled="disabled"></paper-icon-button>
+                                    <paper-icon-button class="annotation-action" data-i18n="[title]annotations.hi" title="Highlight" data-type="hi" icon="editor:format-bold" data-shortcut="⌘+⇧+h,ctrl+⇧+h" disabled="disabled"></paper-icon-button>
+                                    <paper-icon-button class="annotation-action" data-i18n="[title]annotations.modify" title="Edit" data-type="edit" icon="editor:mode-edit" data-shortcut="⌘+⇧+m,ctrl+⇧+m" disabled="disabled"></paper-icon-button>
+                                    <paper-icon-button id="ner-action" icon="social:group-add" data-i18n="[title]annotations.ner.title"></paper-icon-button>
+                                </div>
+                            </pb-popover>
+                            <iron-form id="edit-form">
+                                <form action="">
+                                    <div class="annotation-form person organization place term">
+                                        <paper-input class="form-ref" name="ref" data-i18n="[label]annotations.reference" label="Reference">
+                                            <paper-icon-button slot="prefix" icon="search" data-i18n="[label]annotations.lookup"></paper-icon-button>
+                                        </paper-input>
+                                        <div class="authority-info"><pb-i18n key="dialogs.loading">Loading ...</pb-i18n></div>
+                                    </div>
+                                    <div class="annotation-form date">
+                                        <paper-input name="when" label="when" type="date"></paper-input>
+                                        <paper-input name="from" label="from" type="date"></paper-input>
+                                        <paper-input name="to" label="to" type="date"></paper-input>
+                                    </div>
+                                    <div class="annotation-form hi">
+                                        <paper-input name="rend" label="rend"></paper-input>
+                                        <paper-input name="rendition" label="rendition"></paper-input>
+                                    </div>
+                                    <div class="annotation-form link">
+                                        <paper-input name="target" label="target"></paper-input>
+                                    </div>
+                                    <pb-repeat class="annotation-form app" initial="1">
+                                        <template>
+                                            <paper-input name="wit" label="wit"></paper-input>
+                                            <paper-input name="rdg" label="rdg"></paper-input>
+                                        </template>
+                                    </pb-repeat>
+                                    <paper-input class="annotation-form sic" name="corr" data-i18n="[label]annotations.correction" label="Correction"></paper-input>
+                                    <paper-input class="annotation-form abbreviation" name="expan" data-i18n="[label]annotations.expansion" label="Expansion"></paper-input>
+                                    <paper-input class="annotation-form reg" name="reg" data-i18n="[label]annotations.reg" label="Regularization"></paper-input>
+                                    <div class="annotation-form edit">
+                                        <p><pb-i18n key="annotations.modify-info"></pb-i18n></p>
+                                        <paper-input name="content" data-i18n="[label]annotations.correction" label="Correction"></paper-input>
+                                    </div>
+                                    <paper-icon-button id="form-save" icon="icons:save" data-i18n="[label]annotations.apply"></paper-icon-button>
+                                </form>
+                            </iron-form>
+                            <div id="occurrences">
+                                <h4><div><pb-i18n key="annotations.occurrences">Occurrences in text</pb-i18n></div> <paper-icon-button id="mark-all" icon="icons:done-all" data-i18n="[label]annotations.apply-all" data-shortcut="⌘+option+a,ctrl+alt+a"></paper-icon-button></h4>
+                                <ul></ul>
+                            </div>
+                        </aside>
+                        <div class="text">
+                            <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
+                                <pb-param name="header" value="short"/>
+                            </pb-view>
+                            <pb-view-annotate id="view1" src="document1" odd="annotations"
+                                append-footnotes="append-footnotes" suppress-highlight="suppress-highlight"
+                                subscribe="transcription" emit="transcription">
+                                <pb-param name="track-ids" value="yes"/>
+                            </pb-view-annotate>
+                        </div>
+                        <aside class="preview">
+                            <fx-fore>
+                                <!-- ### reset the authority-editor by replacing it with empty element -->
+                                <fx-load event="authority-done" attach-to="#authority-editor-side">
+                                    <template><div></div></template>
+                                </fx-load>
+                                <fx-action event="pb-authority-lookup" target="#document">
+                                    <fx-setvalue ref="instance('i-default')/type" value="event('type')"/>
+                                </fx-action>
+
+                                <fx-action event="show-authorities" target="#document">
+                                    <fx-message>show-auths</fx-message>
+                                    <fx-setvalue ref="view">authority-search</fx-setvalue>
+                                </fx-action>
+
+
+                                <fx-model>
+                                    <fx-instance id="i-default">
+                                        <data>
+                                            <type/>
+                                            <view>default-view</view>
+                                        </data>
+                                    </fx-instance>
+                                </fx-model>
+
+
+
+                                <header>
+                                    <div class="toolbar">
+                                        <paper-icon-button id="reload-all" icon="icons:restore" data-i18n="[title]annotations.reload"></paper-icon-button>
+                                        <paper-icon-button id="document-save" icon="icons:save" data-i18n="[title]annotations.save" data-shortcut="⌘+⇧+s,ctrl+⇧+s"></paper-icon-button>
+                                        <paper-icon-button id="document-download" icon="icons:cloud-download" data-i18n="[title]annotations.download" data-shortcut="⌘+⇧+d,ctrl+⇧+d"></paper-icon-button>
+                                        <paper-icon-button id="undo-history" icon="icons:undo" data-i18n="[title]annotations.undo"></paper-icon-button>
+                                        <paper-icon-button id="reload-preview" icon="icons:refresh" data-i18n="[title]annotations.preview"></paper-icon-button>
+                                        <paper-icon-button id="authority" icon="add" data-i18n="[title]annotations.authority">
+                                            <fx-load event="click" url="templates/person-editor.html" attach-to="#authority-editor-side"></fx-load>
+                                        </paper-icon-button>
+                                    </div>
+                                    <pb-select-odd emit="preview"></pb-select-odd>
+                                </header>
+
+                                <!-- ### dynamically loaded authority editor goes here -->
+                                <div id="authority-editor-side"></div>
+
+                                <div id="authority-search"></div>
+
+<!--
+                                <fx-switch ref="view">
+                                    <fx-case name="defaultView"/>
+                                    <fx-case name="authority-search">
+-->
+                                        <pb-authority-lookup subscribe="transcription" emit="transcription">
+                                            <pb-authority connector="Custom" name="organization">
+                                                <pb-authority connector="GND" prefix="gnd"></pb-authority>
+                                            </pb-authority>
+                                            <!--pb-authority connector="GeoNames" name="place" user="existdb" prefix="geo"></pb-authority-->
+                                            <pb-authority connector="Custom" name="place">
+                                                <pb-authority connector="GeoNames" user="existdb" prefix="geo"></pb-authority>
+                                            </pb-authority>
+                                            <pb-authority connector="Custom" name="term">
+                                                <pb-authority connector="GND" prefix="gnd"></pb-authority>
+                                            </pb-authority>
+                                            <pb-authority connector="Custom" name="person">
+                                                <pb-authority connector="GND" prefix="gnd"></pb-authority>
+                                            </pb-authority>
+                                        </pb-authority-lookup>
+<!--
+                                    </fx-case>
+                                </fx-switch>
+-->
+
+
+
+                                <pb-tabs>
+                                    <paper-tab slot="tab">AUTHORITY</paper-tab>
+                                    <paper-tab slot="tab">HTML</paper-tab>
+                                    <paper-tab slot="tab">TEI</paper-tab>
+                                    <paper-tab slot="tab">JSON</paper-tab>
+                                    <paper-tab slot="tab"><pb-i18n key="annotations.changes">Changes</pb-i18n></paper-tab>
+                                    <iframe slot="page" id="html" src="about:blank"></iframe>
+                                    <pb-code-highlight slot="page" id="output" language="xml" theme="default"></pb-code-highlight>
+                                    <pre slot="page" id="json"></pre>
+                                    <div slot="page" id="changes"></div>
+                                </pb-tabs>
+                            </fx-fore>
+
+                        </aside>
+                    </main>
+                </app-header-layout>
+            </app-drawer-layout>
+<!--
+            <paper-dialog id="authority-dialog">
+                <paper-dialog-scrollable>
+                    <pb-authority-lookup subscribe="transcription" emit="transcription">
+                        <pb-authority connector="Custom" name="organization">
+                            <pb-authority connector="GND" prefix="gnd"></pb-authority>
+                        </pb-authority>
+                        &lt;!&ndash;pb-authority connector="GeoNames" name="place" user="existdb" prefix="geo"></pb-authority&ndash;&gt;
+                        <pb-authority connector="Custom" name="place">
+                            <pb-authority connector="GeoNames" user="existdb" prefix="geo"></pb-authority>
+                        </pb-authority>
+                        <pb-authority connector="Custom" name="term">
+                            <pb-authority connector="GND" prefix="gnd"></pb-authority>
+                        </pb-authority>
+                        <pb-authority connector="Custom" name="person">
+                            <pb-authority connector="GND" prefix="gnd"></pb-authority>
+                        </pb-authority>
+                    </pb-authority-lookup>
+                </paper-dialog-scrollable>
+                <div class="buttons">
+                    <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
+                        <pb-i18n key="dialogs.close">Close</pb-i18n>
+                    </paper-button>
+                </div>
+            </paper-dialog>
+-->
+            <paper-dialog id="ner-dialog">
+                <paper-dialog-scrollable>
+                    <h2><pb-i18n key="annotations.ner.title">Named Entity Extraction</pb-i18n></h2>
+                    <p><pb-i18n key="annotations.ner.description">Try to automatically find named entities in the text and mark them as annotations.</pb-i18n></p>
+                    <paper-dropdown-menu data-i18n="[label]annotations.ner.model" label="Select a model">
+                        <paper-listbox slot="dropdown-content" selected="0"></paper-listbox>
+                    </paper-dropdown-menu>
+                    <!--p>OR</p>
+                    <paper-checkbox>Use rule-based matching</paper-checkbox>
+                    <paper-input id="lang" data-i18n="[label]ner.language"></paper-input-->
+                </paper-dialog-scrollable>
+                <div class="buttons">
+                    <paper-button id="ner-run" dialog-confirm="dialog-confirm" autofocus="autofocus">
+                        <pb-i18n key="annotations.ner.run">Find entities</pb-i18n>
+                    </paper-button>
+                    <paper-button dialog-confirm="dialog-confirm">
+                        <pb-i18n key="dialogs.close">Close</pb-i18n>
+                    </paper-button>
+                </div>
+            </paper-dialog>
+            <pb-message id="restore-dialog" data-i18n="[title]annotations.confirm-restore-title;[message]annotations.restore"></pb-message>
+            <pb-message id="confirm-reload-dialog" data-i18n="[title]annotations.confirm-reload-title;[message]annotations.confirm-reload"></pb-message>
+            <pb-message id="permission-denied-dialog" data-i18n="[title]dialogs.error;[message]annotations.permission"></pb-message>
+            <pb-message id="ner-denied-dialog" data-i18n="[title]dialogs.error;[message]annotations.ner.denied"></pb-message>
+            <pb-message id="error-dialog" data-i18n="[title]dialogs.error;[message]dialogs.serverError"></pb-message>
+            <pb-message id="runtime-error-dialog" data-i18n="[title]dialogs.error;[message]dialogs.serverError"></pb-message>
+        </pb-page>
+        <div class="splash"></div>
+    </body>
+</html>
