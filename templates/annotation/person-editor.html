@@ -9,12 +9,12 @@
 <body>
 <!--<fx-fore refresh-on-view>-->
 <fx-fore>
-    <fx-send event="ready" if="instance('parameters')//id" submission="load" url="../api/entry/{instance('parameters')//id}"></fx-send>
-    <fx-send event="ready" if="not(instance('parameters')//id)" submission="load" url="../api/entry/NEW"></fx-send>
+    <fx-send event="ready" if="instance('parameters')//id" submission="load" url="api/entry/{instance('parameters')//id}"></fx-send>
+    <fx-send event="ready" if="not(instance('parameters')//id)" submission="load" url="api/entry/NEW"></fx-send>
     <fx-model id="model-1">
         <fx-instance
             id="default"
-            src="../api/forms/template/person-default"
+            src="api/forms/template/person-default"
             xpath-default-namespace="http://www.tei-c.org/ns/1.0"/>
 
         <fx-instance 
@@ -23,7 +23,7 @@
 
         <fx-instance
                 id="i-template"
-                src="../api/forms/template/person-template"
+                src="api/forms/template/person-template"
                 xpath-default-namespace="http://www.tei-c.org/ns/1.0"/>
 
         <fx-submission 
@@ -45,14 +45,6 @@
 
     <main>
         <!-- begin section general -->
-        <section>
-            Save the form
-            <fx-trigger>
-                <button>save</button>
-                    <fx-send submission="save" if="instance('parameters')//id" url="../api/entry/{instance('parameters')//id}"></fx-send>
-                    <fx-send submission="save" if="not(instance('parameters')//id)" url="../api/entry/person-NEW" ></fx-send>
-            </fx-trigger>
-        </section>
         <h2>Person</h2>
         <section class="person">
             <fx-group id="general" ref="//person" class="col-2">
@@ -108,6 +100,12 @@
                     <fx-hint>Warsaw</fx-hint>
                 </fx-control>
             </fx-group>     
+            <fx-trigger>
+                <button>save</button>
+                <fx-send submission="save" if="instance('parameters')//id" url="api/entry/{instance('parameters')//id}"/>
+                <fx-send submission="save" if="not(instance('parameters')//id)" url="api/entry/person-NEW"/>
+            </fx-trigger>
+
         </section>
         <!-- // end section general -->
 
