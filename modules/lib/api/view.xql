@@ -73,7 +73,8 @@ declare function vapi:view($request as map(*)) {
             let $model := map { 
                 "doc": $path,
                 "template": $templateName,
-                "media": if (map:contains($config, 'media')) then $config?media else ()
+                "media": if (map:contains($config, 'media')) then $config?media else (),
+                "app": $config:context-path
             }
             return
                 templates:apply($template, vapi:lookup#2, $model, tpu:get-template-config($request))
