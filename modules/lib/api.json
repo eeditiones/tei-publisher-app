@@ -2516,13 +2516,14 @@
 		},
 		"/api/nlp/entities/{id}": {
 			"get": {
-				"summary": "Call entity extraction on a document",
+				"summary": "Call entity extraction on a document or collection of documents",
 				"operationId": "nlp:entity-recognition",
 				"tags": ["nlp"],
 				"parameters": [
 					{
 						"name": "id",
 						"in": "path",
+						"description": "Relative path to collection or single document",
 						"schema": {
 							"type": "string"
 						},
@@ -2552,7 +2553,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object"
+									"type": "array"
 								}
 							}
 						}
@@ -2599,6 +2600,59 @@
 							"application/json": {
 								"schema": {
 									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/nlp/strings/{id}": {
+			"get": {
+				"summary": "Find occurrences of the given string in other documents in the collection",
+				"operationId": "nlp:strings",
+				"tags": ["nlp"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "Relative path to collection",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					},
+					{
+						"name": "string",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					},
+					{
+						"name": "type",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					},
+					{
+						"name": "properties",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "JSON structure listing the entities found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array"
 								}
 							}
 						}

@@ -92,6 +92,7 @@ window.addEventListener("WebComponentsReady", () => {
 	let type = "";
 	let text = "";
 	let enablePreview = true;
+	let currentEntityInfo = null;
 
 	/**
 	 * Display the main form
@@ -392,6 +393,55 @@ window.addEventListener("WebComponentsReady", () => {
 		window.pbEvents.emit("pb-end-update", "transcription", {});
 	}
 
+	function searchCollection(ev) {
+		ev.preventDefault();
+		ev.stopPropagation();
+		window.pbEvents.emit("pb-start-update", "transcription", {});
+		const endpoint = document.querySelector("pb-page").getEndpoint();
+		let strings = '';
+		if (currentEntityInfo) {
+			console.log(currentEntityInfo);
+			strings = currentEntityInfo.strings || [];
+			strings.push(text);
+		} else {
+			strings = [text];
+		}
+		const params = new URLSearchParams();
+		params.set('type', type);
+		params.set('properties', JSON.stringify(form.serializeForm()));
+		strings.forEach(s => params.append('string', s));
+
+		fetch(`${endpoint}/api/nlp/strings/annotate?${params.toString()}`, {
+			method: "GET",
+			mode: "cors",
+			credentials: "same-origin"
+		})
+		.then((response) => {
+			window.pbEvents.emit("pb-end-update", "transcription", {});
+			if (response.ok) {
+				return response.json();
+			}
+		})
+		.then((json) => {
+			const docs = Object.keys(json);
+			document.querySelector('#occurrences .messages').innerHTML = `Found matches in ${docs.length} other documents`;
+			docs.forEach(path => {
+				const value = window.localStorage.getItem(`tei-publisher.annotations.${path}`);
+				if (value) {
+					const ranges = JSON.parse(value);
+					json[path].forEach((newRange) => {
+						if (!ranges.find(range => range.text === newRange.text && range.start === newRange.start && range.type === newRange.type)) {
+							ranges.push(newRange);
+						}
+					});
+					window.localStorage.setItem(`tei-publisher.annotations.${path}`, JSON.stringify(ranges));
+				} else {
+					window.localStorage.setItem(`tei-publisher.annotations.${path}`, JSON.stringify(json[path]));
+				}
+			});
+		}).catch(() => window.pbEvents.emit("pb-end-update", "transcription", {}));
+	}
+
 	function checkNERAvailable() {
 		const endpoint = document.querySelector("pb-page").getEndpoint();
 		fetch(`${endpoint}/api/nlp/status`, {
@@ -527,6 +577,10 @@ window.addEventListener("WebComponentsReady", () => {
 	}
 	markAllBtn.addEventListener("click", markAll);
 
+	// search occurrences across entire collection
+	const searchBtn = document.getElementById('search-collection');
+	searchBtn.addEventListener('click', searchCollection);
+
 	// display configured keyboard shortcuts on mouseover
 	document.addEventListener('pb-page-ready', () => {
 		document.querySelectorAll('[data-shortcut]').forEach((elem) => {
@@ -587,7 +641,10 @@ window.addEventListener("WebComponentsReady", () => {
 				document
 					.querySelector("pb-authority-lookup")
 					.lookup(type, input.value, authorityInfo)
-					.then(findOther)
+					.then(info => {
+						currentEntityInfo = info;
+						findOther(info);
+					})
 					.catch((msg) => {
 						authorityInfo.innerHTML = `Failed to load ${ref}: ${msg}`;
 					});

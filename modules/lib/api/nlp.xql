@@ -43,20 +43,70 @@ declare function nlp:models($request as map(*)) {
 declare function nlp:entity-recognition($request as map(*)) {
     let $path := xmldb:decode($request?parameters?id)
     let $doc := config:get-document($path)/tei:TEI/tei:text
-    let $pairs := (
-        nlp:extract-plain-text($doc, true()), 
-        nlp:extract-plain-text($doc//tei:note, false())
-    )
-    let $offsets := nlp:mapping-table($pairs, 0, $request?parameters?debug)
-    let $plain := string-join($pairs ! .?2)
-    return
-        if ($request?parameters?debug) then
-            map {
-                "plain": $plain,
-                "offsets": $offsets
-            }
+    let $docs :=
+        if (exists($doc)) then
+            $doc
         else
-            nlp:convert(nlp:entities-remote($plain, $request?parameters?model), $offsets)
+            collection($config:data-root || "/" || $path)/tei:TEI/tei:text
+    return
+        nlp:entity-recognition($request, $docs)
+};
+
+declare %private function nlp:entity-recognition($request as map(*), $docs as element()*) {
+    map:merge(
+        for $doc in $docs
+        let $pairs := (
+            nlp:extract-plain-text($doc, true()), 
+            nlp:extract-plain-text($doc//tei:note, false())
+        )
+        let $offsets := nlp:mapping-table($pairs, 0, $request?parameters?debug)
+        let $plain := string-join($pairs ! .?2)
+        return
+            if ($request?parameters?debug) then
+                map {
+                    "plain": $plain,
+                    "offsets": $offsets
+                }
+            else
+                nlp:convert(nlp:entities-remote($plain, $request?parameters?model), $offsets, $doc)
+    )
+};
+
+declare function nlp:strings($request as map(*)) {
+    map:merge(
+        let $path := xmldb:decode($request?parameters?id)
+        for $doc in collection($config:data-root || "/" || $path)/tei:TEI/tei:text
+        let $pairs := (
+            nlp:extract-plain-text($doc, true()), 
+            nlp:extract-plain-text($doc//tei:note, false())
+        )
+        let $plain := string-join($pairs ! .?2)
+        let $matches := nlp:match-string(
+            $request?parameters?string,
+            $request?parameters?type,
+            parse-json($request?parameters?properties),
+            $plain)
+        return
+            if (array:size($matches) > 0) then
+                let $offsets := nlp:mapping-table($pairs, 0, $request?parameters?debug)
+                return
+                    nlp:convert($matches, $offsets, $doc)
+            else
+                util:log('INFO', 'NOTHING found')
+    )
+};
+
+declare %private function nlp:match-string($string as xs:string+, $type as xs:string, $properties as map(*), $text as xs:string) {
+    array {
+        let $regex := string-join($string, "|")
+        for $match in analyze-string($text, $regex, "i")//fn:match
+        return map {
+            "text": $match/string(),
+            "start": sum($match/preceding::text() ! string-length(.)),
+            "type": $type,
+            "properties": $properties
+        }
+    }
 };
 
 declare function nlp:plain-text($request as map(*)) {
@@ -283,8 +333,8 @@ declare function nlp:mapping-table($result as map(*)*, $pairs as array(*)*, $acc
  : by the annotation editor. Uses the mapping created by nlp:compute-offsets
  : to re-map each entity to the original XML.
  :)
-declare function nlp:convert($entities as array(*), $offsets as map(*)*) {
-    array {
+declare function nlp:convert($entities as array(*), $offsets as map(*)*, $doc as node()) {
+    let $entries :=
         for $entity in $entities?*
         let $insertPoint := filter($offsets, function($offset as map(*)) {
             $entity?start >= $offset?start and $entity?start < $offset?end
@@ -299,34 +349,44 @@ declare function nlp:convert($entities as array(*), $offsets as map(*)*) {
                 "end": $insertPoint?origOffset + $start + string-length($entity?text),
                 "type": $entity?type,
                 "text": $entity?text,
-                "properties": map {
-                    "ref": ""
-                }
+                "properties": 
+                    if (exists($entity?properties)) then
+                        $entity?properties
+                    else
+                        map {
+                            "ref": ""
+                        }
             }
-    }
+    where exists($entries)
+    return
+        map {
+            config:get-relpath($doc): array { $entries }
+        }
 };
 
 declare function nlp:pattern-recognition($request as map(*)) {
-    let $path := xmldb:decode($request?parameters?id)
-    let $lang := $request?parameters?lang
-    let $doc := config:get-document($path)/tei:TEI
-    let $text := $doc/tei:text
-    let $patterns := nlp:person-patterns($doc)
-    let $pairs := (
-        nlp:extract-plain-text($text, true()), 
-        nlp:extract-plain-text($text//tei:note, false())
+    map:merge(
+        let $path := xmldb:decode($request?parameters?id)
+        let $lang := $request?parameters?lang
+        let $doc := config:get-document($path)/tei:TEI
+        let $text := $doc/tei:text
+        let $patterns := nlp:person-patterns($doc)
+        let $pairs := (
+            nlp:extract-plain-text($text, true()), 
+            nlp:extract-plain-text($text//tei:note, false())
+        )
+        let $offsets := nlp:mapping-table($pairs, 0, $request?parameters?debug)
+        let $plain := string-join($pairs ! .?2)
+        return
+            if ($request?parameters?debug) then
+                map {
+                    "plain": $plain,
+                    "offsets": $offsets,
+                    "patterns": $patterns
+                }
+            else
+                nlp:convert(nlp:patterns-remote($plain, $patterns, $lang), $offsets, $doc)
     )
-    let $offsets := nlp:mapping-table($pairs, 0, $request?parameters?debug)
-    let $plain := string-join($pairs ! .?2)
-    return
-        if ($request?parameters?debug) then
-            map {
-                "plain": $plain,
-                "offsets": $offsets,
-                "patterns": $patterns
-            }
-        else
-            nlp:convert(nlp:patterns-remote($plain, $patterns, $lang), $offsets)
 };
 
 declare %private function nlp:person-patterns($doc as element(tei:TEI)) {
