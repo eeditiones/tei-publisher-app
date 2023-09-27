@@ -409,7 +409,7 @@ window.addEventListener("WebComponentsReady", () => {
 		})
 		.then((response) => {
 			if (response.ok) {
-				document.getElementById('ner-action').style.display = 'block';
+				document.getElementById('ner-action').style.display = 'inline-block';
 				response.json().then(json => console.log(`NER: found spaCy version ${json.spacy_version}.`));
 			} else {
 				console.error("NER endpoint not available");

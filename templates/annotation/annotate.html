@@ -76,12 +76,14 @@
 -->
 <pb-page data-template="pages:pb-page" unresolved="unresolved" require-language="require-language" locales="resources/i18n/{{ns}}/{{lng}}.json">
     <pb-document id="document1" data-template="pages:pb-document"/>
+<!--
     <app-drawer-layout force-narrow="force-narrow">
         <app-drawer data-template="lib:include" data-template-path="templates/drawer.html"/>
         <app-header-layout>
             <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
                 <app-toolbar data-template="lib:include" data-template-path="templates/menu.html"/>
             </app-header>
+-->
 
             <header class="header-toolbar">
                 <span class="icon-group">
@@ -335,8 +337,10 @@
 
                 </aside>
             </main>
+<!--
         </app-header-layout>
     </app-drawer-layout>
+-->
     <paper-dialog id="ner-dialog">
         <paper-dialog-scrollable>
             <h2><pb-i18n key="annotations.ner.title">Named Entity Extraction</pb-i18n></h2>

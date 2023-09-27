@@ -9,13 +9,14 @@
 <body>
 <!--<fx-fore refresh-on-view>-->
 <fx-fore>
-    <fx-send event="ready" if="instance('parameters')//id" submission="load" url="api/entry/{instance('parameters')//id}"></fx-send>
-    <fx-send event="ready" if="not(instance('parameters')//id)" submission="load" url="api/entry/NEW"></fx-send>
+    <fx-send event="ready" if="instance('parameters')//id" submission="load" url="../api/entry/{instance('parameters')//id}"></fx-send>
+    <fx-send event="ready" if="not(instance('parameters')//id)" submission="load" url="../api/entry/NEW"></fx-send>
     <fx-model id="model-1">
         <fx-instance
             id="default"
-            src="api/forms/template/person-default"
+            src="../api/forms/template/person-default"
             xpath-default-namespace="http://www.tei-c.org/ns/1.0"/>
+
 
         <fx-instance 
             id="parameters"
@@ -23,7 +24,7 @@
 
         <fx-instance
                 id="i-template"
-                src="api/forms/template/person-template"
+                src="../api/forms/template/person-template"
                 xpath-default-namespace="http://www.tei-c.org/ns/1.0"/>
 
         <fx-submission 
@@ -41,15 +42,25 @@
         </fx-submission>
     </fx-model>
 
-    <header>Person Register</header>
+<!--    <header>Person Register</header>-->
 
     <main>
         <!-- begin section general -->
-        <h2>Person</h2>
+
         <section class="person">
+            <header>
+                <h2>Person</h2>
+                <fx-trigger>
+                    <paper-icon-button icon="icons:save" data-i18n="[title]annotations.save"></paper-icon-button>
+                    <fx-action>
+                        <fx-send submission="save" if="instance('parameters')//id" url="../api/entry/{instance('parameters')//id}"/>
+                        <fx-send submission="save" if="not(instance('parameters')//id)" url="../api/entry/person-NEW"/>
+                        <fx-dispatch name="hide-authority-editor" target="#document"></fx-dispatch>
+                    </fx-action>
+                </fx-trigger>
+            </header>
             <fx-group id="general" ref="//person" class="col-2">
-                <h3>Person ID</h3>
-                <fx-output ref="@xml:id"></fx-output>
+                <h3>Person ID: <fx-output ref="@xml:id"></fx-output></h3>
 
                 <fx-control class="tp-input -form-control" ref="persName[@type='main']">
                     <label class="tp-label">Canonical form</label>
@@ -100,11 +111,6 @@
                     <fx-hint>Warsaw</fx-hint>
                 </fx-control>
             </fx-group>     
-            <fx-trigger>
-                <button>save</button>
-                <fx-send submission="save" if="instance('parameters')//id" url="api/entry/{instance('parameters')//id}"/>
-                <fx-send submission="save" if="not(instance('parameters')//id)" url="api/entry/person-NEW"/>
-            </fx-trigger>
 
         </section>
         <!-- // end section general -->
@@ -112,14 +118,17 @@
         <!-- begin section name variants -->
         <section>
             <fx-group>
-                <header>Name variants ({count(//persName[@type='variant'])})</header>
+                <header>
+                    Name variants ({count(//persName[@type='variant'])})
                     <fx-trigger class="add-button">
-                        <button>add</button>
+<!--                        <button>add</button>-->
+                        <paper-icon-button icon="icons:add" data-i18n="[title]annotations.add.authority"></paper-icon-button>
                         <fx-insert
                                 context="//person"
                                 ref="persName"
                                 origin="instance('i-template')//persName[@type='variant']"></fx-insert>
                     </fx-trigger>
+                </header>
 
                     <fx-repeat ref="//persName[@type='variant']" id="r-nameVariant">
                         <template>
@@ -150,7 +159,8 @@
             <fx-group>
                 <header>Professions and roles ({count(//occupation)})</header>
                     <fx-trigger class="add-button">
-                        <button>add</button>
+<!--                        <button>add</button>-->
+                        <paper-icon-button icon="icons:add" data-i18n="[title]annotations.add.roles"></paper-icon-button>
                         <fx-insert
                                 context="//person"
                                 ref="name"
@@ -172,15 +182,6 @@
             </fx-group>
         </section>
         
-        <section class="actions">
-            <fx-trigger>
-                <button class="apply">apply</button>
-                <fx-send submission="save"/>
-                <fx-dispatch name="hide-editor" target="#document">
-                    <fx-property name="foo" value=""></fx-property>
-                </fx-dispatch>
-            </fx-trigger>
-        </section>
 
         <!-- // end section name variants -->
 
