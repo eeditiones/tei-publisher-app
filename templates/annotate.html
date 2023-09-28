@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html>
 <head>
+    <base href="${app}/" data-template="lib:parse-params"/>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
     <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"/>
@@ -325,10 +326,15 @@
 
                         <fx-group ref="occurrences" class="occurrences">
                             <section id="occurrences">
-                                <header><div><pb-i18n key="annotations.occurrences">Occurrences in text</pb-i18n></div> <paper-icon-button id="mark-all" icon="icons:done-all" data-i18n="[label]annotations.apply-all" data-shortcut="⌘+option+a,ctrl+alt+a"></paper-icon-button></header>
+                                <header>
+                                    <div><pb-i18n key="annotations.occurrences">Occurrences in text</pb-i18n></div> 
+                                    <paper-icon-button id="mark-all" icon="icons:done-all" data-i18n="[label]annotations.apply-all" data-shortcut="⌘+option+a,ctrl+alt+a"></paper-icon-button>
+                                    <paper-icon-button id="search-collection" icon="icons:search" data-i18n="[label]annotations.apply-all" data-shortcut="⌘+option+a,ctrl+alt+a"></paper-icon-button>
+                                </header>
+                                <p class="messages"></p>
                                 <ul></ul>
                                 <fx-trigger>
-                                    <button>apply</button>
+                                    <button>Close</button>
                                     <!-- ### todo: call endpoint to apply occurrences -->
                                     <fx-action>
                                         <!-- ### hide the annotation panel -->
