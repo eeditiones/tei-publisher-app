@@ -56,8 +56,8 @@ declare %private function nlp:entity-recognition($request as map(*), $docs as el
     map:merge(
         for $doc in $docs
         let $pairs := (
-            nlp:extract-plain-text($doc, true(), true()), 
-            nlp:extract-plain-text($doc//tei:note, false(), true())
+            nlp:extract-plain-offsets($doc, true(), true()), 
+            nlp:extract-plain-offsets($doc//tei:note, false(), true())
         )
         let $offsets := nlp:mapping-table($pairs, 0, $request?parameters?debug)
         let $plain := string-join($pairs ! .?2)
@@ -76,11 +76,11 @@ declare function nlp:strings($request as map(*)) {
     map:merge(
         let $path := xmldb:decode($request?parameters?id)
         for $doc in collection($config:data-root || "/" || $path)/tei:TEI/tei:text
-        let $pairs := (
-            nlp:extract-plain-text($doc, true(), false()), 
-            nlp:extract-plain-text($doc//tei:note, false(), false())
+        let $text := (
+            nlp:extract-plain-text($doc, true()),
+            nlp:extract-plain-text($doc//tei:note, false())
         )
-        let $plain := string-join($pairs ! .?2)
+        let $plain := string-join($text)
         let $matches := nlp:match-string(
             $request?parameters?string,
             $request?parameters?type,
@@ -89,8 +89,8 @@ declare function nlp:strings($request as map(*)) {
         return
             if (array:size($matches) > 0) then
                 let $pairs := (
-                    nlp:extract-plain-text($doc, true(), true()), 
-                    nlp:extract-plain-text($doc//tei:note, false(), true())
+                    nlp:extract-plain-offsets($doc, true(), true()), 
+                    nlp:extract-plain-offsets($doc//tei:note, false(), true())
                 )
                 let $offsets := nlp:mapping-table($pairs, 0, $request?parameters?debug)
                 return
@@ -101,7 +101,7 @@ declare function nlp:strings($request as map(*)) {
 };
 
 declare %private function nlp:match-string($string as xs:string+, $type as xs:string, $properties as map(*), $text as xs:string) {
-    let $regex := string-join($string, "|")
+    let $regex := string-join($string ! ("(?:^|\W+)" || . || "(?:\W+|$)"), "|")
     return
         if (matches($text, $regex, "i")) then
             array {
@@ -121,8 +121,8 @@ declare function nlp:plain-text($request as map(*)) {
     let $path := xmldb:decode($request?parameters?id)
     let $doc := config:get-document($path)/tei:TEI/tei:text
     let $pairs := (
-        nlp:extract-plain-text($doc, true(), true()), 
-        nlp:extract-plain-text($doc//tei:note, false(), true())
+        nlp:extract-plain-offsets($doc, true(), true()), 
+        nlp:extract-plain-offsets($doc//tei:note, false(), true())
     )
     let $plain := string-join($pairs ! .?2)
     return
@@ -235,6 +235,44 @@ declare %private function nlp:normalize($input as xs:string) {
 };
 
 (:~
+ : Extract the plain text of the document.
+ :)
+declare function nlp:extract-plain-text($nodes as node()*, $skipNotes as xs:boolean?) {
+    for $node at $pos in $nodes
+    return
+        typeswitch ($node)
+            case document-node() return
+                nlp:extract-plain-text($node/*, $skipNotes)
+            case element(tei:p) | element(tei:head) return (
+                nlp:extract-plain-text($node/node(), $skipNotes),
+                (: output empty line :)
+                " "
+            )
+            case element(tei:note) return 
+                if ($skipNotes) then
+                    ()
+                else
+                (
+                    (: output empty line before footnote starts :)
+                    " ",
+                    nlp:extract-plain-text($node/node(), $skipNotes)
+                ) 
+            case element() return
+                nlp:extract-plain-text($node/node(), $skipNotes)
+            case text() return
+                    let $parent := $node/..
+                    let $text :=
+                        if (matches($node, "^[\s\n]+$")) then
+                            ' '
+                        else
+                            $node/string()
+                    return
+                        $text
+            default return
+                ()
+};
+
+(:~
  : Extract the plain text of the document while recording the node id and 
  : character offset of each text node.
  :
@@ -242,14 +280,14 @@ declare %private function nlp:normalize($input as xs:string) {
  : id of the text node, the second the text, and the third the absolute character
  : offset into the parent node
  :)
-declare function nlp:extract-plain-text($nodes as node()*, $skipNotes as xs:boolean?, $trackOffsets as xs:boolean?) {
+declare function nlp:extract-plain-offsets($nodes as node()*, $skipNotes as xs:boolean?, $trackOffsets as xs:boolean?) {
     for $node at $pos in $nodes
     return
         typeswitch ($node)
             case document-node() return
-                nlp:extract-plain-text($node/*, $skipNotes, $trackOffsets)
+                nlp:extract-plain-offsets($node/*, $skipNotes, $trackOffsets)
             case element(tei:p) | element(tei:head) return (
-                nlp:extract-plain-text($node/node(), $skipNotes, $trackOffsets),
+                nlp:extract-plain-offsets($node/node(), $skipNotes, $trackOffsets),
                 (: output empty line :)
                 [(), " ", 0]
             )
@@ -260,10 +298,10 @@ declare function nlp:extract-plain-text($nodes as node()*, $skipNotes as xs:bool
                 (
                     (: output empty line before footnote starts :)
                     [(), " ", 0],
-                    nlp:extract-plain-text($node/node(), $skipNotes, $trackOffsets)
+                    nlp:extract-plain-offsets($node/node(), $skipNotes, $trackOffsets)
                 ) 
             case element() return
-                nlp:extract-plain-text($node/node(), $skipNotes, $trackOffsets)
+                nlp:extract-plain-offsets($node/node(), $skipNotes, $trackOffsets)
             case text() return
                     let $parent := $node/..
                     let $text :=
@@ -348,7 +386,7 @@ declare function nlp:convert($entities as array(*), $offsets as map(*)*, $doc as
             $entity?start >= $offset?start and $entity?start < $offset?end
         })
         (: ignore if the element is already marked as entity :)
-        where empty(nlp-config:entity-type($insertPoint?node))
+        where exists($insertPoint) and empty(nlp-config:entity-type($insertPoint?node))
         let $start := xs:int($entity?start - $insertPoint?start[1])
         return
             map {
@@ -380,8 +418,8 @@ declare function nlp:pattern-recognition($request as map(*)) {
         let $text := $doc/tei:text
         let $patterns := nlp:person-patterns($doc)
         let $pairs := (
-            nlp:extract-plain-text($text, true(), true()), 
-            nlp:extract-plain-text($text//tei:note, false(), true())
+            nlp:extract-plain-offsets($text, true(), true()), 
+            nlp:extract-plain-offsets($text//tei:note, false(), true())
         )
         let $offsets := nlp:mapping-table($pairs, 0, $request?parameters?debug)
         let $plain := string-join($pairs ! .?2)
