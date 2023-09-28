@@ -358,11 +358,11 @@ window.addEventListener("WebComponentsReady", () => {
 					query: selection,
 				});
 				//authorityDialog.open();
-        		window.pbEvents.emit("show-annotation", "transcription", {});
         		window.pbEvents.emit("show-authorities", "transcription", {});
 
 
 			}
+			window.pbEvents.emit("show-annotation", "transcription", {});
 			showForm(type);
 			text = selection;
 			activeSpan = null;
@@ -438,7 +438,7 @@ window.addEventListener("WebComponentsReady", () => {
 				if (value) {
 					const ranges = JSON.parse(value);
 					json[path].forEach((newRange) => {
-						if (!ranges.find(range => range.text === newRange.text && range.start === newRange.start && range.type === newRange.type)) {
+						if (!ranges.find(range => rangeEQ(range, newRange))) {
 							ranges.push(newRange);
 						}
 					});
@@ -448,6 +448,13 @@ window.addEventListener("WebComponentsReady", () => {
 				}
 			});
 		}).catch(() => window.pbEvents.emit("pb-end-update", "transcription", {}));
+	}
+
+	function rangeEQ(range, newRange) {
+		return range.text === newRange.text && range.start === newRange.start && 
+			range.type === newRange.type &&
+			(!range.properties || !newRange.properties ||
+			range.properties.ref === newRange.properties.ref);
 	}
 
 	function checkNERAvailable() {
