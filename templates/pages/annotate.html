@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html>
 <head>
+    <base href="${app}/" data-template="lib:parse-params"/>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
     <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"/>
@@ -15,7 +16,7 @@
 
     <link rel="stylesheet" href="resources/css/theme.css"/>
     <link rel="stylesheet" href="resources/css/fore.css"/>
-    <link rel="stylesheet" href="resources/css/annotate.css"/>
+    <link rel="stylesheet" href="templates/pages/annotate.css"/>
     <script type="module" src="resources/scripts/fore/fore-dev.js"></script>
     <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
     <script type="text/javascript" src="resources/scripts/annotations/annotations.js"></script>
@@ -80,10 +81,10 @@
     <app-drawer-layout force-narrow="force-narrow">
         <app-drawer data-template="lib:include" data-template-path="templates/drawer.html"/>
         <app-header-layout>
-            <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
-                <app-toolbar data-template="lib:include" data-template-path="templates/menu.html"/>
-            </app-header>
 -->
+<!--            <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">-->
+                <div data-template="lib:include" data-template-path="templates/menu.html"></div>
+<!--            </app-header>-->
 
             <header class="header-toolbar">
                 <span class="icon-group">
@@ -113,6 +114,7 @@
                     <paper-icon-button id="document-download" icon="icons:cloud-download" data-i18n="[title]annotations.download" data-shortcut="⌘+⇧+d,ctrl+⇧+d"></paper-icon-button>
                     <paper-icon-button id="undo-history" icon="icons:undo" data-i18n="[title]annotations.undo"></paper-icon-button>
                     <paper-icon-button id="reload-preview" icon="icons:refresh" data-i18n="[title]annotations.preview"></paper-icon-button>
+                        <paper-icon-button id="toggle-markup" icon="icons:visibility" data-i18n="[title]annotations.preview"></paper-icon-button>
                 </span>
             </header>
             <main>
@@ -158,6 +160,12 @@
                             <fx-setvalue ref="search">false</fx-setvalue>
                         </fx-action>
 
+                        <!-- ### hide the custom authority editor form -->
+                        <fx-action event="hide-authority-editor" target="#document">
+                            <fx-load attach-to="#authority-editor">
+                                <template><div></div></template>
+                            </fx-load>
+                        </fx-action>
 
                         <fx-action event="pb-annotation-detail" target="#document">
                             <fx-message>pb-annotation-detail</fx-message>
@@ -165,15 +173,18 @@
 
 
                         <!-- ### reset the authority-editor by replacing it with empty element -->
+<!--
                         <fx-load event="authority-done" attach-to="#authority-editor">
                             <template><div></div></template>
                         </fx-load>
+-->
 
                         <fx-action event="pb-annotation-edit" target="#document">
                             <fx-message>annotation-edit {event('type')}, {event('query')}</fx-message>
                             <fx-setvalue ref="annotation">true</fx-setvalue>
                             <fx-setvalue ref="search">true</fx-setvalue>
                         </fx-action>
+
 
                         <fx-action event="pb-authority-select" target="#document">
                             <fx-message>authority-select {event('properties.ref')}</fx-message>
@@ -196,7 +207,7 @@
                                     <authority>false</authority>
                                     <search>false</search>
                                     <occurrences>false</occurrences>
-                                    <markup>false</markup>
+                                    <markup>true</markup>
                                 </data>
                             </fx-instance>
                             <fx-bind ref="annotation" relevant="boolean-from-string(.)"></fx-bind>
@@ -264,49 +275,66 @@
 
                         </fx-group>
 
+                        <fx-group>
+                            <div id="authority-editor"></div>
+                        </fx-group>
 
-                        <fx-group ref="search" class="search">
+<!--                        <fx-group ref="search" class="search">-->
                             <section>
                                 <header>
-                                    Authorities type:{instance('i-default')/type}
+                                    <label>Authorities type:{instance('i-default')/type}</label>
                                     <paper-icon-button id="add-authority" icon="add" data-i18n="[title]annotations.authority">
                                         <!-- ### load the authority editor for authority type -->
                                         <fx-action event="click">
-                                            <fx-setvalue ref="../authority-editor">true</fx-setvalue>
+<!--                                            <fx-setvalue ref="../authority-editor">true</fx-setvalue>-->
                                             <!--                                        <fx-load url="templates/{instance('i-default')/type}-editor.html" attach-to="#authority-editor"></fx-load>-->
-                                            <fx-load url="templates/annotations/person-editor.html" attach-to="#authority-editor"></fx-load>
+                                            <fx-load url="templates/pages/annotation/person-editor.html" attach-to="#authority-editor"></fx-load>
+
+                                            <!-- todo: is hiding the search panel sensible when editing a custom authority? -->
+                                            <fx-setvalue ref="search">false</fx-setvalue>
                                         </fx-action>
                                     </paper-icon-button>
                                 </header>
-                                <fx-group ref="../authority">
-                                    <div id="authority-editor"></div>
+
+                                <!--
+                                                                <fx-group ref="../authority">
+                                                                    <div id="authority-editor"></div>
+                                                                </fx-group>
+                                -->
+
+
+                                <fx-group ref="search" class="search">
+                                    <pb-authority-lookup subscribe="transcription" emit="transcription">
+                                        <pb-authority connector="Custom" name="organization">
+                                            <pb-authority connector="GND" prefix="gnd"></pb-authority>
+                                        </pb-authority>
+                                        <!--pb-authority connector="GeoNames" name="place" user="existdb" prefix="geo"></pb-authority-->
+                                        <pb-authority connector="Custom" name="place">
+                                            <pb-authority connector="GeoNames" user="existdb" prefix="geo"></pb-authority>
+                                        </pb-authority>
+                                        <pb-authority connector="Custom" name="term">
+                                            <pb-authority connector="GND" prefix="gnd"></pb-authority>
+                                        </pb-authority>
+                                        <pb-authority connector="Custom" name="person">
+                                            <pb-authority connector="GND" prefix="gnd"></pb-authority>
+                                        </pb-authority>
+                                    </pb-authority-lookup>
                                 </fx-group>
-
-
-                                <pb-authority-lookup subscribe="transcription" emit="transcription">
-                                    <pb-authority connector="Custom" name="organization">
-                                        <pb-authority connector="GND" prefix="gnd"></pb-authority>
-                                    </pb-authority>
-                                    <!--pb-authority connector="GeoNames" name="place" user="existdb" prefix="geo"></pb-authority-->
-                                    <pb-authority connector="Custom" name="place">
-                                        <pb-authority connector="GeoNames" user="existdb" prefix="geo"></pb-authority>
-                                    </pb-authority>
-                                    <pb-authority connector="Custom" name="term">
-                                        <pb-authority connector="GND" prefix="gnd"></pb-authority>
-                                    </pb-authority>
-                                    <pb-authority connector="Custom" name="person">
-                                        <pb-authority connector="GND" prefix="gnd"></pb-authority>
-                                    </pb-authority>
-                                </pb-authority-lookup>
                             </section>
-                        </fx-group>
+<!--                        </fx-group>-->
+
 
                         <fx-group ref="occurrences" class="occurrences">
                             <section id="occurrences">
-                                <header><div><pb-i18n key="annotations.occurrences">Occurrences in text</pb-i18n></div> <paper-icon-button id="mark-all" icon="icons:done-all" data-i18n="[label]annotations.apply-all" data-shortcut="⌘+option+a,ctrl+alt+a"></paper-icon-button></header>
+                                <header>
+                                    <div><pb-i18n key="annotations.occurrences">Occurrences in text</pb-i18n></div> 
+                                    <paper-icon-button id="mark-all" icon="icons:done-all" data-i18n="[label]annotations.apply-all" data-shortcut="⌘+option+a,ctrl+alt+a"></paper-icon-button>
+                                    <paper-icon-button id="search-collection" icon="icons:search" data-i18n="[label]annotations.apply-all" data-shortcut="⌘+option+a,ctrl+alt+a"></paper-icon-button>
+                                </header>
+                                <p class="messages"></p>
                                 <ul></ul>
                                 <fx-trigger>
-                                    <button>apply</button>
+                                    <button>Close</button>
                                     <!-- ### todo: call endpoint to apply occurrences -->
                                     <fx-action>
                                         <!-- ### hide the annotation panel -->
@@ -319,7 +347,7 @@
                         </fx-group>
 
 
-                        <fx-group ref="markup">
+                        <fx-group id="markupPanel" ref="markup">
                             <section>
                                 <pb-tabs class="align-bottom-{align-bottom}">
                                     <paper-tab slot="tab">HTML</paper-tab>
