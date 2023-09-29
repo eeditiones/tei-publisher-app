@@ -61,15 +61,23 @@
     -->
     <header>
         <h1>Person</h1>
-        <fx-trigger>
-            <paper-icon-button icon="icons:save" data-i18n="[title]annotations.save"></paper-icon-button>
-            <fx-action>
-                <fx-send submission="save" if="instance('parameters')//id"
-                         url="api/entry/{instance('parameters')//id}"/>
-                <fx-send submission="save" if="not(instance('parameters')//id)" url="api/entry/person-NEW"/>
-<!--                <fx-dispatch name="hide-authority-editor" target="#document"></fx-dispatch>-->
-            </fx-action>
-        </fx-trigger>
+        <div>
+            <fx-trigger>
+                <paper-icon-button icon="icons:save" data-i18n="[title]annotations.save"></paper-icon-button>
+                <fx-action>
+                    <fx-send submission="save" if="instance('parameters')//id"
+                             url="api/entry/{instance('parameters')//id}"/>
+                    <fx-send submission="save" if="not(instance('parameters')//id)" url="api/entry/person-NEW"/>
+    <!--                <fx-dispatch name="hide-authority-editor" target="#document"></fx-dispatch>-->
+                </fx-action>
+            </fx-trigger>
+            <fx-trigger>
+                <paper-icon-button id="close-authority" icon="close" data-i18n="[title]annotations.authority">
+                    <!-- ### load the authority editor for authority type -->
+                </paper-icon-button>
+                <fx-dispatch name="hide-authorities" target="#document"></fx-dispatch>
+            </fx-trigger>
+        </div>
     </header>
 
 

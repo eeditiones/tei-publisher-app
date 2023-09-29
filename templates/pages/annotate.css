@@ -83,6 +83,7 @@ fx-group#general{
 }
 fx-fore fx-group > section{
     overflow:hidden;
+    position: relative;
 }
 
 fx-fore fx-group{
@@ -152,7 +153,12 @@ header h1{
 header paper-icon-button{
     display: inline-block;
 }
-
+#markupPanel{
+    visibility: hidden;
+}
+#markupPanel.on{
+    visibility: visible;
+}
 #markupPanel.bottom{
     position: fixed;
     left: 0;
@@ -164,6 +170,10 @@ header paper-icon-button{
     box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14),
     0 1px 10px 0 rgba(0, 0, 0, 0.12),
     0 2px 4px -1px rgba(0, 0, 0, 0.4);
+}
+#markupPanel.bottom paper-icon-button{
+    transform:rotate(270deg);
+    margin-right:2rem;
 }
 #markupPanel.bottom paper-tabs{
     height: 100%;

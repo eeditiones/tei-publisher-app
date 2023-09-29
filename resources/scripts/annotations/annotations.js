@@ -695,6 +695,16 @@ window.addEventListener("WebComponentsReady", () => {
 	 */
 	document.querySelector('#toggle-markup').addEventListener('click', (ev) => {
 		const markupPanel = document.querySelector('#markupPanel');
+		if(markupPanel.classList.contains('on')){
+			markupPanel.classList.remove('on');
+			ev.target.setAttribute('icon' , 'icons:visibility-off');
+		}else{
+			markupPanel.classList.add('on');
+			ev.target.setAttribute('icon', 'icons:visibility');
+		}
+	});
+	document.querySelector('#toggle-authority-bottom').addEventListener('click', (ev) => {
+		const markupPanel = document.querySelector('#markupPanel');
 		if(markupPanel.classList.contains('bottom')){
 			markupPanel.classList.remove('bottom');
 		}else{
