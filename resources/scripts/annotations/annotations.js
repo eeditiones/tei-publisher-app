@@ -451,7 +451,7 @@ window.addEventListener("WebComponentsReady", () => {
 	}
 
 	function rangeEQ(range, newRange) {
-		return range.text === newRange.text && range.start === newRange.start && 
+		return range.text === newRange.text && range.start === newRange.start &&
 			range.type === newRange.type &&
 			(!range.properties || !newRange.properties ||
 			range.properties.ref === newRange.properties.ref);
@@ -689,6 +689,20 @@ window.addEventListener("WebComponentsReady", () => {
 			actionHandler(button);
 		});
 	});
+
+	/**
+	 * handle button to toggle the tabcontainer to display at the bottom of the window versus on the right side
+	 */
+	document.querySelector('#toggle-markup').addEventListener('click', (ev) => {
+		const markupPanel = document.querySelector('#markupPanel');
+		if(markupPanel.classList.contains('bottom')){
+			markupPanel.classList.remove('bottom');
+		}else{
+			markupPanel.classList.add('bottom');
+		}
+	});
+
+
 	window.pbEvents.subscribe("pb-authority-select", "transcription", (ev) =>
 		authoritySelected(ev.detail)
 	);
