@@ -132,7 +132,7 @@ app-drawer {
     text-align: left;
 }
 
-.drawer-content pb-collapse h3 {
+.drawer-content pb-collapse header {
     margin-bottom: 0;
     margin-top: 0;
 }

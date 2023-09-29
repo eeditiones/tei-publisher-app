@@ -17,7 +17,12 @@
     <link rel="stylesheet" href="resources/css/theme.css"/>
     <link rel="stylesheet" href="resources/css/fore.css"/>
     <link rel="stylesheet" href="templates/pages/annotate.css"/>
-    <script type="module" src="resources/scripts/fore/fore-dev.js"></script>
+
+<!--    <script type="module" src="resources/scripts/fore/fore-dev.js"></script>-->
+    <script type="module">
+        import 'http:/localhost:8090/index.js';
+    </script>
+
     <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
     <script type="text/javascript" src="resources/scripts/annotations/annotations.js"></script>
 </head>
@@ -114,7 +119,7 @@
                     <paper-icon-button id="document-download" icon="icons:cloud-download" data-i18n="[title]annotations.download" data-shortcut="⌘+⇧+d,ctrl+⇧+d"></paper-icon-button>
                     <paper-icon-button id="undo-history" icon="icons:undo" data-i18n="[title]annotations.undo"></paper-icon-button>
                     <paper-icon-button id="reload-preview" icon="icons:refresh" data-i18n="[title]annotations.preview"></paper-icon-button>
-                        <paper-icon-button id="toggle-markup" icon="icons:visibility" data-i18n="[title]annotations.preview"></paper-icon-button>
+                    <paper-icon-button id="toggle-markup" icon="icons:visibility" data-i18n="[title]annotations.preview"></paper-icon-button>
                 </span>
             </header>
             <pb-progress subscribe="transcription" indeterminate="indeterminate"/>
@@ -131,12 +136,20 @@
                 </div>
                 <aside class="preview edit-panel">
                     <fx-fore>
+                        <fx-function signature="updateAnnotationDetails($ident as xs:string?) as xs:boolean" type="text/javascript">
+                            const val = $ident;
+                            const control = document.querySelector('iron-form paper-input').value=$ident;
+                            if(control){
+                                control.value = $ident
+                            }
+                            return false
+                        </fx-function>
 
                         <!-- ### store the type of authority until user chooses to open form by clicking toolbar icon -->
                         <fx-action event="pb-authority-lookup" target="#document">
-                            <fx-setvalue ref="instance('i-default')/type" value="event('type')"/>
-                            <fx-message>Trigger lookup {event('type')} </fx-message>
-                            <fx-message>Trigger lookup {event('query')} </fx-message>
+                            <fx-setvalue ref="instance()/type" value="event('type')"/>
+                            <fx-message>pb-authority-lookup {event('type')} </fx-message>
+                            <fx-message>pb-authority-lookup {event('query')} </fx-message>
                             <fx-setvalue ref="search">true</fx-setvalue>
                         </fx-action>
 
@@ -144,12 +157,15 @@
                         <fx-action event="show-annotation" target="#document">
                             <fx-message>show-annotation</fx-message>
                             <fx-setvalue ref="annotation">true</fx-setvalue>
+                            <!-- ### shows custom authority panel only if the annotationtype is contained in instance()/authority-form -->
+                            <fx-setvalue ref="authority" if="contains(instance()/authority-forms,instance()/type)">true</fx-setvalue>
                         </fx-action>
 
                         <!-- ### hide the authoritySearch panel -->
                         <fx-action event="hide-annotation" target="#document">
                             <fx-message>hide annotation</fx-message>
                             <fx-setvalue ref="annotation">false</fx-setvalue>
+                            <fx-setvalue ref="authority">false</fx-setvalue>
                         </fx-action>
 
                         <fx-action event="show-authorities" target="#document">
@@ -162,10 +178,19 @@
                         </fx-action>
 
                         <!-- ### hide the custom authority editor form -->
+<!--
                         <fx-action event="hide-authority-editor" target="#document">
                             <fx-load attach-to="#authority-editor">
                                 <template><div></div></template>
                             </fx-load>
+                        </fx-action>
+-->
+
+
+                        <!-- ### an authority has been created by an plugin authority form  -->
+                        <fx-action event="authority-created" target="#document">
+                            <fx-message>id:{event('id')}</fx-message>
+                            <fx-setvalue ref="authority-updated" value="updateAnnotationDetails(event('id'))"></fx-setvalue>
                         </fx-action>
 
                         <fx-action event="pb-annotation-detail" target="#document">
@@ -209,6 +234,8 @@
                                     <search>false</search>
                                     <occurrences>false</occurrences>
                                     <markup>true</markup>
+                                    <authority-updated></authority-updated>
+                                    <authority-forms>person, place</authority-forms>
                                 </data>
                             </fx-instance>
                             <fx-bind ref="annotation" relevant="boolean-from-string(.)"></fx-bind>
@@ -276,52 +303,45 @@
 
                         </fx-group>
 
-                        <fx-group>
+
+                        <fx-group ref="authority">
+                            <header>
+                                <label>Authorities type:{instance('i-default')/type}</label>
+                                <fx-trigger ref="instance()/authority-forms[contains(.,instance()/type)]">
+                                    <paper-icon-button id="add-authority" icon="add" data-i18n="[title]annotations.authority">
+                                        <!-- ### load the authority editor for authority type -->
+                                    </paper-icon-button>
+                                    <fx-action>
+                                        <fx-load url="templates/pages/annotation/{instance()/type}-editor.html" attach-to="#authority-editor"></fx-load>
+                                        <!-- todo: is hiding the search panel sensible when editing a custom authority? -->
+                                        <fx-setvalue ref="instance()/search">false</fx-setvalue>
+                                    </fx-action>
+
+                                </fx-trigger>
+                            </header>
                             <div id="authority-editor"></div>
                         </fx-group>
 
-<!--                        <fx-group ref="search" class="search">-->
-                            <section>
-                                <header>
-                                    <label>Authorities type:{instance('i-default')/type}</label>
-                                    <paper-icon-button id="add-authority" icon="add" data-i18n="[title]annotations.authority">
-                                        <!-- ### load the authority editor for authority type -->
-                                        <fx-action event="click">
-<!--                                            <fx-setvalue ref="../authority-editor">true</fx-setvalue>-->
-                                            <!--                                        <fx-load url="templates/{instance('i-default')/type}-editor.html" attach-to="#authority-editor"></fx-load>-->
-                                            <fx-load url="templates/pages/annotation/person-editor.html" attach-to="#authority-editor"></fx-load>
 
-                                            <!-- todo: is hiding the search panel sensible when editing a custom authority? -->
-                                            <fx-setvalue ref="search">false</fx-setvalue>
-                                        </fx-action>
-                                    </paper-icon-button>
-                                </header>
-
-                                <!--
-                                                                <fx-group ref="../authority">
-                                                                    <div id="authority-editor"></div>
-                                                                </fx-group>
-                                -->
-
-
-                                <fx-group ref="search" class="search">
-                                    <pb-authority-lookup subscribe="transcription" emit="transcription">
-                                        <pb-authority connector="Custom" name="organization">
-                                            <pb-authority connector="GND" prefix="gnd"></pb-authority>
-                                        </pb-authority>
-                                        <!--pb-authority connector="GeoNames" name="place" user="existdb" prefix="geo"></pb-authority-->
-                                        <pb-authority connector="Custom" name="place">
-                                            <pb-authority connector="GeoNames" user="existdb" prefix="geo"></pb-authority>
-                                        </pb-authority>
-                                        <pb-authority connector="Custom" name="term">
-                                            <pb-authority connector="GND" prefix="gnd"></pb-authority>
-                                        </pb-authority>
-                                        <pb-authority connector="Custom" name="person">
-                                            <pb-authority connector="GND" prefix="gnd"></pb-authority>
-                                        </pb-authority>
-                                    </pb-authority-lookup>
-                                </fx-group>
-                            </section>
+<!--                        <section>-->
+                        <fx-group ref="search" class="search">
+                            <pb-authority-lookup subscribe="transcription" emit="transcription">
+                                <pb-authority connector="Custom" name="organization">
+                                    <pb-authority connector="GND" prefix="gnd"></pb-authority>
+                                </pb-authority>
+                                <!--pb-authority connector="GeoNames" name="place" user="existdb" prefix="geo"></pb-authority-->
+                                <pb-authority connector="Custom" name="place">
+                                    <pb-authority connector="GeoNames" user="existdb" prefix="geo"></pb-authority>
+                                </pb-authority>
+                                <pb-authority connector="Custom" name="term">
+                                    <pb-authority connector="GND" prefix="gnd"></pb-authority>
+                                </pb-authority>
+                                <pb-authority connector="Custom" name="person">
+                                    <pb-authority connector="GND" prefix="gnd"></pb-authority>
+                                </pb-authority>
+                            </pb-authority-lookup>
+                        </fx-group>
+<!--                        </section>-->
 <!--                        </fx-group>-->
 
 

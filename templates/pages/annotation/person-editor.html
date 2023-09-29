@@ -7,191 +7,200 @@
     <script type="module" src="./resources/scripts/fore/fore-dev.js"></script>
 </head>
 <body>
+
 <!--<fx-fore refresh-on-view>-->
-<fx-fore>
-    <fx-send event="ready" if="instance('parameters')//id" submission="load" url="api/entry/{instance('parameters')//id}"></fx-send>
-    <fx-send event="ready" if="not(instance('parameters')//id)" submission="load" url="api/entry/NEW"></fx-send>
+<fx-fore class="authority-editor">
+    <fx-send event="model-construct-done" if="instance('parameters')/id" submission="load"
+             url="api/entry/{instance('parameters')//id}"></fx-send>
+    <fx-send event="ready" if="not(instance('parameters')/id)" submission="load" url="api/entry/NEW"></fx-send>
     <fx-model id="model-1">
         <fx-instance
-            id="default"
-            src="api/forms/template/person-default"
-            xpath-default-namespace="http://www.tei-c.org/ns/1.0"/>
+                id="default"
+                src="api/forms/template/person-default"
+                xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <data></data>
+        </fx-instance>
 
 
-        <fx-instance 
-            id="parameters"
-            src="#querystring"/>
+        <fx-instance
+                id="parameters"
+                src="#querystring">
+            <data></data>
+        </fx-instance>
 
         <fx-instance
                 id="i-template"
                 src="api/forms/template/person-template"
-                xpath-default-namespace="http://www.tei-c.org/ns/1.0"/>
+                xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <data></data>
+        </fx-instance>
 
-        <fx-submission 
-            id="load"
-            method="GET"
-            replace="instance">
-                <fx-message event="submit-done">Data loaded</fx-message>
+        <fx-submission
+                id="load"
+                method="GET"
+                replace="instance">
+            <fx-message event="submit-done">Data loaded</fx-message>
         </fx-submission>
-        <fx-submission 
-            id="save"
-            method="PUT"
-            replace="instance">
-                <fx-message event="submit-done">Data saved</fx-message>
-                <fx-message event="submit-error">Failed to save data</fx-message>
+        <fx-submission
+                id="save"
+                method="PUT"
+                replace="instance">
+            <fx-action  event="submit-done">
+                <fx-message>Data saved</fx-message>
+                <fx-dispatch name="authority-created">
+                    <fx-property name="id" expr="instance('default')/*/@xml:id"></fx-property>
+                </fx-dispatch>
+            </fx-action>
+
+            <fx-message event="submit-error">Failed to save data</fx-message>
         </fx-submission>
     </fx-model>
 
-<!--    <header>Person Register</header>-->
+    <!--
+    ### Use the header to give the main name of the page plus provide eventual buttons needed
+    -->
+    <header>
+        <h1>Person</h1>
+        <fx-trigger>
+            <paper-icon-button icon="icons:save" data-i18n="[title]annotations.save"></paper-icon-button>
+            <fx-action>
+                <fx-send submission="save" if="instance('parameters')//id"
+                         url="api/entry/{instance('parameters')//id}"/>
+                <fx-send submission="save" if="not(instance('parameters')//id)" url="api/entry/person-NEW"/>
+<!--                <fx-dispatch name="hide-authority-editor" target="#document"></fx-dispatch>-->
+            </fx-action>
+        </fx-trigger>
+    </header>
 
+
+    <!-- ### main   -->
     <main>
         <!-- begin section general -->
+        <fx-group id="general" ref="instance()/person" class="col-2">
+            <h2>Person ID:
+                <fx-output ref="@xml:id"></fx-output>
+            </h2>
 
-        <section class="person">
-            <header>
-                <h2>Person</h2>
-                <fx-trigger>
-                    <paper-icon-button icon="icons:save" data-i18n="[title]annotations.save"></paper-icon-button>
-                    <fx-action>
-                        <fx-send submission="save" if="instance('parameters')//id" url="api/entry/{instance('parameters')//id}"/>
-                        <fx-send submission="save" if="not(instance('parameters')//id)" url="api/entry/person-NEW"/>
-                        <fx-dispatch name="hide-authority-editor" target="#document"></fx-dispatch>
-                    </fx-action>
-                </fx-trigger>
-            </header>
-            <fx-group id="general" ref="//person" class="col-2">
-                <h3>Person ID: <fx-output ref="@xml:id"></fx-output></h3>
+            <fx-control class="tp-input -form-control" ref="persName[@type='main']">
+                <label class="tp-label">Canonical form</label>
+                <fx-hint>Joachim Lelewel</fx-hint>
+            </fx-control>
+            <fx-control class="tp-input -form-control" ref="persName[@type='sort']">
+                <label class="tp-label">Sorting form</label>
+                <fx-hint>Lelewel, Joachim</fx-hint>
+            </fx-control>
+            <fx-control class="tp-input -form-control" ref="gender/@value">
+                <label class="tp-label">Gender</label>
+                <fx-hint>M, F or U</fx-hint>
+            </fx-control>
+        </fx-group>
 
-                <fx-control class="tp-input -form-control" ref="persName[@type='main']">
-                    <label class="tp-label">Canonical form</label>
-                    <fx-hint>Joachim Lelewel</fx-hint>
-                </fx-control>
-                <fx-control class="tp-input -form-control" ref="persName[@type='sort']">
-                    <label class="tp-label">Sorting form</label>
-                    <fx-hint>Lelewel, Joachim</fx-hint>
-                </fx-control>
-                <fx-control class="tp-input -form-control" ref="gender/@value">
-                    <label class="tp-label">Gender</label>
-                    <fx-hint>M, F or U</fx-hint>
-                </fx-control>
-            </fx-group>
+        <!-- Basic name forms -->
 
-        </section>
-        <section class="person">
-            <!-- Basic name forms -->
-            
-            <fx-group id="birth" ref="//person/birth" class="col-2">
-                <h3>Birth</h3>
-                <fx-control class="tp-input -form-control" ref="date/@when">
-                    <label class="tp-label">Date normalized (YYYY-MM-DD)</label>
-                    <fx-hint>YYYY-MM-DD</fx-hint>
-                </fx-control>
-                <fx-control class="tp-input -form-control" ref="date">
-                    <label class="tp-label">Date descriptive</label>
-                    <fx-hint>1786-03-22</fx-hint>
-                </fx-control>
-                <fx-control class="tp-input -form-control" ref="placeName">
-                    <label class="tp-label">Place of birth</label>
-                    <fx-hint>Warsaw</fx-hint>
-                </fx-control>
-            </fx-group>     
-            
-            <fx-group id="birth" ref="//person/death" class="col-2">
-                <h3>Death</h3>
-                <fx-control class="tp-input -form-control" ref="date/@when">
-                    <label class="tp-label">Date normalized (YYYY-MM-DD)</label>
-                    <fx-hint>YYYY-MM-DD</fx-hint>
-                </fx-control>
-                <fx-control class="tp-input -form-control" ref="date">
-                    <label class="tp-label">Date descriptive</label>
-                    <fx-hint>1786-03-22</fx-hint>
-                </fx-control>
-                <fx-control class="tp-input -form-control" ref="placeName">
-                    <label class="tp-label">Place of death</label>
-                    <fx-hint>Warsaw</fx-hint>
-                </fx-control>
-            </fx-group>     
+        <fx-group id="birth" ref="//person/birth" class="col-2">
+            <h2>Birth</h2>
+            <fx-control class="tp-input -form-control" ref="date/@when">
+                <label class="tp-label">Date normalized (YYYY-MM-DD)</label>
+                <fx-hint>YYYY-MM-DD</fx-hint>
+            </fx-control>
+            <fx-control class="tp-input -form-control" ref="date">
+                <label class="tp-label">Date descriptive</label>
+                <fx-hint>1786-03-22</fx-hint>
+            </fx-control>
+            <fx-control class="tp-input -form-control" ref="placeName">
+                <label class="tp-label">Place of birth</label>
+                <fx-hint>Warsaw</fx-hint>
+            </fx-control>
+        </fx-group>
 
-        </section>
+        <fx-group id="birth" ref="//person/death" class="col-2">
+            <h2>Death</h2>
+            <fx-control class="tp-input -form-control" ref="date/@when">
+                <label class="tp-label">Date normalized (YYYY-MM-DD)</label>
+                <fx-hint>YYYY-MM-DD</fx-hint>
+            </fx-control>
+            <fx-control class="tp-input -form-control" ref="date">
+                <label class="tp-label">Date descriptive</label>
+                <fx-hint>1786-03-22</fx-hint>
+            </fx-control>
+            <fx-control class="tp-input -form-control" ref="placeName">
+                <label class="tp-label">Place of death</label>
+                <fx-hint>Warsaw</fx-hint>
+            </fx-control>
+        </fx-group>
+
         <!-- // end section general -->
 
         <!-- begin section name variants -->
-        <section>
-            <fx-group>
-                <header>
-                    Name variants ({count(//persName[@type='variant'])})
-                    <fx-trigger class="add-button">
-<!--                        <button>add</button>-->
-                        <paper-icon-button icon="icons:add" data-i18n="[title]annotations.add.authority"></paper-icon-button>
-                        <fx-insert
-                                context="//person"
-                                ref="persName"
-                                origin="instance('i-template')//persName[@type='variant']"></fx-insert>
+        <fx-group>
+            <header>
+                Name variants ({count(//persName[@type='variant'])})
+                <fx-trigger class="add-button">
+                    <!--                        <button>add</button>-->
+                    <paper-icon-button icon="icons:add"
+                                       data-i18n="[title]annotations.add.authority"></paper-icon-button>
+                    <fx-insert
+                            context="//person"
+                            ref="persName"
+                            origin="instance('i-template')//persName[@type='variant']"></fx-insert>
+                </fx-trigger>
+            </header>
+
+            <fx-repeat ref="//persName[@type='variant']" id="r-nameVariant">
+                <template>
+                    <fx-control class="tp-input -form-control" ref="forename">
+                        <label class="tp-label">First name</label>
+                        <fx-hint>Joachim</fx-hint>
+                    </fx-control>
+                    <fx-control class="tp-input -form-control" ref="surname">
+                        <label class="tp-label">Last name</label>
+                        <fx-hint>Lelewel</fx-hint>
+                    </fx-control>
+                    <fx-control class="tp-input -form-control" ref="addname">
+                        <label class="tp-label">other</label>
+                        <fx-hint>Sir</fx-hint>
+                    </fx-control>
+
+                    <fx-trigger>
+                        <button>delete</button>
+                        <fx-delete ref="."/>
                     </fx-trigger>
-                </header>
+                </template>
+            </fx-repeat>
+        </fx-group>
 
-                    <fx-repeat ref="//persName[@type='variant']" id="r-nameVariant">
-                        <template>
-                            <fx-control  class="tp-input -form-control" ref="forename">
-                                <label class="tp-label">First name</label>
-                                <fx-hint>Joachim</fx-hint>
-                            </fx-control>
-                            <fx-control  class="tp-input -form-control" ref="surname">
-                                <label class="tp-label">Last name</label>
-                                <fx-hint>Lelewel</fx-hint>
-                            </fx-control>
-                            <fx-control  class="tp-input -form-control" ref="addname">
-                                <label class="tp-label">other</label>
-                                <fx-hint>Sir</fx-hint>
-                            </fx-control>
-                               
-                            <fx-trigger>
-                                <button>delete</button>
-                                <fx-delete ref="."/>
-                            </fx-trigger>
-                        </template>
-                    </fx-repeat>
-            </fx-group>
-        </section>
+        <!-- begin section professions -->
+        <fx-group>
+            <header>Professions and roles ({count(//occupation)})</header>
+            <fx-trigger class="add-button">
+                <paper-icon-button icon="icons:add" data-i18n="[title]annotations.add.roles"></paper-icon-button>
+                <fx-insert
+                        context="//person"
+                        ref="name"
+                        origin="instance('i-template')//occupation"></fx-insert>
+            </fx-trigger>
 
-                <!-- begin section professions -->
-        <section>
-            <fx-group>
-                <header>Professions and roles ({count(//occupation)})</header>
-                    <fx-trigger class="add-button">
-<!--                        <button>add</button>-->
-                        <paper-icon-button icon="icons:add" data-i18n="[title]annotations.add.roles"></paper-icon-button>
-                        <fx-insert
-                                context="//person"
-                                ref="name"
-                                origin="instance('i-template')//occupation"></fx-insert>
+            <fx-repeat ref="//occupation" id="r-occupation">
+                <template>
+                    <fx-control class="tp-input -form-control" ref=".">
+                        <label class="tp-label">Profession</label>
+                        <fx-hint>teacher</fx-hint>
+                    </fx-control>
+                    <fx-trigger>
+                        <button>delete</button>
+                        <fx-delete ref="."/>
                     </fx-trigger>
-
-                    <fx-repeat ref="//occupation" id="r-occupation">
-                        <template>
-                            <fx-control  class="tp-input -form-control" ref=".">
-                                <label class="tp-label">Profession</label>
-                                <fx-hint>teacher</fx-hint>
-                            </fx-control>
-                            <fx-trigger>
-                                <button>delete</button>
-                                <fx-delete ref="."/>
-                            </fx-trigger>
-                        </template>
-                    </fx-repeat>
-            </fx-group>
-        </section>
-        
-
-        <!-- // end section name variants -->
-
+                </template>
+            </fx-repeat>
+        </fx-group>
     </main>
-   
-<!--
-    <pre>
-        {log('default')}
-    </pre>
--->
+
+
+    <!--
+        <pre>
+            {log('default')}
+        </pre>
+    -->
 </fx-fore>
 
 </body>

@@ -2,8 +2,14 @@
 #html {
     width: 100%;
     border: 0;
-}
 
+    --aside-width:24rem;
+}
+aside > fx-fore > fx-group{
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12),
+    0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
 .annotation-editor iron-form {
     padding: 0 8px;
 }
@@ -20,6 +26,12 @@
     max-height: 25vh;
     overflow: auto;
 }
+
+#authority-editor{
+    max-height: 50vh;
+    position: relative;
+    overflow: auto;
+}
 #authority-editor main,
 #authority-editor button{
     font-size: 0.8rem;
@@ -31,6 +43,23 @@
     padding: 0;
     position: relative;
 }
+
+#authority-editor main{
+    max-height: 50vh;
+    position: relative;
+}
+#authority-editor fx-fore > header{
+    position: absolute;
+    width: 20rem;
+    z-index: 10;
+    background: #efefef;
+    padding: 0 1rem;
+}
+
+fx-group#general{
+    padding-top:2.5rem;
+}
+
 #authority-editor input.widget{
     width: calc(100% - 2rem);
 }
@@ -112,6 +141,11 @@ fx-fore > fx-group{
 
 fx-fore header{
     font-size:1rem;
+}
+
+header h1{
+    margin-block-start:0.5rem;
+    margin-block-end:0.5rem;
 }
 
 
