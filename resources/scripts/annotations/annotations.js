@@ -438,7 +438,10 @@ window.addEventListener("WebComponentsReady", () => {
 				if (value) {
 					const ranges = JSON.parse(value);
 					json[path].forEach((newRange) => {
-						if (!ranges.find(range => rangeEQ(range, newRange))) {
+						const pos = ranges.findIndex(range => rangeEQ(range, newRange));
+						if (pos > -1) {
+							ranges.splice(pos, 1, newRange);
+						} else {
 							ranges.push(newRange);
 						}
 					});
@@ -451,10 +454,8 @@ window.addEventListener("WebComponentsReady", () => {
 	}
 
 	function rangeEQ(range, newRange) {
-		return range.text === newRange.text && range.start === newRange.start &&
-			range.type === newRange.type &&
-			(!range.properties || !newRange.properties ||
-			range.properties.ref === newRange.properties.ref);
+		return range.text === newRange.text && range.start === newRange.start && 
+			range.type === newRange.type;
 	}
 
 	function checkNERAvailable() {
