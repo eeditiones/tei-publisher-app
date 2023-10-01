@@ -101,11 +101,11 @@ declare function nlp:strings($request as map(*)) {
 };
 
 declare %private function nlp:match-string($string as xs:string+, $type as xs:string, $properties as map(*), $text as xs:string) {
-    let $regex := string-join($string ! ("(?:^|\W+)" || . || "(?:\W+|$)"), "|")
+    let $regex := string-join($string ! ("(?:^|\W+)(" || . || ")(?:\W+|$)"), "|")
     return
         if (matches($text, $regex, "i")) then
             array {
-                for $match in analyze-string($text, $regex, "i")//fn:match
+                for $match in analyze-string($text, $regex, "i")//fn:match/fn:group
                 return map {
                     "text": $match/string(),
                     "start": sum($match/preceding::text() ! string-length(.)),
@@ -385,24 +385,35 @@ declare function nlp:convert($entities as array(*), $offsets as map(*)*, $doc as
         let $insertPoint := filter($offsets, function($offset as map(*)) {
             $entity?start >= $offset?start and $entity?start < $offset?end
         })
-        (: ignore if the element is already marked as entity :)
-        where exists($insertPoint) and empty(nlp-config:entity-type($insertPoint?node))
-        let $start := xs:int($entity?start - $insertPoint?start[1])
         return
-            map {
-                "context": util:node-id($insertPoint?node),
-                "start": $insertPoint?origOffset + $start,
-                "end": $insertPoint?origOffset + $start + string-length($entity?text),
-                "type": $entity?type,
-                "text": $entity?text,
-                "properties": 
-                    if (exists($entity?properties)) then
-                        $entity?properties
-                    else
-                        map {
-                            "ref": ""
-                        }
-            }
+        (: ignore if the element is already marked as entity :)
+            if (exists($insertPoint) and empty(nlp-config:entity-type($insertPoint?node))) then
+                let $start := xs:int($entity?start - $insertPoint?start[1])
+                return
+                    map {
+                        "context": util:node-id($insertPoint?node),
+                        "start": $insertPoint?origOffset + $start,
+                        "end": $insertPoint?origOffset + $start + string-length($entity?text),
+                        "type": $entity?type,
+                        "text": $entity?text,
+                        "properties": 
+                            if (exists($entity?properties)) then
+                                $entity?properties
+                            else
+                                map {
+                                    "ref": ""
+                                }
+                    }
+            else
+                if (exists($entity?properties)) then
+                    map {
+                        "type": "modify",
+                        "node": util:node-id($insertPoint?node),
+                        "context": util:node-id($insertPoint?node),
+                        "properties": $entity?properties
+                    }
+                else
+                    ()
     where exists($entries)
     return
         map {
