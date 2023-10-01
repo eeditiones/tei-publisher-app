@@ -10,6 +10,11 @@ aside > fx-fore > fx-group{
     0 1px 5px 0 rgba(0, 0, 0, 0.12),
     0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
+
+.fx-ready aside {
+    height: auto;
+}
+
 .annotation-editor iron-form {
     padding: 0 8px;
 }
@@ -73,7 +78,8 @@ fx-group#general{
     grid-template-columns: 1fr 24rem;
     grid-template-rows: 100%;
     gap: 0 10px;
-    height: calc(100vh - 150px);
+    height: calc(100vh - 128px);
+    overflow: auto;
     --pb-popover-min-width: 20vw;
     --pb-popover-max-width: 360px;
     --pb-annotation-stripes-light: #e0e0ef;
@@ -190,6 +196,10 @@ fx-fore #markupPanel pb-tabs{
     flex-direction: column;
 }
 
+main .text {
+    margin-top: 0;
+}
+
 pb-authority-lookup {
     min-height: 60vw;
     max-height: 80vh;
@@ -234,10 +244,6 @@ pb-tabs pre {
     --pb-code-highlight-white-space: pre-wrap;
 }
 
-
-#view1 {
-    overflow: auto;
-}
 
 #view1::part(content) {
     line-height: 2;
