@@ -2535,8 +2535,7 @@
 						"schema": {
 							"type": "string",
 							"example": "en_core_web_sm"
-						},
-						"required": true
+						}
 					},
 					{
 						"name": "debug",

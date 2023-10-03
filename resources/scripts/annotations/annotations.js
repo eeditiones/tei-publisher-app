@@ -5,8 +5,6 @@
  * You should not need to change this unless you want to add new features.
  */
 
-
-
 function disableButtons(disable, range) {
 	document.querySelectorAll(".annotation-action:not([data-type=edit])").forEach((button) => {
 		button.disabled = disable;
@@ -199,6 +197,7 @@ window.addEventListener("WebComponentsReady", () => {
 			const key = view.getKey(type);
 			const occur = view.search(type, strings);
 			occurrences.innerHTML = "";
+			document.querySelector('#occurrences .messages').innerHTML = '';
 			occur.forEach((o) => {
 				const li = document.createElement("li");
 				const cb = document.createElement("paper-checkbox");
@@ -401,6 +400,9 @@ window.addEventListener("WebComponentsReady", () => {
 		window.pbEvents.emit("pb-end-update", "transcription", {});
 	}
 
+	/*
+	 * Search entire collection for other occurrences
+	 */
 	function searchCollection(ev) {
 		ev.preventDefault();
 		ev.stopPropagation();
@@ -408,7 +410,6 @@ window.addEventListener("WebComponentsReady", () => {
 		const endpoint = document.querySelector("pb-page").getEndpoint();
 		let strings = '';
 		if (currentEntityInfo) {
-			console.log(currentEntityInfo);
 			strings = currentEntityInfo.strings || [];
 			strings.push(text);
 		} else {
@@ -433,23 +434,7 @@ window.addEventListener("WebComponentsReady", () => {
 		.then((json) => {
 			const docs = Object.keys(json);
 			document.querySelector('#occurrences .messages').innerHTML = `Found matches in ${docs.length} other documents`;
-			docs.forEach(path => {
-				const value = window.localStorage.getItem(`tei-publisher.annotations.${path}`);
-				if (value) {
-					const ranges = JSON.parse(value);
-					json[path].forEach((newRange) => {
-						const pos = ranges.findIndex(range => rangeEQ(range, newRange));
-						if (pos > -1) {
-							ranges.splice(pos, 1, newRange);
-						} else {
-							ranges.push(newRange);
-						}
-					});
-					window.localStorage.setItem(`tei-publisher.annotations.${path}`, JSON.stringify(ranges));
-				} else {
-					window.localStorage.setItem(`tei-publisher.annotations.${path}`, JSON.stringify(json[path]));
-				}
-			});
+			review(docs, json);
 		}).catch(() => window.pbEvents.emit("pb-end-update", "transcription", {}));
 	}
 

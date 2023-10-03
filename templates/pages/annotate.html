@@ -26,6 +26,7 @@
 -->
 
     <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
+    <script type="text/javascript" src="resources/scripts/annotations/review-dialog.js"></script>
     <script type="text/javascript" src="resources/scripts/annotations/annotations.js"></script>
 </head>
 
@@ -378,6 +379,18 @@
     <pb-message id="ner-denied-dialog" data-i18n="[title]dialogs.error;[message]annotations.ner.denied"></pb-message>
     <pb-message id="error-dialog" data-i18n="[title]dialogs.error;[message]dialogs.serverError"></pb-message>
     <pb-message id="runtime-error-dialog" data-i18n="[title]dialogs.error;[message]dialogs.serverError"></pb-message>
+    <dialog id="d-review">
+        <h3>
+            <paper-icon-button class="close" dialog-confirm="dialog-confirm" icon="icons:close"
+                data-i18n="[title]dialogs.close"></paper-icon-button>
+            <a href="#" target="_blank"></a>: <span></span>
+        </h3>
+        <header class="toolbar">
+            <paper-icon-button class="save-current" icon="icons:save" data-i18n="[title]annotations.save"></paper-icon-button>
+            <paper-icon-button icon="icons:chevron-right" class="next"></paper-icon-button>
+        </header>
+        <ul></ul>
+    </dialog>
 </pb-page>
 <div class="splash"></div>
 </body>

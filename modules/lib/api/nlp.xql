@@ -120,11 +120,11 @@ declare %private function nlp:match-string($string as xs:string+, $type as xs:st
 declare function nlp:plain-text($request as map(*)) {
     let $path := xmldb:decode($request?parameters?id)
     let $doc := config:get-document($path)/tei:TEI/tei:text
-    let $pairs := (
-        nlp:extract-plain-offsets($doc, true(), true()), 
-        nlp:extract-plain-offsets($doc//tei:note, false(), true())
+    let $text := (
+        nlp:extract-plain-text($doc, true()),
+        nlp:extract-plain-text($doc//tei:note, false())
     )
-    let $plain := string-join($pairs ! .?2)
+    let $plain := string-join($text)
     return
         $plain
 };

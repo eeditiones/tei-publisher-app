@@ -307,3 +307,12 @@ paper-icon-button[data-type="edit"] {
     visibility:hidden;
     display:block;
 }
+
+#d-review {
+    width: 80vw;
+    height: 80vh;
+}
+
+#d-review .close {
+    float: right;
+}
