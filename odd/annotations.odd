@@ -4,7 +4,8 @@
         <fileDesc>
             <titleStmt>
                 <title>Annotations
-                <desc>ODD used by the web-based annotation editor. Contains special rules to mark entities with the correct CSS classes</desc></title>
+                  <desc>ODD used by the web-based annotation editor. Contains special rules to mark entities with the correct CSS classes</desc>
+                </title>
             </titleStmt>
             <publicationStmt>
                 <publisher>eXistSolutions GmbH</publisher>
@@ -48,24 +49,24 @@
                 </elementSpec>
                 <elementSpec ident="pb" mode="change">
                     <model behaviour="inline">
-            <outputRendition xml:space="preserve" scope="after">
-            content: '|';
-            </outputRendition>
-        </model>
+                        <outputRendition xml:space="preserve" scope="after">
+                        content: '|';
+                        </outputRendition>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="placeName" mode="add">
                     <model predicate="ancestor::place" behaviour="link">
-            <param name="uri" value="ancestor::place/ptr/@target"/>
-            <param name="target" value="'_blank'"/>
-        </model>
+                        <param name="uri" value="ancestor::place/ptr/@target"/>
+                        <param name="target" value="'_blank'"/>
+                    </model>
                     <model behaviour="inline" cssClass="annotation annotation-place authority"/>
                 </elementSpec>
                 <elementSpec ident="term" mode="add">
                     <model behaviour="inline" cssClass="annotation annotation-term authority">
-            <outputRendition xml:space="preserve">
-            font-style: italic;
-            </outputRendition>
-        </model>
+                        <outputRendition xml:space="preserve">
+                        font-style: italic;
+                        </outputRendition>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="date" mode="change">
                     <model behaviour="inline" cssClass="annotation annotation-date"/>
@@ -73,30 +74,30 @@
                 <elementSpec ident="note" mode="change">
                     <model predicate="@type='annotation'" behaviour="omit"/>
                     <model behaviour="note">
-            <param name="place" value="@place"/>
-            <param name="label" value="@n"/>
-        </model>
+                        <param name="place" value="@place"/>
+                        <param name="label" value="@n"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="orgName" mode="add">
                     <model behaviour="inline" cssClass="annotation annotation-organization authority"/>
                 </elementSpec>
                 <elementSpec ident="place" mode="add">
                     <modelSequence>
-            <model behaviour="heading">
-                <param name="content" value="placeName[@type=&#34;full&#34;]"/>
-                <param name="level" value="3"/>
-            </model>
-            <model predicate="placeName[not(@type)]" behaviour="heading">
-                <param name="content" value="string-join(placeName[not(@type)]/string(), '; ')"/>
-                <param name="level" value="4"/>
-            </model>
-            <model behaviour="paragraph">
-                <param name="content" value="string-join((country, region), ', ')"/>
-            </model>
-            <model behaviour="block">
-                <param name="content" value="note/node()"/>
-            </model>
-        </modelSequence>
+                        <model behaviour="heading">
+                            <param name="content" value="placeName[@type=&#34;full&#34;]"/>
+                            <param name="level" value="3"/>
+                        </model>
+                        <model predicate="placeName[not(@type)]" behaviour="heading">
+                            <param name="content" value="string-join(placeName[not(@type)]/string(), '; ')"/>
+                            <param name="level" value="4"/>
+                        </model>
+                        <model behaviour="paragraph">
+                            <param name="content" value="string-join((country, region), ', ')"/>
+                        </model>
+                        <model behaviour="block">
+                            <param name="content" value="note/node()"/>
+                        </model>
+                    </modelSequence>
                 </elementSpec>
                 <elementSpec ident="rs" mode="change">
                     <model predicate="@type='abbreviation'" behaviour="inline" cssClass="annotation annotation-abbreviation"/>
@@ -104,34 +105,34 @@
                 </elementSpec>
                 <elementSpec ident="person" mode="add">
                     <modelSequence>
-            <model behaviour="heading">
-                <param name="content" value="persName[@type=&#34;full&#34;]"/>
-                <param name="level" value="3"/>
-            </model>
-            <model behaviour="block">
-                <param name="content" value="string-join(occupation, ', ')"/>
-            </model>
-            <model behaviour="paragraph">
-                <param name="content" value="./note/node()"/>
-            </model>
-        </modelSequence>
+                        <model behaviour="heading">
+                            <param name="content" value="persName[@type=&#34;full&#34;]"/>
+                            <param name="level" value="3"/>
+                        </model>
+                        <model behaviour="block">
+                            <param name="content" value="string-join(occupation, ', ')"/>
+                        </model>
+                        <model behaviour="paragraph">
+                            <param name="content" value="./note/node()"/>
+                        </model>
+                    </modelSequence>
                 </elementSpec>
                 <elementSpec ident="choice" mode="change">
                     <model predicate="sic and corr" behaviour="pass-through">
-            <param name="sic" value="sic[1]/node()"/>
-            <param name="corr" value="corr[1]/node()"/>
-            <pb:template xmlns="" xml:space="preserve"><span class="annotation annotation-sic" data-type="sic" data-annotation="{{&#34;corr&#34;: &#34;[[corr]]&#34;}}">[[sic]]</span></pb:template>
-        </model>
+                        <param name="sic" value="sic[1]/node()"/>
+                        <param name="corr" value="corr[1]/node()"/>
+                        <pb:template xmlns="" xml:space="preserve"><span class="annotation annotation-sic" data-type="sic" data-annotation="{{&#34;corr&#34;: &#34;[[corr]]&#34;}}">[[sic]]</span></pb:template>
+                    </model>
                     <model predicate="abbr and expan" behaviour="pass-through">
-            <param name="expan" value="expan[1]/node()"/>
-            <param name="abbr" value="abbr[1]/node()"/>
-            <pb:template xmlns="" xml:space="preserve"><span class="annotation annotation-sic" data-type="abbr" data-annotation="{{&#34;expan&#34;: &#34;[[expan]]&#34;}}">[[abbr]]</span></pb:template>
-        </model>
+                        <param name="expan" value="expan[1]/node()"/>
+                        <param name="abbr" value="abbr[1]/node()"/>
+                        <pb:template xmlns="" xml:space="preserve"><span class="annotation annotation-sic" data-type="abbr" data-annotation="{{&#34;expan&#34;: &#34;[[expan]]&#34;}}">[[abbr]]</span></pb:template>
+                    </model>
                     <model predicate="orig and reg" behaviour="pass-through">
-            <param name="reg" value="reg[1]/node()"/>
-            <param name="orig" value="orig[1]/node()"/>
-            <pb:template xmlns="" xml:space="preserve"><span class="annotation annotation-reg" data-type="reg" data-annotation="{{&#34;reg&#34;: &#34;[[reg]]&#34;}}">[[orig]]</span></pb:template>
-        </model>
+                        <param name="reg" value="reg[1]/node()"/>
+                        <param name="orig" value="orig[1]/node()"/>
+                        <pb:template xmlns="" xml:space="preserve"><span class="annotation annotation-reg" data-type="reg" data-annotation="{{&#34;reg&#34;: &#34;[[reg]]&#34;}}">[[orig]]</span></pb:template>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="corr" mode="change"/>
                 <elementSpec ident="hi" mode="change">
@@ -139,13 +140,16 @@
                 </elementSpec>
                 <elementSpec ident="app" mode="add">
                     <model behaviour="pass-through">
-            <param name="lem" value="lem[1]/node()"/>
-            <param name="rdg" value="string-join(  for $rdg at $p in ./rdg return (      '&#34;rdg[' || $p || ']&#34;:&#34;' || $rdg/string() || '&#34;',         '&#34;wit[' || $p || ']&#34;:&#34;' || $rdg/@wit/string() || '&#34;'     ),     ',' )"/>
-            <pb:template xmlns="" xml:space="preserve"><span class="annotation annotation-app" data-type="app" data-annotation="{{[[rdg]]}}">[[lem]]</span></pb:template>
-        </model>
+                        <param name="lem" value="lem[1]/node()"/>
+                        <param name="rdg" value="string-join(  for $rdg at $p in ./rdg return (      '&#34;rdg[' || $p || ']&#34;:&#34;' || $rdg/string() || '&#34;',         '&#34;wit[' || $p || ']&#34;:&#34;' || $rdg/@wit/string() || '&#34;'     ),     ',' )"/>
+                        <pb:template xmlns="" xml:space="preserve"><span class="annotation annotation-app" data-type="app" data-annotation="{{[[rdg]]}}">[[lem]]</span></pb:template>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="ref" mode="change">
-                    <model behaviour="inline" cssClass="annotation annotation-ref"/>
+                    <model behaviour="link" cssClass="annotation annotation-ref">
+                        <param name="uri" value="."/>
+                        <param name="target" value="&#34;_blank&#34;"/>
+                    </model>
                 </elementSpec>
             </schemaSpec>
         </body>

@@ -5,6 +5,7 @@ module namespace anno="http://teipublisher.com/api/annotations/config";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
+import module namespace console="http://exist-db.org/xquery/console";
 
 declare variable $anno:local-authority-file := $config:data-root || "/register.xml";
 
@@ -22,8 +23,8 @@ declare function anno:annotations($type as xs:string, $properties as map(*)?, $c
             <term xmlns="http://www.tei-c.org/ns/1.0" ref="{$properties?ref}">{$content()}</term>
         case "organization" return
             <orgName xmlns="http://www.tei-c.org/ns/1.0" ref="{$properties?ref}">{$content()}</orgName>
-        case "wikidata" return
-            <term xmlns="http://www.tei-c.org/ns/1.0" type="wikidata" ref="{$properties?ref}" key="{$properties?key}">{$content()}</term>
+        case "factgrid" return
+            <term xmlns="http://www.tei-c.org/ns/1.0" type="factgrid" ref="{$properties?ref}" key="{$properties?key}">{$content()}</term>
         case "hi" return
             <hi xmlns="http://www.tei-c.org/ns/1.0">
             { 
@@ -82,9 +83,9 @@ declare function anno:occurrences($type as xs:string, $key as xs:string) {
         case "place" return
             collection($config:data-default)//tei:placeName[@ref = $key]
         case "term" return
-            collection($config:data-default)//tei:term[@ref = $key][not(@type="wikidata")]
-        case "wikidata" return
-            collection($config:data-default)//tei:term[@ref = $key][@type="wikidata"]
+            collection($config:data-default)//tei:term[@ref = $key][not(@type="factgrid")]
+        case "factgrid" return
+            collection($config:data-default)//tei:term[@ref = $key][@type="factgrid"]
         case "organization" return
             collection($config:data-default)//tei:orgName[@ref = $key]
          default return ()
@@ -148,16 +149,21 @@ declare function anno:create-record($type as xs:string, $id as xs:string, $data 
             <category xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
                 <catDesc>{$data?name}</catDesc>
             </category>
-        case "wikidata" return
+        case "factgrid" return
             <category xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
                 <catDesc>
-                    {if (exists($data?prefLabel))       then for $lang in map:keys($data?prefLabel)  return <term xml:lang="{$lang}">{map:get($data?prefLabel,  $lang)}</term> else ()}
-                    <idno type="url">{$id}</idno>
+                    {if (exists($data?label))             then <term>{$data?label}</term> else ()}
                     <gloss>
-                        {if (exists($data?definition))  then for $lang in map:keys($data?definition)  return <def  xml:lang="{$lang}">{map:get($data?definition,  $lang)}</def> else ()}
-                        {if (exists($data?description)) then for $lang in map:keys($data?description) return <p    xml:lang="{$lang}">{map:get($data?description, $lang)}</p> else ()}
-                        {if (exists($data?example))     then for $lang in map:keys($data?example)     return <eg   xml:lang="{$lang}">{map:get($data?example,     $lang)}</eg> else ()}
+                        {if (map:contains($data, "type")) then <p type="types">{string-join(array:for-each(map:get($data, "type"),  function($z) {
+                                                                                                                                        let $debug := console:log($z)
+                                                                                                                                        return concat($z?name, ' (', $z?id, ')')
+                                                                                                                                    }
+                                                                                                        ),
+                                                                                            ', ')
+                                                                                }</p> else ()}
+                        {if (exists($data?details))       then <p type="details">{$data?details}</p> else ()}
                     </gloss>
+                    <ref type="url">{$data?link}</ref>
                 </catDesc>
             </category>
         default return
@@ -206,16 +212,16 @@ declare function anno:query($type as xs:string, $query as xs:string?) {
                         "details": $term/tei:note/string(),
                         "link": $term/tei:ptr/@target/string()
                     }
-            case "wikidata" return
-                for $term in doc($anno:local-authority-file)//tei:taxonomy[@type="wikidata"][ft:query(tei:category, $query)]
+            case "factgrid" return
+                for $term in doc($anno:local-authority-file)//tei:taxonomy[@type="factgrid"][ft:query(tei:category, $query)]
                 return
                     map {
-                        "id": $term/@xml:id/string(),
-                        "label": $term/tei:catDesc/tei:term[0]/string(),
-                        "details": $term/tei:catDesc/tei:gloss/tei:p[0]/string(),
-                        "link": $term/tei:catDesc/tei:idno[type="url"]/string(),
-                        "definition": $term/tei:catDesc/tei:gloss/tei:def[0]/string(),
-                        "example": $term/tei:catDesc/tei:gloss/tei:eg[0]/string()
+                        "id":          $term/@xml:id/string(),
+                        "label":       $term//tei:term/string(),
+                        "type":        $term//tei:p[@type="types"]/string(),
+                        "details":     $term//tei:p[@type="details"]/string(),
+                        "description": for $l in $term//tei:p[@type="description"] return map {"lang": $l/@xml:lang/string(), "description": $l/string()},
+                        "link":        $term/tei:ref[@type="url"]/string()
                     }
             default return
                 ()
@@ -236,8 +242,8 @@ declare function anno:insert-point($type as xs:string) {
             doc($anno:local-authority-file)//tei:listOrg
         case "term" return
             doc($anno:local-authority-file)//tei:taxonomy[@type="term"]
-        case "wikidata" return
-            doc($anno:local-authority-file)//tei:taxonomy[@type="wikidata"]
+        case "factgrid" return
+            doc($anno:local-authority-file)//tei:taxonomy[@type="factgrid"]
         default return
             doc($anno:local-authority-file)//tei:listPerson
 };
@@ -252,6 +258,6 @@ declare function anno:local-search-strings($type as xs:string, $entry as element
         case "place" return $entry/tei:placeName/string()
         case "organization" return $entry/tei:orgName/string()
         case "term" return $entry/tei:catDesc/string()
-        case "wikidata" return $entry/tei:catDesc/string()
+        case "factgrid" return $entry/tei:catDesc/string()
         default return $entry/tei:persName/string()
 };

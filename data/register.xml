@@ -32,7 +32,7 @@
                   </category>
                </category>
             </taxonomy>
-            <taxonomy type="wikidata" xml:id="pb-taxonomy2">
+            <taxonomy type="factgrid" xml:id="pb-taxonomy2">
             </taxonomy>
          </classDecl>
       </encodingDesc>

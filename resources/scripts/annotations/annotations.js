@@ -142,11 +142,11 @@ window.addEventListener('WebComponentsReady', () => {
    * @param {any} data details of the selected authority entry
    */
   function authoritySelected (data) {
-    // console.log(`annotations.js, function authoritySelected, data: %o`, data);
+    // console.log(`<annotations.js/authoritySelected> data: %o`, data);
     authorityDialog.close();
     refInput.forEach((input) => { input.value = data.properties.ref });
     keyInput.forEach((input) => { input.value = data.properties.key });
-    typeInput.forEach((input) => { input.value = data.properties.type });
+    typeInput.forEach((input) => { input.value = Array.isArray(data.properties.type) ? data.properties.type.map((t) => `${t.name} (${t.id})`).join(', ') : data.properties.type });
     detailsInput.forEach((input) => { input.value = data.properties.details });
     if (autoSave) {
       save();
@@ -162,7 +162,7 @@ window.addEventListener('WebComponentsReady', () => {
    * @returns
    */
   function selectOccurrence (data, o, inBatch) {
-    // console.log(`annotations.js, function selectOccurrence, data: %o, o: %o, inBatch: %s`, data, o, inBatch);
+    // console.log(`<annotations.js/selectOccurrence> data: %o, o: %o, inBatch: %s`, data, o, inBatch);
     try {
       if (!o.annotated) {
         const teiRange = {
@@ -410,7 +410,7 @@ window.addEventListener('WebComponentsReady', () => {
       .then((response) => {
         if (response.ok) {
           document.getElementById('ner-action').style.display = 'block';
-          response.json().then(json => console.log(`NER: found spaCy version ${json.spacy_version}.`));
+          response.json().then(json => console.log(`<annotations.js/checkNERAvailable> found spaCy version ${json.spacy_version}.`));
         } else {
           console.error('NER endpoint not available');
         }
@@ -449,7 +449,7 @@ window.addEventListener('WebComponentsReady', () => {
       url = `${endpoint}/api/nlp/patterns/${doc.path}?lang=${lang}`;
     } else {
       const model = nerDialog.querySelector('paper-dropdown-menu').selectedItemLabel;
-      console.log('Using model %s', model)
+      console.log('<annotations.js/runNER> Using model %s', model)
       url = `${endpoint}/api/nlp/entities/${doc.path}?model=${model}`;
     }
     window.pbEvents.emit('pb-start-update', 'transcription', {});
@@ -571,7 +571,7 @@ window.addEventListener('WebComponentsReady', () => {
       if (annotations.length > 0) {
         document.getElementById('restore-dialog').confirm()
           .then(() => {
-            console.log('loading annotations from local storage: %o', annotations);
+            console.log('<annotation.sh> loading annotations from local storage: %o', annotations);
             view.annotations = annotations;
             const history = window.localStorage.getItem(`tei-publisher.annotations.${doc.path}.history`);
             if (history) {
@@ -624,7 +624,7 @@ window.addEventListener('WebComponentsReady', () => {
     });
   });
   window.pbEvents.subscribe('pb-authority-select', 'transcription', (ev) => {
-    // console.log(`annotations.js, pb-authority-select event, data: %o`, ev);
+    // console.log(`<annotations.js/pb-authority-select> data: %o`, ev);
     authoritySelected(ev.detail);
   });
   window.pbEvents.subscribe('pb-selection-changed', 'transcription', (ev) => {
@@ -635,7 +635,7 @@ window.addEventListener('WebComponentsReady', () => {
   });
   /* Annotations changed: reload the preview panels */
   window.pbEvents.subscribe('pb-annotations-changed', 'transcription', (ev) => {
-    // console.log(`annotations.js, pb-annotations-changed event, data: %o`, ev);
+    // console.log(`<annotations.js/pb-annotations-changed> data: %o`, ev);
     const doc = view.getDocument();
     if (doc && doc.path) {
       window.localStorage.setItem(`tei-publisher.annotations.${doc.path}`, JSON.stringify(ev.detail.ranges));
@@ -652,7 +652,7 @@ window.addEventListener('WebComponentsReady', () => {
   });
 
   window.pbEvents.subscribe('pb-annotation-edit', 'transcription', (ev) => {
-    // console.log(`annotations.js, pb-annotation-edit event, data: %o`, ev);
+    // console.log(`<annotations.js/pb-annotation-edit> data: %o`, ev);
     activeSpan = ev.detail.target;
     text = activeSpan.textContent.replace(/\s+/g, ' ');
     type = ev.detail.type;
