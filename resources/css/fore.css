@@ -705,9 +705,6 @@ fx-fore.action-log{
 /* overwrites for annotations  */
 /* overwrites for annotations  */
 /* overwrites for annotations  */
-aside.preview{
-    margin-top:2rem;
-}
 button.apply{
     font-size:1.2rem;
     padding:0.25rem 0.5rem;
@@ -755,26 +752,18 @@ fx-fore button{
     padding:0.5rem 1rem;
 
 }
-fx-fore #r-nameVariant fx-repeatitem{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    align-items:end;
-
-}
 fx-fore fx-group{
     padding:1rem 0.5rem;
     width:100%;
 }
-.fx-ready aside {
-    height:100vh;
-    padding:1rem;
-}
+/*
 .fx-ready main {
     grid-template-columns:1fr 38rem;
     height:auto;
     margin-top:3rem;
     overflow:auto;
 }
+*/
 
 
 fx-fore fx-case:last-child{

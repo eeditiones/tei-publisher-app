@@ -51,63 +51,69 @@
     </fx-model>
 
     <header>
-       Place Register
-       {instance('default')//placeName[@type='main']}
+        <h1>Place</h1>
+        <div>
+            <fx-trigger>
+                <paper-icon-button icon="icons:save" data-i18n="[title]annotations.save"></paper-icon-button>
+                <fx-action>
+                    <fx-send submission="save" if="instance('parameters')//id"
+                             url="api/entry/{instance('parameters')//id}"/>
+                    <fx-send submission="save" if="not(instance('parameters')//id)" url="api/entry/person-NEW"/>
+                </fx-action>
+            </fx-trigger>
+            <fx-trigger>
+                <paper-icon-button id="close-authority" icon="close" data-i18n="[title]annotations.authority"></paper-icon-button>
+                <fx-dispatch name="hide-authorities" target="#document"></fx-dispatch>
+            </fx-trigger>
+        </div>
     </header>
 
     <main>
         <!-- begin section general -->
-        <section class="place">
-            <!-- Basic name forms -->
-            <fx-group id="general" ref="//place" class="col-2">
-                <h3>Place ID</h3>
-                <fx-output ref="@xml:id"></fx-output>
-                <fx-control class="tp-input -form-control" ref="placeName[@type='main']">
-                    <label class="tp-label">Canonical form</label>
-                    <fx-hint>Kraków</fx-hint>
-                </fx-control>
-                <fx-control class="tp-input -form-control" ref="placeName[@type='sort']">
-                    <label class="tp-label">Sorting form</label>
-                    <fx-hint>Krakow</fx-hint>
-                </fx-control>
-            </fx-group>
+        <!-- Basic name forms -->
+        <fx-group id="general" ref="//place" class="col-2">
+            <h3>Place ID</h3>
+            <fx-output ref="@xml:id"></fx-output>
+            <fx-control class="tp-input -form-control" ref="placeName[@type='main']">
+                <label class="tp-label">Canonical form</label>
+                <fx-hint>Kraków</fx-hint>
+            </fx-control>
+            <fx-control class="tp-input -form-control" ref="placeName[@type='sort']">
+                <label class="tp-label">Sorting form</label>
+                <fx-hint>Krakow</fx-hint>
+            </fx-control>
+        </fx-group>
 
                 
-        </section>
+
         <!-- // end section general -->
 
         <!-- begin section name variants -->
-        <section>
-            <fx-group>
-                <header>Name variants ({count(//placeName[@type='variant'])})</header>
-                    <fx-trigger class="add-button">
-                        <button>add</button>
-                        <fx-insert
-                                context="//place"
-                                ref="placeName"
-                                origin="instance('i-template')//placeName[@type='variant']"></fx-insert>
+        <fx-group>
+            <header>Name variants ({count(//placeName[@type='variant'])})
+                <fx-trigger class="add-button">
+                    <paper-icon-button icon="icons:add" data-i18n="[title]annotations.add.roles"></paper-icon-button>
+                    <fx-insert
+                            context="//place"
+                            ref="placeName"
+                            origin="instance('i-template')//placeName[@type='variant']"></fx-insert>
+                </fx-trigger>
+            </header>
+            <fx-repeat id="r-nameVariant" ref="//placeName[@type='variant']" class="two-col">
+                <template>
+                    <fx-control  class="tp-input -form-control" ref=".">
+                        <label class="tp-label">Name</label>
+                        <fx-hint>Cracow</fx-hint>
+                    </fx-control>
+                    <fx-trigger>
+                        <paper-icon-button icon="close" data-i18n="[title]annotations.authority" title="delete"></paper-icon-button>
+                        <fx-delete ref="."/>
                     </fx-trigger>
-
-                    <fx-repeat ref="//placeName[@type='variant']" id="r-nameVariant">
-                        <template>
-                            <fx-control  class="tp-input -form-control" ref=".">
-                                <label class="tp-label">Name</label>
-                                <fx-hint>Cracow</fx-hint>
-                            </fx-control>
-                           
-                               
-                            <fx-trigger>
-                                <button>delete</button>
-                                <fx-delete ref="."/>
-                            </fx-trigger>
-                        </template>
-                    </fx-repeat>
-            </fx-group>
-        </section>
+                </template>
+            </fx-repeat>
+        </fx-group>
         <!-- // end section name variants -->
-        <section>
-            <fx-group>
-
+        <fx-group>
             <header>Location</header>
             <fx-control  class="tp-input -form-control" ref="//location/geo">
                 <label class="tp-label">Latitude and longitude</label>
@@ -121,22 +127,8 @@
                 <label class="tp-label">Region</label>
                 <fx-hint>małopolska</fx-hint>
             </fx-control>
-            </fx-group>
-        </section>
-        <section>
-            Save the form
-            <fx-trigger>
-                <button>save</button>
-                    <fx-send submission="save" if="instance('parameters')//id" url="api/entry/{instance('parameters')//id}" ></fx-send>
-                    <fx-send submission="save" if="not(instance('parameters')//id)" url="api/entry/NEW" ></fx-send>
-            </fx-trigger>
-        </section>
+        </fx-group>
     </main>
-   
-
-    <pre>
-        {log('default')}
-    </pre>
 
 </fx-fore>
 

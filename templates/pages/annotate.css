@@ -11,9 +11,14 @@ aside > fx-fore > fx-group{
     0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 
+/*
 .fx-ready aside {
-    height: auto;
+    position:fixed;
+    right:2rem;
+    width:22rem;
+    margin-top:-1rem;
 }
+*/
 
 .annotation-editor iron-form {
     padding: 0 8px;
@@ -42,20 +47,21 @@ aside > fx-fore > fx-group{
     font-size: 0.8rem;
 }
 #authority-editor main,
-#authority-editor section,
 #authority-editor fx-group{
-    margin:0;
+    margin:0 0 1rem 0;
     padding: 0;
     position: relative;
 }
 
+
 #authority-editor main{
-    max-height: 50vh;
+    /*max-height: 50vh;*/
     position: relative;
+    height: auto;
 }
 #authority-editor fx-fore > header{
     position: absolute;
-    width: 20rem;
+    width: 22rem;
     z-index: 10;
     background: #efefef;
     padding: 0 1rem;
@@ -317,14 +323,17 @@ paper-icon-button[data-type="edit"] {
     float: right;
 }
 
-/* ### person editor */
-fx-fore #r-nameVariant fx-repeatitem{
+/* ### authority editor */
+fx-repeat{
+    margin-right:1rem;
+}
+fx-fore .four-col fx-repeatitem{
     display:grid;
     grid-template-columns:1fr 1fr 1fr 2rem;
     grid-gap:0;
     align-items:end;
 }
-fx-fore #r-occupation fx-repeatitem{
+fx-fore .two-col fx-repeatitem{
     display:grid;
     grid-template-columns:auto 2rem;
     align-items:center;
