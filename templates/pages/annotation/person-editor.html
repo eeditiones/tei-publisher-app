@@ -46,7 +46,7 @@
                 method="PUT"
                 replace="instance">
             <fx-action  event="submit-done">
-                <fx-message>Data saved</fx-message>
+                <fx-message>Person saved</fx-message>
                 <fx-dispatch name="authority-created">
                     <fx-property name="id" expr="instance('default')/*/@xml:id"></fx-property>
                 </fx-dispatch>
@@ -170,7 +170,7 @@
                     </fx-control>
 
                     <fx-trigger>
-                        <button>delete</button>
+                        <paper-icon-button id="close-authority" icon="close" data-i18n="[title]annotations.authority" title="delete"></paper-icon-button>
                         <fx-delete ref="."/>
                     </fx-trigger>
                 </template>
@@ -179,23 +179,25 @@
 
         <!-- begin section professions -->
         <fx-group>
-            <header>Professions and roles ({count(//occupation)})</header>
-            <fx-trigger class="add-button">
-                <paper-icon-button icon="icons:add" data-i18n="[title]annotations.add.roles"></paper-icon-button>
-                <fx-insert
-                        context="//person"
-                        ref="name"
-                        origin="instance('i-template')//occupation"></fx-insert>
-            </fx-trigger>
+            <header>
+                Professions and roles ({count(//occupation)})
+                <fx-trigger class="add-button">
+                    <paper-icon-button icon="icons:add" data-i18n="[title]annotations.add.roles"></paper-icon-button>
+                    <fx-insert
+                            context="//person"
+                            ref="name"
+                            origin="instance('i-template')//occupation"></fx-insert>
+                </fx-trigger>
+            </header>
 
-            <fx-repeat ref="//occupation" id="r-occupation">
+            <fx-repeat id="r-occupation" ref="//occupation">
                 <template>
                     <fx-control class="tp-input -form-control" ref=".">
                         <label class="tp-label">Profession</label>
                         <fx-hint>teacher</fx-hint>
                     </fx-control>
                     <fx-trigger>
-                        <button>delete</button>
+                        <paper-icon-button icon="close" data-i18n="[title]annotations.authority" title="delete"></paper-icon-button>
                         <fx-delete ref="."/>
                     </fx-trigger>
                 </template>

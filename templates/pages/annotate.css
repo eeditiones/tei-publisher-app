@@ -33,9 +33,9 @@ aside > fx-fore > fx-group{
 }
 
 #authority-editor{
-    max-height: 50vh;
+    /*max-height: 50vh;*/
     position: relative;
-    overflow: auto;
+    /*overflow: auto;*/
 }
 #authority-editor main,
 #authority-editor button{
@@ -315,4 +315,17 @@ paper-icon-button[data-type="edit"] {
 
 #d-review .close {
     float: right;
+}
+
+/* ### person editor */
+fx-fore #r-nameVariant fx-repeatitem{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr 2rem;
+    grid-gap:0;
+    align-items:end;
+}
+fx-fore #r-occupation fx-repeatitem{
+    display:grid;
+    grid-template-columns:auto 2rem;
+    align-items:center;
 }
