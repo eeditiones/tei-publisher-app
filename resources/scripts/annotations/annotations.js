@@ -403,9 +403,7 @@ window.addEventListener("WebComponentsReady", () => {
 	/*
 	 * Search entire collection for other occurrences
 	 */
-	function searchCollection(ev) {
-		ev.preventDefault();
-		ev.stopPropagation();
+	function searchCollection(saveAll) {
 		window.pbEvents.emit("pb-start-update", "transcription", {});
 		const endpoint = document.querySelector("pb-page").getEndpoint();
 		let strings = '';
@@ -434,8 +432,43 @@ window.addEventListener("WebComponentsReady", () => {
 		.then((json) => {
 			const docs = Object.keys(json);
 			document.querySelector('#occurrences .messages').innerHTML = `Found matches in ${docs.length} other documents`;
-			review(docs, json);
+			if (saveAll) {
+				saveOccurrences(json);
+			} else {
+				review(docs, json);
+			}
 		}).catch(() => window.pbEvents.emit("pb-end-update", "transcription", {}));
+	}
+
+	/**
+	 * Save and merge all occurrences
+	 * 
+	 */
+	function saveOccurrences(data) {
+		const endpoint = document.querySelector("pb-page").getEndpoint();
+		window.pbEvents.emit("pb-start-update", "transcription", {});
+		fetch(`${endpoint}/api/annotations/merge`, {
+			method: "PUT",
+			mode: "cors",
+			credentials: "same-origin",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(data),
+		})
+		.then((response) => {
+			window.pbEvents.emit("pb-end-update", "transcription", {});
+			if (response.ok) {
+				reviewDialog.close();
+				return;
+			}
+			if (response.status === 401) {
+				document.getElementById('permission-denied-dialog').show();
+				throw new Error(response.statusText);
+			}
+			document.getElementById('error-dialog').show();
+			throw new Error(response.statusText);
+		});
 	}
 
 	function rangeEQ(range, newRange) {
@@ -580,7 +613,14 @@ window.addEventListener("WebComponentsReady", () => {
 
 	// search occurrences across entire collection
 	const searchBtn = document.getElementById('search-collection');
-	searchBtn.addEventListener('click', searchCollection);
+	searchBtn.addEventListener('click', () => {
+		searchCollection(false);
+	});
+
+	const searchSaveBtn = document.getElementById('save-all');
+    searchSaveBtn.addEventListener('click', () => {
+        searchCollection(true);
+    });
 
 	// display configured keyboard shortcuts on mouseover
 	document.addEventListener('pb-page-ready', () => {

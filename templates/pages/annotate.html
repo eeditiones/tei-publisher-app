@@ -316,6 +316,7 @@
                             <div><pb-i18n key="annotations.occurrences">Occurrences in text</pb-i18n></div>
                             <paper-icon-button id="mark-all" icon="icons:done-all" data-i18n="[label]annotations.apply-all" data-shortcut="⌘+option+a,ctrl+alt+a"></paper-icon-button>
                             <paper-icon-button id="search-collection" icon="icons:search" data-i18n="[label]annotations.apply-all" data-shortcut="⌘+option+a,ctrl+alt+a"></paper-icon-button>
+                            <paper-icon-button id="save-all" icon="icons:find-replace" data-i18n="[title]annotations.save-all"></paper-icon-button>
                         </header>
                         <p class="messages"></p>
                         <ul></ul>
@@ -383,7 +384,7 @@
         <h3>
             <paper-icon-button class="close" dialog-confirm="dialog-confirm" icon="icons:close"
                 data-i18n="[title]dialogs.close"></paper-icon-button>
-            <a href="#" target="_blank"></a>: <span></span>
+            [<span class="current"></span> of <span class="total"></span>] <a href="#" target="_blank"></a>: <span class="count"></span>
         </h3>
         <header class="toolbar">
             <paper-icon-button class="save-current" icon="icons:save" data-i18n="[title]annotations.save"></paper-icon-button>

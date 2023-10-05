@@ -45,6 +45,7 @@ function review(docs, data) {
     currentReview = 0;
     reviewDocs = docs;
     reviewData = data;
+    reviewDialog.querySelector('h3 .total').innerHTML = reviewDocs.length;
     _reviewNext();
 }
 
@@ -57,13 +58,15 @@ function _reviewNext() {
     if (!doc) {
         return;
     }
-    const count = reviewDialog.querySelector('h3 span');
-    const matches = reviewData[doc].filter(entry => entry.type !== 'modify');
+    reviewDialog.querySelector('h3 .current').innerHTML = currentReview + 1;
+    const count = reviewDialog.querySelector('h3 .count');
+    const matches = reviewData[doc];
+    count.innerHTML = matches.length;
     reviewDocLink.innerHTML = doc;
     reviewDocLink.href = doc;
-    count.innerHTML = matches.length;
 
     const endpoint = document.querySelector("pb-page").getEndpoint();
+    window.pbEvents.emit("pb-start-update", "transcription", {});
     fetch(`${endpoint}/api/nlp/entities/${doc}?debug=true`, {
         method: "GET",
         mode: "cors",
@@ -83,7 +86,12 @@ function _reviewNext() {
         matches.forEach((match) => {
             const context = json.offsets.find((offset) => offset.node === match.context);
             const li = document.createElement('li');
-            li.innerHTML = kwicText(json.plain, context.start + match.start, context.start + match.end, 5);
+            if (match.type === 'modify') {
+                console.log(match);
+                li.innerHTML = kwicText(json.plain, context.start, context.end);
+            } else {
+                li.innerHTML = kwicText(json.plain, context.start + match.start, context.start + match.end, 5);
+            }
             list.appendChild(li);
         });
         reviewDialog.showModal();
@@ -100,6 +108,7 @@ function _saveCurrent() {
         return;
     }
     const endpoint = document.querySelector("pb-page").getEndpoint();
+    window.pbEvents.emit("pb-start-update", "transcription", {});
     fetch(`${endpoint}/api/annotations/merge/${doc}`, {
         method: "PUT",
         mode: "cors",
@@ -110,6 +119,7 @@ function _saveCurrent() {
         body: JSON.stringify(reviewData[doc]),
     })
     .then((response) => {
+        window.pbEvents.emit("pb-end-update", "transcription", {});
         if (response.ok) {
             currentReview += 1;
             _reviewNext();
