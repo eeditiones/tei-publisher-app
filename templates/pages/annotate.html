@@ -36,7 +36,11 @@
     <div data-template="lib:include" data-template-path="templates/menu.html"></div>
     <header class="header-toolbar">
         <span class="icon-group">
-            <paper-icon-button id="tocToggle" class="toc-toggle" icon="icons:view-list"/>
+            <a id="toolbar-parent" href="${app}/index.html?collection=${collection}" data-i18n="[title]browse.${collection}.title" title=""
+                data-template="pages:parse-params">
+                <paper-icon-button icon="icons:folder-open"></paper-icon-button>
+            </a>
+            <!--paper-icon-button id="tocToggle" class="toc-toggle" icon="icons:view-list"/-->
             <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"/>
             <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"/>
         </span>
@@ -71,7 +75,7 @@
             <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
                 <pb-param name="header" value="short"/>
             </pb-view>
-            <pb-view-annotate id="view1" src="document1" odd="annotations"
+            <pb-view-annotate id="view1" src="document1" odd="annotations" key="corresp"
                               append-footnotes="append-footnotes" suppress-highlight="suppress-highlight"
                               subscribe="transcription" emit="transcription">
                 <pb-param name="track-ids" value="yes"/>
@@ -228,7 +232,7 @@
                         <iron-form id="edit-form">
                             <form action="">
                                 <div class="annotation-form person organization place term">
-                                            <paper-input class="form-ref" name="ref" data-i18n="[label]annotations.reference" label="Reference">
+                                            <paper-input class="form-ref" name="corresp" data-i18n="[label]annotations.reference" label="Reference">
                                                 <paper-icon-button slot="prefix" icon="search" data-i18n="[label]annotations.lookup"></paper-icon-button>
                                     </paper-input>
                                             <div class="authority-info"><pb-i18n key="dialogs.loading">Loading ...</pb-i18n></div>
