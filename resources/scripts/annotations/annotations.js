@@ -413,9 +413,11 @@ window.addEventListener("WebComponentsReady", () => {
 		} else {
 			strings = [text];
 		}
+		const doc = view.getDocument();
 		const params = new URLSearchParams();
 		params.set('type', type);
 		params.set('properties', JSON.stringify(form.serializeForm()));
+		params.set('exclude', doc.path);
 		strings.forEach(s => params.append('string', s));
 
 		fetch(`${endpoint}/api/nlp/strings/annotate?${params.toString()}`, {
@@ -469,11 +471,6 @@ window.addEventListener("WebComponentsReady", () => {
 			document.getElementById('error-dialog').show();
 			throw new Error(response.statusText);
 		});
-	}
-
-	function rangeEQ(range, newRange) {
-		return range.text === newRange.text && range.start === newRange.start && 
-			range.type === newRange.type;
 	}
 
 	function checkNERAvailable() {
@@ -538,7 +535,7 @@ window.addEventListener("WebComponentsReady", () => {
 				return response.json();
 			}
 		}).then((json) => {
-			view.annotations = json;
+			view.annotations = json[doc.path];
 			window.pbEvents.emit("pb-end-update", "transcription", {});
 			preview(view.annotations);
 		});

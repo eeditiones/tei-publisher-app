@@ -86,11 +86,15 @@ function _reviewNext() {
         matches.forEach((match) => {
             const context = json.offsets.find((offset) => offset.node === match.context);
             const li = document.createElement('li');
+            const div = document.createElement('div');
+            li.appendChild(div);
             if (match.type === 'modify') {
-                console.log(match);
-                li.innerHTML = kwicText(json.plain, context.start, context.end);
+                div.innerHTML = kwicText(json.plain, context.start, context.end, 10);
+                const info = document.createElement('div');
+                info.innerHTML = `${match.properties.corresp}`;
+                li.appendChild(info);
             } else {
-                li.innerHTML = kwicText(json.plain, context.start + match.start, context.start + match.end, 5);
+                div.innerHTML = kwicText(json.plain, context.start + match.start, context.start + match.end, 10);
             }
             list.appendChild(li);
         });

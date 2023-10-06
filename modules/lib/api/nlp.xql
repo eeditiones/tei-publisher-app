@@ -75,7 +75,9 @@ declare %private function nlp:entity-recognition($request as map(*), $docs as el
 declare function nlp:strings($request as map(*)) {
     map:merge(
         let $path := xmldb:decode($request?parameters?id)
+        let $exclude := $request?parameters?exclude ! xmldb:decode(.)
         for $doc in collection($config:data-root || "/" || $path)/tei:TEI/tei:text
+        where config:get-relpath($doc) != $exclude
         let $text := (
             nlp:extract-plain-text($doc, true()),
             nlp:extract-plain-text($doc//tei:note, false())
@@ -397,11 +399,11 @@ declare function nlp:convert($entities as array(*), $offsets as map(*)*, $doc as
                         "type": $entity?type,
                         "text": $entity?text,
                         "properties": 
-                            if (exists($entity?properties)) then
+                            if (exists($entity?properties)) then (
                                 $entity?properties
-                            else
+                            ) else
                                 map {
-                                    "ref": ""
+                                    $nlp-config:reference-key: ""
                                 }
                     }
             else
