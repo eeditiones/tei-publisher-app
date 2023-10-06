@@ -283,7 +283,7 @@ declare function rapi:create-record($type as xs:string, $id as xs:string, $data 
             <person xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
                 <persName type="full">{$data?name}</persName>
                 <persName type="sort">{$data?name}</persName>
-                {rapi:normalize-gender($data?gender)}
+                {rapi:normalize-gender($data?gender?*)}
                 {
                     if (exists($data?birth)) then
                         <birth>
@@ -302,10 +302,10 @@ declare function rapi:create-record($type as xs:string, $id as xs:string, $data 
                 }
                 <note type="bio">{$data?note}</note>
                 {
-                    if (exists($data?profession)) then
-                        for $prof in $data?profession?*
+                    if (exists($data?professionOrOccupation)) then
+                        for $prof in $data?professionOrOccupation?*
                         return
-                            <occupation>{$prof}</occupation>
+                            <occupation ref="{$prof?id}">{$prof?label}</occupation>
                     else
                         ()
                 }
@@ -323,20 +323,22 @@ declare function rapi:create-record($type as xs:string, $id as xs:string, $data 
 };
 
 (: normalize GND gender values for common cases :)
-declare function rapi:normalize-gender($value) {
-    switch ($value)
-        case "Männlich"
-            return 
-                <gender value="M" xmlns="http://www.tei-c.org/ns/1.0">male</gender>
-        case "Weiblich"
-            return 
-                <gender value="M" xmlns="http://www.tei-c.org/ns/1.0">female</gender>
-        case "Unbekannt"
-            return 
-                <gender value="U" xmlns="http://www.tei-c.org/ns/1.0">unknown</gender>
-        default
-            return 
-                <gender value="{$value}" xmlns="http://www.tei-c.org/ns/1.0">{$value}</gender>
+declare function rapi:normalize-gender($values) {
+    for $gender in $values
+        return
+            switch ($gender?id)
+                case "https://d-nb.info/standards/vocab/gnd/gender#male"
+                    return 
+                        <gender value="M" xmlns="http://www.tei-c.org/ns/1.0">male</gender>
+                case "https://d-nb.info/standards/vocab/gnd/gender#female"
+                    return 
+                        <gender value="F" xmlns="http://www.tei-c.org/ns/1.0">female</gender>
+                case "https://d-nb.info/standards/vocab/gnd/gender#notKnown"
+                    return 
+                        <gender value="U" xmlns="http://www.tei-c.org/ns/1.0">unknown</gender>
+                default
+                    return 
+                        <gender value="{$gender?id}" xmlns="http://www.tei-c.org/ns/1.0">{$gender?label}</gender>
 };
 (:~
  : For the given local authority entry, return a sequence of other strings (e.g. alternate names) 
