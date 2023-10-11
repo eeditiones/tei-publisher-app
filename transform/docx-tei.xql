@@ -35,6 +35,10 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace tei="http://existsolutions.com/xquery/functions/tei";
 
+import module namespace ext-docx="http://www.tei-c.org/tei-simple/xquery/functions/docx";
+
+import module namespace global="http://www.tei-c.org/tei-simple/config" at "../modules/config.xqm";
+
 (: generated template function for element spec: r :)
 declare %private function model:template-r6($config as map(*), $node as node()*, $params as map(*)) {
     <persName xmlns="http://www.tei-c.org/ns/1.0" ref="http://d-nb.info/gnd/{$config?apply-children($config, $node, $params?ref)}">{$config?apply-children($config, $node, $params?content)}</persName>
@@ -79,7 +83,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         
         let $output := model:apply($config, $input)
         return
-            tei:finish($config, $output)
+            ext-docx:finish($config, $output)
     )
 };
 

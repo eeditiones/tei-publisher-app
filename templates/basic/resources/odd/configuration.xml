@@ -23,4 +23,8 @@
     <!--output mode="web" odd="documentation">
         <module uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-html.xql"/>
     </output-->
+    <!-- Required for MS Word docx to TEI transformations -->
+    <output mode="tei" odd="docx">
+        <module uri="http://www.tei-c.org/tei-simple/xquery/functions/docx" prefix="ext-docx"/>
+    </output>
 </modules>

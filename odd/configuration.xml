@@ -16,4 +16,7 @@
         <property name="section-numbers">false()</property>
         <property name="font-size">"11pt"</property>
     </output>
+    <output mode="tei" odd="docx">
+        <module uri="http://www.tei-c.org/tei-simple/xquery/functions/docx" prefix="ext-docx"/>
+    </output>
 </modules>
