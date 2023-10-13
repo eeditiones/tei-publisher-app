@@ -769,18 +769,6 @@ fx-fore fx-group{
 fx-fore fx-case:last-child{
     margin-bottom:5rem;
 }
-.header-toolbar{
-    display:flex;
-    justify-content:space-between;
-    position:fixed;
-    width:100%;
-    background:#efefef;
-    padding:0;
-    z-index:100;
-}
-.header-toolbar .icon-group{
-    padding:0.5rem 1rem;
-}
 body{
     width:100vw;
     height:100vh;

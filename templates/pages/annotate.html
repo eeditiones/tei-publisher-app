@@ -64,8 +64,8 @@
             <paper-icon-button id="reload-preview" icon="icons:refresh" data-i18n="[title]annotations.preview"></paper-icon-button>
             <paper-icon-button id="toggle-markup" icon="icons:visibility-off" data-i18n="[title]annotations.toggle"></paper-icon-button>
         </span>
+        <pb-progress subscribe="transcription" indeterminate="indeterminate"/>
     </header>
-    <pb-progress subscribe="transcription" indeterminate="indeterminate"/>
     <main>
         <div class="text">
             <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
@@ -79,23 +79,24 @@
         </div>
         <aside class="preview edit-panel">
             <fx-fore>
-<!--
-                <fx-action event="click" target="toggle-markup">
-                    <fx-message>toggle markup</fx-message>
-                </fx-action>
--->
+                <!--
+                                <fx-action event="click" target="toggle-markup">
+                                    <fx-message>toggle markup</fx-message>
+                                </fx-action>
+                -->
                 <fx-function signature="updateAnnotationDetails($ident as xs:string) as xs:boolean"
                              type="text/javascript">
                     document.querySelector('iron-form paper-input').value=$ident;
-<!--
-                    const val = $ident;
-                    const control = document.querySelector('iron-form paper-input');
-                    if(control){
-                        control.value = val;
-                    }
-                    return false
--->
+                    <!--
+                                        const val = $ident;
+                                        const control = document.querySelector('iron-form paper-input');
+                                        if(control){
+                                            control.value = val;
+                                        }
+                                        return false
+                    -->
                 </fx-function>
+
 
                 <!-- ### store the type of authority until user chooses to open form by clicking toolbar icon -->
                 <fx-action event="pb-authority-lookup" target="#document">
@@ -158,7 +159,7 @@
                 <fx-action event="authority-created" target="#document">
                     <fx-message>id:{event('id')}</fx-message>
                     <fx-setvalue ref="authority-updated" value="updateAnnotationDetails(event('id'))"></fx-setvalue>
-<!--                    <fx-setvalue ref="markup">true</fx-setvalue>-->
+                    <!--                    <fx-setvalue ref="markup">true</fx-setvalue>-->
                 </fx-action>
 
                 <fx-action event="pb-annotation-detail" target="#document">
@@ -182,7 +183,7 @@
                     <fx-setvalue ref="annotation">false</fx-setvalue>
                     <fx-setvalue ref="authority">false</fx-setvalue>
                     <fx-setvalue ref="occurrences">false</fx-setvalue>
-<!--                    <fx-setvalue ref="markup">false</fx-setvalue>-->
+                    <!--                    <fx-setvalue ref="markup">false</fx-setvalue>-->
                 </fx-action>
 
                 <fx-model>
@@ -228,10 +229,10 @@
                         <iron-form id="edit-form">
                             <form action="">
                                 <div class="annotation-form person organization place term">
-                                            <paper-input class="form-ref" name="ref" data-i18n="[label]annotations.reference" label="Reference">
-                                                <paper-icon-button slot="prefix" icon="search" data-i18n="[label]annotations.lookup"></paper-icon-button>
+                                    <paper-input class="form-ref" name="ref" data-i18n="[label]annotations.reference" label="Reference">
+                                        <paper-icon-button slot="prefix" icon="search" data-i18n="[label]annotations.lookup"></paper-icon-button>
                                     </paper-input>
-                                            <div class="authority-info"><pb-i18n key="dialogs.loading">Loading ...</pb-i18n></div>
+                                    <div class="authority-info"><pb-i18n key="dialogs.loading">Loading ...</pb-i18n></div>
                                 </div>
                                 <div class="annotation-form date">
                                     <paper-input name="when" label="when" type="date"></paper-input>
@@ -251,14 +252,14 @@
                                         <paper-input name="rdg" label="rdg"></paper-input>
                                     </template>
                                 </pb-repeat>
-                                        <paper-input class="annotation-form sic" name="corr" data-i18n="[label]annotations.correction" label="Correction"></paper-input>
-                                        <paper-input class="annotation-form abbreviation" name="expan" data-i18n="[label]annotations.expansion" label="Expansion"></paper-input>
-                                        <paper-input class="annotation-form reg" name="reg" data-i18n="[label]annotations.reg" label="Regularization"></paper-input>
+                                <paper-input class="annotation-form sic" name="corr" data-i18n="[label]annotations.correction" label="Correction"></paper-input>
+                                <paper-input class="annotation-form abbreviation" name="expan" data-i18n="[label]annotations.expansion" label="Expansion"></paper-input>
+                                <paper-input class="annotation-form reg" name="reg" data-i18n="[label]annotations.reg" label="Regularization"></paper-input>
                                 <div class="annotation-form edit">
-                                            <p><pb-i18n key="annotations.modify-info"></pb-i18n></p>
-                                            <paper-input name="content" data-i18n="[label]annotations.correction" label="Correction"></paper-input>
+                                    <p><pb-i18n key="annotations.modify-info"></pb-i18n></p>
+                                    <paper-input name="content" data-i18n="[label]annotations.correction" label="Correction"></paper-input>
                                 </div>
-                                        <paper-icon-button id="form-save" icon="icons:save" data-i18n="[label]annotations.apply"></paper-icon-button>
+                                <paper-icon-button id="form-save" icon="icons:save" data-i18n="[label]annotations.apply"></paper-icon-button>
                             </form>
                         </iron-form>
                     </section>
@@ -333,7 +334,7 @@
                 </fx-group>
 
 
-<!--                <fx-group id="markupPanel" ref="markup">-->
+                <!--                <fx-group id="markupPanel" ref="markup">-->
                 <fx-group id="markupPanel">
                     <section>
                         <pb-tabs class="align-bottom-{align-bottom}">
@@ -341,9 +342,9 @@
                             <paper-tab slot="tab">TEI</paper-tab>
                             <paper-tab slot="tab">JSON</paper-tab>
                             <paper-tab slot="tab"><pb-i18n key="annotations.changes">Changes</pb-i18n></paper-tab>
-                            <paper-icon-button id="toggle-authority-bottom" slot="tab" icon="editor:vertical-align-bottom"></paper-icon-button>
+<!--                            <paper-icon-button id="toggle-authority-side" slot="tab" icon="editor:vertical-align-bottom"></paper-icon-button>-->
                             <iframe slot="page" id="html" src="about:blank"></iframe>
-                                    <pb-code-highlight slot="page" id="output" language="xml" theme="default"></pb-code-highlight>
+                            <pb-code-highlight slot="page" id="output" language="xml" theme="default"></pb-code-highlight>
                             <pre slot="page" id="json"></pre>
                             <div slot="page" id="changes"></div>
                         </pb-tabs>

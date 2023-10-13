@@ -684,19 +684,43 @@ window.addEventListener("WebComponentsReady", () => {
 		if(markupPanel.classList.contains('on')){
 			markupPanel.classList.remove('on');
 			ev.target.setAttribute('icon' , 'icons:visibility-off');
+
+			const markupPanelHeight = markupPanel.getAttribute('data-height');
+			if(markupPanelHeight){
+				const textPanel = document.querySelector('main .text');
+				textPanel.style.height += markupPanelHeight;
+				document.body.style.height = 'inherit'; // reset before calculating scrollheight
+				document.body.style.width = 'inherit'; // reset before calculating scrollheight
+				const newHeight = textPanel.scrollHeight - markupPanelHeight
+				textPanel.style.height = `${newHeight}px`;
+			}
 		}else{
 			markupPanel.classList.add('on');
 			ev.target.setAttribute('icon', 'icons:visibility');
+
+			const markupPanelHeight = markupPanel.offsetHeight;
+			//store to undo
+			markupPanel.setAttribute('data-height',markupPanelHeight);
+			const textPanel = document.querySelector('main .text');
+			textPanel.style.height += markupPanelHeight;
+
+			document.body.style.height = 'inherit'; // reset before calculating scrollheight
+			document.body.style.width = 'inherit'; // reset before calculating scrollheight
+			const newHeight = textPanel.scrollHeight + markupPanelHeight
+			textPanel.style.height = `${newHeight}px`;
+
 		}
 	});
+/*
 	document.querySelector('#toggle-authority-bottom').addEventListener('click', (ev) => {
 		const markupPanel = document.querySelector('#markupPanel');
-		if(markupPanel.classList.contains('bottom')){
-			markupPanel.classList.remove('bottom');
+		if(markupPanel.classList.contains('side')){
+			markupPanel.classList.remove('side');
 		}else{
-			markupPanel.classList.add('bottom');
+			markupPanel.classList.add('side');
 		}
 	});
+*/
 
 
 	window.pbEvents.subscribe("pb-authority-select", "transcription", (ev) =>
