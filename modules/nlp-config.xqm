@@ -15,6 +15,8 @@ declare variable $nlp:api-endpoint :=
  :)
 declare variable $nlp:entities := ("PER", "LOC", "ORG");
 
+declare variable $nlp:reference-key := "ref";
+
 (:~
  : Defines which TEI elements should be mapped to which named entity type.
  : This is in particular used for training new models. Only elements mapped

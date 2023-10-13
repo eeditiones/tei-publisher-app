@@ -403,9 +403,7 @@ window.addEventListener("WebComponentsReady", () => {
 	/*
 	 * Search entire collection for other occurrences
 	 */
-	function searchCollection(ev) {
-		ev.preventDefault();
-		ev.stopPropagation();
+	function searchCollection(saveAll) {
 		window.pbEvents.emit("pb-start-update", "transcription", {});
 		const endpoint = document.querySelector("pb-page").getEndpoint();
 		let strings = '';
@@ -415,9 +413,11 @@ window.addEventListener("WebComponentsReady", () => {
 		} else {
 			strings = [text];
 		}
+		const doc = view.getDocument();
 		const params = new URLSearchParams();
 		params.set('type', type);
 		params.set('properties', JSON.stringify(form.serializeForm()));
+		params.set('exclude', doc.path);
 		strings.forEach(s => params.append('string', s));
 
 		fetch(`${endpoint}/api/nlp/strings/annotate?${params.toString()}`, {
@@ -434,13 +434,43 @@ window.addEventListener("WebComponentsReady", () => {
 		.then((json) => {
 			const docs = Object.keys(json);
 			document.querySelector('#occurrences .messages').innerHTML = `Found matches in ${docs.length} other documents`;
-			review(docs, json);
+			if (saveAll) {
+				saveOccurrences(json);
+			} else {
+				review(docs, json);
+			}
 		}).catch(() => window.pbEvents.emit("pb-end-update", "transcription", {}));
 	}
 
-	function rangeEQ(range, newRange) {
-		return range.text === newRange.text && range.start === newRange.start && 
-			range.type === newRange.type;
+	/**
+	 * Save and merge all occurrences
+	 * 
+	 */
+	function saveOccurrences(data) {
+		const endpoint = document.querySelector("pb-page").getEndpoint();
+		window.pbEvents.emit("pb-start-update", "transcription", {});
+		fetch(`${endpoint}/api/annotations/merge`, {
+			method: "PUT",
+			mode: "cors",
+			credentials: "same-origin",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(data),
+		})
+		.then((response) => {
+			window.pbEvents.emit("pb-end-update", "transcription", {});
+			if (response.ok) {
+				reviewDialog.close();
+				return;
+			}
+			if (response.status === 401) {
+				document.getElementById('permission-denied-dialog').show();
+				throw new Error(response.statusText);
+			}
+			document.getElementById('error-dialog').show();
+			throw new Error(response.statusText);
+		});
 	}
 
 	function checkNERAvailable() {
@@ -505,7 +535,7 @@ window.addEventListener("WebComponentsReady", () => {
 				return response.json();
 			}
 		}).then((json) => {
-			view.annotations = json;
+			view.annotations = json[doc.path];
 			window.pbEvents.emit("pb-end-update", "transcription", {});
 			preview(view.annotations);
 		});
@@ -580,7 +610,14 @@ window.addEventListener("WebComponentsReady", () => {
 
 	// search occurrences across entire collection
 	const searchBtn = document.getElementById('search-collection');
-	searchBtn.addEventListener('click', searchCollection);
+	searchBtn.addEventListener('click', () => {
+		searchCollection(false);
+	});
+
+	const searchSaveBtn = document.getElementById('save-all');
+    searchSaveBtn.addEventListener('click', () => {
+        searchCollection(true);
+    });
 
 	// display configured keyboard shortcuts on mouseover
 	document.addEventListener('pb-page-ready', () => {

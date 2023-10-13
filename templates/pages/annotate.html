@@ -36,7 +36,11 @@
     <div data-template="lib:include" data-template-path="templates/menu.html"></div>
     <header class="header-toolbar">
         <span class="icon-group">
-            <paper-icon-button id="tocToggle" class="toc-toggle" icon="icons:view-list"/>
+            <a id="toolbar-parent" href="${app}/index.html?collection=${collection}" data-i18n="[title]browse.${collection}.title" title=""
+                data-template="pages:parse-params">
+                <paper-icon-button icon="icons:folder-open"></paper-icon-button>
+            </a>
+            <!--paper-icon-button id="tocToggle" class="toc-toggle" icon="icons:view-list"/-->
             <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"/>
             <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"/>
         </span>
@@ -71,7 +75,7 @@
             <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
                 <pb-param name="header" value="short"/>
             </pb-view>
-            <pb-view-annotate id="view1" src="document1" odd="annotations"
+            <pb-view-annotate id="view1" src="document1" odd="annotations" key="ref"
                               append-footnotes="append-footnotes" suppress-highlight="suppress-highlight"
                               subscribe="transcription" emit="transcription">
                 <pb-param name="track-ids" value="yes"/>
@@ -317,6 +321,7 @@
                             <div><pb-i18n key="annotations.occurrences">Occurrences in text</pb-i18n></div>
                             <paper-icon-button id="mark-all" icon="icons:done-all" data-i18n="[label]annotations.apply-all" data-shortcut="⌘+option+a,ctrl+alt+a"></paper-icon-button>
                             <paper-icon-button id="search-collection" icon="icons:search" data-i18n="[label]annotations.apply-all" data-shortcut="⌘+option+a,ctrl+alt+a"></paper-icon-button>
+                            <paper-icon-button id="save-all" icon="icons:find-replace" data-i18n="[title]annotations.save-all"></paper-icon-button>
                         </header>
                         <p class="messages"></p>
                         <ul></ul>
@@ -384,7 +389,7 @@
         <h3>
             <paper-icon-button class="close" dialog-confirm="dialog-confirm" icon="icons:close"
                 data-i18n="[title]dialogs.close"></paper-icon-button>
-            <a href="#" target="_blank"></a>: <span></span>
+            [<span class="current"></span> of <span class="total"></span>] <a href="#" target="_blank"></a>: <span class="count"></span>
         </h3>
         <header class="toolbar">
             <paper-icon-button class="save-current" icon="icons:save" data-i18n="[title]annotations.save"></paper-icon-button>

@@ -26,8 +26,24 @@ declare function anno:find-references($request as map(*)) {
  :)
 declare function anno:save($request as map(*)) {
     let $annotations := $request?body
-    let $path := xmldb:decode($request?parameters?path)
-    let $srcDoc := config:get-document($path)
+    return
+        if ($annotations instance of array(*)) then
+            let $path := xmldb:decode($request?parameters?path)
+            let $srcDoc := config:get-document($path)
+            return
+                anno:merge-and-save($srcDoc, $path, $annotations)
+        else
+            let $result :=
+                for $path in map:keys($annotations)
+                let $srcDoc := config:get-document($path)
+                return
+                    anno:merge-and-save($srcDoc, $path, $annotations($path))
+            return
+                router:response(200, count(map:keys($annotations)) || ' documents merged')
+
+};
+
+declare function anno:merge-and-save($srcDoc as node(), $path as xs:string, $annotations as array(*)) {
     let $hasAccess := sm:has-access(document-uri(root($srcDoc)), "rw-")
     return
         if (not($hasAccess) and request:get-method() = 'PUT') then

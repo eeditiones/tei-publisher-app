@@ -2385,6 +2385,65 @@
 				}
 			}
 		},
+		"/api/annotations/merge": {
+			"put": {
+				"summary": "Merge a set of annotations on multiple documents into their source TEI and store the resulting data",
+				"tags": ["annotations"],
+				"operationId": "anno:save",
+				"x-constraints": {
+					"groups": ["tei"]
+				},
+				"requestBody": {
+					"description": "An object mapping document paths to annotation arrays",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"description": "Properties map document paths to annotations",
+								"additionalProperties": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"context": {
+												"type": "string"
+											},
+											"start": {
+												"type": "number"
+											},
+											"end": {
+												"type": "number"
+											},
+											"type": {
+												"type": "string"
+											},
+											"text": {
+												"type": "string"
+											},
+											"properties": {
+												"type": "object"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Returns the merged TEI XML",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
 		"/api/annotations/merge/{path}": {
 			"post": {
 				"summary": "Merge annotations into source TEI",
@@ -2639,6 +2698,13 @@
 					},
 					{
 						"name": "properties",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "exclude",
 						"in": "query",
 						"schema": {
 							"type": "string"
