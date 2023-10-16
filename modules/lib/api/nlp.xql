@@ -64,8 +64,10 @@ declare %private function nlp:entity-recognition($request as map(*), $docs as el
         return
             if ($request?parameters?debug) then
                 map {
-                    "plain": $plain,
-                    "offsets": $offsets
+                    config:get-relpath($doc): map {
+                        "plain": $plain,
+                        "offsets": $offsets
+                    }
                 }
             else
                 nlp:convert(nlp:entities-remote($plain, $request?parameters?model), $offsets, $doc)
@@ -366,7 +368,7 @@ declare function nlp:mapping-table($result as map(*)*, $pairs as array(*)*, $acc
             if (exists($pair?1)) then
                 map {
                     "node": if ($debug) then util:node-id($pair?1) else $pair?1,
-                    "start": $accum,
+                                        "start": $accum,
                     "end": $end,
                     "origOffset": $pair?3
                 }
@@ -396,6 +398,7 @@ declare function nlp:convert($entities as array(*), $offsets as map(*)*, $doc as
                         "context": util:node-id($insertPoint?node),
                         "start": $insertPoint?origOffset + $start,
                         "end": $insertPoint?origOffset + $start + string-length($entity?text),
+                        "absolute": $entity?start,
                         "type": $entity?type,
                         "text": $entity?text,
                         "properties": 
@@ -412,6 +415,8 @@ declare function nlp:convert($entities as array(*), $offsets as map(*)*, $doc as
                         "type": "modify",
                         "node": util:node-id($insertPoint?node),
                         "context": util:node-id($insertPoint?node),
+                        "absolute": $entity?start,
+                        "text": $entity?text,
                         "properties": $entity?properties
                     }
                 else

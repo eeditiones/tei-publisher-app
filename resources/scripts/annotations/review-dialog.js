@@ -77,7 +77,7 @@ function _reviewNext() {
 
     const endpoint = document.querySelector("pb-page").getEndpoint();
     window.pbEvents.emit("pb-start-update", "transcription", {});
-    fetch(`${endpoint}/api/nlp/entities/${doc}?debug=true`, {
+    fetch(`${endpoint}/api/nlp/text/${doc}?debug=true`, {
         method: "GET",
         mode: "cors",
         credentials: "same-origin"
@@ -85,30 +85,27 @@ function _reviewNext() {
     .then((response) => {
         window.pbEvents.emit("pb-end-update", "transcription", {});
         if (response.ok) {
-            return response.json();
+            return response.text();
         }
     })
-    .then((json) => {
+    .then((text) => {
         const list = reviewDialog.querySelector('ul');
         list.innerHTML = '';
-        
         matches.forEach((match) => {
-            const context = json.offsets.find((offset) => offset.node === match.context);
             const li = document.createElement('li');
             const div = document.createElement('div');
             li.appendChild(div);
             if (match.type === 'modify') {
-                div.innerHTML = kwicText(json.plain, context.start, context.end, 10);
+                div.innerHTML = kwicText(text, match.absolute, match.absolute + match.text.length, 10);
                 const info = document.createElement('div');
                 info.innerHTML = `${match.properties.corresp}`;
                 li.appendChild(info);
             } else {
-                div.innerHTML = kwicText(json.plain, context.start + match.start, context.start + match.end, 10);
+                div.innerHTML = kwicText(text, match.absolute, match.absolute + match.text.length, 10);
             }
             list.appendChild(li);
         });
         reviewDialog.show();
-        // reviewDialog.showModal();
     });
 }
 
