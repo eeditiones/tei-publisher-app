@@ -17,6 +17,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    reviewDialog.querySelector('.previous').addEventListener('click', () => {
+        if (currentReview > -1) {
+            currentReview -= 1;
+            _reviewNext();
+        }
+    });
+
     // clicking on link to document opens annotation editor on this document in new tab
     // annotations for the document are first stored to local storage, so the editor
     // will pick them up
@@ -54,6 +61,9 @@ function review(docs, data) {
  * 
  */
 function _reviewNext() {
+    reviewDialog.querySelector('.previous').disabled = currentReview === 0;
+    reviewDialog.querySelector('.next').disabled = currentReview === reviewDocs.length - 1;
+
     const doc = reviewDocs[currentReview];
     if (!doc) {
         return;
@@ -79,7 +89,6 @@ function _reviewNext() {
         }
     })
     .then((json) => {
-        console.log(json);
         const list = reviewDialog.querySelector('ul');
         list.innerHTML = '';
         
@@ -98,7 +107,8 @@ function _reviewNext() {
             }
             list.appendChild(li);
         });
-        reviewDialog.showModal();
+        reviewDialog.show();
+        // reviewDialog.showModal();
     });
 }
 
@@ -125,16 +135,24 @@ function _saveCurrent() {
     .then((response) => {
         window.pbEvents.emit("pb-end-update", "transcription", {});
         if (response.ok) {
-            currentReview += 1;
-            _reviewNext();
+            reviewDocs.splice(currentReview, 1);
+            reviewDialog.querySelector('h3 .total').innerHTML = reviewDocs.length;
+            if (reviewDocs.length === 0) {
+                reviewDialog.close();
+            } else {
+                if (currentReview === reviewDocs.length) {
+                    currentReview = 0;
+                }
+                _reviewNext();
+            }
             return response.json();
         }
         if (response.status === 401) {
             document.getElementById('permission-denied-dialog').show();
-            throw new Error(response.statusText);
+            return;
         }
         document.getElementById('error-dialog').show();
-        throw new Error(response.statusText);
+        return;
     });
 }
 
