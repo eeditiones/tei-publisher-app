@@ -530,43 +530,27 @@ declare function config:dts-metadata($doc as document-node()) {
  : @param $docUri relative document path (including $collection)
  :)
 declare function config:collection-config($collection as xs:string?, $docUri as xs:string?) {
-    switch ($collection)
-        case "jats" return
-            map {
-                "template": "jats.html",
-                "odd": "jats.odd",
-                "view": "single",
-                "media": ("print", "epub")
-            }
-        (: For annotations we need to overwrite document-specific settings :)
-        case "annotate" return
-            map {
-                "template": "annotate.html",
-                "overwrite": true(),
-                "depth": 1,
-                "fill": 0
-            }
-        default return
-            (: Return empty sequence to use default config :)
-            ()
-
-    (: 
-     : Replace line above with the following code to switch between different view configurations per collection.
-     : $collection corresponds to the relative collection path (i.e. after $config:data-root). 
-     :)
-    (:
-    switch ($collection)
-        case "playground" return
-            map {
-                "odd": "dodis.odd",
-                "view": "body",
-                "depth": $config:pagination-depth,
-                "fill": $config:pagination-fill,
-                "template": "facsimile.html"
-            }
-        default return
-            ()
-    :)
+    let $prefix := replace($collection, "^([^/]+).*$", "$1")
+    return
+        switch ($prefix)
+            case "jats" return
+                map {
+                    "template": "jats.html",
+                    "odd": "jats.odd",
+                    "view": "single",
+                    "media": ("print", "epub")
+                }
+            (: For annotations we need to overwrite document-specific settings :)
+            case "annotate" return
+                map {
+                    "template": "annotate.html",
+                    "overwrite": true(),
+                    "depth": 1,
+                    "fill": 0
+                }
+            default return
+                (: Return empty sequence to use default config :)
+                ()
 };
 
 (:~
