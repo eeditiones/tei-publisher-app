@@ -8,7 +8,7 @@
 body{
     overflow: hidden;
     min-width: 42rem;
-
+    --annotate-color-modify: #dc3848;
 }
 aside > fx-fore > fx-group{
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
@@ -401,8 +401,23 @@ pb-view, pb-view-annotate{
     border-bottom: 1px dotted #ff3333;
 }
 
-.occurrences mark {
+mark {
     padding: 2px 4px;
+}
+
+mark.incomplete {
+    background: repeating-linear-gradient(
+        315deg,
+        mark,
+        mark 5px,
+        var(--pb-annotation-stripes-light) 5px,
+        var(--pb-annotation-stripes-light) 10px
+    );
+}
+
+mark.modify {
+    background-color: var(--annotate-color-modify);
+    color: var(--pb-color-inverse);
 }
 
 .toc-toggle {

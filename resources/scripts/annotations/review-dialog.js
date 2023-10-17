@@ -95,14 +95,7 @@ function _reviewNext() {
             const li = document.createElement('li');
             const div = document.createElement('div');
             li.appendChild(div);
-            if (match.type === 'modify') {
-                div.innerHTML = kwicText(text, match.absolute, match.absolute + match.text.length, 10);
-                const info = document.createElement('div');
-                info.innerHTML = `${match.properties.corresp}`;
-                li.appendChild(info);
-            } else {
-                div.innerHTML = kwicText(text, match.absolute, match.absolute + match.text.length, 10);
-            }
+            kwicText(text, match, 10).then((kwic) => div.innerHTML = kwic);
             list.appendChild(li);
         });
         reviewDialog.show();
@@ -171,7 +164,9 @@ function updateLocalStorage(path, json) {
     }
 }
 
-function kwicText(str, start, end, words = 3) {
+async function kwicText(str, match, words = 3) {
+    const start = match.absolute;
+    const end = match.absolute + match.text.length;
 	let p0 = start - 1;
 	let count = 0;
 	while (p0 >= 0) {
@@ -200,5 +195,37 @@ function kwicText(str, start, end, words = 3) {
 	  }
 	  p1 += 1;
 	}
-	return `... ${str.substring(p0, start)}<mark>${str.substring(start, end)}</mark>${str.substring(end, p1 + 1)} ...`;
+    const mark = await createMark(str.substring(start, end), match);
+	return `... ${str.substring(p0, start)}${mark}${str.substring(end, p1 + 1)} ...`;
+}
+
+function createMark(str, match) {
+    console.log(match);
+    return new Promise((resolve) => {
+        if (match.type === 'modify') {
+            const view = document.getElementById("view1");
+            const key = match.key;
+            if (key && key === '') {
+                resolve(`<mark class="incomplete">${str}</mark>`);
+            } else {
+                const container = document.createElement('div');
+                document.querySelector("pb-authority-lookup")
+                    .lookup(match.entityType, key, container)
+                    .then(() => {
+                        resolve(`<pb-popover>
+                            <mark slot="default" class="modify">${str}</mark>
+                            <div slot="alternate">${container.innerHTML}</div>
+                        </pb-popover>`);
+                    })
+                    .catch((msg) => {
+                        resolve(`<pb-popover>
+                            <mark slot="default" class="modify">${str}</mark>
+                            <div slot="alternate">Failed to load ${key}: ${msg}</div>
+                        </pb-popover>`);
+                    });
+            }
+        } else {
+            resolve(`<mark>${str}</mark>`);
+        }
+    });
 }

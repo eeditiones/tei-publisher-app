@@ -413,6 +413,8 @@ declare function nlp:convert($entities as array(*), $offsets as map(*)*, $doc as
                 if (exists($entity?properties)) then
                     map {
                         "type": "modify",
+                        "entityType": $entity?type,
+                        "key": $insertPoint?node/@*[local-name(.)=$nlp-config:reference-key]/string(),
                         "node": util:node-id($insertPoint?node),
                         "context": util:node-id($insertPoint?node),
                         "absolute": $entity?start,
