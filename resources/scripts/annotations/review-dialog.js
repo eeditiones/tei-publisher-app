@@ -106,6 +106,17 @@ function _reviewNext() {
         list.innerHTML = '';
         matches.forEach((match) => {
             const li = document.createElement('li');
+            const cb = document.createElement('paper-checkbox');
+            cb.setAttribute("checked", "checked");
+            cb.addEventListener("click", () => {
+                if (cb.checked) {
+                    matches.push(match);
+                } else {
+                    const n = matches.findIndex((m) => m.context === match.context && m.absolute === match.absolute);
+                    matches.splice(n, 1);
+                }
+            });
+            li.appendChild(cb);
             const div = document.createElement('div');
             li.appendChild(div);
             kwicText(text, match, 10).then((kwic) => div.innerHTML = kwic);

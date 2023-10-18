@@ -453,6 +453,10 @@ paper-icon-button[data-type="edit"] {
     float: right;
 }
 
+#d-review ul li {
+    display: flex;
+}
+
 /* ### authority editor */
 fx-repeat{
     margin-right:1rem;
