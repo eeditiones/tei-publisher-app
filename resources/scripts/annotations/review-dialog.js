@@ -49,7 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const closeBtn = reviewDialog.querySelector('.close');
-    closeBtn.addEventListener('click', () => reviewDialog.close());
+    closeBtn.addEventListener('click', () => {
+        document.getElementById('discard-review-dialog').confirm()
+			.then(() => reviewDialog.close());
+    });
 });
 
 /**
