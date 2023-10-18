@@ -29,8 +29,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // will pick them up
     reviewDocLink = reviewDialog.querySelector('h3 a');
     reviewDocLink.addEventListener('click', () => {
-        const doc = reviewDocs[currentReview];
+        const doc = reviewDocs.splice(currentReview, 1);
         updateLocalStorage(doc, reviewData[doc]);
+
+        reviewDialog.querySelector('h3 .total').innerHTML = reviewDocs.length;
+        if (reviewDocs.length === 0) {
+            reviewDialog.close();
+        } else {
+            if (currentReview === reviewDocs.length) {
+                currentReview = 0;
+            }
+            _reviewNext();
+        }
     });
 
     const saveCurrentBtn = reviewDialog.querySelector('.save-current');
@@ -162,6 +172,11 @@ function updateLocalStorage(path, json) {
     } else {
         window.localStorage.setItem(`tei-publisher.annotations.${path}`, JSON.stringify(json));
     }
+}
+
+function rangeEQ(range, newRange) {
+    return range.text === newRange.text && range.start === newRange.start && 
+        range.type === newRange.type;
 }
 
 async function kwicText(str, match, words = 3) {
