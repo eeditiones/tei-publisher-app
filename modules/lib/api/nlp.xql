@@ -6,6 +6,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace nlp-config="http://teipublisher.com/api/nlp/config" at "../../nlp-config.xqm";
+import module namespace anno-config="http://teipublisher.com/api/annotations/config" at "../../annotation-config.xqm";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace http = "http://expath.org/ns/http-client";
 import module namespace router="http://e-editiones.org/roaster";
@@ -389,9 +390,10 @@ declare function nlp:convert($entities as array(*), $offsets as map(*)*, $doc as
         let $insertPoint := filter($offsets, function($offset as map(*)) {
             $entity?start >= $offset?start and $entity?start < $offset?end
         })
+        let $existingType := if ($insertPoint?node) then anno-config:entity-type($insertPoint?node) else ()
         return
-        (: ignore if the element is already marked as entity :)
-            if (exists($insertPoint) and empty(nlp-config:entity-type($insertPoint?node))) then
+            (: element is not marked as entity :)
+            if (exists($insertPoint) and empty($existingType)) then
                 let $start := xs:int($entity?start - $insertPoint?start[1])
                 return
                     map {
@@ -406,15 +408,18 @@ declare function nlp:convert($entities as array(*), $offsets as map(*)*, $doc as
                                 $entity?properties
                             ) else
                                 map {
-                                    $nlp-config:reference-key: ""
+                                    $anno-config:reference-key: ""
                                 }
                     }
-            else
-                if (exists($entity?properties)) then
+            (: element is marked as entity of different type: ignore :)
+            else if (exists($existingType) and $existingType != $entity?type) then
+                ()
+            (: element is marked as entity of same type and has properties :)
+            else if (exists($entity?properties)) then
                     map {
                         "type": "modify",
                         "entityType": $entity?type,
-                        "key": $insertPoint?node/@*[local-name(.)=$nlp-config:reference-key]/string(),
+                        "key": $insertPoint?node/@*[local-name(.) = $anno-config:reference-key]/string(),
                         "node": util:node-id($insertPoint?node),
                         "context": util:node-id($insertPoint?node),
                         "absolute": $entity?start,

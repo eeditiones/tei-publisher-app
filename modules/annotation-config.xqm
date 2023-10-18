@@ -6,6 +6,22 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
+declare variable $anno:reference-key := "ref";
+
+declare function anno:entity-type($node as element()) as xs:string? {
+    typeswitch($node)
+        case element(tei:persName) | element(tei:author) return
+            "person"
+        case element(tei:placeName) | element(tei:pubPlace) return
+            "place"
+        case element(tei:term) return
+            "term"
+        case element(tei:orgName) return
+            "organization"
+        default return
+            ()
+};
+
 (:~
  : Create TEI for the given type, properties and content of an annotation and return it.
  : This function is called when annotations are merged into the original TEI.

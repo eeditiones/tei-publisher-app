@@ -200,12 +200,11 @@ async function kwicText(str, match, words = 3) {
 }
 
 function createMark(str, match) {
-    console.log(match);
     return new Promise((resolve) => {
         if (match.type === 'modify') {
             const view = document.getElementById("view1");
             const key = match.key;
-            if (key && key === '') {
+            if (!key || key === '') {
                 resolve(`<mark class="incomplete">${str}</mark>`);
             } else {
                 const container = document.createElement('div');

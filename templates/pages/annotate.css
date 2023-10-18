@@ -151,13 +151,13 @@ fx-group iron-form{
 .header-toolbar .icon-group{
     padding:0.5rem 1rem;
 }
+.header-toolbar a:link, .header-toolbar a:active {
+    text-decoration: none;
+}
 
 .icon-group paper-icon-button{
     display: inline-block;
 }
-
-
-
 
 fx-group.search{
     /*max-height:30rem;*/
