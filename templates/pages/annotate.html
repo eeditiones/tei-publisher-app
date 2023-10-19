@@ -65,7 +65,6 @@
             <paper-icon-button id="document-save" icon="icons:save" data-i18n="[title]annotations.save" data-shortcut="⌘+⇧+s,ctrl+⇧+s"></paper-icon-button>
             <paper-icon-button id="document-download" icon="icons:cloud-download" data-i18n="[title]annotations.download" data-shortcut="⌘+⇧+d,ctrl+⇧+d"></paper-icon-button>
             <paper-icon-button id="undo-history" icon="icons:undo" data-i18n="[title]annotations.undo"></paper-icon-button>
-            <paper-icon-button id="reload-preview" icon="icons:refresh" data-i18n="[title]annotations.preview"></paper-icon-button>
             <paper-icon-button id="toggle-markup" icon="icons:visibility-off" data-i18n="[title]annotations.toggle"></paper-icon-button>
         </span>
         <pb-progress subscribe="transcription" indeterminate="indeterminate"/>
@@ -347,6 +346,7 @@
                             <paper-tab slot="tab">TEI</paper-tab>
                             <paper-tab slot="tab">JSON</paper-tab>
                             <paper-tab slot="tab"><pb-i18n key="annotations.changes">Changes</pb-i18n></paper-tab>
+                            <paper-icon-button id="reload-preview" slot="tab" icon="icons:refresh" data-i18n="[title]annotations.preview"></paper-icon-button>
 <!--                            <paper-icon-button id="toggle-authority-side" slot="tab" icon="editor:vertical-align-bottom"></paper-icon-button>-->
                             <iframe slot="page" id="html" src="about:blank"></iframe>
                             <pb-code-highlight slot="page" id="output" language="xml" theme="default"></pb-code-highlight>
