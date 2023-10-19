@@ -130,6 +130,12 @@ fx-group iron-form{
     text-align: right;
 }
 
+fx-trigger.insert-auth-form{
+    position: absolute;
+    right: 0;
+    top: 1.5rem;
+}
+
 .edit-panel{
 }
 .annotation-editor {
@@ -234,8 +240,8 @@ main .text {
 
 pb-authority-lookup {
     min-height: 60vw;
-    max-height: 80vh;
     padding:0.5rem;
+    position: relative;
 }
 
 pb-authority-lookup::part(output) {
@@ -292,12 +298,14 @@ pb-page > main{
     overflow: auto;
     display: grid;
     grid-template-columns: 1fr 23rem;
+    background: #ddd;
 }
 
 pb-page > main .text{
     /*min-width: 58rem;*/
     /*overflow: auto;*/
     margin-top:8rem;
+    background: white;
 }
 pb-page aside{
     position: fixed;

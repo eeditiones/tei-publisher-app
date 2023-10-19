@@ -177,7 +177,7 @@ window.addEventListener("WebComponentsReady", () => {
 	 */
 	function authoritySelected(data) {
 		// authorityDialog.close();
-		window.pbEvents.emit("hide-authorities", "transcription", {});
+		// window.pbEvents.emit("hide-authorities", "transcription", {});
 		refInput.forEach((input) => { input.value = data.properties.ref });
 		if (autoSave) {
 			save();
@@ -391,7 +391,7 @@ window.addEventListener("WebComponentsReady", () => {
 					query: selection,
 				});
 				//authorityDialog.open();
-        		window.pbEvents.emit("show-authorities", "transcription", {});
+        		// window.pbEvents.emit("show-authorities", "transcription", {});
 
 
 			}
@@ -815,6 +815,13 @@ window.addEventListener("WebComponentsReady", () => {
 		}
 		showForm(type, ev.detail.properties);
 	});
+
+
+/*
+	document.addEventListener("show-annotation-form", (ev) => {
+		showForm('edit');
+	});
+*/
 
 	window.pbEvents.subscribe("pb-annotation-detail", "transcription", (ev) => {
 		switch (ev.detail.type) {
