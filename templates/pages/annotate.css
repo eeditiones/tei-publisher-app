@@ -1,9 +1,9 @@
 /* overwrites */
 #html {
-    width: calc(100% - 40px);
+    width: 100%;
     border: 0;
 
-    --aside-width:24rem;
+    --annotation-aside-width: 30rem;
 }
 body{
     overflow: hidden;
@@ -66,8 +66,9 @@ aside > fx-fore > fx-group{
 #authority-editor main{
     /*max-height: 50vh;*/
     position: relative;
-    height: auto;
+    height: 50vh;
     padding:0.5rem;
+    overflow: auto;
 }
 #authority-editor fx-fore > header {
     position: absolute;
@@ -113,14 +114,27 @@ fx-fore fx-group > section{
 fx-fore fx-group{
     display:grid;
     grid-template-rows:1fr;
-    transition:grid-template-rows .4s;
     height:auto;
+    animation: grow .6s forwards;
+
 }
 fx-fore fx-group[nonrelevant]{
-    transition:grid-template-rows .4s;
+    /*
+    transition:grid-template-rows 1.4s;
     grid-template-rows:0fr;
     height:0;
+    */
+    /*visibility: visible;*/
+    animation: shrink .6s forwards;
+
 }
+
+/*
+fx.fore > fx-group#authority[nonrelevant]{
+    animation: shrink-authority .6s;
+    visibility: visible;
+}
+*/
 
 fx-group iron-form{
     padding:0.5rem;
@@ -222,6 +236,10 @@ header paper-icon-button{
 #markupPanel.side paper-tabs{
     height: 100%;
 }
+fx-group[ref="authority"]{
+    height:100vh;
+    overflow: hidden;
+}
 fx-fore #markupPanel section,
 fx-fore #markupPanel pb-tabs{
     height: 100%;
@@ -242,10 +260,16 @@ pb-authority-lookup {
     min-height: 60vw;
     padding:0.5rem;
     position: relative;
+    height: 100%;
 }
 
 pb-authority-lookup::part(output) {
     font-size: 1rem;
+
+}
+pb-authority-lookup::part(output) ul{
+    list-style: none;
+    padding:0;
 }
 pb-document{
     display: none;
@@ -297,7 +321,7 @@ pb-page > main{
     height: 100vh;
     overflow: auto;
     display: grid;
-    grid-template-columns: 1fr 23rem;
+    grid-template-columns: 1fr var(--annotation-aside-width);
     background: #ddd;
 }
 
@@ -311,7 +335,7 @@ pb-page aside{
     position: fixed;
     right: 0;
     top: 7.6rem;
-    width: 23rem;
+    width: var(--annotation-aside-width);
     background: #efefef;
     height: 100vh;
     border-top: solid 2px #ddd;
@@ -319,7 +343,7 @@ pb-page aside{
     0 1px 8px 0 rgba(0, 0, 0, 0.12),
     0 3px 3px -2px rgba(0, 0, 0, 0.4);
     z-index: 98;
-    overflow: auto;
+    overflow: hidden;
 }
 
 pb-progress{
@@ -512,3 +536,21 @@ fx-fore .two-col fx-repeatitem{
     }
 }
 
+@keyframes grow {
+    0% {
+        grid-template-rows:0;
+    }
+    100% {
+        grid-template-rows: 1fr;
+    }
+}
+@keyframes shrink {
+    0% {
+        grid-template-rows:1fr;
+    }
+    100% {
+        grid-template-rows: 0;
+        height: 0;
+        visibility: hidden;
+    }
+}

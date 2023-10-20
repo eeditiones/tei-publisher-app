@@ -9,7 +9,7 @@
 <body>
 
 <!--<fx-fore refresh-on-view>-->
-<fx-fore class="authority-editor">
+<fx-fore class="authority-editor" show-confirmation="true">
     <fx-send event="model-construct-done" if="instance('parameters')/id" submission="load"
              url="api/entry/{instance('parameters')//id}"></fx-send>
     <fx-send event="ready" if="not(instance('parameters')/id)" submission="load" url="api/entry/NEW"></fx-send>
@@ -75,7 +75,9 @@
                 <paper-icon-button id="close-authority" icon="close" data-i18n="[title]annotations.authority">
                     <!-- ### load the authority editor for authority type -->
                 </paper-icon-button>
-                <fx-dispatch name="hide-authorities" target="#document"></fx-dispatch>
+                <fx-confirm message="close this editor?">
+                    <fx-dispatch name="hide-authority" target="#document"></fx-dispatch>
+                </fx-confirm>
             </fx-trigger>
         </div>
     </header>
