@@ -387,15 +387,21 @@ declare function rapi:save-local-copy($request as map(*)) {
 declare function rapi:register-entry($request as map(*)) {
     let $type := $request?parameters?type
     let $id := $request?parameters?id
+    let $format := $request?parameters?format
     let $entry := collection($config:register-root)/id($id)
-    let $strings := rapi:local-search-strings($type, $entry)
     return
         if ($entry) then
-            map {
-                "id": $entry/@xml:id/string(),
-                "strings": array { $strings },
-                "details": <div>{$pm-config:web-transform($entry, map {}, "annotations.odd")}</div>
-            }
+            switch ($format)
+                case "xml" return
+                    router:response(200, "application/xml", $entry)
+                default return
+                    let $strings := rapi:local-search-strings($type, $entry)
+                    return
+                        map {
+                            "id": $entry/@xml:id/string(),
+                            "strings": array { $strings },
+                            "details": <div>{$pm-config:web-transform($entry, map {}, "annotations.odd")}</div>
+                        }
         else
             error($errors:NOT_FOUND, "Entry for " || $id || " not found")
 };

@@ -3085,7 +3085,15 @@
                         },
                         "required": true,
                         "example": "Deia"
-                    }
+                    },
+					{
+						"name": "format",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"default": "json"
+						}
+					}
                 ],
                 "responses": {
                     "200": {
@@ -3094,6 +3102,11 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object"
+                                }
+                            },
+							"application/xml": {
+                                "schema": {
+                                    "type": "string"
                                 }
                             }
                         }
