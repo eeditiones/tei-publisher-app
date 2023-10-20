@@ -93,6 +93,40 @@ window.addEventListener("WebComponentsReady", () => {
 	let enablePreview = true;
 	let currentEntityInfo = null;
 
+	function restoreAnnotations(doc, annotations) {
+		console.log('loading annotations from local storage: %o', annotations);
+		view.annotations = annotations;
+		const history = window.localStorage.getItem(`tei-publisher.annotations.${doc.path}.history`);
+		if (history) {
+			view.clearHistory(JSON.parse(history));
+		}
+		window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}`);
+		window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}.history`);
+		preview(annotations);
+	}
+
+	// check if annotations were saved to local storage
+	pbEvents.subscribe('pb-annotations-loaded', 'transcription', () => {
+		const doc = view.getDocument();
+		if (doc && doc.path) {
+			const ranges = window.localStorage.getItem(`tei-publisher.annotations.${doc.path}`);
+			if (ranges) {
+				const annotations = JSON.parse(ranges);
+				if (annotations.length > 0) {
+					const params = new URL(document.location).searchParams;
+					if (params.has('apply')) {
+						restoreAnnotations(doc, annotations);
+					} else {
+						document.getElementById('restore-dialog').confirm()
+						.then(() => {
+							restoreAnnotations(doc, annotations);
+						});
+					}
+				}
+			}
+		}
+	});
+
 	/**
 	 * Display the main form
 	 *
@@ -647,29 +681,6 @@ window.addEventListener("WebComponentsReady", () => {
 
 		});
 	});
-
-	// check if annotations were saved to local storage
-	const doc = view.getDocument();
-	if (doc && doc.path) {
-		const ranges = window.localStorage.getItem(`tei-publisher.annotations.${doc.path}`);
-		if (ranges) {
-			const annotations = JSON.parse(ranges);
-			if (annotations.length > 0) {
-				document.getElementById('restore-dialog').confirm()
-				.then(() => {
-					console.log('loading annotations from local storage: %o', annotations);
-					view.annotations = annotations;
-					const history = window.localStorage.getItem(`tei-publisher.annotations.${doc.path}.history`);
-					if (history) {
-						view.clearHistory(JSON.parse(history));
-					}
-					window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}`);
-					window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}.history`);
-					preview(annotations);
-				});
-			}
-		}
-	}
 
 	/**
 	 * Reference changed: update authority information and search for other occurrences

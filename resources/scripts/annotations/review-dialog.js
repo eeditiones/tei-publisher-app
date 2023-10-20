@@ -31,8 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
     reviewDocLink.addEventListener('click', () => {
         const doc = reviewDocs.splice(currentReview, 1);
         updateLocalStorage(doc, reviewData[doc]);
-
-        reviewDialog.querySelector('h3 .total').innerHTML = reviewDocs.length;
         if (reviewDocs.length === 0) {
             reviewDialog.close();
         } else {
@@ -65,7 +63,6 @@ function review(docs, data) {
     currentReview = 0;
     reviewDocs = docs;
     reviewData = data;
-    reviewDialog.querySelector('h3 .total').innerHTML = reviewDocs.length;
     _reviewNext();
 }
 
@@ -81,12 +78,16 @@ function _reviewNext() {
     if (!doc) {
         return;
     }
-    reviewDialog.querySelector('h3 .current').innerHTML = currentReview + 1;
+    const counts = {
+        total: reviewDocs.length,
+        count: currentReview + 1
+    };
+    reviewDialog.querySelector('h3 [key="annotations.doc-count"]').options = counts;
     const count = reviewDialog.querySelector('h3 .count');
     const matches = reviewData[doc];
     count.innerHTML = matches.length;
     reviewDocLink.innerHTML = doc;
-    reviewDocLink.href = doc;
+    reviewDocLink.href = `${doc}?apply`;
 
     const endpoint = document.querySelector("pb-page").getEndpoint();
     window.pbEvents.emit("pb-start-update", "transcription", {});
@@ -150,7 +151,6 @@ function _saveCurrent() {
         window.pbEvents.emit("pb-end-update", "transcription", {});
         if (response.ok) {
             reviewDocs.splice(currentReview, 1);
-            reviewDialog.querySelector('h3 .total').innerHTML = reviewDocs.length;
             if (reviewDocs.length === 0) {
                 reviewDialog.close();
             } else {
