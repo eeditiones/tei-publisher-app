@@ -92,7 +92,8 @@ window.addEventListener("WebComponentsReady", () => {
 	let text = "";
 	let enablePreview = true;
 	let currentEntityInfo = null;
-
+	const doc = view.getDocument();
+	
 	function restoreAnnotations(doc, annotations) {
 		console.log('loading annotations from local storage: %o', annotations);
 		view.annotations = annotations;
@@ -107,7 +108,6 @@ window.addEventListener("WebComponentsReady", () => {
 
 	// check if annotations were saved to local storage
 	pbEvents.subscribe('pb-annotations-loaded', 'transcription', () => {
-		const doc = view.getDocument();
 		if (doc && doc.path) {
 			const ranges = window.localStorage.getItem(`tei-publisher.annotations.${doc.path}`);
 			if (ranges) {
