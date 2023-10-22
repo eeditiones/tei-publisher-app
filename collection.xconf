@@ -22,6 +22,7 @@
                 <ignore qname="tei:div"/>
                 <facet dimension="genre" expression="nav:get-metadata(ancestor::tei:TEI, 'genre')" hierarchical="yes"/>
                 <facet dimension="language" expression="nav:get-metadata(ancestor::tei:TEI, 'language')"/>
+                <facet dimension="place" expression="nav:get-metadata(., 'place')"/>
             </text>
             <text qname="tei:head"/>
             <text match="//tei:titleStmt/tei:title"/>

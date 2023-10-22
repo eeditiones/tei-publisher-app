@@ -87,60 +87,61 @@ declare function facets:print-table($config as map(*), $nodes as element()+, $va
 };
 
 declare function facets:display($config as map(*), $nodes as element()+) {
-    (: if config specifies a property "source", output combo-box :)
-    if (map:contains($config, "source")) then
-        (: use source as URL to API endpoint from which to retrieve possible values :)
-        <pb-combo-box source="{$config?source}" close-after-select="" placeholder="{$config?heading}">
-            <select name="facet-{$config?dimension}" multiple=""
-                on-change="pb-search-resubmit">
+    let $params := facets:get-parameter("facet-" || $config?dimension)
+    let $table := facets:print-table($config, $nodes, (), $params)
+
+    let $maxcount := 50
+    (: maximum number shown :)
+    let $max := head(($config?max, 50))
+
+    (: facet count for current values selected :)
+    let $fcount :=
+        map:size(
+            if (count($params)) then
+                    ft:facets($nodes, $config?dimension, $maxcount, $params)
+                else
+                    ft:facets($nodes, $config?dimension, $maxcount)
+        )
+
+    where $table
+    return (
+        <div class="facet-dimension" data-dimension="facet-{$config?dimension}">
+            <h3><pb-i18n key="{$config?heading}">{$config?heading}</pb-i18n>
             {
-                for $param in facets:get-parameter("facet-" || $config?dimension)
-                let $label :=
-                    if (map:contains($config, "output")) then
-                        $config?output($param)
-                    else
-                        $param
-                return
-                    <option value="{$param}" data-i18n="{$label}" selected="">{$label}</option>
+                if ($fcount > $max) then
+                    <paper-checkbox class="facet" name="all-{$config?dimension}">
+                        { if (facets:get-parameter("all-" || $config?dimension)) then attribute checked { "checked" } else () }
+                        <pb-i18n key="facets.show">Show top 50</pb-i18n>
+                    </paper-checkbox>
+                else
+                    ()
             }
-            </select>
-        </pb-combo-box>
-    (: output as list of checkboxes :)
-    else
-        let $params := facets:get-parameter("facet-" || $config?dimension)
-        let $table := facets:print-table($config, $nodes, (), $params)
-
-        let $maxcount := 50
-        (: maximum number shown :)
-        let $max := head(($config?max, 50))
-
-        (: facet count for current values selected :)
-        let $fcount :=
-            map:size(
-                if (count($params)) then
-                        ft:facets($nodes, $config?dimension, $maxcount, $params)
-                    else
-                        ft:facets($nodes, $config?dimension, $maxcount)
-            )
-
-        where $table
-        return
-            <div>
-                <h3><pb-i18n key="{$config?heading}">{$config?heading}</pb-i18n>
-                {
-                    if ($fcount > $max) then
-                        <paper-checkbox class="facet" name="all-{$config?dimension}">
-                            { if (facets:get-parameter("all-" || $config?dimension)) then attribute checked { "checked" } else () }
-                            <pb-i18n key="facets.show">Show top 50</pb-i18n>
-                        </paper-checkbox>
-                    else
-                        ()
-                }
-                </h3>
-                {
-                    $table
-                }
-            </div>
+            </h3>
+            {
+                $table,
+                (: if config specifies a property "source", output combo-box :)
+                if (map:contains($config, "source")) then
+                    (: use source as URL to API endpoint from which to retrieve possible values :)
+                    <pb-combo-box source="{$config?source}" close-after-select="" placeholder="{$config?heading}"
+                        >
+                        <select multiple="">
+                        {
+                            for $param in facets:get-parameter("facet-" || $config?dimension)
+                            let $label :=
+                                if (map:contains($config, "output")) then
+                                    $config?output($param)
+                                else
+                                    $param
+                            return
+                                <option value="{$param}" data-i18n="{$label}" selected="">{$label}</option>
+                        }
+                        </select>
+                    </pb-combo-box>
+                else
+                    ()
+            }
+        </div>
+    )
 };
 
 declare function facets:get-parameter($name as xs:string) {
