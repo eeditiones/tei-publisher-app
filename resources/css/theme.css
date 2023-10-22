@@ -416,6 +416,17 @@ pb-drawer {
     vertical-align: middle;
 }
 
+.facets pb-combo-box {
+    margin-top: .5rem;
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.facets pb-combo-box input::placeholder {
+    font-family: var(--pb-heading-font-family);
+    font-weight: var(--pb-heading-font-weight);
+}
+
 .gitlab img {
     max-height: var(--pb-logo-image-height);
 }

@@ -123,3 +123,28 @@ declare function sapi:facets($request as map(*)) {
         }
         </div>
 };
+
+declare function sapi:list-facets($request as map(*)) {
+    let $value := $request?parameters?value
+    let $query := $request?parameters?query
+    let $type := $request?parameters?type
+    let $lang := tokenize($request?parameters?language, '-')[1]
+
+    let $hits := session:get-attribute($config:session-prefix || ".hits")
+    let $facets := ft:facets($hits, $type, ())
+    
+    let $matches := 
+        for $key in if (exists($request?parameters?value)) then $request?parameters?value else map:keys($facets)
+        return 
+            map {
+                "text": $key,
+                "freq": $facets($key),
+                "value": $key
+            } 
+           
+    let $filtered := filter($matches, function($item) {
+        matches($item?text, '(?:^|\W)' || $request?parameters?query, 'i')
+    })
+    return
+        array { $filtered }
+};

@@ -1832,6 +1832,53 @@
 				}
 			}
 		},
+		"/api/search/facets/{type}": {
+            "get": {
+				"summary": "List facet values occurring in current search result set",
+				"operationId": "sapi:list-facets",
+				"tags": ["search"],
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+						"description": "Query string to filter facets by",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "language",
+                        "in": "query",
+                        "schema":{
+                            "type": "string",
+                            "default": "en"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "path",
+						"description": "The facet type, e.g. 'place' or 'person'",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+							"example": "place"
+                        }
+                    }
+                ],
+				"responses": {
+					"200": {
+						"description": "Facets returned",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array"
+								}
+							}
+						}
+					}
+				}
+			}
+        },
 		"/api/search/autocomplete": {
 			"get": {
 				"summary": "List possible completions",

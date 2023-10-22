@@ -37,35 +37,30 @@ declare function facets:sort($facets as map(*)?) {
 };
 
 declare function facets:print-table($config as map(*), $nodes as element()+, $values as xs:string*, $params as xs:string*) {
-    let $all := request:get-parameter("all-" || $config?dimension, ())
+    let $all := exists($config?max) and facets:get-parameter("all-" || $config?dimension)
     let $count := if ($all) then 50 else $config?max
     let $facets :=
-        if ($all) then
-            if (exists($values)) then
-                ft:facets($nodes, $config?dimension, (), $values)
-            else
-                ft:facets($nodes, $config?dimension, ())
+        if (exists($values)) then
+            ft:facets($nodes, $config?dimension, $count, $values)
         else
-            if (exists($values)) then
-                ft:facets($nodes, $config?dimension, $count, $values)
-            else
-                ft:facets($nodes, $config?dimension, $count)
+            ft:facets($nodes, $config?dimension, $count)
     return
         if (map:size($facets) > 0) then
             <table>
             {
                 array:for-each(facets:sort($facets), function($entry) {
                     map:for-each($entry, function($label, $freq) {
+                        let $content :=
+                            if (exists($config?output)) then
+                                $config?output($label)
+                            else
+                                $label
+                        return
                         <tr>
                             <td>
                                 <paper-checkbox class="facet" name="facet-{$config?dimension}" value="{$label}">
                                     { if ($label = $params) then attribute checked { "checked" } else () }
-                                    {
-                                        if (exists($config?output)) then
-                                            $config?output($label)
-                                        else
-                                            $label
-                                    }
+                                    <pb-i18n key="{$content}">{$content}</pb-i18n>
                                 </paper-checkbox>
                             </td>
                             <td>{$freq}</td>
@@ -83,7 +78,7 @@ declare function facets:print-table($config as map(*), $nodes as element()+, $va
                                     </tr>
                                 else
                                     ()
-                            })
+                    })
                 })
             }
             </table>
@@ -92,40 +87,72 @@ declare function facets:print-table($config as map(*), $nodes as element()+, $va
 };
 
 declare function facets:display($config as map(*), $nodes as element()+) {
-    let $params := request:get-parameter("facet-" || $config?dimension, ())
-    let $table := facets:print-table($config, $nodes, (), $params)
+    (: if config specifies a property "source", output combo-box :)
+    if (map:contains($config, "source")) then
+        (: use source as URL to API endpoint from which to retrieve possible values :)
+        <pb-combo-box source="{$config?source}" close-after-select="" placeholder="{$config?heading}">
+            <select name="facet-{$config?dimension}" multiple=""
+                on-change="pb-search-resubmit">
+            {
+                for $param in facets:get-parameter("facet-" || $config?dimension)
+                let $label :=
+                    if (map:contains($config, "output")) then
+                        $config?output($param)
+                    else
+                        $param
+                return
+                    <option value="{$param}" data-i18n="{$label}" selected="">{$label}</option>
+            }
+            </select>
+        </pb-combo-box>
+    (: output as list of checkboxes :)
+    else
+        let $params := facets:get-parameter("facet-" || $config?dimension)
+        let $table := facets:print-table($config, $nodes, (), $params)
 
-    let $maxcount := 50
-    (: maximum number shown :)
-    let $max := head(($config?max, 50))
+        let $maxcount := 50
+        (: maximum number shown :)
+        let $max := head(($config?max, 50))
 
-    (: facet count for current values selected :)
-    let $fcount :=
-    map:size(
-     if (count($params)) then
-            ft:facets($nodes, $config?dimension, $maxcount, $params)
-        else
-            ft:facets($nodes, $config?dimension, $maxcount)
-    )
+        (: facet count for current values selected :)
+        let $fcount :=
+            map:size(
+                if (count($params)) then
+                        ft:facets($nodes, $config?dimension, $maxcount, $params)
+                    else
+                        ft:facets($nodes, $config?dimension, $maxcount)
+            )
 
-    where $table
+        where $table
+        return
+            <div>
+                <h3><pb-i18n key="{$config?heading}">{$config?heading}</pb-i18n>
+                {
+                    if ($fcount > $max) then
+                        <paper-checkbox class="facet" name="all-{$config?dimension}">
+                            { if (facets:get-parameter("all-" || $config?dimension)) then attribute checked { "checked" } else () }
+                            <pb-i18n key="facets.show">Show top 50</pb-i18n>
+                        </paper-checkbox>
+                    else
+                        ()
+                }
+                </h3>
+                {
+                    $table
+                }
+            </div>
+};
+
+declare function facets:get-parameter($name as xs:string) {
+    let $param := request:get-parameter($name, ())
     return
-        <div>
-            <h3><pb-i18n key="{$config?heading}">{$config?heading}</pb-i18n>
-             {
-                if ($fcount > $max) then
-                    <paper-checkbox class="facet" name="all-{$config?dimension}">
-                        { if (request:get-parameter("all-" || $config?dimension, ())) then attribute checked { "checked" } else () }
-                        <pb-i18n key="facets.show">Show top 50</pb-i18n>
-                    </paper-checkbox>
+        if (exists($param)) then
+            $param
+        else
+            let $fromSession := session:get-attribute($config:session-prefix || '.params')
+            return
+                if (exists($fromSession)) then
+                    $fromSession?($name)
                 else
                     ()
-            }
-            </h3>
-            <div class="facet-block">
-            {
-                $table
-            }
-            </div>
-        </div>
 };

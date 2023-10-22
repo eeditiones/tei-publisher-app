@@ -59,5 +59,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             });
         });
+
+        pbEvents.subscribe('pb-combo-box-change', null, function() {
+            pbEvents.emit('pb-search-resubmit', 'search');
+        });
     }
 });
