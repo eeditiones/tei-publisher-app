@@ -369,7 +369,7 @@ declare function nlp:mapping-table($result as map(*)*, $pairs as array(*)*, $acc
             if (exists($pair?1)) then
                 map {
                     "node": if ($debug) then util:node-id($pair?1) else $pair?1,
-                                        "start": $accum,
+                    "start": $accum,
                     "end": $end,
                     "origOffset": $pair?3
                 }
@@ -411,23 +411,26 @@ declare function nlp:convert($entities as array(*), $offsets as map(*)*, $doc as
                                     $anno-config:reference-key: ""
                                 }
                     }
-            (: element is marked as entity of different type: ignore :)
-            else if (exists($existingType) and $existingType != $entity?type) then
+            (: element is marked as entity of different type or already has correct key set: ignore :)
+            else if (exists($existingType) and
+                ($existingType != $entity?type or
+                $entity?properties($anno-config:reference-key) = anno-config:get-key($insertPoint?node))
+            ) then
                 ()
             (: element is marked as entity of same type and has properties :)
             else if (exists($entity?properties)) then
                     map {
                         "type": "modify",
                         "entityType": $entity?type,
-                        "key": $insertPoint?node/@*[local-name(.) = $anno-config:reference-key]/string(),
+                        "key": anno-config:get-key($insertPoint?node),
                         "node": util:node-id($insertPoint?node),
                         "context": util:node-id($insertPoint?node),
                         "absolute": $entity?start,
                         "text": $entity?text,
                         "properties": $entity?properties
                     }
-                else
-                    ()
+            else
+                ()
     where exists($entries)
     return
         map {

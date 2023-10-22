@@ -6,7 +6,10 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
-declare variable $anno:reference-key := "ref";
+
+declare function anno:get-key($node as element()) as xs:string? {
+    $node/@ref
+};
 
 declare function anno:entity-type($node as element()) as xs:string? {
     typeswitch($node)
