@@ -6,11 +6,20 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
+(:~
+ : Name of the attribute to use as reference key for entities
+ :)
 
+(:~
+ : Return the entity reference key for the given node.
+ :)
 declare function anno:get-key($node as element()) as xs:string? {
-    $node/@ref
+    $node/@*[local-name(.) = $anno:reference-key]
 };
 
+(:~
+ : Determine the entity type of the given node and return as string.
+ :)
 declare function anno:entity-type($node as element()) as xs:string? {
     typeswitch($node)
         case element(tei:persName) | element(tei:author) return
