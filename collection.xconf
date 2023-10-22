@@ -15,6 +15,7 @@
                 <facet dimension="feature" expression="nav:get-metadata(ancestor::tei:TEI, 'feature')"/>
                 <facet dimension="form" expression="nav:get-metadata(ancestor::tei:TEI, 'form')"/>
                 <facet dimension="period" expression="nav:get-metadata(ancestor::tei:TEI, 'period')"/>
+                <facet dimension="place" expression="nav:get-metadata(., 'place')"/>
             </text>
             <text qname="tei:div">
                 <!-- exclude nested divs which are indexed separately -->

@@ -125,6 +125,11 @@ declare variable $config:pagination-fill := 5;
  :)
 declare variable $config:facets := [
     map {
+        "dimension": "place",
+        "heading": "annotations.place",
+        "source": "api/search/facets/place"
+    },
+    map {
         "dimension": "genre",
         "heading": "facets.genre",
         "max": 10,

@@ -76,6 +76,8 @@ declare function idx:get-metadata($root as element(), $field as xs:string) {
                 root($root)//body,
                 $root/dbk:section
             )
+            case "place" return
+                ($root//tei:placeName/string(), $root//tei:name[@type="place"]/string())
             default return
                 ()
 };
