@@ -59,6 +59,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     facets.submit();
                 });
             });
+
+            ev.detail.querySelectorAll('pb-combo-box').forEach((select) => {
+                select.renderFunction = (data, escape) => {
+                    if (data) {
+                        return `<div>${escape(data.text)} <span class="freq">${escape(data.freq || '')}</span></div>`;
+                    }
+                    return '';
+                }
+            });
         });
 
         // if there's a combo box, synchronize any changes to it with existing checkboxes
