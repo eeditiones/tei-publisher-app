@@ -454,7 +454,7 @@ window.addEventListener("WebComponentsReady", () => {
 		params.set('exclude', doc.path);
 		strings.forEach(s => params.append('string', s));
 
-		fetch(`${endpoint}/api/nlp/strings/annotate?${params.toString()}`, {
+		fetch(`${endpoint}/api/nlp/strings/${doc.getCollection()}?${params.toString()}`, {
 			method: "GET",
 			mode: "cors",
 			credentials: "same-origin"

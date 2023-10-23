@@ -9,6 +9,7 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "conf
 (:~
  : Name of the attribute to use as reference key for entities
  :)
+declare variable $anno:reference-key := 'ref';
 
 (:~
  : Return the entity reference key for the given node.
