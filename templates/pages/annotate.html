@@ -23,7 +23,6 @@
     <script type="module">
         import 'http:/localhost:8090/index.js';
     </script>
--->
 
     <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
     <script type="text/javascript" src="resources/scripts/annotations/review-dialog.js"></script>
@@ -81,7 +80,7 @@
             </pb-view-annotate>
         </div>
         <aside class="preview edit-panel">
-            <fx-fore>
+            <fx-fore ignore-expressions="pb-authority">
 
 
                 <fx-action id="reset-panels">
@@ -339,7 +338,6 @@
                             <pb-authority connector="GND" prefix="gnd"></pb-authority>
                         </pb-authority>
                     </pb-authority-lookup>
-
                 </fx-group>
 
 
