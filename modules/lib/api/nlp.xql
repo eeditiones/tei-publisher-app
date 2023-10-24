@@ -106,11 +106,12 @@ declare function nlp:strings($request as map(*)) {
 };
 
 declare %private function nlp:match-string($string as xs:string+, $type as xs:string, $properties as map(*), $text as xs:string) {
-    let $regex := string-join($string ! ("(?:^|\W+)(" || . || ")(?:\W+|$)"), "|")
+    let $regex := string-join(distinct-values($string) ! ("(?:^|\W+)(" || . || ")(?:\W+|$)"), "|")
+    let $matches := analyze-string($text, $regex, "i")//fn:match/fn:group
     return
-        if (matches($text, $regex, "i")) then
+        if (exists($matches)) then
             array {
-                for $match in analyze-string($text, $regex, "i")//fn:match/fn:group
+                for $match in $matches
                 return map {
                     "text": $match/string(),
                     "start": sum($match/preceding::text() ! string-length(.)),
