@@ -1,5 +1,5 @@
 /* overwrites */
-#html {
+html {
     width: 100%;
     border: 0;
 
@@ -19,6 +19,7 @@ aside > fx-fore > fx-group{
     background: white;
     padding:0;
 }
+
 
 /*
 .fx-ready aside {
