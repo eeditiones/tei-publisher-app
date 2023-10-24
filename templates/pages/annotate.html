@@ -387,17 +387,19 @@
     <pb-message id="runtime-error-dialog" data-i18n="[title]dialogs.error;[message]dialogs.serverError"></pb-message>
     <pb-message id="discard-review-dialog" data-i18n="[title]annotations.confirm-discard-title;[message]annotations.confirm-discard"></pb-message>
     <dialog id="d-review">
-        <h3>
-            <paper-icon-button class="close" dialog-confirm="dialog-confirm" icon="icons:close"
-                data-i18n="[title]dialogs.close"></paper-icon-button>
-            [<pb-i18n key="annotations.doc-count" options='{"count": 0, "total": 0}'></pb-i18n>] <a href="#" target="_blank"></a>: <span class="count"></span>
-        </h3>
-        <header class="toolbar">
-            <paper-icon-button icon="icons:chevron-left" class="previous"></paper-icon-button>
-            <paper-icon-button class="save-current" icon="icons:save" data-i18n="[title]annotations.save"></paper-icon-button>
-            <paper-icon-button icon="icons:chevron-right" class="next"></paper-icon-button>
-        </header>
-        <ul></ul>
+        <div class="dialog-content">
+            <h3>
+                <paper-icon-button class="close" dialog-confirm="dialog-confirm" icon="icons:close"
+                    data-i18n="[title]dialogs.close"></paper-icon-button>
+                [<pb-i18n key="annotations.doc-count" options='{"count": 0, "total": 0}'></pb-i18n>] <a href="#" target="_blank"></a>: <span class="count"></span>
+            </h3>
+            <header class="toolbar">
+                <paper-icon-button icon="icons:chevron-left" class="previous"></paper-icon-button>
+                <paper-icon-button class="save-current" icon="icons:save" data-i18n="[title]annotations.save"></paper-icon-button>
+                <paper-icon-button icon="icons:chevron-right" class="next"></paper-icon-button>
+            </header>
+            <ul></ul>
+        </div>
     </dialog>
 </pb-page>
 <div class="splash"></div>
