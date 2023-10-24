@@ -453,6 +453,20 @@ paper-icon-button[data-type="edit"] {
     z-index: 99;
 }
 
+#d-review div.dialog-content {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    height: 100%;
+}
+
+#d-review h3 {
+    margin: 0;
+}
+
+#d-review ul {
+    overflow: auto;
+}
+
 #d-review .close {
     float: right;
 }
