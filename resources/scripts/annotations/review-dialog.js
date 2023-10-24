@@ -28,9 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // annotations for the document are first stored to local storage, so the editor
     // will pick them up
     reviewDocLink = reviewDialog.querySelector('h3 a');
-    reviewDocLink.addEventListener('click', () => {
+    reviewDocLink.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const href = reviewDocLink.href;
         const doc = reviewDocs.splice(currentReview, 1);
-        updateLocalStorage(doc, reviewData[doc]);
+        updateLocalStorage(doc, reviewData[doc[0]]);
         if (reviewDocs.length === 0) {
             reviewDialog.close();
         } else {
@@ -39,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             _reviewNext();
         }
+        window.open(href, '_blank');
     });
 
     const saveCurrentBtn = reviewDialog.querySelector('.save-current');
