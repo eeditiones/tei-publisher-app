@@ -258,10 +258,11 @@ main .text {
 }
 
 pb-authority-lookup {
-    min-height: 60vw;
+    min-height: 60vh;
     padding:0.5rem;
     position: relative;
     height: 100%;
+    justify-content: flex-start;
 }
 
 pb-authority-lookup::part(output) {
