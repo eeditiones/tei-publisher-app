@@ -213,6 +213,8 @@ header paper-icon-button{
 }
 #markupPanel #html {
     margin: 0 20px;
+    width: calc(100vw - 40px);
+    border: 0;
 }
 
 #markupPanel.on{
