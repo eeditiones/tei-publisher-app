@@ -415,7 +415,8 @@ declare function nlp:convert($entities as array(*), $offsets as map(*)*, $doc as
             (: element is marked as entity of different type or already has correct key set: ignore :)
             else if (exists($existingType) and
                 ($existingType != $entity?type or
-                $entity?properties($anno-config:reference-key) = anno-config:get-key($insertPoint?node))
+                (exists($entity?properties) and
+                $entity?properties($anno-config:reference-key) = anno-config:get-key($insertPoint?node)))
             ) then
                 ()
             (: element is marked as entity of same type and has properties :)
