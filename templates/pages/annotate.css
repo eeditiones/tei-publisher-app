@@ -167,7 +167,7 @@ fx-trigger.insert-auth-form{
     width:100%;
     background:#efefef;
     padding:0;
-    z-index:100;
+    z-index:97;
 }
 .header-toolbar .icon-group{
     padding:0.5rem 1rem;
@@ -238,7 +238,6 @@ header paper-icon-button{
     height: 100%;
 }
 fx-group[ref="authority"]{
-    height:100vh;
     overflow: hidden;
 }
 fx-fore #markupPanel section,
@@ -258,7 +257,7 @@ main .text {
 }
 
 pb-authority-lookup {
-    min-height: 60vh;
+    max-height: 60vh;
     padding:0.5rem;
     position: relative;
     height: 100%;
@@ -346,7 +345,7 @@ pb-page aside{
     0 1px 8px 0 rgba(0, 0, 0, 0.12),
     0 3px 3px -2px rgba(0, 0, 0, 0.4);
     z-index: 98;
-    overflow: hidden;
+    overflow: auto;
 }
 
 pb-progress{
@@ -454,7 +453,7 @@ mark.incomplete {
     );
 }
 
-mark.modify {
+mark.modify, .occurrences .id-warning mark {
     background-color: var(--annotate-color-modify);
     color: var(--pb-color-inverse);
 }
