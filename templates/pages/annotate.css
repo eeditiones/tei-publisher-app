@@ -20,6 +20,10 @@ aside > fx-fore > fx-group{
     padding:0;
 }
 
+.toastify.on {
+    right: 0;
+    left: auto;
+}
 
 /*
 .fx-ready aside {
