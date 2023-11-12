@@ -6,8 +6,13 @@
  :
  : While the XQuery code is quite generic, it may need to be adjusted for
  : concrete use-cases.
+ :
+ : The general assumption is that for each milestone element in the TEI (usually a pb or milestone),
+ : a canvas is created, containing one image. The image service URL is generated
+ : by appending the string returned by iiif:milestone-id to $iiif:IMAGE_API_BASE.
+ : The canvas id will correspond to $iiif:CANVAS_ID_PREFIX with iiif:milestone-id appended.
  :)
-module namespace iiif="https://stonesutras.org/api/iiif";
+module namespace iiif="https://e-editiones.org/api/iiif";
 
 import module namespace http="http://expath.org/ns/http-client" at "java:org.exist.xquery.modules.httpclient.HTTPClientModule";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
@@ -18,7 +23,29 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 (:~
  : Base URI of the IIIF image API service to use for the images
  :)
-declare variable $iiif:IMAGE_API_BASE := "https://apps.existsolutions.com/cantaloupe/iiif/2/";
+declare variable $iiif:IMAGE_API_BASE := "https://apps.existsolutions.com/cantaloupe/iiif/2";
+
+(:~
+ : URL prefix to use for the canvas id
+ :)
+declare variable $iiif:CANVAS_ID_PREFIX := "https://e-editiones.org/canvas/";
+
+(:~
+ : Return all milestone elements pointing to images, usually pb or milestone.
+ :
+ : @param $doc the document root node to scan
+ :)
+declare function iiif:milestones($doc as node()) {
+    $doc//tei:body//tei:pb
+};
+
+(:~
+ : Extract the image path from the milestone element. If you need to strip
+ : out or add something, this is the place.
+ :)
+declare function iiif:milestone-id($milestone as element()) {
+    substring-after($milestone/@facs, "FFimg:")
+};
 
 (:~ Contact the IIIF image api to get the dimensions of an image :)
 declare %private function iiif:image-info($path as xs:string) {
@@ -37,13 +64,13 @@ declare %private function iiif:image-info($path as xs:string) {
  : Create the list of canvases: for each pb element in the document, one canvas is output.
  :)
 declare %private function iiif:canvases($doc as node()) {
-    for $pb in $doc//tei:body//tei:pb
-    let $id := substring-after($pb/@facs, "FFimg:")
+    for $pb in iiif:milestones($doc)
+    let $id := iiif:milestone-id($pb)
     let $info := iiif:image-info($id)
     where exists($info)
     return
         map {
-            "@id": "https://e-editiones.org/canvas/page-" || $pb/@n || ".json",
+            "@id": $iiif:CANVAS_ID_PREFIX || $id,
             "@type": "sc:Canvas",
             "label": "Page " || $pb/@n,
             "width": $info?width,
@@ -64,16 +91,17 @@ declare %private function iiif:canvases($doc as node()) {
                             "profile": "http://iiif.io/api/image/2/level2.json"
                         }
                     },
-                    "on": "https://e-editiones.org/canvas/page-" || $pb/@n || ".json"
+                    "on": $iiif:CANVAS_ID_PREFIX || $id
                 }
             ],
-            (: Extension property to keep track of the corresponding page as shown in a pb-view.
-             : This should either contain a root or id parameter which could be used to navigate
-             : to the correct page in the transcription.
-             :)
-            "https://teipublisher.com/page": map {
-                "root": util:node-id($pb)
-            }
+            "rendering": [
+                map {
+                    "@id": iiif:link("api/parts/" || encode-for-uri(config:get-relpath($doc)) || "/html") || 
+                        "?root=" || util:node-id($pb),
+                    "format": "text/html",
+                    "label": "Transcription of page"
+                }
+            ]
         }
 };
 

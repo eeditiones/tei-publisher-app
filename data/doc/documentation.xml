@@ -3583,7 +3583,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         by <tag>pb-split-list</tag>, displaying the list of available lemmata in the encyclopedia.</para>
       <para>In addition, it imports a separate module from <link xlink:href="modules/iiif.xql" role="source">modules/iiif.xql</link>, containing functions for
         generating a IIIF presentation manifest (see the <link xlink:href="../test/F-rom.xml" xlink:show="new">Shakespeare example</link>):</para>
-      <synopsis language="xquery">import module namespace iiif="https://stonesutras.org/api/iiif" at "iiif.xql";</synopsis>
+      <synopsis language="xquery">import module namespace iiif="https://e-editiones.org/api/iiif" at "iiif.xql";</synopsis>
       <para>To reference a custom function in the <parameter>operationId</parameter> parameter of
         <filename>modules/custom-api.json</filename>, use the prefix <parameter>custom:</parameter> if the corresponding XQuery
         function is available in <filename>modules/custom-api.xql</filename>. If it resides in an imported module, use
