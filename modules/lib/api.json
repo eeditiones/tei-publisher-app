@@ -55,6 +55,14 @@
 		{
 			"name": "nlp",
 			"description": "Entity recognition and other natural language processing features"
+		},
+		{
+			"name": "annotations",
+			"description": "Endpoints for the annotation editor"
+		},
+		{
+			"name": "iiif",
+			"description": "Generate IIIF manifests"
 		}
 	],
 	"components": {
@@ -2975,6 +2983,35 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+		"/api/iiif/{path}": {
+            "get": {
+                "summary": "Retrieve IIIF presentation manifest for document",
+                "operationId": "iiif:manifest",
+                "tags": ["iiif"],
+                "parameters": [
+                    {
+                        "name": "path",
+                        "in": "path",
+                        "required": true,
+                        "schema":{
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "IIIF manifest",
+                        "content": {
+                            "application/ld+json":{
+                                "schema": {
+                                    "type": "string"
                                 }
                             }
                         }

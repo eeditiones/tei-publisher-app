@@ -307,35 +307,6 @@
                     }
                 }
             }
-        },
-		"/api/iiif/{path}": {
-            "get": {
-                "summary": "Retrieve IIIF presentation manifest for document",
-                "operationId": "iiif:manifest",
-                "tags": ["iiif"],
-                "parameters": [
-                    {
-                        "name": "path",
-                        "in": "path",
-                        "required": true,
-                        "schema":{
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200":{
-                        "description": "IIIF manifest",
-                        "content": {
-                            "application/ld+json":{
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     },
     "security": [
