@@ -3408,10 +3408,40 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     data-template="pages:parse-params"></pb-tify>]]></synopsis>
           </step>
         </procedure>
-        <para>The relevant XQuery module is intentionally included in the custom and not the default API, thus it won't be copied into generated apps. The reason for this is that the code will always be edition-specific and thus has to be adjusted. If you would like to use the feature in your custom app, please copy the relevant module and the endpoint declaration, then modify it to match your use case.</para>
+      </section>
+        <section xml:id="presentation-manifest-config">
+          <title>Customizing the generated manifest</title>
+          <para>The way in which facsimile images are referenced from a TEI document will differ between projects. We
+            nevertheless tried to keep the code as generic as possible, but there are a few settings which may need
+            adjustment.</para>
+          <para>All settings concerning IIIF manifest generation can be found in
+              <filename>modules/iiif-config.xqm</filename>. In particular, you may want to change the following
+            variables/functions:</para>
+          <variablelist>
+            <varlistentry>
+              <term>$iiifc:IMAGE_API_BASE</term>
+              <listitem>
+                <para>The base URI of the IIIF image service to use for displaying images</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>iiifc:milestones</term>
+              <listitem>
+                <para>Should return the TEI elements in the document context which reference an image. Usually those are
+                <tag>pb</tag> or <tag>milestone</tag> elements, but other variations are possible.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>iiifc:milestone-id</term>
+              <listitem>
+                <para>For each element returned by <code>iiifc:milestones</code>, extract the path to the image. By default this
+                  tries to read the image path from the <option>@facs</option> attribute.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </section>
       </section>
     </section>
-  </section>
 
   <section xml:id="api">
     <title>Server-side API</title>

@@ -1,3 +1,6 @@
+(:~
+ : Settings for generating a IIIF presentation manifest for a document.
+ :)
 module namespace iiifc="https://e-editiones.org/api/iiif/config";
 
 import module namespace iiif="https://e-editiones.org/api/iiif" at "lib/api/iiif.xql";
