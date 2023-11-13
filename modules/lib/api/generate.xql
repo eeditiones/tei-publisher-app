@@ -31,7 +31,7 @@ declare variable $deploy:EXPATH_DESCRIPTOR :=
         version="0.1" spec="1.0">
         <dependency processor="http://exist-db.org" semver-min="5.3.0"/>
         <dependency package="http://exist-db.org/html-templating" semver="1"/>
-        <dependency package="http://existsolutions.com/apps/tei-publisher-lib" semver="3"/>
+        <dependency package="http://existsolutions.com/apps/tei-publisher-lib" semver="4"/>
         <dependency package="http://e-editiones.org/roaster" semver="1"/>
     </package>
 ;
