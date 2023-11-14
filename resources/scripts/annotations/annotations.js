@@ -388,7 +388,7 @@ window.addEventListener("WebComponentsReady", () => {
 				autoSave = true;
 				window.pbEvents.emit("pb-authority-lookup", "transcription", {
 					type,
-					query: selection,
+					query: selection
 				});
 				//authorityDialog.open();
         		// window.pbEvents.emit("show-authorities", "transcription", {});
@@ -810,7 +810,7 @@ window.addEventListener("WebComponentsReady", () => {
 				query: text,
 			});
 			//authorityDialog.open();
-    		window.pbEvents.emit("show-annotation", "transcription", {});
+    		window.pbEvents.emit("annotation-edit", "transcription", {ref: ev.detail.properties[view.key]});
 
 		}
 		showForm(type, ev.detail.properties);

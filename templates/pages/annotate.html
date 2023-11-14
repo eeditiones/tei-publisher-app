@@ -119,8 +119,6 @@
                     <fx-call action="show-annotation"></fx-call>
                     <!-- ### show authority panel if it is in the static list of supported types -->
                     <fx-setvalue ref="authority">true</fx-setvalue>
-                    <!-- ### update the input in the iron-form with the text-selection we get from 'query' -->
-                    <fx-call function="updateAnnotationDetails(event('query'))"></fx-call>
                 </fx-action>
 
                 <!-- ### show the annotation form and the authority search -->
@@ -135,10 +133,13 @@
                     <!--fx-setvalue ref="authority" value="if( contains(instance()/authority-forms,instance()/type) ) then 'true' else 'false'"></fx-setvalue-->
                 </fx-action>
 
-                <fx-action event="pb-annotation-edit" target="#document">
-                    <fx-message>pb-annotation-edit {event('type')}, {event('text')}</fx-message>
+                <!-- ### edit an existing annotation -->
+                <fx-action event="annotation-edit" target="#document">
+                    <fx-message>annotation-edit {event('ref')}</fx-message>
                     <fx-call action="reset-panels"></fx-call>
                     <fx-setvalue ref="annotation">true</fx-setvalue>
+                    <!-- ### update the input in the iron-form with the text-selection we get from 'query' -->
+                    <fx-call function="updateAnnotationDetails(event('ref'))"></fx-call>
                     <fx-update></fx-update>
                 </fx-action>
 
