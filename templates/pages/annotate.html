@@ -121,6 +121,18 @@
                     <fx-setvalue ref="authority">true</fx-setvalue>
                 </fx-action>
 
+                <fx-action event="pb-authority-new-entity" target="#document">
+                    <fx-load url="templates/pages/annotation/{instance()/type}-editor.html"
+                             attach-to="#authority-editor"></fx-load>
+                    <fx-setvalue ref="instance()/authority-editor" value="instance()/type"></fx-setvalue>
+                </fx-action>
+
+                <fx-action event="pb-authority-edit-entity" target="#document">
+                    <fx-load url="templates/pages/annotation/{instance()/type}-editor.html?id={event('id')}"
+                             attach-to="#authority-editor"></fx-load>
+                    <fx-setvalue ref="instance()/authority-editor" value="instance()/type"></fx-setvalue>
+                </fx-action>
+
                 <!-- ### show the annotation form and the authority search -->
                 <fx-action id="show-annotation" event="show-annotation" target="#document">
                     <fx-message>show-annotation {instance()/authority-forms}</fx-message>
@@ -315,19 +327,6 @@
                     <div id="authority-editor"></div>
 
                     <pb-authority-lookup subscribe="transcription" emit="transcription">
-                        <div slot="authform">
-                            <fx-trigger class="insert-auth-form" ref="instance()/authority-forms[contains(.,instance()/type)]">
-                                <paper-icon-button id="add-authority" icon="add" data-i18n="[title]annotations.authority">
-                                    <!-- ### load the authority editor for authority type -->
-                                </paper-icon-button>
-                                <fx-action>
-                                    <fx-load url="templates/pages/annotation/{instance()/type}-editor.html"
-                                             attach-to="#authority-editor"></fx-load>
-                                    <fx-setvalue ref="instance()/authority-editor" value="instance()/type"></fx-setvalue>
-                                    <!--                                    <fx-setvalue ref="instance()/search">false</fx-setvalue>-->
-                                </fx-action>
-                            </fx-trigger>
-                        </div>
                         <pb-authority connector="Custom" name="organization" edit="">
                             <pb-authority connector="GND" prefix="gnd"></pb-authority>
                         </pb-authority>
@@ -335,7 +334,7 @@
                         <pb-authority connector="Custom" name="place" edit="">
                             <pb-authority connector="GeoNames" user="existdb" prefix="geo"></pb-authority>
                         </pb-authority>
-                        <pb-authority connector="Custom" name="term" edit="">
+                        <pb-authority connector="Custom" name="term">
                             <pb-authority connector="GND" prefix="gnd"></pb-authority>
                         </pb-authority>
                         <pb-authority connector="Custom" name="person" edit="">
