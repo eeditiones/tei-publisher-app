@@ -99,7 +99,7 @@ declare function rapi:insert-point($type as xs:string) {
         case "organization" return
             collection($config:register-root)/id($root)//tei:listOrg
         case "term" return
-            collection($config:register-root)//tei:taxonomy
+            collection($config:register-root)/id($root)//tei:taxonomy
         default return
             collection($config:register-root)/id($root)//tei:listPerson
 };
@@ -300,7 +300,7 @@ declare function rapi:create-record($type as xs:string, $id as xs:string, $data 
                         <death>
                             <date when="{$data?death}"/>
                             {
-                                rapi:process-array($data?placeOfDeatch, function($item) {
+                                rapi:process-array($data?placeOfDeath, function($item) {
                                     <placeName xmlns="http://www.tei-c.org/ns/1.0" ref="{$item?id}">{$item?label}</placeName>                       
                                 })
                             }
@@ -391,6 +391,7 @@ declare function rapi:save-local-copy($request as map(*)) {
         else
             let $record := rapi:create-record($type, $id, $data)
             let $target := rapi:insert-point($type)
+            let $log := util:log("INFO", ("Save record ", $id, " into ", $target))
             return (
                 update insert $record into $target,
                 map {
