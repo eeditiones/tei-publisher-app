@@ -288,14 +288,22 @@ declare function rapi:create-record($type as xs:string, $id as xs:string, $data 
                     if (exists($data?birth)) then
                         <birth>
                             <date when="{$data?birth}"/>
-                            <placeName ref="{$data?placeOfBirth?id}">{$data?placeOfBirth?label}</placeName>                       
+                            {
+                                rapi:process-array($data?placeOfBirth, function($item) {
+                                    <placeName xmlns="http://www.tei-c.org/ns/1.0" ref="{$item?id}">{$item?label}</placeName>                       
+                                })
+                            }
                         </birth>
                     else
                         (),
                     if (exists($data?death)) then
                         <death>
                             <date when="{$data?death}"/>
-                            <placeName ref="{$data?placeOfDeath?id}">{$data?placeOfDeath?label}</placeName>                       
+                            {
+                                rapi:process-array($data?placeOfDeatch, function($item) {
+                                    <placeName xmlns="http://www.tei-c.org/ns/1.0" ref="{$item?id}">{$item?label}</placeName>                       
+                                })
+                            }
                         </death>
                     else
                         ()
@@ -320,6 +328,16 @@ declare function rapi:create-record($type as xs:string, $id as xs:string, $data 
             </category>
         default return
             ()
+};
+
+declare %private function rapi:process-array($arrayOrAtomic, $callback as function(*)) {
+    typeswitch($arrayOrAtomic)
+        case array(*) return
+            array:for-each($arrayOrAtomic, $callback)
+        default return
+            for $item in $arrayOrAtomic
+            return
+                $callback($item)
 };
 
 (: normalize GND gender values for common cases :)
