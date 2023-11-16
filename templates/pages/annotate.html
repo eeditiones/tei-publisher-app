@@ -87,6 +87,12 @@
                     <fx-setvalue ref="annotation">false</fx-setvalue>
                     <fx-setvalue ref="authority">false</fx-setvalue>
                     <fx-setvalue ref="occurrences">false</fx-setvalue>
+                    <!-- ### if a custom form has been embedded before kick it out -->
+                    <fx-load attach-to="#authority-editor">
+                        <template>
+                            <div></div>
+                        </template>
+                    </fx-load>
                     <fx-update></fx-update>
                 </fx-action>
 
