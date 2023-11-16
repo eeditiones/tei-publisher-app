@@ -26,7 +26,7 @@ declare function rapi:entry($request as map(*)) {
             else
                 let $entry-template := $config:register-map?($type)?default
                 return
-                    <data>{collection($config:register-root)/id($entry-template)/child::*}</data>
+                    collection($config:register-root)/id($entry-template)/child::*
         else
             error($errors:BAD_REQUEST, "No " || $type || " entry id specified")
 };
@@ -57,7 +57,7 @@ declare function rapi:delete($request as map(*)) {
 declare function rapi:save($request as map(*)) {
 
     let $user := request:get-attribute("teipublisher.com.login.user")
-    let $body := $request?body/child::*/child::*
+    let $body := $request?body/*[1]
 
     let $type := local-name($body)
     let $id := ($body/@xml:id, xmldb:decode($request?parameters?id))[1]
@@ -69,11 +69,11 @@ declare function rapi:save($request as map(*)) {
         if ($record) then
             (: update existing record :)
                 (rapi:replace-entry($record, $data), 
-                    <data>{$data}</data>, 
+                    $data,
                     map {"status": "updated"})
         else
                 (rapi:add-entry($data, $type), 
-                    <data>{$data}</data>, 
+                    $data,
                     map {"status": "created"})
 };
 
