@@ -60,7 +60,7 @@ declare variable $config:enable-proxy-caching :=
  : In this case, change $config:webcomponents-cdn to point to http://localhost:port 
  : (default: 8000, but check where your server is running).
  :)
-declare variable $config:webcomponents := "2.14.2";
+declare variable $config:webcomponents := "2.14.3";
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your
@@ -392,10 +392,10 @@ declare variable $config:register-map := map {
     "organization": map {
         "id": "pb-organization",
         "default": "organization-default",
-        "prefix": "category-"
+        "prefix": "org-"
     },
     "term": map {
-        "id": "pb-taxonomy",
+        "id": "pb-keywords",
         "default": "term-default",
         "prefix": "category-"
     }
