@@ -8,7 +8,6 @@
 </head>
 <body>
 
-<!--<fx-fore refresh-on-view>-->
 <fx-fore class="authority-editor" show-confirmation="true">
     <fx-action event="ready" if="string-length(getRef()) = 0">
         <fx-send event="ready" submission="load" url="api/entry/NEW"></fx-send>
@@ -39,7 +38,7 @@
             <fx-action event="submit-done">
                 <fx-message>Data loaded</fx-message>
                 <!-- setting selection we got from user as default -->
-                <fx-setvalue ref="//*[@type='main']" value="query()"></fx-setvalue>
+                <fx-setvalue ref="instance()/*[1][@type='main']" value="query()"></fx-setvalue>
             </fx-action>
         </fx-submission>
         <fx-submission
@@ -49,7 +48,7 @@
             <fx-action  event="submit-done">
                 <fx-message>Person saved</fx-message>
                 <fx-dispatch name="authority-created">
-                    <fx-property name="query" expr="getRef()"></fx-property>
+                    <fx-property name="query" expr="instance()/*[1][@type='main']/text()"></fx-property>
                 </fx-dispatch>
             </fx-action>
 
@@ -70,7 +69,7 @@
     ### Use the header to give the main name of the page plus provide eventual buttons needed
     -->
     <header>
-        <h1>Person {getRef()}</h1>
+        <h1>Person '{instance('default')/*[1][@type='main']}'</h1>
         <div>
             <fx-trigger>
                 <paper-icon-button icon="icons:save" data-i18n="[title]annotations.save"></paper-icon-button>

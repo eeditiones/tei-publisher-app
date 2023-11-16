@@ -7,73 +7,98 @@
     <script type="module" src="./resources/scripts/fore/fore-dev.js"></script>
 </head>
 <body>
-<!--<fx-fore refresh-on-view>-->
-<fx-fore>
-    <fx-send event="ready" if="instance('parameters')//id" submission="load" url="api/entry/{instance('parameters')//id}"></fx-send>
-    <fx-send event="ready" if="not(instance('parameters')//id)" submission="load" url="api/entry/place-NEW"></fx-send>
+
+<fx-fore class="authority-editor" show-confirmation="true">
+    <fx-action event="ready" if="string-length(getRef()) = 0">
+        <fx-send event="ready" submission="load" url="api/entry/NEW"></fx-send>
+    </fx-action>
+    <fx-action event="ready" if="string-length(getRef()) != 0">
+        <fx-send event="ready" submission="load" url="api/entry/{getRef()}"></fx-send>
+    </fx-action>
+
     <fx-model id="model-1">
+
         <fx-instance
             id="default"
             src="api/forms/template/place-default"
-            xpath-default-namespace="http://www.tei-c.org/ns/1.0"/>
-
-        <fx-instance 
-            id="parameters"
-            src="#querystring"/>
+            xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+        </fx-instance>
 
         <fx-instance
                 id="i-template"
                 src="api/forms/template/place-template"
-                xpath-default-namespace="http://www.tei-c.org/ns/1.0"/>
+                xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <data></data>
+        </fx-instance>
 
-        <fx-submission 
+        <fx-submission
             id="load"
-            url="api/entry/{instance('parameters')//id}"
             method="GET"
             replace="instance">
-                <fx-message event="submit-done">Data loaded</fx-message>
+            <fx-action event="submit-done">
+                <fx-message>Data loaded</fx-message>
+                <!-- setting selection we got from user as default -->
+                <fx-setvalue ref="instance()/*[1][@type='main']" value="query()"></fx-setvalue>
+            </fx-action>
         </fx-submission>
-
         <fx-submission 
             id="save"
             method="PUT"
             replace="instance">
                 <fx-action event="submit-done">
-                    <fx-message>Data saved</fx-message>
-                    <fx-dispatch name="pb-authority-lookup">
-                        <fx-property name="type" value="place"/>
-                        <fx-property name="query" expr="instance('default')//placeName[@type='main']/string()"/>
+                    <fx-message>Place saved</fx-message>
+                    <fx-dispatch name="authority-created">
+                        <fx-property name="query" expr="instance()/*[1][@type='main']/text()"></fx-property>
                     </fx-dispatch>
                 </fx-action>
                 
                 <fx-message event="submit-error">Failed to save data</fx-message>
         </fx-submission>
+
+        <!-- hack til shared instances are working in Fore - accesses value of output in outer fore with stores the 'ref' -->
+        <fx-function signature="getRef() as xs:string" type="text/javascript">
+            return document.querySelector('fx-instance#i-default').instanceData.querySelector('ref').innerHTML;
+        </fx-function>
+
+        <fx-function signature="query() as xs:string" type="text/javascript">
+            return document.querySelector('fx-instance#i-default').instanceData.querySelector('query').innerHTML;
+        </fx-function>
     </fx-model>
 
+    <!--
+    ### Use the header to give the main name of the page plus provide eventual buttons needed
+    -->
     <header>
         <h1>Place</h1>
         <div>
             <fx-trigger>
                 <paper-icon-button icon="icons:save" data-i18n="[title]annotations.save"></paper-icon-button>
-                <fx-action>
-                    <fx-send submission="save" if="instance('parameters')//id"
-                             url="api/entry/{instance('parameters')//id}"/>
-                    <fx-send submission="save" if="not(instance('parameters')//id)" url="api/entry/person-NEW"/>
+                <fx-action if="string-length(getRef()) != 0">
+                    <fx-send submission="save" url="api/entry/{getRef()}"></fx-send>
+                </fx-action>
+                <fx-action if="string-length(getRef()) = 0">
+                    <fx-send submission="save" url="api/entry/person-NEW"></fx-send>
                 </fx-action>
             </fx-trigger>
             <fx-trigger>
-                <paper-icon-button id="close-authority" icon="close" data-i18n="[title]annotations.authority"></paper-icon-button>
-                <fx-dispatch name="hide-authority" target="#document"></fx-dispatch>
+                <paper-icon-button id="close-authority" icon="close" data-i18n="[title]annotations.authority">
+                    <!-- ### load the authority editor for authority type -->
+                </paper-icon-button>
+                <fx-confirm message="close this editor?">
+                    <fx-dispatch name="hide-authority" target="#document"></fx-dispatch>
+                </fx-confirm>
             </fx-trigger>
         </div>
     </header>
 
+
+    <!-- ### main   -->
     <main>
         <!-- begin section general -->
-        <!-- Basic name forms -->
-        <fx-group id="general" ref="//place" class="col-2">
-            <h3>Place ID</h3>
-            <fx-output ref="@xml:id"></fx-output>
+        <fx-group id="general" ref="instance()" class="col-2">
+            <h2>Place ID:
+                <fx-output ref="@xml:id"></fx-output>
+            </h2>
             <fx-control class="tp-input -form-control" ref="placeName[@type='main']">
                 <label class="tp-label">Canonical form</label>
                 <fx-hint>Kraków</fx-hint>
