@@ -22,7 +22,7 @@ declare function rapi:entry($request as map(*)) {
     return
       if ($id) then
             if ($entry) then
-                <data>{$entry}</data>
+                $entry
             else
                 let $entry-template := $config:register-map?($type)?default
                 return
