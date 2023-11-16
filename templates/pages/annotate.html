@@ -192,6 +192,11 @@
                 <fx-action event="authority-created" target="#document">
                     <fx-message>authority-created id:{event('query')}</fx-message>
                     <fx-call function="updateAnnotationDetails(event('query'))"></fx-call>
+                    <fx-load attach-to="#authority-editor">
+                        <template>
+                            <div></div>
+                        </template>
+                    </fx-load>
                 </fx-action>
 
 
