@@ -391,13 +391,15 @@ declare function rapi:save-local-copy($request as map(*)) {
         else
             let $record := rapi:create-record($type, $id, $data)
             let $target := rapi:insert-point($type)
-            let $log := util:log("INFO", ("Save record ", $id, " into ", $target))
-            return (
-                update insert $record into $target,
-                map {
-                    "status": "updated"
-                }
-            )
+            return 
+                if (sm:has-access(xs:anyURI(document-uri(root($target))), "w")) then
+                (
+                    update insert $record into $target,
+                    map {
+                        "status": "updated"
+                    }
+                ) else
+                    error($errors:FORBIDDEN, "Permission denied")
 };
 
 (:~ 

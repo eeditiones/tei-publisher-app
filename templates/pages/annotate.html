@@ -133,6 +133,11 @@
                     <fx-setvalue ref="instance()/authority-editor" value="instance()/type"></fx-setvalue>
                 </fx-action>
 
+                <fx-action event="pb-authority-error" target="#document">
+                    <fx-message if="event('status')='403'" level="sticky">Cannot save to local register. Please log in!</fx-message>
+                    <fx-message if="event('status')!='403'" level="sticky">Cannot save to local register: {event('status')}</fx-message>
+                </fx-action>
+
                 <!-- ### show the annotation form and the authority search -->
                 <fx-action id="show-annotation" event="show-annotation" target="#document">
                     <fx-message>show-annotation {instance()/authority-forms}</fx-message>
