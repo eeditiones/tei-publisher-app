@@ -10,15 +10,18 @@
 
 <!--<fx-fore refresh-on-view>-->
 <fx-fore class="authority-editor" show-confirmation="true">
+
+<!--
     <fx-send event="model-construct-done" if="instance('parameters')/id" submission="load"
              url="api/entry/{instance('parameters')//id}"></fx-send>
+-->
+
     <fx-send event="ready" if="not(instance('parameters')/id)" submission="load" url="api/entry/NEW"></fx-send>
     <fx-model id="model-1">
         <fx-instance
                 id="default"
                 src="api/forms/template/person-default"
                 xpath-default-namespace="http://www.tei-c.org/ns/1.0">
-            <data></data>
         </fx-instance>
 
 
@@ -39,7 +42,11 @@
                 id="load"
                 method="GET"
                 replace="instance">
-            <fx-message event="submit-done">Data loaded</fx-message>
+            <fx-action event="submit-done">
+                <fx-message>Data loaded</fx-message>
+                <!-- setting selection we got from user as default -->
+                <fx-setvalue ref="//*[@type='main']" value="query()"></fx-setvalue>
+            </fx-action>
         </fx-submission>
         <fx-submission
                 id="save"
@@ -48,12 +55,22 @@
             <fx-action  event="submit-done">
                 <fx-message>Person saved</fx-message>
                 <fx-dispatch name="authority-created">
-                    <fx-property name="id" expr="instance('default')/*/@xml:id"></fx-property>
+<!--                    <fx-property name="ident" expr="instance('default')/@xml:id"></fx-property>-->
+                    <fx-property name="query" expr="instance('default')/*[@type='main']/text()"></fx-property>
                 </fx-dispatch>
             </fx-action>
 
             <fx-message event="submit-error">Failed to save data</fx-message>
         </fx-submission>
+
+        <!-- hack til shared instances are working in Fore - accesses value of output in outer fore with stores the 'ref' -->
+        <fx-function signature="getRef() as xs:string" type="text/javascript">
+            return document.querySelector('fx-instance#i-default').instanceData.querySelector('ref').innerHTML;
+        </fx-function>
+
+        <fx-function signature="query() as xs:string" type="text/javascript">
+            return document.querySelector('fx-instance#i-default').instanceData.querySelector('query').innerHTML;
+        </fx-function>
     </fx-model>
 
     <!--
@@ -68,7 +85,6 @@
                     <fx-send submission="save" if="instance('parameters')//id"
                              url="api/entry/{instance('parameters')//id}"/>
                     <fx-send submission="save" if="not(instance('parameters')//id)" url="api/entry/person-NEW"/>
-    <!--                <fx-dispatch name="hide-authority-editor" target="#document"></fx-dispatch>-->
                 </fx-action>
             </fx-trigger>
             <fx-trigger>
@@ -86,7 +102,7 @@
     <!-- ### main   -->
     <main>
         <!-- begin section general -->
-        <fx-group id="general" ref="instance()/person" class="col-2">
+        <fx-group id="general" ref="instance()" class="col-2">
             <h2>Person ID:
                 <fx-output ref="@xml:id"></fx-output>
             </h2>

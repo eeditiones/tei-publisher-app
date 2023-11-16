@@ -109,6 +109,7 @@
                 <fx-action event="pb-selection-changed" target="#document" if="event('hasContent')">
 <!--                    <fx-message>pb-selection-changed {event('selected')}</fx-message>-->
                     <fx-setvalue ref="selected" value="event('selected')"></fx-setvalue>
+                    <fx-setvalue ref="instance()/query" value="instance()/selected"></fx-setvalue>
                     <!-- ### reset previously opened panels -->
                     <fx-call action="reset-panels"></fx-call>
                 </fx-action>
@@ -226,14 +227,6 @@
 
 
                 </fx-model>
-
-
-                <!-- hack to store a value and access it from subform - can be removed once shared instances are working properly.
-                 The 'ref' is the identifier of an annotation when editing. The value is catched by 'annotation-edit' event
-                 and store in instance as 'ref' node.
-                 -->
-                <fx-output id="ref" ref="ref" style="display: none;"></fx-output>
-
 
                 <!--
                 View Management in the aside:
