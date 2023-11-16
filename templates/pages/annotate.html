@@ -184,9 +184,8 @@
 
                 <!-- ### an authority has been created by an plugin authority form  -->
                 <fx-action event="authority-created" target="#document">
-                    <fx-message>authority-created id:{event('id')}</fx-message>
-                    <fx-setvalue ref="authority-updated" value="updateAnnotationDetails(event('id'))"></fx-setvalue>
-                    <!--                    <fx-setvalue ref="markup">true</fx-setvalue>-->
+                    <fx-message>authority-created id:{event('query')}</fx-message>
+                    <fx-call function="updateAnnotationDetails(event('query'))"></fx-call>
                 </fx-action>
 
 
@@ -222,15 +221,7 @@
 
                     <fx-function signature="updateAnnotationDetails($ident as xs:string) as xs:boolean"
                                  type="text/javascript">
-                        document.querySelector('iron-form paper-input').value=$ident;
-                        <!--
-                                            const val = $ident;
-                                            const control = document.querySelector('iron-form paper-input');
-                                            if(control){
-                                                control.value = val;
-                                            }
-                                            return false
-                        -->
+                            document.querySelector('iron-form paper-input').value=$ident;
                     </fx-function>
 
 
