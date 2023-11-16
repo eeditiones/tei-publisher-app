@@ -810,7 +810,7 @@ window.addEventListener("WebComponentsReady", () => {
 				query: text,
 			});
 			//authorityDialog.open();
-    		window.pbEvents.emit("annotation-edit", "transcription", {ref: ev.detail.properties[view.key]});
+    		window.pbEvents.emit("annotation-edit", "transcription", {ref: ev.detail.properties[view.key] || ''});
 
 		}
 		showForm(type, ev.detail.properties);
