@@ -122,6 +122,7 @@
 <!--                    <fx-message>pb-authority-lookup type:{event('type')} query:{event('query')}</fx-message>-->
                     <!-- ### store the 'type' of annotation -->
                     <fx-setvalue ref="instance()/type" value="event('type')"></fx-setvalue>
+                    <fx-setvalue ref="instance()/query" value="event('query')"></fx-setvalue>
                     <fx-call action="show-annotation"></fx-call>
                     <!-- ### show authority panel if it is in the static list of supported types -->
                     <fx-setvalue ref="authority">true</fx-setvalue>
@@ -160,6 +161,7 @@
                 <fx-action event="annotation-edit" target="#document">
                     <fx-call action="reset-panels"></fx-call>
                     <fx-setvalue ref="annotation">true</fx-setvalue>
+                    <fx-setvalue ref="ref" value="event('ref')"></fx-setvalue>
                     <!-- ### update the input in the iron-form with the text-selection we get from 'query' -->
                     <fx-call function="updateAnnotationDetails(event('ref'))"></fx-call>
                     <fx-update></fx-update>
@@ -171,7 +173,7 @@
                     <fx-setvalue ref="search">true</fx-setvalue>
                 </fx-action>
 
-
+-->
                 <!-- ### remove the custom authority editor form from DOM -->
                 <fx-action event="hide-authority" target="#document">
                     <fx-load attach-to="#authority-editor">
@@ -187,14 +189,6 @@
                     <!--                    <fx-setvalue ref="markup">true</fx-setvalue>-->
                 </fx-action>
 
-                <fx-action event="pb-annotation-detail" target="#document">
-                    <fx-message>pb-annotation-detail</fx-message>
-                </fx-action>
-
-
-                <fx-action event="pb-annotation-detail" target="#document">
-                    <fx-message>pb-annotation-detail {event('span.innerText')}</fx-message>
-                </fx-action>
 
                 <fx-action event="pb-authority-select" target="#document">
                     <fx-message>authority-select {event('properties.ref')}</fx-message>
@@ -202,21 +196,14 @@
                     <fx-setvalue ref="occurrences">true</fx-setvalue>
                 </fx-action>
 
-                <fx-action event="hide-all-panels">
-<!--                <fx-action id="hide-panels-action">-->
-                    <fx-message>hide-all-panels</fx-message>
-                    <fx-setvalue ref="annotation" if="boolean-from-string(.)">false</fx-setvalue>
-                    <fx-setvalue ref="authority" if="boolean-from-string(.)">false</fx-setvalue>
-                    <fx-setvalue ref="occurrences" if="boolean-from-string(.)">false</fx-setvalue>
-                    <!--                    <fx-setvalue ref="markup">false</fx-setvalue>-->
-                </fx-action>
-
                 <fx-model>
                     <fx-instance id="i-default">
                         <data>
                             <align-bottom></align-bottom>
                             <selected></selected>
+                            <ref></ref>
                             <type></type>
+                            <query></query>
                             <annotation>false</annotation>
                             <authority>false</authority>
                             <search>true</search>
@@ -248,6 +235,13 @@
 
 
                 </fx-model>
+
+
+                <!-- hack to store a value and access it from subform - can be removed once shared instances are working properly.
+                 The 'ref' is the identifier of an annotation when editing. The value is catched by 'annotation-edit' event
+                 and store in instance as 'ref' node.
+                 -->
+                <fx-output id="ref" ref="ref" style="display: none;"></fx-output>
 
 
                 <!--
