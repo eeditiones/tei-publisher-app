@@ -93,6 +93,8 @@
                             <div></div>
                         </template>
                     </fx-load>
+                    <!-- reset -->
+                    <fx-setvalue ref="ref"></fx-setvalue>
                     <fx-update></fx-update>
                 </fx-action>
 
@@ -136,7 +138,9 @@
                 </fx-action>
 
                 <fx-action event="pb-authority-edit-entity" target="#document">
-                    <fx-load url="templates/pages/annotation/{instance()/type}-editor.html?id={event('id')}"
+<!--                    <fx-message>pb-authority-edit-entity {event('id')}</fx-message>-->
+                    <fx-setvalue ref="ref" value="event('id')"></fx-setvalue>
+                    <fx-load url="templates/pages/annotation/{instance()/type}-editor.html}"
                              attach-to="#authority-editor"></fx-load>
                     <fx-setvalue ref="instance()/authority-editor" value="instance()/type"></fx-setvalue>
                 </fx-action>
