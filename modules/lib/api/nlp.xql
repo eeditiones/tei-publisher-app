@@ -391,6 +391,13 @@ declare function nlp:convert($entities as array(*), $offsets as map(*)*, $doc as
         let $insertPoint := filter($offsets, function($offset as map(*)) {
             $entity?start >= $offset?start and $entity?start < $offset?end
         })
+        let $ancestor := nlp:check-ancestors($insertPoint?node, $entity?type)
+        (: If an ancestor is found which also matches the required type, use it instead :)
+        let $insertPoint :=
+            if ($ancestor) then
+                map:merge(($insertPoint, map { "node": $ancestor }))
+            else
+                $insertPoint
         let $existingType := if ($insertPoint?node) then anno-config:entity-type($insertPoint?node) else ()
         return
             (: element is not marked as entity :)
@@ -438,6 +445,22 @@ declare function nlp:convert($entities as array(*), $offsets as map(*)*, $doc as
         map {
             config:get-relpath($doc): array { $entries }
         }
+};
+
+(:~
+ : Check if there is a direct ancestor element with the correct entity type and no additional text. 
+ : If yes, this will be used as the insertion point. This handles string matches in nested content like
+ : <persName><hi>NAME</hi></persName>.
+ :)
+declare %private function nlp:check-ancestors($node as element(), $entityType as xs:string) {
+    let $parent := $node/..
+    return
+        if (not($parent) or exists($parent/text())) then
+            ()
+        else if (anno-config:entity-type($parent) = $entityType) then
+            $parent
+        else
+            nlp:check-ancestors($parent, $entityType)
 };
 
 declare function nlp:pattern-recognition($request as map(*)) {
