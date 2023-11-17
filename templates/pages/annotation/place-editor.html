@@ -38,7 +38,9 @@
             <fx-action event="submit-done">
                 <fx-message>Data loaded</fx-message>
                 <!-- setting selection we got from user as default -->
-                <fx-setvalue ref="instance()/*[1][@type='main']" value="query()"></fx-setvalue>
+                <fx-action if="instance()/@xml:id = 'place-NEW'">
+                    <fx-setvalue ref="instance()/*[1][@type='main']" value="query()"></fx-setvalue>
+                </fx-action>
             </fx-action>
         </fx-submission>
         <fx-submission 
@@ -46,13 +48,14 @@
             method="PUT"
             replace="instance">
                 <fx-action event="submit-done">
-                    <fx-message>Place saved</fx-message>
+                <fx-message>Place saved with ID {instance()/@xml:id/string()}</fx-message>
                     <fx-dispatch name="authority-created">
-                        <fx-property name="query" expr="instance()/*[1][@type='main']/text()"></fx-property>
+                    <fx-property name="ref" expr="instance()/@xml:id/string()"></fx-property>
                     </fx-dispatch>
                 </fx-action>
-                
-                <fx-message event="submit-error">Failed to save data</fx-message>
+            <fx-action event="submit-error">
+                <fx-message>Failed to save data - Please login</fx-message>
+            </fx-action>
         </fx-submission>
 
         <!-- hack til shared instances are working in Fore - accesses value of output in outer fore with stores the 'ref' -->
@@ -65,6 +68,15 @@
         </fx-function>
     </fx-model>
 
+    <fx-action id="saveAction">
+        <fx-action if="string-length(getRef()) != 0">
+            <fx-send submission="save" url="api/entry/{getRef()}"></fx-send>
+        </fx-action>
+        <fx-action if="string-length(getRef()) = 0">
+            <fx-send submission="save" url="api/entry/person-NEW"></fx-send>
+        </fx-action>
+    </fx-action>
+
     <!--
     ### Use the header to give the main name of the page plus provide eventual buttons needed
     -->
@@ -73,12 +85,7 @@
         <div>
             <fx-trigger>
                 <paper-icon-button icon="icons:save" data-i18n="[title]annotations.save"></paper-icon-button>
-                <fx-action if="string-length(getRef()) != 0">
-                    <fx-send submission="save" url="api/entry/{getRef()}"></fx-send>
-                </fx-action>
-                <fx-action if="string-length(getRef()) = 0">
-                    <fx-send submission="save" url="api/entry/person-NEW"></fx-send>
-                </fx-action>
+                <fx-call action="saveAction"></fx-call>
             </fx-trigger>
             <fx-trigger>
                 <paper-icon-button id="close-authority" icon="close" data-i18n="[title]annotations.authority">
@@ -154,6 +161,10 @@
             </fx-control>
         </fx-group>
     </main>
+    <fx-trigger>
+        <paper-icon-button icon="icons:save" data-i18n="[title]annotations.save"></paper-icon-button>
+        <fx-call action="saveAction"></fx-call>
+    </fx-trigger>
 
 </fx-fore>
 
