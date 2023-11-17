@@ -267,7 +267,7 @@ declare function rapi:create-record($type as xs:string, $id as xs:string, $data 
     switch ($type)
         case "place" return
             <place xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
-                <placeName type="full">{$data?name}</placeName>
+                <placeName type="main">{$data?name}</placeName>
                 {
                     if (exists($data?lat) and exists($data?lng)) then
                         <location>
@@ -288,7 +288,7 @@ declare function rapi:create-record($type as xs:string, $id as xs:string, $data 
             </place>
         case "person" return
             <person xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
-                <persName type="full">{$data?name}</persName>
+                <persName type="main">{$data?name}</persName>
                 <persName type="sort">{$data?name}</persName>
                 {rapi:normalize-gender($data?gender?*)}
                 {
