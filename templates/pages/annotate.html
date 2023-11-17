@@ -139,9 +139,9 @@
                 </fx-action>
 
                 <fx-action event="pb-authority-edit-entity" target="#document">
-<!--                    <fx-message>pb-authority-edit-entity {event('id')}</fx-message>-->
+                    <!--                    <fx-message>pb-authority-edit-entity {event('id')}</fx-message>-->
                     <fx-setvalue ref="ref" value="event('id')"></fx-setvalue>
-                    <fx-load url="templates/pages/annotation/{instance()/type}-editor.html}"
+                    <fx-load url="templates/pages/annotation/{instance()/type}-editor.html"
                              attach-to="#authority-editor"></fx-load>
                     <fx-setvalue ref="instance()/authority-editor" value="instance()/type"></fx-setvalue>
                 </fx-action>
