@@ -55,6 +55,8 @@ aside > fx-fore > fx-group{
     /*max-height: 50vh;*/
     position: relative;
     /*overflow: auto;*/
+    background:#efefef;
+    padding-bottom: 1rem;
 }
 #authority-editor main,
 #authority-editor button{
@@ -71,16 +73,17 @@ aside > fx-fore > fx-group{
 #authority-editor main{
     /*max-height: 50vh;*/
     position: relative;
-    height: 50vh;
+    height: 100%;
     padding:0.5rem;
     overflow: auto;
+    background: white;
 }
 #authority-editor fx-fore > header {
     position: absolute;
-    width: 100%;
+    width: calc(100% - 1rem);
     z-index: 10;
     background: #efefef;
-    padding: 0;
+    padding-left:0.5rem;
 }
 
 fx-group#general{
