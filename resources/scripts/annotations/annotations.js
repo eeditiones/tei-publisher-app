@@ -175,10 +175,10 @@ window.addEventListener("WebComponentsReady", () => {
 	 *
 	 * @param {any} data details of the selected authority entry
 	 */
-	function authoritySelected(data) {
+	function authoritySelected(ref) {
 		// authorityDialog.close();
 		// window.pbEvents.emit("hide-authorities", "transcription", {});
-		refInput.forEach((input) => { input.value = data.properties.ref });
+		refInput.forEach((input) => { input.value = ref });
 		if (autoSave) {
 			save();
 		}
@@ -772,8 +772,12 @@ window.addEventListener("WebComponentsReady", () => {
 
 
 	window.pbEvents.subscribe("pb-authority-select", "transcription", (ev) =>
-		authoritySelected(ev.detail)
+		authoritySelected(ev.detail.properties.ref)
 	);
+	document.addEventListener("authority-created", (ev) =>
+		authoritySelected(ev.detail.ref)
+	);
+
 	window.pbEvents.subscribe("pb-selection-changed", "transcription", (ev) => {
 		disableButtons(!ev.detail.hasContent, ev.detail.range);
 		if (ev.detail.hasContent) {

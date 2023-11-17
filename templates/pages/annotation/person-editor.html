@@ -46,9 +46,9 @@
                 method="PUT"
                 replace="instance">
             <fx-action  event="submit-done">
-                <fx-message>Person saved</fx-message>
+                <fx-message>Person saved with ID {instance()/@xml:id/string()}</fx-message>
                 <fx-dispatch name="authority-created">
-                    <fx-property name="query" expr="instance()/*[1][@type='main']/text()"></fx-property>
+                    <fx-property name="ref" expr="instance()/@xml:id/string()"></fx-property>
                 </fx-dispatch>
             </fx-action>
 

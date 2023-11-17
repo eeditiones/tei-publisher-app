@@ -213,17 +213,24 @@ declare function rapi:query($type as xs:string, $query as xs:string?) {
                 return
                     map {
                         "id": $place/@xml:id/string(),
-                        "label": $place/tei:placeName[@type="full"]/string(),
+                        "label": $place/tei:placeName[@type="main"]/string(),
                         "details": ``[`{$place/tei:note/string()}` - `{$place/tei:country/string()}`, `{$place/tei:region/string()}`]``,
                         "link": $place/tei:ptr/@target/string()
                     }
             case "person" return
                 for $person in collection($config:register-root)//tei:person[ft:query(tei:persName, $query)]
+                let $birth := $person/tei:birth/tei:date/@when
+                let $death := $person/tei:death/tei:date/@when
+                let $dates := 
+                    if ($birth) then
+                        string-join(($birth, $death), " – ")
+                    else
+                        ()
                 return
                     map {
                         "id": $person/@xml:id/string(),
-                        "label": $person/tei:persName[@type="full"]/string(),
-                        "details": ``[`{$person/tei:note/string()}` - `{$person/tei:country/string()}`, `{$person/tei:region/string()}`]``,
+                        "label": $person/tei:persName[@type="main"]/string(),
+                        "details": ``[`{$dates}`; `{$person/tei:note/string()}`]``,
                         "link": $person/tei:ptr/@target/string()
                     }
             case "organization" return
@@ -231,7 +238,7 @@ declare function rapi:query($type as xs:string, $query as xs:string?) {
                 return
                     map {
                         "id": $org/@xml:id/string(),
-                        "label": $org/tei:orgName[@type="full"]/string(),
+                        "label": $org/tei:orgName[@type="main"]/string(),
                         "details": $org/tei:note/string(),
                         "link": $org/tei:ptr/@target/string()
                     }
