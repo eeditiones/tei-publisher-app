@@ -201,13 +201,16 @@
                     </fx-load>
                 </fx-action>
 
-
                 <fx-action event="pb-authority-select" target="#document">
                     <fx-message>authority-select {event('properties.ref')}</fx-message>
                     <fx-setvalue ref="authority">false</fx-setvalue>
                     <fx-setvalue ref="occurrences">true</fx-setvalue>
                 </fx-action>
 
+                <fx-action event="reset-panels" target="#document">
+                    <fx-call action="reset-panels"></fx-call>
+                </fx-action>
+                
                 <fx-model>
                     <fx-instance id="i-default">
                         <data>

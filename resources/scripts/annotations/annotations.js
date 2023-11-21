@@ -592,6 +592,7 @@ window.addEventListener("WebComponentsReady", () => {
 		function reload() {
 			window.pbEvents.emit("pb-refresh", "transcription", { preserveScroll: true });
 			hideForm();
+			document.dispatchEvent(new CustomEvent('reset-panels'));
 		}
 		if (view.annotations.length > 0) {
 			document.getElementById('confirm-reload-dialog').confirm()
