@@ -82,6 +82,23 @@ declare function pages:load-components($node as node(), $model as map(*)) {
                 src="{$config:webcomponents-cdn}@{$config:webcomponents}/dist/{$node/@src}"></script>
 };
 
+declare function pages:load-fore($node as node(), $model as map(*), $type as xs:string?) {
+    switch ($node/local-name())
+        case "link" return
+            switch ($config:fore)
+                case "local" return
+                    <link rel="stylesheet" type="text/css" href="resources/css/{$node/@href}"/>
+                default return
+                    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@jinntec/fore@{$config:fore}/resources/{$node/@href}"/>
+        default return
+            switch ($config:fore)
+                case "local" return
+                    <script type="module" src="resources/scripts/fore/{$node/@src}"></script>
+                default return
+                    <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/fore@{$config:fore}/dist/{$node/@src}"></script>
+            
+};
+
 declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc as xs:string) {
     for $data in config:get-document($doc)
     return

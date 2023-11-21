@@ -1,10 +1,10 @@
 <html>
 <head>
     <title>TEI Publisher Person Register</title>
-    <link rel="stylesheet" type="text/css" href="resources/css/fore.css"/>
+    <link rel="stylesheet" href="fore.css" data-template="pages:load-fore"/>
     <!--        <link rel="stylesheet" type="text/css" href="style.css"/>-->
     <link rel="stylesheet" type="text/css" href="resources/css/styles.css"/>
-    <script type="module" src="./resources/scripts/fore/fore-dev.js"></script>
+    <script type="module" src="fore.js" data-template="pages:load-fore"></script>
 </head>
 <body>
 
@@ -120,6 +120,13 @@
         </fx-group>
 
         <!-- Basic name forms -->
+
+        <fx-group id="note" ref="instance()" class="col-2">
+            <h2>Note</h2>
+            <fx-control ref="note[@type='bio']">
+                <textarea rows="5" class="widget"></textarea>
+            </fx-control>
+        </fx-group>
 
         <fx-group id="birth" ref="//person/birth" class="col-2">
             <h2>Birth</h2>

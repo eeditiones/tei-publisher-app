@@ -71,6 +71,9 @@ declare variable $config:webcomponents-cdn := "https://cdn.jsdelivr.net/npm/@tei
 (: declare variable $config:webcomponents-cdn := "https://cdn.tei-publisher.com/"; :)
 (: declare variable $config:webcomponents-cdn := "http://localhost:8000"; :)
 
+(: Version of fore to use for annotation editor. Set to 'local' for self-hosted version. :)
+declare variable $config:fore := "1.9.0";
+
 (:~
  : Should documents be located by xml:id or filename?
  :)

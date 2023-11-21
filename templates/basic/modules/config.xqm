@@ -44,6 +44,9 @@ declare variable $config:webcomponents-cdn := "https://cdn.jsdelivr.net/npm/@tei
 (: declare variable $config:webcomponents-cdn := "https://cdn.tei-publisher.com/"; :)
 (: declare variable $config:webcomponents-cdn := "http://localhost:8000"; :)
 
+(: Version of fore to use for annotation editor :)
+declare variable $config:fore := "$$fore-version$$";
+
 (:~~
  : A list of regular expressions to check which external hosts are
  : allowed to access this TEI Publisher instance. The check is done

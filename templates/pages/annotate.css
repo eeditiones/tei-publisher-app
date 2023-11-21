@@ -215,6 +215,11 @@ header h1{
 header paper-icon-button{
     display: inline-block;
 }
+
+fx-fore textarea {
+    width: calc(100% - 2rem);
+}
+
 #markupPanel{
     visibility: hidden;
 }

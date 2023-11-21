@@ -66,6 +66,7 @@ declare variable $deploy:ANT_FILE :=
         <property name="project.app" value="${{package(abbrev)}}"/>
         <property name="build.dir" value="build"/>
         <property name="scripts.dir" value="node_modules/@teipublisher/pb-components/dist"/>
+        <property name="fore.dir" value="${basedir}/node_modules/@jinntec/fore/dist"/>
 
         <target name="clean">
             <delete dir="${build}" />
@@ -83,6 +84,10 @@ declare variable $deploy:ANT_FILE :=
                     <include name="*.js" />
                     <include name="*.map" />
                 </fileset>
+                <fileset dir="${fore.dir}">
+                    <include name="*.js" />
+                    <include name="*.map" />
+                </fileset>
             </copy>
             <copy todir="resources/images">
                 <fileset dir="node_modules/@teipublisher/pb-components/images">
@@ -92,6 +97,9 @@ declare variable $deploy:ANT_FILE :=
             </copy>
             <copy todir="resources/css">
                 <fileset dir="node_modules/@teipublisher/pb-components/css"/>
+                <fileset dir="${basedir}/node_modules/@jinntec/fore/resources">
+                    <include name="*.css"/>
+                </fileset>
             </copy>
             <copy todir="resources/lib">
                 <fileset dir="node_modules/@teipublisher/pb-components/lib"/>
@@ -418,8 +426,10 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
             'latest'
         else
             $config:webcomponents
+    let $fore := if ($config:fore = 'local') then 'latest' else $config:fore
     let $replacements := map {
         "^(.*\$config:webcomponents :=).*;$": '"' || $webcomponents || '";',
+        "^(.*\$config:fore :=).*;$": '"' || $fore || '";',
         "^(.*\$config:default-template :=).*;$": '"' || $json?template || '";',
         "^(.*\$config:default-view :=).*;$": '"' || $json?default-view || '";',
         "^(.*\$config:search-default :=).*;$": '"' || $json?index || '";',
