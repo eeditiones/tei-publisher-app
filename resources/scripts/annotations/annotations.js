@@ -699,6 +699,8 @@ window.addEventListener("WebComponentsReady", () => {
 					.querySelector("pb-authority-lookup")
 					.lookup(type, input.value, authorityInfo)
 					.then(info => {
+						document.getElementById('edit-entity').style.display = info.editable ? 'block' : 'none';
+
 						currentEntityInfo = info;
 						findOther(info);
 					})
@@ -709,6 +711,12 @@ window.addEventListener("WebComponentsReady", () => {
 				authorityInfo.innerHTML = "";
 			}
 		});
+	});
+
+	const editEntity = document.getElementById('edit-entity');
+	editEntity.addEventListener('click', () => {
+		const ref = editEntity.parentNode.querySelector('.form-ref');
+		document.dispatchEvent(new CustomEvent('pb-authority-edit-entity', { detail: {id: ref.value }}));
 	});
 
 	/**
@@ -837,11 +845,13 @@ window.addEventListener("WebComponentsReady", () => {
 			case "note":
 				const data = JSON.parse(ev.detail.span.dataset.annotation);
 				ev.detail.container.innerHTML = data.properties.note;
+				ev.detail.ready();
 				break;
 			default:
 				document
 					.querySelector("pb-authority-lookup")
 					.lookup(ev.detail.type, ev.detail.id, ev.detail.container)
+					.then(() => ev.detail.ready())
 					.catch((msg) => {
 						const div = document.createElement('div');
 						const h = document.createElement('h3');
@@ -858,6 +868,7 @@ window.addEventListener("WebComponentsReady", () => {
 						div.appendChild(pre);
 						ev.detail.container.innerHTML = '';
 						ev.detail.container.appendChild(div);
+						ev.detail.ready();
 					});
 				break;
 		}
