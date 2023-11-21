@@ -4,6 +4,7 @@
         <fileDesc>
             <titleStmt>
                 <title>Annotations
+                 
                  <desc>ODD used by the web-based annotation editor. Contains special rules to mark entities with the correct CSS classes</desc>
                 </title>
             </titleStmt>
@@ -84,7 +85,7 @@
                 <elementSpec ident="place" mode="add">
                     <modelSequence>
             <model behaviour="heading">
-                <param name="content" value="placeName[@type=&#34;full&#34;]"/>
+                <param name="content" value="placeName[@type=&#34;main&#34;]"/>
                 <param name="level" value="3"/>
             </model>
             <model predicate="placeName[not(@type)]" behaviour="heading">
