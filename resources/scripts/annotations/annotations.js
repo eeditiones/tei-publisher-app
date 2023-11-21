@@ -302,6 +302,9 @@ window.addEventListener("WebComponentsReady", () => {
 	 * @param {any} annotations the current list of annotations
 	 */
 	function preview(annotations, doStore) {
+		if (doStore) {
+			document.dispatchEvent(new CustomEvent('reset-panels'));
+		}
 		const endpoint = document.querySelector("pb-page").getEndpoint();
 		const doc = document.getElementById("document1");
 		document.getElementById("output").code = "";
