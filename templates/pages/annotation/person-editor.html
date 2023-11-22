@@ -59,11 +59,13 @@
 
         <!-- hack til shared instances are working in Fore - accesses value of output in outer fore with stores the 'ref' -->
         <fx-function signature="getRef() as xs:string" type="text/javascript">
-            return document.querySelector('fx-instance#i-default').instanceData.querySelector('ref').innerHTML;
+            const ref = document.querySelector('fx-instance#i-default').instanceData.querySelector('ref');
+            return ref ? ref.innerHTML : '';
         </fx-function>
 
         <fx-function signature="query() as xs:string" type="text/javascript">
-            return document.querySelector('fx-instance#i-default').instanceData.querySelector('query').innerHTML;
+            const query = document.querySelector('fx-instance#i-default').instanceData.querySelector('query');
+            return query ? query.innerHTML : '';
         </fx-function>
     </fx-model>
 
