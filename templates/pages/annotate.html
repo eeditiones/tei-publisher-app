@@ -81,168 +81,6 @@
         </div>
         <aside class="preview edit-panel">
             <fx-fore ignore-expressions="pb-authority">
-
-
-                <fx-action id="reset-panels">
-                    <fx-setvalue ref="annotation">false</fx-setvalue>
-                    <fx-setvalue ref="authority">false</fx-setvalue>
-                    <fx-setvalue ref="occurrences">false</fx-setvalue>
-                    <!-- ### if a custom form has been embedded before kick it out -->
-                    <fx-load attach-to="#authority-editor">
-                        <template>
-                            <div></div>
-                        </template>
-                    </fx-load>
-                    <!-- reset -->
-                    <fx-setvalue ref="ref"></fx-setvalue>
-                    <fx-update></fx-update>
-                    <fx-refresh></fx-refresh>
-                </fx-action>
-
-                <!-- ###########
-                Events handlers are listed here in the order they occur.
-                ############ -->
-
-                <!-- ##########
-                'pb-selection-changed event will be emitted whenever the selection changed.
-                If the selection is non-empty we start a new 'create annotation' flow.
-
-                Sidebar Panels being displayed already (by interrupting editing flow) are cleaned up.
-                -->
-                <fx-action event="pb-selection-changed" target="#document" if="event('hasContent')">
-<!--                    <fx-message>pb-selection-changed {event('selected')}</fx-message>-->
-                    <fx-setvalue ref="selected" value="event('selected')"></fx-setvalue>
-                    <fx-setvalue ref="instance()/query" value="instance()/selected"></fx-setvalue>
-                    <!-- ### reset previously opened panels -->
-                    <fx-call action="reset-panels"></fx-call>
-                </fx-action>
-
-
-                <!-- ###
-                    receiving pb-authority-lookup event from pb-authority-lookup component which provides the
-                    `type` of annotation and the selected text in `query`
-                 -->
-                <fx-action event="pb-authority-lookup" target="#document">
-<!--                    <fx-message>pb-authority-lookup type:{event('type')} query:{event('query')}</fx-message>-->
-                    <!-- ### store the 'type' of annotation -->
-                    <fx-setvalue ref="instance()/type" value="event('type')"></fx-setvalue>
-                    <fx-setvalue ref="instance()/query" value="event('query')"></fx-setvalue>
-                    <fx-call action="show-annotation"></fx-call>
-                    <!-- ### show authority panel if it is in the static list of supported types -->
-                    <fx-setvalue ref="authority">true</fx-setvalue>
-                </fx-action>
-
-                <fx-action event="pb-authority-new-entity" target="#document">
-                    <fx-load url="templates/pages/annotation/{instance()/type}-editor.html"
-                             attach-to="#authority-editor"></fx-load>
-                    <fx-setvalue ref="instance()/authority-editor" value="instance()/type"></fx-setvalue>
-                </fx-action>
-
-                <fx-action event="pb-authority-edit-entity" target="#document">
-                    <!--                    <fx-message>pb-authority-edit-entity {event('id')}</fx-message>-->
-                    <fx-setvalue ref="ref" value="event('id')"></fx-setvalue>
-                    <fx-load url="templates/pages/annotation/{instance()/type}-editor.html"
-                             attach-to="#authority-editor"></fx-load>
-                    <fx-setvalue ref="instance()/authority-editor" value="instance()/type"></fx-setvalue>
-                </fx-action>
-
-                <fx-action event="pb-authority-error" target="#document">
-                    <fx-message if="event('status')='403'" level="sticky">Cannot save to local register. Please log in!</fx-message>
-                    <fx-message if="event('status')!='403'" level="sticky">Cannot save to local register: {event('status')}</fx-message>
-                </fx-action>
-
-                <!-- ### show the annotation form and the authority search -->
-                <fx-action id="show-annotation" event="show-annotation" target="#document">
-<!--                    <fx-message>show-annotation {instance()/authority-forms}</fx-message>-->
-
-                    <fx-call action="reset-panels"></fx-call>
-
-                    <!-- ### show annotation details panel -->
-                    <fx-setvalue ref="annotation">true</fx-setvalue>
-                    
-                    <!--fx-setvalue ref="authority" value="if( contains(instance()/authority-forms,instance()/type) ) then 'true' else 'false'"></fx-setvalue-->
-                </fx-action>
-
-                <!-- ### edit an existing annotation -->
-                <fx-action event="annotation-edit" target="#document">
-                    <fx-call action="reset-panels"></fx-call>
-                    <fx-setvalue ref="annotation">true</fx-setvalue>
-                    <fx-setvalue ref="ref" value="event('ref')"></fx-setvalue>
-                    <!-- ### update the input in the iron-form with the text-selection we get from 'query' -->
-                    <fx-call function="updateAnnotationDetails(event('ref'))"></fx-call>
-                    <fx-update></fx-update>
-                </fx-action>
-
-
-<!--
-                <fx-action event="show-authorities" target="#document">
-                    <fx-setvalue ref="search">true</fx-setvalue>
-                </fx-action>
-
--->
-                <!-- ### remove the custom authority editor form from DOM -->
-                <fx-action event="hide-authority" target="#document">
-                    <fx-load attach-to="#authority-editor">
-                        <template><div></div></template>
-                    </fx-load>
-                </fx-action>
-
-
-                <!-- ### an authority has been created by an plugin authority form  -->
-                <fx-action event="authority-created" target="#document">
-                    <fx-message>authority-created id:{event('query')}</fx-message>
-                    <!--fx-call function="updateAnnotationDetails(event('query'))"></fx-call-->
-                    <fx-setvalue ref="authority">false</fx-setvalue>
-                    <fx-setvalue ref="occurrences">true</fx-setvalue>
-                    <fx-load attach-to="#authority-editor">
-                        <template>
-                            <div></div>
-                        </template>
-                    </fx-load>
-                </fx-action>
-
-                <fx-action event="pb-authority-select" target="#document">
-                    <fx-message>authority-select {event('properties.ref')}</fx-message>
-                    <fx-setvalue ref="authority">false</fx-setvalue>
-                    <fx-setvalue ref="occurrences">true</fx-setvalue>
-                </fx-action>
-
-                <fx-action event="reset-panels" target="#document">
-                    <fx-call action="reset-panels"></fx-call>
-                </fx-action>
-                
-                <fx-model>
-                    <fx-instance id="i-default">
-                        <data>
-                            <align-bottom></align-bottom>
-                            <selected></selected>
-                            <ref></ref>
-                            <type></type>
-                            <query></query>
-                            <annotation>false</annotation>
-                            <authority>false</authority>
-                            <search>true</search>
-                            <occurrences>false</occurrences>
-                            <markup>true</markup>
-                            <authority-editor></authority-editor>
-                            <authority-forms>person, place</authority-forms>
-                        </data>
-                    </fx-instance>
-                    <fx-bind ref="annotation" relevant="boolean-from-string(.)"></fx-bind>
-                    <fx-bind ref="authority" relevant="boolean-from-string(.)"></fx-bind>
-                    <fx-bind ref="search" relevant="boolean-from-string(.)"></fx-bind>
-                    <fx-bind ref="occurrences" relevant="boolean-from-string(.)"></fx-bind>
-                    <fx-bind ref="markup" relevant="boolean-from-string(.)"></fx-bind>
-                    <fx-bind ref="authority-editor" relevant="boolean-from-string(.)"></fx-bind>
-
-                    <fx-function signature="updateAnnotationDetails($ident as xs:string) as xs:boolean"
-                                 type="text/javascript">
-                            document.querySelector('iron-form paper-input').value=$ident;
-                    </fx-function>
-
-
-                </fx-model>
-
                 <!--
                 View Management in the aside:
                 The side panel consists of a set of fx-group elements that have 'relevant' facets attached to them.
@@ -305,22 +143,7 @@
                 <fx-group ref="authority">
                     <header>
                         <label>Authorities type:{instance('i-default')/type}</label>
-                        <div>
-<!--
-                            <fx-trigger ref="instance()/authority-forms[contains(.,instance()/type)]">
-                                <paper-icon-button id="add-authority" icon="add" data-i18n="[title]annotations.authority">
-                                    &lt;!&ndash; ### load the authority editor for authority type &ndash;&gt;
-                                </paper-icon-button>
-                                <fx-action>
-                                    <fx-load url="templates/pages/annotation/{instance()/type}-editor.html"
-                                             attach-to="#authority-editor"></fx-load>
-                                    <fx-setvalue ref="instance()/authority-editor" value="instance()/type"></fx-setvalue>
-                                    &lt;!&ndash; todo: is hiding the search panel sensible when editing a custom authority? &ndash;&gt;
-                                    <fx-setvalue ref="instance()/search">false</fx-setvalue>
-                                </fx-action>
-                            </fx-trigger>
--->
-                        </div>
+                        <div></div>
                     </header>
                     <div id="authority-editor"></div>
 
@@ -338,45 +161,6 @@
                         </pb-authority>
                     </pb-authority-lookup>
                 </fx-group>
-
-
-                <!--                        <section>-->
-<!--
-                <fx-group ref="search" class="search">
-                    <pb-authority-lookup subscribe="transcription" emit="transcription">
-                        <div slot="authform">
-                            <fx-trigger ref="instance()/authority-forms[contains(.,instance()/type)]">
-                                <paper-icon-button id="add-authority" icon="add" data-i18n="[title]annotations.authority">
-                                    &lt;!&ndash; ### load the authority editor for authority type &ndash;&gt;
-                                </paper-icon-button>
-                                <fx-action>
-                                    <fx-load url="templates/pages/annotation/{instance()/type}-editor.html"
-                                             attach-to="#authority-editor"></fx-load>
-                                    <fx-setvalue ref="instance()/authority-editor" value="instance()/type"></fx-setvalue>
-&lt;!&ndash;                                    <fx-setvalue ref="instance()/search">false</fx-setvalue>&ndash;&gt;
-                                </fx-action>
-                            </fx-trigger>
-                            <div id="authority-editor"></div>
-                        </div>
-                        <pb-authority connector="Custom" name="organization">
-                            <pb-authority connector="GND" prefix="gnd"></pb-authority>
-                        </pb-authority>
-                        &lt;!&ndash;pb-authority connector="GeoNames" name="place" user="existdb" prefix="geo"></pb-authority&ndash;&gt;
-                        <pb-authority connector="Custom" name="place">
-                            <pb-authority connector="GeoNames" user="existdb" prefix="geo"></pb-authority>
-                        </pb-authority>
-                        <pb-authority connector="Custom" name="term">
-                            <pb-authority connector="GND" prefix="gnd"></pb-authority>
-                        </pb-authority>
-                        <pb-authority connector="Custom" name="person">
-                            <pb-authority connector="GND" prefix="gnd"></pb-authority>
-                        </pb-authority>
-                    </pb-authority-lookup>
-                </fx-group>
--->
-                <!--                        </section>-->
-                <!--                        </fx-group>-->
-
 
                 <fx-group ref="occurrences" class="occurrences">
                     <section id="occurrences">
@@ -404,7 +188,6 @@
                 </fx-group>
 
 
-                <!--                <fx-group id="markupPanel" ref="markup">-->
                 <fx-group id="markupPanel">
                     <section>
                         <pb-tabs class="align-bottom-{align-bottom}">
@@ -413,7 +196,6 @@
                             <paper-tab slot="tab">JSON</paper-tab>
                             <paper-tab slot="tab"><pb-i18n key="annotations.changes">Changes</pb-i18n></paper-tab>
                             <paper-icon-button id="reload-preview" slot="tab" icon="icons:refresh" data-i18n="[title]annotations.preview"></paper-icon-button>
-<!--                            <paper-icon-button id="toggle-authority-side" slot="tab" icon="editor:vertical-align-bottom"></paper-icon-button>-->
                             <iframe slot="page" id="html" src="about:blank"></iframe>
                             <pb-code-highlight slot="page" id="output" language="xml" theme="default"></pb-code-highlight>
                             <pre slot="page" id="json"></pre>
@@ -421,6 +203,153 @@
                         </pb-tabs>
                     </section>
                 </fx-group>
+
+                <fx-action id="reset-panels">
+                    <fx-setvalue ref="annotation">false</fx-setvalue>
+                    <fx-setvalue ref="authority">false</fx-setvalue>
+                    <fx-setvalue ref="occurrences">false</fx-setvalue>
+                    <!-- ### if a custom form has been embedded before kick it out -->
+                    <fx-load attach-to="#authority-editor">
+                        <template>
+                            <div></div>
+                        </template>
+                    </fx-load>
+                    <!-- reset -->
+                    <fx-setvalue ref="ref"></fx-setvalue>
+                    <fx-update></fx-update>
+                    <fx-refresh></fx-refresh>
+                </fx-action>
+
+                <!-- ###########
+                Events handlers are listed here in the order they occur.
+                ############ -->
+
+                <!-- ##########
+                'pb-selection-changed event will be emitted whenever the selection changed.
+                If the selection is non-empty we start a new 'create annotation' flow.
+
+                Sidebar Panels being displayed already (by interrupting editing flow) are cleaned up.
+                -->
+                <fx-action event="pb-selection-changed" target="#document" if="event('hasContent')">
+                    <fx-setvalue ref="selected" value="event('selected')"></fx-setvalue>
+                    <fx-setvalue ref="instance()/query" value="instance()/selected"></fx-setvalue>
+                    <!-- ### reset previously opened panels -->
+                    <fx-call action="reset-panels"></fx-call>
+                </fx-action>
+
+
+                <!-- ###
+                    receiving pb-authority-lookup event from pb-authority-lookup component which provides the
+                    `type` of annotation and the selected text in `query`
+                 -->
+                <fx-action event="pb-authority-lookup" target="#document">
+                    <!-- ### store the 'type' of annotation -->
+                    <fx-setvalue ref="instance()/type" value="event('type')"></fx-setvalue>
+                    <fx-setvalue ref="instance()/query" value="event('query')"></fx-setvalue>
+                    <fx-call action="show-annotation"></fx-call>
+                    <!-- ### show authority panel if it is in the static list of supported types -->
+                    <fx-setvalue ref="authority">true</fx-setvalue>
+                </fx-action>
+
+                <fx-action event="pb-authority-new-entity" target="#document">
+                    <fx-load url="templates/pages/annotation/{event('type')}-editor.html"
+                             attach-to="#authority-editor"></fx-load>
+                    <fx-setvalue ref="instance()/authority-editor" value="event('type')"></fx-setvalue>
+                </fx-action>
+
+                <fx-action event="pb-authority-edit-entity" target="#document">
+                    <fx-setvalue ref="ref" value="event('id')"></fx-setvalue>
+                    <fx-message>Type: {event('type')} – {instance()/type}</fx-message>
+                    <fx-setvalue ref="instance()/authority-editor" value="event('type')"></fx-setvalue>
+                    <fx-load url="templates/pages/annotation/{event('type')}-editor.html"
+                             attach-to="#authority-editor"></fx-load>
+                </fx-action>
+
+                <fx-action event="pb-authority-error" target="#document">
+                    <fx-message if="event('status')='403'" level="sticky">Cannot save to local register. Please log in!</fx-message>
+                    <fx-message if="event('status')!='403'" level="sticky">Cannot save to local register: {event('status')}</fx-message>
+                </fx-action>
+
+                <!-- ### show the annotation form and the authority search -->
+                <fx-action id="show-annotation" event="show-annotation" target="#document">
+                    <fx-call action="reset-panels"></fx-call>
+
+                    <!-- ### show annotation details panel -->
+                    <fx-setvalue ref="annotation">true</fx-setvalue>
+                </fx-action>
+
+                <!-- ### edit an existing annotation -->
+                <fx-action event="annotation-edit" target="#document">
+                    <fx-call action="reset-panels"></fx-call>
+                    <fx-setvalue ref="annotation">true</fx-setvalue>
+                    <fx-setvalue ref="ref" value="event('ref')"></fx-setvalue>
+                    <!-- ### update the input in the iron-form with the text-selection we get from 'query' -->
+                    <fx-call function="updateAnnotationDetails(event('ref'))"></fx-call>
+                    <fx-update></fx-update>
+                </fx-action>
+
+                <!-- ### remove the custom authority editor form from DOM -->
+                <fx-action event="hide-authority" target="#document">
+                    <fx-load attach-to="#authority-editor">
+                        <template><div></div></template>
+                    </fx-load>
+                </fx-action>
+
+
+                <!-- ### an authority has been created by an plugin authority form  -->
+                <fx-action event="authority-created" target="#document">
+                    <fx-message>authority-created id:{event('ref')}</fx-message>
+                    <!--fx-call function="updateAnnotationDetails(event('query'))"></fx-call-->
+                    <fx-setvalue ref="authority">false</fx-setvalue>
+                    <fx-setvalue ref="occurrences">true</fx-setvalue>
+                    <fx-load attach-to="#authority-editor">
+                        <template>
+                            <div></div>
+                        </template>
+                    </fx-load>
+                </fx-action>
+
+                <fx-action event="pb-authority-select" target="#document">
+                    <fx-message>authority-select {event('properties.ref')}</fx-message>
+                    <fx-setvalue ref="authority">false</fx-setvalue>
+                    <fx-setvalue ref="occurrences">true</fx-setvalue>
+                </fx-action>
+
+                <fx-action event="reset-panels" target="#document">
+                    <fx-call action="reset-panels"></fx-call>
+                </fx-action>
+                
+                <fx-model>
+                    <fx-instance id="i-default">
+                        <data>
+                            <align-bottom></align-bottom>
+                            <selected></selected>
+                            <ref></ref>
+                            <type></type>
+                            <query></query>
+                            <annotation>false</annotation>
+                            <authority>false</authority>
+                            <search>true</search>
+                            <occurrences>false</occurrences>
+                            <markup>true</markup>
+                            <authority-editor></authority-editor>
+                            <authority-forms>person, place</authority-forms>
+                        </data>
+                    </fx-instance>
+                    <fx-bind ref="annotation" relevant="boolean-from-string(.)"></fx-bind>
+                    <fx-bind ref="authority" relevant="boolean-from-string(.)"></fx-bind>
+                    <fx-bind ref="search" relevant="boolean-from-string(.)"></fx-bind>
+                    <fx-bind ref="occurrences" relevant="boolean-from-string(.)"></fx-bind>
+                    <fx-bind ref="markup" relevant="boolean-from-string(.)"></fx-bind>
+                    <fx-bind ref="authority-editor" relevant="boolean-from-string(.)"></fx-bind>
+
+                    <fx-function signature="updateAnnotationDetails($ident as xs:string) as xs:boolean"
+                                 type="text/javascript">
+                            document.querySelector('iron-form paper-input').value=$ident;
+                    </fx-function>
+
+
+                </fx-model>
             </fx-fore>
 
         </aside>
