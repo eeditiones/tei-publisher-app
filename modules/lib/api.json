@@ -2681,6 +2681,19 @@
 						"required": true
 					},
 					{
+						"name": "format",
+						"in": "query",
+						"description": "Format of the JSON structure to return",
+						"schema": {
+							"type": "string",
+							"enum": [
+								"offsets",
+								"annotations"
+							],
+							"default": "annotations"
+						}
+					},
+					{
 						"name": "string",
 						"in": "query",
 						"schema": {
@@ -2711,6 +2724,35 @@
 						}
 					}
 				],
+				"responses": {
+					"200": {
+						"description": "JSON structure listing the entities found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/nlp/strings": {
+			"post": {
+				"summary": "Find occurrences of the given string in other documents in the collection",
+				"operationId": "nlp:matches-to-annotations",
+				"tags": ["nlp"],
+				"requestBody":{
+					"description": "List of matches as returned by a GET with format=offsets",
+					"content": {
+						"application/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+					}
+				},
 				"responses": {
 					"200": {
 						"description": "JSON structure listing the entities found",

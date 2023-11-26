@@ -65,7 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
 function review(docs, data) {
     currentReview = 0;
     reviewDocs = docs;
-    reviewData = data;
+    reviewOffsets = data;
+    reviewData = {};
     _reviewNext();
 }
 
@@ -87,46 +88,84 @@ function _reviewNext() {
     };
     reviewDialog.querySelector('h3 [key="annotations.doc-count"]').options = counts;
     const count = reviewDialog.querySelector('h3 .count');
-    const matches = reviewData[doc];
+    const matches = reviewOffsets[doc];
     count.innerHTML = matches.length;
     reviewDocLink.innerHTML = doc;
     reviewDocLink.href = `${doc}?apply`;
 
     const endpoint = document.querySelector("pb-page").getEndpoint();
     window.pbEvents.emit("pb-start-update", "transcription", {});
-    fetch(`${endpoint}/api/nlp/text/${doc}?debug=true`, {
-        method: "GET",
+
+    const body = {};
+    body[doc] = matches;
+    const list = reviewDialog.querySelector('ul');
+    list.innerHTML = '';
+    fetch(`${endpoint}/api/nlp/strings`, {
+        method: "POST",
         mode: "cors",
-        credentials: "same-origin"
+        credentials: "same-origin",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
     })
     .then((response) => {
-        window.pbEvents.emit("pb-end-update", "transcription", {});
         if (response.ok) {
-            return response.text();
+            return response.json();
         }
     })
-    .then((text) => {
-        const list = reviewDialog.querySelector('ul');
-        list.innerHTML = '';
-        matches.forEach((match) => {
+    .then((json) => {
+        if (!json) {
+            reviewDialog.show();
             const li = document.createElement('li');
-            const cb = document.createElement('paper-checkbox');
-            cb.setAttribute("checked", "checked");
-            cb.addEventListener("click", () => {
-                if (cb.checked) {
-                    matches.push(match);
-                } else {
-                    const n = matches.findIndex((m) => m.context === match.context && m.absolute === match.absolute);
-                    matches.splice(n, 1);
-                }
-            });
-            li.appendChild(cb);
-            const div = document.createElement('div');
-            li.appendChild(div);
-            kwicText(text, match, 10).then((kwic) => div.innerHTML = kwic);
+            li.innerHTML = 'No applicable matches in this document! Skipping.';
             list.appendChild(li);
+            window.pbEvents.emit("pb-end-update", "transcription", {});
+            const doc = reviewDocs.splice(currentReview, 1);
+            if (reviewDocs.length === 0) {
+                reviewDialog.close();
+            } else {
+                if (currentReview === reviewDocs.length) {
+                    currentReview = 0;
+                }
+                _reviewNext();
+            }
+            return;
+        }
+        reviewData[doc] = json[doc];
+        fetch(`${endpoint}/api/nlp/text/${doc}?debug=true`, {
+            method: "GET",
+            mode: "cors",
+            credentials: "same-origin"
+        })
+        .then((response) => {
+            window.pbEvents.emit("pb-end-update", "transcription", {});
+            if (response.ok) {
+                return response.text();
+            }
+        })
+        .then((text) => {
+            const occurrences = json[doc];
+            occurrences.forEach((occur) => {
+                const li = document.createElement('li');
+                const cb = document.createElement('paper-checkbox');
+                cb.setAttribute("checked", "checked");
+                cb.addEventListener("click", () => {
+                    if (cb.checked) {
+                        occurrences.push(occur);
+                    } else {
+                        const n = occurrences.findIndex((m) => m.context === occur.context && m.absolute === occur.absolute);
+                        occurrences.splice(n, 1);
+                    }
+                });
+                li.appendChild(cb);
+                const div = document.createElement('div');
+                li.appendChild(div);
+                kwicText(text, occur, 10).then((kwic) => div.innerHTML = kwic);
+                list.appendChild(li);
+            });
+            reviewDialog.show();
         });
-        reviewDialog.show();
     });
 }
 

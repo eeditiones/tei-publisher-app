@@ -79,7 +79,13 @@ declare function nlp:strings($request as map(*)) {
     map:merge(
         let $path := xmldb:decode($request?parameters?id)
         let $exclude := $request?parameters?exclude ! xmldb:decode(.)
-        for $doc in collection($config:data-root || "/" || $path)/tei:TEI/tei:text
+        let $format := $request?parameters?format
+        let $docs :=
+            if (doc-available($config:data-root || "/" || $path)) then
+                doc($config:data-root || "/" || $path)/tei:TEI/tei:text
+            else
+                collection($config:data-root || "/" || $path)/tei:TEI/tei:text
+        for $doc in $docs
         where config:get-relpath($doc) != $exclude
         let $text := (
             nlp:extract-plain-text($doc, true()),
@@ -92,17 +98,44 @@ declare function nlp:strings($request as map(*)) {
             parse-json($request?parameters?properties),
             $plain)
         return
-            if (array:size($matches) > 0) then
-                let $pairs := (
-                    nlp:extract-plain-offsets($doc, true(), true()), 
-                    nlp:extract-plain-offsets($doc//tei:note, false(), true())
-                )
-                let $offsets := nlp:mapping-table($pairs, 0, $request?parameters?debug)
-                return
-                    nlp:convert($matches, $offsets, $doc)
-            else
-                ()
+            switch ($format)
+                case "annotations" return
+                    if (array:size($matches) > 0) then
+                        let $pairs := (
+                            nlp:extract-plain-offsets($doc, true(), true()), 
+                            nlp:extract-plain-offsets($doc//tei:note, false(), true())
+                        )
+                        let $offsets := nlp:mapping-table($pairs, 0, $request?parameters?debug)
+                        return
+                            nlp:convert($matches, $offsets, $doc)
+                    else
+                        ()
+                default return
+                    if (array:size($matches) > 0) then
+                        map {
+                            config:get-relpath($doc): $matches
+                        }
+                    else
+                        ()
     )
+};
+
+declare function nlp:matches-to-annotations($request as map(*)) {
+    let $json := $request?body
+    for $docPath in map:keys($json)
+    let $doc := doc($config:data-default || "/" || $docPath)/tei:TEI/tei:text
+    let $matches := $json($docPath)
+    return
+        if (array:size($matches) > 0) then
+            let $pairs := (
+                nlp:extract-plain-offsets($doc, true(), true()), 
+                nlp:extract-plain-offsets($doc//tei:note, false(), true())
+            )
+            let $offsets := nlp:mapping-table($pairs, 0, false())
+            return
+                nlp:convert($matches, $offsets, $doc)
+        else
+            ()
 };
 
 declare %private function nlp:match-string($string as xs:string+, $type as xs:string, $properties as map(*), $text as xs:string) {

@@ -455,6 +455,7 @@ window.addEventListener("WebComponentsReady", () => {
 		params.set('type', type);
 		params.set('properties', JSON.stringify(form.serializeForm()));
 		params.set('exclude', doc.path);
+		params.set('format', saveAll ? 'annotations' : 'offsets');
 		strings.forEach(s => params.append('string', s));
 
 		fetch(`${endpoint}/api/nlp/strings/${doc.getCollection()}?${params.toString()}`, {
