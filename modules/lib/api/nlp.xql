@@ -87,15 +87,17 @@ declare function nlp:strings($request as map(*)) {
                 collection($config:data-root || "/" || $path)/tei:TEI/tei:text
         for $doc in $docs
         where config:get-relpath($doc) != $exclude
+        let $regex := string-join(distinct-values($request?parameters?string), "|")
+        let $properties := parse-json($request?parameters?properties)
         let $text := (
-            nlp:extract-plain-text($doc, true()),
-            nlp:extract-plain-text($doc//tei:note, false())
+            nlp:extract-plain-text($doc, true(), $regex, $request?parameters?type, $properties),
+            nlp:extract-plain-text($doc//tei:note, false(), $regex, $request?parameters?type, $properties)
         )
         let $plain := string-join($text)
         let $matches := nlp:match-string(
             $request?parameters?string,
             $request?parameters?type,
-            parse-json($request?parameters?properties),
+            $properties,
             $plain)
         return
             switch ($format)
@@ -273,17 +275,25 @@ declare %private function nlp:normalize($input as xs:string) {
     replace($input, "[\s\n]{2,}|\n", " ") => replace("^\W+", "") => replace("\W+$", "")
 };
 
+declare function nlp:extract-plain-text($nodes as node()*, $skipNotes as xs:boolean?) {
+    nlp:extract-plain-text($nodes, $skipNotes, (), (), ())
+};
+
 (:~
  : Extract the plain text of the document.
+ :
+ : If $regex, $type and $properties are given, replace strings which are already
+ : marked up as entities of the correct type with a placeholder
  :)
-declare function nlp:extract-plain-text($nodes as node()*, $skipNotes as xs:boolean?) {
+declare function nlp:extract-plain-text($nodes as node()*, $skipNotes as xs:boolean?,
+    $regex as xs:string?, $type as xs:string?, $properties as map(*)?) {
     for $node at $pos in $nodes
     return
         typeswitch ($node)
             case document-node() return
-                nlp:extract-plain-text($node/*, $skipNotes)
+                nlp:extract-plain-text($node/*, $skipNotes, $regex, $type, $properties)
             case element(tei:p) | element(tei:head) return (
-                nlp:extract-plain-text($node/node(), $skipNotes),
+                nlp:extract-plain-text($node/node(), $skipNotes, $regex, $type, $properties),
                 (: output empty line :)
                 " "
             )
@@ -294,21 +304,40 @@ declare function nlp:extract-plain-text($nodes as node()*, $skipNotes as xs:bool
                 (
                     (: output empty line before footnote starts :)
                     " ",
-                    nlp:extract-plain-text($node/node(), $skipNotes)
+                    nlp:extract-plain-text($node/node(), $skipNotes, $regex, $type, $properties)
                 ) 
             case element() return
-                nlp:extract-plain-text($node/node(), $skipNotes)
+                nlp:extract-plain-text($node/node(), $skipNotes, $regex, $type, $properties)
             case text() return
-                    let $parent := $node/..
-                    let $text :=
-                        if (matches($node, "^[\s\n]+$")) then
-                            ' '
+                if (exists($regex) and matches($node, $regex, "i")) then
+                    let $ancestor := nlp:check-existing-annotations($node, true())
+                    return
+                        if (
+                            $ancestor and (
+                                anno-config:entity-type($ancestor) != $type or
+                                $properties($anno-config:reference-key) = anno-config:get-key($ancestor)
+                            )
+                        ) then
+                            string-join(for $i in (1 to string-length($node)) return '&#x25A1;')
                         else
                             $node/string()
-                    return
-                        $text
+                else if (matches($node, "^[\s\n]+$")) then
+                    ' '
+                else
+                    $node/string()
             default return
                 ()
+};
+
+declare %private function nlp:check-existing-annotations($node as node(), $allowText as xs:boolean?) {
+    let $parent := $node/..
+    return
+        if (not($parent) or (not($allowText) and exists($parent/text()))) then
+            ()
+        else if (anno-config:entity-type($parent)) then
+            $parent
+        else
+            nlp:check-existing-annotations($parent, false())
 };
 
 (:~
