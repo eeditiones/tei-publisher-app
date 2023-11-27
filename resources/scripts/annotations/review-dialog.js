@@ -121,7 +121,6 @@ function _reviewNext() {
             li.innerHTML = 'No applicable matches in this document! Skipping.';
             list.appendChild(li);
             window.pbEvents.emit("pb-end-update", "transcription", {});
-            const doc = reviewDocs.splice(currentReview, 1);
             if (reviewDocs.length === 0) {
                 reviewDialog.close();
             } else {

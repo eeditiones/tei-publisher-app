@@ -408,7 +408,7 @@ font-style: italic;
         </model>
                     <model predicate="parent::person" behaviour="inline"/>
                     <model behaviour="alternate">
-            <param name="alternate" value="id(@ref, doc(&#34;/db/apps/tei-publisher/data/register.xml&#34;))"/>
+            <param name="alternate" value="id(@ref, doc($global:register-root || &#34;/persons.xml&#34;))"/>
             <param name="default" value="."/>
             <outputRendition xml:space="preserve">
             
@@ -525,7 +525,7 @@ font-style: italic;
                 </elementSpec>
             <elementSpec ident="placeName" mode="add">
                     <model behaviour="alternate">
-            <param name="alternate" value="id(@ref, doc(&#34;/db/apps/tei-publisher/data/register.xml&#34;))"/>
+            <param name="alternate" value="id(@ref, doc($global:register-root || &#34;/places.xml&#34;))"/>
             <param name="default" value="."/>
             <outputRendition xml:space="preserve">
             
@@ -539,7 +539,7 @@ font-style: italic;
                 </elementSpec>
             <elementSpec ident="term" mode="add">
         <model behaviour="alternate">
-            <param name="alternate" value="id(@ref, doc(&#34;/db/apps/tei-publisher/data/register.xml&#34;))"/>
+            <param name="alternate" value="id(@ref, doc($global:register-root || &#34;/keywords.xml&#34;))"/>
             <param name="default" value="."/>
             <outputRendition xml:space="preserve">
             font-style: italic;
