@@ -339,6 +339,35 @@ declare variable $config:data-exclude :=
 ;
 
 (:~
+ : The root of the collection hierarchy containing registers data.
+ :)
+declare variable $config:register-root := $config:data-root || "/registers";
+declare variable $config:register-forms := $config:data-root || "/registers/templates";
+
+declare variable $config:register-map := map {
+    "person": map {
+        "id": "pb-persons",
+        "default": "person-default",
+        "prefix": "person-"
+    },
+    "place": map {
+        "id": "pb-places",
+        "default": "place-default",
+        "prefix": "place-"
+    },
+    "organization": map {
+        "id": "pb-organization",
+        "default": "organization-default",
+        "prefix": "org-"
+    },
+    "term": map {
+        "id": "pb-keywords",
+        "default": "term-default",
+        "prefix": "category-"
+    }
+};
+
+(:~
  : The main ODD to be used by default
  :)
 declare variable $config:default-odd := "$$config-odd$$";
