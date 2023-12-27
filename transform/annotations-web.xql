@@ -19,6 +19,8 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
+import module namespace global="http://www.tei-c.org/tei-simple/config" at "../modules/config.xqm";
+
 (: generated template function for element spec: ptr :)
 declare %private function model:template-ptr($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><pb-mei url="{$config?apply-children($config, $node, $params?url)}" player="player">
@@ -526,7 +528,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:inline($config, ., ("tei-orgName", "annotation", "annotation-organization", "authority", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(place) return
                         (
-                            html:heading($config, ., ("tei-place1", css:map-rend-to-class(.)), placeName[@type="full"], 3)                            => model:map($node, $trackIds),
+                            html:heading($config, ., ("tei-place1", css:map-rend-to-class(.)), placeName[@type="main"], 3)                            => model:map($node, $trackIds),
                             if (placeName[not(@type)]) then
                                 html:heading($config, ., ("tei-place2", css:map-rend-to-class(.)), string-join(placeName[not(@type)]/string(), '; '), 4)                                => model:map($node, $trackIds)
                             else
@@ -542,7 +544,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:inline($config, ., ("tei-rs2", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)
                     case element(person) return
                         (
-                            html:heading($config, ., ("tei-person1", css:map-rend-to-class(.)), persName[@type="full"], 3)                            => model:map($node, $trackIds),
+                            html:heading($config, ., ("tei-person1", css:map-rend-to-class(.)), persName[@type="main"], 3)                            => model:map($node, $trackIds),
                             html:block($config, ., ("tei-person2", css:map-rend-to-class(.)), string-join(occupation, ', '))                            => model:map($node, $trackIds),
                             html:paragraph($config, ., ("tei-person3", css:map-rend-to-class(.)), ./note/node())                            => model:map($node, $trackIds)
                         )

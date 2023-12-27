@@ -11,6 +11,7 @@
     <property name="git.repo.path" value="${basedir}/.git" />
     <available file="${git.repo.path}" type="dir" property="git.present" />
     <property name="scripts.dir" value="${basedir}/node_modules/@teipublisher/pb-components/dist" />
+    <property name="fore.dir" value="${basedir}/node_modules/@jinntec/fore/dist"/>
 
     <condition property="git.commit" value="${git.commit}" else="">
         <isset property="git.commit" />
@@ -83,9 +84,22 @@
                 <include name="*.js" />
                 <include name="*.map" />
             </fileset>
+            <fileset dir="${fore.dir}">
+                <include name="*.js" />
+                <include name="*.map" />
+            </fileset>
+        </copy>
+        <copy todir="${app.build.dir}/resources/scripts/fore">
+            <fileset dir="${fore.dir}">
+                <include name="*.js" />
+                <include name="*.map" />
+            </fileset>
         </copy>
         <copy todir="${app.build.dir}/resources/css">
             <fileset dir="${basedir}/node_modules/@teipublisher/pb-components/css" />
+            <fileset dir="${basedir}/node_modules/@jinntec/fore/resources">
+                <include name="*.css"/>
+            </fileset>
         </copy>
 
         <copy todir="${app.build.dir}/resources/lib">

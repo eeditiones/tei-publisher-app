@@ -2440,6 +2440,65 @@
 				}
 			}
 		},
+		"/api/annotations/merge": {
+			"put": {
+				"summary": "Merge a set of annotations on multiple documents into their source TEI and store the resulting data",
+				"tags": ["annotations"],
+				"operationId": "anno:save",
+				"x-constraints": {
+					"groups": ["tei"]
+				},
+				"requestBody": {
+					"description": "An object mapping document paths to annotation arrays",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"description": "Properties map document paths to annotations",
+								"additionalProperties": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"context": {
+												"type": "string"
+											},
+											"start": {
+												"type": "number"
+											},
+											"end": {
+												"type": "number"
+											},
+											"type": {
+												"type": "string"
+											},
+											"text": {
+												"type": "string"
+											},
+											"properties": {
+												"type": "object"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Returns the merged TEI XML",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
 		"/api/annotations/merge/{path}": {
 			"post": {
 				"summary": "Merge annotations into source TEI",
@@ -2571,13 +2630,14 @@
 		},
 		"/api/nlp/entities/{id}": {
 			"get": {
-				"summary": "Call entity extraction on a document",
+				"summary": "Call entity extraction on a document or collection of documents",
 				"operationId": "nlp:entity-recognition",
 				"tags": ["nlp"],
 				"parameters": [
 					{
 						"name": "id",
 						"in": "path",
+						"description": "Relative path to collection or single document",
 						"schema": {
 							"type": "string"
 						},
@@ -2607,7 +2667,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object"
+									"type": "array"
 								}
 							}
 						}
@@ -2654,6 +2714,108 @@
 							"application/json": {
 								"schema": {
 									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/nlp/strings/{id}": {
+			"get": {
+				"summary": "Find occurrences of the given string in other documents in the collection",
+				"operationId": "nlp:strings",
+				"tags": ["nlp"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "Relative path to collection",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					},
+					{
+						"name": "format",
+						"in": "query",
+						"description": "Format of the JSON structure to return",
+						"schema": {
+							"type": "string",
+							"enum": [
+								"offsets",
+								"annotations"
+							],
+							"default": "annotations"
+						}
+					},
+					{
+						"name": "string",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					},
+					{
+						"name": "type",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					},
+					{
+						"name": "properties",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "exclude",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "JSON structure listing the entities found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/nlp/strings": {
+			"post": {
+				"summary": "Find occurrences of the given string in other documents in the collection",
+				"operationId": "nlp:matches-to-annotations",
+				"tags": ["nlp"],
+				"requestBody":{
+					"description": "List of matches as returned by a GET with format=offsets",
+					"content": {
+						"application/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "JSON structure listing the entities found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array"
 								}
 							}
 						}
@@ -2864,10 +3026,56 @@
 				}
 			}
 		},
+		"/api/forms/template/{id}": {
+			"get": {
+				"summary": "Retrieve XML template document to be used as a form instance",
+				"description": "Retrieve whole document as XML",
+				"tags": [
+					"xml"
+				],
+				"operationId": "rapi:form-template",
+				"x-constraints": {
+					"group": "tei"
+				},
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"example": "person-template"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Returns the entire form instance template as XML",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Document not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
         "/api/register/search/{type}" : {
             "get": {
 				"summary": "Search for a register entry",
-				"operationId": "anno:query-register",
+				"operationId": "rapi:query-register",
                 "tags": ["register"],
 				"parameters": [
 					{
@@ -2908,7 +3116,7 @@
                 "summary": "Create a local entry",
                 "description": "Create a local register entry based on the provided data",
                 "tags": ["register"],
-                "operationId": "anno:save-local-copy",
+                "operationId": "rapi:save-local-copy",
                 "requestBody": {
                     "description": "JSON record providing base information for the entry",
                     "content": {
@@ -2954,7 +3162,7 @@
             },
             "get": {
                 "summary": "Retrieve a register entry",
-                "operationId": "anno:register-entry",
+                "operationId": "rapi:register-entry",
                 "tags": ["register"],
                 "parameters": [
                     {
@@ -2974,11 +3182,172 @@
                         },
                         "required": true,
                         "example": "Deia"
-                    }
+                    },
+					{
+						"name": "format",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"default": "json"
+						}
+					}
                 ],
                 "responses": {
                     "200": {
                         "description": "Results from the local register",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            },
+							"application/xml": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+		"/api/register/{id}": {
+            "get": {
+				"summary": "Retrieve XML for a given register entry",
+                "description": "Get the XML fragment for a given register entry. Used by the registry forms in the annotation editor.",
+                "tags": [
+                    "xml"
+                ],
+                "operationId": "rapi:entry",
+                
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "gnd-139890289" 
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "place",
+                            "default": "person"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the entire entry as XML",
+                        "content": {
+                            "application/xml": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Entry id not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete an entry from the register",
+                "tags": ["update"],
+                "operationId": "rapi:delete",
+                "x-constraints": {
+                    "group": ["tei"]
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema":{
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "required": true,
+                        "schema":{
+                            "type": "string",
+                            "default": "person"
+                        }
+                    }
+                ],
+                "responses": {
+                    "410": {
+                        "description": "Entry deleted"
+                    }
+                }
+            },
+        
+            "put": {
+                "summary": "Save a register entry",
+                "description": "Replace an entry with the current version from the editor",
+                "tags": [ "update" ],
+                "operationId": "rapi:save",
+                "x-constraints": {
+                    "group": ["tei"]
+                },
+                
+                "requestBody": {
+                    "content": {
+                        "application/xml": {
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "example": "person"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "example": "gnd-0000001"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Entry was saved",
+                        "content": {
+                            "application/xml": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Permission denied",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2990,7 +3359,7 @@
                 }
             }
         },
-		"/api/iiif/{path}": {
+        "/api/iiif/{path}": {
             "get": {
                 "summary": "Retrieve IIIF presentation manifest for document",
                 "operationId": "iiif:manifest",

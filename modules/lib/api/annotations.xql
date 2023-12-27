@@ -9,6 +9,7 @@ import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace annocfg = "http://teipublisher.com/api/annotations/config" at "../../annotation-config.xqm";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
+import module namespace rapi="http://teipublisher.com/api/registers" at "../../registers.xql";
 
 declare function anno:find-references($request as map(*)) {
     map:merge(
@@ -20,68 +21,29 @@ declare function anno:find-references($request as map(*)) {
     )
 };
 
-declare function anno:query-register($request as map(*)) {
-    let $type := $request?parameters?type
-    let $query := $request?parameters?query
-    return
-        array {
-            annocfg:query($type, $query)
-        }
-};
-
-(:~
- : Save a local copy of an authority entry - if it has not been stored already -
- : based on the information provided by the client.
- :
- : Dispatches the actual record creation to annocfg:create-record.
- :)
-declare function anno:save-local-copy($request as map(*)) {
-    let $data := $request?body
-    let $type := $request?parameters?type
-    let $id := xmldb:decode($request?parameters?id)
-    let $record := doc($annocfg:local-authority-file)/id($id)
-    return
-        if ($record) then
-            map {
-                "status": "found"
-            }
-        else
-            let $record := annocfg:create-record($type, $id, $data)
-            let $target := annocfg:insert-point($type)
-            return (
-                update insert $record into $target,
-                map {
-                    "status": "updated"
-                }
-            )
-};
-
-(:~ 
- : Search for an authority entry in the local register.
-:)
-declare function anno:register-entry($request as map(*)) {
-    let $type := $request?parameters?type
-    let $id := $request?parameters?id
-    let $entry := doc($annocfg:local-authority-file)/id($id)
-    let $strings := annocfg:local-search-strings($type, $entry)
-    return
-        if ($entry) then
-            map {
-                "id": $entry/@xml:id/string(),
-                "strings": array { $strings },
-                "details": <div>{$pm-config:web-transform($entry, map {}, "annotations.odd")}</div>
-            }
-        else
-            error($errors:NOT_FOUND, "Entry for " || $id || " not found")
-};
-
 (:~
  : Merge and optionally save the annotations passed in the request body.
  :)
 declare function anno:save($request as map(*)) {
     let $annotations := $request?body
-    let $path := xmldb:decode($request?parameters?path)
-    let $srcDoc := config:get-document($path)
+    return
+        if ($annotations instance of array(*)) then
+            let $path := xmldb:decode($request?parameters?path)
+            let $srcDoc := config:get-document($path)
+            return
+                anno:merge-and-save($srcDoc, $path, $annotations)
+        else
+            let $result :=
+                for $path in map:keys($annotations)
+                let $srcDoc := config:get-document($path)
+                return
+                    anno:merge-and-save($srcDoc, $path, $annotations($path))
+            return
+                router:response(200, count(map:keys($annotations)) || ' documents merged')
+
+};
+
+declare function anno:merge-and-save($srcDoc as node(), $path as xs:string, $annotations as array(*)) {
     let $hasAccess := sm:has-access(document-uri(root($srcDoc)), "rw-")
     return
         if (not($hasAccess) and request:get-method() = 'PUT') then

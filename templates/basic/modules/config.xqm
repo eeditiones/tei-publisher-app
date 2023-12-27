@@ -44,6 +44,9 @@ declare variable $config:webcomponents-cdn := "https://cdn.jsdelivr.net/npm/@tei
 (: declare variable $config:webcomponents-cdn := "https://cdn.tei-publisher.com/"; :)
 (: declare variable $config:webcomponents-cdn := "http://localhost:8000"; :)
 
+(: Version of fore to use for annotation editor :)
+declare variable $config:fore := "$$fore-version$$";
+
 (:~~
  : A list of regular expressions to check which external hosts are
  : allowed to access this TEI Publisher instance. The check is done
@@ -334,6 +337,35 @@ declare variable $config:data-default := $config:data-root;
 declare variable $config:data-exclude :=
     doc($config:data-root || "/taxonomy.xml")//tei:text
 ;
+
+(:~
+ : The root of the collection hierarchy containing registers data.
+ :)
+declare variable $config:register-root := $config:data-root || "/registers";
+declare variable $config:register-forms := $config:data-root || "/registers/templates";
+
+declare variable $config:register-map := map {
+    "person": map {
+        "id": "pb-persons",
+        "default": "person-default",
+        "prefix": "person-"
+    },
+    "place": map {
+        "id": "pb-places",
+        "default": "place-default",
+        "prefix": "place-"
+    },
+    "organization": map {
+        "id": "pb-organization",
+        "default": "organization-default",
+        "prefix": "org-"
+    },
+    "term": map {
+        "id": "pb-keywords",
+        "default": "term-default",
+        "prefix": "category-"
+    }
+};
 
 (:~
  : The main ODD to be used by default
