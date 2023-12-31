@@ -125,11 +125,11 @@ declare function sapi:facets($request as map(*)) {
 };
 
 declare function sapi:list-facets($request as map(*)) {
-    let $value := $request?parameters?value
-    let $query := $request?parameters?query
     let $type := $request?parameters?type
     let $lang := tokenize($request?parameters?language, '-')[1]
-
+    let $facetConfig := filter($config:facets?*, function($facetCfg) {
+        $facetCfg?dimension = $type
+    })
     let $hits := session:get-attribute($config:session-prefix || ".hits")
     let $facets := ft:facets($hits, $type, ())
     let $config := for $config in $config:facets?* where $config?dimension eq $type return $config
@@ -137,10 +137,10 @@ declare function sapi:list-facets($request as map(*)) {
     
     let $matches := 
         for $key in if (exists($request?parameters?value)) then $request?parameters?value else map:keys($facets)
-        let $text := if (exists($config?output)) then $config?output($key) else $key
+        let $label := facets:translate($facetConfig, $lang, $key)
         return 
             map {
-                "text": $text,
+                "text": $label,
                 "freq": $facets($key),
                 "value": $key
             } 

@@ -60,7 +60,7 @@ declare variable $config:enable-proxy-caching :=
  : In this case, change $config:webcomponents-cdn to point to http://localhost:port 
  : (default: 8000, but check where your server is running).
  :)
-declare variable $config:webcomponents := "2.14.1";
+declare variable $config:webcomponents := "2.15.2";
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your
@@ -139,9 +139,10 @@ declare variable $config:facets := [
     map {
         "dimension": "language",
         "heading": "facets.language",
-        "max": 10,
+        "source": "api/search/facets/language",
+        "max": 5,
         "hierarchical": false(),
-        "output": function($label) {
+        "output": function($label, $language) {
             switch($label)
                 case "de" return "German"
                 case "es" return "Spanish"
@@ -157,11 +158,11 @@ declare variable $config:facets := [
         "dimension": "feature",
         "heading": "facets.feature",
         "source": "api/search/facets/feature",
-        "max": 15,
-        "hierarchical": false(),
         "output": function($label) {
             upper-case(substring($label,1,1)) || substring($label, 2)
-        }
+        },
+        "max": 5,
+        "hierarchical": false()
     },
     map {
         "dimension": "period",
