@@ -132,9 +132,6 @@ declare function sapi:list-facets($request as map(*)) {
     })
     let $hits := session:get-attribute($config:session-prefix || ".hits")
     let $facets := ft:facets($hits, $type, ())
-    let $config := for $config in $config:facets?* where $config?dimension eq $type return $config
-
-    
     let $matches := 
         for $key in if (exists($request?parameters?value)) then $request?parameters?value else map:keys($facets)
         let $label := facets:translate($facetConfig, $lang, $key)
