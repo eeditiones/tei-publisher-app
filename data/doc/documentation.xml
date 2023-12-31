@@ -5381,7 +5381,14 @@ declare variable $config:facets := [
                 case "en" return "English"
                 default return $label
         }
-    }
+    },
+    map {
+        "dimension": "feature",
+        "heading": "facets.feature",
+        "source": "api/search/facets/feature",
+        "max": 5,
+        "hierarchical": false()
+    },
 ];
 </programlisting>
           <para>The map properties are as follows:</para>
@@ -5424,6 +5431,20 @@ declare variable $config:facets := [
               <listitem>
                 <para>A function which can be used to process the facet value before display. The
                   facet label will be replaced by whatever the function returns.</para>
+                <para>The function may accept a single (taking the current facet value), or two parameters
+                  (current facet value and selected UI language).</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>source</term>
+              <listitem>
+                <para>In addition to checkboxes, a combo box can be displayed into which users can type to search for
+                  and select a facet. This is in particular useful for potentially long facet lists. The <code>source</code>
+                  property should point to an API endpoint from which the current list of matching facets is being
+                  retrieved. TEI Publisher provides a default implementation of this API function in 
+                  <filename>modules/lib/api/search.xql</filename>, <code>sapi:list-facets</code>.</para>
+                <para>If an <code>output</code> function is provided, facet labels are passed to it before display.
+                Note that the combo box won't work with hierarchical facets.</para>
               </listitem>
             </varlistentry>
           </variablelist>
