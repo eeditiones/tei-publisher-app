@@ -158,6 +158,9 @@ declare variable $config:facets := [
         "dimension": "feature",
         "heading": "facets.feature",
         "source": "api/search/facets/feature",
+        "output": function($label) {
+            upper-case(substring($label,1,1)) || substring($label, 2)
+        },
         "max": 5,
         "hierarchical": false()
     },
