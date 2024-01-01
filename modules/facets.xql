@@ -23,12 +23,12 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "conf
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
-declare function facets:sort($config as map(*), $facets as map(*)?) {
+declare function facets:sort($config as map(*), $lang as xs:string?, $facets as map(*)?) {
     array {
         if (exists($facets)) then
             for $key in map:keys($facets)
             let $value := map:get($facets, $key)
-            let $sortKey := if (exists($config?output)) then $config?output($key) else $key
+            let $sortKey := facets:translate($config, $lang, $key)
             order by $sortKey ascending
             return
                 map { $key: $value }
@@ -50,7 +50,7 @@ declare function facets:print-table($config as map(*), $nodes as element()+, $va
         if (map:size($facets) > 0) then
             <table>
             {
-                array:for-each(facets:sort($config, $facets), function($entry) {
+                array:for-each(facets:sort($config, $lang, $facets), function($entry) {
                     map:for-each($entry, function($label, $freq) {
                         let $content := facets:translate($config, $lang, $label)
                         return
