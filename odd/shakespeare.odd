@@ -45,8 +45,9 @@
             <param name="name" value="'pb-facs-link'"/>
             <param name="content" value="@n"/>
             <param name="emit" value="'transcription'"/>
-            <param name="facs" value="replace(@facs, '^FFimg:(.*)$', '$1')"/>
             <param name="order" value="count($get(.)/preceding::pb) + 1"/>
+            <param name="emit-on-load" value="'emit-on-load'"/>
+            <param name="facs" value="'api/iiif/' || substring-after(document-uri(root($parameters?root)), $global:data-root || '/')"/>
             <outputRendition xml:space="preserve">
             font-size: 16px;
 color: #888888;
@@ -151,18 +152,22 @@ float: right;
                     <model output="web" predicate="@type='catchword'" behaviour="block" cssClass="catchword">
             <outputRendition xml:space="preserve">
             
+            
             float: right;
                             margin-top: 1em;
                             color: #CCC;
+            
             
             </outputRendition>
         </model>
                     <model output="web" predicate="@type='sig'" behaviour="block" cssClass="sig">
             <outputRendition xml:space="preserve">
             
+            
             text-align: center;
                             margin-top: 1em;
                             color: #CCC;
+            
             
             </outputRendition>
         </model>
