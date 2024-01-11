@@ -3,7 +3,7 @@
 	"info": {
 		"version": "1.0.0",
 		"title": "TEI Publisher API",
-		"description": "This is the core API for TEI Publisher 7. It describes all endpoints used by TEI Publisher web components, plus additional operations added for external access."
+		"description": "This is the core API for TEI Publisher 8. It describes all endpoints used by TEI Publisher web components, plus additional operations added for external access."
 	},
 	"servers": [
 		{
@@ -3031,7 +3031,7 @@
 				"summary": "Retrieve XML template document to be used as a form instance",
 				"description": "Retrieve whole document as XML",
 				"tags": [
-					"xml"
+					"annotations"
 				],
 				"operationId": "rapi:form-template",
 				"x-constraints": {
@@ -3113,8 +3113,8 @@
         },
         "/api/register/{type}/{id}" : {
             "post": {
-                "summary": "Create a local entry",
-                "description": "Create a local register entry based on the provided data",
+                "summary": "Create a copy of an authority record in the local register",
+                "description": "Create a copy of an authority record in the local register based on the passed JSON structure. Used by the custom authority connector.",
                 "tags": ["register"],
                 "operationId": "rapi:save-local-copy",
                 "requestBody": {
@@ -3161,7 +3161,8 @@
                 }
             },
             "get": {
-                "summary": "Retrieve a register entry",
+                "summary": "Retrieve JSON-formatted authority record from the local register",
+				"description": "Used by the custom authority connector.",
                 "operationId": "rapi:register-entry",
                 "tags": ["register"],
                 "parameters": [
@@ -3211,13 +3212,54 @@
                 }
             }
         },
+		"/api/register": {
+			"put": {
+                "summary": "Save a new register entry",
+                "description": "The type is determined by the passed TEI element",
+                "tags": ["register"],
+                "operationId": "rapi:save",
+                "x-constraints": {
+                    "group": ["tei"]
+                },
+                
+                "requestBody": {
+                    "content": {
+                        "application/xml": {
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Entry was saved",
+                        "content": {
+                            "application/xml": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Permission denied",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+		},
 		"/api/register/{id}": {
             "get": {
 				"summary": "Retrieve XML for a given register entry",
                 "description": "Get the XML fragment for a given register entry. Used by the registry forms in the annotation editor.",
-                "tags": [
-                    "xml"
-                ],
+                "tags": ["register"],
                 "operationId": "rapi:entry",
                 
                 "parameters": [
@@ -3266,7 +3308,7 @@
             },
             "delete": {
                 "summary": "Delete an entry from the register",
-                "tags": ["update"],
+                "tags": ["register"],
                 "operationId": "rapi:delete",
                 "x-constraints": {
                     "group": ["tei"]
@@ -3300,7 +3342,7 @@
             "put": {
                 "summary": "Save a register entry",
                 "description": "Replace an entry with the current version from the editor",
-                "tags": [ "update" ],
+                "tags": ["register"],
                 "operationId": "rapi:save",
                 "x-constraints": {
                     "group": ["tei"]
@@ -3316,15 +3358,6 @@
                     }
                 },
                 "parameters": [
-                    {
-                        "name": "type",
-                        "in": "path",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "required": true,
-                        "example": "person"
-                    },
                     {
                         "name": "id",
                         "in": "path",

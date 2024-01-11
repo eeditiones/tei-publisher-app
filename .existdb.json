@@ -1,7 +1,7 @@
 {
     "servers": {
         "localhost": {
-            "server": "http://localhost:8080/exist",
+            "server": "http://127.0.0.1:8080/exist",
             "user": "admin",
             "password": "",
             "root": "/db/apps/tei-publisher"

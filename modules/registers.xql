@@ -60,7 +60,7 @@ declare function rapi:save($request as map(*)) {
     let $body := $request?body/*[1]
 
     let $type := local-name($body)
-    let $id := ($body/@xml:id, xmldb:decode($request?parameters?id))[1]
+    let $id := ($body/@xml:id, $request?parameters?id)[1]
 
     let $data := rapi:prepare-record($body, $user, $type)
     let $record := rapi:insert-point($type)/id($id)

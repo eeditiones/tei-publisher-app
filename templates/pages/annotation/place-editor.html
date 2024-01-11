@@ -10,10 +10,10 @@
 
 <fx-fore class="authority-editor" show-confirmation="true">
     <fx-action event="ready" if="string-length(getRef()) = 0">
-        <fx-send event="ready" submission="load" url="api/entry/NEW"></fx-send>
+        <fx-send event="ready" submission="load" url="api/register/place-NEW"></fx-send>
     </fx-action>
     <fx-action event="ready" if="string-length(getRef()) != 0">
-        <fx-send event="ready" submission="load" url="api/entry/{getRef()}"></fx-send>
+        <fx-send event="ready" submission="load" url="api/register/{getRef()}"></fx-send>
     </fx-action>
 
     <fx-model id="model-1">
@@ -70,10 +70,10 @@
 
     <fx-action id="saveAction">
         <fx-action if="string-length(getRef()) != 0">
-            <fx-send submission="save" url="api/entry/{getRef()}"></fx-send>
+            <fx-send submission="save" url="api/register/{getRef()}"></fx-send>
         </fx-action>
         <fx-action if="string-length(getRef()) = 0">
-            <fx-send submission="save" url="api/entry/person-NEW"></fx-send>
+            <fx-send submission="save" url="api/register"></fx-send>
         </fx-action>
     </fx-action>
 
