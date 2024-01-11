@@ -21,6 +21,8 @@ import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
 import module namespace epub="http://www.tei-c.org/tei-simple/xquery/functions/epub";
 
+import module namespace global="http://www.tei-c.org/tei-simple/config" at "../modules/config.xqm";
+
 (: generated template function for element spec: ptr :)
 declare %private function model:template-ptr($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><pb-mei url="{$config?apply-children($config, $node, $params?url)}" player="player">
@@ -166,7 +168,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             else
                                 epub:block($config, ., css:get-rendition(., ("tei-q3", css:map-rend-to-class(.))), .)
                     case element(pb) return
-                        html:webcomponent($config, ., ("tei-pb2", "facs", css:map-rend-to-class(.)), @n, 'pb-facs-link', map {"emit": 'transcription', "facs": replace(@facs, '^FFimg:(.*)$', '$1'), "order": count($get(.)/preceding::pb) + 1})
+                        html:webcomponent($config, ., ("tei-pb2", "facs", css:map-rend-to-class(.)), @n, 'pb-facs-link', map {"emit": 'transcription', "order": count($get(.)/preceding::pb) + 1, "emit-on-load": 'emit-on-load', "facs": 'api/iiif/' || substring-after(document-uri(root($parameters?root)), $global:data-root || '/')})
                     case element(epigraph) return
                         epub:block($config, ., ("tei-epigraph", css:map-rend-to-class(.)), .)
                     case element(lb) return
