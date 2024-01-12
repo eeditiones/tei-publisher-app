@@ -89,6 +89,7 @@ window.addEventListener("WebComponentsReady", () => {
 	const nerDialog = document.getElementById("ner-dialog");
 	let autoSave = false;
 	let type = "";
+	let emptyElement = false;
 	let text = "";
 	let enablePreview = true;
 	let currentEntityInfo = null;
@@ -176,8 +177,6 @@ window.addEventListener("WebComponentsReady", () => {
 	 * @param {any} data details of the selected authority entry
 	 */
 	function authoritySelected(ref) {
-		// authorityDialog.close();
-		// window.pbEvents.emit("hide-authorities", "transcription", {});
 		refInput.forEach((input) => { input.value = ref });
 		if (autoSave) {
 			save();
@@ -289,6 +288,7 @@ window.addEventListener("WebComponentsReady", () => {
 				view.addAnnotation({
 					type,
 					properties: data,
+					before: emptyElement
 				});
 			} catch (e) {
 				document.getElementById('runtime-error-dialog').show('Error', e);
@@ -393,10 +393,10 @@ window.addEventListener("WebComponentsReady", () => {
 					type,
 					query: selection
 				});
-				//authorityDialog.open();
-        		// window.pbEvents.emit("show-authorities", "transcription", {});
-
-
+			}
+			emptyElement = false;
+			if (button.classList.contains("before")) {
+				emptyElement = true;
 			}
 			window.pbEvents.emit("show-annotation", "transcription", {});
 			showForm(type);
@@ -716,7 +716,7 @@ window.addEventListener("WebComponentsReady", () => {
 
 	const editEntity = document.getElementById('edit-entity');
 	editEntity.addEventListener('click', () => {
-		const ref = editEntity.parentNode.querySelector('.form-ref');
+				const ref = editEntity.parentNode.querySelector('.form-ref');
 		document.dispatchEvent(new CustomEvent('pb-authority-edit-entity', { detail: {id: ref.value, type }}));
 	});
 

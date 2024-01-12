@@ -56,6 +56,7 @@
             <paper-icon-button class="annotation-action" data-i18n="[title]annotations.reg" title="Regularization" data-type="reg" icon="editor:wrap-text" data-shortcut="⌘+⇧+g,ctrl+⇧+g" disabled="disabled"></paper-icon-button>
             <paper-icon-button class="annotation-action" data-i18n="[title]annotations.app" title="Apparatus" data-type="app" icon="icons:visibility" data-shortcut="⌘+⇧+v,ctrl+⇧+v" disabled="disabled"></paper-icon-button>
             <paper-icon-button class="annotation-action" data-i18n="[title]annotations.hi" title="Highlight" data-type="hi" icon="editor:format-bold" data-shortcut="⌘+⇧+h,ctrl+⇧+h" disabled="disabled"></paper-icon-button>
+            <paper-icon-button class="annotation-action before" data-i18n="[title]annotations.pb" title="Page break" data-type="pb" icon="editor:format-textdirection-r-to-l" data-shortcut="⌘+⇧+b,ctrl+⇧+b" disabled="disabled"></paper-icon-button>
             <paper-icon-button class="annotation-action" data-i18n="[title]annotations.modify" title="Edit" data-type="edit" icon="editor:mode-edit" data-shortcut="⌘+⇧+m,ctrl+⇧+m" disabled="disabled"></paper-icon-button>
             <paper-icon-button id="ner-action" icon="social:group-add" data-i18n="[title]annotations.ner.title"></paper-icon-button>
         </span>
@@ -188,7 +189,6 @@
                 </fx-action>
 
                 <fx-action event="pb-authority-select" target="#document">
-                    <fx-message>authority-select {event('properties.ref')}</fx-message>
                     <fx-setvalue ref="authority">false</fx-setvalue>
                     <fx-setvalue ref="occurrences">true</fx-setvalue>
                 </fx-action>
@@ -274,6 +274,10 @@
                                 <paper-input class="annotation-form sic" name="corr" data-i18n="[label]annotations.correction" label="Correction"></paper-input>
                                 <paper-input class="annotation-form abbreviation" name="expan" data-i18n="[label]annotations.expansion" label="Expansion"></paper-input>
                                 <paper-input class="annotation-form reg" name="reg" data-i18n="[label]annotations.reg" label="Regularization"></paper-input>
+                                <div class="annotation-form pb">
+                                    <paper-input name="n" data-i18n="[label]annotations.pagenum"></paper-input>
+                                    <paper-input name="facs" data-i18n="[label]annotations.facs"></paper-input>
+                                </div>
                                 <div class="annotation-form edit">
                                     <p><pb-i18n key="annotations.modify-info"></pb-i18n></p>
                                     <paper-input name="content" data-i18n="[label]annotations.correction" label="Correction"></paper-input>

@@ -1,9 +1,10 @@
 <?xml-model href="teipublisher_odds.xsd"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
+<TEI xmlns:pb="http://teipublisher.com/1.0" xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
                 <title>Annotations
+                 
                  
                  <desc>ODD used by the web-based annotation editor. Contains special rules to mark entities with the correct CSS classes</desc>
                 </title>
@@ -49,7 +50,7 @@
                     <model behaviour="inline" cssClass="annotation annotation-person authority"/>
                 </elementSpec>
                 <elementSpec ident="pb" mode="change">
-                    <model behaviour="inline">
+                    <model behaviour="inline" cssClass="annotation annotation-pb before">
             <outputRendition xml:space="preserve" scope="after">
             content: '|';
             </outputRendition>

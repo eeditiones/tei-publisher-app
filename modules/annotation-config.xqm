@@ -88,6 +88,15 @@ declare function anno:annotations($type as xs:string, $properties as map(*)?, $c
             </app>
         case "link" return
             <ref xmlns="http://www.tei-c.org/ns/1.0" target="{$properties?target}">{$content()}</ref>
+        case "pb" return
+            <pb xmlns="http://www.tei-c.org/ns/1.0" n="{$properties?n}">
+            {
+                if ($properties?facs != "") then
+                    attribute facs { $properties?facs}
+                else
+                    ()
+            }
+            </pb>
         case "edit" return
             $properties?content
         default return
