@@ -1,4 +1,4 @@
-<person xmlns="http://www.tei-c.org/ns/1.0" xml:id="person-default">
+<listPerson xmlns="http://www.tei-c.org/ns/1.0" xml:id="person-default">
     <person xml:id="person-NEW">
         <persName type="main"></persName>
         <persName type="sort"/>
@@ -13,4 +13,4 @@
         </death>
         <note type="bio"/>
      </person>
-</person>
+</listPerson>

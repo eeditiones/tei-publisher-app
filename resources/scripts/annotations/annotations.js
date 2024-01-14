@@ -716,7 +716,7 @@ window.addEventListener("WebComponentsReady", () => {
 
 	const editEntity = document.getElementById('edit-entity');
 	editEntity.addEventListener('click', () => {
-				const ref = editEntity.parentNode.querySelector('.form-ref');
+		const ref = editEntity.parentNode.parentNode.querySelector('.form-ref');
 		document.dispatchEvent(new CustomEvent('pb-authority-edit-entity', { detail: {id: ref.value, type }}));
 	});
 

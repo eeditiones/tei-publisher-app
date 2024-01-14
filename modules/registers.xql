@@ -266,8 +266,9 @@ declare function rapi:query($type as xs:string, $query as xs:string?) {
 declare function rapi:create-record($type as xs:string, $id as xs:string, $data as map(*)) {
     switch ($type)
         case "place" return
-            <place xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
+            <place xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}" type="{$data?fcl}.{$data?fcode}">
                 <placeName type="main">{$data?name}</placeName>
+                <placeName type="sort">{$data?name}</placeName>
                 {
                     if (exists($data?lat) and exists($data?lng)) then
                         <location>
@@ -278,7 +279,7 @@ declare function rapi:create-record($type as xs:string, $id as xs:string, $data 
                 }
                 <country>{$data?country}</country>
                 <region>{$data?region}</region>
-                <note>{$data?note}</note>
+                <note></note>
                 <ptr type="geonames" target="{$data?links?1}"/>
                 {
                     array:subarray($data?links, 2) => array:for-each(function ($link) {

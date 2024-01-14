@@ -2,8 +2,6 @@
 <head>
     <title>TEI Publisher Person Register</title>
     <link rel="stylesheet" href="fore.css" data-template="pages:load-fore"/>
-    <!--        <link rel="stylesheet" type="text/css" href="style.css"/>-->
-    <link rel="stylesheet" type="text/css" href="resources/css/styles.css"/>
     <script type="module" src="fore.js" data-template="pages:load-fore"></script>
 </head>
 <body>
@@ -108,15 +106,20 @@
             </h2>
 
             <fx-control class="tp-input -form-control" ref="persName[@type='main']">
-                <label class="tp-label">Canonical form</label>
+                <label >Canonical form</label>
                 <fx-hint>Joachim Lelewel</fx-hint>
             </fx-control>
             <fx-control class="tp-input -form-control" ref="persName[@type='sort']">
-                <label class="tp-label">Sorting form</label>
+                <label >Sorting form</label>
                 <fx-hint>Lelewel, Joachim</fx-hint>
             </fx-control>
             <fx-control class="tp-input -form-control" ref="gender/@value">
-                <label class="tp-label">Gender</label>
+                <label >Gender</label>
+                <select class="widget">
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                    <option value="U">Unknown</option>
+                </select>
                 <fx-hint>M, F or U</fx-hint>
             </fx-control>
         </fx-group>
@@ -133,15 +136,15 @@
         <fx-group id="birth" ref="//person/birth" class="col-2">
             <h2>Birth</h2>
             <fx-control class="tp-input -form-control" ref="date/@when">
-                <label class="tp-label">Date normalized (YYYY-MM-DD)</label>
+                <label >Date normalized (YYYY-MM-DD)</label>
                 <fx-hint>YYYY-MM-DD</fx-hint>
             </fx-control>
             <fx-control class="tp-input -form-control" ref="date">
-                <label class="tp-label">Date descriptive</label>
+                <label >Date descriptive</label>
                 <fx-hint>1786-03-22</fx-hint>
             </fx-control>
             <fx-control class="tp-input -form-control" ref="placeName">
-                <label class="tp-label">Place of birth</label>
+                <label >Place of birth</label>
                 <fx-hint>Warsaw</fx-hint>
             </fx-control>
         </fx-group>
@@ -149,15 +152,15 @@
         <fx-group id="birth" ref="//person/death" class="col-2">
             <h2>Death</h2>
             <fx-control class="tp-input -form-control" ref="date/@when">
-                <label class="tp-label">Date normalized (YYYY-MM-DD)</label>
+                <label >Date normalized (YYYY-MM-DD)</label>
                 <fx-hint>YYYY-MM-DD</fx-hint>
             </fx-control>
             <fx-control class="tp-input -form-control" ref="date">
-                <label class="tp-label">Date descriptive</label>
+                <label >Date descriptive</label>
                 <fx-hint>1786-03-22</fx-hint>
             </fx-control>
             <fx-control class="tp-input -form-control" ref="placeName">
-                <label class="tp-label">Place of death</label>
+                <label >Place of death</label>
                 <fx-hint>Warsaw</fx-hint>
             </fx-control>
         </fx-group>
@@ -179,23 +182,15 @@
                 </fx-trigger>
             </header>
 
-            <fx-repeat id="r-nameVariant" ref="//persName[@type='variant']" class="four-col">
+            <fx-repeat id="r-nameVariant" ref="//persName[@type='variant']" class="two-col">
                 <template>
-                    <fx-control class="tp-input -form-control" ref="forename">
-                        <label class="tp-label">First name</label>
-                        <fx-hint>Joachim</fx-hint>
-                    </fx-control>
-                    <fx-control class="tp-input -form-control" ref="surname">
-                        <label class="tp-label">Last name</label>
-                        <fx-hint>Lelewel</fx-hint>
-                    </fx-control>
-                    <fx-control class="tp-input -form-control" ref="addname">
-                        <label class="tp-label">other</label>
-                        <fx-hint>Sir</fx-hint>
+                    <fx-control class="tp-input -form-control" ref=".">
+                        <label >Variant form</label>
+                        <fx-hint>Joachim Lelewel</fx-hint>
                     </fx-control>
 
                     <fx-trigger>
-                        <paper-icon-button id="close-authority" icon="close" data-i18n="[title]annotations.authority" title="delete"></paper-icon-button>
+                        <paper-icon-button icon="close" data-i18n="[title]annotations.authority" title="delete"></paper-icon-button>
                         <fx-delete ref="."/>
                     </fx-trigger>
                 </template>
@@ -218,7 +213,7 @@
             <fx-repeat id="r-occupation" ref="//occupation" class="two-col">
                 <template>
                     <fx-control class="tp-input -form-control" ref=".">
-                        <label class="tp-label">Profession</label>
+                        <label >Profession</label>
                         <fx-hint>teacher</fx-hint>
                     </fx-control>
                     <fx-trigger>
