@@ -720,6 +720,23 @@ window.addEventListener("WebComponentsReady", () => {
 		document.dispatchEvent(new CustomEvent('pb-authority-edit-entity', { detail: {id: ref.value, type }}));
 	});
 
+	const authEditor = document.getElementById('authority-editor');
+	authEditor.addEventListener('geolocation', (ev) => {
+		const coords = ev.detail.coordinates.split(/\s+/);
+		
+		pbEvents.ifReady(document.querySelector('pb-leaflet-map'))
+			.then(() =>
+			pbEvents.emit('pb-geolocation', null, {
+				coordinates: {
+					latitude: coords[0],
+					longitude: coords[1]
+				},
+				label: ev.detail.name,
+				clear: true
+			})
+		);
+	});
+
 	/**
 	 * Handle click on one of the toolbar buttons for adding a new annotation.
 	 */

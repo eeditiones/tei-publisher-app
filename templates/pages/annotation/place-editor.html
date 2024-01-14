@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<fx-fore class="authority-editor" show-confirmation="true">
+<fx-fore class="authority-editor" show-confirmation="true" ignore-expressions="pb-leaflet-map">
     <fx-action event="ready" if="string-length(getRef()) = 0">
         <fx-send event="ready" submission="load" url="api/register/place-NEW"></fx-send>
     </fx-action>
@@ -77,6 +77,12 @@
         </fx-action>
     </fx-action>
 
+    <fx-action event="pb-geocode">
+        <fx-message value="event('name')"></fx-message>
+        <fx-setvalue ref="instance()//location/geo" value="event('coordinates')?latitude || ' ' || event('coordinates')?longitude"></fx-setvalue>
+        <fx-setvalue ref="instance()//country" value="event('properties')?address?country"></fx-setvalue>
+        <fx-setvalue ref="instance()//region" value="event('properties')?address?state"></fx-setvalue>
+    </fx-action>
     <!--
     ### Use the header to give the main name of the page plus provide eventual buttons needed
     -->
@@ -152,9 +158,15 @@
         <!-- // end section name variants -->
         <fx-group>
             <header>Location</header>
-            <fx-control  class="tp-input -form-control" ref="//location/geo">
+            <fx-control  class="tp-input -form-control" ref="//location/geo" update-event="change">
                 <label class="tp-label">Latitude and longitude</label>
                 <fx-hint></fx-hint>
+                <fx-action event="value-changed">
+                    <fx-message>Location</fx-message>
+                    <fx-dispatch name="geolocation" targetid="authority-editor">
+                        <fx-property name="coordinates" expr="string(.)"/>
+                    </fx-dispatch>
+                </fx-action>
             </fx-control>
             <fx-control  class="tp-input -form-control" ref="//country">
                 <label class="tp-label">Country</label>
@@ -164,6 +176,10 @@
                 <label class="tp-label">Region</label>
                 <fx-hint>małopolska</fx-hint>
             </fx-control>
+            <pb-leaflet-map id="map" zoom="11" fit-markers="" geo-coding="">
+                <pb-map-layer show="" base="" label="Mapbox" url="https://{s}.tile.osm.org/{z}/{x}/{y}.png" max-zoom="19"
+                    attribution="© &lt;a href="https://osm.org/copyright"&gt;OpenStreetMap&lt;/a&gt; contributors"></pb-map-layer>
+            </pb-leaflet-map>
         </fx-group>
     </main>
     <fx-trigger>

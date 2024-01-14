@@ -25,6 +25,7 @@
     </script>
 -->
     <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
+    <script type="module" src="pb-leaflet-map.js" data-template="pages:load-components"></script>
     <script type="text/javascript" src="resources/scripts/annotations/review-dialog.js"></script>
     <script type="text/javascript" src="resources/scripts/annotations/annotations.js"></script>
 </head>
@@ -251,7 +252,9 @@
                                         <paper-icon-button slot="prefix" icon="search" data-i18n="[label]annotations.lookup"></paper-icon-button>
                                     </paper-input>
                                     <div class="authority-info"><pb-i18n key="dialogs.loading">Loading ...</pb-i18n></div>
-                                    <paper-icon-button icon="editor:mode-edit" id="edit-entity" data-i18n="[title]annotations.edit-entity"></paper-icon-button>
+                                    <pb-restricted group="tei" login="login">
+                                        <paper-icon-button icon="editor:mode-edit" id="edit-entity" data-i18n="[title]annotations.edit-entity"></paper-icon-button>
+                                    </pb-restricted>
                                 </div>
                                 <div class="annotation-form date">
                                     <paper-input name="when" label="when" type="date"></paper-input>

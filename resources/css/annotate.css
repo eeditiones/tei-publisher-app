@@ -713,3 +713,8 @@ fx-fore .two-col fx-repeatitem{
         visibility: hidden;
     }
 }
+
+pb-leaflet-map {
+    margin-top: 1rem;
+    height: 256px;
+}
