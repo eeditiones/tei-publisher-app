@@ -252,7 +252,7 @@
                                         <paper-icon-button slot="prefix" icon="search" data-i18n="[label]annotations.lookup"></paper-icon-button>
                                     </paper-input>
                                     <div class="authority-info"><pb-i18n key="dialogs.loading">Loading ...</pb-i18n></div>
-                                    <pb-restricted group="tei" login="login">
+                                    <pb-restricted group="tei">
                                         <paper-icon-button icon="editor:mode-edit" id="edit-entity" data-i18n="[title]annotations.edit-entity"></paper-icon-button>
                                     </pb-restricted>
                                 </div>
@@ -309,7 +309,7 @@
                             <pb-authority connector="GeoNames" user="existdb" prefix="geo"></pb-authority>
                         </pb-authority>
                         <pb-authority connector="GND" name="term" prefix="gnd"></pb-authority>
-                        <pb-authority connector="Custom" name="person" edit="">
+                                                <pb-authority connector="Custom" name="person" edit="">
                             <pb-authority connector="GND" prefix="gnd"></pb-authority>
                         </pb-authority>
                     </pb-authority-lookup>
