@@ -60,6 +60,7 @@ declare function rapi:save($request as map(*)) {
     let $body := $request?body/*[1]
 
     let $type := local-name($body)
+    let $type := if ($type = 'org') then "organization" else $type
     let $id := ($body/@xml:id, $request?parameters?id)[1]
 
     let $data := rapi:prepare-record($body, $user, $type)
@@ -328,7 +329,9 @@ declare function rapi:create-record($type as xs:string, $id as xs:string, $data 
             </person>
         case "organization" return
             <org xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
-                <orgName type="full">{$data?name}</orgName>
+                <orgName type="main">{$data?name}</orgName>
+                <orgName type="sort">{$data?name}</orgName>
+                <note>{$data?note}</note>
             </org>
         case "term" return
             <category xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
