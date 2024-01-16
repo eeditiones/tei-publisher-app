@@ -15,7 +15,25 @@
       </fileDesc>
       <encodingDesc>
          <classDecl>
-            <taxonomy></taxonomy>
+            <taxonomy type="term" xml:id="pb-taxonomy1">
+               <category xml:id="period">
+                  <catDesc>Period</catDesc>
+                  <category xml:id="antique">
+                     <catDesc>Antique</catDesc>
+                  </category>
+                  <category xml:id="medieval">
+                     <catDesc>Medieval</catDesc>
+                  </category>
+                  <category xml:id="early-modern">
+                     <catDesc>Early Modern</catDesc>
+                  </category>
+                  <category xml:id="modern">
+                     <catDesc>Modern</catDesc>
+                  </category>
+               </category>
+            </taxonomy>
+            <taxonomy type="factgrid" xml:id="pb-taxonomy2">
+            </taxonomy>
          </classDecl>
       </encodingDesc>
    </teiHeader>

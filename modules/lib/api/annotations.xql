@@ -9,6 +9,7 @@ import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace annocfg = "http://teipublisher.com/api/annotations/config" at "../../annotation-config.xqm";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
+import module namespace console="http://exist-db.org/xquery/console";
 
 declare function anno:find-references($request as map(*)) {
     map:merge(
@@ -39,7 +40,8 @@ declare function anno:save-local-copy($request as map(*)) {
     let $data := $request?body
     let $type := $request?parameters?type
     let $id := xmldb:decode($request?parameters?id)
-    let $record := doc($annocfg:local-authority-file)/id($id)
+    (: let $debug := console:log("[annotations.xql:39] Saving an element with @xml:id=" || $id || " to local authority file " || $annocfg:local-authority-file || " ...") :)
+    let $record := doc($annocfg:local-authority-file)//*[@xml:id = $id]
     return
         if ($record) then
             map {
@@ -61,8 +63,10 @@ declare function anno:save-local-copy($request as map(*)) {
 :)
 declare function anno:register-entry($request as map(*)) {
     let $type := $request?parameters?type
-    let $id := $request?parameters?id
-    let $entry := doc($annocfg:local-authority-file)/id($id)
+    let $id := xmldb:decode($request?parameters?id)
+    (: let $debug := console:log("[annotations.xql:64] Searching local authority file " || $annocfg:local-authority-file || " for an element with @xml:id=" || $id || "...") :)
+    let $entry := doc($annocfg:local-authority-file)//*[@xml:id = $id]
+
     let $strings := annocfg:local-search-strings($type, $entry)
     return
         if ($entry) then
@@ -72,6 +76,7 @@ declare function anno:register-entry($request as map(*)) {
                 "details": <div>{$pm-config:web-transform($entry, map {}, "annotations.odd")}</div>
             }
         else
+            (: map {} :)
             error($errors:NOT_FOUND, "Entry for " || $id || " not found")
 };
 

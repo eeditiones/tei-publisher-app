@@ -6878,19 +6878,22 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             xlink:href="https://reconciliation-api.github.io/specs/latest/">Reconciliation
             Service</link> is not really an authority file itself. Rather, it is a communication
           protocol for authority data providers originally developed for the open-source data
-          cleaning software <link xlink:href="openrefine.org/">OpenRefine</link>. The specification
+          cleaning software <link xlink:href="https://openrefine.org/">OpenRefine</link>. The specification
           is an open, <link xlink:href="https://www.w3.org/community/reconciliation/"
             >community-maintained</link> standard now, and several authority data providers offer
-          comforming API endpoints. GeoNames, the German GND (again via lobid), Getty vocabularies
-          and Wikidata are some examples - find a list of current services at the <link
+          comforming API endpoints. GeoNames, the German GND (again via lobid), Getty vocabularies,
+          Wikidata, and Factgrid are some examples - find a list of current services at the <link
             xlink:href="https://reconciliation-api.github.io/testbench/">service testbench</link>.
           In addition to the general attributes described above, the only additional bit of
           configuration is the service URL that should be queried. You specify it in the "endpoint"
           attribute:</para>
-        <programlisting language="xml" xml:space="preserve">&lt;pb-authority connector="Reconciliation" name="term" prefix="wd" endpoint="https://wikidata.reconci.link/api"/></programlisting>
-        <para>This will retrieve authority entries from wikidata.</para>
-        <para>Currently, the Reconciliation connector cannot be used as a data provider for the
-          Custom connector described below. This will be added in a future release.</para>
+        <programlisting language="xml" xml:space="preserve">&lt;pb-authority connector="Reconciliation" name="term" prefix="fg" endpoint="https://database.factgrid.de/reconcile/en/api"/></programlisting>
+        <para>This will retrieve authority entries from <link xlink:href="https://blog.factgrid.de/welcome">Factgrid</link>.</para>
+        <para>Besides the identifier for the reconciled entity, the Reconciliation connector offers
+          more fields in the <varname>properties</varname> map to merge into your TEI file: a
+          <varname>key</varname> (label), a <varname>type</varname> (of the entitiy), and a
+          <varname>description</varname>. This depends on the service providing this information,
+          of course.</para>
       </section>
       <section>
         <title>Custom Connector</title>
@@ -6935,8 +6938,20 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             <filename>modules/annotation-config.xqm</filename>. You can also change the function
             <function>anno:insert-point</function> to configure where exactly the local entity
           definitions will be stored.</para>
-        <para>Currently, it is not possible to use the Reconciliation connector described above in
-          the context of the Custom connector. This will be added in a future release.</para>
+        <para>If you want to use the Reconciliation Service Connector (see previous section)
+          inside a Custom Connector, keep in mind that a reconciliation API service can be
+          deployed with any type of entity.
+          The GND/lobid reconciliation endpoint, for instance, may serve persons as well as
+          organisations as well as bibliographic subject headings - this is why the
+          Reconciliation Service Connector features a <varname>type</varname> field in each
+          of its results. But this means that the default configuration in the registry file
+          of the representation of entities provided by the reconciliation connector may not be
+          suitable for your use case.
+          So when you know more about the service you are querying and the entity types it
+          provides, you may have to adapt the routines in
+          <filename>modules/annotation-config.xqm</filename> (maybe all of them) in order to
+          accommodate and retrieve the information in/from a proper structure in the registry
+          file.</para>
       </section>
     </section>
     <section>
