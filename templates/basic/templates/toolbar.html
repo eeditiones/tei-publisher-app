@@ -6,7 +6,7 @@
         <paper-icon-button icon="icons:folder-open"></paper-icon-button>
     </a>
     <div id="toolbar-start" style="display: none"></div>
-    <pb-restricted login="login">
+    <pb-restricted>
         <pb-ajax subscribe="transcription" emit="transcription" url="api/odd" method="post" 
             data-template="pages:parse-params" event="pb-refresh"
             title="Recompile ODD" data-i18n="[title]menu.admin.recompile">

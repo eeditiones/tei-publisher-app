@@ -60,7 +60,7 @@ declare variable $config:enable-proxy-caching :=
  : In this case, change $config:webcomponents-cdn to point to http://localhost:port 
  : (default: 8000, but check where your server is running).
  :)
-declare variable $config:webcomponents := "2.15.3";
+declare variable $config:webcomponents := "2.18.2";
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your
@@ -70,6 +70,9 @@ declare variable $config:webcomponents := "2.15.3";
 declare variable $config:webcomponents-cdn := "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components";
 (: declare variable $config:webcomponents-cdn := "https://cdn.tei-publisher.com/"; :)
 (: declare variable $config:webcomponents-cdn := "http://localhost:8000"; :)
+
+(: Version of fore to use for annotation editor. Set to 'local' for self-hosted version. :)
+declare variable $config:fore := "1.9.0";
 
 (:~
  : Should documents be located by xml:id or filename?
@@ -383,6 +386,36 @@ declare variable $config:data-exclude := (
     collection($config:data-root || "/doc")//tei:text
 );
 
+(:~
+ : The root of the collection hierarchy containing registers data.
+ :)
+declare variable $config:register-root := $config:data-root || "/registers";
+declare variable $config:register-forms := $config:data-root || "/registers/templates";
+
+declare variable $config:register-map := map {
+    "person": map {
+        "id": "pb-persons",
+        "default": "person-default",
+        "prefix": "person-"
+    },
+    "place": map {
+        "id": "pb-places",
+        "default": "place-default",
+        "prefix": "place-"
+    },
+    "organization": map {
+        "id": "pb-organizations",
+        "default": "organization-default",
+        "prefix": "org-"
+    },
+    "term": map {
+        "id": "pb-keywords",
+        "default": "term-default",
+        "prefix": "category-"
+    }
+};
+
+
 declare variable $config:default-odd := "teipublisher.odd";
 
 (:~~
@@ -511,44 +544,28 @@ declare function config:dts-metadata($doc as document-node()) {
  : @param $docUri relative document path (including $collection)
  :)
 declare function config:collection-config($collection as xs:string?, $docUri as xs:string?) {
-    switch ($collection)
-        case "jats" return
-            map {
-                "template": "jats.html",
-                "odd": "jats.odd",
-                "view": "single",
-                "media": ("print", "epub")
-            }
-        (: For annotations we need to overwrite document-specific settings :)
-        case "annotate" return
-            map {
-                "template": "annotate.html",
-                "overwrite": true(),
-                "depth": 1,
-                "fill": 0
-            }
-        default return
-            (: Return empty sequence to use default config :)
-            ()
+    let $prefix := replace($collection, "^([^/]+).*$",
+"$1")     return         switch ($prefix)
+            case "jats" return
+                map {
+                    "template": "jats.html",
+                    "odd": "jats.odd",
+                    "view": "single",
+                    "media": ("print", "epub")
+                }
+            (: For annotations we need to overwrite document-specific settings :)
+            case "annotate" return
+                map {
+                    "template": "annotate.html",
+                    "overwrite": true(),
+                    "depth": 1,
+                    "fill": 0
+                }
+            default return
+                (: Return empty sequence to use default config :)
+            
 
-    (: 
-     : Replace line above with the following code to switch between different view configurations per collection.
-     : $collection corresponds to the relative collection path (i.e. after $config:data-root). 
-     :)
-    (:
-    switch ($collection)
-        case "playground" return
-            map {
-                "odd": "dodis.odd",
-                "view": "body",
-                "depth": $config:pagination-depth,
-                "fill": $config:pagination-fill,
-                "template": "facsimile.html"
-            }
-        default return
-            ()
-    :)
-};
+  () };
 
 (:~
  : Helper function to retrieve the default config for the given document path.

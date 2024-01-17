@@ -19,6 +19,8 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
+import module namespace global="http://www.tei-c.org/tei-simple/config" at "../modules/config.xqm";
+
 (: generated template function for element spec: ptr :)
 declare %private function model:template-ptr($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><pb-mei url="{$config?apply-children($config, $node, $params?url)}" player="player">
@@ -539,7 +541,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:inline($config, ., ("tei-orgName", "annotation", "annotation-organization", "authority", css:map-rend-to-class(.)), .)
                     case element(place) return
                         (
-                            latex:heading($config, ., ("tei-place1", css:map-rend-to-class(.)), placeName[@type="full"], 3),
+                            latex:heading($config, ., ("tei-place1", css:map-rend-to-class(.)), placeName[@type="main"], 3),
                             if (placeName[not(@type)]) then
                                 latex:heading($config, ., ("tei-place2", css:map-rend-to-class(.)), string-join(placeName[not(@type)]/string(), '; '), 4)
                             else
@@ -555,7 +557,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             latex:inline($config, ., ("tei-rs2", css:map-rend-to-class(.)), .)
                     case element(person) return
                         (
-                            latex:heading($config, ., ("tei-person1", css:map-rend-to-class(.)), persName[@type="full"], 3),
+                            latex:heading($config, ., ("tei-person1", css:map-rend-to-class(.)), persName[@type="main"], 3),
                             latex:block($config, ., ("tei-person2", css:map-rend-to-class(.)), string-join(occupation, ', ')),
                             latex:paragraph($config, ., ("tei-person3", css:map-rend-to-class(.)), ./note/node())
                         )

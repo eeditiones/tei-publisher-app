@@ -9,7 +9,7 @@
         }
     },
     "runArgs": ["--name=TEIPublisherDev"],
-    "forwardPorts": [ 8080, 8001 ],
+    "forwardPorts": [ 8080, 8001, 8443 ],
     "customizations": {
         "vscode": {
             "extensions": [ "exist-db.existdb-vscode", "42crunch.vscode-openapi", "redhat.vscode-xml" ]

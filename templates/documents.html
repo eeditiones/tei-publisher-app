@@ -12,7 +12,7 @@
                     <div class="matches" data-template="browse:show-hits"></div>
                     <!-- TODO this toolbar should only appear once per Documents papercard -->
                     <app-toolbar>
-                        <pb-restricted login="login" group="tei">
+                        <pb-restricted group="tei">
                             <pb-ajax url="api/document/${ident}" method="delete" emit="search" event="pb-search-resubmit" 
                                 confirm="browse.confirmDeletion" quiet="" data-template="pages:parse-params">
                                 <paper-icon-button icon="icons:delete"></paper-icon-button>
