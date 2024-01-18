@@ -5,6 +5,7 @@ html {
 
     --annotation-aside-width: 30rem;
 }
+
 /* Fore style overwrites for annotations  */
 /* Fore style overwrites for annotations  */
 /* Fore style overwrites for annotations  */
@@ -157,8 +158,7 @@ body{
 }
 */
 
-body{
-    overflow: hidden;
+body {
     min-width: 42rem;
     --annotate-color-modify: #dc3848;
 }
@@ -404,7 +404,6 @@ fx-fore #markupPanel pb-tabs{
 
 
 .text {
-    height: 100%;
     display: flex;
     flex-direction: column;
 }
@@ -477,7 +476,6 @@ main .toolbar {
 pb-page > main{
     grid-area:textview;
     height: 100vh;
-    overflow: auto;
     display: grid;
     grid-template-columns: 1fr var(--annotation-aside-width);
     background: #ddd;
@@ -485,9 +483,10 @@ pb-page > main{
 
 pb-page > main .text{
     /*min-width: 58rem;*/
-    /*overflow: auto;*/
+    overflow: auto;
     margin-top:8rem;
     background: white;
+    scroll-margin-top: 128px;
 }
 pb-page aside{
     position: fixed;
