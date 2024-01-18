@@ -1742,7 +1742,8 @@
 												"type": "string"
 											},
 											"title": {
-												"type": "string"
+												"type": "string",
+												"nullable": true
 											}
 										}
 									}
