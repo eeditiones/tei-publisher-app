@@ -717,3 +717,26 @@ pb-leaflet-map {
     margin-top: 1rem;
     height: 256px;
 }
+
+jinn-xml-editor {
+    font-size: 16px;
+    overflow:hidden;
+}
+
+jinn-xml-editor [slot], jinn-epidoc-editor [slot] {
+    display: flex;
+    column-gap: 4px;
+    align-items: center;
+    overflow-x: auto;
+    flex-wrap: wrap;
+}
+
+jinn-epidoc-editor [slot] *, jinn-xml-editor [slot] *, jinn-epidoc-editor::part(button) {
+    font-size: .85rem;
+    border: 1px solid transparent;
+    background-color: inherit;
+}
+
+jinn-xml-editor [slot] > *:hover, jinn-epidoc-editor [slot] > *:hover, jinn-epidoc-editor::part(button):hover {
+    border: 1px solid var(--pb-color-inverse);
+}

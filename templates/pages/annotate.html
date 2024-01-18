@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="resources/css/annotate.css"/>
 
     <script type="module" src="fore.js" data-template="pages:load-fore"></script>
+
 <!--
     <script type="module">
         import 'http:/localhost:8090/index.js';
@@ -26,6 +27,7 @@
 -->
     <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
     <script type="module" src="pb-leaflet-map.js" data-template="pages:load-components"></script>
+    <script type="module" src="pb-code-editor.js" data-template="pages:load-components"></script>
     <script type="text/javascript" src="resources/scripts/annotations/review-dialog.js"></script>
     <script type="text/javascript" src="resources/scripts/annotations/annotations.js"></script>
 </head>
@@ -166,7 +168,7 @@
 
                 <fx-group ref="authority">
                     <header>
-                        <label>Entity lookup</label>
+                        <label><pb-i18n key="annotations.edit-reference"></pb-i18n></label>
                         <div></div>
                     </header>
                     <div id="authority-editor"></div>
@@ -180,7 +182,7 @@
                             <pb-authority connector="GeoNames" user="existdb" prefix="geo"></pb-authority>
                         </pb-authority>
                         <pb-authority connector="GND" name="term" prefix="gnd"></pb-authority>
-                                                <pb-authority connector="Custom" name="person" edit="">
+                            <pb-authority connector="Custom" name="person" edit="">
                             <pb-authority connector="GND" prefix="gnd"></pb-authority>
                         </pb-authority>
                     </pb-authority-lookup>
