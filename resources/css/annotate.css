@@ -487,7 +487,9 @@ pb-page > main .text{
     margin-top:8rem;
     background: white;
     scroll-margin-top: 128px;
+    padding-bottom: 25vh;
 }
+
 pb-page aside{
     position: fixed;
     right: 0;
@@ -502,6 +504,7 @@ pb-page aside{
     0 3px 3px -2px rgba(0, 0, 0, 0.4);
     z-index: 98;
     overflow: auto;
+    padding-bottom: 25vh;
 }
 
 pb-progress{
