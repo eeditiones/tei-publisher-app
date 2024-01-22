@@ -63,9 +63,12 @@ declare function anno:annotations($type as xs:string, $properties as map(*)?, $c
             <choice xmlns="http://www.tei-c.org/ns/1.0"><sic>{$content()}</sic><corr>{$properties?corr}</corr></choice>
         case "reg" return
             <choice xmlns="http://www.tei-c.org/ns/1.0"><orig>{$content()}</orig><reg>{$properties?reg}</reg></choice>
-        case "note" return
-            <seg xmlns="http://www.tei-c.org/ns/1.0" type="annotated">{$content()}
-            <note xmlns="http://www.tei-c.org/ns/1.0" type="annotation">{$properties?note}</note></seg>
+        case "note" return 
+            let $parsed := parse-xml-fragment($properties?content) => anno:fix-namespaces()
+            return (
+                $content(),
+                <note xmlns="http://www.tei-c.org/ns/1.0">{$parsed}</note>
+            )
         case "date" return
             <date xmlns="http://www.tei-c.org/ns/1.0">
             {
@@ -120,4 +123,18 @@ declare function anno:occurrences($type as xs:string, $key as xs:string) {
         case "organization" return
             collection($config:data-default)//tei:orgName[@ref = $key]
          default return ()
+};
+
+declare %private function anno:fix-namespaces($nodes as item()*) {
+    for $node in $nodes
+    return
+        typeswitch ($node)
+            case document-node() return
+                anno:fix-namespaces($node/node())
+            case element() return
+                element { QName("http://www.tei-c.org/ns/1.0", local-name($node)) } {
+                    $node/@*, for $child in $node/node() return anno:fix-namespaces($child)
+                }
+            default return
+                $node
 };

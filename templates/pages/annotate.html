@@ -61,6 +61,7 @@
             <paper-icon-button class="annotation-action" data-i18n="[title]annotations.hi" title="Highlight" data-type="hi" icon="editor:format-bold" data-shortcut="⌘+⇧+h,ctrl+⇧+h" disabled="disabled"></paper-icon-button>
             <paper-icon-button class="annotation-action before" data-i18n="[title]annotations.pb" title="Page break" data-type="pb" icon="editor:format-textdirection-r-to-l" data-shortcut="⌘+⇧+b,ctrl+⇧+b" disabled="disabled"></paper-icon-button>
             <paper-icon-button class="annotation-action" data-i18n="[title]annotations.modify" title="Edit" data-type="edit" icon="editor:mode-edit" data-shortcut="⌘+⇧+m,ctrl+⇧+m" disabled="disabled"></paper-icon-button>
+            <paper-icon-button class="annotation-action before" data-i18n="[title]annotations.note" title="Note" data-type="note" icon="icons:speaker-notes" data-shortcut="⌘+⇧+f,ctrl+⇧+f" disabled="disabled"></paper-icon-button>
             <paper-icon-button id="ner-action" icon="social:group-add" data-i18n="[title]annotations.ner.title"></paper-icon-button>
         </span>
         <span class="icon-group">
@@ -153,6 +154,17 @@
                                 <div class="annotation-form pb">
                                     <paper-input name="n" data-i18n="[label]annotations.pagenum"></paper-input>
                                     <paper-input name="facs" data-i18n="[label]annotations.facs"></paper-input>
+                                </div>
+                                <div class="annotation-form note">
+                                    <jinn-xml-editor name="content" placeholder="[Inline text/markup or sequence of paragraphs]" schema="resources/scripts/tei.json" schema-root="note" namespace="http://www.tei-c.org/ns/1.0">
+                                        <div slot="toolbar">
+                                            <button data-command="selectElement" title="Select element around current cursor position">&lt;|&gt;</button>
+                                            <button data-command="encloseWith" title="Enclose selection in new element">&lt;...&gt;</button>
+                                            <button data-command="removeEnclosing" title="Remove enclosing tags" class="sep">&lt;X&gt;</button>
+                                            <button data-command="snippet" data-params="&lt;placeName key=&#34;$|1|&#34;&gt;$|_|&lt;/placeName&gt;" title="Insert placeName">&lt;placeName&gt;</button>
+                                            <button data-command="snippet" data-params="&lt;persName key=&#34;$|1|&#34;&gt;$|_|&lt;/persName&gt;" title="Insert persName">&lt;persName&gt;</button>
+                                        </div>
+                                    </jinn-xml-editor>
                                 </div>
                                 <div class="annotation-form edit">
                                     <p><pb-i18n key="annotations.modify-info"></pb-i18n></p>

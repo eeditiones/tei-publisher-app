@@ -274,6 +274,12 @@ window.addEventListener("WebComponentsReady", () => {
 	function save() {
 		view.saveHistory();
 		const data = form.serializeForm();
+		form.querySelectorAll(`.annotation-form.${type} jinn-xml-editor`).forEach((editor) => {
+			const value = editor.content;
+			if (value) {
+				data[editor.getAttribute('name')] = value;
+			}
+		});
 		if (!autoSave) {
 			hideForm();
 		}
