@@ -4444,25 +4444,56 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
       Migrating from earlier versions, like 4 or 5, requires more effort, and is described in futher
       sections.</para>
     <section xml:id="upgrade-810">
-      <title>Upgrading from TEI Publisher 8 to 8.1</title>
-      <para>This should be fairly simple and only requires to steps:</para>
+      <title>Upgrading from TEI Publisher 8 to 9</title>
+      <para>To upgrade a custom application generated with TEI Publisher 7 to version 8, we recommend to have the source code of both, TEI Publisher 8 and the
+        custom application, in a local directory.</para>
+      <para>If you decide to work with the command line, as suggested here, clone TEI Publisher 9 into the directory one level above the one containing your own
+        application source code:</para>
+      <programlisting language="shell" xml:space="preserve">git clone https://github.com/eeditiones/tei-publisher-app.git
+cd tei-publisher-app
+git checkout v9.0.0</programlisting>
+      <para>With both applications in place, work through the following steps:</para>
       <procedure>
         <step>
-          <para>Update server-side modules: those live in <filename>modules/lib</filename>. You can
-            safely remove the entire folder and replace it with the corresponding one from the new
-            version.</para>
+          <para>Update server-side modules: those live in <filename>modules/lib</filename>. You can safely remove the entire folder and replace it with the
+            corresponding one from version 9 of TEI Publisher.</para>
         </step>
         <step>
-          <para>Update the webcomponents library to at least 2.12.8 (also see the <link
-              xlink:href="https://faq.teipublisher.com/webcomponents/version-upgrade/">faq</link>).
-            The version used is defined by a single variable in
-              <filename>modules/config.xqm</filename> :</para>
-          <synopsis language="xquery">declare variable $config:webcomponents := "2.12.8";</synopsis>
-          <para>You may also want to switch to a different CDN. TEI Publisher by default used unpkg.com, which recently
-            became slightly unreliable. Change the corresponding variable to:</para>
-          <synopsis language="xquery">declare variable $config:webcomponents-cdn := "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components";</synopsis>
+          <para>Copy <filename>modules/facets.xql</filename>, <filename>modules/registers.xql</filename>, <filename>modules/iiif-config.xqm</filename> and
+            <filename>modules/annotation-config.xqm</filename> from TEI Publisher 9. If you modified any of these locally, you may need to compare.</para>
         </step>
+        <step>
+          <para>Update the webcomponents library to at least 2.15.3 (also see the <link xlink:href="https://faq.teipublisher.com/webcomponents/version-upgrade/"
+            >faq</link>). The version used is defined by a single variable in <filename>modules/config.xqm</filename> :</para>
+          <synopsis language="xquery">declare variable $config:webcomponents := "2.15.3";</synopsis>
+        </step>
+        <step>
+          <para>Change the dependency on <code>tei-publisher-lib</code> in <filename>expath-pkg.xml</filename> to 4:</para>
+          <synopsis language="xml"><![CDATA[<dependency package="http://existsolutions.com/apps/tei-publisher-lib" semver="4" />]]></synopsis>
+        </step>
+        <step>
+          <para>Edit <filename>resources/odd/configuration.xml</filename> and make sure you have an entry for the docx processing extension:</para>
+          <synopsis language="xml"><![CDATA[
+<output mode="tei" odd="docx">
+  <module uri="http://www.tei-c.org/tei-simple/xquery/functions/docx" prefix="ext-docx"/>
+</output>]]></synopsis>
+        </step>
+        
       </procedure>
+      
+      <section>
+        <title>Upgrading the annotation editor</title>
+        <para>If you are using the web-based annotation editor in your application, the following steps are required to update it to the redesigned version
+          shipping with Publisher 9:<procedure>
+          <step>
+            <para>Copy <filename>templates/pages/annotate.html</filename>, the <filename>templates/pages/annotations</filename> and
+              <filename>resources/css/annotate.css</filename> subdirectory to the same location in your app</para>
+          </step>
+          <step>
+            <para>Also copy the directory <filename>resources/scripts/annotations/</filename> to the corresponding location</para>
+          </step>
+          </procedure></para>
+      </section>
     </section>
     <section xml:id="upgrade7-8">
       <title>Upgrading from TEI Publisher 7 to 8</title>
@@ -4483,9 +4514,8 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
           <para>navigation and search have been refactored</para>
         </listitem>
       </orderedlist>
-      <para> To upgrade a custom application generated with TEI Publisher 7 to version 8, we
-        recommend to have the source code of both, TEI Publisher 8 and the custom application, in
-        a local directory.</para>
+      <para>To upgrade a custom application generated with TEI Publisher 7 to version 8, we recommend to have the source code of both, TEI Publisher 8 and the
+        custom application, in a local directory.</para>
       <para>If you decide to work with the command line, as suggested here, clone TEI Publisher 8
         into the directory one level above the one containing your own application source
         code:</para>
