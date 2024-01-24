@@ -4481,7 +4481,7 @@ git checkout v9.0.0</programlisting>
         
       </procedure>
       
-      <section>
+      <section xml:id="upgrade-annotation-editor">
         <title>Upgrading the annotation editor</title>
         <para>If you are using the web-based annotation editor in your application, the following steps are required to update it to the redesigned version
           shipping with Publisher 9:<procedure>
@@ -4491,6 +4491,10 @@ git checkout v9.0.0</programlisting>
           </step>
           <step>
             <para>Also copy the directory <filename>resources/scripts/annotations/</filename> to the corresponding location</para>
+          </step>
+          <step>
+            <para>If you did not change the annotation ODD to match your own requirements, you may also want to copy <filename>odd/annotations.odd</filename>
+              from TEI Publisher 9 into <filename>resources/odd/</filename> of you app</para>
           </step>
           </procedure></para>
       </section>
@@ -4623,7 +4627,7 @@ git checkout v8.0.0</programlisting>
           <para>Copy <filename>templates/documents.html</filename> into the corresponding folder of your custom app.</para> 
         </step>
       </procedure>
-      <section>
+      <section xml:id="other-changes7-8">
         <title>Other changes to pay attention to</title>
         <variablelist>
           <varlistentry>
@@ -6674,7 +6678,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         model on your own data sets. Head over to the <link xlink:href="https://www.e-editiones.org/posts/names-sell-named-entity-recognition-in-tei-publisher/">article on e-editiones</link> to read more about the service, how to use it, and how to train it.</para>
     </section>
   </section>
-  <section>
+  <section xml:id="configuring-annotation-editor">
     <title>Configuring the Annotation Editor</title>
     <para>The annotation editor is fully configurable. This includes<orderedlist>
         <listitem>
