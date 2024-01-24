@@ -648,7 +648,7 @@ paper-icon-button[data-type="edit"] {
 
 #d-review div.dialog-content {
     display: grid;
-    grid-template-rows: auto auto 1fr;
+    grid-template-rows: auto auto 1fr auto;
     height: 100%;
 }
 
@@ -666,6 +666,11 @@ paper-icon-button[data-type="edit"] {
 
 #d-review ul li {
     display: flex;
+}
+
+#d-review footer {
+    font-size: var(--pb-footnote-font-size);
+    text-align: right;
 }
 
 /* ### authority editor */

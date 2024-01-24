@@ -205,9 +205,9 @@
                         <header>
                             <div><pb-i18n key="annotations.occurrences">Occurrences in text</pb-i18n></div>
                             <div>
-                                <paper-icon-button id="mark-all" icon="icons:done-all" data-i18n="[label]annotations.apply-all" data-shortcut="⌘+option+a,ctrl+alt+a"></paper-icon-button>
-                                <paper-icon-button id="search-collection" icon="icons:search" data-i18n="[label]annotations.apply-all" data-shortcut="⌘+option+a,ctrl+alt+a"></paper-icon-button>
-                                <paper-icon-button id="save-all" icon="icons:find-replace" data-i18n="[title]annotations.save-all"></paper-icon-button>
+                                <paper-icon-button id="mark-all" icon="icons:done-all" data-i18n="[title]annotations.apply-all" data-shortcut="⌘+option+a,ctrl+alt+a"></paper-icon-button>
+                                <paper-icon-button id="search-collection" icon="icons:search" data-i18n="[title]annotations.search-other" data-shortcut="⌘+option+a,ctrl+alt+a"></paper-icon-button>
+                                <paper-icon-button id="save-all" icon="icons:find-replace" data-i18n="[title]annotations.save-other"></paper-icon-button>
                             </div>
                         </header>
                         <p class="messages"></p>
@@ -381,7 +381,8 @@
             <h3>
                 <paper-icon-button class="close" dialog-confirm="dialog-confirm" icon="icons:close"
                     data-i18n="[title]dialogs.close"></paper-icon-button>
-                [<pb-i18n key="annotations.doc-count" options='{"count": 0, "total": 0}'></pb-i18n>] <a href="#" target="_blank"></a>: <span class="count"></span>
+                [<pb-i18n key="annotations.doc-count" options='{"count": 0, "total": 0}'></pb-i18n>] 
+                <a href="#" target="_blank" data-i18n="[title]annotations.hints.open-in-tab"></a>: <span class="count"></span>
             </h3>
             <header class="toolbar">
                 <paper-icon-button icon="icons:chevron-left" class="previous"></paper-icon-button>
@@ -389,6 +390,11 @@
                 <paper-icon-button icon="icons:chevron-right" class="next"></paper-icon-button>
             </header>
             <ul></ul>
+            <footer>
+                <mark class="modify">&#x2003;</mark> <pb-i18n key="annotations.hints.modify"></pb-i18n>;
+                <mark class="incomplete">&#x2003;</mark> <pb-i18n key="annotations.hints.incomplete"></pb-i18n>;
+                <mark>&#x2003;</mark> <pb-i18n key="annotations.hints.unmarked"></pb-i18n>
+            </footer>
         </div>
     </dialog>
 </pb-page>
