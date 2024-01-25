@@ -6272,27 +6272,39 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       Publisher in a user-friendly environment where XML code is neatly hidden from sight when not
       needed.</para>
     <para>The annotation editor is not meant for creating documents from scratch but targets one of
-      the most tedious and time consuming tasks in any edition project: adding semantic, analytic or
+      the most tedious and time consuming tasks in any edition project: adding semantic, analytical or
       text-critical markup to an existing transcription.</para>
-    <figure>
-      <title>Annotation editor</title>
-      <mediaobject>
-        <imageobject>
-          <imagedata fileref="ann-overview.png" width="900px"/>
-        </imageobject>
-      </mediaobject>
-    </figure>
+
+    <para>In version 9.0.0 a new, more ergonomic layout, as well as an extended feature set for curation 
+        of <link linkend="registers">local registers</link> have been introduced.</para>
+      <figure>
+        <title>Annotation editor in TEI Publisher v. 9.0.0</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="ann-overview-v9.png" width="900px"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <figure>
+        <title>Earlier version of an annotation editor</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="ann-overview.png" width="900px"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
     <para>Typical workflow for many projects will resemble the following:</para>
     <orderedlist>
       <listitem>
-        <para>An initial transcription is created, either manually in a text editor, or using OCR or
-          HTR tools like Transkribus. It contains the basic structural markup, i.e. divisions,
+        <para>An initial transcription is created, either manually in an XML editor, using OCR or
+          HTR tools like Transkribus or converted from another format, e.g. imported from Word. 
+          Regardless of the method, this transcription will already contain at least the basic structural markup, i.e. divisions,
           headings, paragraphs etc.</para>
       </listitem>
       <listitem>
         <para>That initial transcription is gradually enriched: textual features like emphasis can
           be marked, abbreviations expanded, corrections and regularizations applied; people, places
-          or terms appearing in the text can be explicitly tagged and linked to an authority; dates
+          or terms appearing in the text can be explicitly tagged and linked to an authority register; dates
           or measures normalized. This is an iterative process: the resulting TEI encoding is
           constantly reviewed, which may result in further changes to be made.</para>
       </listitem>
@@ -6309,7 +6321,8 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         <listitem>
           <para><emphasis role="bold">Browsers</emphasis></para>
           <para>The annotation editor requires a modern browser like Firefox, Chrome or a
-            Chrome-based browser like the newest Edge on Windows 10. <emphasis>Safari</emphasis>
+            Chrome-based browser like the newest Edge on Windows 10.</para>
+          <para><emphasis>Safari</emphasis>
             will not work due to a known bug in text selection, which Apple seems reluctant to
             fix.</para>
           <para>Directly exporting the resulting text to a directory of the user's choice, is
@@ -6369,7 +6382,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         the TEI document and switch to an XML editor to change the XML there. The new document can
         be then reloaded into the annotation editor and you can continue.</para>
       <para>As already indicated, it is possible to handle common nested encoding structures like
-          <tag> choice</tag> or <tag>app</tag> as annotations. Nevertheless the inner elements, i.e.
+          <tag>choice</tag> or <tag>app</tag> as annotations. Nevertheless the inner elements, i.e.
           <tag>lem</tag>, <tag>rdg</tag>, <tag>sic</tag>, <tag>corr</tag> or <tag>orig</tag>,
           <tag>reg</tag>, need to have simple text content: they cannot be annotated themselves (at
         least not in the current version).</para>
@@ -6387,16 +6400,19 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         </mediaobject>
       </figure>
       <para>Selecting any document in this collection will load the annotation view. This view is
-        split into three areas:</para>
+        split into distinct areas:</para>
       <orderedlist>
         <listitem>
-          <para>the toolbar on the top with buttons for the different annotation types in the center</para>
+          <para>a narrow toolbar on top of the page with a group of buttons for each annotation type in the middle, 
+            and another group on the right hand side for document management</para>
         </listitem>
         <listitem>
-          <para>the annotation view to the left, displaying the text content to be annotated</para>
+          <para>the annotation view in the middle, displaying the text content to be
+            annotated</para>
         </listitem>
         <listitem>
-          <para>a details panel to the right: this is initially empty, but will come to life once you start making annotations</para>
+          <para>a sidebar to the right, initially empty, but which comes to life once
+            you start making annotations; this area is used to show forms and information relevant to the current annotation</para>
         </listitem>
       </orderedlist>
       <figure>
@@ -6436,14 +6452,14 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       <section>
         <title>Toggle Annotations</title>
         <para>Toggle annotations are immediately applied when you click the annotation button. Since
-          they do not require any further input they are just simply applied without much ado. Some
-          good candidates might be titles or deletions. </para>
+          they do not require any further input they do not require additional input nor confirmation. Some
+          good candidates might be marking of titles or deletions. </para>
         <para>It is worth noting that it's not a textual phenomenon that constitutes a <emphasis>
           toggle</emphasis> annotation versus <emphasis>semantic</emphasis> or
           <emphasis>analytic</emphasis> in our simple category scheme. It is rather what kinds of
           detail a particular project decides to encode or not. Encoding of titles can be a
           <emphasis>toggle</emphasis> if we just decide to simply say that a text fragment is a
-          title. It could become a <emphasis> semantic</emphasis> annotation if we'd like to
+          title. It could become a <emphasis>semantic</emphasis> annotation if we'd like to
           associate it with a bibliographical reference or other detailed information. </para>
       </section>
       <section>
@@ -6472,7 +6488,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           editions will try to link those to a description of the entity, either provided by an
           external authority file or from a local resource. In any case you will want to reference a
           unique identifier to mark occurrences of the same entity throughout the edition.</para>
-        <para>When choosing a semantic annotation from the toolbar, you will thus see an additional panel, which allows you to consult the authority file
+        <para>When choosing a semantic annotation from the toolbar, you will therefore see an additional panel, which allows you to consult the authority file
           configured for the annotation type, e.g. Geonames for places or GND for people:</para>
         <figure>
           <title>Annotating a person</title>
@@ -6498,8 +6514,12 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         <para>The ID will be used as reference in the resulting TEI, i.e. it will appear in an attribute attached to e.g. <tag>persName</tag> or other TEI
           element. The exact mapping between an annotation type and a TEI snippet produced can be freely configured (see below).</para>
         <para>Semantic annotations are stored in the annotation list immediately after you select an
-          authority entry, so you don't have to click anywhere else.</para>
-        <para><emphasis role="bold">Batch edits and suggestions</emphasis></para>
+          authority entry, so you don't have to click anywhere else to confirm your choice.</para>
+          <para><emphasis>NB:</emphasis> at times you will find that an entity doesn't exist in the external authority register. 
+            In TEI Publisher you can now also add entries to your local register, read more on this subject in the <link linkend="registers">local registers</link> chapter.</para>
+      </section>
+      <section>
+        <title>Batch edits and suggestions</title>
         <para>It is not uncommon that the same person will be mentioned multiple times in a document. To simplify and speed up the editing process, the
           annotation editor tries to detect possible other occurrences of the currently selected entity throughout the document. After selecting an entity from
           the authority database, a list of potential matches is presented beneath the annotation details.</para>
@@ -6511,15 +6531,43 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           entity. You can also check all boxes at once by clicking on the first icon (the one with double checkmarks) in the toolbar above the list.</para>
         <para>Moving your mouse over an entry will scroll the text to the corresponding occurrence,
           showing you the match in its context.</para>
-        <para>Existing annotations referencing the same entity will also be shown in the list - with their checkbox checked. Sometimes you may also see an entry
-          with red dots beneath, indicating that this is an existing annotation referencing a different entity, so considered a potential inconsistency to
-          review. You will see those occurrences underlined with red dots as shown below. In this example, one of the entities marked as "Leipzig" points to a
-          different location in the authority. To fix this, check the item's checkbox.</para>
+        <para>Existing annotations referencing the same entity will also be shown in the list - with their checkbox checked. Sometimes you may also see an occurrence
+          marked in red, indicating that this is an existing annotation referencing a different entity, so considered a potential inconsistency to
+          review. You will see such cases additionally underlined with red dots as shown below. In this example, one of the entities marked as "Oxford" points to a
+          different record in the authority register. To fix this by applying the currently selected entity, check the item's checkbox.</para>
         <figure>
           <title>Inconsistency warning</title>
           <mediaobject>
             <imageobject>
-              <imagedata fileref="ann-occur.png" width="800px"/>
+              <imagedata fileref="ann-inconsistency.png" width="800px"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>When working on a broader material, main actors and places will be often mentioned in many documents. 
+          It is now possible to detect potential matches across the entire collection and review and apply them individually, or even all at once.
+          To start the search beyond the current document use the magnifying glass icon in the <emphasis>Occurrences</emphasis> toolbar.
+        </para>
+
+        <figure>
+          <title>Start search through the entire collection</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="ann-corpus.png" width="800px"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>If matches can be found in other documents, a review panel will pop up, where you can review them 
+          on a document-by-document and match-by-match basis. Each document is presented as a separate results page and you 
+          can select or deselect occurrences depending where you want annotations to be applied.</para>
+          <para>Similarly to the conventions throughout the annotation editor, color coding is used to highlight existing 
+            annotations and potential inconsistencies.</para>
+        <figure>
+          <title>Review matches across collection</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="ann-review.png" width="800px"/>
             </imageobject>
           </mediaobject>
         </figure>
@@ -7175,7 +7223,10 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
     }
 };</programlisting>
     </section>
-  </section>
+</section>
+<section xml:id="registers">
+  <title>Local authority registers</title>
+</section>
   <section xml:id="production">
     <title>TEI Publisher in production</title>
     <para>Regardless of the installation type, TEI Publisher always runs on an <link
