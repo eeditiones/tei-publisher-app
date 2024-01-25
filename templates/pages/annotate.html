@@ -225,17 +225,20 @@
 
                 <fx-group id="markupPanel">
                     <section>
-                        <pb-tabs class="align-bottom-{align-bottom}">
+                        <pb-tabs>
                             <paper-tab slot="tab">HTML</paper-tab>
                             <paper-tab slot="tab">TEI</paper-tab>
                             <paper-tab slot="tab">JSON</paper-tab>
                             <paper-tab slot="tab"><pb-i18n key="annotations.changes">Changes</pb-i18n></paper-tab>
-                            <paper-icon-button id="reload-preview" slot="tab" icon="icons:refresh" data-i18n="[title]annotations.preview"></paper-icon-button>
                             <iframe slot="page" id="html" src="about:blank"></iframe>
                             <pb-code-highlight slot="page" id="output" language="xml" theme="default"></pb-code-highlight>
                             <pre slot="page" id="json"></pre>
                             <div slot="page" id="changes"></div>
                         </pb-tabs>
+                        <div class="preview-toolbar">
+                            <pb-select-odd emit="preview" subscribe="nil" label="Select ODD for preview"></pb-select-odd>
+                            <paper-icon-button id="reload-preview" icon="icons:refresh" data-i18n="[title]annotations.preview"></paper-icon-button>
+                        </div>
                     </section>
                 </fx-group>
 

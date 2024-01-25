@@ -771,6 +771,7 @@ window.addEventListener("WebComponentsReady", () => {
 		} else {
 			markupPanel.classList.add('on');
 			ev.target.setAttribute('icon', 'icons:visibility');
+			preview(view.annotations);
 		}
 	});
 
@@ -891,5 +892,6 @@ window.addEventListener("WebComponentsReady", () => {
 	oddSelector.odd = doc.odd;
 	window.pbEvents.subscribe('pb-refresh', 'preview', (ev) => {
 		doc.odd = ev.detail.odd;
+		preview(view.annotations);
 	});
 });
