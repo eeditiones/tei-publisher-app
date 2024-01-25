@@ -6390,16 +6390,13 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         split into three areas:</para>
       <orderedlist>
         <listitem>
-          <para>a sidebar to the left, initially showing only a toolbar with a disabled button for
-            each annotation type</para>
+          <para>the toolbar on the top with buttons for the different annotation types in the center</para>
         </listitem>
         <listitem>
-          <para>the annotation view in the middle, displaying the text content to be
-            annotated</para>
+          <para>the annotation view to the left, displaying the text content to be annotated</para>
         </listitem>
         <listitem>
-          <para>a preview panel to the right: this is initially empty, but will come to life once
-            you start making annotations</para>
+          <para>a details panel to the right: this is initially empty, but will come to life once you start making annotations</para>
         </listitem>
       </orderedlist>
       <figure>
@@ -6410,10 +6407,9 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           </imageobject>
         </mediaobject>
       </figure>
-      <para>To annotate a certain passage, select it with your mouse. The toolbar buttons in the
-        left sidebar now become active. Choose an annotation by clicking the corresponding button or
-        using a keyboard shortcut. Hovering over buttons you can see an info text with a brief
-        description and a keyboard shortut.</para>
+      <para>To annotate a certain passage, select it with your mouse. The buttons in the center of the top toolbar now become active. Choose an annotation by
+        clicking the corresponding button or using a keyboard shortcut. Hovering over buttons you can see an info text with a brief description and a keyboard
+        shortcut.</para>
       <figure>
         <title>Annotation types</title>
         <mediaobject>
@@ -6422,105 +6418,31 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           </imageobject>
         </mediaobject>
       </figure>
-      <para>Depending on the chosen annotation type, a form will appear beneath the toolbar. We
-        distinguish three categories of annotations: <orderedlist>
+      <para>Depending on the chosen annotation type, a form will now appear in the right side panel. We distinguish three categories of annotations and what you
+        see in the right panel differs depending on the chosen annotation type:</para>
+        <orderedlist>
           <listitem>
-            <para>semantic annotations, which are (usually) connected to an external authority, e.g.
-              for people, places, organizations or terms.</para>
+            <para>"toggle" annotations, which do not need require additional information, so they simply switch an annotation on/off, e.g. for deletions or titles
+              (not part of the default annotation editor setup).</para>
           </listitem>
           <listitem>
-            <para>"toggle" annotations, which do not need require additional information, so they
-              simply switch an annotation on/off, e.g. for deletions or titles (not part of the
-              default annotation editor setup).</para>
+            <para>analytic or text critical annotations, which may require further input from the user, e.g. a normalized date.</para>
           </listitem>
-          <listitem>
-            <para>analytic or text critical annotations, which may require further input from the
-              user, e.g. a normalized date.</para>
-          </listitem>
-        </orderedlist> These categories are not mutually exclusive but may be helpful to explain the
-        main functional differences between the three use scenarios. </para>
-      <section>
-        <title>Semantic Annotations</title>
-        <para>Semantic annotations include markup for entities like people, places or terms. Most
-          editions will try to link those to a description of the entity, either provided by an
-          external authority file or from a local resource. In any case you will want to reference a
-          unique identifier to mark occurrences of the same entity throughout the edition.</para>
-        <para>When choosing a semantic annotation from the toolbar, you will thus see a dialog which
-          runs a query against the authority file configured for the annotation type, e.g. Geonames
-          for places or GND for people. </para>
-        <figure>
-          <title>Annotating a person</title>
-          <mediaobject>
-            <imageobject>
-              <imagedata fileref="ann-person.png" width="800px"/>
-            </imageobject>
-          </mediaobject>
-        </figure>
-        <para>The semantic annotation dialog displays the query results for you to choose from and
-          the query sent initially corresponds to the text selection made. Often this may not find
-          the relevant entity, but you can change the query in the input field on top of the dialog
-          and run the search again by pressing enter. Compare the screenshots above and below to
-          note the difference when searching for <emphasis>William</emphasis> vs <emphasis>William
-            Graves</emphasis></para>
-        <figure>
-          <title>Re-running the query</title>
-          <mediaobject>
-            <imageobject>
-              <imagedata fileref="ann-person2.png" width="800px"/>
-            </imageobject>
-          </mediaobject>
-        </figure>
-        <para>When you use the + sign to select an authority entry, its ID will be copied into the
-          top input field in the left sidebar and a short description of the entity should appear
-          beneath. The ID will be used as reference in the resulting TEI, i.e. it will appear in an
-          attribute attached to e.g. <tag>persName</tag> or other TEI element. The exact mapping
-          between an annotation type and a TEI snippet produced can be freely configured (see
-          below).</para>
-        <para>Semantic annotations are stored in the annotation list immediately after you select an
-          authority entry, so you don't have to click anywhere else.</para>
-        <para><emphasis role="bold">Batch edits and suggestions</emphasis></para>
-        <para>It is not uncommon that the same person will be mentioned multiple times in a
-          document. To simplify and speed up the editing process, the annotation editor tries to
-          detect possible other occurrences of the currently selected entity throughout the
-          document. A list of potential matches is presented at the bottom of the left
-          sidebar.</para>
-        <para>The list is compiled by traversing the text shown on screen, searching for strings
-          which may indicate the same entity. The actual query depends on the information provided
-          authority used: e.g. if the authority supplies alternative names, those will be added to
-          the searched for strings.</para>
-        <para>Each occurrence will show a checkbox to the left. Checking it will immediately tag the
-          corresponding passage as another instance of the same entity. You can also check all boxes
-          at once by clicking on the icon to the top right above the list.</para>
-        <para>Moving your mouse over an entry will scroll the text to the corresponding occurrence,
-          showing you the match in its context.</para>
-        <para>Existing annotations referencing the same entity will also be shown in the list - with
-          their checkbox checked. Sometimes you may also see an entry with red dots beneath,
-          indicating that this is an existing annotation referencing a different entity, so
-          considered a potential inconsistency to review. For example, if you selected the authority
-          entry for "Ronald Reagan", you may see other occurrences of "Reagan", which have already
-          been annotated as "Nancy Reagan". You will see those occurrences underlined with red dots.
-          You can switch them to "Ronald Reagan" by checking their box.</para>
-        <para>Unchecking a box will remove the existing annotation, e.g. incorrectly applied
-          one.</para>
-        <figure>
-          <title>Inconsistency warning</title>
-          <mediaobject>
-            <imageobject>
-              <imagedata fileref="ann-reagan.jpg" width="800px"/>
-            </imageobject>
-          </mediaobject>
-        </figure>
-      </section>
+        <listitem>
+          <para>semantic annotations, which are (usually) connected to an external authority, e.g. for people, places, organizations or terms.</para>
+        </listitem>
+        </orderedlist>
+      <para>These categories are not mutually exclusive but may be helpful to explain the main functional differences between the three use scenarios. </para>
       <section>
         <title>Toggle Annotations</title>
         <para>Toggle annotations are immediately applied when you click the annotation button. Since
           they do not require any further input they are just simply applied without much ado. Some
           good candidates might be titles or deletions. </para>
         <para>It is worth noting that it's not a textual phenomenon that constitutes a <emphasis>
-            toggle</emphasis> annotation versus <emphasis>semantic</emphasis> or
-            <emphasis>analytic</emphasis> in our simple category scheme. It is rather what kinds of
+          toggle</emphasis> annotation versus <emphasis>semantic</emphasis> or
+          <emphasis>analytic</emphasis> in our simple category scheme. It is rather what kinds of
           detail a particular project decides to encode or not. Encoding of titles can be a
-            <emphasis>toggle</emphasis> if we just decide to simply say that a text fragment is a
+          <emphasis>toggle</emphasis> if we just decide to simply say that a text fragment is a
           title. It could become a <emphasis> semantic</emphasis> annotation if we'd like to
           associate it with a bibliographical reference or other detailed information. </para>
       </section>
@@ -6540,6 +6462,64 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           <mediaobject>
             <imageobject>
               <imagedata fileref="ann-correction.png" width="800px"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+      <section>
+        <title>Semantic Annotations</title>
+        <para>Semantic annotations include markup for entities like people, places or terms. Most
+          editions will try to link those to a description of the entity, either provided by an
+          external authority file or from a local resource. In any case you will want to reference a
+          unique identifier to mark occurrences of the same entity throughout the edition.</para>
+        <para>When choosing a semantic annotation from the toolbar, you will thus see an additional panel, which allows you to consult the authority file
+          configured for the annotation type, e.g. Geonames for places or GND for people:</para>
+        <figure>
+          <title>Annotating a person</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="ann-person.png" width="800px"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <para>The semantic annotation dialog displays the query results for you to choose from and the query sent initially corresponds to the text selection
+          made. Often this may not find the relevant entity, but you can change the query in the input field on top of the dialog and run the search again by
+          pressing enter.</para>
+        <para>Use the icon to the left of an entry name to select it. The reference ID of the entry will be copied into the top input field in the details panel
+          and a short summary of the entity should appear beneath:</para>
+        <figure>
+          <title>Right panel after selecting an entry</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="ann-entity-selected.png" width="800px"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <para>The ID will be used as reference in the resulting TEI, i.e. it will appear in an attribute attached to e.g. <tag>persName</tag> or other TEI
+          element. The exact mapping between an annotation type and a TEI snippet produced can be freely configured (see below).</para>
+        <para>Semantic annotations are stored in the annotation list immediately after you select an
+          authority entry, so you don't have to click anywhere else.</para>
+        <para><emphasis role="bold">Batch edits and suggestions</emphasis></para>
+        <para>It is not uncommon that the same person will be mentioned multiple times in a document. To simplify and speed up the editing process, the
+          annotation editor tries to detect possible other occurrences of the currently selected entity throughout the document. After selecting an entity from
+          the authority database, a list of potential matches is presented beneath the annotation details.</para>
+        <para>The list is compiled by traversing the text shown on screen, searching for strings
+          which may indicate the same entity. The actual query depends on the information provided
+          authority used: e.g. if the authority supplies alternative names, those will be added to
+          the searched for strings.</para>
+        <para>Each occurrence will show a checkbox to the left. Checking it will immediately tag the corresponding passage as another instance of the same
+          entity. You can also check all boxes at once by clicking on the first icon (the one with double checkmarks) in the toolbar above the list.</para>
+        <para>Moving your mouse over an entry will scroll the text to the corresponding occurrence,
+          showing you the match in its context.</para>
+        <para>Existing annotations referencing the same entity will also be shown in the list - with their checkbox checked. Sometimes you may also see an entry
+          with red dots beneath, indicating that this is an existing annotation referencing a different entity, so considered a potential inconsistency to
+          review. You will see those occurrences underlined with red dots as shown below. In this example, one of the entities marked as "Leipzig" points to a
+          different location in the authority. To fix this, check the item's checkbox.</para>
+        <figure>
+          <title>Inconsistency warning</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="ann-occur.png" width="800px"/>
             </imageobject>
           </mediaobject>
         </figure>
@@ -6590,22 +6570,21 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
     </section>
     <section>
       <title>The Preview Pane</title>
-      <para>Whenever you add, remove or edit an annotation, the preview pane to the right will show
-        you an updated preview of your changes. It shows<orderedlist>
-          <listitem>
-            <para>the resulting HTML, i.e. how your document would display in TEI Publisher if the
-              annotations were merged, rendered through the ODD associated with the document</para>
-          </listitem>
-          <listitem>
-            <para>the TEI of the entire document if annotations were merged</para>
-          </listitem>
-          <listitem>
-            <para>the internal JSON structure representing the annotations (for debugging
-              purposes)</para>
-          </listitem>
-          <listitem>
-            <para>the TEI fragments which would be changed if annotations were merged</para>
-          </listitem>
+      <para>The preview pane allows you to check how the annotations you applied to the current document would change the TEI. It also provides a preview of how
+        the text would be displayed via one of the available ODDs. It shows<orderedlist>
+        <listitem>
+          <para>the resulting HTML, i.e. how your document would display in TEI Publisher if the annotations were merged, rendered through the ODD selected by
+            the dropdown to the right</para>
+        </listitem>
+        <listitem>
+          <para>the TEI of the entire document if annotations were merged</para>
+        </listitem>
+        <listitem>
+          <para>the internal JSON structure representing the annotations (for debugging purposes)</para>
+        </listitem>
+        <listitem>
+          <para>the TEI fragments which would be changed if annotations were merged</para>
+        </listitem>
         </orderedlist></para>
       <para>The preview does not actually change the TEI source document: it just applies the
         annotations in memory, leaving the source untouched. It just allows you though to check if
@@ -6618,12 +6597,6 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           </imageobject>
         </mediaobject>
       </figure>
-      <para>The annotation text view in the middle and the preview HTML panel to the right, both
-        render the document through ODD. However, they use different ODDs: the annotation view
-        renders the text through a dedicated ODD (annotations.odd) to make sure that all relevant
-        bits of the base text are displayed and there's no hidden information, which would be
-        inaccessible to the editor. The preview HTML panel simply uses the ODD associated with the
-        document (or the base teipublisher.odd otherwise).</para>
     </section>
     <section>
       <title>Merge, Export and Undo</title>
