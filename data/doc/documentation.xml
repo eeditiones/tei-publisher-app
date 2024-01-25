@@ -4496,6 +4496,22 @@ git checkout v9.0.0</programlisting>
             <para>If you did not change the annotation ODD to match your own requirements, you may also want to copy <filename>odd/annotations.odd</filename>
               from TEI Publisher 9 into <filename>resources/odd/</filename> of you app</para>
           </step>
+          <step>
+            <para>To update the HTML page for annotations, it is best to use the version from TEI Publisher 9 and copy over the sections you customized. While
+              the Publisher 9 version may look very different on first sight, the relevant, user-customizable parts have not changed much:<itemizedlist>
+              <listitem>
+                <para>copy any customized toolbar buttons (class <option>annotation-action</option>) into the corresponding header element in the Publisher 9
+                  version</para>
+              </listitem>
+              <listitem>
+                <para>in the same way copy modified form controls (class <option>annotation-form</option>). In the new version those appear further down in the
+                  HTML, but still look the same</para>
+              </listitem>
+              <listitem>
+                <para>copy element <tag>pb-authority-lookup</tag>, including your custom authoritiy definitions</para>
+              </listitem>
+              </itemizedlist></para>
+          </step>
           </procedure></para>
       </section>
     </section>
