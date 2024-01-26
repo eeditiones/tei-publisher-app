@@ -69,6 +69,12 @@
             DocBook!)</para>
         </listitem>
       </orderedlist>
+      <para>As the project matured, it became very clear that, apart from publishing the 
+        XML sources curated through other tools and platforms, our user community is desperately wishing for some aids to 
+        convert and incorporate data from other formats as well as to enrich and annotate documents, ideally without angle brackets in sight.
+        Answering these needs, first the capacity to handle <link linkend="docx">Word DOCX</link> and Markdown, and later a user friendly 
+        <link linkend="web-annotations">annotation editor</link> have been added as described in relevant sections.
+      </para>
     </section>
     <section xml:id="e-editiones">
       <title>e-editiones.org</title>
@@ -139,7 +145,8 @@
         major version is released, bringing important new features.</para>
       <para>Minor versions are released at shorter intervals and offer bug fixes, minor new features
         and improvements.</para>
-      <para>The current major version of the TEI Publisher is 8.0.0</para>
+      <para>The current major version of the TEI Publisher is 9.0.0</para>
+
 
       <para> There's a long list of ideas and features we'd like to see incorporated into TEI
         Publisher: from wider coverage of input and output formats (e.g. InDesign), CQL and DTS
@@ -148,7 +155,41 @@
         some in conceptual phase, some waiting for funding and implementation. Coordination of
         future work is primarily conducted by <link xlink:show="new"
           xlink:href="https://e-editiones.org">e-editiones.org</link>. </para>
-      <section xml:id="v8">
+
+          <figure>
+            <title>Image by <link xlink:show="new" xlink:href="https://pixabay.com/users/mabelamber-1377835">Mabel Amber</link> from <link xlink:show="new" xlink:href="https://pixabay.com">Pixabay</link>
+            </title>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="nine-3095449_640.jpg" width="500px"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <section xml:id="v9">
+            <title>What's new in TEI Publisher 9.0.0</title>
+            <para>Version 9 has seen a major rework of the annotation facilities and introduced local authority registers 
+              for people, places and organizations. There have been small but powerful improvements to facets and numerous minor fixes and extensions, 
+              including redesign of the layout templates and ODDs for some of the examples from the Demo Collection.
+            </para>
+            <para>This edition has also brought the demise of the <code>teiSimplePrint</code> ODD, previously the source ODD for 
+              the <code>teipublisher</code> ODD. Models from the SimplePrint, after thorough review, have been merged into the default TEI Publisher ODD.
+              This is a first step on the road for the extended and rationalized base ODD, a project inspired by the TEI Vanilla meetups 
+              of yore and now undertaken by e-editiones in cooperation with the TEI consortium.
+            </para>
+            <para>The new annotation editor boasts a new, more user friendly and ergonomic layout with additional 
+              capacity to add or edit registry entries from within the editor. Furthermore, a function to find potential matches for 
+              the current annotation and review them on the spot is the long awaited feature, which promises to speed up the editing process without 
+              compromising quality or consistency.</para>
+            <para>A default set up for local registers of places, people and organizations allows editors to curate these resources under the same 
+              roof and at the same time as they annotate the sources. As usual, our registers provide a firm base for extensions and customizations.</para>
+            <para>
+              Since the release of the previous version there was a new major version of the <code>tei-publisher-lib</code> 
+              and numerous releases of TEI Publisher's <code>webcomponents</code> library.
+            </para>
+            <para>See chapter on <link linkend="updating">Updating</link> for information how to update
+              your app to the newest version.</para>
+          </section><section xml:id="v8">
         <title>What's new in TEI Publisher 8.0.0</title>
         <para>Version 8 has been focused on a major rework of the URL handling and redesign of
           search facilities. A number of further examples gives a better idea of the projects
@@ -7350,12 +7391,16 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
   </section>
   <section xml:id="register-customize">
     <title>Customizing local registers</title>
-    <para>Each project may have particular needs in terms what kinds of registers it needs and what kind of 
+    <para>Each project may have particular needs in terms what kinds of registers it needs and the exact 
       microstructure the registry entries need to have. Therefore TEI Publisher proposes a modular approach 
-      to the subject which allows for customizations. Nevertheless there are several distinct conceptual blocks 
-      which need careful orchestration to smoothly work together. Namely, a place to store the register, 
-      the data model for individual entry, the model and layout template for the form and the api endpoints 
-      and corresponding functions for all CRUD (create, read, update, delete) operations on the register entry.</para>
+      to the subject, which allows for customizations of all aspects. Nevertheless there are several conceptual blocks 
+      which need careful orchestration to smoothly work together. Namely, a place to store each of the registers, 
+      the data model for individual entry, the data model and source code for the input form, as well as the API endpoints 
+      and corresponding functions for all CRUD (create, read, update, delete) operations on the register, and, last but not least, 
+      the hooks in the annotation template to enable all this to the user.</para>
+      <note><para>When creating a custom app with the TEI Publisher the <code>data/registers</code> collection will 
+        be included in the generated application. Nevertheless it is strongly recommended to move registers and other 
+        application data to a separate package, as discussed in <link linkend="data-organization">data-organization chapter</link>.</para></note>
       <para>The API endpoints for registers customization start with <code>/api/register</code> and call a set of functions from 
         <code>modules/registers.xql</code>, which can be customized to reflect differences in the data 
         coming from external authority and local entry structures.</para>
