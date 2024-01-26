@@ -11,6 +11,63 @@ html {
 /* Fore style overwrites for annotations  */
 /* Fore style overwrites for annotations  */
 /* Fore style overwrites for annotations  */
+
+fx-group fx-control {
+    padding-left: .5rem;
+}
+
+fx-control input, fx-control select {
+    box-sizing: border-box;
+    margin: 0 0 .5rem 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    color: var(--paper-input-container-input-color);
+}
+
+fx-control label {
+    font-size: 1rem;
+    margin-bottom: 5px;
+    color: #333;
+    /* Text color */
+}
+
+fx-control input[type="text"] {
+    width: calc(100% - 2rem);
+    padding: 12px 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    /* Remove default focus outline */
+    transition: border-color 0.2s ease;
+}
+
+fx-control input[type="text"]:focus {
+    border-color: #007bff;
+    /* Change border color on focus */
+}
+
+fx-control select {
+    width: calc(100% - 2rem);
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none;
+    /* Remove default focus outline */
+    background-color: #fff;
+    /* Background color */
+    transition: outline 0.3s ease;
+    /* Add transition effect for outline */
+}
+
+/* Apply hover and focus styles */
+fx-control select:hover,
+fx-control select:focus {
+    outline: 2px solid #007bff;
+    /* Increase outline width and change color on hover and focus */
+}
+  
 /*!
  * Toastify js 1.11.0
  * https://github.com/apvarun/toastify-js
