@@ -281,6 +281,7 @@
                     <fx-load url="templates/pages/annotation/{event('type')}-editor.html"
                              attach-to="#authority-editor"></fx-load>
                     <fx-setvalue ref="instance()/authority-editor" value="event('type')"></fx-setvalue>
+                    <fx-dispatch name="pb-disable" targetid="view1"></fx-dispatch>
                 </fx-action>
 
                 <fx-action event="pb-authority-edit-entity" target="#document">
@@ -290,6 +291,7 @@
                     <fx-setvalue ref="instance()/authority-editor" value="event('type')"></fx-setvalue>
                     <fx-load url="templates/pages/annotation/{event('type')}-editor.html"
                              attach-to="#authority-editor"></fx-load>
+                    <fx-dispatch name="pb-disable" targetid="view1"></fx-dispatch>
                 </fx-action>
 
                 <fx-action event="pb-authority-error" target="#document">
@@ -300,7 +302,6 @@
                 <!-- ### show the annotation form and the authority search -->
                 <fx-action id="show-annotation" event="show-annotation" target="#document">
                     <fx-call action="reset-panels"></fx-call>
-
                     <!-- ### show annotation details panel -->
                     <fx-setvalue ref="annotation">true</fx-setvalue>
                 </fx-action>
@@ -310,6 +311,7 @@
                     <fx-call action="reset-panels"></fx-call>
                     <fx-setvalue ref="annotation">true</fx-setvalue>
                     <fx-setvalue ref="ref" value="event('ref')"></fx-setvalue>
+
                     <!-- ### update the input in the iron-form with the text-selection we get from 'query' -->
                     <fx-call function="updateAnnotationDetails(event('ref'))"></fx-call>
                     <fx-update></fx-update>
@@ -320,6 +322,7 @@
                     <fx-load attach-to="#authority-editor">
                         <template><div></div></template>
                     </fx-load>
+                    <fx-dispatch name="pb-enable" targetid="view1"></fx-dispatch>
                 </fx-action>
 
 
@@ -329,6 +332,7 @@
                     <!--fx-call function="updateAnnotationDetails(event('ref'))"></fx-call-->
                     <fx-setvalue ref="authority">false</fx-setvalue>
                     <fx-setvalue ref="occurrences">true</fx-setvalue>
+                    <fx-dispatch name="pb-enable" targetid="view1"></fx-dispatch>
                     <fx-load attach-to="#authority-editor">
                         <template>
                             <div></div>
