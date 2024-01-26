@@ -6452,7 +6452,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       <section xml:id="annotations-toggle">
         <title>Toggle Annotations</title>
         <para>Toggle annotations are immediately applied when you click the annotation button. Since
-          they do not require any further input they do not require additional input nor confirmation. Some
+          they do not need any additional input they also do not require further confirmation. Some
           good candidates might be marking of titles or deletions. </para>
         <para>It is worth noting that it's not a textual phenomenon that constitutes a <emphasis>
           toggle</emphasis> annotation versus <emphasis>semantic</emphasis> or
@@ -6515,23 +6515,24 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           element. The exact mapping between an annotation type and a TEI snippet produced can be freely configured (see below).</para>
         <para>Semantic annotations are stored in the annotation list immediately after you select an
           authority entry, so you don't have to click anywhere else to confirm your choice.</para>
-          <para><emphasis>NB:</emphasis> at times you will find that an entity doesn't exist in the external authority register. 
-            In TEI Publisher you can now also add entries to your local register, read more on this subject in the <link linkend="registers">local registers</link> chapter.</para>
+          <para><emphasis>NB:</emphasis> at times you will find that an entity doesn't yet exist in the external authority register. 
+            In TEI Publisher you can now also add entries to your local register. Read more on this subject in the <link linkend="registers">local registers</link> chapter.</para>
       </section>
       <section xml:id="annotations-batch">
         <title>Batch edits and suggestions</title>
-        <para>It is not uncommon that the same person will be mentioned multiple times in a document. To simplify and speed up the editing process, the
-          annotation editor tries to detect possible other occurrences of the currently selected entity throughout the document. After selecting an entity from
-          the authority database, a list of potential matches is presented beneath the annotation details.</para>
+        <para>It is not uncommon that the same entity will be mentioned multiple times in a document. To simplify and speed up the editing process, the
+          annotation editor tries to detect other occurrences of the currently selected entity throughout the document. After choosing an entity from
+          the external authority, a list of potential matches is presented in the right side panel, beneath the annotation details.</para>
         <para>The list is compiled by traversing the text shown on screen, searching for strings
-          which may indicate the same entity. The actual query depends on the information provided
-          authority used: e.g. if the authority supplies alternative names, those will be added to
-          the searched for strings.</para>
-        <para>Each occurrence will show a checkbox to the left. Checking it will immediately tag the corresponding passage as another instance of the same
+          which may match the same entity. The actual query used depends on the information provided by the
+          authority used: e.g. if the authority supplies alternative names, these will be added to
+          the list of strings to search for.</para>
+        <para>Each occurrence found will be presented with a little bit of the original context shown on both sides, and with an additional checkbox to the left. 
+          Checking it will immediately tag the corresponding passage as another instance of the same
           entity. You can also check all boxes at once by clicking on the first icon (the one with double checkmarks) in the toolbar above the list.</para>
-        <para>Moving your mouse over an entry will scroll the text to the corresponding occurrence,
-          showing you the match in its context.</para>
-        <para>Existing annotations referencing the same entity will also be shown in the list - with their checkbox checked. Sometimes you may also see an occurrence
+        <para>Placing your mouse over an entry will scroll the text to the corresponding occurrence,
+          showing you the match in its full context to assist the revision process.</para>
+        <para>Existing annotations referencing the same entity will still be shown in the list - but with their checkbox already marked. Sometimes you may also see an occurrence
           marked in red, indicating that this is an existing annotation referencing a different entity, so considered a potential inconsistency to
           review. You will see such cases additionally underlined with red dots as shown below. In this example, one of the entities marked as "Oxford" points to a
           different record in the authority register. To fix this by applying the currently selected entity, check the item's checkbox.</para>
@@ -6553,7 +6554,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           <title>Start search through the entire collection</title>
           <mediaobject>
             <imageobject>
-              <imagedata fileref="ann-corpus.png" width="800px"/>
+              <imagedata fileref="ann-corpus.png" width="500px"/>
             </imageobject>
           </mediaobject>
         </figure>
@@ -6591,7 +6592,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         <title>Nested annotations</title>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="ann-nested.png" width="600px"/>
+            <imagedata fileref="ann-nested.png" width="800px"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -6620,43 +6621,13 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       <para>Again, semantic annotations are applied immediately, while analytic and text critical
         annotations require a click on the save button after making modifications.</para>
     </section>
-    <section xml:id="annotations-preview">
-      <title>The Preview Pane</title>
-      <para>The preview pane allows you to check how the annotations you applied to the current document would change the TEI. It also provides a preview of how
-        the text would be displayed via one of the available ODDs. It shows<orderedlist>
-        <listitem>
-          <para>the resulting HTML, i.e. how your document would display in TEI Publisher if the annotations were merged, rendered through the ODD selected by
-            the dropdown to the right</para>
-        </listitem>
-        <listitem>
-          <para>the TEI of the entire document if annotations were merged</para>
-        </listitem>
-        <listitem>
-          <para>the internal JSON structure representing the annotations (for debugging purposes)</para>
-        </listitem>
-        <listitem>
-          <para>the TEI fragments which would be changed if annotations were merged</para>
-        </listitem>
-        </orderedlist></para>
-      <para>The preview does not actually change the TEI source document: it just applies the
-        annotations in memory, leaving the source untouched. It just allows you though to check if
-        annotations will be applied in the correct way.</para>
-      <figure>
-        <title>HTML preview</title>
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="ann-preview.png" width="800px"/>
-          </imageobject>
-        </mediaobject>
-      </figure>
-    </section>
     <section xml:id="annotations-merge">
-      <title>Merge, Export and Undo</title>
+      <title>Merge, Export, Undo and Preview</title>
       <para>The buttons to the right side of the main toolbar provide important functions for saving etc.: <figure>
         <title>Toolbar</title>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="ann-toolbar.png" width="500px"/>
+            <imagedata fileref="ann-toolbar.png" width="400px"/>
           </imageobject>
         </mediaobject>
         </figure> <variablelist>
@@ -6691,16 +6662,60 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         <varlistentry>
           <term>Display preview pane</term>
           <listitem>
-            <para>Shows preview pane at the very bottom of the screen, floating above the page.</para>
+            <para>Shows the preview pane at the very bottom of the screen, floating above the page. Next section discusses this in  detail.</para>
           </listitem>
         </varlistentry>
         </variablelist></para>
+    </section>
+    <section xml:id="annotations-preview">
+      <title>The Preview Pane</title>
+      <para>The preview pane allows you to check how the annotations you applied to the current document would change the TEI. It also provides a preview of how
+        the text would be displayed via one of the available ODDs. You can choose between one of four tabs, each dedicated to a specific aspect or format:</para>
+        <orderedlist>
+        <listitem>
+          <para>the resulting HTML, i.e. how your document would display in TEI Publisher if the annotations were merged, rendered through the ODD selected by
+            the dropdown to the right</para>
+        </listitem>
+        <listitem>
+          <para>the TEI of the entire document if annotations were merged</para>
+        </listitem>
+        <listitem>
+          <para>the internal JSON structure representing the annotations (for debugging purposes)</para>
+        </listitem>
+        <listitem>
+          <para>the TEI fragments which would be changed if annotations were merged</para>
+        </listitem>
+        </orderedlist>
+      <para>What you see in the preview does not mean that the TEI source document has been already changed: it just applies the
+        annotations in memory, leaving the source untouched. It allows you to double check if
+        annotations will be applied in the correct way. When you are satisfied with the review, the merge button described in 
+        the <link linkend="annotations-merge">previous section</link>, will trigger the permanent change.
+      </para>
+      <figure>
+        <title>HTML preview</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="ann-preview.png" width="800px"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
     </section>
     <section xml:id="ner">
       <title>Named Entity Recognition</title>
       <para>TEI Publisher includes support for detecting and tagging named entities in texts. The idea is to further simplify the work of editors when annotating documents via TEI Publisher’s web-based annotation editor by automatically identifying potential candidates for people, places etc.</para>
       <para>For named entity recognition to be available in the web-based annotation editor, a separate Python service
         is needed: clone the <link xlink:href="https://github.com/eeditiones/tei-publisher-ner">tei-publisher-ner</link> repository and follow the instructions in the README.</para>
+        <figure>
+          <title>NER icon</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="toolbar-ner.png"  width="600px"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <note><para>The presentation below has been realised with an earlier version of the TEI Publisher, nevertheless everything works the same, the only difference being the position of the NER icon in the toolbar.</para></note>
+      
+
       <figure>
         <title>NER in action</title>
         <mediaobject>
@@ -7010,14 +7025,15 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             <filename>modules/annotation-config.xqm</filename>. You can also change the function
             <function>rapi:insert-point</function> to configure where exactly the local entity
           definitions will be stored.</para>
-        <note>Currently, it is not possible to use the Reconciliation connector described above in
-          the context of the Custom connector. This will be added in a future release.</note>
+        <note><para>Currently, it is not possible to use the Reconciliation connector described above in
+          the context of the Custom connector. This will be added in a future release.</para></note>
       </section>
     </section>
     <section xml:id="annotations-config">
       <title>Configuring Annotations</title>
       <note>
-        <para>TEI Publisher 9 introduces various changes to the annotation editor, including a different page layout. It also uses a sophisticated framework for forms, called fore, which is in particular used for the custom entity editors, but also powers some of the functionality of the main editor page. The user-customizable parts more or less stayed the same though, so updating an existing annotation app should be fairly easy (see the chapter on updating from 8 to 9).</para>
+        <para>TEI Publisher 9 introduces various changes to the annotation editor, including a different page layout. It also uses a sophisticated framework for forms, called <link
+          xlink:show="new" xlink:href="https://jinntec.github.io/Fore/doc/index.html">Fore</link>, which is in particular used for the custom entity editors, but also powers some of the functionality of the main editor page. The user-customizable parts more or less stayed the same though, so updating an existing annotation app should be fairly easy (see the chapter on <link linkend="updating">updating</link> from 8 to 9).</para>
       </note>
       <para>Adding new annotation types or modifying existing ones involves the following three files within TEI Publisher or generated apps:</para>
       <variablelist>
@@ -7105,7 +7121,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         However, TEI Publisher does not yet know how to translate the new annotation into actual TEI
         markup. To fix this, open <filename>modules/annotation-config.xqm</filename> and search for
         the function <function>anno:annotations</function>. This is a long switch statement with
-        cases corresponding to the different annotation types. Add a new case to the top:</para>
+        cases corresponding to the different annotation types. Add a new case at the top:</para>
       <programlisting>declare function anno:annotations($type as xs:string, $properties as map(*), $content as function(*)) {
     switch ($type)
         case "foreign" return
@@ -7175,17 +7191,16 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         language and see how it is output into TEI.</para>
       <section  xml:id="annotations-insert">
         <title>Inserting an annotation before the selection</title>
-        <para>By default, the text currently selected on the page will become the content of the annotation. For some elements we don't want this though. A page
-          break (<tag>pb</tag>) or a note would be typical examples. The editor supports this: if you add a class <option>before</option> to the annotation
-          action button, TEI Publisher will not replace the text, but insert the new annotation before the selection:</para>
+        <para>By default, the text currently selected on the page will become the content of the annotation. For some elements this is not a suitable approach.
+          A page beginning (<tag>pb</tag>) or a note would be typical examples. The editor supports this: if you add a class <option>before</option> to the annotation
+          action button, TEI Publisher will not replace the text, but insert the new annotation right before the selection:</para>
         <synopsis language="xml">&lt;paper-icon-button class="annotation-action before">...&lt;/paper-icon-button></synopsis>
       </section>
-
     </section>
     <section xml:id="annotations-considerations">
       <title>Other Considerations</title>
       <para>Web annotations require a clear mapping between the HTML view of the text in the browser
-        and the TEI document in the database. It is thus important to respect the following
+        and the TEI document in the database. It is therefore important to acknowledge the following
         restrictions:</para>
       <orderedlist>
         <listitem>
@@ -7199,11 +7214,11 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         </listitem>
         <listitem>
           <para>The annotation editor can operate on documents with multiple division and will show
-            them one after the other. However, those need to be top-level divisions. Therefore the
-              <option> depth</option> parameter should be set to 1.</para>
+            them one after the other. However, these need to be top-level divisions. Therefore the
+              <option>depth</option> parameter should be set to 1.</para>
         </listitem>
       </orderedlist>
-      <para>To ensure this, TEI Publisher sets the following configuration for the annotate
+      <para>To ensure these conditions are met, TEI Publisher sets the following configuration for the annotate
         collection in <filename>config.xqm</filename>:</para>
       <programlisting language="xquery">declare function config:collection-config($collection as xs:string?, $docUri as xs:string?) {
     switch ($collection)
@@ -7220,7 +7235,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             ()
 };</programlisting>
       <para>Generated applications should choose similar settings. If you create a separate app just
-        for annotations, the following function would suffice to impose the right settings for all
+        for annotations, the following function in the <filename>config.xqm</filename> will suffice to impose the right settings for all
         documents:</para>
       <programlisting language="xquery">declare function config:collection-config($collection as xs:string?, $docUri as xs:string?) {
     map {
