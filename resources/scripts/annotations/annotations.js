@@ -85,7 +85,6 @@ window.addEventListener("WebComponentsReady", () => {
 	const occurrences = occurDiv.querySelector("ul");
 	const saveBtn = document.getElementById("form-save");
 	const refInput = document.querySelectorAll(".form-ref");
-	// const authorityDialog = document.getElementById("authority-dialog");
 	const nerDialog = document.getElementById("ner-dialog");
 	let autoSave = false;
 	let type = "";
@@ -93,6 +92,7 @@ window.addEventListener("WebComponentsReady", () => {
 	let text = "";
 	let enablePreview = true;
 	let currentEntityInfo = null;
+	let previewOdd = "teipublisher";
 	const doc = view.getDocument();
 	
 	function restoreAnnotations(doc, annotations) {
@@ -357,7 +357,7 @@ window.addEventListener("WebComponentsReady", () => {
 				}
 				resolve(json.content);
 				fetch(
-					`${endpoint}/api/preview?odd=${doc.odd}.odd&base=${encodeURIComponent(
+					`${endpoint}/api/preview?odd=${previewOdd}.odd&base=${encodeURIComponent(
 						endpoint
 					)}%2F`,
 					{
@@ -889,9 +889,9 @@ window.addEventListener("WebComponentsReady", () => {
 
 	// wire the ODD selector for the preview
 	const oddSelector = document.querySelector('pb-select-odd');
-	oddSelector.odd = doc.odd;
+	oddSelector.odd = previewOdd;
 	window.pbEvents.subscribe('pb-refresh', 'preview', (ev) => {
-		doc.odd = ev.detail.odd;
+		previewOdd = ev.detail.odd;
 		preview(view.annotations);
 	});
 });
