@@ -1,4 +1,5 @@
 <?xml-model href="teipublisher_odds.xsd"?>
+<?teipublisher output="web"?>
 <TEI xmlns:pb="http://teipublisher.com/1.0" xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
