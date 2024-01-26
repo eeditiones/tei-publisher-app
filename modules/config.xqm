@@ -383,6 +383,7 @@ declare variable $config:taxonomy := $config:data-root || "/taxonomy.xml";
  :)
 declare variable $config:data-exclude := (
     doc($config:taxonomy)//tei:text,
+    collection($config:register-root)//tei:text,
     collection($config:data-root || "/doc")//tei:text
 );
 

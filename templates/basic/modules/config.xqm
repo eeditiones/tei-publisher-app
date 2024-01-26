@@ -335,7 +335,8 @@ declare variable $config:data-default := $config:data-root;
  : documents displayed in the browsing view.
  :)
 declare variable $config:data-exclude :=
-    doc($config:data-root || "/taxonomy.xml")//tei:text
+    doc($config:data-root || "/taxonomy.xml")//tei:text,
+    collection($config:register-root)//tei:text
 ;
 
 (:~
