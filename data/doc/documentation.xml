@@ -6315,7 +6315,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       XML editor. Just use your mouse to highlight the text fragment to annotate, click on the
       annotation type and optionally select additional information, e.g. to link with an external
       authority file.</para>
-    <section>
+    <section xml:id="annotations-prerequisites">
       <title>Prerequisites and considerations</title>
       <itemizedlist>
         <listitem>
@@ -6341,7 +6341,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         annotations on your material. We appreciate bug reports and suggestions for
         improvement.</para>
     </section>
-    <section>
+    <section xml:id="annotations-rationale">
       <title>Annotations: the pen and paper of the digital world</title>
       <para>How the annotation editor works is easy to understand if you imagine reviewing a text
         the old-fashioned way: print it out, then use a marker to highlight certain passages, write
@@ -6387,7 +6387,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           <tag>reg</tag>, need to have simple text content: they cannot be annotated themselves (at
         least not in the current version).</para>
     </section>
-    <section>
+    <section xml:id="annotations-applying">
       <title>Applying Annotations</title>
       <para>To start annotating a document, select or upload one into the annotations collection in
         TEI Publisher.</para>
@@ -6449,7 +6449,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         </listitem>
         </orderedlist>
       <para>These categories are not mutually exclusive but may be helpful to explain the main functional differences between the three use scenarios. </para>
-      <section>
+      <section xml:id="annotations-toggle">
         <title>Toggle Annotations</title>
         <para>Toggle annotations are immediately applied when you click the annotation button. Since
           they do not require any further input they do not require additional input nor confirmation. Some
@@ -6462,7 +6462,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           title. It could become a <emphasis>semantic</emphasis> annotation if we'd like to
           associate it with a bibliographical reference or other detailed information. </para>
       </section>
-      <section>
+      <section xml:id="annotations-analytic">
         <title>Analytic and Text Critical Annotations</title>
         <para>These annotations are not connecting to an authority reference, but typically require
           further input to be made by the user. For example a <tag>date</tag> annotation requires
@@ -6482,7 +6482,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           </mediaobject>
         </figure>
       </section>
-      <section>
+      <section xml:id="annotations-semantic">
         <title>Semantic Annotations</title>
         <para>Semantic annotations include markup for entities like people, places or terms. Most
           editions will try to link those to a description of the entity, either provided by an
@@ -6518,7 +6518,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           <para><emphasis>NB:</emphasis> at times you will find that an entity doesn't exist in the external authority register. 
             In TEI Publisher you can now also add entries to your local register, read more on this subject in the <link linkend="registers">local registers</link> chapter.</para>
       </section>
-      <section>
+      <section xml:id="annotations-batch">
         <title>Batch edits and suggestions</title>
         <para>It is not uncommon that the same person will be mentioned multiple times in a document. To simplify and speed up the editing process, the
           annotation editor tries to detect possible other occurrences of the currently selected entity throughout the document. After selecting an entity from
@@ -6578,7 +6578,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         </figure>
       </section>
     </section>
-    <section>
+    <section xml:id="annotations-modify">
       <title>Modifying Annotations</title>
       <para>The annotation view shows a colored line beneath the text spanned by each annotation.
         You can select text within an existing annotation or across multiple different ones and
@@ -6620,7 +6620,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       <para>Again, semantic annotations are applied immediately, while analytic and text critical
         annotations require a click on the save button after making modifications.</para>
     </section>
-    <section>
+    <section xml:id="annotations-preview">
       <title>The Preview Pane</title>
       <para>The preview pane allows you to check how the annotations you applied to the current document would change the TEI. It also provides a preview of how
         the text would be displayed via one of the available ODDs. It shows<orderedlist>
@@ -6650,7 +6650,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         </mediaobject>
       </figure>
     </section>
-    <section>
+    <section xml:id="annotations-merge">
       <title>Merge, Export and Undo</title>
       <para>The buttons to the right side of the main toolbar provide important functions for saving etc.: <figure>
         <title>Toolbar</title>
@@ -6696,7 +6696,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         </varlistentry>
         </variablelist></para>
     </section>
-    <section>
+    <section xml:id="ner">
       <title>Named Entity Recognition</title>
       <para>TEI Publisher includes support for detecting and tagging named entities in texts. The idea is to further simplify the work of editors when annotating documents via TEI Publisher’s web-based annotation editor by automatically identifying potential candidates for people, places etc.</para>
       <para>For named entity recognition to be available in the web-based annotation editor, a separate Python service
@@ -6734,7 +6734,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         <guimenuitem>Admin</guimenuitem> /<guimenuitem>App Generator</guimenuitem>. In the form,
       make sure to choose the ODD called "Annotations" and select "Annotation Editing" as
       template.</para>
-    <section>
+    <section xml:id="annotation-authorities">
       <title>Configuring Authorities</title>
       <para>In its current state, TEI Publisher supports the following external authorities for
         entity lookup:<variablelist>
@@ -6824,7 +6824,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         you specify a service URL.</para>
       <para>The <emphasis>Airtable</emphasis>, <emphasis>Reconciliation</emphasis> and <emphasis>
           Custom</emphasis> connectors are described in more detail below.</para>
-      <section>
+      <section xml:id="connector-airtable">
         <title>Airtable Connector</title>
         <para><link xlink:href="https://www.airtable.com/">airtable.com</link> is not an authority
           file as such, but rather a commercial online database, allowing users to define their own
@@ -6941,7 +6941,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           </varlistentry>
         </variablelist>
       </section>
-      <section>
+      <section xml:id="connector-reconciliation">
         <title>Reconciliation Service Connector</title>
         <para>Like the airtable connector described above, the <link
             xlink:href="https://reconciliation-api.github.io/specs/latest/">Reconciliation
@@ -6961,7 +6961,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         <para>Currently, the Reconciliation connector cannot be used as a data provider for the
           Custom connector described below. This will be added in a future release.</para>
       </section>
-      <section>
+      <section xml:id="connector-custom">
         <title>Custom Connector</title>
         <para>The custom connector delegates queries to one or more authorities, but most
           importantly it creates a copy of every authority entry you select and writes it to a local
@@ -6981,6 +6981,12 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             <listitem>
               <para>you can extend the local entry with additional information, e.g. add a note to
                 explain why the person is important in the context of the edition</para>
+            </listitem>
+            <listitem>
+              <para>if the custom connector has an attribute <option>edit</option>, users can modify or add entries to the local register using a form.
+                Obviously the form needs to be provided by the developer as described further below. Currently there are forms for
+                people, places and organizations.
+              </para>
             </listitem>
             <listitem>
               <para>any subsequent authority query will also search the local registry and matches
@@ -7004,11 +7010,11 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             <filename>modules/annotation-config.xqm</filename>. You can also change the function
             <function>rapi:insert-point</function> to configure where exactly the local entity
           definitions will be stored.</para>
-        <para>Currently, it is not possible to use the Reconciliation connector described above in
-          the context of the Custom connector. This will be added in a future release.</para>
+        <note>Currently, it is not possible to use the Reconciliation connector described above in
+          the context of the Custom connector. This will be added in a future release.</note>
       </section>
     </section>
-    <section>
+    <section xml:id="annotations-config">
       <title>Configuring Annotations</title>
       <note>
         <para>TEI Publisher 9 introduces various changes to the annotation editor, including a different page layout. It also uses a sophisticated framework for forms, called fore, which is in particular used for the custom entity editors, but also powers some of the functionality of the main editor page. The user-customizable parts more or less stayed the same though, so updating an existing annotation app should be fairly easy (see the chapter on updating from 8 to 9).</para>
@@ -7167,7 +7173,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         <code>name="lang"</code>, so the corresponding value is retrieved from the map with <code>$properties?lang</code>.</para>
       <para>That's all. You should now be able to modify your existing foreign annotation, enter a
         language and see how it is output into TEI.</para>
-      <section>
+      <section  xml:id="annotations-insert">
         <title>Inserting an annotation before the selection</title>
         <para>By default, the text currently selected on the page will become the content of the annotation. For some elements we don't want this though. A page
           break (<tag>pb</tag>) or a note would be typical examples. The editor supports this: if you add a class <option>before</option> to the annotation
@@ -7176,7 +7182,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       </section>
 
     </section>
-    <section>
+    <section xml:id="annotations-considerations">
       <title>Other Considerations</title>
       <para>Web annotations require a clear mapping between the HTML view of the text in the browser
         and the TEI document in the database. It is thus important to respect the following
@@ -7230,7 +7236,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
   <title>Local authority registers</title>
   <para>In TEI Publisher 9 a suggested structure for local taxonomies and registers for people, places and organizations
      has been introduced in recognition of a common need in editorial projects to create and maintain such datasets.
-     As with virtually all other aspects, the default solution can be fully customised, extended and tailored to the 
+     As with virtually all other aspects of the TEI Publisher, the default solution can be fully customised, extended and tailored to the 
      specific needs of the project.
   </para>
   <figure>
@@ -7244,7 +7250,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
   <para>To keep things simple, we have extracted each type of register into a separate TEI document. By default these reside in 
     <code>data/registers</code> collection, but location can be changed in the <code>modules/config.xqm</code>. Below is 
     the relevant excerpt from the configuration file:</para>
-  <programlisting language="xquery">    (:~
+  <programlisting language="xquery" xml:space="preserve">    (:~
     : The root of the collection hierarchy containing registers data.
     :)
    declare variable $config:register-root := $config:data-root || "/registers";
@@ -7267,17 +7273,17 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       </imageobject>
     </mediaobject>
   </figure>
-  <section>
+  <section xml:id="register-maintain">
     <title>Maintaining authority registers</title>
     <para>Typically, when annotating the text of the transcription we will consult an authority file, 
       either an external resource like GND or VIAF, or one internal to the project to identify a reference to a place or an individual.
-      On the level of the TEI encoding we will be usually just adding an identifier to the dedicated element.
+      On the level of the TEI encoding we will be usually just adding an identifier reference to the dedicated element, like <code>persName</code>.
     </para>
     <para>As it is a tedious and error prone task to provide these identifiers manually, TEI Publisher offers a 
       mechanism to query authority registers, present matching results and make a selection in a user friendly interactive component
        (see arrow marked as 1. on the screenshot below). 
       Thanks to its functionality a connection can be made without ever typing or copying long identifiers.</para>
-      <programlisting language="xml">... in Altenberg &lt;persName ref="gnd-136602592"&gt;Ambrosius Leibnütz&lt;/persName&gt; ...</programlisting>
+      <programlisting language="xml" xml:space="preserve">... in Altenberg &lt;persName ref="gnd-136602592"&gt;Ambrosius Leibnütz&lt;/persName&gt; ...</programlisting>
    
     <para>As a side effect of such an operation, TEI Publisher creates a local register entry for the selected entity.</para>
     <para>Nevertheless, from time to time an entry will not yet exist in the authority register we are using, or possibly the 
@@ -7293,25 +7299,41 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           </imageobject>
         </mediaobject>
       </figure>
-      <section>
+      <section xml:id="register-edit">
         <title>Editing a person</title>
         <para>Say, we would like to add a variant name for our <emphasis>Ambrosius Leibnütz</emphasis> entry, 
-          and also translate the German content which was pulled in from GND into English. From the annotation editor we can use the 
-          <emphasis>pencil</emphasis> icon 
+          and also edit and translate the German content (which was pulled automatically in from GND) into English. From the annotation 
+          editor we can use the <emphasis>pencil</emphasis> icon 
           to open the editing form. It will appear in the right hand panel and presents form controls for 
-          the information stored in the register. We can edit these fields and just press the <emphasis>save</emphasis> icon when we're done. 
+          the information stored in the register. We can edit these fields and just press the <emphasis>save</emphasis> icon when done. 
           At this point new data will be stored in the local register. NB: saving obviously only works for logged in users.</para>
+          <para>The screenshot below presents a comparison of an entry freshly added to the local register from GND, and the 
+            same entry after edits in the TEI Publisher form.</para>
+          
           <figure>
-            <title>Form for a person entry</title>
+            <title>Editing a person entry</title>
             <mediaobject>
               <imageobject>
-                <imagedata fileref="register-form.png" width="800px"/>
+                <imagedata fileref="register-change.png" width="800px"/>
               </imageobject>
             </mediaobject>
           </figure>
+
+          <para>You will note that this form makes use of several types of form controls: basic text fields, for name or date; 
+            select for choosing the gender and a custom XML editing widget to edit the note. The latter is a third-party 
+            web component called <code>jinn-xml-editor</code> which allows for basic edits and provides syntax checks 
+            and higlighting.</para>
+            <figure>
+              <title>Error message from the note editing widget</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="register-jinn-xml-editor.png" width="800px"/>
+                </imageobject>
+              </mediaobject>
+            </figure>
       </section>
   </section>
-  <section>
+  <section xml:id="register-customize">
     <title>Customizing local registers</title>
     <para>Each project may have particular needs in terms what kinds of registers it needs and what kind of 
       microstructure the registry entries need to have. Therefore TEI Publisher proposes a modular approach 
@@ -7325,8 +7347,10 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       <para>As mentioned before, location of the registers is determined via <code>$config:register-root</code> variable in <code>config.xqm</code>. 
         In the same module there are further customization options related to registers: location of the models for the input forms 
         (in <code>$config:register-forms</code>) and dedicated configuration for each of the editable register types.</para>
-        <para>The actual forms themselves are located in <code>templates/pagesannotations</code> as they are effectively 
-          HTML files with embedded Fore form webcomponents. Please consult Fore documentation how to customize these.</para>
+        <para>The actual forms themselves are located in <code>templates/pages/annotations</code> as they are effectively 
+          HTML files with embedded <link
+          xlink:show="new" xlink:href="https://jinntec.github.io/Fore/doc/index.html">Fore</link> form webcomponents. Please consult Fore <link
+          xlink:show="new" xlink:href="https://jinntec.github.io/fore-docs">documentation</link> how to customize these.</para>
         <figure>
           <title>Register configuration in config.xqm</title>
           <mediaobject>
@@ -7342,7 +7366,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
               information about existing entry or to determine the insertion point for a new one; e.g. for 
               the <emphasis>person</emphasis> registry it is by default set to <code>pb-person</code> which is the @xml:id attribute of the TEI element in
             <code>data/registers/persons.xml</code></para>
-            <programlisting>&lt;TEI xmlns="http://www.tei-c.org/ns/1.0"  xml:id="pb-persons"&gt;</programlisting>
+            <programlisting xml:space="preserve">&lt;TEI xmlns="http://www.tei-c.org/ns/1.0"  xml:id="pb-persons"&gt;</programlisting>
             <para>this identifier is always resolved in the context of the <code>$config:register-root</code> variable 
               to avoid potential conflicts</para>
           </listitem>
@@ -7350,7 +7374,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             <para><code>default</code>: identifier by which the default data model for an entry can be accessed; this identifier is always resolved in the context of the <code>$config:register-forms</code></para>
           </listitem>
           <listitem>
-            <para><code>prefix</code>: a prefix for the newly created entries, e.g. a new person will be given an id 
+            <para><code>prefix</code>: a prefix for the newly created entry, e.g. a new person will be given an id 
               like <code>person-00015</code> or similar, depending how many have been created locally earlier.</para>
           </listitem>
         </orderedlist>
@@ -7367,7 +7391,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         >Production Use - Good Practice</link> of the eXist-db documentation. One important point is
       to always run eXist-db in production behind a proxy server, which serves as an intermediary to
       control and protect access to a server on which the database runs.</para>
-    <section>
+    <section xml:id="proxy">
       <title>Running behind a proxy</title>
       <para>To set up a proxy, we suggest looking at the docker compose configuration we provide. It includes
         <link xlink:href="https://github.com/eeditiones/teipublisher-docker-compose/tree/master/conf">configuration templates</link> for the nginx proxy. More general information about
@@ -7394,7 +7418,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       </orderedlist>
       <para>In the following sections we'll discuss specific settings you should pay attention to when running TEI
         Publisher behind a proxy.</para>
-      <section>
+      <section xml:id="context-path">
         <title>Context paths</title>
       <para>If you would like the proxy to directly route traffic for a public URL to a specific application within
         eXist, you also need to make sure that all internal application links are correctly set, depending
@@ -7424,7 +7448,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       <para>This procedure should work for most cases, so manually adjusting <code>$config:context-path</code> should
         rarely be necessary.</para>
       </section>
-      <section>
+      <section xml:id="caching">
         <title>Caching</title>
         <para>While you can use a proxy to cache arbitrary contents based on timeouts and cache expiration, TEI
           Publisher 8 includes some support for a more intelligent caching approach: if enabled, TEI Publisher will
@@ -7497,7 +7521,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         </varlistentry>
       </variablelist>
     </section>
-    <section>
+    <section xml:id="web-components">
       <title>Web components</title>
       <para>By default TEI Publisher and apps generated from it load the user interface components from a global CDN
         (content delivery network). For a long time this was the generally recommended approach. CDNs promised
