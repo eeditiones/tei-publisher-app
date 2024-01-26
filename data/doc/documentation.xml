@@ -7296,7 +7296,8 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       <section>
         <title>Editing a person</title>
         <para>Say, we would like to add a variant name for our <emphasis>Ambrosius Leibnütz</emphasis> entry, 
-          and also translate the content into English. From the annotation editor we can use the <emphasis>pencil</emphasis> icon 
+          and also translate the German content which was pulled in from GND into English. From the annotation editor we can use the 
+          <emphasis>pencil</emphasis> icon 
           to open the editing form. It will appear in the right hand panel and presents form controls for 
           the information stored in the register. We can edit these fields and just press the <emphasis>save</emphasis> icon when we're done. 
           At this point new data will be stored in the local register. NB: saving obviously only works for logged in users.</para>
@@ -7309,52 +7310,52 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             </mediaobject>
           </figure>
       </section>
-      <section>
-        <title>Customizing local registers</title>
-        <para>Each project may have particular needs in terms what kinds of registers it needs and what kind of 
-          microstructure the registry entries need to have. Therefore TEI Publisher proposes a modular approach 
-          to the subject which allows for customizations. Nevertheless we have several distinct conceptual blocks 
-          which need careful orchestration to smoothly work together. Namely, we need a place to store the register, 
-          the data model for individual entry, the model and layout template for the form and the api endpoints 
-          and corresponding functions for all CRUD (create, read, update, delete) operations on the register entry.</para>
-          <para>The API endpoints for registers customization start with <code>/api/register</code> and call a set of functions from 
-            <code>modules/registers.xql</code>, which can be customized to reflect differences in the data 
-            coming from external authority and local entry structures.</para>
-          <para>As mentioned before, location of the registers is determined via <code>$config:register-root</code> variable in <code>config.xqm</code>. 
-            In the same module we will find further customization options related to registers: location of the models for the input forms 
-            (in <code>$config:register-forms</code>) and dedicated configuration for each of the editable register types.</para>
-            <para>The actual forms themselves are located in <code>templates/pagesannotations</code> as they are effectively 
-              HTML files with embedded Fore form webcomponents.</para>
-            <figure>
-              <title>Register configuration in config.xqm</title>
-              <mediaobject>
-                <imageobject>
-                  <imagedata fileref="register-config.png" width="800px"/>
-                </imageobject>
-              </mediaobject>
-            </figure>
-            <para>The <code>$config:register-map</code> allows to determine the following information for each registry:</para>
-            <orderedlist>
-              <listitem>
-                <para><code>id</code>: identifier by which the registry can be reached in the database, either to access 
-                  information about existing entry or to determine the insertion point for a new one; e.g. for 
-                  the <emphasis>person</emphasis> registry it is by default set to <code>pb-person</code> which is the @xml:id attribute of the TEI element in
-                <code>data/registers/persons.xml</code></para>
-                <programlisting>&lt;TEI xmlns="http://www.tei-c.org/ns/1.0"  xml:id="pb-persons"&gt;</programlisting>
-                <para>this identifier is always resolved in the context of the <code>$config:register-root</code> variable 
-                  to avoid potential conflicts</para>
-              </listitem>
-              <listitem>
-                <para><code>default</code>: identifier by which the default data model for an entry can be accessed; this identifier is always resolved in the context of the <code>$config:register-forms</code></para>
-              </listitem>
-              <listitem>
-                <para><code>prefix</code>: a prefix for the newly created entries, e.g. a new person will be given an id 
-                  like <code>person-00015</code> or similar, depending how many have been created locally earlier.</para>
-              </listitem>
-            </orderedlist>
-      </section>
   </section>
-  
+  <section>
+    <title>Customizing local registers</title>
+    <para>Each project may have particular needs in terms what kinds of registers it needs and what kind of 
+      microstructure the registry entries need to have. Therefore TEI Publisher proposes a modular approach 
+      to the subject which allows for customizations. Nevertheless there are several distinct conceptual blocks 
+      which need careful orchestration to smoothly work together. Namely, a place to store the register, 
+      the data model for individual entry, the model and layout template for the form and the api endpoints 
+      and corresponding functions for all CRUD (create, read, update, delete) operations on the register entry.</para>
+      <para>The API endpoints for registers customization start with <code>/api/register</code> and call a set of functions from 
+        <code>modules/registers.xql</code>, which can be customized to reflect differences in the data 
+        coming from external authority and local entry structures.</para>
+      <para>As mentioned before, location of the registers is determined via <code>$config:register-root</code> variable in <code>config.xqm</code>. 
+        In the same module there are further customization options related to registers: location of the models for the input forms 
+        (in <code>$config:register-forms</code>) and dedicated configuration for each of the editable register types.</para>
+        <para>The actual forms themselves are located in <code>templates/pagesannotations</code> as they are effectively 
+          HTML files with embedded Fore form webcomponents. Please consult Fore documentation how to customize these.</para>
+        <figure>
+          <title>Register configuration in config.xqm</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="register-config.png" width="800px"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <para>The <code>$config:register-map</code> allows to determine the following information for each registry:</para>
+        <orderedlist>
+          <listitem>
+            <para><code>id</code>: identifier by which the registry can be reached in the database, either to access 
+              information about existing entry or to determine the insertion point for a new one; e.g. for 
+              the <emphasis>person</emphasis> registry it is by default set to <code>pb-person</code> which is the @xml:id attribute of the TEI element in
+            <code>data/registers/persons.xml</code></para>
+            <programlisting>&lt;TEI xmlns="http://www.tei-c.org/ns/1.0"  xml:id="pb-persons"&gt;</programlisting>
+            <para>this identifier is always resolved in the context of the <code>$config:register-root</code> variable 
+              to avoid potential conflicts</para>
+          </listitem>
+          <listitem>
+            <para><code>default</code>: identifier by which the default data model for an entry can be accessed; this identifier is always resolved in the context of the <code>$config:register-forms</code></para>
+          </listitem>
+          <listitem>
+            <para><code>prefix</code>: a prefix for the newly created entries, e.g. a new person will be given an id 
+              like <code>person-00015</code> or similar, depending how many have been created locally earlier.</para>
+          </listitem>
+        </orderedlist>
+  </section>
+
 </section>
   <section xml:id="production">
     <title>TEI Publisher in production</title>
