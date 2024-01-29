@@ -168,25 +168,31 @@
 
           <section xml:id="v9">
             <title>What's new in TEI Publisher 9.0.0</title>
-            <para>Version 9 has seen a major rework of the annotation facilities and introduced local authority registers 
-              for people, places and organizations. There have been small but powerful improvements to facets and numerous minor fixes and extensions, 
-              including redesign of the layout templates and ODDs for some of the examples from the Demo Collection.
-            </para>
-            <para>This edition has also brought the demise of the <code>teiSimplePrint</code> ODD, previously the source ODD for 
-              the <code>teipublisher</code> ODD. Models from the SimplePrint, after thorough review, have been merged into the default TEI Publisher ODD.
-              This is a first step on the road for the extended and rationalized base ODD, a project inspired by the TEI Vanilla meetups 
-              of yore and now undertaken by e-editiones in cooperation with the TEI consortium.
-            </para>
-            <para>The new annotation editor boasts a new, more user friendly and ergonomic layout with additional 
+            <para>Version 9 has seen a major rework of the annotation facilities and introduced local authority registers for people, places and organizations.
+          There have been small but powerful improvements to facets and numerous minor fixes and extensions, including redesign of the layout templates and ODDs
+          for some of the examples from the Demo Collection.</para>
+        <para>As showcased in the <link xlink:href="../test/F-rom.xml">Shakespeare sample</link> and app, TEI Publisher now supports generating <link linkend="presentation-manifests">IIIF presentation manifests</link> and displaying them alongside
+          the text. Text and image view communicate to each other, which means that if you navigate to the next page/image in either of the two, the other
+          reacts accordingly. While there are external tools for creating IIIF manifests, the Shakespeare sample auto-generates them from the TEI header and the
+          page breaks in the document.</para>
+        <para>The URL routing features introduced with version 8 have been substantially improved, introducing <link linkend="client-side-urls">configurable URL templates</link> also on the client
+          side. This means you can construct URLs which are really completely independent of the underlying data organisation, while making sure the user always
+          sees the page in a consistent state.</para>
+        <para>Furthermore it became easier to select less frequent <link linkend="facets">facets</link> when browsing or searching: previously only the most frequent facets where shown by
+          default and you had to browse through a potentially long list if you wanted to find a not so common one. Now you can display a combo box in addition
+          to the list, allowing users to type in a string and see matching facets.</para>
+            <para>This edition has also brought the demise of the <code>teiSimplePrint</code> ODD, previously the source ODD for the <code>teipublisher</code>
+          ODD. Models from the SimplePrint, after thorough review, have been merged into the default TEI Publisher ODD. This is a first step on the road for the
+          extended and rationalized base ODD, a project inspired by the TEI Vanilla meetups of yore and now undertaken by e-editiones in cooperation with the
+          TEI consortium.</para>
+            <para>The new <link linkend="web-annotations">annotation editor</link> boasts a new, more user friendly and ergonomic layout with additional 
               capacity to add or edit registry entries from within the editor. Furthermore, a function to find potential matches for 
               the current annotation and review them on the spot is the long awaited feature, which promises to speed up the editing process without 
               compromising quality or consistency.</para>
             <para>A default set up for local registers of places, people and organizations allows editors to curate these resources under the same 
               roof and at the same time as they annotate the sources. As usual, our registers provide a firm base for extensions and customizations.</para>
-            <para>
-              Since the release of the previous version there was a new major version of the <code>tei-publisher-lib</code> 
-              and numerous releases of TEI Publisher's <code>webcomponents</code> library.
-            </para>
+            <para>Since the release of the previous version there was a new major version of the <code>tei-publisher-lib</code> and numerous releases of TEI
+          Publisher's <code>webcomponents</code> library.</para>
             <para>See chapter on <link linkend="updating">Updating</link> for information how to update
               your app to the newest version.</para>
           </section><section xml:id="v8">
