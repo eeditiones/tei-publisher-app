@@ -179,7 +179,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             else
                                 html:block($config, ., css:get-rendition(., ("tei-q3", css:map-rend-to-class(.))), .)                                => model:map($node, $trackIds)
                     case element(pb) return
-                        html:inline($config, ., ("tei-pb", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
+                        html:inline($config, ., ("tei-pb", "annotation", "annotation-pb", "before", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(epigraph) return
                         html:block($config, ., ("tei-epigraph", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(lb) return
@@ -535,6 +535,16 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 (),
                             html:paragraph($config, ., ("tei-place3", css:map-rend-to-class(.)), string-join((country, region), ', '))                            => model:map($node, $trackIds),
                             html:block($config, ., ("tei-place4", css:map-rend-to-class(.)), note/node())                            => model:map($node, $trackIds)
+                        )
+
+                    case element(org) return
+                        (
+                            html:heading($config, ., ("tei-org1", css:map-rend-to-class(.)), orgName[@type="main"], 3)                            => model:map($node, $trackIds),
+                            if (orgName[not(@type)]) then
+                                html:heading($config, ., ("tei-org2", css:map-rend-to-class(.)), string-join(orgName[not(@type)]/string(), '; '), 4)                                => model:map($node, $trackIds)
+                            else
+                                (),
+                            html:block($config, ., ("tei-org3", css:map-rend-to-class(.)), note/node())                            => model:map($node, $trackIds)
                         )
 
                     case element(rs) return
