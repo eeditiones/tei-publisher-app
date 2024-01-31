@@ -471,14 +471,23 @@ fx-fore #markupPanel pb-tabs{
     height: 100%;
 }
 
-
-.text {
-    display: flex;
-    flex-direction: column;
+pb-page {
+    height: 100vh;
+    display: grid;
+    grid-template-areas: 
+        "menu menu" 
+        "toolbar toolbar" 
+        "main aside";
+    grid-template-rows: auto auto 1fr;
+    grid-template-columns: 1fr auto;
+    position: relative;
 }
 
-main .text {
-    margin-top: 0;
+.text {
+    grid-area: main;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 pb-authority-lookup {
@@ -500,73 +509,32 @@ pb-authority-lookup::part(output) ul{
 pb-document{
     display: none;
 }
-pb-page{
-    display: block;
-    /*
-    display: grid;
-    grid-template-areas: "menu "
-                         "toolbar"
-                         "textview";
-    grid-template-columns: auto 30rem;
-    */
-    position: relative;
-}
-/*
-pb-page > app-toolbar.menubar{
-    grid-area: menu;
-    height: 4rem;
-    position:fixed;
-    width: 100%;
-    top:0;
-}
-*/
+
 pb-page > app-toolbar.menubar {
     grid-area: menu;
     height: 4rem;
-    position: fixed;
-    width: calc(100% - 1rem);
-    top: 0;
-    padding: 0 1rem;
-    left: -0.5rem;
     z-index: 100;
 }
+
 pb-page > header.header-toolbar{
     grid-area: toolbar;
-    position:fixed;
-    top:4rem;
 }
 
-main .toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    background-color: var(--pb-color-inverse);
-}
 pb-page > main{
     grid-area:textview;
-    height: 100vh;
+    margin-top: 128px;
     display: grid;
     grid-template-columns: 1fr var(--annotation-aside-width);
     background: #ddd;
 }
 
-pb-page > main .text{
-    /*min-width: 58rem;*/
+pb-page aside {
+    grid-area: aside;
     overflow: auto;
-    margin-top:8rem;
-    background: white;
-    scroll-margin-top: 128px;
-    padding-bottom: 25vh;
-}
-
-pb-page aside{
-    position: fixed;
-    right: 0;
-    top: 128px;
+    /* height: calc(100vh - 128px); */
     min-width: var(--annotation-aside-width);
     width: 35vw;
     background: #efefef;
-    height: 100vh;
     border-top: solid 2px #ddd;
     box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14),
     0 1px 8px 0 rgba(0, 0, 0, 0.12),
@@ -719,6 +687,13 @@ paper-icon-button[data-type="edit"] {
     display: grid;
     grid-template-rows: auto auto 1fr auto;
     height: 100%;
+}
+
+#d-review .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    background-color: var(--pb-color-inverse);
 }
 
 #d-review h3 {
