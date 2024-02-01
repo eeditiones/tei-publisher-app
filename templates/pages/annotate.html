@@ -280,13 +280,14 @@
                     <fx-load url="templates/pages/annotation/{event('type')}-editor.html"
                              attach-to="#authority-editor"></fx-load>
                     <fx-setvalue ref="instance()/authority-editor" value="event('type')"></fx-setvalue>
+                    <fx-message>Remember to close/save editor before continuing</fx-message>
                     <fx-dispatch name="pb-disable" targetid="view1"></fx-dispatch>
                 </fx-action>
 
                 <fx-action event="pb-authority-edit-entity" target="#document">
                     <fx-setvalue ref="authority">true</fx-setvalue>
                     <fx-setvalue ref="ref" value="event('id')"></fx-setvalue>
-                    <fx-message>Type: {event('type')} – {instance()/authority}</fx-message>
+                    <fx-message>Remember to close/save editor before continuing</fx-message>
                     <fx-setvalue ref="instance()/authority-editor" value="event('type')"></fx-setvalue>
                     <fx-load url="templates/pages/annotation/{event('type')}-editor.html"
                              attach-to="#authority-editor"></fx-load>
@@ -327,7 +328,6 @@
 
                 <!-- ### an authority has been created by an plugin authority form  -->
                 <fx-action event="authority-created" target="#document">
-                    <fx-message>authority-created id:{event('ref')}</fx-message>
                     <!--fx-call function="updateAnnotationDetails(event('ref'))"></fx-call-->
                     <fx-setvalue ref="authority">false</fx-setvalue>
                     <fx-setvalue ref="occurrences">true</fx-setvalue>
