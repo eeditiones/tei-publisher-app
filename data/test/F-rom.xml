@@ -301,6 +301,7 @@
             </abstract>
             <textClass>
                 <catRef scheme="#genre" target="#drama"/>
+                <catRef scheme="#feature" target="#iiif"/>
                 <catRef scheme="#form" target="#print"/>
                 <catRef scheme="#feature" target="#image"/>
                 <catRef scheme="#feature" target="#pages"/>

@@ -69,7 +69,7 @@
                      <catDesc>images</catDesc>
                   </category>
                   <category xml:id="iiif">
-                     <catDesc>IIIF</catDesc>
+                     <catDesc>IIIF presentation manifest</catDesc>
                   </category>
                   <category xml:id="normalization">
                      <catDesc>normalization</catDesc>
