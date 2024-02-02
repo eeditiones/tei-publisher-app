@@ -4,7 +4,7 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Bogactwa mowy polskiej</title>
+                <title>Bogactwa mowy polskiej<desc>Polish dictionary example</desc></title>
             </titleStmt>
             <publicationStmt>
                 <publisher>eXistSolutions GmbH</publisher>
