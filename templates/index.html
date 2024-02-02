@@ -40,10 +40,16 @@
                 };
                 --paper-card-header-text: {
                     font-family: var(--pb-heading-font-family);
-                    font-size: 16px;
+                    font-size: var(--pb-content-font-size);
                     font-weight: 400;
                     color: black;
                 };
+            }
+            .tp-title small {
+                font-size: .65em;
+                vertical-align: super;
+                color: var(--pb-color-focus);
+                padding-left: .35em;
             }
         </style>
     </custom-style>
@@ -66,7 +72,7 @@
                     </app-toolbar>
                 <header class="welcome">
                     <div>
-                        <h1 class="tp-title">The Instant Publishing Toolbox</h1>
+                        <h1 class="tp-title">The Instant Publishing Toolbox<small data-template="pages:version">x.x.x</small></h1>
                     </div>
                    <div class="side">
                         <p><pb-i18n key="browse.login-1">Log in as</pb-i18n> <strong>tei-demo</strong> <pb-i18n key="browse.login-2">with password</pb-i18n> <strong>demo</strong> <pb-i18n key="browse.login-3">to experiment with your own files and ODDs</pb-i18n></p>
