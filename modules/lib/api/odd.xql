@@ -122,9 +122,8 @@ declare function oapi:recompile($request as map(*)) {
 
 declare function oapi:list-odds($request as map(*)) {
     array {
-        for $doc in xmldb:get-child-resources(xs:anyURI($config:odd-root))
+        for $doc in distinct-values(($config:odd-available, $config:odd-internal))
         let $resource := $config:odd-root || "/" || $doc
-        where ends-with($resource, ".odd")
         let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
         let $displayName := (
             doc($resource)/TEI/teiHeader/fileDesc/titleStmt/title[@type = "short"]/string(),
@@ -132,6 +131,7 @@ declare function oapi:list-odds($request as map(*)) {
             $name
         )[1]
         let $description :=  doc($resource)/TEI/teiHeader/fileDesc/titleStmt/title/desc/string()
+        order by $displayName
         return
             map {
                 "name": $name,

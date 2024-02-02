@@ -424,7 +424,8 @@ declare variable $config:default-odd := "teipublisher.odd";
  : make sure to run modules/generate-pm-config.xql to update the main configuration
  : module for transformations (modules/pm-config.xql).
  :)
-declare variable $config:odd-available := xmldb:get-child-resources($config:odd-root)[ends-with(., ".odd")];
+declare variable $config:odd-available := 
+    xmldb:get-child-resources($config:odd-root)[ends-with(., ".odd")][. != "teipublisher_odds.odd"];
 
 (:~
  : List of ODD files which are used internally only, i.e. not for displaying information
