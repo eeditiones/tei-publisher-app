@@ -90,7 +90,9 @@
 .tei-sic2:before { content: '{'; }
 .tei-sic2:after { content: '}'; }
 .tei-body1 { font-weight: 200; border-bottom: 1px solid #A0A0A0; }
+.tei-body2 { font-size: var(--pb-footnote-font-size); }
 .tei-body3 { font-weight: 200; border-bottom: 1px solid #A0A0A0; }
+.tei-body4 { font-size: var(--pb-footnote-font-size); }
 .tei-quote1:before { content: '‘'; }
 .tei-quote1:after { content: '’'; }
 .tei-quote2 { margin-left: 10px; margin-right: 10px; }
@@ -108,8 +110,6 @@
 .tei-name5 { color: #bf360c; cursor: pointer; }
 .tei-name6 { font-style: italic; }
 .tei-place2 { margin-bottom: 0; }
-.tei-place3 { font-size: .75em; }
-.tei-place4 { font-size: .75em; }
 .tei-geo2 { color: #1565c0; cursor: pointer; }
 .tei-person2 { margin-bottom: 0; }
 .tei-person3 { font-size: .85em; margin-bottom: .5em; }

@@ -7,6 +7,7 @@
 
                  
                   
+                 
                  <desc>Modern correspondence with visualization of prosopographical and geographical information</desc>
                 </title>
             </titleStmt>
@@ -74,30 +75,22 @@
             <param name="scroll" value="true()"/>
             <param name="subscribe" value="'letter'"/>
             <param name="emit" value="'facets'"/>
+            <param name="duration" value="0"/>
             <outputRendition xml:space="preserve">
             display: block;
             </outputRendition>
         </model>
-                    <model predicate="@type='place' and id(substring-after(@ref, '#'), root($parameters?root))/location/geo" behaviour="webcomponent">
-            <param name="name" value="'pb-geolocation'"/>
+                    <model predicate="@type='place' and id(substring-after(@ref, '#'), root($parameters?root))/location/geo" behaviour="inline">
             <param name="longitude" value="tokenize(id(substring-after(@ref, '#'), root($parameters?root))/location/geo, ' ')[2]"/>
             <param name="latitude" value="tokenize(id(substring-after(@ref, '#'), root($parameters?root))/location/geo, ' ')[1]"/>
             <param name="label" value="id(substring-after(@ref, '#'), root($parameters?root))/placeName"/>
             <param name="key" value="substring-after(@ref, '#')"/>
-            <param name="scroll" value="true()"/>
-            <param name="emit" value="'letter'"/>
-            <param name="duration" value="1000"/>
+            <pb:template xmlns="" xml:space="preserve"><pb-geolocation longitude="[[longitude]]" latitude="[[latitude]]" key="[[key]]" scroll="" emit="letter" label="[[label]]">
+  <pb-highlight emit="letter" scroll="" key="[[key]]" duration="1000">[[content]]</pb-highlight>
+</pb-geolocation></pb:template>
             <outputRendition xml:space="preserve">
-            
-            
-            
-
             color: #1565c0;
 cursor: pointer;
-
-            
-            
-            
             </outputRendition>
         </model>
                     <model predicate="@type='person' and id(substring-after(@ref, '#'), root($parameters?root))" behaviour="webcomponent">
@@ -107,16 +100,8 @@ cursor: pointer;
             <param name="scroll" value="true()"/>
             <param name="emit" value="'letter'"/>
             <outputRendition xml:space="preserve">
-            
-            
-            
-
             color: #bf360c;
 cursor: pointer;
-
-            
-            
-            
             </outputRendition>
         </model>
                     <model predicate="@type='place'" behaviour="inline">
@@ -161,117 +146,34 @@ cursor: pointer;
                 </elementSpec>
                 <elementSpec ident="body" mode="change">
                     <modelSequence predicate="$parameters?mode='facets'">
+            <desc>List of places and people in the sidebar</desc>
             <model behaviour="heading">
                 <param name="content" value="'Places'"/>
-                <param name="level" value="2"/>
+                <param name="level" value="3"/>
                 <outputRendition xml:space="preserve">
-                
-                
-                
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                font-weight: 200;
+                font-weight: 200;
 border-bottom: 1px solid #A0A0A0;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                
-                
-                
                 </outputRendition>
             </model>
             <model behaviour="block">
                 <param name="content" value="for $n in .//name[@type='place'] group by $ref := $n/@ref order by $ref return $n[1]"/>
+                <outputRendition xml:space="preserve">
+                font-size: var(--pb-footnote-font-size);
+                </outputRendition>
             </model>
             <model behaviour="heading">
                 <param name="content" value="'People'"/>
-                <param name="level" value="2"/>
+                <param name="level" value="3"/>
                 <outputRendition xml:space="preserve">
-                
-                
-                
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                font-weight: 200;
+                font-weight: 200;
 border-bottom: 1px solid #A0A0A0;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                
-                
-                
                 </outputRendition>
             </model>
             <model behaviour="section">
                 <param name="content" value="for $n in .//name[@type='person'] group by $ref := $n/@ref order by $ref return $n[1]"/>
+                <outputRendition xml:space="preserve">
+                font-size: var(--pb-footnote-font-size);
+                </outputRendition>
             </model>
         </modelSequence>
                     <modelSequence>
@@ -289,22 +191,16 @@ border-bottom: 1px solid #A0A0A0;
                     <modelSequence>
             <model behaviour="heading">
                 <param name="content" value="string-join(placeName, ', ')"/>
-                <param name="level" value="3"/>
+                <param name="level" value="4"/>
                 <outputRendition xml:space="preserve">
                 margin-bottom: 0;
                 </outputRendition>
             </model>
             <model predicate="location/geo" behaviour="block">
                 <param name="content" value="location/geo"/>
-                <outputRendition xml:space="preserve">
-                font-size: .75em;
-                </outputRendition>
             </model>
             <model behaviour="block">
                 <param name="content" value="string-join(location/* except location/geo, ', ')"/>
-                <outputRendition xml:space="preserve">
-                font-size: .75em;
-                </outputRendition>
             </model>
             <model behaviour="block">
                 <param name="content" value="note/node()"/>
@@ -323,19 +219,10 @@ border-bottom: 1px solid #A0A0A0;
                 <param name="content" value="."/>
                 <param name="emit" value="'letter'"/>
                 <outputRendition xml:space="preserve">
-                
-                
-                
-
                 color: #1565c0;
 cursor: pointer;
-
-                
-                
-                
                 </outputRendition>
             </model>
-            <model behaviour="inline"/>
         </modelSequence>
                 </elementSpec>
                 <elementSpec ident="opener" mode="change">
@@ -363,8 +250,10 @@ cursor: pointer;
                 
                 
                 
+                
                 font-size: .85em;
 margin-bottom: .5em;
+                
                 
                 
                 
@@ -390,10 +279,12 @@ margin-bottom: .5em;
                 
                 
                 
+                
                 margin-top: 10px;
 padding-top: 10px;
 border-top: 1px solid #A0A0A0;
 font-style: italic;
+                
                 
                 
                 
@@ -412,8 +303,10 @@ font-style: italic;
             <param name="default" value="."/>
             <outputRendition xml:space="preserve">
             
+            
             text-decoration: underline;
 --pb-popover-theme: 'light';
+            
             
             </outputRendition>
         </model>
@@ -528,24 +421,20 @@ font-style: italic;
             <param name="alternate" value="id(@ref, doc($global:register-root || &#34;/places.xml&#34;))"/>
             <param name="default" value="."/>
             <outputRendition xml:space="preserve">
-            
-            
             text-decoration: underline;
 --pb-popover-theme: 'light';
-            
-            
             </outputRendition>
         </model>
                 </elementSpec>
             <elementSpec ident="term" mode="add">
-        <model behaviour="alternate">
+                    <model behaviour="alternate">
             <param name="alternate" value="id(@ref, doc($global:register-root || &#34;/keywords.xml&#34;))"/>
             <param name="default" value="."/>
             <outputRendition xml:space="preserve">
             font-style: italic;
             </outputRendition>
         </model>
-    </elementSpec>
+                </elementSpec>
             </schemaSpec>
         </body>
     </text>

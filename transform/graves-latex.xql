@@ -19,6 +19,8 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
+import module namespace global="http://www.tei-c.org/tei-simple/config" at "../modules/config.xqm";
+
 (: Generated behaviour function for ident glossary :)
 declare %private function model:glossary($config as map(*), $node as node()*, $class as xs:string+, $content, $name, $note) {
     $node ! (
@@ -93,6 +95,12 @@ declare %private function model:template-mei_mdiv($config as map(*), $node as no
 (: generated template function for element spec: name :)
 declare %private function model:template-name($config as map(*), $node as node()*, $params as map(*)) {
     ``[\glslink{`{string-join($config?apply-children($config, $node, $params?id))}`}{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
+};
+(: generated template function for element spec: name :)
+declare %private function model:template-name4($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><pb-geolocation longitude="{$config?apply-children($config, $node, $params?longitude)}" latitude="{$config?apply-children($config, $node, $params?latitude)}" key="{$config?apply-children($config, $node, $params?key)}" scroll="" emit="letter" label="{$config?apply-children($config, $node, $params?label)}">
+  <pb-highlight emit="letter" scroll="" key="{$config?apply-children($config, $node, $params?key)}" duration="1000">{$config?apply-children($config, $node, $params?content)}</pb-highlight>
+</pb-geolocation></t>/*
 };
 (: generated template function for element spec: correspAction :)
 declare %private function model:template-correspAction($config as map(*), $node as node()*, $params as map(*)) {
@@ -540,9 +548,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(body) return
                         if ($parameters?mode='facets') then
                             (
-                                latex:heading($config, ., ("tei-body1", css:map-rend-to-class(.)), 'Places', 2),
+                                latex:heading($config, ., ("tei-body1", css:map-rend-to-class(.)), 'Places', 3),
                                 latex:block($config, ., ("tei-body2", css:map-rend-to-class(.)), for $n in .//name[@type='place'] group by $ref := $n/@ref order by $ref return $n[1]),
-                                latex:heading($config, ., ("tei-body3", css:map-rend-to-class(.)), 'People', 2),
+                                latex:heading($config, ., ("tei-body3", css:map-rend-to-class(.)), 'People', 3),
                                 latex:section($config, ., ("tei-body4", css:map-rend-to-class(.)), for $n in .//name[@type='person'] group by $ref := $n/@ref order by $ref return $n[1])
                             )
 
@@ -615,8 +623,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         model:glossary($config, ., ("tei-place1", css:map-rend-to-class(.)), ., string-join(placeName, ', '), note)
                     case element(geo) return
                         (
-                            latex:inline($config, ., ("tei-geo1", css:map-rend-to-class(.)), 'Location: '),
-                            latex:inline($config, ., ("tei-geo3", css:map-rend-to-class(.)), .)
+                            latex:inline($config, ., ("tei-geo1", css:map-rend-to-class(.)), 'Location: ')
                         )
 
                     case element(person) return
@@ -628,7 +635,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             if (parent::person) then
                                 latex:inline($config, ., ("tei-persName2", css:map-rend-to-class(.)), .)
                             else
-                                latex:alternate($config, ., ("tei-persName3", css:map-rend-to-class(.)), ., ., id(@ref, doc("/db/apps/tei-publisher/data/register.xml")))
+                                latex:alternate($config, ., ("tei-persName3", css:map-rend-to-class(.)), ., ., id(@ref, doc($global:register-root || "/persons.xml")))
                     case element(birth) return
                         if (following-sibling::death) then
                             latex:inline($config, ., ("tei-birth1", css:map-rend-to-class(.)), ('* ', ., '; '))
@@ -681,9 +688,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                             else
                                 $config?apply($config, ./node())
                     case element(placeName) return
-                        latex:alternate($config, ., ("tei-placeName", css:map-rend-to-class(.)), ., ., id(@ref, doc("/db/apps/tei-publisher/data/register.xml")))
+                        latex:alternate($config, ., ("tei-placeName", css:map-rend-to-class(.)), ., ., id(@ref, doc($global:register-root || "/places.xml")))
                     case element(term) return
-                        latex:alternate($config, ., ("tei-term", css:map-rend-to-class(.)), ., ., id(@ref, doc("/db/apps/tei-publisher/data/register.xml")))
+                        latex:alternate($config, ., ("tei-term", css:map-rend-to-class(.)), ., ., id(@ref, doc($global:register-root || "/keywords.xml")))
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())

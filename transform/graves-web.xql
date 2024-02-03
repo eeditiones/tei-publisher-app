@@ -19,6 +19,8 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
+import module namespace global="http://www.tei-c.org/tei-simple/config" at "../modules/config.xqm";
+
 (: generated template function for element spec: ptr :)
 declare %private function model:template-ptr($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><pb-mei url="{$config?apply-children($config, $node, $params?url)}" player="player">
@@ -28,6 +30,12 @@ declare %private function model:template-ptr($config as map(*), $node as node()*
 (: generated template function for element spec: mei:mdiv :)
 declare %private function model:template-mei_mdiv($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><pb-mei player="player" data="{$config?apply-children($config, $node, $params?data)}"/></t>/*
+};
+(: generated template function for element spec: name :)
+declare %private function model:template-name4($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><pb-geolocation longitude="{$config?apply-children($config, $node, $params?longitude)}" latitude="{$config?apply-children($config, $node, $params?latitude)}" key="{$config?apply-children($config, $node, $params?key)}" scroll="" emit="letter" label="{$config?apply-children($config, $node, $params?label)}">
+  <pb-highlight emit="letter" scroll="" key="{$config?apply-children($config, $node, $params?key)}" duration="1000">{$config?apply-children($config, $node, $params?content)}</pb-highlight>
+</pb-geolocation></t>/*
 };
 (:~
 
@@ -423,9 +431,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(body) return
                         if ($parameters?mode='facets') then
                             (
-                                html:heading($config, ., ("tei-body1", css:map-rend-to-class(.)), 'Places', 2)                                => model:map($node, $trackIds),
+                                html:heading($config, ., ("tei-body1", css:map-rend-to-class(.)), 'Places', 3)                                => model:map($node, $trackIds),
                                 html:block($config, ., ("tei-body2", css:map-rend-to-class(.)), for $n in .//name[@type='place'] group by $ref := $n/@ref order by $ref return $n[1])                                => model:map($node, $trackIds),
-                                html:heading($config, ., ("tei-body3", css:map-rend-to-class(.)), 'People', 2)                                => model:map($node, $trackIds),
+                                html:heading($config, ., ("tei-body3", css:map-rend-to-class(.)), 'People', 3)                                => model:map($node, $trackIds),
                                 html:section($config, ., ("tei-body4", css:map-rend-to-class(.)), for $n in .//name[@type='person'] group by $ref := $n/@ref order by $ref return $n[1])                                => model:map($node, $trackIds)
                             )
 
@@ -488,10 +496,22 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:webcomponent($config, ., ("tei-name2", css:map-rend-to-class(.)), id(substring-after(@ref, '#'), root($parameters?root)), 'pb-highlight', map {"key": substring-after(@ref, '#'), "subscribe": 'letter', "emit": 'facets'})                            => model:map($node, $trackIds)
                         else
                             if ($parameters?mode='facets' and @type='place') then
-                                html:webcomponent($config, ., ("tei-name3", css:map-rend-to-class(.)), id(substring-after(@ref, '#'), root($parameters?root)), 'pb-highlight', map {"key": substring-after(@ref, '#'), "scroll": true(), "subscribe": 'letter', "emit": 'facets'})                                => model:map($node, $trackIds)
+                                html:webcomponent($config, ., ("tei-name3", css:map-rend-to-class(.)), id(substring-after(@ref, '#'), root($parameters?root)), 'pb-highlight', map {"key": substring-after(@ref, '#'), "scroll": true(), "subscribe": 'letter', "emit": 'facets', "duration": 0})                                => model:map($node, $trackIds)
                             else
                                 if (@type='place' and id(substring-after(@ref, '#'), root($parameters?root))/location/geo) then
-                                    html:webcomponent($config, ., ("tei-name4", css:map-rend-to-class(.)), ., 'pb-geolocation', map {"longitude": tokenize(id(substring-after(@ref, '#'), root($parameters?root))/location/geo, ' ')[2], "latitude": tokenize(id(substring-after(@ref, '#'), root($parameters?root))/location/geo, ' ')[1], "label": id(substring-after(@ref, '#'), root($parameters?root))/placeName, "key": substring-after(@ref, '#'), "scroll": true(), "emit": 'letter', "duration": 1000})                                    => model:map($node, $trackIds)
+                                    let $params := 
+                                        map {
+                                            "longitude": tokenize(id(substring-after(@ref, '#'), root($parameters?root))/location/geo, ' ')[2],
+                                            "latitude": tokenize(id(substring-after(@ref, '#'), root($parameters?root))/location/geo, ' ')[1],
+                                            "label": id(substring-after(@ref, '#'), root($parameters?root))/placeName,
+                                            "key": substring-after(@ref, '#'),
+                                            "content": .
+                                        }
+
+                                                                        let $content := 
+                                        model:template-name4($config, ., $params)
+                                    return
+                                                                        html:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-name4", css:map-rend-to-class(.)), $content)                                    => model:map($node, $trackIds)
                                 else
                                     if (@type='person' and id(substring-after(@ref, '#'), root($parameters?root))) then
                                         html:webcomponent($config, ., ("tei-name5", css:map-rend-to-class(.)), ., 'pb-highlight', map {"key": substring-after(@ref, '#'), "scroll": true(), "emit": 'letter'})                                        => model:map($node, $trackIds)
@@ -502,7 +522,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                             $config?apply($config, ./node())
                     case element(place) return
                         (
-                            html:heading($config, ., ("tei-place2", css:map-rend-to-class(.)), string-join(placeName, ', '), 3)                            => model:map($node, $trackIds),
+                            html:heading($config, ., ("tei-place2", css:map-rend-to-class(.)), string-join(placeName, ', '), 4)                            => model:map($node, $trackIds),
                             if (location/geo) then
                                 html:block($config, ., ("tei-place3", css:map-rend-to-class(.)), location/geo)                                => model:map($node, $trackIds)
                             else
@@ -514,8 +534,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(geo) return
                         (
                             html:inline($config, ., ("tei-geo1", css:map-rend-to-class(.)), 'Location: ')                            => model:map($node, $trackIds),
-                            html:webcomponent($config, ., ("tei-geo2", css:map-rend-to-class(.)), ., 'pb-geolocation', map {"latitude": tokenize(., ' ')[1], "longitude": tokenize(., ' ')[2], "emit": 'letter'})                            => model:map($node, $trackIds),
-                            html:inline($config, ., ("tei-geo3", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)
+                            html:webcomponent($config, ., ("tei-geo2", css:map-rend-to-class(.)), ., 'pb-geolocation', map {"latitude": tokenize(., ' ')[1], "longitude": tokenize(., ' ')[2], "emit": 'letter'})                            => model:map($node, $trackIds)
                         )
 
                     case element(person) return
@@ -539,7 +558,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             if (parent::person) then
                                 html:inline($config, ., ("tei-persName2", css:map-rend-to-class(.)), .)                                => model:map($node, $trackIds)
                             else
-                                html:alternate($config, ., ("tei-persName3", css:map-rend-to-class(.)), ., ., id(@ref, doc("/db/apps/tei-publisher/data/register.xml")), map {})                                => model:map($node, $trackIds)
+                                html:alternate($config, ., ("tei-persName3", css:map-rend-to-class(.)), ., ., id(@ref, doc($global:register-root || "/persons.xml")), map {})                                => model:map($node, $trackIds)
                     case element(birth) return
                         if (following-sibling::death) then
                             html:inline($config, ., ("tei-birth1", css:map-rend-to-class(.)), ('* ', ., '; '))                            => model:map($node, $trackIds)
@@ -564,9 +583,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     else
                                         $config?apply($config, ./node())
                     case element(placeName) return
-                        html:alternate($config, ., ("tei-placeName", css:map-rend-to-class(.)), ., ., id(@ref, doc("/db/apps/tei-publisher/data/register.xml")), map {})                        => model:map($node, $trackIds)
+                        html:alternate($config, ., ("tei-placeName", css:map-rend-to-class(.)), ., ., id(@ref, doc($global:register-root || "/places.xml")), map {})                        => model:map($node, $trackIds)
                     case element(term) return
-                        html:alternate($config, ., ("tei-term", css:map-rend-to-class(.)), ., ., id(@ref, doc("/db/apps/tei-publisher/data/register.xml")), map {})                        => model:map($node, $trackIds)
+                        html:alternate($config, ., ("tei-term", css:map-rend-to-class(.)), ., ., id(@ref, doc($global:register-root || "/keywords.xml")), map {})                        => model:map($node, $trackIds)
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return
