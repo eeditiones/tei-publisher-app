@@ -3,7 +3,7 @@
 <!--Licensed under Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)-->
 <?xml-model href="https://xmlschema.huygens.knaw.nl/vgodd.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <?teipublisher odd="vangogh.odd" template="vangogh.html" view="page" media="latex"?>
-<TEI xmlns:vg="http://www.vangoghletters.org/ns/" xmlns="http://www.tei-c.org/ns/1.0" n="Ca">
+<TEI xmlns:vg="http://www.vangoghletters.org/ns/" xmlns="http://www.tei-c.org/ns/1.0" n="Ac">
   <teiHeader xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <fileDesc>
       <titleStmt>
