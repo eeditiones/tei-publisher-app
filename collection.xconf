@@ -8,6 +8,7 @@
                 <field name="author" expression="nav:get-metadata(ancestor::tei:TEI, 'author')"/>
                 <field name="language" expression="nav:get-metadata(ancestor::tei:TEI, 'language')"/>
                 <field name="date" expression="nav:get-metadata(ancestor::tei:TEI, 'date')"/>
+                <field name="category" expression="nav:get-metadata(ancestor::tei:TEI, 'category')"/>
                 <field name="file" expression="util:document-name(.)"/>
                 <field name="text" expression="."/>
                 <facet dimension="genre" expression="nav:get-metadata(ancestor::tei:TEI, 'genre')" hierarchical="yes"/>

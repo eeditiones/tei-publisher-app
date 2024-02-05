@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?teipublisher template="cortez-with-translation.html" odd="dantiscus.odd" view="page" media="epub"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="CIDTC5772">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="CIDTC5772" n="Cc">
    <teiHeader>
       <fileDesc>
          <titleStmt>

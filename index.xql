@@ -60,6 +60,8 @@ declare function idx:get-metadata($root as element(), $field as xs:string) {
                 root($root)//dbk:info/dbk:keywordset[@vocab="#genre"]/dbk:keyword,
                 root($root)//article-meta/kwd-group[@kwd-group-type="genre"]/kwd
             )
+            case "category" return
+                (root($root)/tei:TEI/@n, "ZZZ")[1]
             case "feature" return (
                 idx:get-classification($header, 'feature'),
                 $root/dbk:info/dbk:keywordset[@vocab="#feature"]/dbk:keyword
