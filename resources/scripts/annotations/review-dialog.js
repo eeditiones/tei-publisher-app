@@ -202,7 +202,7 @@ function _saveCurrent() {
             }
             return response.json();
         }
-        if (response.status === 401) {
+        if (response.status === 403) {
             document.getElementById('permission-denied-dialog').show();
             return;
         }

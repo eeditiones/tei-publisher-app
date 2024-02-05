@@ -508,7 +508,7 @@ window.addEventListener("WebComponentsReady", () => {
 				reviewDialog.close();
 				return;
 			}
-			if (response.status === 401) {
+			if (response.status === 403) {
 				document.getElementById('permission-denied-dialog').show();
 				throw new Error(response.statusText);
 			}
