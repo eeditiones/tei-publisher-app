@@ -21,6 +21,7 @@
     "chai": "^4.2.0",
     "chai-openapi-response-validator": "^0.9.4",
     "chai-xml": "^0.4.0",
+    "cypress": "^13.6.6",
     "form-data": "^3.0.0",
     "jsdom": "^16.5.0",
     "mocha": "^8.1.3",
