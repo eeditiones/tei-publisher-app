@@ -150,7 +150,8 @@ declare function deploy:package-json($json as map(*)) {
         "version": "1.0.0",
         "description": $json?title,
         "dependencies": map {
-            "@teipublisher/pb-components": if ($config:webcomponents = 'local') then 'latest' else $config:webcomponents
+            "@teipublisher/pb-components": if ($config:webcomponents = 'local') then 'latest' else $config:webcomponents,
+            "@jinntec/fore": $config:fore
         }
     }
     return
