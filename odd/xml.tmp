@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.w3.org/XML/1998/namespace" xmlns:ns1="http://teipublisher.com/1.0" xmlns:dcr="http://www.isocat.org/ns/dcr" xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:tei="http://www.tei-c.org/ns/1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.w3.org/XML/1998/namespace" xmlns:ns1="http://teipublisher.com/1.0" xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:tei="http://www.tei-c.org/ns/1.0">
   <xs:import namespace="http://teipublisher.com/1.0" schemaLocation="ns1.tmp"/>
-  <xs:import namespace="http://www.isocat.org/ns/dcr" schemaLocation="dcr.tmp"/>
   <xs:import namespace="http://www.tei-c.org/ns/1.0" schemaLocation="teipublisher_odds.xsd.tmp"/>
   <xs:import namespace="http://www.tei-c.org/ns/Examples" schemaLocation="teix.tmp"/>
   <xs:attribute name="id" type="xs:ID">
@@ -24,10 +23,15 @@
       </xs:union>
     </xs:simpleType>
   </xs:attribute>
-  <xs:attribute name="base" type="xs:anyURI">
+  <xs:attribute name="base">
     <xs:annotation>
       <xs:documentation>provides a base URI reference with which applications can resolve relative URI references into absolute URI references.</xs:documentation>
     </xs:annotation>
+    <xs:simpleType>
+      <xs:restriction base="xs:anyURI">
+        <xs:pattern value="\S+"/>
+      </xs:restriction>
+    </xs:simpleType>
   </xs:attribute>
   <xs:attribute name="space">
     <xs:annotation>

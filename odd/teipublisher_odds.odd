@@ -1,10 +1,8 @@
-<TEI xmlns:xi="http://www.w3.org/2001/XInclude" xmlns="http://www.tei-c.org/ns/1.0" xmlns:teix="http://www.tei-c.org/ns/Examples"
-  xmlns:pb="http://teipublisher.com/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:pb="http://teipublisher.com/1.0" xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:rng="http://relaxng.org/ns/structure/1.0">
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>TEI Publisher Customization for ODD Authoring
-          <desc>Utility ODD defining extensions to the TEI Processing Model. Used to generate a schema for validation.</desc></title>
+        <title>TEI Publisher Customization for ODD Authoring</title>
         <author>Wolfgang Meier</author>
       </titleStmt>
       <publicationStmt>
@@ -37,7 +35,7 @@
           <desc>Data type for elementSpec/@ident</desc>
           <content>
             <alternate>
-              <dataRef name="Name"></dataRef>
+              <dataRef name="Name"/>
               <valList>
                 <valItem ident="*"/>
                 <valItem ident="text()"/>
@@ -49,10 +47,8 @@
           <content>
             <sequence>
               <elementRef key="behaviour" minOccurs="0" maxOccurs="unbounded"/>
-              <elementRef key="rendition" minOccurs="0"
-                maxOccurs="unbounded"/>
-              <elementRef key="namespace" minOccurs="0"
-                maxOccurs="unbounded"/>
+              <elementRef key="rendition" minOccurs="0" maxOccurs="unbounded"/>
+              <elementRef key="namespace" minOccurs="0" maxOccurs="unbounded"/>
             </sequence>
           </content>
         </elementSpec>
@@ -70,8 +66,7 @@
           <content>
             <alternate minOccurs="1" maxOccurs="unbounded">
               <textNode/>
-              <anyElement require="http://relaxng.org/ns/structure/1.0"
-                minOccurs="0" maxOccurs="unbounded"/>
+              <anyElement require="http://relaxng.org/ns/structure/1.0" minOccurs="0" maxOccurs="unbounded"/>
             </alternate>
           </content>
           <attList>
@@ -81,18 +76,22 @@
         <elementSpec ident="model" mode="change">
           <content>
             <sequence>
-              <alternate minOccurs="0"
-                maxOccurs="unbounded">
+              <alternate minOccurs="0" maxOccurs="unbounded">
                 <classRef key="model.glossLike"/>
                 <classRef key="model.descLike"/>
               </alternate>
-              <elementRef key="param" minOccurs="0"
-                maxOccurs="unbounded"/>
+              <elementRef key="param" minOccurs="0" maxOccurs="unbounded"/>
               <elementRef key="template" minOccurs="0" maxOccurs="1"/>
-              <elementRef key="outputRendition"
-                minOccurs="0" maxOccurs="unbounded"/>
+              <elementRef key="outputRendition" minOccurs="0" maxOccurs="unbounded"/>
             </sequence>
           </content>
+          <attList>
+            <attDef usage="opt" ident="mode" ns="http://teipublisher.com/1.0">
+              <datatype>
+                <dataRef key="publisher.ident"/>
+              </datatype>
+            </attDef>
+          </attList>
         </elementSpec>
         <elementSpec ident="behaviour" ns="http://teipublisher.com/1.0" mode="add">
           <desc>Define a processing model behaviour based on a template expression. It combines one or more <gi>pb:param</gi> parameter definitions with a single <gi>pb:template</gi>.</desc>
