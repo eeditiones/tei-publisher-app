@@ -86,6 +86,8 @@ window.addEventListener("WebComponentsReady", () => {
 	const saveBtn = document.getElementById("form-save");
 	const refInput = document.querySelectorAll(".form-ref");
 	const nerDialog = document.getElementById("ner-dialog");
+	const trackHistory = document.getElementById('commit').hasAttribute('track-history');
+
 	let autoSave = false;
 	let type = "";
 	let emptyElement = false;
@@ -93,6 +95,7 @@ window.addEventListener("WebComponentsReady", () => {
 	let enablePreview = true;
 	let currentEntityInfo = null;
 	let previewOdd = "teipublisher";
+	let currentUser = null;
 	const doc = view.getDocument();
 	
 	function restoreAnnotations(doc, annotations) {
@@ -307,13 +310,18 @@ window.addEventListener("WebComponentsReady", () => {
 	 *
 	 * @param {any} annotations the current list of annotations
 	 */
-	function preview(annotations, doStore) {
+	function preview(annotations, doStore, changeLog) {
 		if (doStore) {
 			document.dispatchEvent(new CustomEvent('reset-panels'));
 		}
 		const endpoint = document.querySelector("pb-page").getEndpoint();
 		const doc = document.getElementById("document1");
 		document.getElementById("output").code = "";
+
+		const data = {
+			annotations,
+			log: changeLog
+		};
 		return new Promise((resolve, reject) => {
 			fetch(`${endpoint}/api/annotations/merge/${doc.path}`, {
 				method: doStore ? "PUT" : "POST",
@@ -322,7 +330,7 @@ window.addEventListener("WebComponentsReady", () => {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify(annotations),
+				body: JSON.stringify(data)
 			})
 			.then((response) => {
 				if (response.ok) {
@@ -620,10 +628,32 @@ window.addEventListener("WebComponentsReady", () => {
 	});
 	// save document action
 	const saveDocBtn = document.getElementById("document-save");
-	saveDocBtn.addEventListener("click", () => preview(view.annotations, true));
+	saveDocBtn.addEventListener("click", () => {
+		if (trackHistory) {
+			document.dispatchEvent(new CustomEvent('pb-before-save', {
+				detail: {
+					user: currentUser
+				}
+			}));
+		} else {
+			preview(view.annotations, true);
+		}
+	});
 	if (saveDocBtn.dataset.shortcut) {
 		window.hotkeys(saveDocBtn.dataset.shortcut, () => preview(view.annotations, true));
 	}
+
+	document.getElementById('commit').addEventListener('pb-commit', (ev) => {
+		if (ev.detail.message !== '') {
+			preview(view.annotations, true, {
+				user: ev.detail.user,
+				message: ev.detail.message,
+				status: ev.detail.status
+			});
+		} else {
+			preview(view.annotations, true);
+		}
+	});
 
 	// save and download merged TEI to local file
 	const downloadBtn = document.getElementById('document-download');
@@ -679,6 +709,7 @@ window.addEventListener("WebComponentsReady", () => {
 		checkNERAvailable();
 	});
 
+	
 	// todo: what's this for? -> fishes the type and query params from iron-form and opens dialog
 	document.querySelectorAll('.form-ref [slot="prefix"]').forEach(elem => {
 		elem.addEventListener("click", () => {
@@ -775,6 +806,9 @@ window.addEventListener("WebComponentsReady", () => {
 		}
 	});
 
+	window.pbEvents.subscribe('pb-login', null, (ev) => {
+		currentUser = ev.detail.user;
+	});
 	window.pbEvents.subscribe("pb-authority-select", "transcription", (ev) =>
 		authoritySelected(ev.detail.properties.ref)
 	);

@@ -453,6 +453,10 @@ paper-icon-button[data-type="edit"] {
     display:block;
 }
 
+#commit[nonrelevant] {
+    display: none;
+}
+
 #d-review {
     position: fixed;
     top: 128px;
@@ -567,7 +571,7 @@ fx-group fx-control {
     padding-left: .5rem;
 }
 
-fx-control input, fx-control select {
+fx-control input, fx-control textarea, fx-control select {
     box-sizing: border-box;
     margin: 0 0 .5rem 0;
     padding: 0;
@@ -583,7 +587,7 @@ fx-control label {
     /* Text color */
 }
 
-fx-control input[type="text"] {
+fx-control input[type="text"], fx-control textarea {
     width: calc(100% - 2rem);
     padding: 12px 16px;
     border: 1px solid #ccc;
@@ -593,7 +597,7 @@ fx-control input[type="text"] {
     transition: border-color 0.2s ease;
 }
 
-fx-control input[type="text"]:focus {
+fx-control input[type="text"]:focus, fx-control textarea:focus {
     border-color: #007bff;
     /* Change border color on focus */
 }

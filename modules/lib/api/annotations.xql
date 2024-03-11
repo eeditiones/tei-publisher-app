@@ -25,25 +25,27 @@ declare function anno:find-references($request as map(*)) {
  : Merge and optionally save the annotations passed in the request body.
  :)
 declare function anno:save($request as map(*)) {
-    let $annotations := $request?body
+    let $body := $request?body
+    let $annotations := $body?annotations
     return
         if ($annotations instance of array(*)) then
             let $path := xmldb:decode($request?parameters?path)
             let $srcDoc := config:get-document($path)
             return
-                anno:merge-and-save($srcDoc, $path, $annotations)
+                anno:merge-and-save($srcDoc, $path, $annotations, $body?log)
         else
             let $result :=
                 for $path in map:keys($annotations)
                 let $srcDoc := config:get-document($path)
                 return
-                    anno:merge-and-save($srcDoc, $path, $annotations($path))
+                    anno:merge-and-save($srcDoc, $path, $annotations($path), $body?log)
             return
                 router:response(200, count(map:keys($annotations)) || ' documents merged')
 
 };
 
-declare function anno:merge-and-save($srcDoc as node(), $path as xs:string, $annotations as array(*)) {
+declare function anno:merge-and-save($srcDoc as node(), $path as xs:string, $annotations as array(*),
+    $log as map(*)?) {
     let $hasAccess := sm:has-access(document-uri(root($srcDoc)), "rw-")
     return
         if (not($hasAccess) and request:get-method() = 'PUT') then
@@ -62,7 +64,7 @@ declare function anno:merge-and-save($srcDoc as node(), $path as xs:string, $ann
                 return
                     map:entry($id, anno:apply($node, $ordered))
             )
-            let $merged := anno:merge($doc, $map) => anno:strip-exist-id()
+            let $merged := anno:merge($doc, $map) => anno:strip-exist-id() => anno:revision($log)
             let $output := document {
                 $srcDoc/(processing-instruction()|comment()),
                 $merged
@@ -106,6 +108,75 @@ declare %private function anno:strip-exist-id($nodes as node()*) {
                 element { node-name($node) } {
                     $node/@* except $node/@exist:*,
                     anno:strip-exist-id($node/node())
+                }
+            default return
+                $node
+};
+
+declare function anno:revision($nodes as node()*, $log as map(*)?) {
+    if (exists($log) and map:contains($log, "message") and $log?message != '') then
+        anno:add-revision($nodes, $log)
+    else
+        $nodes
+};
+
+declare %private function anno:add-revision($nodes as node()*, $log as map(*)?) {
+    for $node in $nodes
+    return
+        typeswitch($node)
+            case document-node() return
+                document {
+                    anno:add-revision($node/node(), $log)
+                }
+            case element(tei:teiHeader) return
+                if (not($node/tei:revisionDesc)) then
+                    element { node-name($node) } {
+                        $node/@*,
+                        $node/node(),
+                        if ($log?message != "") then
+                            <revisionDesc xmlns="http://www.tei-c.org/ns/1.0">
+                                <listChange>
+                                    <change when="{current-dateTime()}" who="{$log?user}" status="{$log?status}">{$log?message}</change>
+                                </listChange>
+                            </revisionDesc>
+                        else
+                            ()
+                    }
+                else
+                    element { node-name($node) } {
+                        $node/@*,
+                        anno:add-revision($node/node(), $log)
+                    }
+            case element(tei:revisionDesc) return
+                if (not($node/tei:listChange)) then
+                    element { node-name($node) } {
+                        $node/@*,
+                        $node/node(),
+                        if ($log?message != "") then
+                            <listChange xmlns="http://www.tei-c.org/ns/1.0">
+                                <change when="{current-dateTime()}" who="{$log?user}" status="{$log?status}">{$log?message}</change>
+                            </listChange>
+                        else
+                            ()
+                    }
+                else
+                    element { node-name($node) } {
+                        $node/@*,
+                        anno:add-revision($node/node(), $log)
+                    }
+            case element(tei:listChange) return
+                element { node-name($node) } {
+                    $node/@*,
+                    $node/node(),
+                    if ($log?message != "") then
+                        <change xmlns="http://www.tei-c.org/ns/1.0" when="{current-dateTime()}" who="{$log?user}" status="{$log?status}">{$log?message}</change>
+                    else
+                        ()
+                }
+            case element() return
+                element { node-name($node) } {
+                    $node/@*,
+                    anno:add-revision($node/node(), $log)
                 }
             default return
                 $node
