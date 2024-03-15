@@ -101,7 +101,7 @@
                         </data>
                     </fx-instance>
                     <fx-instance id="i-commit">
-                        <commit user="" status="feat">
+                        <commit user="" status="feat" export="false">
                             <message></message>
                         </commit>
                     </fx-instance>
@@ -122,7 +122,7 @@
                     </fx-function>
                 </fx-model>
 
-                <fx-group ref="commit" id="commit" track-history="">
+                <fx-group ref="commit[.='true']" id="commit" track-history="">
                     <section>
                         <header>Revision Description</header>
                         <fx-control ref="instance('i-commit')/@user">
@@ -145,6 +145,7 @@
                             <fx-dispatch name="pb-commit" targetid="commit">
                                 <fx-property name="message" expr="instance('i-commit')/message/string()"/>
                                 <fx-property name="user" expr="instance('i-commit')/@user"/>
+                                <fx-property name="export" expr="instance('i-commit')/@export"/>
                                 <fx-property name="status" expr="instance('i-commit')/@status"/>
                             </fx-dispatch>
                             <fx-setvalue ref="commit">false</fx-setvalue>
@@ -290,6 +291,7 @@
                 <fx-action event="pb-before-save" target="#document">
                     <fx-setvalue ref="commit">true</fx-setvalue>
                     <fx-setvalue ref="instance('i-commit')/@user" value="event('user')"></fx-setvalue>
+                    <fx-setvalue ref="instance('i-commit')/@export" value="event('export')"></fx-setvalue>
                     <fx-setvalue ref="instance('i-commit')/message" value="''"></fx-setvalue>
                     <fx-update></fx-update>
                     <fx-refresh></fx-refresh>
@@ -342,7 +344,6 @@
                 <!-- ### show the annotation form and the authority search -->
                 <fx-action id="show-annotation" event="show-annotation" target="#document">
                     <fx-call action="reset-panels"></fx-call>
-                    <fx-message>Revision panel relevant: {commit}</fx-message>
                     <!-- ### show annotation details panel -->
                     <fx-setvalue ref="annotation">true</fx-setvalue>
                 </fx-action>

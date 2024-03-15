@@ -626,6 +626,9 @@ window.addEventListener("WebComponentsReady", () => {
 		hideForm();
 		view.popHistory();
 	});
+
+	// ---- START: save and export ----
+
 	// save document action
 	const saveDocBtn = document.getElementById("document-save");
 	saveDocBtn.addEventListener("click", () => {
@@ -643,27 +646,13 @@ window.addEventListener("WebComponentsReady", () => {
 		window.hotkeys(saveDocBtn.dataset.shortcut, () => preview(view.annotations, true));
 	}
 
-	document.getElementById('commit').addEventListener('pb-commit', (ev) => {
-		if (ev.detail.message !== '') {
-			preview(view.annotations, true, {
-				user: ev.detail.user,
-				message: ev.detail.message,
-				status: ev.detail.status
-			});
-		} else {
-			preview(view.annotations, true);
-		}
-	});
-
-	// save and download merged TEI to local file
-	const downloadBtn = document.getElementById('document-download');
-	if ('showSaveFilePicker' in window) {
-		downloadBtn.addEventListener('click', () => {
+	function _saveOrExport(exportFile = false, details) {
+		if (exportFile) {
 			const doc = document.getElementById("document1");
 			getNewFileHandle(doc.getFileName())
 			.then((fh) => {
 				if (verifyPermission(fh, true)) {
-					preview(view.annotations, true)
+					preview(view.annotations, true, details)
 					.then((xml) => {
 						writeFile(fh, xml);
 					});
@@ -671,10 +660,43 @@ window.addEventListener("WebComponentsReady", () => {
 					alert('Permission denied to store files locally');
 				}
 			});
+		} else {
+			preview(view.annotations, true, details);
+		}
+	}
+
+	document.getElementById('commit').addEventListener('pb-commit', (ev) => {
+		const exportFile = ev.detail.export === 'true';
+		if (ev.detail.message !== '') {
+			_saveOrExport(exportFile, {
+				user: ev.detail.user,
+				message: ev.detail.message,
+				status: ev.detail.status
+			});
+		} else {
+			_saveOrExport(exportFile);
+		}
+	});
+
+	// save and download merged TEI to local file
+	const downloadBtn = document.getElementById('document-download');
+	if ('showSaveFilePicker' in window) {
+		downloadBtn.addEventListener('click', () => {
+			if (trackHistory) {
+				document.dispatchEvent(new CustomEvent('pb-before-save', {
+					detail: {
+						user: currentUser,
+						export: true
+					}
+				}));
+			} else {
+				_saveOrExport(true);
+			}
 		});
 	} else {
 		downloadBtn.style.display = 'none';
 	}
+	// ---- END: save and export ----
 
 	// mark-all occurrences action
 	const markAllBtn = document.getElementById("mark-all");
