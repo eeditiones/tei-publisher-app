@@ -158,7 +158,14 @@ window.addEventListener("WebComponentsReady", () => {
 			Object.keys(data).forEach((key) => {
 				const field = form.querySelector(`[name="${key}"]`);
 				if (field) {
-					field.value = data[key];
+					if (field.type === 'checkbox') {
+						const values = Array.isArray(data[key]) ? data[key] : data[key].split(/\s+/);
+						form.querySelectorAll(`[name="${key}"]`).forEach((input) => {
+							input.checked = values.indexOf(input.value) != -1;
+						});
+					} else {
+						field.value = data[key];
+					}
 				}
 			});
 			form.querySelectorAll('pb-repeat').forEach(repeat => repeat.setData(data));
