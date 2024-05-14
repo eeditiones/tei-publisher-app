@@ -522,12 +522,14 @@ declare function dapi:get-fragment($request as map(*), $docs as node()*, $path a
                                 "content": serialize($transformed?content,
                                     <output:serialization-parameters xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
                                     <output:indent>no</output:indent>
-                                    <output:method>html5</output:method>
+                                    <output:method>{$request?parameters?serialize}</output:method>
+                                    <output:omit-xml-declaration>yes</output:omit-xml-declaration>
                                         </output:serialization-parameters>),
                                 "footnotes": serialize($transformed?footnotes,
                                     <output:serialization-parameters xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
                                         <output:indent>no</output:indent>
-                                        <output:method>html5</output:method>
+                                        <output:method>{$request?parameters?serialize}</output:method>
+                                        <output:omit-xml-declaration>yes</output:omit-xml-declaration>
                                     </output:serialization-parameters>
                                 ),
                                 "userParams": $userParams,

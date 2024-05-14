@@ -1300,6 +1300,16 @@
 						}
 					},
 					{
+						"name": "serialize",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"enum": ["xml", "html5"],
+							"default": "html5"
+						},
+						"description": "should HTML content be rendered as HTML5 or XML?"
+					},
+					{
 						"name": "If-Modified-Since",
 						"in": "header",
 						"schema": {
@@ -3421,7 +3431,26 @@
                     }
                 }
             }
-        }
+        },
+		"/sitemap.xml": {
+			"get": {
+				"description": "Return generated sitemap",
+				"operationId": "sitemap:sitemap",
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
     },
 	"security": [
 		{
