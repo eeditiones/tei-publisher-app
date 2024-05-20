@@ -580,8 +580,9 @@ window.addEventListener("WebComponentsReady", () => {
 			url = `${endpoint}/api/nlp/patterns/${doc.path}?lang=${lang}`;
 		} else {
 			const model = nerDialog.querySelector('paper-dropdown-menu').selectedItemLabel;
-			console.log('Using model %s', model)
-			url = `${endpoint}/api/nlp/entities/${doc.path}?model=${model}`;
+			console.log('Using model %s', model);
+			const [engine, modelName] = model.split(':');
+			url = `${endpoint}/api/nlp/entities/${doc.path}?model=${modelName}&engine=${engine}`;
 		}
 		window.pbEvents.emit("pb-start-update", "transcription", {});
 		fetch(url, {

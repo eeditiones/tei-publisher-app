@@ -71,7 +71,7 @@ declare %private function nlp:entity-recognition($request as map(*), $docs as el
                     }
                 }
             else
-                nlp:convert(nlp:entities-remote($plain, $request?parameters?model), $offsets, $doc)
+                nlp:convert(nlp:entities-remote($plain, $request?parameters?engine, $request?parameters?model), $offsets, $doc)
     )
 };
 
@@ -592,14 +592,14 @@ declare %private function nlp:to-pattern($forename as xs:string, $surname as xs:
         ]
 };
 
-declare function nlp:entities-remote($input as xs:string*, $model as xs:string) {
+declare function nlp:entities-remote($input as xs:string*, $engine as xs:string, $model as xs:string) {
     let $request := 
-        <http:request method="POST" timeout="10">
+        <http:request method="POST" timeout="120">
             <http:body media-type="text/text"/>
         </http:request>
     let $response := http:send-request(
             $request, 
-            $nlp-config:api-endpoint || "/entities/" || $model,
+            $nlp-config:api-endpoint || "/entities/" || $model || "?engine=" || $engine,
             string-join($input))
     return
         if ($response[1]/@status = "200") then

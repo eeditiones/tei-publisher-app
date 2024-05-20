@@ -407,6 +407,15 @@
 							"type": "string",
 							"example": "test"
 						}
+					},
+					{
+						"name": "format",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"enum": ["html", "json"],
+							"default": "html"
+						}
 					}
 				],
 				"responses": {
@@ -416,6 +425,11 @@
 							"text/html": {
 								"schema": {
 									"type": "string"
+								}
+							},
+							"application/json": {
+								"schema": {
+									"type": "object"
 								}
 							}
 						}
@@ -428,6 +442,17 @@
 				"summary": "Get formatted overview of documents in the collection",
 				"tags": ["collection"],
 				"operationId": "capi:list",
+				"parameters": [
+					{
+						"name": "format",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"enum": ["html", "json"],
+							"default": "html"
+						}
+					}
+				],
 				"responses": {
 					"200": {
 						"description": "Returns HTML describing the collection",
@@ -435,6 +460,11 @@
 							"text/html": {
 								"schema": {
 									"type": "string"
+								}
+							},
+							"application/json": {
+								"schema": {
+									"type": "object"
 								}
 							}
 						}
@@ -2662,6 +2692,15 @@
 							"example": "en_core_web_sm"
 						},
 						"required": true
+					},
+					{
+						"name": "engine",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"enum": ["spacy", "flair"],
+							"default": "spacy"
+						}
 					},
 					{
 						"name": "debug",
