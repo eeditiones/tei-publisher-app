@@ -373,12 +373,15 @@ declare function dapi:epub($request as map(*)) {
 };
 
 declare %private function dapi:work2epub($request as map(*), $id as xs:string, $work as document-node(), $lang as xs:string?) {
+    let $navRootParam := $request?parameters?nav-root
+    let $navRoot := if ($navRootParam) then util:node-by-id($work, $navRootParam) else ()
     let $imagesCollection := $request?parameters?images-collection
     let $coverImage := $request?parameters?cover-image
     let $config := map:merge(($config:epub-config($work, $lang), map {
         'imagesCollection': $imagesCollection,
         'skipTitle': $request?parameters?skip-title,
-        'coverImage': $coverImage
+        'coverImage': $coverImage,
+        'navRoot': $navRoot
     }))
     let $odd := head(($request?parameters?odd, $config:default-odd))
     let $oddName := replace($odd, "^([^/\.]+).*$", "$1")

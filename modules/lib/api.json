@@ -1043,6 +1043,14 @@
 						}
 					},
 					{
+						"name": "nav-root",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"example": "1.4"
+						}
+					},
+					{
 						"name": "images-collection",
 						"in": "query",
 						"schema": {
