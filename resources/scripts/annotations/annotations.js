@@ -417,7 +417,7 @@ window.addEventListener("WebComponentsReady", () => {
 					query: selection
 				});
 			}
-			emptyElement = false;
+			elementPosition = "around";
 			if (button.classList.contains("after")) {
 				elementPosition = "after";
 			}
@@ -425,9 +425,7 @@ window.addEventListener("WebComponentsReady", () => {
 				elementPosition = "before";
 			}
 			//if class contains 'before' or 'after' value, it's an empty element
-			if (elementPosition != "around") {
-				emptyElement = true;
-			}
+			emptyElement = (elementPosition != "around");
 			window.pbEvents.emit("show-annotation", "transcription", {});
 			showForm(type);
 			text = selection;
@@ -651,7 +649,8 @@ window.addEventListener("WebComponentsReady", () => {
 		if (trackHistory) {
 			document.dispatchEvent(new CustomEvent('pb-before-save', {
 				detail: {
-					user: currentUser
+					user: currentUser,
+					export: false
 				}
 			}));
 		} else {
