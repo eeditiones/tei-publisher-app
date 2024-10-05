@@ -1,5 +1,7 @@
 ![TEI Publisher Docker Snapshots](https://github.com/eeditiones/tei-publisher-app/workflows/TEI%20Publisher%20Docker%20Snapshots/badge.svg)
 
+__TEI Publisher__ is a community-maintained Software. If your edition relies on this package, it‘s crucial to support the developers who have contributed their time and effort to create and maintain this valuable tool. You can do so by donating to (e-editiones)[https://github.com/sponsors/eeditiones]
+
 <img src="resources/images/tei-publisher-logo-color.svg" height="128">
 
 TEI Publisher facilitates the integration of the TEI Processing Model into exist-db applications. The TEI Processing Model (PM) extends the TEI ODD specification format with a processing model for documents. That way intended processing for all elements can be expressed within the TEI vocabulary itself. It aims at the XML-savvy editor who is familiar with TEI but is not necessarily a developer.
