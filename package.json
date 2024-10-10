@@ -13,7 +13,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "@jinntec/fore": "^2.4.1",
-    "@teipublisher/pb-components": "^2.24.2"
+    "@teipublisher/pb-components": "^2.24.3"
   },
   "devDependencies": {
     "adm-zip": "^0.5.9",
