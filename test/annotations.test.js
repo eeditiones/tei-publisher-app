@@ -43,7 +43,11 @@ const testXml = `
 `;
 
 async function annotate(json) {
-    const res = await util.axios.post('annotations/merge/annotate%2Fannotations.xml', json);
+    const res = await util.axios.post('annotations/merge/annotate%2Fannotations.xml', json, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
     expect(res.status).to.equal(200);
     expect(res).to.satisfyApiSpec;
     expect(res.data.changes).to.have.length(1);
@@ -69,7 +73,8 @@ describe('/api/annotations/merge', function() {
     });
 
     it('deletes at start and wraps', async function() {
-        const document = await annotate([
+        const document = await annotate({
+          annotations: [
             {
               "type": "delete",
               "node": "1.4.2.2.2",
@@ -101,13 +106,14 @@ describe('/api/annotations/merge', function() {
                 "target": "#foo"
               }
             }
-        ]);
+        ]});
         const para = document.querySelector("body p:nth-child(1)");
         expect(para.outerHTML).xml.to.equal('<p xmlns="http://www.tei-c.org/ns/1.0">(<ref target="#foo"><hi>Gauger I</hi>, <hi>113</hi></ref>).</p>');
     });
 
     it('deletes at end and wraps', async function() {
-        const document = await annotate([
+        const document = await annotate({
+          annotations: [
             {
               "type": "delete",
               "node": "1.4.2.4.2",
@@ -139,13 +145,14 @@ describe('/api/annotations/merge', function() {
                 "target": "#foo"
               }
             }
-        ]);
+        ]});
         const para = document.querySelector("body p:nth-child(2)");
         expect(para.outerHTML).xml.to.equal('<p xmlns="http://www.tei-c.org/ns/1.0">(<ref target="#foo"><hi>113</hi>, <hi>Gauger I</hi></ref>).</p>');
     });
 
     it('annotate after nested note', async function() {
-      const document = await annotate([
+      const document = await annotate({
+        annotations: [
         {
           "context": "1.4.2.8",
           "start": 20,
@@ -154,13 +161,14 @@ describe('/api/annotations/merge', function() {
           "type": "hi",
           "properties": {}
         }
-      ]);
+      ]});
       const para = document.querySelector("body p:nth-child(4)");
       expect(para.outerHTML).xml.to.equal('<p xmlns="http://www.tei-c.org/ns/1.0"><ref target="#">Starb am<note place="footnote">Fehlt.</note></ref>. Sammlung: <hi>Opuscula theologica</hi>.</p>');
     });
 
     it('wrap to end of paragraph', async function() {
-      const document = await annotate([
+      const document = await annotate({
+        annotations: [
         {
           "context": "1.4.2.16",
           "start": 210,
@@ -171,13 +179,14 @@ describe('/api/annotations/merge', function() {
             "target": "#foo"
           }
         }
-      ]);
+      ]});
       const para = document.querySelector("body p:nth-child(8)");
       expect(para.outerHTML).xml.to.equal('<p xmlns="http://www.tei-c.org/ns/1.0">Bei <persName type="author" ref="kbga-actors-8470">Budé</persName> (Anm. 21), S. 56f.59, finden sich zwei Briefe von Fontenelle an Turettini, in denen <persName ref="kbga-actors-8482">Fontenelle</persName> sich lobend über <persName ref="kbga-actors-1319">Werenfels</persName> äußert. Den erwähnten Dank formulierte <persName ref="kbga-actors-1319">Werenfels</persName> in Form eines Epigramms; vgl. <ref target="#foo"><persName type="author" ref="kbga-actors-1319">S. Werenfels</persName>, <hi rend="i">Fasciculus Epigrammatum</hi>, in: ders., <hi rend="i">Opuscula</hi> III (Anm. 20), S. 337–428, dort S. 384:</ref></p>');
     });
 
     it('annotate after nested choice', async function() {
-      const document = await annotate([
+      const document = await annotate({
+        annotations: [
         {
           "context": "1.4.2.10",
           "start": 9,
@@ -186,13 +195,14 @@ describe('/api/annotations/merge', function() {
           "type": "hi",
           "properties": {}
         }
-      ]);
+      ]});
       const para = document.querySelector("body p:nth-child(5)");
       expect(para.outerHTML).xml.to.equal('<p xmlns="http://www.tei-c.org/ns/1.0"><hi>Zum <choice><abbr>Bsp.</abbr><expan>Beispiel</expan></choice></hi> <hi>Opuscula theologica</hi>.</p>');
     });
 
     it('insert choice/abbr/expan', async function() {
-      const document = await annotate([
+      const document = await annotate({
+        annotations: [
         {
           "context": "1.4.2.12",
           "start": 6,
@@ -203,13 +213,14 @@ describe('/api/annotations/merge', function() {
             "expan": "sit amet"
           }
         }
-      ]);
+      ]});
       const para = document.querySelector("body p:nth-child(6)");
       expect(para.outerHTML).xml.to.equal('<p xmlns="http://www.tei-c.org/ns/1.0">Lorem <choice><abbr>ipsum dolor</abbr><expan>sit amet</expan></choice> sit amet.</p>');
     });
 
     it('insert app/lem/rdg', async function() {
-      const document = await annotate([
+      const document = await annotate({
+        annotations: [
         {
           "context": "1.4.2.12",
           "start": 6,
@@ -221,31 +232,33 @@ describe('/api/annotations/merge', function() {
             "rdg[1]": "sit amet"
           }
         }
-      ]);
+      ]});
       const para = document.querySelector("body p:nth-child(6)");
       expect(para.outerHTML).xml.to.equal('<p xmlns="http://www.tei-c.org/ns/1.0">Lorem <app><lem>ipsum dolor</lem><rdg wit="#me">sit amet</rdg></app> sit amet.</p>');
     });
 
     it('delete choice/abbr/expan', async function() {
-      const document = await annotate([
+      const document = await annotate({
+        annotations: [
         {
           "type": "delete",
           "node": "1.4.2.14.2",
           "context": "1.4.2.14"
         }
-      ]);
+      ]});
       const para = document.querySelector("body p:nth-child(7)");
       expect(para.outerHTML).xml.to.equal('<p xmlns="http://www.tei-c.org/ns/1.0">Lorem ipsum dolor sit amet.</p>');
     });
 
     it('delete element containing note', async function() {
-      const document = await annotate([
+      const document = await annotate({
+        annotations: [
         {
           "type": "delete",
           "node": "1.4.2.8.1",
           "context": "1.4.2.8"
         }
-      ]);
+      ]});
       const para = document.querySelector("body p:nth-child(4)");
       expect(para.outerHTML).xml.to.equal('<p xmlns="http://www.tei-c.org/ns/1.0">Starb am<note place="footnote">Fehlt.</note>. Sammlung: Opuscula theologica.</p>');
     });
