@@ -228,29 +228,20 @@ fx-fore textarea {
     position: fixed;
     left: -0.5rem;
     bottom: 0;
-    height: 25vh;
+    /* height: 25vh; */
     z-index: 10;
     background: white;
     margin-bottom: 0;
     box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
     width: 100%;
 }
-#markupPanel.side{
-    visibility: visible;
-}
-#markupPanel.side paper-icon-button{
-    transform:rotate(270deg);
-    margin-right:2rem;
-}
-#markupPanel.side paper-tabs{
-    height: 100%;
-}
+
 fx-group[ref="authority"]{
     overflow: hidden;
 }
-fx-fore #markupPanel section,
-fx-fore #markupPanel pb-tabs{
-    height: 100%;
+fx-fore #markupPanel pb-tabs,
+fx-fore #markupPanel .preview-toolbar {
+    height: 25vh;
 }
 
 pb-page {
