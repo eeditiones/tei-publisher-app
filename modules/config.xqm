@@ -60,7 +60,7 @@ declare variable $config:enable-proxy-caching :=
  : In this case, change $config:webcomponents-cdn to point to http://localhost:port 
  : (default: 8000, but check where your server is running).
  :)
-declare variable $config:webcomponents := "2.19.0";
+declare variable $config:webcomponents := "2.24.2";
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your
@@ -72,7 +72,7 @@ declare variable $config:webcomponents-cdn := "https://cdn.jsdelivr.net/npm/@tei
 (: declare variable $config:webcomponents-cdn := "http://localhost:8000"; :)
 
 (: Version of fore to use for annotation editor. Set to 'local' for self-hosted version. :)
-declare variable $config:fore := "1.9.0";
+declare variable $config:fore := "2.4.1";
 
 (:~
  : Should documents be located by xml:id or filename?
