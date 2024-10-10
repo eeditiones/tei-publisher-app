@@ -5,6 +5,8 @@
 let currentReview = 0;
 let reviewDocs = [];
 let reviewData = {};
+let reviewUser = null;
+let reviewStrings = [];
 let reviewDialog;
 let reviewDocLink;
 
@@ -61,12 +63,17 @@ document.addEventListener('DOMContentLoaded', () => {
  * 
  * @param {Array} docs list of documents to review
  * @param {Object} data object mapping document paths to annotation list
+ * @param {string} currentUser name of the currently logged in user
  */
-function review(docs, data) {
+function review(docs, data, strings, currentUser) {
     currentReview = 0;
     reviewDocs = docs;
     reviewOffsets = data;
     reviewData = {};
+    reviewStrings = strings.filter((value, index, self) => {
+        return self.indexOf(value) === index;
+    });
+    reviewUser = currentUser;
     _reviewNext();
 }
 
@@ -186,7 +193,14 @@ function _saveCurrent() {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(reviewData[doc]),
+        body: JSON.stringify({
+            annotations: reviewData[doc],
+            log: {
+                user: reviewUser,
+                message: `Batch-reviewed and merged annotations for strings: ${reviewStrings.join(", ")}`,
+                status: "batch-review"
+            }
+        })
     })
     .then((response) => {
         window.pbEvents.emit("pb-end-update", "transcription", {});

@@ -496,7 +496,7 @@ window.addEventListener("WebComponentsReady", () => {
 			if (saveAll) {
 				saveOccurrences(json);
 			} else {
-				review(docs, json);
+				review(docs, json, strings, currentUser);
 			}
 		}).catch(() => window.pbEvents.emit("pb-end-update", "transcription", {}));
 	}
