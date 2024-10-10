@@ -4,7 +4,7 @@ FROM openjdk:8-jdk-slim as builder
 USER root
 
 ENV NODE_MAJOR 20
-ENV ANT_VERSION 1.10.14
+ENV ANT_VERSION 1.10.15
 ENV ANT_HOME /etc/ant-${ANT_VERSION}
 
 WORKDIR /tmp
