@@ -42,7 +42,7 @@ jobs:
         run: docker cp db:/exist/logs/exist.log .
       - name: Publish log as artifact
         if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: exist.log
           path: ./exist.log
