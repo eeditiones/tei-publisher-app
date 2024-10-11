@@ -21,6 +21,8 @@ import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
 import module namespace epub="http://www.tei-c.org/tei-simple/xquery/functions/epub";
 
+import module namespace global="http://e-editiones.org/tei-publisher/odd-global" at "../modules/odd-global.xqm";
+
 (: generated template function for element spec: teiHeader :)
 declare %private function model:template-teiHeader2($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><a href="{$config?apply-children($config, $node, $params?content)}" target="_blank">Facsimile</a></t>/*

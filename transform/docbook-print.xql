@@ -21,6 +21,8 @@ import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
 import module namespace printcss="http://www.tei-c.org/tei-simple/xquery/functions/printcss";
 
+import module namespace global="http://e-editiones.org/tei-publisher/odd-global" at "../modules/odd-global.xqm";
+
 (: Generated behaviour function for ident definitionList :)
 declare %private function model:definitionList($config as map(*), $node as node()*, $class as xs:string+, $content) {
     $node ! (

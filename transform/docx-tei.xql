@@ -37,7 +37,7 @@ import module namespace tei="http://existsolutions.com/xquery/functions/tei";
 
 import module namespace ext-docx="http://www.tei-c.org/tei-simple/xquery/functions/docx";
 
-import module namespace global="http://www.tei-c.org/tei-simple/config" at "../modules/config.xqm";
+import module namespace global="http://e-editiones.org/tei-publisher/odd-global" at "../modules/odd-global.xqm";
 
 (: generated template function for element spec: r :)
 declare %private function model:template-r6($config as map(*), $node as node()*, $params as map(*)) {

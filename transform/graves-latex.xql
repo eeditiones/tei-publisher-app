@@ -19,7 +19,7 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
-import module namespace global="http://www.tei-c.org/tei-simple/config" at "../modules/config.xqm";
+import module namespace global="http://e-editiones.org/tei-publisher/odd-global" at "../modules/odd-global.xqm";
 
 (: Generated behaviour function for ident glossary :)
 declare %private function model:glossary($config as map(*), $node as node()*, $class as xs:string+, $content, $name, $note) {

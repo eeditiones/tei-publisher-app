@@ -95,6 +95,12 @@ dd {
 
 .note {
     font-size: .85em;
+    box-shadow: none;
+    border-left: 4px solid #d07f00;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 8px;
+    margin: 0;
 }
 
 .note h4 {
@@ -212,11 +218,6 @@ pb-code-highlight {
     }
 
     .note {
-        box-shadow: none;
-        border-left: 4px solid #d07f00;
-        padding-top: 0;
-        padding-bottom: 0;
-        margin: 0;
         break-inside: avoid;
     }
 

@@ -21,7 +21,7 @@ import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
 import module namespace epub="http://www.tei-c.org/tei-simple/xquery/functions/epub";
 
-import module namespace global="http://www.tei-c.org/tei-simple/config" at "../modules/config.xqm";
+import module namespace global="http://e-editiones.org/tei-publisher/odd-global" at "../modules/odd-global.xqm";
 
 (: generated template function for element spec: ptr :)
 declare %private function model:template-ptr($config as map(*), $node as node()*, $params as map(*)) {
