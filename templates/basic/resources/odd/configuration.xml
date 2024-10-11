@@ -13,6 +13,8 @@
     to the modules/ collection.
 -->
 <modules>
+    <!-- Import global variables and functions from modules/odd-global.xqm -->
+    <module uri="http://e-editiones.org/tei-publisher/odd-global" prefix="global" at="odd-global.xqm"/>
     <!-- General latex extension functions -->
     <!--output mode="latex">
         <property name="class">"article"</property>

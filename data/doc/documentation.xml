@@ -4490,6 +4490,33 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
     <para>For apps created with TEI Publisher 6 updating to 7 or 8 requires only small modifications.
       Migrating from earlier versions, like 4 or 5, requires more effort, and is described in futher
       sections.</para>
+    <section xml:id="upgrade-910">
+      <title>Upgrading from TEI Publisher 9.0 to 9.1</title>
+      <para>This bug fix release is mainly relevant for Windows users running eXist-db directly (i.e. not via docker). The biggest change is the upgrade of
+        <emphasis>tei-publisher-lib</emphasis>: version 4.0.0 of the library introduced the possibility to directly reference variables and functions defined in TEI Publisher's main
+        configuration module (<filename>modules/config.xqm</filename>). While this is unproblematic in most environments, it causes a silent failure in windows
+        when compiling an ODD. The underlying reason is that <filename>config.xqm</filename> itself imports a large number of other modules, leading to
+        recursive imports, which eXist-db is currently unable to resolve properly on Windows. </para>
+      <para>In general, importing all of <filename>config.xqm</filename> into the ODD generated code is usually unnecessary as most of the settings are not needed and creates an
+        overhead. Version 4.0.1 of <emphasis>tei-publisher-lib</emphasis> therefore no longer imports <filename>config.xqm</filename> by default. Instead, you can configure the modules to be made
+        available via <filename>odd/configuration.xml</filename> (or <filename>resources/odd/configuration.xml</filename>). By default, TEI Publisher 9.1 imports the dedicated
+        <filename>modules/odd-global.xqm</filename>.</para>
+      <para>To update follow the generic instructions above.</para> 
+      <orderedlist>
+        <listitem>
+          <para>If your ODD was using <parameter>$global</parameter> anywhere, copy <filename>modules/odd-global.xqm</filename> from TEI Publisher 9.1 into the corresponding location of your app. Open the
+            module to check if the settings still match your custom application (e.g. if <parameter>data-root</parameter> is correct).</para>
+        </listitem>
+        <listitem>
+          <para>Change your <filename>resources/odd/configuration.xml</filename> to include the module declaration:</para>
+          <programlisting language="xml" xml:space="preserve"><![CDATA[<modules>
+    <!-- Import global variables and functions from modules/odd-global.xqm -->
+    <module uri="http://e-editiones.org/tei-publisher/odd-global" prefix="global" at="odd-global.xqm"/>
+    ...
+</modules>]]></programlisting>
+        </listitem>
+      </orderedlist>
+    </section>
     <section xml:id="upgrade-810">
       <title>Upgrading from TEI Publisher 8 to 9</title>
       <para>To upgrade a custom application generated with TEI Publisher 8 to version 9, we recommend to have the source code of both, TEI Publisher 9 and the
