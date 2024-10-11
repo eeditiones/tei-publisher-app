@@ -28,8 +28,8 @@
                 replace="instance">
             <fx-action event="submit-done">
                 <!-- setting selection we got from user as default -->
-                <fx-action if="instance()/@xml:id = 'organization-NEW'">
-                    <fx-setvalue ref="instance()/*[1][@type='main']" value="query()"></fx-setvalue>
+                <fx-action if="instance('default')/@xml:id = 'organization-NEW'">
+                    <fx-setvalue ref="instance('default')/*[1][@type='main']" value="query()"></fx-setvalue>
                 </fx-action>
             </fx-action>
         </fx-submission>
@@ -38,9 +38,9 @@
                 method="PUT"
                 replace="instance">
             <fx-action  event="submit-done">
-                <fx-message>Organization saved with ID {instance()/@xml:id/string()}</fx-message>
+                <fx-message>Organization saved with ID {instance('default')/@xml:id/string()}</fx-message>
                 <fx-dispatch name="authority-created">
-                    <fx-property name="ref" expr="instance()/@xml:id/string()"></fx-property>
+                    <fx-property name="ref" expr="instance('default')/@xml:id/string()"></fx-property>
                 </fx-dispatch>
             </fx-action>
             <fx-action event="submit-error">
@@ -84,7 +84,7 @@
     <!-- ### main   -->
     <main>
         <!-- begin section general -->
-        <fx-group id="general" ref="instance()" class="col-2">
+        <fx-group id="general" ref="instance('default')" class="col-2">
             <h2>Organization ID:
                 <fx-output ref="@xml:id"></fx-output>
             </h2>
@@ -101,7 +101,7 @@
 
         <!-- Basic name forms -->
 
-        <fx-group id="note" ref="instance()" class="col-2">
+        <fx-group id="note" ref="instance('default')" class="col-2">
             <h2>Note</h2>
             <fx-control ref="note" as="node" update-event="blur">
                 <jinn-xml-editor unwrap="unwrap" class="widget" placeholder="[Inline text/markup or sequence of paragraphs]" schema="resources/scripts/annotations/tei.json" schema-root="note" namespace="http://www.tei-c.org/ns/1.0">
