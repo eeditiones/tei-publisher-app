@@ -86,6 +86,9 @@ declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd
 };
 
 declare function tpu:get-template-config($request as map(*)) {
+    for $param in map:keys($request?parameters)
+    return
+        request:set-attribute($param, $request?parameters($param)),
     map:merge((
         $tpu:template-config,
         map {
@@ -93,7 +96,6 @@ declare function tpu:get-template-config($request as map(*)) {
                 let $pval := array:fold-right(
                     [
                         request:get-parameter($param, ()),
-                        (: if (map:contains($request, 'parameters')) then $request?parameters($param) else (), :)
                         request:get-attribute($param),
                         session:get-attribute($config:session-prefix || "." || $param)
                     ], (),
