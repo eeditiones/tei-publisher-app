@@ -86,9 +86,12 @@ declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd
 };
 
 declare function tpu:get-template-config($request as map(*)) {
-    for $param in map:keys($request?parameters)
-    return
-        request:set-attribute($param, $request?parameters($param)),
+    if (map:contains($request, "parameters")) then
+        for $param in map:keys($request?parameters)
+        return
+            request:set-attribute($param, $request?parameters($param))
+    else
+        (),
     map:merge((
         $tpu:template-config,
         map {
