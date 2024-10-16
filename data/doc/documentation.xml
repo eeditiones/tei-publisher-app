@@ -5262,9 +5262,9 @@ declare variable $config:data-root := $config:app-root || "/data";
     <section xml:id="subcollections">
       <title>Subcollections</title>
       <para> Many editions will simply present a number of documents, e.g. a collection of letters
-        like <link xlink:href="https://teipublisher.com/exist/apps/vangogh/index.html"
+        like <link xlink:href="https://tei-publisher.org/exist/apps/vangogh/index.html"
           xlink:show="new">Van Gogh</link> or plays like <link
-          xlink:href="https://teipublisher.com/exist/apps/shakespeare-pm/index.html"
+          xlink:href="https://tei-publisher.org/exist/apps/shakespeare-pm/index.html"
           >Shakespeare</link> demo. Structure of the data is therefore very simple, all the files
         are stored on the same level in the <code>data-root</code> collection. </para>
 
@@ -5471,7 +5471,7 @@ declare variable $config:data-default := $config:data-root;
       when indexing the document. No extra computation is needed when the user clicks on a facet to
       drill down into a displayed set: all information is already available in the index. To see a
       more complex example of facets in action, visit our <link xlink:show="new"
-        xlink:href="https://teipublisher.com/exist/apps/vangogh/index.html">Van Gogh</link> demo. </para>
+        xlink:href="https://tei-publisher.org/exist/apps/vangogh/index.html">Van Gogh</link> demo. </para>
     <para>If you would like to configure other or additional facets, you need to edit three
       files:</para>
     <variablelist>
@@ -5634,7 +5634,7 @@ declare variable $config:facets := [
       <para> The embedded example below demonstrates such a use case: it provides a sandbox running
         on <link xlink:show="new" xlink:href="https://codepen.io">codepen.io</link> but communicates
         with the TEI Publisher instance on <link xlink:show="new"
-          xlink:href="https://teipublisher.com">teipublisher.com</link> which stores the documents.
+          xlink:href="https://tei-publisher.org">teipublisher.com</link> which stores the documents.
         The magic happens in the <code>endpoint</code> attribute passed to <tag>pb-page</tag>, which
         tells the components where to talk to: </para>
       <programlisting role="codepen" xlink:href="wolfgangmm#YzXEvvw"/>
@@ -5659,9 +5659,9 @@ declare variable $config:facets := [
         script for this job, which you can call as follows in your browser:</para>
       <para>
         <link xlink:show="new"
-          xlink:href="https://teipublisher.com/exist/apps/tei-publisher/api/document/test%2FF-rom.xml/html?odd=shakespeare.odd"
+          xlink:href="https://tei-publisher.org/exist/apps/tei-publisher/api/document/test%2FF-rom.xml/html?odd=shakespeare.odd"
           >
-          https://teipublisher.com/exist/apps/tei-publisher/api/document/test%2FF-rom.xml/html?odd=shakespeare.odd</link>
+          https://tei-publisher.org/exist/apps/tei-publisher/api/document/test%2FF-rom.xml/html?odd=shakespeare.odd</link>
       </para>
       <para> This will retrieve the content of Shakespeare's <emphasis>Romeo and Juliet</emphasis>
         as an HTML page, transformed through the odd <filename>shakespeare.odd</filename>. For
@@ -5693,7 +5693,7 @@ declare variable $config:facets := [
 
       <para> Now let's actually use the components to display Shakespeare's <emphasis>Romeo and
           Juliet</emphasis> : in the HTML <tag>body</tag>, include the following snippet: </para>
-      <programlisting language="html" xml:space="preserve">&lt;pb-page endpoint="https://teipublisher.com/exist/apps/tei-publisher"&gt;
+      <programlisting language="html" xml:space="preserve">&lt;pb-page endpoint="https://tei-publisher.org/exist/apps/tei-publisher"&gt;
     &lt;pb-document id="document1" path="test/F-rom.xml" odd="shakespeare"&gt;&lt;/pb-document&gt;
     &lt;!-- Navigate to previous page --&gt;
     &lt;pb-navigation direction="backward" unit="page" keyboard="left"&gt;
