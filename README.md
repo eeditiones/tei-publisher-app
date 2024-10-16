@@ -10,7 +10,7 @@ TEI Publisher supports a range of different output media without requiring advan
 
 A demo and further documentation is available on:
 
-[https://teipublisher.com/](https://teipublisher.com/)
+[https://tei-publisher.org/](https://tei-publisher.org/)
 
 For general questions and discussions, please join the [#community](https://join.slack.com/t/e-editiones/shared_invite/zt-e19jc03q-OFaVni~_lh6emSHen6pswg) room on the e-editiones slack.
 
