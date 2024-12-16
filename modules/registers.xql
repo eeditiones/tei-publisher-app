@@ -179,7 +179,7 @@ declare function rapi:next($type) {
             try {
                 xs:integer($last) + 1
             } catch * {
-                '_error'
+                1
             }
     
     return $config?prefix || rapi:pad($next, 6)
