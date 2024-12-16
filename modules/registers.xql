@@ -60,7 +60,10 @@ declare function rapi:save($request as map(*)) {
     let $body := $request?body/*[1]
 
     let $type := local-name($body)
-    let $type := if ($type = 'org') then "organization" else $type
+    let $type := switch($type) 
+                    case "org" return "organization" 
+                    case "bibl" return "work" 
+                    default return $type
     let $id := ($body/@xml:id, $request?parameters?id)[1]
 
     let $data := rapi:prepare-record($body, $user, $type)
@@ -101,6 +104,8 @@ declare function rapi:insert-point($type as xs:string) {
             collection($config:register-root)/id($root)//tei:listOrg
         case "term" return
             collection($config:register-root)/id($root)//tei:taxonomy
+        case "work" return
+            collection($config:register-root)/id($root)//tei:listBibl
         default return
             collection($config:register-root)/id($root)//tei:listPerson
 };
@@ -115,8 +120,8 @@ declare function rapi:prepare-record($node as item()*, $resp, $type) {
 
     let $id := if ($node/@xml:id=$new) then rapi:next($type) else $node/@xml:id
 
-            return
-                element {node-name($node)} {
+    return
+        element {node-name($node)} {
                 (: copy attributes :)
                 for $att in $node/@* except ($node/@xml:id, $node/@resp, $node/@when)
                    return
@@ -151,6 +156,8 @@ declare function rapi:next($type) {
             return collection($config:register-root)/id($config?id)//tei:org[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
         case 'term'
             return collection($config:register-root)/id($config?id)//tei:category[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
+        case 'work'
+            return collection($config:register-root)/id($config?id)//(tei:bibl|tei:biblStruct)[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
         default 
             return collection($config:register-root)/id($config?id)//tei:person[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
     
@@ -229,6 +236,15 @@ declare function rapi:query($type as xs:string, $query as xs:string?) {
                     map {
                         "id": $term/@xml:id/string(),
                         "label": $term/tei:catDesc/string()
+                    }
+            case "work" return
+                for $bibl in collection($config:register-root)//tei:bibl[ft:query(tei:title, $query)]
+                return
+                    map {
+                        "id": $bibl/@xml:id/string(),
+                        "label": $bibl/tei:title[@type="main"]/string(),
+                        "details": ``[`{$bibl/tei:author}`; `{$bibl/tei:note/string()}`]``,
+                        "link": $bibl/tei:ptr/@target/string()
                     }
             default return
                 ()
@@ -317,6 +333,16 @@ declare function rapi:create-record($type as xs:string, $id as xs:string, $data 
             <category xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
                 <catDesc>{$data?name}</catDesc>
             </category>
+        case "work" return
+            <bibl xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
+                <title type="main">{$data?name}</title>
+                {
+                    rapi:process-array($data?firstAuthor, function($item) {
+                        <author xmlns="http://www.tei-c.org/ns/1.0">{$item?label}</author>
+                    })
+                }
+                <note>{$data?note}</note>
+            </bibl>
         default return
             ()
 };
@@ -359,6 +385,7 @@ declare function rapi:local-search-strings($type as xs:string, $entry as element
         case "place" return $entry/tei:placeName/string()
         case "organization" return $entry/tei:orgName/string()
         case "term" return $entry/tei:catDesc/string()
+        case "work" return $entry/tei:title/string()
         default return $entry/tei:persName/string()
 };
 
