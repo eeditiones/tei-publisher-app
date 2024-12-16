@@ -115,9 +115,6 @@ declare function rapi:prepare-record($node as item()*, $resp, $type) {
 
     let $id := if ($node/@xml:id=$new) then rapi:next($type) else $node/@xml:id
 
-    return
-      typeswitch($node)
-        case element(tei:person) 
             return
                 element {node-name($node)} {
                 (: copy attributes :)
@@ -134,27 +131,6 @@ declare function rapi:prepare-record($node as item()*, $resp, $type) {
                 for $child in $node/node()
                    return $child
               }
-        case element(tei:place) 
-            return
-                element {node-name($node)} {
-                (: copy attributes :)
-                for $att in $node/@* except ($node/@xml:id, $node/@resp, $node/@when)
-                   return
-                      $att
-                ,
-                attribute xml:id {$id}
-                ,
-                attribute when {format-date(current-date(), '[Y]-[M,2]-[D,2]')}
-                ,
-                attribute resp {$resp}
-                ,
-                for $child in $node/node()
-                   return $child
-              }
-        (: all the rest pass it through :)
-        default 
-            return $node
-
 };
 
 (:~ 
@@ -171,6 +147,10 @@ declare function rapi:next($type) {
     switch ($type)
         case 'place'
             return collection($config:register-root)/id($config?id)//tei:place[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
+        case 'organization'
+            return collection($config:register-root)/id($config?id)//tei:org[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
+        case 'term'
+            return collection($config:register-root)/id($config?id)//tei:category[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
         default 
             return collection($config:register-root)/id($config?id)//tei:person[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
     
