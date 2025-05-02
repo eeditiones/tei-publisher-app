@@ -74,7 +74,7 @@ jobs:
 
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: ghcr.io/eeditiones/tei-publisher-app/teipublisher
           # TODO(DP): This could be extended further
