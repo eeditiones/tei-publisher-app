@@ -19,20 +19,33 @@ on:
 env:
   # TODO: Change variable to your image's name.
   IMAGE_NAME: teipublisher
+  TEST_TAG: exist-db
 
 jobs:
   # Run tests.
   # See also https://docs.docker.com/docker-hub/builds/automated-testing/
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        EXIST_BASE: [6.2.0, 6.4.0, latest]
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v5
-      - name: Build docker image
-        run: docker build -t exist-db -f Dockerfile .
+      - name: Build default images for testing on CI
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          build-args: |
+            EXIST_VERSION=${{ matrix.EXIST_BASE }}
+          load: true
+          tags: ${{ env.TEST_TAG }}
+          cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:buildcache
       - name: Start docker image
-        run: docker run --publish 8080:8080 --name db --detach exist-db
+        run: docker run --publish 8080:8080 --name db --detach ${{ env.TEST_TAG }}
       - name: Run npm install
         run: npm install
       - name: Run tests
@@ -100,7 +113,9 @@ jobs:
           platforms: linux/amd64,linux/arm64
           build-args: |
             PUBLISHER_VERSION=master
+            EXIST_VERSION=release
           builder: ${{ steps.buildx.outputs.name }}
           push: true
+          sbom: true
           tags: ${{ steps.meta.outputs.tags }} 
           labels: ${{ steps.meta.outputs.labels }}   

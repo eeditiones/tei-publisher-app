@@ -1,5 +1,6 @@
 # START STAGE 1
-FROM openjdk:8-jdk-slim as builder
+ARG EXIST_VERSION=release
+FROM openjdk:11-jdk-slim as builder
 
 USER root
 
@@ -81,7 +82,7 @@ RUN  cd tei-publisher-app \
 RUN curl -L -o /tmp/roaster-${ROUTER_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar
 RUN curl -L -o /tmp/templating-${TEMPLATING_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/templating-${TEMPLATING_VERSION}.xar
 
-FROM duncdrum/existdb:release-debug-j8
+FROM duncdrum/existdb:${EXIST_VERSION}-debug
 
 COPY --from=tei /tmp/tei-publisher-app/build/*.xar /exist/autodeploy/
 COPY --from=tei /tmp/shakespeare/build/*.xar /exist/autodeploy/
