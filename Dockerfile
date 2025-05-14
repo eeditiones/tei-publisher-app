@@ -1,12 +1,12 @@
 # START STAGE 1
 ARG EXIST_VERSION=release
-FROM openjdk:11-jdk-slim as builder
+FROM openjdk:11-jdk-slim AS builder
 
 USER root
 
-ENV NODE_MAJOR 20
-ENV ANT_VERSION 1.10.15
-ENV ANT_HOME /etc/ant-${ANT_VERSION}
+ENV NODE_MAJOR=20
+ENV ANT_VERSION=1.10.15
+ENV ANT_HOME=/etc/ant-${ANT_VERSION}
 
 WORKDIR /tmp
 
@@ -31,13 +31,13 @@ RUN curl -L -o apache-ant-${ANT_VERSION}-bin.tar.gz https://downloads.apache.org
     && rm -rf ${ANT_HOME}/manual \
     && unset ANT_VERSION
 
-ENV PATH ${PATH}:${ANT_HOME}/bin
+ENV PATH=${PATH}:${ANT_HOME}/bin
 
 # RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
 #     && apt-get install -y nodejs \
 #     && curl -L https://www.npmjs.com/install.sh | sh
 
-FROM builder as tei
+FROM builder AS tei
 
 # TODO(DP): Demo App Versions need updating
 ARG TEMPLATING_VERSION=1.2.1
@@ -82,7 +82,7 @@ RUN  cd tei-publisher-app \
 RUN curl -L -o /tmp/roaster-${ROUTER_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar
 RUN curl -L -o /tmp/templating-${TEMPLATING_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/templating-${TEMPLATING_VERSION}.xar
 
-FROM duncdrum/existdb:${EXIST_VERSION}-debug
+FROM duncdrum/existdb:${EXIST_VERSION}
 
 COPY --from=tei /tmp/tei-publisher-app/build/*.xar /exist/autodeploy/
 COPY --from=tei /tmp/shakespeare/build/*.xar /exist/autodeploy/
@@ -93,6 +93,9 @@ WORKDIR /exist
 
 # ARG ADMIN_PASS=none
 
+ARG CACHE_MEM
+ARG MAX_BROKER
+ARG JVM_MAX_RAM_PERCENTAGE
 ARG HTTP_PORT=8080
 ARG HTTPS_PORT=8443
 
@@ -100,7 +103,7 @@ ARG NER_ENDPOINT=http://localhost:8001
 ENV CONTEXT_PATH=auto
 ENV PROXY_CACHING=false
 
-ENV JAVA_TOOL_OPTIONS \
+ENV JAVA_TOOL_OPTIONS="\
   -Dfile.encoding=UTF8 \
   -Dsun.jnu.encoding=UTF-8 \
   -Djava.awt.headless=true \
@@ -118,7 +121,7 @@ ENV JAVA_TOOL_OPTIONS \
   -XX:+UseStringDeduplication \
   -XX:+UseContainerSupport \
   -XX:MaxRAMPercentage=${JVM_MAX_RAM_PERCENTAGE:-75.0} \
-  -XX:+ExitOnOutOfMemoryError
+  -XX:+ExitOnOutOfMemoryError"
 
 # pre-populate the database by launching it once and change default pw
 RUN [ "java", "org.exist.start.Main", "client", "--no-gui",  "-l", "-u", "admin", "-P", "" ]

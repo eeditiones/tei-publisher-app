@@ -29,7 +29,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        EXIST_BASE: [6.2.0, 6.4.0, latest]
+        EXIST_BASE: [6.2.0-debug, 6.4.0-debug, debug]
 
     steps:
       - name: Check out repository
@@ -89,7 +89,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/eeditiones/tei-publisher-app/teipublisher
+          images: ghcr.io/eeditiones/tei-publisher-app/${{ env.IMAGE_NAME }}
           # TODO(DP): This could be extended further
           tags: |
             type=ref,event=branch
@@ -104,7 +104,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
+      # TODO(DP): This should be based on release and non debug
       - name: Push image
         if: github.ref == 'refs/heads/master'
         uses: docker/build-push-action@v6
@@ -113,7 +113,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           build-args: |
             PUBLISHER_VERSION=master
-            EXIST_VERSION=release
+            EXIST_VERSION=6.2.0-debug
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           sbom: true
