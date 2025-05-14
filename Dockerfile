@@ -81,7 +81,7 @@ RUN  cd tei-publisher-app \
 RUN curl -L -o /tmp/roaster-${ROUTER_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar
 RUN curl -L -o /tmp/templating-${TEMPLATING_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/templating-${TEMPLATING_VERSION}.xar
 
-FROM duncdrum/existdb:6.2.0-debug-j8
+FROM duncdrum/existdb:release-debug-j8
 
 COPY --from=tei /tmp/tei-publisher-app/build/*.xar /exist/autodeploy/
 COPY --from=tei /tmp/shakespeare/build/*.xar /exist/autodeploy/
