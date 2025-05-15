@@ -42,9 +42,9 @@ FROM builder AS tei
 # TODO(DP): Demo App Versions need updating
 ARG TEMPLATING_VERSION=1.2.1
 ARG PUBLISHER_LIB_VERSION=4.0.2
-ARG ROUTER_VERSION=1.8.1
+ARG ROUTER_VERSION=1.9.1
 ARG SHAKESPEARE_VERSION=2.0.2
-ARG VANGOGH_VERSION=2.0.0
+ARG VANGOGH_VERSION=3.0.0
 
 # add key
 RUN  mkdir -p ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
