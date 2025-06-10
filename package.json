@@ -19,7 +19,7 @@
     "adm-zip": "^0.5.16",
     "axios": "^1.9.0",
     "chai": "^5.2.0",
-    "chai-openapi-response-validator": "^0.9.4",
+    "chai-openapi-response-validator": "^0.14.2",
     "chai-xml": "^0.4.1",
     "form-data": "^4.0.3",
     "jsdom": "^26.1.0",
