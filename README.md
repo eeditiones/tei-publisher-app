@@ -78,8 +78,16 @@ Following instructions are only relevant for developers who want to contribute t
 
 ## Docker 
 
+There are two flavors for the docker images `:-prod` for a minimal production oriented image and `:-dev` for local development. Images are build automatically on CI and can be downloaded from [ghcr](https://github.com/orgs/eeditiones/packages?repo_name=tei-publisher-app):
+
+Not that the production images come without dashboard. You can reach the app at `http://localhost:8080/exist/apps/tei-publisher/index.html` in your browser.
+
 ### Build Docker Image
-* execute `docker build -t existdb/teipublisher:6.0.0 .` in your terminal
+
+When building docker images you should specify the desired falvor via the  `BUILD` argument:
+
+* execute `docker build --build-arg BUILD=prod -t existdb/teipublisher:v9-prod .` or
+* `docker build --build-arg BUILD=local -t existdb/teipublisher:v9-dev .` in your terminal
 
 ### Run Docker Image
 * execute `docker run --publish 8080:8080 --detach --name tp existdb/teipublisher:6.0.0` in your terminal
