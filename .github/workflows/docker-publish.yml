@@ -19,20 +19,34 @@ on:
 env:
   # TODO: Change variable to your image's name.
   IMAGE_NAME: teipublisher
+  TEST_TAG: exist-db
+  EXIST_TAG: 6.2.0
 
 jobs:
   # Run tests.
   # See also https://docs.docker.com/docker-hub/builds/automated-testing/
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        EXIST_BASE: [6.2.0, release, latest]
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-      - name: Build docker image
-        run: docker build -t exist-db -f Dockerfile .
+      - name: Build default images for testing on CI
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          build-args: |
+            EXIST_VERSION=${{ matrix.EXIST_BASE }}
+          load: true
+          tags: ${{ env.TEST_TAG }}
+          # cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:buildcache
       - name: Start docker image
-        run: docker run --publish 8080:8080 --name db --detach exist-db
+        run: docker run --publish 8080:8080 --name db --detach ${{ env.TEST_TAG }}
       - name: Run npm install
         run: npm install
       - name: Run tests
@@ -76,7 +90,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/eeditiones/tei-publisher-app/teipublisher
+          images: ghcr.io/eeditiones/${{ env.IMAGE_NAME }}
           # TODO(DP): This could be extended further
           tags: |
             type=ref,event=branch
@@ -91,16 +105,41 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Push image
+      # TODO(DP): This should be based on release
+      - name: Push prod image
         if: github.ref == 'refs/heads/master'
         uses: docker/build-push-action@v6
         with:
           context: .
           platforms: linux/amd64,linux/arm64
           build-args: |
-            PUBLISHER_VERSION=master
+            BUILD=prod
+            USR=nonroot:nonroot
+            EXIST_VERSION=${{ env.EXIST_TAG }}
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: ${{ steps.meta.outputs.tags }} 
-          labels: ${{ steps.meta.outputs.labels }}   
+          sbom: true
+          tags: |
+            ${{ steps.meta.outputs.tags }}-prod
+            ghcr.io/eeditiones/${{ env.IMAGE_NAME }}:9.1.0-prod
+            ghcr.io/eeditiones/${{ env.IMAGE_NAME }}:v9-prod  
+          labels: ${{ steps.meta.outputs.labels }}
+          
+      - name: Push dev image
+        if: github.ref == 'refs/heads/master'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            BUILD=local
+            USR=root:root
+            EXIST_VERSION=${{ env.EXIST_TAG }}
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          sbom: true
+          tags: |
+            ${{ steps.meta.outputs.tags }}-dev
+            ghcr.io/eeditiones/${{ env.IMAGE_NAME }}:master-dev
+            ghcr.io/eeditiones/${{ env.IMAGE_NAME }}:v9-dev 
+          labels: ${{ steps.meta.outputs.labels }}  
