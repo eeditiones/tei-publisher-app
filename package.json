@@ -24,7 +24,7 @@
     "form-data": "^4.0.4",
     "jsdom": "^26.1.0",
     "mocha": "^11.7.1",
-    "pdfjs-dist": "^2.4.456",
+    "pdfjs-dist": "^5.4.54",
     "tmp": "^0.2.5"
   },
   "mocha": {
