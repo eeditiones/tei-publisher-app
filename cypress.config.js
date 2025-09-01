@@ -1,16 +1,8 @@
-const { defineConfig } = require("cypress");
+const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
   e2e: {
-    setupNodeEvents(on, config) {
-      on('task', {
-        findFiles({ pattern }) {
-          // Use glob.sync to get the files synchronously
-          return glob.sync(pattern, { nodir: true });
-        }
-      });
-      return config;
-    },
+    setupNodeEvents (on, config) { return config },
     baseUrl: 'http://localhost:8080/exist/apps/tei-publisher', 
     trashAssetsBeforeRuns: true,
     includeShadowDom: true,
