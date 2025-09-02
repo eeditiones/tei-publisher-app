@@ -4,7 +4,7 @@ ARG PUBLISHER_VERSION=9.1.0
 
 FROM ghcr.io/eeditiones/builder:latest AS builder
 
-ARG ROUTER_VERSION=1.8.1
+ARG ROUTER_VERSION=1.10.0
 
 WORKDIR /tmp
 
