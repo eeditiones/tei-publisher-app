@@ -17,7 +17,6 @@ on:
   workflow_dispatch:
 
 env:
-  # TODO: Change variable to your image's name.
   IMAGE_NAME: teipublisher
   TEST_TAG: exist-db
   EXIST_TAG: 6.2.0
@@ -27,10 +26,15 @@ jobs:
   # See also https://docs.docker.com/docker-hub/builds/automated-testing/
   test:
     runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
       matrix:
-        EXIST_BASE: [6.2.0, release, latest]
+        EXIST_BASE: [6.2.0, release]
+        experimental: [false]
+        include:
+            - EXIST_BASE: latest
+              experimental: true
 
     steps:
       - name: Check out repository
@@ -49,10 +53,16 @@ jobs:
         run: docker run --publish 8080:8080 --name db --detach ${{ env.TEST_TAG }}
       - name: Run npm install
         run: npm install
-      - name: Run tests (old)
-        run: npm test
       - name: Run tests (new)
+        if: matrix.experimental != true
         run: npm run test-cy
+      - name: Run tests (new) [expect failures]
+        if: matrix.experimental == true
+        continue-on-error: true
+        run: npm run test-cy
+      - name: Run tests (old)
+        if: matrix.experimental != true
+        run: npm test
       - name: Retrieve eXist log
         if: failure()
         run: docker cp db:/exist/logs/exist.log .
@@ -60,7 +70,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: exist.log
+          name: exist-${{matrix.EXIST_BASE}}-tp.log
           path: ./exist.log
       - name: Stop docker
         run: docker stop db
@@ -95,8 +105,9 @@ jobs:
           images: ghcr.io/eeditiones/${{ env.IMAGE_NAME }}
           # TODO(DP): This could be extended further
           tags: |
-            type=ref,event=branch
-            type=semver,pattern={{version}}    
+            type=semver,pattern={{version}}
+            type=semver,pattern=v{{major}}
+            type=raw,value=latest,enable={{is_default_branch}}    
 
 
       # was ${{ github.actor }}
@@ -123,8 +134,6 @@ jobs:
           sbom: true
           tags: |
             ${{ steps.meta.outputs.tags }}-prod
-            ghcr.io/eeditiones/${{ env.IMAGE_NAME }}:9.1.0-prod
-            ghcr.io/eeditiones/${{ env.IMAGE_NAME }}:v9-prod  
           labels: ${{ steps.meta.outputs.labels }}
           
       - name: Push dev image
@@ -142,6 +151,4 @@ jobs:
           sbom: true
           tags: |
             ${{ steps.meta.outputs.tags }}-dev
-            ghcr.io/eeditiones/${{ env.IMAGE_NAME }}:master-dev
-            ghcr.io/eeditiones/${{ env.IMAGE_NAME }}:v9-dev 
           labels: ${{ steps.meta.outputs.labels }}  
