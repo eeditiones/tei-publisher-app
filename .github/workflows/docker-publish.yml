@@ -49,8 +49,10 @@ jobs:
         run: docker run --publish 8080:8080 --name db --detach ${{ env.TEST_TAG }}
       - name: Run npm install
         run: npm install
-      - name: Run tests
+      - name: Run tests (old)
         run: npm test
+      - name: Run tests (new)
+        run: npm run test-cy
       - name: Retrieve eXist log
         if: failure()
         run: docker cp db:/exist/logs/exist.log .

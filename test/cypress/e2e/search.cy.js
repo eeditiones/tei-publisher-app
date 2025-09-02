@@ -130,7 +130,7 @@ describe('/api/search', () => {
   })
 })
 
-describe.only('/api/search/facets', () => {
+describe('/api/search/facets', () => {
   let cookieHeader
 
   it('runs a search and retrieves facet counts for search results', () => {

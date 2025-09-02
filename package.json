@@ -4,6 +4,7 @@
   "description": "TEI Publisher facilitates the integration of the TEI Processing Model into exist-db applications",
   "scripts": {
     "test": "mocha --exit",
+    "test-cy": "npx cypress run",
     "test-watch": "mocha --watch"
   },
   "repository": {
