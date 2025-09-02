@@ -282,7 +282,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             fo:heading($config, ., ("tei-head1", css:map-rend-to-class(.)), (@n, '. ', .), count(ancestor::div))
                         else
                             if ($parameters?header='short') then
-                                fo:inline($config, ., ("tei-head2", css:map-rend-to-class(.)), replace(string-join(.//text()[not(parent::ref)]), '^(.*?)[^\w]*$', '$1'))
+                                fo:inline($config, ., ("tei-head2", css:map-rend-to-class(.)), replace(string-join(.//text()[not(parent::ref)]), '^(.+?)[^\w]*$', '$1'))
                             else
                                 if (parent::figure) then
                                     fo:block($config, ., ("tei-head3", css:map-rend-to-class(.)), .)
