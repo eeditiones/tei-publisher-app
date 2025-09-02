@@ -1,22 +1,6 @@
 // StandardJS, should-style assertions
 
-const uploadXml = (url, filename, xml, opts = {}) => {
-  const boundary = '----CYPRESSFORM' + Date.now()
-  const body = [
-    `--${boundary}\r\n` +
-    `Content-Disposition: form-data; name="files[]"; filename="${filename}"\r\n` +
-    'Content-Type: application/xml\r\n\r\n' +
-    xml + '\r\n' +
-    `--${boundary}--\r\n`
-  ].join('')
-  return cy.api({
-    method: 'POST',
-    url,
-    headers: { 'Content-Type': `multipart/form-data; boundary=${boundary}`, Accept: 'application/json', ...(opts.headers || {}) },
-    failOnStatusCode: opts.failOnStatusCode,
-    body
-  })
-}
+// Uploads are handled via cy.uploadXml in support/commands
 
 describe('/api/collection', () => {
   it('retrieves document list for default data collection', () => {
@@ -49,13 +33,11 @@ describe('/api/upload [authenticated]', () => {
 
   it('uploads a document to playground collection', () => {
     cy.readFile('data/test/graves6.xml', 'utf8').then(xml => {
-      uploadXml('/api/upload/playground', 'graves6.xml', xml)
-        .its('status').should('eq', 200)
-
-      uploadXml('/api/upload/playground', 'graves6.xml', xml)
-        .its('body').then(body => {
-          cy.wrap(body).should('have.length', 1)
-          cy.wrap(body[0].name).should('eq', '/db/apps/tei-publisher/data/playground/graves6.xml')
+      cy.uploadXml('/api/upload/playground', 'graves6.xml', xml)
+        .then(({ status, body }) => {
+          expect(status).to.eq(200)
+          expect(body).to.have.length(1)
+          expect(body[0].name).to.eq('/db/apps/tei-publisher/data/playground/graves6.xml')
         })
     })
   })
@@ -67,13 +49,11 @@ describe('/api/upload [authenticated]', () => {
 
   it('uploads a document to the root collection of the app', () => {
     cy.readFile('data/test/let695.xml', 'utf8').then(xml => {
-      uploadXml('/api/upload', 'let695.xml', xml)
-        .its('status').should('eq', 200)
-
-      uploadXml('/api/upload', 'let695.xml', xml)
-        .its('body').then(body => {
-          cy.wrap(body).should('have.length', 1)
-          cy.wrap(body[0].name).should('eq', '/db/apps/tei-publisher/data/let695.xml')
+      cy.uploadXml('/api/upload', 'let695.xml', xml)
+        .then(({ status, body }) => {
+          expect(status).to.eq(200)
+          expect(body).to.have.length(1)
+          expect(body[0].name).to.eq('/db/apps/tei-publisher/data/let695.xml')
         })
     })
   })
@@ -93,7 +73,7 @@ describe('/api/upload [unauthorized]', () => {
 
   it('tries to upload a document to playground collection', () => {
     cy.readFile('data/test/graves6.xml', 'utf8').then(xml => {
-      uploadXml('/api/upload/playground', 'graves6.xml', xml, { headers: { Cookie: '' }, failOnStatusCode: false })
+      cy.uploadXml('/api/upload/playground', 'graves6.xml', xml, { headers: { Cookie: '' }, failOnStatusCode: false })
         .its('status').should('eq', 401)
     })
   })

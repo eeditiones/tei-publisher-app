@@ -1,5 +1,5 @@
 // StandardJS, should-style assertions
-const { unzipSync, strFromU8 } = require('fflate')
+const { toU8, names, readEntry } = require('../support/zip')
 
 // Upload via fixtures using cy.request (multipart for XML, REST PUT for image)
 const uploadCoverDoc = () => {
@@ -43,15 +43,9 @@ const uploadCoverDoc = () => {
   return uploadXml().then(() => uploadJpg())
 }
 
-const toU8 = (binary) => new Uint8Array(Cypress.Buffer.from(binary, 'binary'))
-const filterEntries = (u8, names) => {
-  const files = unzipSync(u8)
-  const all = Object.keys(files)
-  return names.filter(n => all.includes(n))
-}
-const readEntry = (u8, name) => {
-  const files = unzipSync(u8)
-  return files[name] ? strFromU8(files[name]) : undefined
+const filterEntries = (u8, wanted) => {
+  const all = names(u8)
+  return wanted.filter(n => all.includes(n))
 }
 
 describe('/api/document/{document}/epub?cover-image', () => {
@@ -61,30 +55,26 @@ describe('/api/document/{document}/epub?cover-image', () => {
 
   it('creating an epub without a cover image', () => {
     cy.api({ method: 'GET', url: '/api/document/playground%2Fcover.xml/epub', encoding: 'binary' })
-      .its('status').should('eq', 200)
-
-    cy.api({ method: 'GET', url: '/api/document/playground%2Fcover.xml/epub', encoding: 'binary' })
-      .then(({ body }) => {
+      .then(({ status, body }) => {
+        expect(status).to.eq(200)
         const u8 = toU8(body)
         const found = filterEntries(u8, ['OEBPS/content.opf', 'OEBPS/book.jpg'])
-        cy.wrap(found.length).should('eq', 1)
-        cy.wrap(found).should('include', 'OEBPS/content.opf')
+        expect(found.length).to.eq(1)
+        expect(found).to.include('OEBPS/content.opf')
       })
   })
 
   it('defining a cover image for the epub', () => {
     cy.api({ method: 'GET', url: '/api/document/playground%2Fcover.xml/epub', qs: { 'cover-image': 'book.jpg' }, encoding: 'binary' })
-      .its('status').should('eq', 200)
-
-    cy.api({ method: 'GET', url: '/api/document/playground%2Fcover.xml/epub', qs: { 'cover-image': 'book.jpg' }, encoding: 'binary' })
-      .then(({ body }) => {
+      .then(({ status, body }) => {
+        expect(status).to.eq(200)
         const u8 = toU8(body)
         const found = filterEntries(u8, ['OEBPS/content.opf', 'OEBPS/book.jpg'])
-        cy.wrap(found.length).should('eq', 2)
+        expect(found.length).to.eq(2)
         const content = new DOMParser().parseFromString(readEntry(u8, 'OEBPS/content.opf'), 'application/xml')
-        cy.wrap(!!content.querySelector('metadata meta[name="cover"][content="book.jpg"]')).should('eq', true)
+        expect(!!content.querySelector('metadata meta[name="cover"][content="book.jpg"]')).to.eq(true)
         const manifestItem = content.querySelector('manifest item[id="book.jpg"]')
-        cy.wrap(manifestItem && manifestItem.getAttribute('properties')).should('eq', 'cover-image')
+        expect(manifestItem && manifestItem.getAttribute('properties')).to.eq('cover-image')
       })
   })
 

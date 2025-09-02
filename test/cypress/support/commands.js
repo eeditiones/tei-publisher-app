@@ -35,3 +35,18 @@ Cypress.Commands.add('api', (opts) => {
   options.headers = { Origin: 'http://localhost:8080', ...(options.headers || {}) }
   return cy.request(options)
 })
+
+// Multipart XML upload helper
+// Usage: cy.uploadXml('/api/upload/playground', 'file.xml', xmlString, { headers: {...}, failOnStatusCode: false })
+Cypress.Commands.add('uploadXml', (url, filename, xml, opts = {}) => {
+  const boundary = '----CYPRESSFORM' + Date.now()
+  const body = [
+    `--${boundary}\r\n` +
+    `Content-Disposition: form-data; name="files[]"; filename="${filename}"\r\n` +
+    'Content-Type: application/xml\r\n\r\n' +
+    xml + '\r\n' +
+    `--${boundary}--\r\n`
+  ].join('')
+  const headers = { 'Content-Type': `multipart/form-data; boundary=${boundary}`, Accept: 'application/json', ...(opts.headers || {}) }
+  return cy.api({ method: 'POST', url, headers, body, failOnStatusCode: opts.failOnStatusCode })
+})

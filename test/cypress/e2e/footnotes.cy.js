@@ -26,20 +26,7 @@ const uploadFootnotes = () => {
     </text>
   </TEI>
   `
-  const boundary = '----CYPRESSFORM' + Date.now()
-  const body = [
-    `--${boundary}\r\n` +
-    'Content-Disposition: form-data; name="files[]"; filename="footnotes.xml"\r\n' +
-    'Content-Type: application/xml\r\n\r\n' +
-    xml + '\r\n' +
-    `--${boundary}--\r\n`
-  ].join('')
-  return cy.api({
-    method: 'POST',
-    url: '/api/upload/playground',
-    headers: { 'Content-Type': `multipart/form-data; boundary=${boundary}`, Accept: 'application/json' },
-    body
-  })
+  return cy.uploadXml('/api/upload/playground', 'footnotes.xml', xml)
 }
 
 describe('Footnotes rendering', () => {
@@ -48,14 +35,11 @@ describe('Footnotes rendering', () => {
   })
 
   it('uploads a test document to playground collection', () => {
-    uploadFootnotes()
-      .its('status').should('eq', 200)
-
-    uploadFootnotes()
-      .its('body').then(body => {
-        cy.wrap(body).should('have.length', 1)
-        cy.wrap(body[0].name).should('eq', '/db/apps/tei-publisher/data/playground/footnotes.xml')
-      })
+    uploadFootnotes().then(({ status, body }) => {
+      expect(status).to.eq(200)
+      expect(body).to.have.length(1)
+      expect(body[0].name).to.eq('/db/apps/tei-publisher/data/playground/footnotes.xml')
+    })
   })
 
   it('checks for correct footnotes using /api/part', () => {
@@ -98,4 +82,3 @@ describe('Footnotes rendering', () => {
       .its('status').should('eq', 204)
   })
 })
-

@@ -1,6 +1,6 @@
 // StandardJS, should-style assertions
 
-const { unzipSync, strFromU8 } = require('fflate')
+const { toU8, readEntry } = require('../support/zip')
 
 const uploadTitleNotes = () => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -21,25 +21,9 @@ const uploadTitleNotes = () => {
     </div>
   </body></text>
   </TEI>`
-  const boundary = '----CYPRESSFORM' + Date.now()
-  const body = [
-    `--${boundary}\r\n` +
-    'Content-Disposition: form-data; name="files[]"; filename="title-notes.xml"\r\n' +
-    'Content-Type: application/xml\r\n\r\n' +
-    xml + '\r\n' +
-    `--${boundary}--\r\n`
-  ].join('')
-  return cy.api({
-    method: 'POST', url: '/api/upload/playground',
-    headers: { 'Content-Type': `multipart/form-data; boundary=${boundary}`, Accept: 'application/json' },
-    body
-  })
+  return cy.uploadXml('/api/upload/playground', 'title-notes.xml', xml)
 }
 
-const readEntry = (u8, name) => {
-  const files = unzipSync(u8)
-  return files[name] ? strFromU8(files[name]) : undefined
-}
 
 describe('Notes in document title', () => {
   before(() => {
@@ -48,11 +32,9 @@ describe('Notes in document title', () => {
 
   it('notes in document title should not appear in navigation entry', () => {
     cy.api({ method: 'GET', url: '/api/document/playground%2Ftitle-notes.xml/epub', encoding: 'binary' })
-      .its('status').should('eq', 200)
-
-    cy.api({ method: 'GET', url: '/api/document/playground%2Ftitle-notes.xml/epub', encoding: 'binary' })
-      .then(({ body }) => {
-        const u8 = new Uint8Array(Cypress.Buffer.from(body, 'binary'))
+      .then(({ status, body }) => {
+        expect(status).to.eq(200)
+        const u8 = toU8(body)
         const nav = readEntry(u8, 'OEBPS/nav.xhtml')
         const doc = new DOMParser().parseFromString(nav, 'application/xhtml+xml')
         const navLabel = doc.querySelector('nav ol li a')

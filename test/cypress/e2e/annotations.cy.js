@@ -2,27 +2,12 @@
 
 const uploadAnnotations = () => {
   return cy.fixture('annotations.xml', 'utf8').then(xml => {
-    const boundary = '----CYPRESSFORM' + Date.now()
-    const body = [
-      `--${boundary}\r\n` +
-      'Content-Disposition: form-data; name="files[]"; filename="annotations.xml"\r\n' +
-      'Content-Type: application/xml\r\n\r\n' +
-      xml + '\r\n' +
-      `--${boundary}--\r\n`
-    ].join('')
-    return cy.api({
-      method: 'POST',
-      url: '/api/upload/annotate',
-      headers: {
-        'Content-Type': `multipart/form-data; boundary=${boundary}`,
-        'Accept': 'application/json'
-      },
-      body
-    }).then(({ status, body }) => {
-      cy.wrap(status).should('eq', 200)
-      cy.wrap(body).should('have.length', 1)
-      cy.wrap(body[0].name).should('eq', '/db/apps/tei-publisher/data/annotate/annotations.xml')
-    })
+    return cy.uploadXml('/api/upload/annotate', 'annotations.xml', xml)
+      .then(({ status, body }) => {
+        cy.wrap(status).should('eq', 200)
+        cy.wrap(body).should('have.length', 1)
+        cy.wrap(body[0].name).should('eq', '/db/apps/tei-publisher/data/annotate/annotations.xml')
+      })
   })
 }
 
