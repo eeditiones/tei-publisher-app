@@ -260,7 +260,12 @@ declare function dapi:latex($request as map(*)) {
                             try {
                                 map { "ok": true(), "tex": string-join($pm-config:latex-transform($xml, $options, $config:default-odd)) }
                             } catch * {
-                                map { "ok": false(), "msg": "LaTeX transform error: " || $err:code || ": " || $err:description }
+                                let $mod := if (exists($err:module)) then string($err:module) else ""
+                                let $line := if (exists($err:line-number)) then string($err:line-number) else ""
+                                let $col := if (exists($err:column-number)) then string($err:column-number) else ""
+                                let $val := if (exists($err:value)) then concat(" value=", string($err:value)) else ""
+                                return map { "ok": false(), "msg": "LaTeX transform error: " || $err:code || ": " || $err:description ||
+                                    (if ($mod != "") then concat(" at ", $mod, ":", $line, ":", $col) else "") || $val }
                             }
                         }
                     let $file :=

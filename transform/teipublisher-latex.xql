@@ -15,7 +15,7 @@ declare namespace mei='http://www.music-encoding.org/ns/mei';
 
 declare namespace pb='http://teipublisher.com/1.0';
 
-import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
+import module namespace css="http://www.tei-c.org/tei-simple/xquery/css" at "../test/cypress/fixtures/css.xql";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
@@ -531,9 +531,22 @@ declare function model:source($parameters as map(*), $elem as element()) {
             $elem
 };
 
+declare function model:safe-process-annotation($html, $context as node()) {
+        
+    try {
+        model:process-annotation($html, $context)
+    } catch * {
+        let $class := string($html/@class)
+        return (
+            util:log('ERROR', 'process-annotation error in teipublisher-latex.xql; class="' || $class || '" context-id=' || string(util:node-id($context)) || ' uri=' || string(base-uri($context))),
+            ()
+        )
+    }
+};
+
 declare function model:process-annotation($html, $context as node()) {
         
-    let $classRegex := analyze-string($html/@class, '\s?annotation-([^\s]+)\s?')
+    let $classRegex := analyze-string(string($html/@class), 'annotation-([^\s]+)')
     return
         if ($classRegex//fn:match) then (
             if ($html/@data-type) then
@@ -574,7 +587,7 @@ declare function model:map($html, $context as node(), $trackIds as item()?) {
                         element { node-name($node) }{
                             attribute data-tei { util:node-id($context) },
                             $node/@*,
-                            model:process-annotation($node, $context),
+                            model:safe-process-annotation($node, $context),
                             $node/node()
                         }
                 default return
@@ -583,4 +596,3 @@ declare function model:map($html, $context as node(), $trackIds as item()?) {
         $html
                     
 };
-
