@@ -19,7 +19,7 @@ on:
 env:
   IMAGE_NAME: teipublisher
   TEST_TAG: exist-db
-  EXIST_TAG: 6.2.0
+  EXIST_TAG: 6.4.0
 
 jobs:
   # Run tests.
