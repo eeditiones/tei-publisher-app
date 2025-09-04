@@ -53,15 +53,12 @@ jobs:
         run: docker run --publish 8080:8080 --name db --detach ${{ env.TEST_TAG }}
       - name: Run npm install
         run: npm install
-      - name: Run tests (new)
+      - name: Run tests
         if: matrix.experimental != true
-        run: npm run test-cy
-      - name: Run tests (new) [expect failures]
+        run: npm test
+      - name: Run tests [expect failures]
         if: matrix.experimental == true
         continue-on-error: true
-        run: npm run test-cy
-      - name: Run tests (old)
-        if: matrix.experimental != true
         run: npm test
       - name: Retrieve eXist log
         if: failure()
