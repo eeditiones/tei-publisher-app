@@ -93,8 +93,7 @@ describe('/api/document/{id}/tex', () => {
   })
 })
 
-// Skipped: PDF endpoints migrated but not enabled
-describe.skip('/api/document/{id}/pdf', () => {
+describe('/api/document/{id}/pdf', () => {
   it('retrieves as PDF transformed via FO', () => {
     const token = new Date().toISOString()
     cy.request({
