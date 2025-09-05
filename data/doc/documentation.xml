@@ -13,15 +13,18 @@
   </info>
   <section xml:id="introduction">
     <title>Introduction</title>
+
     <section xml:id="introduction-explainer">
       <title>What TEI Publisher does ...</title>
       <para> The motivation behind TEI Publisher was to provide a tool which enables scholars and
         editors to publish their materials without becoming programmers, but also does not force
-        them into a one-size-fits-all framework. Experienced developers will benefit as well by
-        writing less code, avoiding redundancy, improve maintenance and interoperability – to just
-        name a few. TEI Publisher is all about <emphasis role="bold">standards</emphasis>, <emphasis
-          role="bold">modularity</emphasis>, <emphasis role="bold">reusability</emphasis> and
-          <emphasis role="bold">sustainability</emphasis>! </para>
+        them into a one-size-fits-all framework. The possibility to create very sophisticated
+        editions by choosing sensible, well-thought-out defaults has been drastically enhanced with
+        the introduction of the application manager Jinks. In addition, experienced developers will
+        benefit as well by writing less code, avoiding redundancy, improve maintenance and
+        interoperability – to just name a few. TEI Publisher is all about <emphasis role="bold"
+          >standards</emphasis>, <emphasis role="bold">modularity</emphasis>, <emphasis role="bold"
+          >reusability</emphasis> and <emphasis role="bold">sustainability</emphasis>! </para>
       <para>In Publisher, it all starts with your source documents – regardless if they are in TEI
         or other form of XML: DocBook, MS Word (DOCX) or JATS. No matter how the source material has
         been encoded, it can be easily transformed into a range of output formats for publication -
@@ -38,17 +41,21 @@
         display and so on. The larger part of TEI Publisher deals with those aspects, providing all
         the necessary building blocks for an online edition.</para>
       <para> Staying true to the spirit of code reuse and interoperability, TEI Publisher implements
-        its functionalities as small "lego" blocks to be freely arranged and recombined. The
-        technology making this possible is called <emphasis>Web Components</emphasis>. It is part of
-        the HTML5 specification and natively implemented by many browsers. Users don't need to dive
-        into the details of this standard though: all you need to modify the example pages is some
+        its functionalities as small ”lego” blocks (<emphasis>features</emphasis>) to be freely
+        arranged and recombined within several <emphasis>profiles</emphasis>. The technology making
+        this possible is called <emphasis>Web Components</emphasis>. It is part of the HTML5
+        specification and natively implemented by many browsers. Users don't need to dive into the
+        details of this standard though: the selection of the desired features in Jinks will already
+        provide you with the nesessary pieces of code, that you can further customise with some
         basic HTML knowledge. </para>
-      <para> Only where the <link xlink:show="new"
-          xlink:href="https://cdn.tei-publisher.com/api.html">available components</link> are not
-        enough, a new use case needs to be described and suitable new components implemented but
-        then they can be incorporated into existing component pool for everyone else to use. After
-        all, our mantra is reuse, reuse, reuse and we want to turn TEI Publisher into a box of tools
-        the entire community can benefit from. </para>
+      <para>TODO: Here, if not earlier, introduction to the concepts of blueprints, themes and features
+        with a link to the appropriate section.</para>
+      <para> Only where the available profiles, features and <link xlink:show="new"
+          xlink:href="https://cdn.tei-publisher.com/api.html">components</link> are not enough, a
+        new use case needs to be described and suitable features implemented but then they can be
+        incorporated into existing feature pool for everyone else to use. After all, our mantra is
+        reuse, reuse, reuse and we want to turn TEI Publisher into a box of tools the entire
+        community can benefit from. </para>
       <para>Despite the elegant simplicity of this approach, various projects we realized in the
         past prove that TEI Publisher is:</para>
       <orderedlist>
@@ -73,8 +80,8 @@
         curated through other tools and platforms, our user community is desperately wishing for
         some aids to convert and incorporate data from other formats as well as to enrich and
         annotate documents, ideally without angle brackets in sight. Answering these needs, first
-        the capacity to handle <link linkend="docx">Word DOCX</link> and Markdown, and later a user
-        friendly <link linkend="web-annotations">annotation editor</link> have been added as
+        the capacity to handle <link linkend="docx">Word DOCX</link> and Markdown, and later two
+        user friendly <link linkend="web-annotations">annotation editors</link> have been added as
         described in relevant sections. </para>
     </section>
     <section xml:id="e-editiones">
