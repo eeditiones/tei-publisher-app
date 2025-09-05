@@ -18,11 +18,11 @@
       <para> The motivation behind TEI Publisher was to provide a tool which enables scholars and
         editors to publish their materials without becoming programmers, but also does not force
         them into a one-size-fits-all framework. Experienced developers will benefit as well by
-        writing less code, avoiding redundancy, improve maintenance and interoperability - to just
+        writing less code, avoiding redundancy, improve maintenance and interoperability – to just
         name a few. TEI Publisher is all about <emphasis role="bold">standards</emphasis>, <emphasis
           role="bold">modularity</emphasis>, <emphasis role="bold">reusability</emphasis> and
           <emphasis role="bold">sustainability</emphasis>! </para>
-      <para>In Publisher, it all starts with your source documents - regardless if they are in TEI
+      <para>In Publisher, it all starts with your source documents – regardless if they are in TEI
         or other form of XML: DocBook, MS Word (DOCX) or JATS. No matter how the source material has
         been encoded, it can be easily transformed into a range of output formats for publication -
         from a modern web page that you can open on your laptop or mobile device, to an ebook, a PDF
@@ -97,7 +97,7 @@
           xlink:href="https://e-editiones.org">e-editiones.org</link> through your affiliated
         institution or individually to support our efforts. </para>
 
-      <para>We invite the community to contribute to the project - by means of code, ideas,
+      <para>We invite the community to contribute to the project – by means of code, ideas,
         documentation, tutorials and funding. </para>
       <para> You don't have to be a developer to contribute, you can do so in a number of ways! </para>
 
@@ -132,7 +132,7 @@
             it too (or ask us to do it for you)! </para>
         </listitem>
         <listitem>
-          <para> Help and mentor others - publish teaching materials, answer questions on our Slack
+          <para> Help and mentor others – publish teaching materials, answer questions on our Slack
             channel, mailing list and other forums. </para>
         </listitem>
         <listitem>
@@ -152,7 +152,7 @@
       <para> There's a long list of ideas and features we'd like to see incorporated into TEI
         Publisher: from wider coverage of input and output formats (e.g. InDesign), CQL and DTS
         support, to various editing workflows and support for efficient hosting and maintenance of
-        multiple editions. These ideas are in various stages of development - some already advanced,
+        multiple editions. These ideas are in various stages of development – some already advanced,
         some in conceptual phase, some waiting for funding and implementation. Coordination of
         future work is primarily conducted by <link xlink:show="new"
           xlink:href="https://e-editiones.org">e-editiones.org</link>. </para>
@@ -266,7 +266,7 @@
               Publisher-based applications. With Publisher web component releases published on npm,
               updating the user interface for all Publisher-based apps is just a question of
               changing a single variable in the configuration file.</para>
-            <para> Furthermore, Publisher's library of web components - true to the basic idea of
+            <para> Furthermore, Publisher's library of web components – true to the basic idea of
                 <link xlink:show="new"
                 xlink:href="https://developer.mozilla.org/en-US/docs/Web/Web_Components">Web
                 Components Standard</link> can be included in any HTML webpage e.g. can be embedded
@@ -299,7 +299,7 @@
               has been added and existing ones updated. </para>
           </listitem>
           <listitem>
-            <para>Subcorpora - new TEI Publisher data organization</para>
+            <para>Subcorpora – new TEI Publisher data organization</para>
             <para> Publisher's pre-populated data collection is now split into
                 <emphasis>Playground</emphasis> and <emphasis>TEI Publisher demo
                 collection</emphasis> areas which illustrate how this mechanism could be used to
@@ -346,7 +346,7 @@
       <title>Installation</title>
       <para> TEI Publisher requires the <link xlink:show="new" xlink:href="http://exist-db.org"
           >eXist XML database</link> to operate. It is distributed as an eXist application package,
-        making it easy to install on any eXist database instance - either on your local machine or
+        making it easy to install on any eXist database instance – either on your local machine or
         any remote server. </para>
       <para> You can install eXist and TEI Publisher manually, as described below. Alternatively use
         the provided <link linkend="docker">docker image</link>. </para>
@@ -492,7 +492,7 @@
           <title>Installing TEI Publisher</title>
           <para> Clicking on <guimenuitem>Open Dashboard</guimenuitem> in the taskbar will open a
             browser and display eXist's Dashboard: the central administrative hub for the database.
-            Alternatively - e.g. when you chose the manual installation on Linux - you can also open
+            Alternatively – e.g. when you chose the manual installation on Linux – you can also open
             a browser window and navigate to: <link xlink:show="new"
               xlink:href="http://localhost:8080">http://localhost:8080</link>. </para>
           <para> Log into the dashboard using the admin account and the password you chose during
@@ -718,9 +718,9 @@
       <title>Selected Use Cases</title>
       <para>The document view can vary, sometimes substantially, depending on the sample document
         you are looking at. This is a natural consequence of TEI's versatility and broad scope of
-        its application. What follows, requirements for the document view - both its layout and
+        its application. What follows, requirements for the document view – both its layout and
         composition as well as processing rules governing the transformation of the text of the
-        document itself - will differ to a great extent. Sample documents which are included in TEI
+        document itself – will differ to a great extent. Sample documents which are included in TEI
         Publisher's installation package do not exhaust its applications but rather aim to present
         some chosen use cases:</para>
       <itemizedlist>
@@ -861,7 +861,7 @@
           template</emphasis>. </para>
 
       <para> We have already mentioned in the very first section that the TEI Processing Model lies
-        at the heart of the Publisher - the ODD file associated with a document defines the rules of
+        at the heart of the Publisher – the ODD file associated with a document defines the rules of
         transformation of the XML source file into HTML. Detailed discussion of the Processing Model
         can be found in <link linkend="pm-syntax">following chapters</link>, for now it is
         sufficient to say this is where decisions if a TEI element should be rendered inline, with a
@@ -871,7 +871,7 @@
       <para> Nevertheless, as we demonstrated in the section on selected sample documents, in the
         application context we certainly want more than just text, however nicely typeset. From
         basic navigation controls, table of content, to facsimile display, critical apparatus,
-        glossaries and maps - all of this and much more could be included in the final webpage.
+        glossaries and maps – all of this and much more could be included in the final webpage.
         Following <emphasis>divide and conquer</emphasis> approach the TEI Publisher defines such
         specialized page elements as small, reusable blocks, using the Web Components technology.
         Components can be used like common HTML elements, thus a page template is just an HTML
@@ -893,7 +893,7 @@
       </figure>
       <para> It is easy to experiment with different page templates and ODDs just changing these
         options in the <guibutton>Settings</guibutton> panel. An important caveat though is that not
-        every page template makes sense for every document - after all parallel alignment can only
+        every page template makes sense for every document – after all parallel alignment can only
         be successful if there is something to align, map needs coordinates to display, page view
         needs information about page breaks and so on. </para>
     </section>
@@ -949,7 +949,7 @@
           components may make certain assumptions about data they are getting and if your documents
           do not follow the same conventions it may be required to adjust parameters passed to the
           components from the page template or the component logic.</para>
-        <para> By means of example - a table of content component assumes that the document
+        <para> By means of example – a table of content component assumes that the document
           structure is represented by means of nested <parameter>div</parameter> elements and
           section titles are given in <parameter>head</parameter> element. If your project rather
           chooses numbered divisions (<parameter>div1</parameter>, <parameter>div2</parameter>) etc
@@ -1052,7 +1052,7 @@
         <title>A word about Word</title>
 
         <para> A Word document is essentially a zip archive of several different XML files. These
-          files store various parts - the text content, styles, embedded media files etc.
+          files store various parts – the text content, styles, embedded media files etc.
           Information most relevant for the import process have been extracted into a map, which is
           passed as a parameter to the ODD, so it is available for every element. Thus information
           about numbering styles can be accessed via <code>$parameters?nstyle(.)</code> function and
@@ -1312,7 +1312,7 @@
           ODD.</para>
         <para>To be able to customize the display of your document it is crucial to understand its
           XML structure well. Each of processing models needs to be aimed at a particular XML
-          element and sometimes is only meant for a specific XML context - let's say we might want
+          element and sometimes is only meant for a specific XML context – let's say we might want
           to distinguish between headings of first and second level of nested divisions as they
           often represent titles of different text units: acts and scenes or books and
           chapters.</para>
@@ -2232,7 +2232,7 @@
         the text styling inside the component (with some exceptions, mainly for properties which are
         inherited down the HTML tree, e.g. <parameter>font-family</parameter>). </para>
       <para> However, putting <emphasis>all</emphasis> styling information into
-          <tag>outputRendition</tag> tags within the ODD is also not a good idea - it adds a lot of
+          <tag>outputRendition</tag> tags within the ODD is also not a good idea – it adds a lot of
         redundancy and mixes editorial responsibilities with web design concerns. </para>
       <para> The recommended solution would therefore be to use CSS classes for repeating styling
         aspects. TEI Publisher supports linking to an external CSS stylesheet from the <code>
@@ -2748,7 +2748,7 @@
               namespace. Web browsers will usually ignore it, but it would be incorrect
               nevertheless. </para>
           </note>
-          <para> All behaviours should be included in the TEI header or - to be exact: the <tag>
+          <para> All behaviours should be included in the TEI header or – to be exact: the <tag>
               tagsDecl</tag> inside the <tag>encodingDesc</tag>. You may have multiple behaviour
             declarations with the same <parameter>@ident</parameter>, given that they apply to
             different <parameter>@output</parameter> modes. Parameters specified via
@@ -3000,7 +3000,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       collection differ not only in the ODD they use, but also concerning the general layout and
       composition of the page. They are based on different HTML templates, which can be found in the
         <filename> templates/pages</filename> collection of the TEI Publisher app. Each template
-      assembles various building blocks in a slightly different way - some <link
+      assembles various building blocks in a slightly different way – some <link
         linkend="selected-use-cases"> examples</link> show a facsimile view next to the text, others
       a parallel display of transcription andtranslation, some include a map and another showcase
       collapsible metadata section. Which template is being used is determined by a <link
@@ -3074,7 +3074,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         <varlistentry>
           <term>odd</term>
           <listitem>
-            <para> the name - without suffix - of the ODD to use for rendering the document. In the
+            <para> the name – without suffix – of the ODD to use for rendering the document. In the
               example, the first document is encoded in TEI and thus transformed through <filename>
                 dta.odd</filename>, while the second is written in DocBook and passed through
                 <filename>docbook.odd</filename>. </para>
@@ -3483,7 +3483,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           <term>pb-tify</term>
           <listitem>
             <para>Supports IIIF presentation manifests: instead of registering a list of images, it
-              expects all relevant metadata - including the list of images - to be provided in a
+              expects all relevant metadata – including the list of images – to be provided in a
               single, standardized manifest. Under the hood, <tag>pb-tify</tag> is based on <link
                 xlink:href="https://tify.rocks/">tify</link>, which also uses <link
                 xlink:href="https://openseadragon.github.io/">OpenSeadragon</link> for the image
@@ -3616,7 +3616,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       (lint); retrieving a list of all available ODDs.</para>
 
     <figure>
-      <title>TEI Publisher API page - the odd endpoint</title>
+      <title>TEI Publisher API page – the odd endpoint</title>
       <mediaobject>
         <imageobject>
           <imagedata fileref="api-spec.png" width="900px"/>
@@ -4248,7 +4248,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <varlistentry>
         <term>Default View</term>
         <listitem>
-          <para> Default document view - whole document, page by page or division by division. If
+          <para> Default document view – whole document, page by page or division by division. If
             you would like to choose page by page, set this to <guimenuitem>"By Page"</guimenuitem>
             but please note that all your documents must be appropriately encoded with page breaks
             as <tag>pb</tag> elements. You will still be able to change the view settings in HTML
@@ -4424,7 +4424,7 @@ declare variable $config:odd-available :=("shakespeare.odd");</programlisting>
               collections</link> beneath <parameter>$config:data-root</parameter> and use different
             ODDs and general view settings for each collection or document type. </para>
           <para> To do so, search for the function <function>config:collection-config</function>,
-            which by default returns an empty sequence - meaning that the default configuration
+            which by default returns an empty sequence – meaning that the default configuration
             should be used. Comment this out and enable the switch/case statement below to return a
             different config depending on the current collection. The
               <parameter>$collection</parameter> and <parameter>$docUri</parameter> parameters be
@@ -4605,7 +4605,7 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
           <filename>custom-api.xql</filename>
         </term>
         <listitem>
-          <para>Custom API functions should be defined in this module - or a module imported by it.
+          <para>Custom API functions should be defined in this module – or a module imported by it.
             Also, HTML templating modules should be imported into this module to be registered with
             the TEI Publisher.</para>
         </listitem>
@@ -5230,7 +5230,7 @@ cp ../tei-publisher-app/templates/drawer.html templates/</programlisting>
             <listitem>
               <para> If your custom app makes direct calls to XQuery main modules (e.g. via the
                   <code> pb-load</code> component), these have to be rewritten. TEI Publisher 7
-                expects all API calls to go through the Open API router - direct calls to XQuery
+                expects all API calls to go through the Open API router – direct calls to XQuery
                 modules are no longer supported. Therefore you need to transform your code into
                 functions which can be called via the Open API, e.g. by adding them to
                   <filename>modules/custom-api.xql</filename> or importing them there. </para>
@@ -5396,7 +5396,7 @@ declare variable $config:webcomponents := "0.9.11";</programlisting>
           </step>
           <step>
             <para> Copy <filename>$source/resources/i18n</filename>. The existing
-                <filename>*.xml</filename> in your directory can be deleted - unless you added your
+                <filename>*.xml</filename> in your directory can be deleted – unless you added your
               own translated keys, in which case you would need to move them into the corresponding
               json format. </para>
           </step>
@@ -5407,7 +5407,7 @@ declare variable $config:webcomponents := "0.9.11";</programlisting>
           </step>
           <step>
             <para> Copy <filename>$source/templates/basic/controller.xql</filename> into the root of
-              your application - unless you made changes to this file yourself, in which case you
+              your application – unless you made changes to this file yourself, in which case you
               would need to merge it. </para>
           </step>
           <step>
@@ -5495,7 +5495,7 @@ declare variable $config:data-root := $config:app-root || "/data";
         are stored on the same level in the <code>data-root</code> collection. </para>
 
       <para> Other publications, particularly those including heterogeneous material may require a
-        more complex organization. TEI Publisher itself is a good example - its <code>data</code>
+        more complex organization. TEI Publisher itself is a good example – its <code>data</code>
         collection is further divided into three subcollections: <filename>doc</filename> (for
         documentation), <filename>test</filename> (for examples) and <filename>playground</filename>
         (for user-supplied material). </para>
@@ -6101,7 +6101,7 @@ import '@polymer/iron-icons';
  * A component with a button which copies the contained content to the clipboard.
  * Use for the typical 'quote this content as' hints on a webpage.
  * 
- * @slot content - contains the actual content to copy to the clipboard
+ * @slot content – contains the actual content to copy to the clipboard
  */
 export class PbClipboard extends pbMixin(LitElement) {
       </programlisting>
@@ -6243,7 +6243,7 @@ static get styles() {
     </section>
     <section xml:id="custom-components-api">
       <title>API documentation</title>
-      <para> Implementing a new feature is only half of the task - and sometimes the easier bit. All
+      <para> Implementing a new feature is only half of the task – and sometimes the easier bit. All
           <code> pb-components</code> come with their API documentation and most of them also with
         one or more Demo showcases. Have a look e.g. at <tag>pb-collapse</tag> component for a
         simple one and compare with much more elaborate sections devoted to
@@ -6276,12 +6276,12 @@ static get styles() {
  * ```
  * slots specification:
  *
- * @slot - unnamed default slot
- * @slot foo-content - content to be shown when foo happens
+ * @slot – unnamed default slot
+ * @slot foo-content – content to be shown when foo happens
  *
  * events specification:
  * 
- * @fires pb-foo-open - Fires opening the foo section
+ * @fires pb-foo-open – Fires opening the foo section
  */
       </programlisting>
       <section xml:id="custom-components-demo">
@@ -6556,7 +6556,7 @@ static get styles() {
       <para>We have extensively covered modifications to the ODD and page templates in earlier
         chapters. In case of vocabularies without out-of-the-box Publisher support it is necessary
         to customize the navigation as well. Tacit understanding of document's structure is critical
-        for many kinds of user interactions - from browsing through pages to creating the table of
+        for many kinds of user interactions – from browsing through pages to creating the table of
         contents.</para>
       <para>
         <filename>modules/navigation.xql</filename> is the main "control room" for all tasks related
@@ -6886,7 +6886,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           checkmarks) in the toolbar above the list.</para>
         <para>Placing your mouse over an entry will scroll the text to the corresponding occurrence,
           showing you the match in its full context to assist the revision process.</para>
-        <para>Existing annotations referencing the same entity will still be shown in the list - but
+        <para>Existing annotations referencing the same entity will still be shown in the list – but
           with their checkbox already marked. Sometimes you may also see an occurrence marked in
           red, indicating that this is an existing annotation referencing a different entity, so
           considered a potential inconsistency to review. You will see such cases additionally
@@ -7144,7 +7144,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           <varlistentry>
             <term>GeoNames</term>
             <listitem>
-              <para><link xlink:href="https://www.geonames.org/">geonames.org</link> - for
+              <para><link xlink:href="https://www.geonames.org/">geonames.org</link> – for
                 places</para>
             </listitem>
           </varlistentry>
@@ -7152,20 +7152,20 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             <term>GND</term>
             <listitem>
               <para><link xlink:href="https://gnd.network/">Gemeinsame Normdatei</link> via <link
-                  xlink:href="http://lobid.org/">lobid.org</link> - for people, organizations and
+                  xlink:href="http://lobid.org/">lobid.org</link> – for people, organizations and
                 terms</para>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term>Metagrid</term>
             <listitem>
-              <para><link xlink:href="https://metagrid.ch/">metagrid.ch</link> - for people</para>
+              <para><link xlink:href="https://metagrid.ch/">metagrid.ch</link> – for people</para>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term>Airtable</term>
             <listitem>
-              <para><link xlink:href="https://www.airtable.com/">airtable.com</link> - arbitrary
+              <para><link xlink:href="https://www.airtable.com/">airtable.com</link> – arbitrary
                 entities, each corresponding to a table</para>
             </listitem>
           </varlistentry>
@@ -7173,7 +7173,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             <term>Reconciliation</term>
             <listitem>
               <para><link xlink:href="https://reconciliation-api.github.io/testbench/"
-                  >Reconciliation Service</link> - arbitrary entities, provided by any
+                  >Reconciliation Service</link> – arbitrary entities, provided by any
                 reconciliation service</para>
             </listitem>
           </varlistentry>
@@ -7182,7 +7182,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             <listitem>
               <para><link
                   xlink:href="https://theologie.unibas.ch/de/karl-barth-zentrum/gesamtausgabe/">Karl
-                  Barth Gesamtausgabe</link> - for people, organizations, terms,
+                  Barth Gesamtausgabe</link> – for people, organizations, terms,
                 abbreviations</para>
             </listitem>
           </varlistentry>
@@ -7354,7 +7354,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           is an open, <link xlink:href="https://www.w3.org/community/reconciliation/"
             >community-maintained</link> standard now, and several authority data providers offer
           comforming API endpoints. GeoNames, the German GND (again via lobid), Getty vocabularies
-          and Wikidata are some examples - find a list of current services at the <link
+          and Wikidata are some examples – find a list of current services at the <link
             xlink:href="https://reconciliation-api.github.io/testbench/">service testbench</link>.
           In addition to the general attributes described above, the only additional bit of
           configuration is the service URL that should be queried. You specify it in the "endpoint"
@@ -7537,8 +7537,8 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         text is marked as an annotation. The color is chosen automatically. You can also check in
         the TEI preview pane that the annotation is correctly output as a TEI <tag>foreign</tag>
         element.</para>
-      <para>However, if you save the annotations, you'll notice that - once the annotation view
-        refreshes - the foreign text is rendered in italics, but not marked as an annotation! To fix
+      <para>However, if you save the annotations, you'll notice that – once the annotation view
+        refreshes – the foreign text is rendered in italics, but not marked as an annotation! To fix
         this, we need to modify the ODD used for rendering the annotation view.</para>
       <para>Open <filename>odd/annotations.odd</filename> (named "Annotations"), either in eXide or
         the ODD editor. Add an <tag>elementSpec</tag> for element <tag>foreign</tag> with an inline
@@ -7837,7 +7837,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       few things to keep in mind for a production system, i.e. one that is publicly available to
       users. We strongly suggest following the recommendations outlined in the <link
         xlink:show="new" xlink:href="https://exist-db.org/exist/apps/doc/production_good_practice"
-        >Production Use - Good Practice</link> of the eXist-db documentation. One important point is
+        >Production Use – Good Practice</link> of the eXist-db documentation. One important point is
       to always run eXist-db in production behind a proxy server, which serves as an intermediary to
       control and protect access to a server on which the database runs.</para>
     <section xml:id="proxy">
