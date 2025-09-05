@@ -1,6 +1,6 @@
 ARG EXIST_VERSION=release
 ARG BUILD=local
-ARG PUBLISHER_VERSION=9.2.0
+ARG PUBLISHER_VERSION=9.1.1
 
 FROM ghcr.io/eeditiones/builder:latest AS builder
 
