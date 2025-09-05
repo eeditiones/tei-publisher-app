@@ -28,3 +28,6 @@ resources/css/components.css
 resources/images/openseadragon
 resources/images/leaflet
 resources/i18n/common
+test/cypress/screenshots/
+test/cypress/videos/
+test/cypress/downloads/

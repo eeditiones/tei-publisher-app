@@ -17,25 +17,48 @@ on:
   workflow_dispatch:
 
 env:
-  # TODO: Change variable to your image's name.
   IMAGE_NAME: teipublisher
+  TEST_TAG: exist-db
+  EXIST_TAG: 6.4.0
 
 jobs:
   # Run tests.
   # See also https://docs.docker.com/docker-hub/builds/automated-testing/
   test:
     runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      fail-fast: false
+      matrix:
+        EXIST_BASE: [6.2.0, release]
+        experimental: [false]
+        include:
+            - EXIST_BASE: latest
+              experimental: true
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v5
-      - name: Build docker image
-        run: docker build -t exist-db -f Dockerfile .
+      - name: Build default images for testing on CI
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          build-args: |
+            EXIST_VERSION=${{ matrix.EXIST_BASE }}
+          load: true
+          tags: ${{ env.TEST_TAG }}
+          # cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:buildcache
       - name: Start docker image
-        run: docker run --publish 8080:8080 --name db --detach exist-db
+        run: docker run --publish 8080:8080 --name db --detach ${{ env.TEST_TAG }}
       - name: Run npm install
         run: npm install
       - name: Run tests
+        if: matrix.experimental != true
+        run: npm test
+      - name: Run tests [expect failures]
+        if: matrix.experimental == true
+        continue-on-error: true
         run: npm test
       - name: Retrieve eXist log
         if: failure()
@@ -44,7 +67,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: exist.log
+          name: exist-${{matrix.EXIST_BASE}}-tp.log
           path: ./exist.log
       - name: Stop docker
         run: docker stop db
@@ -76,11 +99,12 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/eeditiones/tei-publisher-app/teipublisher
+          images: ghcr.io/eeditiones/${{ env.IMAGE_NAME }}
           # TODO(DP): This could be extended further
           tags: |
-            type=ref,event=branch
-            type=semver,pattern={{version}}    
+            type=semver,pattern={{version}}
+            type=semver,pattern=v{{major}}
+            type=raw,value=latest,enable={{is_default_branch}}    
 
 
       # was ${{ github.actor }}
@@ -91,16 +115,37 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Push image
+      # TODO(DP): This should be based on release
+      - name: Push prod image
         if: github.ref == 'refs/heads/master'
         uses: docker/build-push-action@v6
         with:
           context: .
           platforms: linux/amd64,linux/arm64
           build-args: |
-            PUBLISHER_VERSION=master
+            BUILD=prod
+            USR=nonroot:nonroot
+            EXIST_VERSION=${{ env.EXIST_TAG }}
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: ${{ steps.meta.outputs.tags }} 
-          labels: ${{ steps.meta.outputs.labels }}   
+          sbom: true
+          tags: |
+            ${{ steps.meta.outputs.tags }}-prod
+          labels: ${{ steps.meta.outputs.labels }}
+          
+      - name: Push dev image
+        if: github.ref == 'refs/heads/master'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            BUILD=local
+            USR=root:root
+            EXIST_VERSION=${{ env.EXIST_TAG }}
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          sbom: true
+          tags: |
+            ${{ steps.meta.outputs.tags }}-dev
+          labels: ${{ steps.meta.outputs.labels }}  

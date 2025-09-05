@@ -47,20 +47,25 @@ declare function oapi:get-line($src, $line as xs:int?) {
 };
 
 declare function oapi:recompile($request as map(*)) {
-    let $odd := $request?parameters?odd
+    let $oddParam := $request?parameters?odd
     let $oddRoot := head(($request?parameters?root, $config:odd-root))
     let $outputRoot := head(($request?parameters?output-root, $config:output-root))
     let $outputPrefix := head(($request?parameters?output-prefix, $config:output))
     let $oddConfig := doc($oddRoot || "/configuration.xml")/*
-    let $odd :=
-        if (exists($odd)) then
-            $odd
+    (: Normalize ODD sources to a flat sequence of strings :)
+    let $oddSources :=
+        if (exists($oddParam)) then
+            (: request param may be a single string or an array of strings :)
+            if ($oddParam instance of array(*)) then $oddParam?* else $oddParam
         else
-            ($config:odd-available, $config:odd-internal)
+            let $avail := if ($config:odd-available instance of array(*)) then $config:odd-available?* else $config:odd-available
+            let $internal := if ($config:odd-internal instance of array(*)) then $config:odd-internal?* else $config:odd-internal
+            return ($avail, $internal)
     let $result :=
-        for $source in $odd
-        let $odd := doc($oddRoot || "/" || $source)
-        let $pi := tpu:parse-pi($odd, (), $source)
+        for $source in $oddSources
+        let $src := xs:string($source)
+        let $odd := doc($oddRoot || "/" || $src)
+        let $pi := tpu:parse-pi($odd, (), $src)
         for $module in
             if ($pi?output) then
                 tokenize($pi?output)
@@ -122,7 +127,9 @@ declare function oapi:recompile($request as map(*)) {
 
 declare function oapi:list-odds($request as map(*)) {
     array {
-        for $doc in distinct-values(($config:odd-available, $config:odd-internal))
+        let $avail := if ($config:odd-available instance of array(*)) then $config:odd-available?* else $config:odd-available
+        let $internal := if ($config:odd-internal instance of array(*)) then $config:odd-internal?* else $config:odd-internal
+        for $doc in distinct-values(($avail, $internal))
         let $resource := $config:odd-root || "/" || $doc
         let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
         let $displayName := (

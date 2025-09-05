@@ -286,7 +286,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:heading($config, ., ("tei-head1", css:map-rend-to-class(.)), (@n, '. ', .), count(ancestor::div))                            => model:map($node, $trackIds)
                         else
                             if ($parameters?header='short') then
-                                html:inline($config, ., ("tei-head2", css:map-rend-to-class(.)), replace(string-join(.//text()[not(parent::ref)]), '^(.*?)[^\w]*$', '$1'))                                => model:map($node, $trackIds)
+                                html:inline($config, ., ("tei-head2", css:map-rend-to-class(.)), replace(string-join(.//text()[not(parent::ref)]), '^(.+?)[^\w]*$', '$1'))                                => model:map($node, $trackIds)
                             else
                                 if (parent::figure) then
                                     html:block($config, ., ("tei-head3", css:map-rend-to-class(.)), .)                                    => model:map($node, $trackIds)

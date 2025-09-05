@@ -98,15 +98,25 @@ declare %private function dapi:generate-html($request as map(*), $outputMode as 
             return
                 if (exists($xml)) then
                     let $config := tpu:parse-pi(root($xml), ())
+                    (: Normalize odd value to string in case dependencies return arrays :)
+                    let $oddName :=
+                        if (exists($config?odd)) then
+                            if ($config?odd instance of array(*)) then xs:string($config?odd?1) else xs:string($config?odd)
+                        else xs:string(())
+                    (: Fallback to default ODD if compiled LaTeX transform is not available :)
+                    let $oddBase := replace(($oddName, $config:default-odd)[1], "^.*?/?([^/]+)\\.odd$", "$1")
+                    let $compiledLatex := $config:output-root || "/" || $oddBase || "-latex.xql"
+                    let $oddForLatex := if (util:binary-doc-available($compiledLatex)) then $oddName else $config:default-odd
                     let $out := 
                         if ($outputMode = 'print') then
-                            $pm-config:print-transform($xml, map { "root": $xml, "webcomponents": 7 }, $config?odd)
+                            $pm-config:print-transform($xml, map { "root": $xml, "webcomponents": 7 }, $oddName)
                         else
-                            $pm-config:web-transform($xml, map { "root": $xml, "webcomponents": 7 }, $config?odd)
+                            $pm-config:web-transform($xml, map { "root": $xml, "webcomponents": 7 }, $oddName)
                     let $styles := (
                         $addStyles,
                         if (count($out) > 1) then $out[1] else (),
-                        <link rel="stylesheet" type="text/css" href="transform/{replace($config?odd, "^.*?/?([^/]+)\.odd$", "$1")}.css"/>
+                        let $cssOdd := ($oddName, $config:default-odd)[1]
+                        return <link rel="stylesheet" type="text/css" href="transform/{replace($cssOdd, "^.*?/?([^/]+)\.odd$", "$1")}.css"/>
                     )
                     return
                         dapi:postprocess(($out[2], $out[1])[1], $styles, $addScripts, $request?parameters?base, $request?parameters?wc)
@@ -228,20 +238,48 @@ declare function dapi:latex($request as map(*)) {
             return
                 if (exists($xml)) then
                     let $config := tpu:parse-pi(root($xml), ())
+                    (: Normalize odd value to string in case dependencies return arrays :)
+                    let $oddName :=
+                        if (exists($config?odd)) then
+                            if ($config?odd instance of array(*)) then xs:string($config?odd?1) else xs:string($config?odd)
+                        else xs:string(())
+                    (: Fallback to default ODD if compiled LaTeX transform is not available :)
+                    let $oddBase := replace(($oddName, $config:default-odd)[1], "^.*?/?([^/]+)\\.odd$", "$1")
+                    let $compiledLatex := $config:output-root || "/" || $oddBase || "-latex.xql"
+                    let $oddForLatex := if (util:binary-doc-available($compiledLatex)) then $oddName else $config:default-odd
                     let $options :=
                         map {
                             "root": $xml,
                             "image-dir": config:get-repo-dir() || "/" ||
                                 substring-after($config:data-root[1], $config:app-root) || "/"
                         }
-                    let $tex := string-join($pm-config:latex-transform($xml, $options, $config?odd))
+                    let $transform :=
+                        try {
+                            map { "ok": true(), "tex": string-join($pm-config:latex-transform($xml, $options, $oddForLatex)) }
+                        } catch * {
+                            try {
+                                map { "ok": true(), "tex": string-join($pm-config:latex-transform($xml, $options, $config:default-odd)) }
+                            } catch * {
+                                let $mod := if (exists($err:module)) then string($err:module) else ""
+                                let $line := if (exists($err:line-number)) then string($err:line-number) else ""
+                                let $col := if (exists($err:column-number)) then string($err:column-number) else ""
+                                let $val := if (exists($err:value)) then concat(" value=", string($err:value)) else ""
+                                return map { "ok": false(), "msg": "LaTeX transform error: " || $err:code || ": " || $err:description ||
+                                    (if ($mod != "") then concat(" at ", $mod, ":", $line, ":", $col) else "") || $val }
+                            }
+                        }
                     let $file :=
                         replace($id, "^.*?([^/]+)$", "$1") || format-dateTime(current-dateTime(), "-[Y0000][M00][D00]-[H00][m00]")
                     return
                         if ($source) then
-                            router:response(200, "application/x-latex", $tex)
+                            if ($transform?ok) then
+                                router:response(200, "application/x-latex", $transform?tex)
+                            else
+                                router:response(500, "text/plain", $transform?msg)
+                        else if (not($transform?ok)) then
+                            router:response(500, "text/plain", $transform?msg)
                         else
-                            let $serialized := file:serialize-binary(util:string-to-binary($tex), $config:tex-temp-dir || "/" || $file || ".tex")
+                            let $serialized := file:serialize-binary(util:string-to-binary($transform?tex), $config:tex-temp-dir || "/" || $file || ".tex")
                             let $options :=
                                 <option>
                                     <workingDir>{$config:tex-temp-dir}</workingDir>

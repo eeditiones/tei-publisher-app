@@ -366,7 +366,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:omit($config, ., ("tei-revisionDesc", css:map-rend-to-class(.)), .)
                     case element(head) return
                         if ($parameters?header='short') then
-                            latex:inline($config, ., ("tei-head1", css:map-rend-to-class(.)), replace(string-join(.//text()[not(parent::ref)]), '^(.*?)[^\w]*$', '$1'))
+                            latex:inline($config, ., ("tei-head1", css:map-rend-to-class(.)), replace(string-join(.//text()[not(parent::ref)]), '^(.+?)[^\w]*$', '$1'))
                         else
                             if (parent::figure) then
                                 latex:block($config, ., ("tei-head2", css:map-rend-to-class(.)), .)
