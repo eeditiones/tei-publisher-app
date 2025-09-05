@@ -117,7 +117,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       # TODO(DP): This should be based on release
       - name: Push prod image
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -134,7 +134,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           
       - name: Push dev image
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -148,4 +148,5 @@ jobs:
           sbom: true
           tags: |
             ${{ steps.meta.outputs.tags }}-dev
+            ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}  
