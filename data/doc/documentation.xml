@@ -48,8 +48,8 @@
         details of this standard though: the selection of the desired features in Jinks will already
         provide you with the nesessary pieces of code, that you can further customise with some
         basic HTML knowledge. </para>
-      <para>TODO: Here, if not earlier, introduction to the concepts of blueprints, themes and features
-        with a link to the appropriate section.</para>
+      <para>TODO: Here, if not earlier, introduction to the concepts of blueprints, themes and
+        features with a link to the appropriate section.</para>
       <para> Only where the available profiles, features and <link xlink:show="new"
           xlink:href="https://cdn.tei-publisher.com/api.html">components</link> are not enough, a
         new use case needs to be described and suitable features implemented but then they can be
@@ -135,8 +135,8 @@
             target language is not listed and you'd like to work on it. </para>
         </listitem>
         <listitem>
-          <para> Port back your custimizations to the TEI Publisher code base so that others can use
-            it too (or ask us to do it for you)! </para>
+          <para> Port back your customizations (e.g. profiles or themes) to the TEI Publisher code
+            base so that others can use it too (or ask us to do it for you)! </para>
         </listitem>
         <listitem>
           <para> Help and mentor others – publish teaching materials, answer questions on our Slack
@@ -150,10 +150,12 @@
     <section xml:id="versions">
       <title>Versions</title>
       <para>TEI Publisher has been under active development since 2015. Once or twice a year a new
-        major version is released, bringing important new features.</para>
+        major version is released, bringing important new features. In 2025 the TEI Publisher app
+        manager Jinks was released, which facilitates the upgrade of any custom app that has been
+        generated with it.</para>
       <para>Minor versions are released at shorter intervals and offer bug fixes, minor new features
         and improvements.</para>
-      <para>The current major version of the TEI Publisher is 9.0.0</para>
+      <para>The current major version of the TEI Publisher is 10.0.0, and of Jinks is X.</para>
 
 
       <para> There's a long list of ideas and features we'd like to see incorporated into TEI
@@ -175,7 +177,10 @@
           </imageobject>
         </mediaobject>
       </figure>
-
+      <section xml:id="v10">
+        <title>What's new in TEI Publisher 10.0.0</title>
+        <para/>
+      </section>
       <section xml:id="v9">
         <title>What's new in TEI Publisher 9.0.0</title>
         <para>Version 9 has seen a major rework of the annotation facilities and introduced local
@@ -336,18 +341,17 @@
   </section>
   <section xml:id="quickstart">
     <title>Quickstart</title>
-    <section xml:id="workshop-2020">
-      <title>«Stay Home Learn TEI Publisher From Scratch»</title>
-      <para> A 3-part online course has been organized by e-editiones and led by Wolfgang Meier in
-        June 2020. Course material, as well as video recordings of all the sessions, and a
-        walk-through for the assignments are available for self-study. Find all informations on the
-          <link xlink:show="new" xlink:href="https://github.com/eeditiones/workshop#slides">workshop
-          GitHub</link> page. </para>
+    <section xml:id="jinks-demo">
+      <title>How to create a custom app with Jinks: demo </title>
+      <para> </para>
       <mediaobject>
         <videoobject>
-          <videodata fileref="https://www.youtube-nocookie.com/embed/QuWrfAS2SWM"/>
+          <videodata fileref=""/>
         </videoobject>
       </mediaobject>
+      <para>Please find learning materials about Jinks, TEI Publisher, and related technologies in
+        this <link xlink:show="new" xlink:href="https://github.com/eeditiones/workshop">Github
+          repository</link>.</para>
     </section>
     <section xml:id="installation">
       <title>Installation</title>
@@ -496,7 +500,7 @@
         </section>
 
         <section xml:id="packageManager">
-          <title>Installing TEI Publisher</title>
+          <title>Installing Jinks and TEI Publisher</title>
           <para> Clicking on <guimenuitem>Open Dashboard</guimenuitem> in the taskbar will open a
             browser and display eXist's Dashboard: the central administrative hub for the database.
             Alternatively – e.g. when you chose the manual installation on Linux – you can also open
@@ -507,12 +511,15 @@
               <guimenuitem>Package Manager</guimenuitem>. You'll see two tabs: the first one lists
             the application packages currently installed, the second can be used to install
             additional packages from eXist's public application repository. </para>
-          <para> Switch to the <guimenuitem>Available</guimenuitem> tab and search the list for TEI
-            Publisher. Once you find it, click on the little install icon. </para>
-          <para>After installing you will find the TEI Publisher icon in the tab showing installed
-            apps. Click on it to open the TEI Publisher.</para>
+          <para> Switch to the <guimenuitem>Available</guimenuitem> tab and search the list for
+            Jinks. Once you find it, click on the little install icon. You can also search for TEI
+            Publisher and install the app so you can play around with the provided demos and
+            showcases. </para>
+          <para>After installing, you will find Jinks (and TEI Publisher if pertinent) in the tab
+            showing installed apps. Click on the icon to open the app.</para>
           <figure>
-            <title> Installing <emphasis>TEI Publisher</emphasis> from the Package Manager </title>
+            <title> Installing <emphasis>Jinks</emphasis> and <emphasis>TEI Publisher</emphasis>
+              from the Package Manager </title>
             <mediaobject>
               <imageobject>
                 <imagedata fileref="eXistDashboard.png" width="640px"/>
@@ -527,8 +534,9 @@
           Publisher. Docker is a tool to simplify the installation of applications and services. It
           creates a virtual environment including everything required for the service to run. Using
           our <link xlink:show="new" xlink:href="https://hub.docker.com/r/existdb/teipublisher"
-            >docker image</link>, eXist will already be set up to include TEI Publisher as well as
-          the Shakespeare and Van Gogh demo apps. </para>
+            >docker image</link>, eXist will already be set up to include both Jinks and TEI
+          Publisher. </para>
+        <!-- TODO: Add in the para above any demos that will also be included -->
         <procedure>
           <step>
             <para> Install <link xlink:show="new" xlink:href="https://www.docker.com/">docker</link>
