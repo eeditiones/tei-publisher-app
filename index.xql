@@ -23,7 +23,7 @@ declare variable $idx:app-root :=
  : This module needs to be loaded before collection.xconf starts indexing documents
  : and therefore should reside in the root of the app.
  :)
-declare function idx:get-metadata($root as element(), $field as xs:string) {
+declare function idx:get-metadata($root as element()?, $field as xs:string) {
     let $header := $root/tei:teiHeader
     return
         switch ($field)

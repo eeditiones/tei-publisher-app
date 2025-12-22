@@ -12,10 +12,10 @@
   "license": "GPL-3.0",
   "dependencies": {
     "@jinntec/fore": "^2.6.0",
-    "@teipublisher/pb-components": "^2.25.6"
+    "@teipublisher/pb-components": "^2.25.7"
   },
   "devDependencies": {
-    "cypress": "^15.2.0",
+    "cypress": "^15.7.0",
     "fflate": "^0.8.2"
   },
   "mocha": {
