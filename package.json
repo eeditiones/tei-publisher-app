@@ -12,7 +12,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "@jinntec/fore": "^2.8.0",
-    "@teipublisher/pb-components": "^2.25.7"
+    "@teipublisher/pb-components": "^3.0.0"
   },
   "devDependencies": {
     "cypress": "^15.8.1",
