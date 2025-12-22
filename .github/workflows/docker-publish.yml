@@ -65,7 +65,7 @@ jobs:
         run: docker cp db:/exist/logs/exist.log .
       - name: Publish log as artifact
         if: failure()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: exist-${{matrix.EXIST_BASE}}-tp.log
           path: ./exist.log
