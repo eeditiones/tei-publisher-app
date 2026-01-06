@@ -15,7 +15,7 @@
     "@teipublisher/pb-components": "^2.25.7"
   },
   "devDependencies": {
-    "cypress": "^15.8.1",
+    "cypress": "^15.8.2",
     "fflate": "^0.8.2"
   },
   "mocha": {
