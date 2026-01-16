@@ -1,0 +1,192 @@
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+schematypens="http://purl.oclc.org/dsdl/schematron"?><TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="pb-places">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Local Authority File: Place register</title>
+            </titleStmt>
+            <publicationStmt>
+                <p>Publication Information</p>
+            </publicationStmt>
+            <sourceDesc>
+                <p>Information about the source</p>
+            </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+            <classDecl>
+                <taxonomy/>
+            </classDecl>
+        </encodingDesc>
+    </teiHeader>
+    <standOff>
+        <listPlace>
+            <place xml:id="geo-3117735" type="P.PPLC">
+                <placeName type="main">Madrid</placeName>
+                <placeName type="variant">Madritum</placeName>
+                <placeName type="variant">Maioretum</placeName>
+                <placeName type="variant">Madrillae</placeName>
+
+                <placeName type="sort">Madrid</placeName>
+                <location>
+                    <geo>40.4165 -3.70256</geo>
+                </location>
+                <country>Spain</country>
+                <region>Madrid</region>
+                <note><placeName>Madritum</placeName>, <placeName>Maioretum</placeName>,
+                        <placeName>Madrillae</placeName></note>
+                <ptr type="geonames" target="https://www.geonames.org/3117735"/>
+                <ptr type="info" target="https://en.wikipedia.org/wiki/Madrid"/>
+                <idno type="CIDTC">IDPl45</idno>
+            </place>
+            <place xml:id="geo-3530597" type="P.PPLC">
+                <placeName type="main">Mexico City</placeName>
+                <placeName type="sort">Mexico City</placeName>
+                <location>
+                    <geo>19.42847 -99.12766</geo>
+                </location>
+                <country>Mexico</country>
+                <region>Mexico City</region>
+                <ptr type="geonames" target="https://www.geonames.org/3530597"/>
+                <ptr type="info" target="https://en.wikipedia.org/wiki/Mexico_City"/>
+            </place>
+            <place xml:id="geo-2363254" type="H.OCN">
+                <placeName type="main">Pacific Ocean</placeName>
+                <placeName type="sort">Pacific Ocean</placeName>
+                <location>
+                    <geo>3.51342 -132.1875</geo>
+                </location>
+                <country/>
+                <region/>
+                <ptr type="geonames" target="https://www.geonames.org/2363254"/>
+                <ptr type="info" target="https://en.wikipedia.org/wiki/Pacific_Ocean"/>
+            </place>
+            <place xml:id="dantiscus-0000001">
+                <placeName type="main">Castile</placeName>
+                <placeName type="variant">Castilla</placeName>
+                <placeName type="variant">Castilia</placeName>
+
+                <placeName type="sort">Castile</placeName>
+                <location>
+                    <geo>40.430359 -4.360996</geo>
+                </location>
+                <country>Spain</country>
+                <ptr type="geonames" target="https://www.geonames.org/3190590"/>
+                <ptr type="wikidata" target="https://www.wikidata.org/wiki/Q681964"/>
+                <note>Castile (<placeName>Castilla</placeName>, <placeName>Castilia</placeName>), kingdom
+                     on the Iberian Peninsula, together with the Crown of Aragon formed the
+                     foundation of the Kingdom of Spain</note>
+            </place>
+            <place xml:id="geo-2849483" type="P.PPLA2">
+                <placeName type="main">Regensburg</placeName>
+                <placeName type="sort">Regensburg</placeName>
+                <location>
+                    <geo>49.01513 12.10161</geo>
+                </location>
+                <country>Germany</country>
+                <region>Bavaria</region>
+                <ptr type="geonames" target="https://www.geonames.org/2849483"/>
+                <ptr type="info" target="https://en.wikipedia.org/wiki/Regensburg"/>
+            </place>
+            <place xml:id="kbga-places-54" type="P">
+                <placeName type="main">Safenwil (AG)</placeName>
+                <placeName type="sort">Safenwil</placeName>
+                <location>
+                    <geo>47.32163 7.98254</geo>
+                </location>
+                <settlement>Safenwil</settlement>
+                <country>Schweiz</country>
+                <ptr type="geonames" target="https://www.geonames.org/2658892"/>
+                <ptr type="info" target="https://de.wikipedia.org/wiki/Safenwil"/>
+                <ptr type="wikidata" target="https://www.wikidata.org/wiki/Q64448"/>
+                <note>Einwohnergemeinde im Schweizer Kanton Aargau. Von 1911 bis 1921 lebte und wirkte Karl Barth hier als Pfarrer.</note>
+            </place>
+            <place xml:id="kbga-places-248" type="P">
+                <placeName type="main">Laupen (BE)</placeName>
+                <placeName type="sort">Laupen</placeName>
+                <location>
+                    <geo>46.90214 7.23973</geo>
+                </location>
+                <country>Schweiz</country>
+                <ptr type="geonames" target="https://www.geonames.org/2659998"/>
+                <ptr type="info" target="https://de.wikipedia.org/wiki/Laupen"/>
+                <ptr type="wikidata" target="https://www.wikidata.org/wiki/Q67112"/>
+                <note>Politische Gemeinde im Kanton Bern; 1912-1918 war Barths Bruder Peter hier Pfarrer.</note>
+            </place>
+            <place xml:id="kbga-places-233" type="A">
+                <placeName type="main">Bern (Kanton) (BE)</placeName>
+                <placeName type="sort">Bern (Kanton)</placeName>
+                <location>
+                    <geo>46.94809 7.44744</geo>
+                </location>
+                <country>Schweiz</country>
+                <ptr type="geonames" target="https://www.geonames.org/2661552"/>
+                <ptr type="info" target="https://de.wikipedia.org/wiki/Kanton_Bern"/>
+                <ptr type="wikidata" target="https://www.wikidata.org/wiki/Q11911"/>
+                <note>Gebiet des gleichnamigen Kantons im Westen der Schweiz.</note>
+            </place>
+            <place xml:id="kbga-places-1061" type="A">
+                <placeName type="main">Patmos</placeName>
+                <placeName type="sort">Patmos</placeName>
+                <location>
+                    <geo>37.30895 26.54723</geo>
+                </location>
+                <country>Griechenland</country>
+                <ptr type="geonames" target="https://www.geonames.org/255688"/>
+                <ptr type="info" target="https://de.wikipedia.org/wiki/Patmos"/>
+                <ptr type="wikidata" target="https://www.wikidata.org/wiki/Q190053"/>
+                <note>Griechische Insel in der Ägäis; lt.Apk. 1,9 der Ort, an dem Johannes, der Verfasser der Apokalypse, in der Verbannung lebte.</note>
+            </place>
+            <place xml:id="kbga-places-58" type="A">
+                <placeName type="main">Schweiz</placeName>
+                <placeName type="sort">Schweiz</placeName>
+                <location>
+                    <geo>47.00016 8.01427</geo>
+                </location>
+                <country>Schweiz</country>
+                <ptr type="geonames" target="https://www.geonames.org/2658434"/>
+                <ptr type="info" target="https://de.wikipedia.org/wiki/Schweiz"/>
+                <ptr type="wikidata" target="https://www.wikidata.org/wiki/Q39"/>
+                <note>Staatsgebiet der heutigen Schweizerischen Eidgenossenschaft.</note>
+            </place>
+            <place xml:id="kbga-places-9" type="P">
+                <placeName type="main">Bern (BE)</placeName>
+                <placeName type="sort">Bern</placeName>
+                <location>
+                    <geo>46.94809 7.44744</geo>
+                </location>
+                <settlement>Bern</settlement>
+                <country>Schweiz</country>
+                <ptr type="geonames" target="https://www.geonames.org/2661552"/>
+                <ptr type="info" target="https://de.wikipedia.org/wiki/Bern"/>
+                <ptr type="wikidata" target="https://www.wikidata.org/wiki/Q70"/>
+                <note>Stadt in der Deutschschweiz; Hauptstadt des gleichnamigen Kantons und als Bundesstadt (seit 1848) de facto die Hauptstadt der Schweiz. - Barth wuchs seit 1888 in Bern auf, nachdem sein Vater einen Ruf an die dortige Universität angenommen hatte.</note>
+            </place>
+            <place xml:id="kbga-places-948" type="P">
+                <placeName type="main">Nazareth</placeName>
+                <placeName type="variant">Nazaret</placeName>
+                <placeName type="sort">Nazareth</placeName>
+                <location>
+                    <geo>32.70056 35.29722</geo>
+                </location>
+                <settlement>Nazareth</settlement>
+                <country>Israel</country>
+                <ptr type="geonames" target="https://www.geonames.org/294098"/>
+                <ptr type="info" target="https://de.wikipedia.org/wiki/Nazareth"/>
+                <ptr type="wikidata" target="https://www.wikidata.org/wiki/Q430776"/>
+                <note>Stadt im nördlichen Israel; nach neutestamentlicher Überlieferung Vater- und Heimatstadt Jesu Christi.</note>
+            </place>
+            <place xml:id="kbga-places-780" type="A">
+                <placeName type="main">Galiläa</placeName>
+                <placeName type="sort">Galiläa</placeName>
+                <location>
+                    <geo>32.9 35.33333</geo>
+                </location>
+                <country>Israel</country>
+                <ptr type="geonames" target="https://www.geonames.org/294932"/>
+                <ptr type="info" target="https://de.wikipedia.org/wiki/Galiläa"/>
+                <ptr type="wikidata" target="https://www.wikidata.org/wiki/Q83241"/>
+                <note>Gebiet im Norden Israels; in römisch-neutestamentlicher Zeit eine eigene Provinz.</note>
+            </place>
+        </listPlace>
+    </standOff>
+</TEI>

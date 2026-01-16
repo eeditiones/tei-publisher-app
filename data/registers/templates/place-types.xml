@@ -1,0 +1,2047 @@
+<classDecl xmlns="http://www.tei-c.org/ns/1.0" xml:id="place-types">
+    <taxonomy>
+        <category xml:id="A.ADM1">
+            <catDesc xml:lang="en">first-order administrative division</catDesc>
+        </category>
+        <category xml:id="A.ADM1H">
+            <catDesc xml:lang="en">historical first-order administrative division</catDesc>
+        </category>
+        <category xml:id="A.ADM2">
+            <catDesc xml:lang="en">second-order administrative division</catDesc>
+        </category>
+        <category xml:id="A.ADM2H">
+            <catDesc xml:lang="en">historical second-order administrative division</catDesc>
+        </category>
+        <category xml:id="A.ADM3">
+            <catDesc xml:lang="en">third-order administrative division</catDesc>
+        </category>
+        <category xml:id="A.ADM3H">
+            <catDesc xml:lang="en">historical third-order administrative division</catDesc>
+        </category>
+        <category xml:id="A.ADM4">
+            <catDesc xml:lang="en">fourth-order administrative division</catDesc>
+        </category>
+        <category xml:id="A.ADM4H">
+            <catDesc xml:lang="en">historical fourth-order administrative division</catDesc>
+        </category>
+        <category xml:id="A.ADM5">
+            <catDesc xml:lang="en">fifth-order administrative division</catDesc>
+        </category>
+        <category xml:id="A.ADM5H">
+            <catDesc xml:lang="en">historical fifth-order administrative division</catDesc>
+        </category>
+        <category xml:id="A.ADMD">
+            <catDesc xml:lang="en">administrative division</catDesc>
+        </category>
+        <category xml:id="A.ADMDH">
+            <catDesc xml:lang="en">historical administrative division </catDesc>
+        </category>
+        <category xml:id="A.LTER">
+            <catDesc xml:lang="en">leased area</catDesc>
+        </category>
+        <category xml:id="A.PCL">
+            <catDesc xml:lang="en">political entity</catDesc>
+        </category>
+        <category xml:id="A.PCLD">
+            <catDesc xml:lang="en">dependent political entity</catDesc>
+        </category>
+        <category xml:id="A.PCLF">
+            <catDesc xml:lang="en">freely associated state</catDesc>
+        </category>
+        <category xml:id="A.PCLH">
+            <catDesc xml:lang="en">historical political entity</catDesc>
+        </category>
+        <category xml:id="A.PCLI">
+            <catDesc xml:lang="en">independent political entity</catDesc>
+        </category>
+        <category xml:id="A.PCLIX">
+            <catDesc xml:lang="en">section of independent political entity</catDesc>
+        </category>
+        <category xml:id="A.PCLS">
+            <catDesc xml:lang="en">semi-independent political entity</catDesc>
+        </category>
+        <category xml:id="A.PRSH">
+            <catDesc xml:lang="en">parish</catDesc>
+        </category>
+        <category xml:id="A.TERR">
+            <catDesc xml:lang="en">territory</catDesc>
+        </category>
+        <category xml:id="A.ZN">
+            <catDesc xml:lang="en">zone</catDesc>
+        </category>
+        <category xml:id="A.ZNB">
+            <catDesc xml:lang="en">buffer zone</catDesc>
+        </category>
+        <category xml:id="H.AIRS">
+            <catDesc xml:lang="en">seaplane landing area</catDesc>
+        </category>
+        <category xml:id="H.ANCH">
+            <catDesc xml:lang="en">anchorage</catDesc>
+        </category>
+        <category xml:id="H.BAY">
+            <catDesc xml:lang="en">bay</catDesc>
+        </category>
+        <category xml:id="H.BAYS">
+            <catDesc xml:lang="en">bays</catDesc>
+        </category>
+        <category xml:id="H.BGHT">
+            <catDesc xml:lang="en">bight(s)</catDesc>
+        </category>
+        <category xml:id="H.BNK">
+            <catDesc xml:lang="en">bank(s)</catDesc>
+        </category>
+        <category xml:id="H.BNKR">
+            <catDesc xml:lang="en">stream bank</catDesc>
+        </category>
+        <category xml:id="H.BNKX">
+            <catDesc xml:lang="en">section of bank</catDesc>
+        </category>
+        <category xml:id="H.BOG">
+            <catDesc xml:lang="en">bog(s)</catDesc>
+        </category>
+        <category xml:id="H.CAPG">
+            <catDesc xml:lang="en">icecap</catDesc>
+        </category>
+        <category xml:id="H.CHN">
+            <catDesc xml:lang="en">channel</catDesc>
+        </category>
+        <category xml:id="H.CHNL">
+            <catDesc xml:lang="en">lake channel(s)</catDesc>
+        </category>
+        <category xml:id="H.CHNM">
+            <catDesc xml:lang="en">marine channel</catDesc>
+        </category>
+        <category xml:id="H.CHNN">
+            <catDesc xml:lang="en">navigation channel</catDesc>
+        </category>
+        <category xml:id="H.CNFL">
+            <catDesc xml:lang="en">confluence</catDesc>
+        </category>
+        <category xml:id="H.CNL">
+            <catDesc xml:lang="en">canal</catDesc>
+        </category>
+        <category xml:id="H.CNLA">
+            <catDesc xml:lang="en">aqueduct</catDesc>
+        </category>
+        <category xml:id="H.CNLB">
+            <catDesc xml:lang="en">canal bend</catDesc>
+        </category>
+        <category xml:id="H.CNLD">
+            <catDesc xml:lang="en">drainage canal</catDesc>
+        </category>
+        <category xml:id="H.CNLI">
+            <catDesc xml:lang="en">irrigation canal</catDesc>
+        </category>
+        <category xml:id="H.CNLN">
+            <catDesc xml:lang="en">navigation canal(s)</catDesc>
+        </category>
+        <category xml:id="H.CNLQ">
+            <catDesc xml:lang="en">abandoned canal</catDesc>
+        </category>
+        <category xml:id="H.CNLSB">
+            <catDesc xml:lang="en">underground irrigation canal(s)</catDesc>
+        </category>
+        <category xml:id="H.CNLX">
+            <catDesc xml:lang="en">section of canal</catDesc>
+        </category>
+        <category xml:id="H.COVE">
+            <catDesc xml:lang="en">cove(s)</catDesc>
+        </category>
+        <category xml:id="H.CRKT">
+            <catDesc xml:lang="en">tidal creek(s)</catDesc>
+        </category>
+        <category xml:id="H.CRNT">
+            <catDesc xml:lang="en">current</catDesc>
+        </category>
+        <category xml:id="H.CUTF">
+            <catDesc xml:lang="en">cutoff</catDesc>
+        </category>
+        <category xml:id="H.DCK">
+            <catDesc xml:lang="en">dock(s)</catDesc>
+        </category>
+        <category xml:id="H.DCKB">
+            <catDesc xml:lang="en">docking basin</catDesc>
+        </category>
+        <category xml:id="H.DOMG">
+            <catDesc xml:lang="en">icecap dome</catDesc>
+        </category>
+        <category xml:id="H.DPRG">
+            <catDesc xml:lang="en">icecap depression</catDesc>
+        </category>
+        <category xml:id="H.DTCH">
+            <catDesc xml:lang="en">ditch</catDesc>
+        </category>
+        <category xml:id="H.DTCHD">
+            <catDesc xml:lang="en">drainage ditch</catDesc>
+        </category>
+        <category xml:id="H.DTCHI">
+            <catDesc xml:lang="en">irrigation ditch</catDesc>
+        </category>
+        <category xml:id="H.DTCHM">
+            <catDesc xml:lang="en">ditch mouth(s)</catDesc>
+        </category>
+        <category xml:id="H.ESTY">
+            <catDesc xml:lang="en">estuary</catDesc>
+        </category>
+        <category xml:id="H.FISH">
+            <catDesc xml:lang="en">fishing area</catDesc>
+        </category>
+        <category xml:id="H.FJD">
+            <catDesc xml:lang="en">fjord</catDesc>
+        </category>
+        <category xml:id="H.FJDS">
+            <catDesc xml:lang="en">fjords</catDesc>
+        </category>
+        <category xml:id="H.FLLS">
+            <catDesc xml:lang="en">waterfall(s)</catDesc>
+        </category>
+        <category xml:id="H.FLLSX">
+            <catDesc xml:lang="en">section of waterfall(s)</catDesc>
+        </category>
+        <category xml:id="H.FLTM">
+            <catDesc xml:lang="en">mud flat(s)</catDesc>
+        </category>
+        <category xml:id="H.FLTT">
+            <catDesc xml:lang="en">tidal flat(s)</catDesc>
+        </category>
+        <category xml:id="H.GLCR">
+            <catDesc xml:lang="en">glacier(s)</catDesc>
+        </category>
+        <category xml:id="H.GULF">
+            <catDesc xml:lang="en">gulf</catDesc>
+        </category>
+        <category xml:id="H.GYSR">
+            <catDesc xml:lang="en">geyser</catDesc>
+        </category>
+        <category xml:id="H.HBR">
+            <catDesc xml:lang="en">harbor(s)</catDesc>
+        </category>
+        <category xml:id="H.HBRX">
+            <catDesc xml:lang="en">section of harbor</catDesc>
+        </category>
+        <category xml:id="H.INLT">
+            <catDesc xml:lang="en">inlet</catDesc>
+        </category>
+        <category xml:id="H.INLTQ">
+            <catDesc xml:lang="en">former inlet</catDesc>
+        </category>
+        <category xml:id="H.LBED">
+            <catDesc xml:lang="en">lake bed(s)</catDesc>
+        </category>
+        <category xml:id="H.LGN">
+            <catDesc xml:lang="en">lagoon</catDesc>
+        </category>
+        <category xml:id="H.LGNS">
+            <catDesc xml:lang="en">lagoons</catDesc>
+        </category>
+        <category xml:id="H.LGNX">
+            <catDesc xml:lang="en">section of lagoon</catDesc>
+        </category>
+        <category xml:id="H.LK">
+            <catDesc xml:lang="en">lake</catDesc>
+        </category>
+        <category xml:id="H.LKC">
+            <catDesc xml:lang="en">crater lake</catDesc>
+        </category>
+        <category xml:id="H.LKI">
+            <catDesc xml:lang="en">intermittent lake</catDesc>
+        </category>
+        <category xml:id="H.LKN">
+            <catDesc xml:lang="en">salt lake</catDesc>
+        </category>
+        <category xml:id="H.LKNI">
+            <catDesc xml:lang="en">intermittent salt lake</catDesc>
+        </category>
+        <category xml:id="H.LKO">
+            <catDesc xml:lang="en">oxbow lake</catDesc>
+        </category>
+        <category xml:id="H.LKOI">
+            <catDesc xml:lang="en">intermittent oxbow lake</catDesc>
+        </category>
+        <category xml:id="H.LKS">
+            <catDesc xml:lang="en">lakes</catDesc>
+        </category>
+        <category xml:id="H.LKSB">
+            <catDesc xml:lang="en">underground lake</catDesc>
+        </category>
+        <category xml:id="H.LKSC">
+            <catDesc xml:lang="en">crater lakes</catDesc>
+        </category>
+        <category xml:id="H.LKSI">
+            <catDesc xml:lang="en">intermittent lakes</catDesc>
+        </category>
+        <category xml:id="H.LKSN">
+            <catDesc xml:lang="en">salt lakes</catDesc>
+        </category>
+        <category xml:id="H.LKSNI">
+            <catDesc xml:lang="en">intermittent salt lakes</catDesc>
+        </category>
+        <category xml:id="H.LKX">
+            <catDesc xml:lang="en">section of lake</catDesc>
+        </category>
+        <category xml:id="H.MFGN">
+            <catDesc xml:lang="en">salt evaporation ponds</catDesc>
+        </category>
+        <category xml:id="H.MGV">
+            <catDesc xml:lang="en">mangrove swamp</catDesc>
+        </category>
+        <category xml:id="H.MOOR">
+            <catDesc xml:lang="en">moor(s)</catDesc>
+        </category>
+        <category xml:id="H.MRSH">
+            <catDesc xml:lang="en">marsh(es)</catDesc>
+        </category>
+        <category xml:id="H.MRSHN">
+            <catDesc xml:lang="en">salt marsh</catDesc>
+        </category>
+        <category xml:id="H.NRWS">
+            <catDesc xml:lang="en">narrows</catDesc>
+        </category>
+        <category xml:id="H.OCN">
+            <catDesc xml:lang="en">ocean</catDesc>
+        </category>
+        <category xml:id="H.OVF">
+            <catDesc xml:lang="en">overfalls</catDesc>
+        </category>
+        <category xml:id="H.PND">
+            <catDesc xml:lang="en">pond</catDesc>
+        </category>
+        <category xml:id="H.PNDI">
+            <catDesc xml:lang="en">intermittent pond</catDesc>
+        </category>
+        <category xml:id="H.PNDN">
+            <catDesc xml:lang="en">salt pond</catDesc>
+        </category>
+        <category xml:id="H.PNDNI">
+            <catDesc xml:lang="en">intermittent salt pond(s)</catDesc>
+        </category>
+        <category xml:id="H.PNDS">
+            <catDesc xml:lang="en">ponds</catDesc>
+        </category>
+        <category xml:id="H.PNDSF">
+            <catDesc xml:lang="en">fishponds</catDesc>
+        </category>
+        <category xml:id="H.PNDSI">
+            <catDesc xml:lang="en">intermittent ponds</catDesc>
+        </category>
+        <category xml:id="H.PNDSN">
+            <catDesc xml:lang="en">salt ponds</catDesc>
+        </category>
+        <category xml:id="H.POOL">
+            <catDesc xml:lang="en">pool(s)</catDesc>
+        </category>
+        <category xml:id="H.POOLI">
+            <catDesc xml:lang="en">intermittent pool</catDesc>
+        </category>
+        <category xml:id="H.RCH">
+            <catDesc xml:lang="en">reach</catDesc>
+        </category>
+        <category xml:id="H.RDGG">
+            <catDesc xml:lang="en">icecap ridge</catDesc>
+        </category>
+        <category xml:id="H.RDST">
+            <catDesc xml:lang="en">roadstead</catDesc>
+        </category>
+        <category xml:id="H.RF">
+            <catDesc xml:lang="en">reef(s)</catDesc>
+        </category>
+        <category xml:id="H.RFC">
+            <catDesc xml:lang="en">coral reef(s)</catDesc>
+        </category>
+        <category xml:id="H.RFX">
+            <catDesc xml:lang="en">section of reef</catDesc>
+        </category>
+        <category xml:id="H.RPDS">
+            <catDesc xml:lang="en">rapids</catDesc>
+        </category>
+        <category xml:id="H.RSV">
+            <catDesc xml:lang="en">reservoir(s)</catDesc>
+        </category>
+        <category xml:id="H.RSVI">
+            <catDesc xml:lang="en">intermittent reservoir</catDesc>
+        </category>
+        <category xml:id="H.RSVT">
+            <catDesc xml:lang="en">water tank</catDesc>
+        </category>
+        <category xml:id="H.RVN">
+            <catDesc xml:lang="en">ravine(s)</catDesc>
+        </category>
+        <category xml:id="H.SBKH">
+            <catDesc xml:lang="en">sabkha(s)</catDesc>
+        </category>
+        <category xml:id="H.SD">
+            <catDesc xml:lang="en">sound</catDesc>
+        </category>
+        <category xml:id="H.SEA">
+            <catDesc xml:lang="en">sea</catDesc>
+        </category>
+        <category xml:id="H.SHOL">
+            <catDesc xml:lang="en">shoal(s)</catDesc>
+        </category>
+        <category xml:id="H.SILL">
+            <catDesc xml:lang="en">sill</catDesc>
+        </category>
+        <category xml:id="H.SPNG">
+            <catDesc xml:lang="en">spring(s)</catDesc>
+        </category>
+        <category xml:id="H.SPNS">
+            <catDesc xml:lang="en">sulphur spring(s)</catDesc>
+        </category>
+        <category xml:id="H.SPNT">
+            <catDesc xml:lang="en">hot spring(s)</catDesc>
+        </category>
+        <category xml:id="H.STM">
+            <catDesc xml:lang="en">stream</catDesc>
+        </category>
+        <category xml:id="H.STMA">
+            <catDesc xml:lang="en">anabranch</catDesc>
+        </category>
+        <category xml:id="H.STMB">
+            <catDesc xml:lang="en">stream bend</catDesc>
+        </category>
+        <category xml:id="H.STMC">
+            <catDesc xml:lang="en">canalized stream</catDesc>
+        </category>
+        <category xml:id="H.STMD">
+            <catDesc xml:lang="en">distributary(-ies)</catDesc>
+        </category>
+        <category xml:id="H.STMH">
+            <catDesc xml:lang="en">headwaters</catDesc>
+        </category>
+        <category xml:id="H.STMI">
+            <catDesc xml:lang="en">intermittent stream</catDesc>
+        </category>
+        <category xml:id="H.STMIX">
+            <catDesc xml:lang="en">section of intermittent stream</catDesc>
+        </category>
+        <category xml:id="H.STMM">
+            <catDesc xml:lang="en">stream mouth(s)</catDesc>
+        </category>
+        <category xml:id="H.STMQ">
+            <catDesc xml:lang="en">abandoned watercourse</catDesc>
+        </category>
+        <category xml:id="H.STMS">
+            <catDesc xml:lang="en">streams</catDesc>
+        </category>
+        <category xml:id="H.STMSB">
+            <catDesc xml:lang="en">lost river</catDesc>
+        </category>
+        <category xml:id="H.STMX">
+            <catDesc xml:lang="en">section of stream</catDesc>
+        </category>
+        <category xml:id="H.STRT">
+            <catDesc xml:lang="en">strait</catDesc>
+        </category>
+        <category xml:id="H.SWMP">
+            <catDesc xml:lang="en">swamp</catDesc>
+        </category>
+        <category xml:id="H.SYSI">
+            <catDesc xml:lang="en">irrigation system</catDesc>
+        </category>
+        <category xml:id="H.TNLC">
+            <catDesc xml:lang="en">canal tunnel</catDesc>
+        </category>
+        <category xml:id="H.WAD">
+            <catDesc xml:lang="en">wadi</catDesc>
+        </category>
+        <category xml:id="H.WADB">
+            <catDesc xml:lang="en">wadi bend</catDesc>
+        </category>
+        <category xml:id="H.WADJ">
+            <catDesc xml:lang="en">wadi junction</catDesc>
+        </category>
+        <category xml:id="H.WADM">
+            <catDesc xml:lang="en">wadi mouth</catDesc>
+        </category>
+        <category xml:id="H.WADS">
+            <catDesc xml:lang="en">wadies</catDesc>
+        </category>
+        <category xml:id="H.WADX">
+            <catDesc xml:lang="en">section of wadi</catDesc>
+        </category>
+        <category xml:id="H.WHRL">
+            <catDesc xml:lang="en">whirlpool</catDesc>
+        </category>
+        <category xml:id="H.WLL">
+            <catDesc xml:lang="en">well</catDesc>
+        </category>
+        <category xml:id="H.WLLQ">
+            <catDesc xml:lang="en">abandoned well</catDesc>
+        </category>
+        <category xml:id="H.WLLS">
+            <catDesc xml:lang="en">wells</catDesc>
+        </category>
+        <category xml:id="H.WTLD">
+            <catDesc xml:lang="en">wetland</catDesc>
+        </category>
+        <category xml:id="H.WTLDI">
+            <catDesc xml:lang="en">intermittent wetland</catDesc>
+        </category>
+        <category xml:id="H.WTRC">
+            <catDesc xml:lang="en">watercourse</catDesc>
+        </category>
+        <category xml:id="H.WTRH">
+            <catDesc xml:lang="en">waterhole(s)</catDesc>
+        </category>
+        <category xml:id="L.AGRC">
+            <catDesc xml:lang="en">agricultural colony</catDesc>
+        </category>
+        <category xml:id="L.AMUS">
+            <catDesc xml:lang="en">amusement park</catDesc>
+        </category>
+        <category xml:id="L.AREA">
+            <catDesc xml:lang="en">area</catDesc>
+        </category>
+        <category xml:id="L.BSND">
+            <catDesc xml:lang="en">drainage basin</catDesc>
+        </category>
+        <category xml:id="L.BSNP">
+            <catDesc xml:lang="en">petroleum basin</catDesc>
+        </category>
+        <category xml:id="L.BTL">
+            <catDesc xml:lang="en">battlefield</catDesc>
+        </category>
+        <category xml:id="L.CLG">
+            <catDesc xml:lang="en">clearing</catDesc>
+        </category>
+        <category xml:id="L.CMN">
+            <catDesc xml:lang="en">common</catDesc>
+        </category>
+        <category xml:id="L.CNS">
+            <catDesc xml:lang="en">concession area</catDesc>
+        </category>
+        <category xml:id="L.COLF">
+            <catDesc xml:lang="en">coalfield</catDesc>
+        </category>
+        <category xml:id="L.CONT">
+            <catDesc xml:lang="en">continent</catDesc>
+        </category>
+        <category xml:id="L.CST">
+            <catDesc xml:lang="en">coast</catDesc>
+        </category>
+        <category xml:id="L.CTRB">
+            <catDesc xml:lang="en">business center</catDesc>
+        </category>
+        <category xml:id="L.DEVH">
+            <catDesc xml:lang="en">housing development</catDesc>
+        </category>
+        <category xml:id="L.FLD">
+            <catDesc xml:lang="en">field(s)</catDesc>
+        </category>
+        <category xml:id="L.FLDI">
+            <catDesc xml:lang="en">irrigated field(s)</catDesc>
+        </category>
+        <category xml:id="L.GASF">
+            <catDesc xml:lang="en">gasfield</catDesc>
+        </category>
+        <category xml:id="L.GRAZ">
+            <catDesc xml:lang="en">grazing area</catDesc>
+        </category>
+        <category xml:id="L.GVL">
+            <catDesc xml:lang="en">gravel area</catDesc>
+        </category>
+        <category xml:id="L.INDS">
+            <catDesc xml:lang="en">industrial area</catDesc>
+        </category>
+        <category xml:id="L.LAND">
+            <catDesc xml:lang="en">arctic land</catDesc>
+        </category>
+        <category xml:id="L.LCTY">
+            <catDesc xml:lang="en">locality</catDesc>
+        </category>
+        <category xml:id="L.MILB">
+            <catDesc xml:lang="en">military base</catDesc>
+        </category>
+        <category xml:id="L.MNA">
+            <catDesc xml:lang="en">mining area</catDesc>
+        </category>
+        <category xml:id="L.MVA">
+            <catDesc xml:lang="en">maneuver area</catDesc>
+        </category>
+        <category xml:id="L.NVB">
+            <catDesc xml:lang="en">naval base</catDesc>
+        </category>
+        <category xml:id="L.OAS">
+            <catDesc xml:lang="en">oasis(-es)</catDesc>
+        </category>
+        <category xml:id="L.OILF">
+            <catDesc xml:lang="en">oilfield</catDesc>
+        </category>
+        <category xml:id="L.PEAT">
+            <catDesc xml:lang="en">peat cutting area</catDesc>
+        </category>
+        <category xml:id="L.PRK">
+            <catDesc xml:lang="en">park</catDesc>
+        </category>
+        <category xml:id="L.PRT">
+            <catDesc xml:lang="en">port</catDesc>
+        </category>
+        <category xml:id="L.QCKS">
+            <catDesc xml:lang="en">quicksand</catDesc>
+        </category>
+        <category xml:id="L.RES">
+            <catDesc xml:lang="en">reserve</catDesc>
+        </category>
+        <category xml:id="L.RESA">
+            <catDesc xml:lang="en">agricultural reserve</catDesc>
+        </category>
+        <category xml:id="L.RESF">
+            <catDesc xml:lang="en">forest reserve</catDesc>
+        </category>
+        <category xml:id="L.RESH">
+            <catDesc xml:lang="en">hunting reserve</catDesc>
+        </category>
+        <category xml:id="L.RESN">
+            <catDesc xml:lang="en">nature reserve</catDesc>
+        </category>
+        <category xml:id="L.RESP">
+            <catDesc xml:lang="en">palm tree reserve</catDesc>
+        </category>
+        <category xml:id="L.RESV">
+            <catDesc xml:lang="en">reservation</catDesc>
+        </category>
+        <category xml:id="L.RESW">
+            <catDesc xml:lang="en">wildlife reserve</catDesc>
+        </category>
+        <category xml:id="L.RGN">
+            <catDesc xml:lang="en">region</catDesc>
+        </category>
+        <category xml:id="L.RGNE">
+            <catDesc xml:lang="en">economic region</catDesc>
+        </category>
+        <category xml:id="L.RGNH">
+            <catDesc xml:lang="en">historical region</catDesc>
+        </category>
+        <category xml:id="L.RGNL">
+            <catDesc xml:lang="en">lake region</catDesc>
+        </category>
+        <category xml:id="L.RNGA">
+            <catDesc xml:lang="en">artillery range</catDesc>
+        </category>
+        <category xml:id="L.SALT">
+            <catDesc xml:lang="en">salt area</catDesc>
+        </category>
+        <category xml:id="L.SNOW">
+            <catDesc xml:lang="en">snowfield</catDesc>
+        </category>
+        <category xml:id="L.TRB">
+            <catDesc xml:lang="en">tribal area</catDesc>
+        </category>
+        <category xml:id="P.PPL">
+            <catDesc xml:lang="en">populated place</catDesc>
+        </category>
+        <category xml:id="P.PPLA">
+            <catDesc xml:lang="en">seat of a first-order administrative division</catDesc>
+        </category>
+        <category xml:id="P.PPLA2">
+            <catDesc xml:lang="en">seat of a second-order administrative division</catDesc>
+        </category>
+        <category xml:id="P.PPLA3">
+            <catDesc xml:lang="en">seat of a third-order administrative division</catDesc>
+        </category>
+        <category xml:id="P.PPLA4">
+            <catDesc xml:lang="en">seat of a fourth-order administrative division</catDesc>
+        </category>
+        <category xml:id="P.PPLA5">
+            <catDesc xml:lang="en">seat of a fifth-order administrative division</catDesc>
+        </category>
+        <category xml:id="P.PPLC">
+            <catDesc xml:lang="en">capital of a political entity</catDesc>
+        </category>
+        <category xml:id="P.PPLCH">
+            <catDesc xml:lang="en">historical capital of a political entity</catDesc>
+        </category>
+        <category xml:id="P.PPLF">
+            <catDesc xml:lang="en">farm village</catDesc>
+        </category>
+        <category xml:id="P.PPLG">
+            <catDesc xml:lang="en">seat of government of a political entity</catDesc>
+        </category>
+        <category xml:id="P.PPLH">
+            <catDesc xml:lang="en">historical populated place</catDesc>
+        </category>
+        <category xml:id="P.PPLL">
+            <catDesc xml:lang="en">populated locality</catDesc>
+        </category>
+        <category xml:id="P.PPLQ">
+            <catDesc xml:lang="en">abandoned populated place</catDesc>
+        </category>
+        <category xml:id="P.PPLR">
+            <catDesc xml:lang="en">religious populated place</catDesc>
+        </category>
+        <category xml:id="P.PPLS">
+            <catDesc xml:lang="en">populated places</catDesc>
+        </category>
+        <category xml:id="P.PPLW">
+            <catDesc xml:lang="en">destroyed populated place</catDesc>
+        </category>
+        <category xml:id="P.PPLX">
+            <catDesc xml:lang="en">section of populated place</catDesc>
+        </category>
+        <category xml:id="P.STLMT">
+            <catDesc xml:lang="en">israeli settlement</catDesc>
+        </category>
+        <category xml:id="R.CSWY">
+            <catDesc xml:lang="en">causeway</catDesc>
+        </category>
+        <category xml:id="R.OILP">
+            <catDesc xml:lang="en">oil pipeline</catDesc>
+        </category>
+        <category xml:id="R.PRMN">
+            <catDesc xml:lang="en">promenade</catDesc>
+        </category>
+        <category xml:id="R.PTGE">
+            <catDesc xml:lang="en">portage</catDesc>
+        </category>
+        <category xml:id="R.RD">
+            <catDesc xml:lang="en">road</catDesc>
+        </category>
+        <category xml:id="R.RDA">
+            <catDesc xml:lang="en">ancient road</catDesc>
+        </category>
+        <category xml:id="R.RDB">
+            <catDesc xml:lang="en">road bend</catDesc>
+        </category>
+        <category xml:id="R.RDCUT">
+            <catDesc xml:lang="en">road cut</catDesc>
+        </category>
+        <category xml:id="R.RDJCT">
+            <catDesc xml:lang="en">road junction</catDesc>
+        </category>
+        <category xml:id="R.RJCT">
+            <catDesc xml:lang="en">railroad junction</catDesc>
+        </category>
+        <category xml:id="R.RR">
+            <catDesc xml:lang="en">railroad</catDesc>
+        </category>
+        <category xml:id="R.RRQ">
+            <catDesc xml:lang="en">abandoned railroad</catDesc>
+        </category>
+        <category xml:id="R.RTE">
+            <catDesc xml:lang="en">caravan route</catDesc>
+        </category>
+        <category xml:id="R.RYD">
+            <catDesc xml:lang="en">railroad yard</catDesc>
+        </category>
+        <category xml:id="R.ST">
+            <catDesc xml:lang="en">street</catDesc>
+        </category>
+        <category xml:id="R.STKR">
+            <catDesc xml:lang="en">stock route</catDesc>
+        </category>
+        <category xml:id="R.TNL">
+            <catDesc xml:lang="en">tunnel</catDesc>
+        </category>
+        <category xml:id="R.TNLN">
+            <catDesc xml:lang="en">natural tunnel</catDesc>
+        </category>
+        <category xml:id="R.TNLRD">
+            <catDesc xml:lang="en">road tunnel</catDesc>
+        </category>
+        <category xml:id="R.TNLRR">
+            <catDesc xml:lang="en">railroad tunnel</catDesc>
+        </category>
+        <category xml:id="R.TNLS">
+            <catDesc xml:lang="en">tunnels</catDesc>
+        </category>
+        <category xml:id="R.TRL">
+            <catDesc xml:lang="en">trail</catDesc>
+        </category>
+        <category xml:id="S.ADMF">
+            <catDesc xml:lang="en">administrative facility</catDesc>
+        </category>
+        <category xml:id="S.AGRF">
+            <catDesc xml:lang="en">agricultural facility</catDesc>
+        </category>
+        <category xml:id="S.AIRB">
+            <catDesc xml:lang="en">airbase</catDesc>
+        </category>
+        <category xml:id="S.AIRF">
+            <catDesc xml:lang="en">airfield</catDesc>
+        </category>
+        <category xml:id="S.AIRH">
+            <catDesc xml:lang="en">heliport</catDesc>
+        </category>
+        <category xml:id="S.AIRP">
+            <catDesc xml:lang="en">airport</catDesc>
+        </category>
+        <category xml:id="S.AIRQ">
+            <catDesc xml:lang="en">abandoned airfield</catDesc>
+        </category>
+        <category xml:id="S.AIRT">
+            <catDesc xml:lang="en">terminal</catDesc>
+        </category>
+        <category xml:id="S.AMTH">
+            <catDesc xml:lang="en">amphitheater</catDesc>
+        </category>
+        <category xml:id="S.ANS">
+            <catDesc xml:lang="en">archaeological/prehistoric site</catDesc>
+        </category>
+        <category xml:id="S.AQC">
+            <catDesc xml:lang="en">aquaculture facility</catDesc>
+        </category>
+        <category xml:id="S.ARCH">
+            <catDesc xml:lang="en">arch</catDesc>
+        </category>
+        <category xml:id="S.ARCHV">
+            <catDesc xml:lang="en">archive</catDesc>
+        </category>
+        <category xml:id="S.ART">
+            <catDesc xml:lang="en">piece of art</catDesc>
+        </category>
+        <category xml:id="S.ASTR">
+            <catDesc xml:lang="en">astronomical station</catDesc>
+        </category>
+        <category xml:id="S.ASYL">
+            <catDesc xml:lang="en">asylum</catDesc>
+        </category>
+        <category xml:id="S.ATHF">
+            <catDesc xml:lang="en">athletic field</catDesc>
+        </category>
+        <category xml:id="S.ATM">
+            <catDesc xml:lang="en">automatic teller machine</catDesc>
+        </category>
+        <category xml:id="S.BANK">
+            <catDesc xml:lang="en">bank</catDesc>
+        </category>
+        <category xml:id="S.BCN">
+            <catDesc xml:lang="en">beacon</catDesc>
+        </category>
+        <category xml:id="S.BDG">
+            <catDesc xml:lang="en">bridge</catDesc>
+        </category>
+        <category xml:id="S.BDGQ">
+            <catDesc xml:lang="en">ruined bridge</catDesc>
+        </category>
+        <category xml:id="S.BLDA">
+            <catDesc xml:lang="en">apartment building</catDesc>
+        </category>
+        <category xml:id="S.BLDG">
+            <catDesc xml:lang="en">building(s)</catDesc>
+        </category>
+        <category xml:id="S.BLDO">
+            <catDesc xml:lang="en">office building</catDesc>
+        </category>
+        <category xml:id="S.BP">
+            <catDesc xml:lang="en">boundary marker</catDesc>
+        </category>
+        <category xml:id="S.BRKS">
+            <catDesc xml:lang="en">barracks</catDesc>
+        </category>
+        <category xml:id="S.BRKW">
+            <catDesc xml:lang="en">breakwater</catDesc>
+        </category>
+        <category xml:id="S.BSTN">
+            <catDesc xml:lang="en">baling station</catDesc>
+        </category>
+        <category xml:id="S.BTYD">
+            <catDesc xml:lang="en">boatyard</catDesc>
+        </category>
+        <category xml:id="S.BUR">
+            <catDesc xml:lang="en">burial cave(s)</catDesc>
+        </category>
+        <category xml:id="S.BUSTN">
+            <catDesc xml:lang="en">bus station</catDesc>
+        </category>
+        <category xml:id="S.BUSTP">
+            <catDesc xml:lang="en">bus stop</catDesc>
+        </category>
+        <category xml:id="S.CARN">
+            <catDesc xml:lang="en">cairn</catDesc>
+        </category>
+        <category xml:id="S.CAVE">
+            <catDesc xml:lang="en">cave(s)</catDesc>
+        </category>
+        <category xml:id="S.CH">
+            <catDesc xml:lang="en">church</catDesc>
+        </category>
+        <category xml:id="S.CMP">
+            <catDesc xml:lang="en">camp(s)</catDesc>
+        </category>
+        <category xml:id="S.CMPL">
+            <catDesc xml:lang="en">logging camp</catDesc>
+        </category>
+        <category xml:id="S.CMPLA">
+            <catDesc xml:lang="en">labor camp</catDesc>
+        </category>
+        <category xml:id="S.CMPMN">
+            <catDesc xml:lang="en">mining camp</catDesc>
+        </category>
+        <category xml:id="S.CMPO">
+            <catDesc xml:lang="en">oil camp</catDesc>
+        </category>
+        <category xml:id="S.CMPQ">
+            <catDesc xml:lang="en">abandoned camp</catDesc>
+        </category>
+        <category xml:id="S.CMPRF">
+            <catDesc xml:lang="en">refugee camp</catDesc>
+        </category>
+        <category xml:id="S.CMTY">
+            <catDesc xml:lang="en">cemetery</catDesc>
+        </category>
+        <category xml:id="S.COMC">
+            <catDesc xml:lang="en">communication center</catDesc>
+        </category>
+        <category xml:id="S.CRRL">
+            <catDesc xml:lang="en">corral(s)</catDesc>
+        </category>
+        <category xml:id="S.CSNO">
+            <catDesc xml:lang="en">casino</catDesc>
+        </category>
+        <category xml:id="S.CSTL">
+            <catDesc xml:lang="en">castle</catDesc>
+        </category>
+        <category xml:id="S.CSTM">
+            <catDesc xml:lang="en">customs house</catDesc>
+        </category>
+        <category xml:id="S.CTHSE">
+            <catDesc xml:lang="en">courthouse</catDesc>
+        </category>
+        <category xml:id="S.CTRA">
+            <catDesc xml:lang="en">atomic center</catDesc>
+        </category>
+        <category xml:id="S.CTRCM">
+            <catDesc xml:lang="en">community center</catDesc>
+        </category>
+        <category xml:id="S.CTRF">
+            <catDesc xml:lang="en">facility center</catDesc>
+        </category>
+        <category xml:id="S.CTRM">
+            <catDesc xml:lang="en">medical center</catDesc>
+        </category>
+        <category xml:id="S.CTRR">
+            <catDesc xml:lang="en">religious center</catDesc>
+        </category>
+        <category xml:id="S.CTRS">
+            <catDesc xml:lang="en">space center</catDesc>
+        </category>
+        <category xml:id="S.CVNT">
+            <catDesc xml:lang="en">convent</catDesc>
+        </category>
+        <category xml:id="S.DAM">
+            <catDesc xml:lang="en">dam</catDesc>
+        </category>
+        <category xml:id="S.DAMQ">
+            <catDesc xml:lang="en">ruined dam</catDesc>
+        </category>
+        <category xml:id="S.DAMSB">
+            <catDesc xml:lang="en">sub-surface dam</catDesc>
+        </category>
+        <category xml:id="S.DARY">
+            <catDesc xml:lang="en">dairy</catDesc>
+        </category>
+        <category xml:id="S.DCKD">
+            <catDesc xml:lang="en">dry dock</catDesc>
+        </category>
+        <category xml:id="S.DCKY">
+            <catDesc xml:lang="en">dockyard</catDesc>
+        </category>
+        <category xml:id="S.DIKE">
+            <catDesc xml:lang="en">dike</catDesc>
+        </category>
+        <category xml:id="S.DIP">
+            <catDesc xml:lang="en">diplomatic facility</catDesc>
+        </category>
+        <category xml:id="S.DPOF">
+            <catDesc xml:lang="en">fuel depot</catDesc>
+        </category>
+        <category xml:id="S.EST">
+            <catDesc xml:lang="en">estate(s)</catDesc>
+        </category>
+        <category xml:id="S.ESTO">
+            <catDesc xml:lang="en">oil palm plantation</catDesc>
+        </category>
+        <category xml:id="S.ESTR">
+            <catDesc xml:lang="en">rubber plantation</catDesc>
+        </category>
+        <category xml:id="S.ESTSG">
+            <catDesc xml:lang="en">sugar plantation</catDesc>
+        </category>
+        <category xml:id="S.ESTT">
+            <catDesc xml:lang="en">tea plantation</catDesc>
+        </category>
+        <category xml:id="S.ESTX">
+            <catDesc xml:lang="en">section of estate</catDesc>
+        </category>
+        <category xml:id="S.FCL">
+            <catDesc xml:lang="en">facility</catDesc>
+        </category>
+        <category xml:id="S.FNDY">
+            <catDesc xml:lang="en">foundry</catDesc>
+        </category>
+        <category xml:id="S.FRM">
+            <catDesc xml:lang="en">farm</catDesc>
+        </category>
+        <category xml:id="S.FRMQ">
+            <catDesc xml:lang="en">abandoned farm</catDesc>
+        </category>
+        <category xml:id="S.FRMS">
+            <catDesc xml:lang="en">farms</catDesc>
+        </category>
+        <category xml:id="S.FRMT">
+            <catDesc xml:lang="en">farmstead</catDesc>
+        </category>
+        <category xml:id="S.FT">
+            <catDesc xml:lang="en">fort</catDesc>
+        </category>
+        <category xml:id="S.FY">
+            <catDesc xml:lang="en">ferry</catDesc>
+        </category>
+        <category xml:id="S.FYT">
+            <catDesc xml:lang="en">ferry terminal</catDesc>
+        </category>
+        <category xml:id="S.GATE">
+            <catDesc xml:lang="en">gate</catDesc>
+        </category>
+        <category xml:id="S.GDN">
+            <catDesc xml:lang="en">garden(s)</catDesc>
+        </category>
+        <category xml:id="S.GHAT">
+            <catDesc xml:lang="en">ghat</catDesc>
+        </category>
+        <category xml:id="S.GHSE">
+            <catDesc xml:lang="en">guest house</catDesc>
+        </category>
+        <category xml:id="S.GOSP">
+            <catDesc xml:lang="en">gas-oil separator plant</catDesc>
+        </category>
+        <category xml:id="S.GOVL">
+            <catDesc xml:lang="en">local government office</catDesc>
+        </category>
+        <category xml:id="S.GRVE">
+            <catDesc xml:lang="en">grave</catDesc>
+        </category>
+        <category xml:id="S.HERM">
+            <catDesc xml:lang="en">hermitage</catDesc>
+        </category>
+        <category xml:id="S.HLT">
+            <catDesc xml:lang="en">halting place</catDesc>
+        </category>
+        <category xml:id="S.HMSD">
+            <catDesc xml:lang="en">homestead</catDesc>
+        </category>
+        <category xml:id="S.HSE">
+            <catDesc xml:lang="en">house(s)</catDesc>
+        </category>
+        <category xml:id="S.HSEC">
+            <catDesc xml:lang="en">country house</catDesc>
+        </category>
+        <category xml:id="S.HSP">
+            <catDesc xml:lang="en">hospital</catDesc>
+        </category>
+        <category xml:id="S.HSPC">
+            <catDesc xml:lang="en">clinic</catDesc>
+        </category>
+        <category xml:id="S.HSPD">
+            <catDesc xml:lang="en">dispensary</catDesc>
+        </category>
+        <category xml:id="S.HSPL">
+            <catDesc xml:lang="en">leprosarium</catDesc>
+        </category>
+        <category xml:id="S.HSTS">
+            <catDesc xml:lang="en">historical site</catDesc>
+        </category>
+        <category xml:id="S.HTL">
+            <catDesc xml:lang="en">hotel</catDesc>
+        </category>
+        <category xml:id="S.HUT">
+            <catDesc xml:lang="en">hut</catDesc>
+        </category>
+        <category xml:id="S.HUTS">
+            <catDesc xml:lang="en">huts</catDesc>
+        </category>
+        <category xml:id="S.INSM">
+            <catDesc xml:lang="en">military installation</catDesc>
+        </category>
+        <category xml:id="S.ITTR">
+            <catDesc xml:lang="en">research institute</catDesc>
+        </category>
+        <category xml:id="S.JTY">
+            <catDesc xml:lang="en">jetty</catDesc>
+        </category>
+        <category xml:id="S.LDNG">
+            <catDesc xml:lang="en">landing</catDesc>
+        </category>
+        <category xml:id="S.LEPC">
+            <catDesc xml:lang="en">leper colony</catDesc>
+        </category>
+        <category xml:id="S.LIBR">
+            <catDesc xml:lang="en">library</catDesc>
+        </category>
+        <category xml:id="S.LNDF">
+            <catDesc xml:lang="en">landfill</catDesc>
+        </category>
+        <category xml:id="S.LOCK">
+            <catDesc xml:lang="en">lock(s)</catDesc>
+        </category>
+        <category xml:id="S.LTHSE">
+            <catDesc xml:lang="en">lighthouse</catDesc>
+        </category>
+        <category xml:id="S.MALL">
+            <catDesc xml:lang="en">mall</catDesc>
+        </category>
+        <category xml:id="S.MAR">
+            <catDesc xml:lang="en">marina</catDesc>
+        </category>
+        <category xml:id="S.MFG">
+            <catDesc xml:lang="en">factory</catDesc>
+        </category>
+        <category xml:id="S.MFGB">
+            <catDesc xml:lang="en">brewery</catDesc>
+        </category>
+        <category xml:id="S.MFGC">
+            <catDesc xml:lang="en">cannery</catDesc>
+        </category>
+        <category xml:id="S.MFGCU">
+            <catDesc xml:lang="en">copper works</catDesc>
+        </category>
+        <category xml:id="S.MFGLM">
+            <catDesc xml:lang="en">limekiln</catDesc>
+        </category>
+        <category xml:id="S.MFGM">
+            <catDesc xml:lang="en">munitions plant</catDesc>
+        </category>
+        <category xml:id="S.MFGPH">
+            <catDesc xml:lang="en">phosphate works</catDesc>
+        </category>
+        <category xml:id="S.MFGQ">
+            <catDesc xml:lang="en">abandoned factory</catDesc>
+        </category>
+        <category xml:id="S.MFGSG">
+            <catDesc xml:lang="en">sugar refinery</catDesc>
+        </category>
+        <category xml:id="S.MKT">
+            <catDesc xml:lang="en">market</catDesc>
+        </category>
+        <category xml:id="S.ML">
+            <catDesc xml:lang="en">mill(s)</catDesc>
+        </category>
+        <category xml:id="S.MLM">
+            <catDesc xml:lang="en">ore treatment plant</catDesc>
+        </category>
+        <category xml:id="S.MLO">
+            <catDesc xml:lang="en">olive oil mill</catDesc>
+        </category>
+        <category xml:id="S.MLSG">
+            <catDesc xml:lang="en">sugar mill</catDesc>
+        </category>
+        <category xml:id="S.MLSGQ">
+            <catDesc xml:lang="en">former sugar mill</catDesc>
+        </category>
+        <category xml:id="S.MLSW">
+            <catDesc xml:lang="en">sawmill</catDesc>
+        </category>
+        <category xml:id="S.MLWND">
+            <catDesc xml:lang="en">windmill</catDesc>
+        </category>
+        <category xml:id="S.MLWTR">
+            <catDesc xml:lang="en">water mill</catDesc>
+        </category>
+        <category xml:id="S.MN">
+            <catDesc xml:lang="en">mine(s)</catDesc>
+        </category>
+        <category xml:id="S.MNAU">
+            <catDesc xml:lang="en">gold mine(s)</catDesc>
+        </category>
+        <category xml:id="S.MNC">
+            <catDesc xml:lang="en">coal mine(s)</catDesc>
+        </category>
+        <category xml:id="S.MNCR">
+            <catDesc xml:lang="en">chrome mine(s)</catDesc>
+        </category>
+        <category xml:id="S.MNCU">
+            <catDesc xml:lang="en">copper mine(s)</catDesc>
+        </category>
+        <category xml:id="S.MNFE">
+            <catDesc xml:lang="en">iron mine(s)</catDesc>
+        </category>
+        <category xml:id="S.MNMT">
+            <catDesc xml:lang="en">monument</catDesc>
+        </category>
+        <category xml:id="S.MNN">
+            <catDesc xml:lang="en">salt mine(s)</catDesc>
+        </category>
+        <category xml:id="S.MNQ">
+            <catDesc xml:lang="en">abandoned mine</catDesc>
+        </category>
+        <category xml:id="S.MNQR">
+            <catDesc xml:lang="en">quarry(-ies)</catDesc>
+        </category>
+        <category xml:id="S.MOLE">
+            <catDesc xml:lang="en">mole</catDesc>
+        </category>
+        <category xml:id="S.MSQE">
+            <catDesc xml:lang="en">mosque</catDesc>
+        </category>
+        <category xml:id="S.MSSN">
+            <catDesc xml:lang="en">mission</catDesc>
+        </category>
+        <category xml:id="S.MSSNQ">
+            <catDesc xml:lang="en">abandoned mission</catDesc>
+        </category>
+        <category xml:id="S.MSTY">
+            <catDesc xml:lang="en">monastery</catDesc>
+        </category>
+        <category xml:id="S.MTRO">
+            <catDesc xml:lang="en">metro station</catDesc>
+        </category>
+        <category xml:id="S.MUS">
+            <catDesc xml:lang="en">museum</catDesc>
+        </category>
+        <category xml:id="S.NOV">
+            <catDesc xml:lang="en">novitiate</catDesc>
+        </category>
+        <category xml:id="S.NSY">
+            <catDesc xml:lang="en">nursery(-ies)</catDesc>
+        </category>
+        <category xml:id="S.OBPT">
+            <catDesc xml:lang="en">observation point</catDesc>
+        </category>
+        <category xml:id="S.OBS">
+            <catDesc xml:lang="en">observatory</catDesc>
+        </category>
+        <category xml:id="S.OBSR">
+            <catDesc xml:lang="en">radio observatory</catDesc>
+        </category>
+        <category xml:id="S.OILJ">
+            <catDesc xml:lang="en">oil pipeline junction</catDesc>
+        </category>
+        <category xml:id="S.OILQ">
+            <catDesc xml:lang="en">abandoned oil well</catDesc>
+        </category>
+        <category xml:id="S.OILR">
+            <catDesc xml:lang="en">oil refinery</catDesc>
+        </category>
+        <category xml:id="S.OILT">
+            <catDesc xml:lang="en">tank farm</catDesc>
+        </category>
+        <category xml:id="S.OILW">
+            <catDesc xml:lang="en">oil well</catDesc>
+        </category>
+        <category xml:id="S.OPRA">
+            <catDesc xml:lang="en">opera house</catDesc>
+        </category>
+        <category xml:id="S.PAL">
+            <catDesc xml:lang="en">palace</catDesc>
+        </category>
+        <category xml:id="S.PGDA">
+            <catDesc xml:lang="en">pagoda</catDesc>
+        </category>
+        <category xml:id="S.PIER">
+            <catDesc xml:lang="en">pier</catDesc>
+        </category>
+        <category xml:id="S.PKLT">
+            <catDesc xml:lang="en">parking lot</catDesc>
+        </category>
+        <category xml:id="S.PMPO">
+            <catDesc xml:lang="en">oil pumping station</catDesc>
+        </category>
+        <category xml:id="S.PMPW">
+            <catDesc xml:lang="en">water pumping station</catDesc>
+        </category>
+        <category xml:id="S.PO">
+            <catDesc xml:lang="en">post office</catDesc>
+        </category>
+        <category xml:id="S.PP">
+            <catDesc xml:lang="en">police post</catDesc>
+        </category>
+        <category xml:id="S.PPQ">
+            <catDesc xml:lang="en">abandoned police post</catDesc>
+        </category>
+        <category xml:id="S.PRKGT">
+            <catDesc xml:lang="en">park gate</catDesc>
+        </category>
+        <category xml:id="S.PRKHQ">
+            <catDesc xml:lang="en">park headquarters</catDesc>
+        </category>
+        <category xml:id="S.PRN">
+            <catDesc xml:lang="en">prison</catDesc>
+        </category>
+        <category xml:id="S.PRNJ">
+            <catDesc xml:lang="en">reformatory</catDesc>
+        </category>
+        <category xml:id="S.PRNQ">
+            <catDesc xml:lang="en">abandoned prison</catDesc>
+        </category>
+        <category xml:id="S.PS">
+            <catDesc xml:lang="en">power station</catDesc>
+        </category>
+        <category xml:id="S.PSH">
+            <catDesc xml:lang="en">hydroelectric power station</catDesc>
+        </category>
+        <category xml:id="S.PSN">
+            <catDesc xml:lang="en">nuclear power station</catDesc>
+        </category>
+        <category xml:id="S.PSTB">
+            <catDesc xml:lang="en">border post</catDesc>
+        </category>
+        <category xml:id="S.PSTC">
+            <catDesc xml:lang="en">customs post</catDesc>
+        </category>
+        <category xml:id="S.PSTP">
+            <catDesc xml:lang="en">patrol post</catDesc>
+        </category>
+        <category xml:id="S.PYR">
+            <catDesc xml:lang="en">pyramid</catDesc>
+        </category>
+        <category xml:id="S.PYRS">
+            <catDesc xml:lang="en">pyramids</catDesc>
+        </category>
+        <category xml:id="S.QUAY">
+            <catDesc xml:lang="en">quay</catDesc>
+        </category>
+        <category xml:id="S.RDCR">
+            <catDesc xml:lang="en">traffic circle</catDesc>
+        </category>
+        <category xml:id="S.RDIN">
+            <catDesc xml:lang="en">intersection</catDesc>
+        </category>
+        <category xml:id="S.RECG">
+            <catDesc xml:lang="en">golf course</catDesc>
+        </category>
+        <category xml:id="S.RECR">
+            <catDesc xml:lang="en">racetrack</catDesc>
+        </category>
+        <category xml:id="S.REST">
+            <catDesc xml:lang="en">restaurant</catDesc>
+        </category>
+        <category xml:id="S.RET">
+            <catDesc xml:lang="en">store</catDesc>
+        </category>
+        <category xml:id="S.RHSE">
+            <catDesc xml:lang="en">resthouse</catDesc>
+        </category>
+        <category xml:id="S.RKRY">
+            <catDesc xml:lang="en">rookery</catDesc>
+        </category>
+        <category xml:id="S.RLG">
+            <catDesc xml:lang="en">religious site</catDesc>
+        </category>
+        <category xml:id="S.RLGR">
+            <catDesc xml:lang="en">retreat</catDesc>
+        </category>
+        <category xml:id="S.RNCH">
+            <catDesc xml:lang="en">ranch(es)</catDesc>
+        </category>
+        <category xml:id="S.RSD">
+            <catDesc xml:lang="en">railroad siding</catDesc>
+        </category>
+        <category xml:id="S.RSGNL">
+            <catDesc xml:lang="en">railroad signal</catDesc>
+        </category>
+        <category xml:id="S.RSRT">
+            <catDesc xml:lang="en">resort</catDesc>
+        </category>
+        <category xml:id="S.RSTN">
+            <catDesc xml:lang="en">railroad station</catDesc>
+        </category>
+        <category xml:id="S.RSTNQ">
+            <catDesc xml:lang="en">abandoned railroad station</catDesc>
+        </category>
+        <category xml:id="S.RSTP">
+            <catDesc xml:lang="en">railroad stop</catDesc>
+        </category>
+        <category xml:id="S.RSTPQ">
+            <catDesc xml:lang="en">abandoned railroad stop</catDesc>
+        </category>
+        <category xml:id="S.RUIN">
+            <catDesc xml:lang="en">ruin(s)</catDesc>
+        </category>
+        <category xml:id="S.SCH">
+            <catDesc xml:lang="en">school</catDesc>
+        </category>
+        <category xml:id="S.SCHA">
+            <catDesc xml:lang="en">agricultural school</catDesc>
+        </category>
+        <category xml:id="S.SCHC">
+            <catDesc xml:lang="en">college</catDesc>
+        </category>
+        <category xml:id="S.SCHL">
+            <catDesc xml:lang="en">language school</catDesc>
+        </category>
+        <category xml:id="S.SCHM">
+            <catDesc xml:lang="en">military school</catDesc>
+        </category>
+        <category xml:id="S.SCHN">
+            <catDesc xml:lang="en">maritime school</catDesc>
+        </category>
+        <category xml:id="S.SCHT">
+            <catDesc xml:lang="en">technical school</catDesc>
+        </category>
+        <category xml:id="S.SECP">
+            <catDesc xml:lang="en">State Exam Prep Centre</catDesc>
+        </category>
+        <category xml:id="S.SHPF">
+            <catDesc xml:lang="en">sheepfold</catDesc>
+        </category>
+        <category xml:id="S.SHRN">
+            <catDesc xml:lang="en">shrine</catDesc>
+        </category>
+        <category xml:id="S.SHSE">
+            <catDesc xml:lang="en">storehouse</catDesc>
+        </category>
+        <category xml:id="S.SLCE">
+            <catDesc xml:lang="en">sluice</catDesc>
+        </category>
+        <category xml:id="S.SNTR">
+            <catDesc xml:lang="en">sanatorium</catDesc>
+        </category>
+        <category xml:id="S.SPA">
+            <catDesc xml:lang="en">spa</catDesc>
+        </category>
+        <category xml:id="S.SPLY">
+            <catDesc xml:lang="en">spillway</catDesc>
+        </category>
+        <category xml:id="S.SQR">
+            <catDesc xml:lang="en">square</catDesc>
+        </category>
+        <category xml:id="S.STBL">
+            <catDesc xml:lang="en">stable</catDesc>
+        </category>
+        <category xml:id="S.STDM">
+            <catDesc xml:lang="en">stadium</catDesc>
+        </category>
+        <category xml:id="S.STNB">
+            <catDesc xml:lang="en">scientific research base</catDesc>
+        </category>
+        <category xml:id="S.STNC">
+            <catDesc xml:lang="en">coast guard station</catDesc>
+        </category>
+        <category xml:id="S.STNE">
+            <catDesc xml:lang="en">experiment station</catDesc>
+        </category>
+        <category xml:id="S.STNF">
+            <catDesc xml:lang="en">forest station</catDesc>
+        </category>
+        <category xml:id="S.STNI">
+            <catDesc xml:lang="en">inspection station</catDesc>
+        </category>
+        <category xml:id="S.STNM">
+            <catDesc xml:lang="en">meteorological station</catDesc>
+        </category>
+        <category xml:id="S.STNR">
+            <catDesc xml:lang="en">radio station</catDesc>
+        </category>
+        <category xml:id="S.STNS">
+            <catDesc xml:lang="en">satellite station</catDesc>
+        </category>
+        <category xml:id="S.STNW">
+            <catDesc xml:lang="en">whaling station</catDesc>
+        </category>
+        <category xml:id="S.STPS">
+            <catDesc xml:lang="en">steps</catDesc>
+        </category>
+        <category xml:id="S.SWT">
+            <catDesc xml:lang="en">sewage treatment plant</catDesc>
+        </category>
+        <category xml:id="S.SYG">
+            <catDesc xml:lang="en">synagogue</catDesc>
+        </category>
+        <category xml:id="S.THTR">
+            <catDesc xml:lang="en">theater</catDesc>
+        </category>
+        <category xml:id="S.TMB">
+            <catDesc xml:lang="en">tomb(s)</catDesc>
+        </category>
+        <category xml:id="S.TMPL">
+            <catDesc xml:lang="en">temple(s)</catDesc>
+        </category>
+        <category xml:id="S.TNKD">
+            <catDesc xml:lang="en">cattle dipping tank</catDesc>
+        </category>
+        <category xml:id="S.TOLL">
+            <catDesc xml:lang="en">toll gate/barrier</catDesc>
+        </category>
+        <category xml:id="S.TOWR">
+            <catDesc xml:lang="en">tower</catDesc>
+        </category>
+        <category xml:id="S.TRAM">
+            <catDesc xml:lang="en">tram</catDesc>
+        </category>
+        <category xml:id="S.TRANT">
+            <catDesc xml:lang="en">transit terminal</catDesc>
+        </category>
+        <category xml:id="S.TRIG">
+            <catDesc xml:lang="en">triangulation station</catDesc>
+        </category>
+        <category xml:id="S.TRMO">
+            <catDesc xml:lang="en">oil pipeline terminal</catDesc>
+        </category>
+        <category xml:id="S.TWO">
+            <catDesc xml:lang="en">temp work office</catDesc>
+        </category>
+        <category xml:id="S.UNIP">
+            <catDesc xml:lang="en">university prep school</catDesc>
+        </category>
+        <category xml:id="S.UNIV">
+            <catDesc xml:lang="en">university</catDesc>
+        </category>
+        <category xml:id="S.USGE">
+            <catDesc xml:lang="en">united states government establishment</catDesc>
+        </category>
+        <category xml:id="S.VETF">
+            <catDesc xml:lang="en">veterinary facility</catDesc>
+        </category>
+        <category xml:id="S.WALL">
+            <catDesc xml:lang="en">wall</catDesc>
+        </category>
+        <category xml:id="S.WALLA">
+            <catDesc xml:lang="en">ancient wall</catDesc>
+        </category>
+        <category xml:id="S.WEIR">
+            <catDesc xml:lang="en">weir(s)</catDesc>
+        </category>
+        <category xml:id="S.WHRF">
+            <catDesc xml:lang="en">wharf(-ves)</catDesc>
+        </category>
+        <category xml:id="S.WRCK">
+            <catDesc xml:lang="en">wreck</catDesc>
+        </category>
+        <category xml:id="S.WTRW">
+            <catDesc xml:lang="en">waterworks</catDesc>
+        </category>
+        <category xml:id="S.ZNF">
+            <catDesc xml:lang="en">free trade zone</catDesc>
+        </category>
+        <category xml:id="S.ZOO">
+            <catDesc xml:lang="en">zoo</catDesc>
+        </category>
+        <category xml:id="T.ASPH">
+            <catDesc xml:lang="en">asphalt lake</catDesc>
+        </category>
+        <category xml:id="T.ATOL">
+            <catDesc xml:lang="en">atoll(s)</catDesc>
+        </category>
+        <category xml:id="T.BAR">
+            <catDesc xml:lang="en">bar</catDesc>
+        </category>
+        <category xml:id="T.BCH">
+            <catDesc xml:lang="en">beach</catDesc>
+        </category>
+        <category xml:id="T.BCHS">
+            <catDesc xml:lang="en">beaches</catDesc>
+        </category>
+        <category xml:id="T.BDLD">
+            <catDesc xml:lang="en">badlands</catDesc>
+        </category>
+        <category xml:id="T.BLDR">
+            <catDesc xml:lang="en">boulder field</catDesc>
+        </category>
+        <category xml:id="T.BLHL">
+            <catDesc xml:lang="en">blowhole(s)</catDesc>
+        </category>
+        <category xml:id="T.BLOW">
+            <catDesc xml:lang="en">blowout(s)</catDesc>
+        </category>
+        <category xml:id="T.BNCH">
+            <catDesc xml:lang="en">bench</catDesc>
+        </category>
+        <category xml:id="T.BUTE">
+            <catDesc xml:lang="en">butte(s)</catDesc>
+        </category>
+        <category xml:id="T.CAPE">
+            <catDesc xml:lang="en">cape</catDesc>
+        </category>
+        <category xml:id="T.CFT">
+            <catDesc xml:lang="en">cleft(s)</catDesc>
+        </category>
+        <category xml:id="T.CLDA">
+            <catDesc xml:lang="en">caldera</catDesc>
+        </category>
+        <category xml:id="T.CLF">
+            <catDesc xml:lang="en">cliff(s)</catDesc>
+        </category>
+        <category xml:id="T.CNYN">
+            <catDesc xml:lang="en">canyon</catDesc>
+        </category>
+        <category xml:id="T.CONE">
+            <catDesc xml:lang="en">cone(s)</catDesc>
+        </category>
+        <category xml:id="T.CRDR">
+            <catDesc xml:lang="en">corridor</catDesc>
+        </category>
+        <category xml:id="T.CRQ">
+            <catDesc xml:lang="en">cirque</catDesc>
+        </category>
+        <category xml:id="T.CRQS">
+            <catDesc xml:lang="en">cirques</catDesc>
+        </category>
+        <category xml:id="T.CRTR">
+            <catDesc xml:lang="en">crater(s)</catDesc>
+        </category>
+        <category xml:id="T.CUET">
+            <catDesc xml:lang="en">cuesta(s)</catDesc>
+        </category>
+        <category xml:id="T.DLTA">
+            <catDesc xml:lang="en">delta</catDesc>
+        </category>
+        <category xml:id="T.DPR">
+            <catDesc xml:lang="en">depression(s)</catDesc>
+        </category>
+        <category xml:id="T.DSRT">
+            <catDesc xml:lang="en">desert</catDesc>
+        </category>
+        <category xml:id="T.DUNE">
+            <catDesc xml:lang="en">dune(s)</catDesc>
+        </category>
+        <category xml:id="T.DVD">
+            <catDesc xml:lang="en">divide</catDesc>
+        </category>
+        <category xml:id="T.ERG">
+            <catDesc xml:lang="en">sandy desert</catDesc>
+        </category>
+        <category xml:id="T.FAN">
+            <catDesc xml:lang="en">fan(s)</catDesc>
+        </category>
+        <category xml:id="T.FORD">
+            <catDesc xml:lang="en">ford</catDesc>
+        </category>
+        <category xml:id="T.FSR">
+            <catDesc xml:lang="en">fissure</catDesc>
+        </category>
+        <category xml:id="T.GAP">
+            <catDesc xml:lang="en">gap</catDesc>
+        </category>
+        <category xml:id="T.GRGE">
+            <catDesc xml:lang="en">gorge(s)</catDesc>
+        </category>
+        <category xml:id="T.HDLD">
+            <catDesc xml:lang="en">headland</catDesc>
+        </category>
+        <category xml:id="T.HLL">
+            <catDesc xml:lang="en">hill</catDesc>
+        </category>
+        <category xml:id="T.HLLS">
+            <catDesc xml:lang="en">hills</catDesc>
+        </category>
+        <category xml:id="T.HMCK">
+            <catDesc xml:lang="en">hammock(s)</catDesc>
+        </category>
+        <category xml:id="T.HMDA">
+            <catDesc xml:lang="en">rock desert</catDesc>
+        </category>
+        <category xml:id="T.INTF">
+            <catDesc xml:lang="en">interfluve</catDesc>
+        </category>
+        <category xml:id="T.ISL">
+            <catDesc xml:lang="en">island</catDesc>
+        </category>
+        <category xml:id="T.ISLET">
+            <catDesc xml:lang="en">islet</catDesc>
+        </category>
+        <category xml:id="T.ISLF">
+            <catDesc xml:lang="en">artificial island</catDesc>
+        </category>
+        <category xml:id="T.ISLM">
+            <catDesc xml:lang="en">mangrove island</catDesc>
+        </category>
+        <category xml:id="T.ISLS">
+            <catDesc xml:lang="en">islands</catDesc>
+        </category>
+        <category xml:id="T.ISLT">
+            <catDesc xml:lang="en">land-tied island</catDesc>
+        </category>
+        <category xml:id="T.ISLX">
+            <catDesc xml:lang="en">section of island</catDesc>
+        </category>
+        <category xml:id="T.ISTH">
+            <catDesc xml:lang="en">isthmus</catDesc>
+        </category>
+        <category xml:id="T.KRST">
+            <catDesc xml:lang="en">karst area</catDesc>
+        </category>
+        <category xml:id="T.LAVA">
+            <catDesc xml:lang="en">lava area</catDesc>
+        </category>
+        <category xml:id="T.LEV">
+            <catDesc xml:lang="en">levee</catDesc>
+        </category>
+        <category xml:id="T.MESA">
+            <catDesc xml:lang="en">mesa(s)</catDesc>
+        </category>
+        <category xml:id="T.MND">
+            <catDesc xml:lang="en">mound(s)</catDesc>
+        </category>
+        <category xml:id="T.MRN">
+            <catDesc xml:lang="en">moraine</catDesc>
+        </category>
+        <category xml:id="T.MT">
+            <catDesc xml:lang="en">mountain</catDesc>
+        </category>
+        <category xml:id="T.MTS">
+            <catDesc xml:lang="en">mountains</catDesc>
+        </category>
+        <category xml:id="T.NKM">
+            <catDesc xml:lang="en">meander neck</catDesc>
+        </category>
+        <category xml:id="T.NTK">
+            <catDesc xml:lang="en">nunatak</catDesc>
+        </category>
+        <category xml:id="T.NTKS">
+            <catDesc xml:lang="en">nunataks</catDesc>
+        </category>
+        <category xml:id="T.PAN">
+            <catDesc xml:lang="en">pan</catDesc>
+        </category>
+        <category xml:id="T.PANS">
+            <catDesc xml:lang="en">pans</catDesc>
+        </category>
+        <category xml:id="T.PASS">
+            <catDesc xml:lang="en">pass</catDesc>
+        </category>
+        <category xml:id="T.PEN">
+            <catDesc xml:lang="en">peninsula</catDesc>
+        </category>
+        <category xml:id="T.PENX">
+            <catDesc xml:lang="en">section of peninsula</catDesc>
+        </category>
+        <category xml:id="T.PK">
+            <catDesc xml:lang="en">peak</catDesc>
+        </category>
+        <category xml:id="T.PKS">
+            <catDesc xml:lang="en">peaks</catDesc>
+        </category>
+        <category xml:id="T.PLAT">
+            <catDesc xml:lang="en">plateau</catDesc>
+        </category>
+        <category xml:id="T.PLATX">
+            <catDesc xml:lang="en">section of plateau</catDesc>
+        </category>
+        <category xml:id="T.PLDR">
+            <catDesc xml:lang="en">polder</catDesc>
+        </category>
+        <category xml:id="T.PLN">
+            <catDesc xml:lang="en">plain(s)</catDesc>
+        </category>
+        <category xml:id="T.PLNX">
+            <catDesc xml:lang="en">section of plain</catDesc>
+        </category>
+        <category xml:id="T.PROM">
+            <catDesc xml:lang="en">promontory(-ies)</catDesc>
+        </category>
+        <category xml:id="T.PT">
+            <catDesc xml:lang="en">point</catDesc>
+        </category>
+        <category xml:id="T.PTS">
+            <catDesc xml:lang="en">points</catDesc>
+        </category>
+        <category xml:id="T.RDGB">
+            <catDesc xml:lang="en">beach ridge</catDesc>
+        </category>
+        <category xml:id="T.RDGE">
+            <catDesc xml:lang="en">ridge(s)</catDesc>
+        </category>
+        <category xml:id="T.REG">
+            <catDesc xml:lang="en">stony desert</catDesc>
+        </category>
+        <category xml:id="T.RK">
+            <catDesc xml:lang="en">rock</catDesc>
+        </category>
+        <category xml:id="T.RKFL">
+            <catDesc xml:lang="en">rockfall</catDesc>
+        </category>
+        <category xml:id="T.RKS">
+            <catDesc xml:lang="en">rocks</catDesc>
+        </category>
+        <category xml:id="T.SAND">
+            <catDesc xml:lang="en">sand area</catDesc>
+        </category>
+        <category xml:id="T.SBED">
+            <catDesc xml:lang="en">dry stream bed</catDesc>
+        </category>
+        <category xml:id="T.SCRP">
+            <catDesc xml:lang="en">escarpment</catDesc>
+        </category>
+        <category xml:id="T.SDL">
+            <catDesc xml:lang="en">saddle</catDesc>
+        </category>
+        <category xml:id="T.SHOR">
+            <catDesc xml:lang="en">shore</catDesc>
+        </category>
+        <category xml:id="T.SINK">
+            <catDesc xml:lang="en">sinkhole</catDesc>
+        </category>
+        <category xml:id="T.SLID">
+            <catDesc xml:lang="en">slide</catDesc>
+        </category>
+        <category xml:id="T.SLP">
+            <catDesc xml:lang="en">slope(s)</catDesc>
+        </category>
+        <category xml:id="T.SPIT">
+            <catDesc xml:lang="en">spit</catDesc>
+        </category>
+        <category xml:id="T.SPUR">
+            <catDesc xml:lang="en">spur(s)</catDesc>
+        </category>
+        <category xml:id="T.TAL">
+            <catDesc xml:lang="en">talus slope</catDesc>
+        </category>
+        <category xml:id="T.TRGD">
+            <catDesc xml:lang="en">interdune trough(s)</catDesc>
+        </category>
+        <category xml:id="T.TRR">
+            <catDesc xml:lang="en">terrace</catDesc>
+        </category>
+        <category xml:id="T.UPLD">
+            <catDesc xml:lang="en">upland</catDesc>
+        </category>
+        <category xml:id="T.VAL">
+            <catDesc xml:lang="en">valley</catDesc>
+        </category>
+        <category xml:id="T.VALG">
+            <catDesc xml:lang="en">hanging valley</catDesc>
+        </category>
+        <category xml:id="T.VALS">
+            <catDesc xml:lang="en">valleys</catDesc>
+        </category>
+        <category xml:id="T.VALX">
+            <catDesc xml:lang="en">section of valley</catDesc>
+        </category>
+        <category xml:id="T.VLC">
+            <catDesc xml:lang="en">volcano</catDesc>
+        </category>
+        <category xml:id="U.APNU">
+            <catDesc xml:lang="en">apron</catDesc>
+        </category>
+        <category xml:id="U.ARCU">
+            <catDesc xml:lang="en">arch</catDesc>
+        </category>
+        <category xml:id="U.ARRU">
+            <catDesc xml:lang="en">arrugado</catDesc>
+        </category>
+        <category xml:id="U.BDLU">
+            <catDesc xml:lang="en">borderland</catDesc>
+        </category>
+        <category xml:id="U.BKSU">
+            <catDesc xml:lang="en">banks</catDesc>
+        </category>
+        <category xml:id="U.BNKU">
+            <catDesc xml:lang="en">bank</catDesc>
+        </category>
+        <category xml:id="U.BSNU">
+            <catDesc xml:lang="en">basin</catDesc>
+        </category>
+        <category xml:id="U.CDAU">
+            <catDesc xml:lang="en">cordillera</catDesc>
+        </category>
+        <category xml:id="U.CNSU">
+            <catDesc xml:lang="en">canyons</catDesc>
+        </category>
+        <category xml:id="U.CNYU">
+            <catDesc xml:lang="en">canyon</catDesc>
+        </category>
+        <category xml:id="U.CRSU">
+            <catDesc xml:lang="en">continental rise</catDesc>
+        </category>
+        <category xml:id="U.DEPU">
+            <catDesc xml:lang="en">deep</catDesc>
+        </category>
+        <category xml:id="U.EDGU">
+            <catDesc xml:lang="en">shelf edge</catDesc>
+        </category>
+        <category xml:id="U.ESCU">
+            <catDesc xml:lang="en">escarpment (or scarp)</catDesc>
+        </category>
+        <category xml:id="U.FANU">
+            <catDesc xml:lang="en">fan</catDesc>
+        </category>
+        <category xml:id="U.FLTU">
+            <catDesc xml:lang="en">flat</catDesc>
+        </category>
+        <category xml:id="U.FRZU">
+            <catDesc xml:lang="en">fracture zone</catDesc>
+        </category>
+        <category xml:id="U.FURU">
+            <catDesc xml:lang="en">furrow</catDesc>
+        </category>
+        <category xml:id="U.GAPU">
+            <catDesc xml:lang="en">gap</catDesc>
+        </category>
+        <category xml:id="U.GLYU">
+            <catDesc xml:lang="en">gully</catDesc>
+        </category>
+        <category xml:id="U.HLLU">
+            <catDesc xml:lang="en">hill</catDesc>
+        </category>
+        <category xml:id="U.HLSU">
+            <catDesc xml:lang="en">hills</catDesc>
+        </category>
+        <category xml:id="U.HOLU">
+            <catDesc xml:lang="en">hole</catDesc>
+        </category>
+        <category xml:id="U.KNLU">
+            <catDesc xml:lang="en">knoll</catDesc>
+        </category>
+        <category xml:id="U.KNSU">
+            <catDesc xml:lang="en">knolls</catDesc>
+        </category>
+        <category xml:id="U.LDGU">
+            <catDesc xml:lang="en">ledge</catDesc>
+        </category>
+        <category xml:id="U.LEVU">
+            <catDesc xml:lang="en">levee</catDesc>
+        </category>
+        <category xml:id="U.MESU">
+            <catDesc xml:lang="en">mesa</catDesc>
+        </category>
+        <category xml:id="U.MNDU">
+            <catDesc xml:lang="en">mound</catDesc>
+        </category>
+        <category xml:id="U.MOTU">
+            <catDesc xml:lang="en">moat</catDesc>
+        </category>
+        <category xml:id="U.MTU">
+            <catDesc xml:lang="en">mountain</catDesc>
+        </category>
+        <category xml:id="U.PKSU">
+            <catDesc xml:lang="en">peaks</catDesc>
+        </category>
+        <category xml:id="U.PKU">
+            <catDesc xml:lang="en">peak</catDesc>
+        </category>
+        <category xml:id="U.PLNU">
+            <catDesc xml:lang="en">plain</catDesc>
+        </category>
+        <category xml:id="U.PLTU">
+            <catDesc xml:lang="en">plateau</catDesc>
+        </category>
+        <category xml:id="U.PNLU">
+            <catDesc xml:lang="en">pinnacle</catDesc>
+        </category>
+        <category xml:id="U.PRVU">
+            <catDesc xml:lang="en">province</catDesc>
+        </category>
+        <category xml:id="U.RDGU">
+            <catDesc xml:lang="en">ridge</catDesc>
+        </category>
+        <category xml:id="U.RDSU">
+            <catDesc xml:lang="en">ridges</catDesc>
+        </category>
+        <category xml:id="U.RFSU">
+            <catDesc xml:lang="en">reefs</catDesc>
+        </category>
+        <category xml:id="U.RFU">
+            <catDesc xml:lang="en">reef</catDesc>
+        </category>
+        <category xml:id="U.RISU">
+            <catDesc xml:lang="en">rise</catDesc>
+        </category>
+        <category xml:id="U.SCNU">
+            <catDesc xml:lang="en">seachannel</catDesc>
+        </category>
+        <category xml:id="U.SCSU">
+            <catDesc xml:lang="en">seachannels</catDesc>
+        </category>
+        <category xml:id="U.SDLU">
+            <catDesc xml:lang="en">saddle</catDesc>
+        </category>
+        <category xml:id="U.SHFU">
+            <catDesc xml:lang="en">shelf</catDesc>
+        </category>
+        <category xml:id="U.SHLU">
+            <catDesc xml:lang="en">shoal</catDesc>
+        </category>
+        <category xml:id="U.SHSU">
+            <catDesc xml:lang="en">shoals</catDesc>
+        </category>
+        <category xml:id="U.SHVU">
+            <catDesc xml:lang="en">shelf valley</catDesc>
+        </category>
+        <category xml:id="U.SILU">
+            <catDesc xml:lang="en">sill</catDesc>
+        </category>
+        <category xml:id="U.SLPU">
+            <catDesc xml:lang="en">slope</catDesc>
+        </category>
+        <category xml:id="U.SMSU">
+            <catDesc xml:lang="en">seamounts</catDesc>
+        </category>
+        <category xml:id="U.SMU">
+            <catDesc xml:lang="en">seamount</catDesc>
+        </category>
+        <category xml:id="U.SPRU">
+            <catDesc xml:lang="en">spur</catDesc>
+        </category>
+        <category xml:id="U.TERU">
+            <catDesc xml:lang="en">terrace</catDesc>
+        </category>
+        <category xml:id="U.TMSU">
+            <catDesc xml:lang="en">tablemounts (or guyots)</catDesc>
+        </category>
+        <category xml:id="U.TMTU">
+            <catDesc xml:lang="en">tablemount (or guyot)</catDesc>
+        </category>
+        <category xml:id="U.TNGU">
+            <catDesc xml:lang="en">tongue</catDesc>
+        </category>
+        <category xml:id="U.TRGU">
+            <catDesc xml:lang="en">trough</catDesc>
+        </category>
+        <category xml:id="U.TRNU">
+            <catDesc xml:lang="en">trench</catDesc>
+        </category>
+        <category xml:id="U.VALU">
+            <catDesc xml:lang="en">valley</catDesc>
+        </category>
+        <category xml:id="U.VLSU">
+            <catDesc xml:lang="en">valleys</catDesc>
+        </category>
+        <category xml:id="V.BUSH">
+            <catDesc xml:lang="en">bush(es)</catDesc>
+        </category>
+        <category xml:id="V.CULT">
+            <catDesc xml:lang="en">cultivated area</catDesc>
+        </category>
+        <category xml:id="V.FRST">
+            <catDesc xml:lang="en">forest(s)</catDesc>
+        </category>
+        <category xml:id="V.FRSTF">
+            <catDesc xml:lang="en">fossilized forest</catDesc>
+        </category>
+        <category xml:id="V.GROVE">
+            <catDesc xml:lang="en">grove</catDesc>
+        </category>
+        <category xml:id="V.GRSLD">
+            <catDesc xml:lang="en">grassland</catDesc>
+        </category>
+        <category xml:id="V.GRVC">
+            <catDesc xml:lang="en">coconut grove</catDesc>
+        </category>
+        <category xml:id="V.GRVO">
+            <catDesc xml:lang="en">olive grove</catDesc>
+        </category>
+        <category xml:id="V.GRVP">
+            <catDesc xml:lang="en">palm grove</catDesc>
+        </category>
+        <category xml:id="V.GRVPN">
+            <catDesc xml:lang="en">pine grove</catDesc>
+        </category>
+        <category xml:id="V.HTH">
+            <catDesc xml:lang="en">heath</catDesc>
+        </category>
+        <category xml:id="V.MDW">
+            <catDesc xml:lang="en">meadow</catDesc>
+        </category>
+        <category xml:id="V.OCH">
+            <catDesc xml:lang="en">orchard(s)</catDesc>
+        </category>
+        <category xml:id="V.SCRB">
+            <catDesc xml:lang="en">scrubland</catDesc>
+        </category>
+        <category xml:id="V.TREE">
+            <catDesc xml:lang="en">tree(s)</catDesc>
+        </category>
+        <category xml:id="V.TUND">
+            <catDesc xml:lang="en">tundra</catDesc>
+        </category>
+        <category xml:id="V.VIN">
+            <catDesc xml:lang="en">vineyard</catDesc>
+        </category>
+        <category xml:id="V.VINS">
+            <catDesc xml:lang="en">vineyards</catDesc>
+        </category>
+        <category xml:id="null">
+            <catDesc xml:lang="en">not available</catDesc>
+        </category>
+    </taxonomy>
+</classDecl>

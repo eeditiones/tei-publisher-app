@@ -1,0 +1,279 @@
+<article xmlns:xlink="http://www.w3.org/1999/xlink" article-type="research-article" lang="en">
+    <front>
+        <journal-meta>
+            <journal-id journal-id-type="publisher">JAH</journal-id>
+
+            <journal-title-group>
+                <journal-title>Journal of Art Historiography</journal-title>
+            </journal-title-group>
+            <issn>2042-4752</issn>
+            <publisher>
+                <publisher-name>The University of Birmingham</publisher-name>
+            </publisher>
+        </journal-meta>
+        <article-meta>
+            <article-id pub-id-type="publisher-id">ARTHIST</article-id>
+            <article-id pub-id-type="doi">https://doi.org/10.48352/uobxjah.00004200</article-id>
+            <article-version article-version-type="status">version of record</article-version>
+            <title-group>
+                <article-title>Digital Editions at Bibliotheca Hertziana</article-title>
+            </title-group>
+            <contrib-group>
+
+                <contrib contrib-type="person" corresp="no" equal-contrib="no" deceased="no" id="bchafjdjfb">
+                    <contrib-id contrib-id-type="orcid">https://orcid.org/0000-0002-4419-7912</contrib-id>
+
+                    <name>
+                        <surname>Bastianello</surname>
+                        <given-names>Elisa</given-names>
+                    </name>
+                    <email>bastianello@biblhertz.it</email>
+                    <xref ref-type="aff" rid="afffjadejhjj"/>
+                </contrib>
+            </contrib-group>
+            <aff id="afffjadejhjj">
+                <institution content-type="orgname">Digital Publishing</institution>
+                <institution content-type="orgdiv1">Bibliotheca Hertziana – Max Planck Institute for Art History</institution>
+                <addr-line/>
+                <city>Rome</city>
+                <country>IT</country>
+            </aff>
+            <pub-date publication-format="electronic" date-type="pub" iso-8601-date="2022-12">
+                <day/>
+                <month>12</month>
+                <year>2022</year>
+            </pub-date>
+            <pub-date pub-type="journal">
+                <year>2022</year>
+            </pub-date>
+            <volume>27</volume>
+            <elocation-id>EB01</elocation-id>
+            <permissions>
+                <copyright-statement>(c) 2022</copyright-statement>
+                <copyright-year>2020</copyright-year>
+                <copyright-holder>Author</copyright-holder>
+                <license xlink:href="https://creativecommons.org/licenses/by-nc/4.0/">
+                    <license-p>https://creativecommons.org/licenses/by-nc/4.0/</license-p>
+                </license>
+            </permissions>
+            <abstract id="gyd6spm">
+                <title>Abstract</title>
+                <p id="j5lwgit2mj9g">Digital editions of books are enjoying a tremendous success in recent years, especially after COVID pandemics limited the access to physical books. But digital editions can be much more than just a digital reproduction of the pages of a printed book. For this reason, the Bibliotheca Hertziana, among other institutions, is investing lot of resources in order to improve the offer of digital publications, with the support of new technologies such as neural text recognition. Crucial points include the use of shared standards such as TEI XML and open source platforms such as TEI Publisher to ensure long-term accessibility and preservation.</p>
+            </abstract>
+        </article-meta>
+    </front>
+    <body>
+        <sec id="content" sec-type="chapter">
+            <title>Content</title>
+            <p id="j5rw7gknqa9w">In recent decades, access to bibliographic sources, intended as ancient manuscript or printed books, has ceased to be limited to the consultation of the original codices at conservation institutes, or to the publication of printed anastatic or critical editions, thanks to the increasingly widespread practice of scanning documents. Even at the beginning of the twenty-first century it was not unusual to have to laboriously search which libraries had a copy of an incunabulum or a sixteenth century book, and the work of comparison between witnesses of a certain manuscript was possible only if one brought with him the print (of microfilms) taken from one copy to the libraries that owned the other copies. Now, however, large digitization campaigns allow to carry out this type of studies from the comfort of home, thanks to colour images with ever-increasing resolution, without limitations in time or in the number of documents that can be consulted for any given day.</p>
+            <p id="bwflt9tw4kh">In addition, the use of standards for the distribution of images oriented towards interoperability, in particular the IIIF,<xref ref-type="fn" rid="fn1">1</xref> has been gaining ground for some years, thus simplifying the manipulation and reuse of images in online viewers, while optimizing access time even to very high-resolution details thanks to the pyramidal zoom, that is, without the need to wait for the entire image to be loaded in order to zoom in.<xref ref-type="fn" rid="fn2">2</xref>
+            </p>
+            <p id="loul8xthyjoi">The ease of access to the images of the sources in the historical and artistic field on the one hand requires scholars to carry out a more accurate verification of the contents, which in the past was delegated to previous critical editions precisely because of the difficulty of accessing the originals, on the other hand it is not always suitable for direct quotation, as the final reader might not be able to actually read what is present in the ancient witness. Even without entering the problems of the palaeographic decoding of the manuscript text and the understanding of the ancient language, ancient typography maintained for the first centuries many of the graphic signs, such as ligatures and abbreviations, typical of the manuscript tradition of the time and are difficult to understand for a modern not specialised reader. Just think of how characters such as the long ‘s’ (ſ), so similar to ‘f’, or the use of ‘u’ also to indicate the consonant sound of ‘v’ greatly decrease the readability of a printed text. The image of the text to be cited alone is therefore not always sufficient to provide all the information to the reader, but imposes the burden of decoding, in the form of transcriptions that expand the abbreviations and normalise the characters.</p>
+            <p id="d1rhxxpf1z1s">Among the immediate advantages of transcription, the possibility of searching for a term directly in the text of the document, without reading it in full or using indexes that have not always been created in a functional way for all types of research, or the possibility of using screen readers that automatically read aloud (TTS) the text in case of reading disability. Among the disadvantages, the enormous consumption of time required for its implementation. To overcome this disadvantage there are technologies such as optical character recognition (OCR), which, at least for the most recent printed texts, are able to offer accurate automatic transcription in a very short time. Optical character recognition analyses the characters individually and then uses linguistic vocabularies to identify plausible combinations in the presence of ambiguous characters, such as the letter ‘l’ and the number ‘1’. Precisely for this reason the performances against ancient typography are very low, to the point of making the transcripts unusable. In fact, ligatures, ornamental letters, abbreviations and ambiguous elements make it very difficult to decode texts character by character and the absence of a standardized language further reduces the possibility of disambiguation, producing transcripts that are a jumble of letters and numbers. Yet, despite these great limitations, the access to OCR full text of ancient books allowed by tools such as Google Books,<xref ref-type="fn" rid="fn3">3</xref> Internet Archive<xref ref-type="fn" rid="fn4">4</xref> and many others, has been sufficient in recent years to allow scholars of ancient texts to do a great deal of work.</p>
+            <p id="dru1natrf35">Fortunately, in recent years the use of so-called artificial intelligences applied to the recognition of texts, starting with the handwritten ones, seems to be able to help improve the situation. Thanks to these technologies it is possible, for example, to take notes on an electronic notebook which are converted into typed text in real time. In the humanities, this has led to the creation of specific projects and platforms for the manual and automatic transcription of handwritten texts, including Transkribus.<xref ref-type="fn" rid="fn5">5</xref> Transkribus is a platform, currently developed and maintained by the European social cooperative READ-COOP SCE,<xref ref-type="fn" rid="fn6">6</xref> which allows transcribers, through a desktop app or a web interface, to work, even in a collaborative form, on digital images of texts to create transcriptions, annotating them directly on the corresponding lines of the image. The recognition of text areas, lines of text and the text itself can also be done automatically with the support of HTR (Handwritten text recognition) neural machines that can be trained directly by the user through manual transcriptions, and which are therefore specific to the text and contents. These recognition models can be shared and thus be reused by other scholars who work with documents somehow correlated, for instance, by type of writing, linguistic content or period. In particular, the neural recognition of texts is based on the lines of writing and not on single characters, and can benefit from contextual information, such as how likely two letters can be close together, the way in which they ligate together, and overcoming the need for a one-to-one relationship between character in the text and in the transcription. This means that in case of abbreviations, it is possible to automate the expansion of the same as part of the model. Although born for manuscripts, the same neural machines are easily applied to ancient typography as well and existing public models can work out of the box.</p>
+            <p id="lbunnrza1rym">For this reason, in spring 2021 was started a first collaboration project between the Bibliotheca Hertziana - Max Planck Institute for Art History and READ-COOP with the aim of applying neural recognition to scans of ancient books, the <italic>Rara</italic> Collection, already existing. in the institute’s digital library DLIB<xref ref-type="fn" rid="fn7">7</xref> and in those of two other Max Planck institutes in the humanities, the Kunsthistorisches Institut (KHI) in Florence and the Max Planck Institute for the History of Science (MPIWG) in Berlin.<xref ref-type="fn" rid="fn8">8</xref> At the time of this writing, the collection contains over 3,800 books, for a total of about 1,300,000 transcribed pages.</p>
+            <p id="i0gwlwz13twtm">Despite having public models available for printed books, in particular Noscemus<xref ref-type="fn" rid="fn9">9</xref> and Transkribus Print,<xref ref-type="fn" rid="fn10">10</xref> the main obstacle was to imagine a way to transcribe texts that, while maintaining the practicality of the expansion of abbreviations as implemented in existing public models, allowed the preservation of philological information. The analysis of the use, frequency and type of abbreviations in texts allows in fact to correlate copies and editions of a text, but makes searching in the text even more difficult. Since it is possible in Transkribus to annotate abbreviations with their expansions as XML tags, a new technology has therefore been developed that can integrate abbreviation tags into the text recognition model, complete with their respective expansions. Although the model is still primitive and requires a broader Ground Truth, it has already been applied to texts published before 1520 in the collection, which present a greater frequency in abbreviations.</p>
+            <p id="cknp8zv7g4xd">The books can be publicly consulted online through a special interface, called Read &amp; Search, connected directly to the Transkribus collection, of which it reflects the corrections and additions almost in real time, the pilot version of which is available online from March 2022.<xref ref-type="fn" rid="fn11">11</xref> The creation of this platform, although based on an existing framework, has required many efforts to allow for the integration of the volume metadata into the search filters. At the moment the metadata are statically connected to the documents of the collection and even if they appear in the search filters, they are not accessible to the reader during the consultation of the text with the transcription. For this reason, a second project is underway for the dynamic connection of bibliographic information through a system of permanent identifiers and a resolver service that guarantees the continuous updating of data in sync with the Kubikat catalogue.<xref ref-type="fn" rid="fn12">12</xref> In this second project, new models are also being created for the neural recognition of structures, for example capable of identifying blocks of text relating to the page number, headers, paragraph headings or marginalia and comments. Once these elements are tagged, it will be possible to search for words that are found only in a specific area, such as titles or notes.</p>
+            <p id="jteglel1f328">The Read &amp; Search platform represents a first form of digital publication, but Transkribus is also suitable for the preparation of transcriptions for edited critical editions. In fact, the transcriptions and annotations made on this platform, which natively saves in PAGE XML format, can then be exported to other formats such as PDF, docx (Office Open XML) or TEI XML.</p>
+            <p id="b0kswkylnbe5">A very peculiar use of this tool is the replacement of OCR for the digital reprint of out of print books. Although OCR can be very precise for transcribing a 21st century text, it struggles to distinguish font variants such as italics, small caps, superscript, and in general, the reconstruction of the structure requires a lot of manual editing work. The prototype of this genre of digital reprint was John Shearman's book <italic>Raphael in Early Modern Sources - 1483-1602</italic>, published in 2006 and already out of print despite being highly sought after. It consists of two large volumes, for a total of over 1,700 pages, containing the transcription of over a thousand period documents with their notes and bibliography. A ‘smart’ text recognition model has been created, currently not public because it is under revision, in order not only to recognize the text, but also to add special characters before and after the text variants of each line (for example before and after the superscript number of the reference to the footnote). A layout model was trained as well, to identify the type of text blocks, especially for the sequence of documents, through a different neural machine called P2PaLa.<xref ref-type="fn" rid="fn13">13</xref> Since the recognition technologies used by Transkribus are only of a visual type, without any Natural Language Processing (i.e., there is no understanding of the content), and the individual pages are analysed individually, it is not possible to automatically recognise if a paragraph is complete by itself or the continuation of a paragraph started in the previous pages. This happens for the main text as well as for the notes or bibliographic information. The identification of the text blocks that continue from the previous page is however essential when you want to transform paged text of a paper edition into the continuous text of a digital edition, as the individual paragraphs must be reconstituted. For this reason, a scrupulous human control of all tags was necessary for the correct attribution of the ‘continued’ tag to the headless paragraphs. <xref ref-type="fn" rid="fn14">14</xref> Thanks to this combination of human work and neural machines it was possible to convert and transform the transcription in Transkribus into a TEI XML<xref ref-type="fn" rid="fn15">15</xref> document, whose first version was published online using the open source TEI Publisher platform.<xref ref-type="fn" rid="fn16">16</xref> The workflow is a combination of regex substitutions and XSLT transformations that not only join continued paragraph with their beginnings, but also, thanks to the superscript numbers, put all the footnotes in the right position, connected to their reference numbers. Although the project is not yet completed, the project is not complete, especially the part concerning the connection between bibliographic references and extended bibliographic records, and the integration of the images, it already allows for a structured search within the text of all transcribed documents and comments.<xref ref-type="fn" rid="fn17">17</xref>
+            </p>
+            <p id="eb65ocbe5vm5">Even if the process of creating the digital reprint lasted more than three months, with costs probably comparable to those required by entrusting the work to an external service, the recognition models and the conversion workflow remain at disposal for any future similar project. Furthermore, this method grants complete control over the structure and how it is then rendered in the publication phase, which, at the time of the evaluation of the offers, was considered very difficult to achieve with traditional tools. All text corrections will automatically go into the Ground Truth of the next version of the model, expanding the benefits for future reuse, as it happened already for a different book.</p>
+            <p id="mcdjryhgqrr">However, the digital publication of a critical edition is not limited to the creation of texts in digital format, but includes critical apparatuses such as comments, annotations of references and named entities for the generation of dynamic indexes and much more. The pilot project for this genre is the Complete Works of Heinrich Wölfflin, carried out jointly by the Institute of Art History of the University of Zurich and the Department Weddigen of Bibliotheca Hertziana: so far three of the 14 planned volumes have been printed. The digital edition, in addition to the critical materials of the new edition, aims to enrich the content with annotations and search functions not possible within the printed page. Given that the project for digital publishing is grafted onto that of a traditional publication already in a very advanced state, it was necessary to create a workflow that took into account the type of materials available. The texts were in fact produced using normal word processors such as MS Word, after having corrected and integrated the OCR of the original volumes. The footnotes of the original editions become automatic footnotes of the text editor, while the editors' comments have been inserted as. This, however, creates major problems, since standard word processors do not allow the insertion of endnotes in the footnotes, and therefore these additional comments have been integrated directly into the footnotes in curly brackets. Curly brackets have been used to indicate numerous elements such as original page numbers, transcription notes, image indications. For this reason, before proceeding with the conversion into TEI XML format, it was necessary to find a way to extract all the comments, transforming even those in curly brackets into footnotes, and differentiate the markers of the other elements through the use of Visual Basic for Applications macros. In addition, a specific MS Word document template was created for the critical edition, containing paragraph and character styles with unique conventional names, referable directly to TEI structural elements. The conversion is then done directly using the Office Open XML with the help of multiple XSLTs. In this case too, the workflow will be available open source together with the configuration parameters of the TEI Publisher instance. At the moment, only a demo with volume 4 of the collection has been published online, as a case study. It is in fact crucial to study the best way to make the content usable, for example by viewing the footnotes directly as pop-ups, comments and editorial information in a side column, or by expanding bibliographic references into complete citations. Alongside the digital conversion of the materials already present in print, an annotation campaign for named entities such as names of people, organizations, places or works has begun, directly on the online edition, thanks to the annotation tool recently made available on TEI Publisher. Thanks to this tool it is possible to easily associate to each entity an identifier in authority files such as GND,<xref ref-type="fn" rid="fn18">18</xref> GeoNames,<xref ref-type="fn" rid="fn19">19</xref> Wikidata,<xref ref-type="fn" rid="fn20">20</xref> or additional customized lists (RDF Local). The annotation tool was also used to signal the presence of errors or omissions with a special tag (TODO). The Complete Works are undergoing a complete re-design with the support of a design company.</p>
+            <p id="xbcv6fqwo21">The future digital critical edition will hopefully no longer need the Word to TEI conversion phase, since the text might be available as direct TEI export from Transkribus. This mean that a different way for an easy management of editorial commentaries needs to be developed in order to ease the job of editors.</p>
+            <p id="yz5vjtm5qkmq">While these projects are not finished yet, they can clearly demonstrate how important it is to work together with existing standards to ensure editions remain available for as long as possible. As several research funding bodies, especially in the European Union, require Open Access results of funded projects, it is increasingly important to use platforms that can be easily maintained regardless of the project status, long after the funding expires. At the same time, licensing the workflows as open source, will allow researchers to build similar infrastructures without the need of reinventing the wheel from scratch every time, and will enable them to focus more on improvements and content rather than struggling with a new framework.</p>
+        </sec>
+    </body>
+    <back>
+        <ref-list>
+            <title>References</title>
+            <ref id="eb_Q5LGNTJI">
+                <element-citation publication-type="chapter">
+                    <person-group person-group-type="author">
+                        <name>
+                            <surname>Kelli</surname>
+                            <given-names>Babcock</given-names>
+                        </name>
+                        <name>
+                            <surname>Di Cresce</surname>
+                            <given-names>Rachel</given-names>
+                        </name>
+                    </person-group>
+                    <year>2019</year>
+                    <article-title>Impact of international image interoperability framework (IIIF) on digital repositories</article-title>
+                    <source>New top technologies every librarian needs to know</source>
+
+                </element-citation>
+            </ref>
+            <ref id="eb_S6ZKXJNB">
+                <element-citation publication-type="paper-conference">
+                    <person-group person-group-type="author">
+                        <name>
+                            <surname>Kahle</surname>
+                            <given-names>Philip</given-names>
+                        </name>
+                        <name>
+                            <surname>Colutto</surname>
+                            <given-names>Sebastian</given-names>
+                        </name>
+                        <name>
+                            <surname>Hackl</surname>
+                            <given-names>Gunter</given-names>
+                        </name>
+                        <name>
+                            <surname>Mühlberger</surname>
+                            <given-names>Günter</given-names>
+                        </name>
+                    </person-group>
+                    <year>2017</year>
+                    <article-title>Transkribus - A service platform for transcription, recognition and retrieval of historical documents</article-title>
+                    <source>2017 14th IAPR international conference on document analysis and recognition (ICDAR)</source>
+                    <pub-id pub-id-type="doi">10.1109/ICDAR.2017.307</pub-id>
+                </element-citation>
+            </ref>
+            <ref id="eb_8SY3YMAF">
+                <element-citation publication-type="article">
+                    <person-group person-group-type="author">
+                        <name>
+                            <surname>Zathammer</surname>
+                            <given-names>Stefan</given-names>
+                        </name>
+                    </person-group>
+                    <year>2022</year>
+                    <article-title>Noscemus GM 5 [ID 37664]: Transkribus - pylaia text recognition</article-title>
+
+                </element-citation>
+            </ref>
+            <ref id="eb_MQTHC5Q2">
+                <element-citation publication-type="article">
+                    <person-group person-group-type="author">
+                        <name>
+                            <surname>Transkribus Team</surname>
+                            <given-names/>
+                        </name>
+                    </person-group>
+                    <year>2022</year>
+                    <article-title>Transkribus print M1 [ID 39995]: Transkribus - pylaia text recognition</article-title>
+
+                </element-citation>
+            </ref>
+        </ref-list>
+        <fn-group content-type="footnotes">
+            <title>Footnotes</title>
+            <fn id="fn1">
+                <label>1</label>
+                <p>International Image Interoperability Framework, <ext-link ext-link-type="uri" xlink:href="https://iiif.io/">https://iiif.io/</ext-link>.
+                </p>
+            </fn>
+            <fn id="fn2">
+                <label>2</label>
+                <p>
+                    <xref ref-type="bibr" rid="eb_Q5LGNTJI">(Kelli and Di Cresce 2019)</xref>.
+                </p>
+            </fn>
+            <fn id="fn3">
+                <label>3</label>
+                <p>
+                    <ext-link ext-link-type="uri" xlink:href="https://books.google.com/">https://books.google.com/</ext-link>.
+                </p>
+            </fn>
+            <fn id="fn4">
+                <label>4</label>
+                <p>
+                    <ext-link ext-link-type="uri" xlink:href="https://archive.org/">https://archive.org/.</ext-link>
+                </p>
+            </fn>
+            <fn id="fn5">
+                <label>5</label>
+                <p>
+                    <ext-link ext-link-type="uri" xlink:href="https://transkribus.eu/Transkribus">https://transkribus.eu/Transkribus</ext-link>.                    <xref ref-type="bibr" rid="eb_S6ZKXJNB">(Kahle et al. 2017)</xref>
+                </p>
+            </fn>
+            <fn id="fn6">
+                <label>6</label>
+                <p>
+                    <ext-link ext-link-type="uri" xlink:href="https://readcoop.eu/">https://readcoop.eu/</ext-link>.
+                </p>
+            </fn>
+            <fn id="fn7">
+                <label>7</label>
+                <p>
+                    <ext-link ext-link-type="uri" xlink:href="https://dlib.biblhertz.it/">https://dlib.biblhertz.it/</ext-link>.
+                </p>
+            </fn>
+            <fn id="fn8">
+                <label>8</label>
+                <p>
+                    <ext-link ext-link-type="uri" xlink:href="https://dlc.mpg.de/index/">https://dlc.mpg.de/index/</ext-link>.
+                </p>
+            </fn>
+            <fn id="fn9">
+                <label>9</label>
+                <p>
+                    <xref ref-type="bibr" rid="eb_8SY3YMAF">(Zathammer 2022)</xref>.
+                </p>
+            </fn>
+            <fn id="fn10">
+                <label>10</label>
+                <p>
+                    <xref ref-type="bibr" rid="eb_MQTHC5Q2">(Transkribus Team 2022)</xref>.
+                </p>
+            </fn>
+            <fn id="fn11">
+                <label>11</label>
+                <p>
+                    <ext-link ext-link-type="uri" xlink:href="https://transkribus.humanitiesconnect.pub">https://transkribus.humanitiesconnect.pub.</ext-link>
+                </p>
+            </fn>
+            <fn id="fn12">
+                <label>12</label>
+                <p>
+                    <ext-link ext-link-type="uri" xlink:href="http://www.kubikat.org/">http://www.kubikat.org/</ext-link>.
+                </p>
+            </fn>
+            <fn id="fn13">
+                <label>13</label>
+                <p>
+                    <ext-link ext-link-type="uri" xlink:href="https://help.transkribus.com/p2pala">https://help.transkribus.com/p2pala</ext-link>.
+                </p>
+            </fn>
+            <fn id="fn14">
+                <label>14</label>
+                <p>I must acknowledge the support of Viviana Nocerino, Iolanda Pagano and Andrea Pecorella for completing this tedious task.</p>
+            </fn>
+            <fn id="fn15">
+                <label>15</label>
+                <p>The conversion workflow was developed with Reto Baumgartner, and will be released as open source once the cleanup and documentation will be finished.</p>
+            </fn>
+            <fn id="fn16">
+                <label>16</label>
+                <p>
+                    <ext-link ext-link-type="uri" xlink:href="https://teipublisher.com/index.html">https://teipublisher.com/index.html</ext-link>.
+                </p>
+            </fn>
+            <fn id="fn17">
+                <label>17</label>
+                <p>
+                    <ext-link ext-link-type="uri" xlink:href="http://rems.humanitiesconnect.pub">http://rems.humanitiesconnect.pub</ext-link>.
+                </p>
+            </fn>
+            <fn id="fn18">
+                <label>18</label>
+                <p>
+                    <ext-link ext-link-type="uri" xlink:href="https://www.dnb.de/EN/Professionell/Standardisierung/GND/gnd_node.html">https://www.dnb.de/EN/Professionell/Standardisierung/GND/gnd_node.html</ext-link>.
+                </p>
+            </fn>
+            <fn id="fn19">
+                <label>19</label>
+                <p>
+                    <ext-link ext-link-type="uri" xlink:href="http://www.geonames.org/">http://www.geonames.org/</ext-link>.
+                </p>
+            </fn>
+            <fn id="fn20">
+                <label>20</label>
+                <p>
+                    <ext-link ext-link-type="uri" xlink:href="https://www.wikidata.org/">https://www.wikidata.org/</ext-link>.
+                </p>
+            </fn>
+        </fn-group>
+    </back>
+</article>

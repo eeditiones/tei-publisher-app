@@ -1,0 +1,29 @@
+<template>
+    ---json
+    {
+        "templating": {
+            "extends": "templates/layouts/content.html"
+        },
+        "features": {
+            "toc": {
+                "enabled": false
+            },
+            "iiif": {
+                "viewer": "pb-facsimile",
+                "enabled": true,
+                "type": "iiif"
+            }
+        }
+    }
+    ---
+    [% template after %]
+    <details>
+        [[ page:transform($doc?content//tei:teiHeader, map { "mode": "sidebar" }, $doc?odd || ".odd") ]]
+    </details>
+    [% endtemplate %]
+    [% template content %]
+    <pb-view class="overflow" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" direction="[[$context?defaults?direction]]">
+        <pb-param name="iiif-viewer" value="pb-facsimile"/>
+    </pb-view>
+    [% endtemplate %]
+</template>

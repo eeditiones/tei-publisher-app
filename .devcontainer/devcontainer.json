@@ -1,0 +1,33 @@
+{
+    "name": "tei-publisher",
+    "build": {
+        "dockerfile": "Dockerfile.dev",
+        "args": {
+            "HTTP_PORT": "8080",
+            "HTTPS_PORT": "8443",
+            "PUBLISHER_LIB_VERSION": "6.0.2",
+            "JINKS_TEMPLATES_VERSION": "1.2.0",
+            "ROUTER_VERSION": "1.11.0",
+            "EXIST_VERSION": "6.4.0",
+            "JWT_VERSION": "2.0.1",
+            "CRYPTO_VERSION": "6.0.1",
+            "INSTALL_NER": "false",
+            "INSTALL_TEXLIVE": "false"
+        }
+    },
+    "runArgs": ["--name=tei-publisher-dev"],
+    "forwardPorts": [ 8080, 8443 ],
+    "customizations": {
+        "vscode": {
+            "extensions": [ "exist-db.existdb-vscode", "42crunch.vscode-openapi", "redhat.vscode-xml" ]
+        }
+    },
+    "overrideCommand": false,
+    "postCreateCommand": [
+        "${containerWorkspaceFolder}/.devcontainer/init.sh"
+    ],
+    
+    "features": {
+    
+    }
+}

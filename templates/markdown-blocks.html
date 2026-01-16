@@ -1,0 +1,24 @@
+<template>
+    [% template document-download %]
+    [% if empty($options?media) or "markdown" = $options?media %]
+    <li>
+        <a href="[[ $context-path ]]/markdown/[[ $options?relpath ]]">Markdown Preview</a>
+    </li>
+    <li>
+        <a href="[[ $context-path ]]/api/document/[[ escape-uri($options?relpath, true()) ]]/md" target="_blank">Markdown
+            Text</a>
+    </li>
+    [% endif %]
+    [% endtemplate %]
+    [% template menu.download %]
+    [% if empty($context?media) or "markdown" = $context?media %]
+    <li>
+        <a href="[[ $context-path ]]/markdown/[[ $context?doc?path ]]">Markdown Preview</a>
+    </li>
+    <li>
+        <a href="[[ $context-path ]]/api/document/[[ encode-for-uri($context?doc?path) ]]/md" target="_blank">Markdown
+            Text</a>
+    </li>
+    [% endif %]
+    [% endtemplate %]
+</template>

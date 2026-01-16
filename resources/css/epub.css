@@ -1,0 +1,92 @@
+/*********************** Fonts ***********************/
+
+@font-face {
+  src: url('Fonts/Junicode.ttf') format('truetype');
+}
+@font-face {
+  src: url('Fonts/Junicode-Bold.ttf') format('truetype');
+}
+@font-face {
+  src: url('Fonts/Junicode-Italic.ttf') format('truetype');
+}
+@font-face {
+  src: url('Fonts/Junicode-BoldItalic.ttf') format('truetype');
+}
+
+/*********************** Base ***********************/
+body {
+  font-family: "Junicode", Georgia, "Times New Roman", serif;
+  hyphens: auto;
+  -epub-hyphens: auto;
+  line-height: 1.42857;
+  orphans: 2;
+  widows: 2;
+}
+
+h1,h2,h3,h4 {
+    margin-top: 2em;
+    margin-bottom: 1em;
+    page-break-after: avoid;
+    page-break-inside: avoid;
+}
+
+h1 { font-size: 2.441em; }
+h2 { font-size: 1.953em; }
+h3 { font-size: 1.563em; }
+h4 { font-size: 1.25em; }
+
+
+/* Tables */
+.table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.table td {
+    font-size: 0.875em;
+    padding: 15px 12px;
+    line-height: 1.5;
+    vertical-align: top;
+}
+
+.table-bordered {
+  border: 1px solid #e4e4e4;
+}
+
+.table-bordered td {
+  border: 1px solid #e4e4e4;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #f8f7f5;
+}
+
+.table-head {
+    text-align: left;
+}
+
+/* Code */
+.code {
+    font-size: .85em;
+    white-space: pre-wrap;
+}
+
+/* Quotes */
+blockquote cite {
+  display: block;
+  text-align: right;
+}
+
+/* Images */
+.tei-graphic {
+  width: 100%;
+}
+
+/* Notes */
+.noteref {
+  font-size: x-small;
+  vertical-align: super;
+}
+.pagebreak {
+    display: none;
+}

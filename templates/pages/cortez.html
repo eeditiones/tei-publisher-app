@@ -1,0 +1,45 @@
+<template>
+    ---json
+    {
+        "templating": {
+            "extends": "templates/layouts/content.html"
+        },
+        "urls": {
+            "ignore": "selectors"
+        },
+        "script": {
+            "extra-components": [
+                "pb-tify"
+            ]
+        },
+        "features": {
+            "toc": {
+                "enabled": false
+            },
+            "iiif": {
+                "viewer": "pb-tify",
+                "enabled": true
+            }
+        },
+        "theme": {
+            "layout": {
+                "after-width": "30vw"
+            }
+        }
+    }
+    ---
+    [% template toolbar %]
+    <li>
+        <pb-toggle-feature name="p_norm" selector=".choice,.choice-alternate,br" emit="transcription" subscribe="transcription" class="light">
+            <pb-i18n key="document.normalized">Normalized View</pb-i18n>
+        </pb-toggle-feature>
+    </li>
+    <li>
+        <pb-toggle-feature name="p_highlight" selector=".tei-foreign,pb-highlight,pb-popover" action="disable" default="off" emit="transcription" subscribe="transcription" class="light">
+            <pb-i18n key="document.plain">Plain Reading View</pb-i18n>
+        </pb-toggle-feature>
+    </li>
+    [% endtemplate %]
+    <pb-view id="view1" src="document1" xpath="//text[@type='source']" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" wait-for="#facsimile"/>
+    <pb-view id="view2" src="document1" map="cortez-translation" xpath="//text[@type='source']" subscribe="transcription" column-separator=".tei-cb" append-footnotes="append-footnotes"/>
+</template>

@@ -1,0 +1,152 @@
+<nav class="menubar">
+    <ul>
+        <li class="logo">
+            <a href="[[ head(($context?defaults?site-root, $context-path)) ]]"/>
+        </li>
+        [% for $item in $menu?items?* %]
+        [% if $item?url or $item?url = ''%]
+        [% let $url = if (starts-with($item?url, 'http')) then $item?url else $context-path || '/' || $item?url %]
+        <li class="hidden-mobile">
+            <a href="[[ replace($url, 'browse\.html', $context?defaults?browse) ]]">
+                <pb-i18n key="menu.[[ $item?id ]]">[[ $item?id ]]</pb-i18n>
+            </a>
+        </li>
+        [% endlet %]
+        [% elif exists($item?subitems) %]
+            <li>
+                <details class="dropdown">
+                    <summary><pb-i18n key="menu.[[ $item?id ]]">[[ $item?id ]]</pb-i18n></summary>
+                    <ul>
+                        [% for $subitem in $item?subitems?* %]
+                        <li>
+                            <a href="[[ $context-path ]]/[[ replace($subitem?url, 'browse\.html', $context?defaults?browse) ]]"><pb-i18n key="menu.[[ $subitem?id ]]">[[ $subitem?id ]]</pb-i18n></a>
+                        </li>
+                        [% endfor %]
+                    </ul>
+                </details>
+            </li>
+        [% endif %]
+        [% endfor %]
+
+        [# display download menu if in document view #]
+        [% if exists($context?doc) and $menu?download %]
+        <li class="hidden-mobile">
+            <details class="dropdown">
+                <summary><pb-i18n key="menu.download.title">Download</pb-i18n></summary>
+                <ul>
+                    <li>
+                        <pb-edit-xml src="document1" data-i18n="[title]menu.download.view-tei" title="view-tei">
+                            Edit XML
+                        </pb-edit-xml>
+                    </li>
+                    <li>
+                        <a href="[[ $context-path ]]/api/document/[[ $context?doc?path ]]" title="download-tei" target="_blank">
+                            View XML
+                        </a>
+                    </li>
+                    [% if empty($context?media) or "print" = $context?media %]
+                    <li>
+                        <a href="[[ $context-path ]]/print/[[ $context?doc?path ]]?odd=[[$context?doc?odd]]" target="_blank">Print CSS</a>
+                    </li>
+                    [% endif %]
+                    [% if empty($context?media) or "latex" = $context?media %]
+                    <li>
+                        <pb-download type="tex" src="document1" dialog="downloadDialog" data-i18n="[title]menu.download.pdf-latex" title="i18n(pdf-latex)">
+                            <pb-i18n key="menu.download.pdf-latex">Download</pb-i18n>
+                        </pb-download>
+                    </li>
+                    [% endif %]
+                    [% if empty($context?media) or "latex" = $context?media %]
+                    <li>
+                        <pb-download type="tex" src="document1" dialog="downloadDialog" data-i18n="[title]menu.download.pdf-latex" title="i18n(pdf-latex)" source="source">
+                            <pb-i18n key="menu.download.latex-source"/>
+                        </pb-download>
+                    </li>
+                    [% endif %]
+                    [% if empty($context?media) or "fo" = $context?media %]
+                    <li>
+                        <pb-download type="pdf" src="document1" dialog="downloadDialog" data-i18n="[title]menu.download.pdf-fo" title="i18n(pdf-fo)">
+                            <pb-i18n key="menu.download.pdf-fo"/>
+                        </pb-download>
+                    </li>
+                    [% endif %]
+                    [% if empty($context?media) or "fo" = $context?media %]
+                    <li>
+                        <pb-download type="pdf" src="document1" dialog="downloadDialog" data-i18n="[title]menu.download.fo-source" title="pdf-fo" source="source">
+                            <pb-i18n key="menu.download.fo-source"/>
+                        </pb-download>
+                    </li>
+                    [% endif %]
+                    [% if empty($context?media) or "epub" = $context?media %]
+                    <li>
+                        <pb-download type="epub" src="document1" dialog="downloadDialog">
+                            ePUB
+                        </pb-download>
+                    </li>
+                    [% endif %]
+                    [% block menu.download %][% endblock %]
+                </ul>
+            </details>
+        </li>
+        [% endif %]
+
+        <li class="hidden-mobile">
+            <pb-restricted group="[[ $pkg?user?group ]]">
+                <details class="dropdown">
+                    <summary><pb-i18n key="menu.admin.title">Admin</pb-i18n></summary>
+                    <ul>
+                        [% for $odd in $config:odd-available %]
+                        <li><a href="[[$context-path]]/odd-editor.html?odd=[[$odd]]" target="_blank"><pb-i18n key="menu.admin.edit-odd">Edit ODD</pb-i18n>: [[$odd]]</a></li>
+                        [% endfor %]
+                        <li>
+                            <a href="[[ $context-path ]]/api.html" target="_blank">API Documentation</a>
+                        </li>
+                        <li>
+                            <a href="https://cdn.tei-publisher.com/" target="_blank">Webcomponents API</a>
+                        </li>
+                        <li>
+                            <pb-download url="api/apps/download" dialog="downloadDialog">
+                                <pb-i18n key="appgen.xar-download">Download App as .xar</pb-i18n>
+                            </pb-download>
+                        </li>
+                        [% block menu.admin %][% endblock %]
+                    </ul>
+                </details>
+            </pb-restricted>
+        </li>
+        [% block menu.left %][% endblock %]
+    </ul>
+    <ul>
+        [% if $menu?search %]
+        <li class="hidden-mobile">
+            [% if $context('isStatic') %]
+            <form action="[[ $context-path ]]/search.html">
+                <input type="search" value="" name="query" placeholder="" data-i18n="[placeholder]search.placeholder"/>
+            </form>
+            [% else %]
+            <pb-search action="[[ $context-path ]]/search.html" value="[[ page:parameter($context, 'query', '') ]]" redirect="redirect"/>
+            [% endif %]
+        </li>
+        [% endif %]
+        [% if $menu?language %]
+        <li class="hidden-mobile">
+            <pb-lang name="lang">
+                [% for $lang in filter(map:keys($languages), function($lang) { contains($context?defaults?languages?*, $lang) }) %]
+                <option value="[[ $lang ]]">[[ $languages?($lang) ]]</option>
+                [% endfor %]
+            </pb-lang>
+        </li>
+        [% endif %]
+        [% block menu.toggles %][% endblock %]
+        [% if $menu?login and not($context?isStatic) %]
+        <li class="hidden-mobile">
+            <pb-login id="login" group="[[ $pkg?user?group ]]"/>
+        </li>
+        [% endif %]
+        <li class="mobile trigger">
+            <button data-toggle=".mobile.menubar">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 160h352M80 256h352M80 352h352"/></svg>
+            </button>
+        </li>
+    </ul>
+</nav>

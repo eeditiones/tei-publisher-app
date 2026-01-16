@@ -1,0 +1,179 @@
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?><TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="landing">
+   <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title>Edition Landing Page</title>
+         </titleStmt>
+         <publicationStmt>
+            <p>Publication Information</p>
+         </publicationStmt>
+         <sourceDesc>
+            <p>Information about the source</p>
+         </sourceDesc>
+      </fileDesc>
+   </teiHeader>
+   <text>
+      <body>
+         <div type="hero" xml:lang="en" rend="two-column">
+            <head><graphic url="resources/images/tei-publisher-logo-contrast-color.svg"/></head>
+            <p>Sustainable publishing toolbox – rooted in standards, built by the community, meant to last</p>
+            <list type="links">
+               <item><ref target="#highlights">explore</ref></item>
+               <item><ref target="doc/quickstart.xml">quickstart</ref></item>
+            </list>
+         </div>
+         <div type="about" xml:lang="en" n="About" rend="two-column">
+            <head>Working environment for creating and publishing of digital scholarly
+               editions</head>
+            <p>TEI Publisher is designed as a working environment for creating and publishing of
+               digital scholarly editions. Editions created with this framework are aiming to meet
+               the varied needs of several humanities disciplines (textual scholarship, literary
+               studies, linguistics, history and more). TEI Publisher builds on what is common, at
+               the same time providing the choice and customisation possibilities to the editors and
+               developers.</p>
+            <p>The platform follows the international standard for the encoding of textual data,
+               TEI, and bases its visualisations on TEI Publisher. As a result, it enables
+               publication of different types of material: from the basic presentation of texts and
+               documents in digital form to the most complex scholarly editions. There is room for
+               various forms of textual delivery (transcriptions, translations, facsimiles) and
+               annotations.</p>
+            <p>Tools and working environment are not enough. To best serve the needs of editors, a
+               consistent and efficient process for creating and publishing digital scholarly
+               editions is needed. This project is offering such a process. It includes sets of good
+               practices and workflows and takes into account both how scholarly editors work and
+               how IT specialists, responsible for the technical side of editions, complete their
+               tasks.</p>
+         </div>
+         
+         <div type="highlights" xml:lang="en">
+            <head>Explore</head>
+            <list>
+               <item n="Documentation + Demo">
+                  <desc><ref target="#">Documentation and Demo</ref></desc>
+                  <note>Start here to explore the features of TEI Publisher and read the extensive documentation.</note>
+                  <ptr type="image" target="resources/images/books.jpg"/>
+                  <list type="links">
+                     <item><ref target="#">Open</ref></item>
+                  </list>
+               </item>
+               <item n="Demo" corresp="https://e-editiones.org/apps/tp-serafin">
+                  <desc><ref target="/exist/apps/tp-serafin">Correspondence Edition</ref></desc>
+                  <note>Showcases a typical correspondence edition using the letters to Mikołaj
+                     Serafin as an example. Highlights: parallel view with transcription and
+                     translation, entity register of people and places, correspondence navigation
+                     and a timeline.</note>
+                  <ptr type="image" target="resources/images/header-bg.jpg"/>
+                  <list type="links">
+                     <item><ref target="/exist/apps/tp-serafin">Open</ref></item>
+                  </list>
+               </item>
+               <item n="Demo" corresp="https://e-editiones.org/apps/tp-workbench">
+                  <desc><ref target="/exist/apps/tp-workbench">Workbench</ref></desc>
+                  <note>TEI Publisher also provides tools to simplify the edition workflow: the
+                     web-based annotation editor helps to extend a base transcription with semantic
+                     and other information, while JinnTap is an online editor for working directly
+                     on a TEI text.</note>
+                  <ptr type="image" target="resources/images/typewriter2.jpg"/>
+                  <list type="links">
+                     <item><ref target="/exist/apps/tp-workbench">Open</ref></item>
+                  </list>
+               </item>
+               <item n="Manage">
+                  <desc><ref target="/exist/apps/jinks" rend="new">Jinks</ref></desc>
+                  <note>Jinks is TEI Publisher's central application manager. Use it to maintain or kickstart new applications.</note>
+                  <ptr type="image" target="resources/images/library.jpg"/>
+                  <list type="links">
+                     <item><ref target="/exist/apps/jinks" rend="new">Open</ref></item>
+                  </list>
+               </item>
+            </list>
+         </div>
+         <div type="section" xml:lang="en" n="About" rend="two-column">
+            <head>About Us</head>
+            <p>TEI Publisher is a community effort based on ideas and contributions by TEI
+               enthusiasts all over the world, <ref target="https://www.gnu.org/licenses/gpl-3.0.en.html">licensed under the
+                  GPLv3</ref>. Initially inspired by the vision behind the TEI Processing Model -
+               work of the late Sebastian Rahtz and other members of the TEI Simple project of 2015
+               - it continues to evolve into what you can see today. This is only possible thanks to
+               contributions of developers, users and institutions having concrete publication
+               projects and willing to employ <hi rend="bold">Open Source first</hi> approach so the
+               whole community can reuse and benefit from their work.</p>
+            <div>
+               <head>Brought to you by</head>
+               <figure>
+                  <graphic url="resources/images/e-editiones-logo-color-inverted.svg" width="220px"/>
+               </figure>
+               <p>TEI Publisher is not a <hi rend="bold">commercial project</hi>. We strongly
+                  believe in Open Source, <hi rend="bold">standards and reusability</hi>. The TEI
+                  Processing Model and TEI Publisher are a major step towards true interoperability,
+                  reusablity and sustainability. To further promote these goals and build a strong
+                  community, a number of smaller and larger edition projects, cultural heritage
+                  institutions and single researchers came together in May 2020 to found
+                  e-editiones.org, which now hosts the TEI Publisher source code and coordinates its
+                  development.</p>
+
+               <p>During the past few years a growing number of projects from small to large have
+                  decided to publish their materials with the TEI Publisher. It gives us all not
+                  only the opportunity but also the responsibility to make the project thrive for
+                  years to come and to make it truly sustainable option for XML publishing!</p>
+
+               <p>While we are very happy with the achievements so far, we still have a much broader
+                  vision to fulfill. To make this happen we invite the community to contribute to
+                  the project - by means of code, ideas, documentation, tutorials and funding.</p>
+
+               <p>You don't have to be a developer to contribute, you can do so in a number of
+                  ways!</p>
+               <list>
+                  <item>Check out the source code, modify it, document it, enhance it.</item>
+                  <item>Create new or enhance existing example documents and ODDs so we present
+                     showcases for various TEI applications.</item>
+                  <item>Report your issues, feature requests or ideas for discussion on the issue
+                     tracker.</item>
+                  <item>Discuss with us on the #community room on the e-editiones slack or write to
+                     the mailing list.</item>
+                  <item>Port back your custimizations to the TEI Publisher code base so others can
+                     use it too (or ask us to do it for you)!</item>
+                  <item>Help and mentor others - publish teaching materials, answer questions on our
+                     Slack channel, mailing list and other forums.</item>
+                  <item>Sponsor a concrete feature or fund a development grant.</item>
+               </list>
+            </div>
+            <div>
+               <head>Support</head>
+               <p>While we have strong evidence to prove that publishing with the TEI Publisher is a
+                  really fast way to get a state of the art edition on-line it may still not be
+                  everyone's cup of tea. We're there to help and we promise it will help everyone
+                  else too!</p>
+
+               <p>TEI Publisher's development so far was mainly funded by projects having concrete
+                  publication needs. If you have a digital edition to publish and would like to give
+                  TEI Publisher a try, contact us at Jinntec and we commit to port any feature with
+                  more general interest back to the TEI Publisher.</p>
+            </div>
+         </div>
+         
+         <div type="partners" xml:lang="en" n="Partners">
+            <head>Project Team &amp; Partners</head>
+            <p>The Jinks edition project is brought to life by</p>
+            <list rend="partner-logos">
+               <item>
+                  <ref type="uri" target="https://jinntec.de">
+                     <graphic url="resources/images/jinntec.svg"/>
+                  </ref>
+               </item>
+               <item>
+                  <ref type="uri" target="https://e-editiones.org">
+                     <graphic url="resources/images/e-editiones-logo-color.svg"/>
+                  </ref>
+               </item>
+               <item>
+                  <ref type="uri" target="https://tei-c.org">
+                     <graphic url="resources/images/tei-with-text.svg"/>
+                  </ref>
+               </item>
+            </list>
+         </div>
+      </body>
+   </text>
+</TEI>

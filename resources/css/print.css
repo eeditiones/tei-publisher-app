@@ -1,0 +1,103 @@
+@media print {
+
+    @prince-pdf {
+        -prince-pdf-page-layout: two-column-right;
+    }
+
+    @page {
+        size: A4;
+
+        @footnote {
+            float: bottom;
+            margin-top: 1em;
+            font-size: var(--jinks-footnote-font-size);
+            font-family: var(--jinks-content-font-family);
+            font-weight: var(--jinks-content-font-weight);
+            color: var(--jinks-footnote-color);
+        }
+    }
+
+    @page:left {
+        margin-left: 3cm;
+        margin-right: 2cm;
+
+        @bottom-left-corner {
+            content: counter(page);
+        }
+    }
+
+    @page:right {
+        margin-left: 2cm;
+        margin-right: 3cm;
+
+        @bottom-right-corner {
+            content: counter(page);
+        }
+    }
+
+    body {
+        font-family: var(--jinks-content-font-family);
+        font-size: var(--jinks-content-font-size);
+        line-height: var(--jinks-base-line-height);
+    }
+    
+    .footnote {
+        float: footnote;
+        counter-increment: footnote;
+        padding: var(--pb-footnote-padding);
+    }
+
+    ::footnote-call {
+        content: counter(footnote, decimal);
+        font-size: var(--jinks-footnote-font-size);
+        vertical-align: super;
+        line-height: 1;
+    }
+
+    ::footnote-marker {
+        content: counter(footnote-marker, decimal) ". ";
+        font-size: var(--jinks-footnote-font-size);
+        vertical-align: super;
+    }
+
+    @supports (-prince-float: sidenote) {
+        ::footnote-marker {
+            content: counter(footnote, decimal) ". ";
+        }
+    }
+
+    pb-code-highlight {
+        --pb-code-highlight-white-space: pre-wrap;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        break-after: avoid;
+        font-family: var(--jinks-heading-font-family);
+        line-height: var(--jinks-heading-line-height);
+        font-weight: var(--jinks-heading-font-weight);
+    }
+
+    h1 {
+        font-size: var(--jinks-h1-font-size);
+        font-weight: var(--jinks-h1-font-weight);
+        line-height: var(--jinks-h1-line-height);
+    }
+
+    h2 {
+        font-size: var(--jinks-h2-font-size);
+        font-weight: var(--jinks-h2-font-weight);
+        line-height: var(--jinks-h2-line-height);
+    }
+
+    h3 {
+        font-size: var(--jinks-h3-font-size);
+        font-weight: var(--jinks-h3-font-weight);
+        line-height: var(--jinks-h3-line-height);
+    }
+
+    h4 {
+        font-size: var(--jinks-h4-font-size);
+        font-weight: var(--jinks-h4-font-weight);
+        line-height: var(--jinks-h4-line-height);
+    }
+}

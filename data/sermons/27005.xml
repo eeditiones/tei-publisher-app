@@ -1,0 +1,455 @@
+<?teipublisher view="single"?><TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="kbga-texts-27005">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="volume" n="vol-27">Predigten 1915</title>
+        <title type="content">Predigt: Matthäus 11,12</title>
+        <title type="citation_line_1">Barth, Karl: Predigt: Matthäus 11,12, 24. Januar 1915</title>
+        <title type="citation_line_2">https://kbga.karl-barth.ch/texts/27005 (Stand: 21. Mai
+          2025)</title>
+        <title type="citation_line_3">Druck: Karl Barth, Predigten 1915, hrsg. v. Schmidt, Hermann
+          (Gesamtausgabe, Abt. I), Zürich 1996, S. 22–33.</title>
+      </titleStmt>
+      <editionStmt>
+        <edition>Digitale Karl Barth-Gesamtausgabe</edition>
+        <sponsor>Schweizerische Akademie der Geistes- und Sozialwissenschaften (SAGW)</sponsor>
+        <sponsor>Schweizerischer Nationalfonds (SNF)</sponsor>
+        <sponsor>Karl Barth-Stiftung</sponsor>
+      </editionStmt>
+      <publicationStmt>
+        <publisher>Karl Barth-Archiv</publisher>
+        <pubPlace>Basel</pubPlace>
+        <date when="2025">2025</date>
+        <availability>
+          <licence target="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons BY-SA
+            4.0</licence>
+        </availability>
+        <idno type="url">https://kbga.karl-barth.ch/texts/27005</idno>
+      </publicationStmt>
+      <sourceDesc>
+        <!-- The printed Gesamtausgabe -->
+        <bibl type="pga" xml:id="pga">
+          <title type="volume">Predigten 1915</title>
+          <title type="text">Predigt: Matthäus 11,12</title>
+          <author ref="kba-actors-2151">Barth, Karl</author>
+          <editor>Schmidt, Hermann</editor>
+          <pubPlace>Zürich</pubPlace>
+          <publisher>Theologischer Verlag</publisher>
+          <date type="publication">1996</date>
+          <biblScope unit="page">Pp. 22-33</biblScope>
+          <!--position within a volume-->
+          <biblScope unit="part">5</biblScope>
+        </bibl>
+        <!-- The first digital edition (data from xml and database) -->
+        <bibl type="asp" xml:id="asp">
+          <title type="edition">Princeton Barth Project edition</title>
+          <title type="text">electronic edition of Karl Barth, Gesamtausgabe I.27, Predigten 1915,
+            sermon 256</title>
+          <author ref="kba-actors-2151">Barth, Karl</author>
+          <editor>James R. Adair, Jr.</editor>
+          <editor>Timothy J. Finney</editor>
+          <editor>Christian Kelm</editor>
+          <pubPlace>Princeton</pubPlace>
+          <publisher>Alexander Street Press</publisher>
+          <date type="publication">2001</date>
+        </bibl>
+        <!-- Data from KBA (https://kba.karl-barth.ch) -->
+        <bibl xml:id="A" type="source">A (Vorlage der Edition): Barth, Karl, Predigt: Mt 11,12, 24.
+          Januar 1915. <ref target="https://kba.karl-barth.ch/objects/1697">KBA 1234</ref>. </bibl>
+        <!-- we should provide more types: <bibl type="not-found-in-kba"></bibl> <bibl type="not-in-kba"></bibl>  -->
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date type="creation" when="1915-01-24">24. Januar 1915</date>
+      </creation>
+      <langUsage>
+        <language ident="ger">German</language>
+      </langUsage>
+      <textClass>
+        <keywords>
+          <term>sermon</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+    <revisionDesc>
+      <change when="2025-05-21T08:18:25+02:00">teiHeader was automatically produced from the
+        database 2025-05-21T08:18:25+02:00</change>
+    </revisionDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="sermon">
+        <pb xml:id="p022" ed="pga" rend="noPipe"/>
+        <div type="opener">
+          <head>
+            <idno>256</idno>
+          </head>
+          <dateline>
+            <placeName key="kbga-places-54">Safenwil</placeName>, Sonntag, den <date when="1915-01-24">24. Januar 1915</date>
+          </dateline>
+          <epigraph>
+            <cit>
+              <ref type="can" subtype="bible" target="Mt.11.12">Matthäus 11,12<note xml:id="n01">Über diesen Text wollte Barth am Sonntag, 17. 1. predigen,
+                  aber am Samstag, 16. 1. wurde er «auf einmal in die Stille geführt durch eine
+                  plötzlich hervorbrechende Influenza … Da lag ich nun, und an meiner Stelle
+                  predigte der Helfer über die Weisen aus dem Morgenlande!» (<bibl corresp="kbga-bibls-931">Bw.Th. I, <ref type="pub" target="3020">S.
+                      24</ref></bibl>).</note></ref>
+              <quote>Von den Tagen Johannes des Täufers an bis jetzt wird das Himmelreich gestürmt,
+                und die Stürmer reißen es an sich.</quote>
+            </cit>
+          </epigraph>
+          <salute>Liebe Freunde!</salute>
+        </div>
+        <div type="main">
+          <p>Das ist nun gewiß ein Wort Jesu, das Viele von uns in diesem Augenblick zum ersten Mal
+            gehört haben. Und kein Pfarrer darf es uns übelnehmen, wenn es uns unbekannt und
+            fremdartig vorkommt. Denn es ist wirklich, obwohl es in allen unseren Bibeln steht, ein
+            fremdartiges, außerordentliches Wort. Man kann von ihm nicht sagen, daß es für alle
+            Zeiten und Lebenslagen wahr und gut sei. Es ist nicht gesundes Hausbrot für alle Tage,
+            sondern starke Speise für besondere Zeiten. Denn <pb xml:id="p023" ed="pga"/> auch das
+            Gottesreich kennt «gewöhnliche» Zeiten, lange Tage, Wochen, Jahre und Jahrhunderte, wo
+            scheinbar gar nichts oder fast nichts sich rührt und bewegt, Zeiten des Wartens und
+            Reifens und Welkens — und dann wieder besondere Zeiten, wo etwas fertig wird und etwas
+            Neues anfängt, wo die Ernte in die Scheunen gebracht und das Unkraut verbrannt [vgl.
+              <ref type="can" subtype="bible" target="Mt.13.30">Mt. 13,30</ref>] und neue Saat
+            ausgeworfen wird. Und für beide Arten von Zeiten hat Gott verschiedene Arten, mit uns zu
+            reden. In den «gewöhnlichen» Zeiten, da heißt er uns still unsere tägliche Pflicht tun
+            und treu unseres Lebens Last und Mühe tragen und bescheiden unser Möglichstes tun für
+            seine große Sache. Alles in herzlicher Liebe zu ihm, der uns zuerst geliebt hat [vgl.
+              <ref type="can" subtype="bible" target="1.Joh.4.19">1.Joh. 4,19</ref>], und in der
+            frohen Zuversicht, daß alle Dinge zum Besten dienen müssen denen, die ihm gehorsam sind
+            [vgl. <ref type="can" subtype="bible" target="Röm.8.28">Röm. 8,28</ref>]. Nicht als ob
+            das etwas Geringeres wäre. Gottes ist der Werktag so gut wie der Sonntag. Unendlich viel
+            Gnade verdanken wir der Gotteswahrheit des Werktags. Und wir werden uns wohl nicht
+            rühmen wollen, wir hätten mit dieser Gotteswahrheit des Werktags schon so ernst gemacht,
+            wie es sein müßte. Aber darum ist’s doch nicht weniger wahr, daß von Zeit zu Zeit
+            Sonntage anbrechen im Gottesreich, an denen Gott in einer ganz besonderen Sprache mit
+            uns redet, die wir am Werktag gar nicht verstehen würden. Wohl sind’s dieselben reinen,
+            ewigen Worte vom Glauben, von der Liebe, von der Hoffnung, die wir da vernehmen, aber
+            mit einem ganz anderen hellen, fröhlichen, entschiedeneren Ton:</p> 
+            <quote rend="block">
+              <lg>
+                <l>Beschwertes Herz, leg ab die Sorgen,</l>
+                <l>erhebe dich, gebeugtes Haupt;</l>
+                <l>es naht der angenehme Morgen,</l>
+                <l>da Gott zu ruhen hat erlaubt!<note xml:id="n02">Strophe 1 des Liedes von <bibl corresp="kbga-bibls-2004">
+                      <persName key="kbga-actors-5864">Chr. Wegleiter</persName> (1659–1706), z.B.
+                      in: <hi rend="italic">Gesangbuch für die evangelisch-lutherischen Gemeinden
+                        des Herzogthums Oldenburg</hi>, Oldenburg 1868<edition rend="sup">2</edition>, Nr. 11</bibl>
+                  </note>
+                </l>
+              </lg>
+            </quote> 
+            <p>Ja, zu ruhen, weil er selber nun sichtbar etwas schafft, zu ruhen, d.h. ihn
+            anzuschauen und seiner wieder einmal froh und gewiß zu werden, was uns in der Arbeit und
+            Sorge des Alltags oft so schwer wurde. Was wären die Werktage ohne die Kraftquelle des
+            Sonntags!?, nicht wahr, das wissen wir. Heute heißt es nicht: schaff! und: dulde
+              dich!<note xml:id="n03">Vgl. <bibl corresp="kbga-bibls-98">
+                <hi rend="italic">Deutsches Wörterbuch</hi> von <persName key="kbga-actors-2031">J.
+                  Grimm</persName> und <persName key="kbga-actors-2032">W. Grimm</persName>,
+                Neubearbeitung, hrsg. von der Akademie der Wissenschaften der DDR in Zusammenarbeit
+                mit der Akademie der Wissenschaften in Göttingen, Bd. VI, Leipzig 1983, Sp. 1477
+                s.v. Dulden</bibl>: «refl.: 1642 dulde dich doch unterdessen ZESEN rosenwälder 63.
+              1850 mußt dich dulden, mußt warten lernen GOTTHELF 17, 301 H.B.»</note> und: hal<pb xml:id="p024" ed="pga" break="no"/>te dich an Gottes Gebot!, heute heißt es: glaube
+            nur! [<ref type="can" subtype="bible" target="Mk.5.36">Mk. 5,36</ref>], laß dich nur
+            beschenken!, laß dich nur bescheinen und erfüllen von Gottes Herrlichkeit und Majestät!
+            Nichts Anderes hast du jetzt zu tun, als Gott gelten zu lassen und dich über ihn zu
+            freuen — das Andere wird dann schon wieder kommen. O dieses wundervolle Heute! O diese
+            wundervollen besonderen Zeiten im Gottesreich, uns gegeben, daß wir ruhen sollen von
+            unseren Werken [vgl. <ref type="can" subtype="bible" target="Apk.14.13">Apk.
+            14,13</ref>], um Gottes Werke anzuschauen! Nicht wahr, wir verstehen uns: nicht um
+            faulenzerisch einen Frieden und eine Klarheit zu genießen, die dann gar nichts bedeuten
+            für das übrige Leben, nicht um eine trügerische grüne Sonntagsinsel zu bauen mitten im
+            trostlosen Sand unseres werktäglichen Daseins, nein, damit unsere kommenden Werktage
+            anders, besser, edler, sonniger werden, als es die vergangenen waren, damit unsere
+            Werktage immer sonntäglicher werden, damit die ewig gleiche Gotteswahrheit kräftig und
+            kräftiger werde auch in unseren gewöhnlichen Zeiten, bis es einmal — wir wagen es kaum
+            zu denken — nur noch Sonntag sein wird, weil Gott es bei uns gewonnen hat! Für solche
+            Sonntage und besondere Zeiten im Gottesreich ist das außerordentliche Wort Jesu von den
+            Stürmern des Himmelreichs. Wer Ohren hat zu hören, der höre! [<ref type="can" subtype="bible" target="Mk.4.9">Mk. 4,9</ref> u.ö.]. Wer es gemerkt hat, daß jetzt
+            eine besondere Zeit ist, der tue sein Herz auf dem besonderen Wort, das Gott jetzt mit
+            uns reden will!</p>
+          <p>Es war eine besondere Zeit «von den Tagen <persName key="kbga-actors-2206">Johannes des
+              Täufers</persName> bis jetzt», als Jesus das sagte. Eine Zeit der Vollendung und des
+            gewaltigen Neuanfangs. Ein Wendepunkt in der Geschichte der Menschen. Das Reich Gottes
+            trat nach langen Jahrhunderten der Stille und des scheinbaren Stillstandes wieder in
+            entscheidende Bewegung. Die Sünde wurde abgelöst durch die Wahrheit, das Gesetz und die
+            Moral überwunden durch die freie Gerechtigkeit, die Reiche der Welt ersetzt durch das
+            Reich des lebendigen Geistes, das Gefängnis der Selbstsucht aufgetan durch die Kraft der
+            Liebe. Blinde sehen und Lahme gehen, Aussätzige werden rein und Taube hören, Tote werden
+            erweckt, und den Armen wird die frohe Botschaft verkündet [<ref type="can" subtype="bible" target="Mt.11.5">Mt. 11,5</ref>]. Nie seit den Zeiten des <persName key="kbga-actors-2228">Mose</persName> und der Propheten war Gott den Menschen so
+            nahegetreten, und <pb xml:id="p025" ed="pga"/> hier war mehr als Mose, mehr als
+              <persName key="kbga-actors-2281">Elia</persName>. Das alles war gekommen in dem
+            schlichten Mann von <placeName key="kbga-places-948">Nazareth</placeName>, der unter der
+            Bußpredigt des <persName key="kbga-actors-2206">Johannes</persName> den Ruf des Vaters
+            vernommen hatte: du bist mein lieber Sohn! [<ref type="can" subtype="bible" target="Mk.1.11">Mk. 1,11</ref> par.], in dessen Seele es zur Gewißheit geworden, daß
+            das Reich Gottes, das jener verkündigte, nahe herbeigekommen sei [<ref type="can" subtype="bible" target="Mk.1.15">Mk. 1,15</ref> par.]. In ihm war der neue Mensch
+            erschienen, der Mensch der Sehnsucht und der Verheißung. Und in ihm war die neue Welt
+            da, die Welt des Vaters und der Brüder. Er lebte in dieser Welt und war zugleich ihr
+            Bote für die Anderen, die sie noch nicht entdeckt hatten. Als ein treuer Wächter ging
+            er, sie zu wecken, daß sie die Gelegenheit nicht versäumten. Denn er wußte, daß wie
+            vorher so auch nachher wieder lange gewöhnliche Zeiten kommen würden, Zeiten, in denen
+            die Menschen leben müßten von dem, was sie jetzt in sich aufnahmen. Und so rief er ihnen
+            zu: glaubet an das Licht, dieweil ihr es habt, auf daß ihr des Lichtes Kinder seid!
+              [<ref type="can" subtype="bible" target="Joh.12.36">Joh. 12,36</ref>]. In dieser Zeit,
+            sagte er ihnen, wird das Himmelreich gestürmt, und die Stürmer reißen es an sich!</p>
+          <p>Die Stürmer! Es braucht jetzt etwas Anderes als sonst: nicht bloß stille Arbeiter und
+            Dulder und Beter, sondern Stürmer: Menschen, die mit Klugheit den einzigartigen Moment
+            wahrnehmen, die es merken: jetzt ist eine Gelegenheit da, die es zu ergreifen gilt.
+            Menschen, die den Willen haben, einen Entschluß zu fassen und auszuführen, die sich
+            nicht fürchten, ihre Seele packen zu lassen von den mächtigen Kräften des nahenden
+            Gottesreichs. Menschen, die sich nicht bedenken, sich herausreißen zu lassen aus
+            allerhand bequemen Stimmungen und Gedanken und Gewohnheiten, etwas dranzugeben, selbst
+            wenn es etwas sehr Liebes wäre, sich selber zu opfern, wenn es sein muß, weil es ein
+            Ziel gibt, das unendlich viel mehr gilt als Alles, was wir haben und verlieren können.
+            Menschen, die mit kühner Rücksichtslosigkeit nur noch auf den Ruf hören: die neue Welt,
+            die Gotteswelt ist da; die nicht mehr im Tal sein wollen, sondern auf dem Berg, die
+            fortan vom Berg aus sehen und beten und denken wollen, die fortan die Bedenken des
+            gesunden Menschenverstandes, der Klugheit, der Vorsicht nicht mehr gelten lassen wollen,
+            sondern nur noch die eine Wahrheit, daß Gott unser Vater ist, wir aber alle Brüder [vgl.
+              <ref type="can" subtype="bible" target="Mt.23.8 Mt.23.9">Mt. 23,8f.</ref>]! Solche
+            Menschen braucht es jetzt.</p>
+          <p>Die besondere Zeit fordert ganz besondere Menschen, und nur besondere Menschen sind
+            fähig, die Früchte zu pflücken, die jetzt reif ge<pb xml:id="p026" ed="pga" break="no"/>worden sind, die Saat auszuwerfen, die jetzt gesät worden ist. Wohl denen, die jetzt
+            besondere Menschen werden unter dem ungeheuren Eindruck der Taten Gottes und um dieser
+            Taten Gottes würdig zu sein. Wohl denen, die sich jetzt hingeben, die jetzt zugreifen,
+            die jetzt still werden und lieben können. Wohl denen, die sich jetzt von Allem abwenden
+            können, was nicht Gott ist, die sich jetzt lösen können von allem noch so Schönen, was
+            sie unten halten [will], um sich ganz zu verpflichten und zu binden an die Kräfte der
+            Freiheit und des Lebens, die sie nach oben reißen wollen. Selig sind, die jetzt arm sind
+            im Geist, die nichts Anderes denken und wollen, denn ihrer ist das Himmelreich [vgl.
+              <ref type="can" subtype="bible" target="Mt.5.3">Mt. 5,3</ref>]. Selig sind, die jetzt
+            reinen Herzens sind, denn sie werden Gott schauen [vgl. <ref type="can" subtype="bible" target="Mt.5.8">Mt. 5,8</ref>]. Selig sind, die jetzt Friedestifter werden wollen und
+            nichts Anderes, denn sie werden es gewinnen, sie werden die Erde besitzen und
+            beherrschen [vgl. <ref type="can" subtype="bible" target="Mt.5.9">Mt. 5,9</ref>.<ref type="can" subtype="bible" target="Mt.5.5">5</ref>]. Selig sind, die jetzt hungert und
+            dürstet nach der Gerechtigkeit, denn sie werden satt werden! [vgl. <ref type="can" subtype="bible" target="Mt.5.6">Mt. 5,6</ref>]. Jetzt! Denn jetzt ist die wundervolle
+            Zeit. Jetzt ist das Himmelreich derer, die stürmen können und stürmen wollen, die bereit
+            sind und losschlagen und erobern in göttlicher Freude an Gottes Herrlichkeit. Sie reißen
+            es an sich und haben es, sie und nur sie. Haben es für sich selbst und haben es dann
+            auch für die Anderen. Werden kräftig und fröhlich für die kommenden gewöhnlichen Zeiten
+            und werden selber zu Quellen der Kraft für alle die kommenden Geschlechter, die die
+            außerordentliche Zeit nicht selbst erlebten, wie für die, die sie versäumten und
+            verträumten. So redete Jesus und sah seine Jünger, seine Freunde an, ob sie ihn
+            verstanden hätten, ob sie die seligen Stürmer des Himmelreichs in dieser seligen, großen
+            Zeit werden wollten.</p>
+          <p>Und das fragt er nun auch uns. Denn auch wir leben jetzt in einer besonderen Zeit. Ein
+            Menschheitssonntag ist jetzt angebrochen, furchtbar und doch herrlich, wie er lange
+            nicht mehr dagewesen ist und lange nicht mehr so wiederkehrt. Und nun redet Gott in
+            außerordentlicher Weise mit uns, und das Himmelreich tritt uns wieder einmal greifbar
+            nahe. Und durch die gewaltigen und erschütternden Vorgänge der Zeit, die wir erleben,
+            tönt wiederum die klare, suchende, werbende Stimme des Gottessohnes von <placeName key="kbga-places-780">Galiläa</placeName>: Jetzt ist’s Zeit! Jetzt wird das
+            Himmelreich gestürmt, und wer ein Stürmer zu sein wagt, reißt es jetzt an sich. Meine
+            Freunde, wir können uns das nicht genug sagen, daß die Kriegszeit, in der wir stehen,
+            eine besondere Zeit des Gottesreiches ist, dazu <pb xml:id="p027" ed="pga"/> uns
+            gesandt, um uns zu Gott zu rufen, um uns ihn schauen zu lassen, damit die gewöhnlichen
+            Zeiten, die nachher wieder kommen werden, besser seien als die, die vorangegangen sind.
+            Wehe uns, wenn wir das nicht merken wollen. Wenn der Krieg außen an unserer Seele
+            vorbeigeht, ohne uns anders zu machen. Wenn wir ihn nicht anders zu begleiten wissen als
+            mit dem jämmerlichen Wunsche, er möchte doch bis zum Ende uns nichts tun. Wenn wir ihm
+            bloß zu folgen vermögen mit dem faulen Interesse des sicheren Bierbankpolitikers. Oder
+            wenn wir ihn überhaupt vergessen haben und vergessen wollen, um zurückzukehren in unsere
+            kleinen, alten Gedankenkreislein. Diese große Zeit, in der wir stehen, mit ihrem ewigen
+            Inhalt, der jetzt zu gewinnen wäre, wird so oder so einmal vorüber gehen, lange Reihen
+            von gewöhnlichen Jahren werden dann wieder folgen, und wie es dann auch mit uns stehen
+            mag, eins ist sicher: daß es sich dann rächen wird, wenn wir jenen ewigen Inhalt dieser
+            Zeit jetzt nicht gewinnen. Wir werden dann auf dem Trockenen sitzen und hungern und
+            dürsten müssen nach dem lebendigen Gott [vgl. <ref type="can" subtype="bible" target="Ps.42.3">Ps. 42,3</ref>], wie es uns vorher gegangen ist. O meine Freunde,
+            wenn wir’s doch merken wollten, was zu unserem Frieden dient [vgl. <ref type="can" subtype="bible" target="Lk.19.42">Lk. 19,42</ref>], merken, daß jetzt Sonntag ist,
+            merken, daß Gott uns jetzt beschenken will.</p>
+          <p>Denn das Himmelreich ist nahe herbeigekommen. Es ist besondere Zeit, weil es Notzeit
+            ist. In der Not kommt immer Gott zu uns, um wieviel mehr in so gewaltiger Not, wie die
+            Menschheit sie jetzt durchmacht. Geld und Gut, Leib und Leben sind in große Unsicherheit
+            geraten. Millionen von Menschen sind ihrer Habe und Heimat beraubt, Millionen Anderen
+            ist das liebste, treuste Herz, das sie auf Erden hatten, genommen. Millionen Andere sind
+            in den Urzustand des menschlichen Lebens zurückgeworfen, wo der Mensch unter freiem
+            Himmel lebte und mit den Mitmenschen kämpfte wie das wilde Tier, ärger, grausamer als
+            das wilde Tier. In solcher Not müssen uns sicher Gott und sein himmlisches Reich näher
+            kommen als je zuvor. Von selber fließen unsere Gedanken aus dem Graus der Erde zu dem,
+            der der Vater des Lichtes [vgl. <ref type="can" subtype="bible" target="Jak.1.17">Jak.
+              1,17</ref>] ist, und flehen:</p> 
+            <quote rend="block">
+              <lg>
+                <l>Aus tiefer Not schrei ich zu dir,</l>
+                <l>Herr Gott, erhör mein Flehen!<note xml:id="n04">
+                    <bibl type="song" corresp="kbga-songs-51">Lied 214 von <persName key="kbga-actors-261">Martin Luther</persName> (GERS [1952]; EG 299).</bibl>
+                  </note>
+                </l>
+              </lg>
+            </quote>
+            <p><pb xml:id="p028" ed="pga" rend="noPipe"/>Von selber klammern wir uns an die Gewißheit,
+            es muß über all diesem Elend und Entsetzen etwas Anderes geben. Es muß eine Erlösung da
+            sein aus dieser tiefen Nacht menschlichen Wesens, eine Bewahrung vor dieser furchtbaren
+            Woge von Jammer und Herzeleid. Es ist jetzt wieder viel gebetet worden und wird viel
+            gebetet in der Welt, mit Gewalt treibt es die Menschen dahin, wo Kraft und Zuversicht
+            und Halt zu finden ist.</p>
+          <p>Ist das nicht das Himmelreich, das nahe herbeigekommen ist? Ja, es ist etwas daran, es
+            ist ein Stück Himmelreich, daß wir jetzt Gottes Macht wieder einmal spüren in unserer
+            Ohnmacht. Daß uns jetzt einmal so viele Torheiten gewaltig aus der Hand geschlagen sind
+            und wir wieder einmal wissen, auf was es eigentlich ankommt. Daß uns deutlicher geworden
+            ist als je, wo wir Zuflucht und Seligkeit haben und wo nicht. Wer jetzt ein Stürmer des
+            Himmelreichs würde! Wenn wir jetzt den faulen Trost aufgeben wollten, daß die Not uns
+            vielleicht nicht bis an den Hals gehen wird! Wenn wir jetzt durchdringen würden zu der
+            Erkenntnis: Gleichviel, ob die Not leichter oder schwerer ist, es ist dunkel in dieser
+            Welt, Herr, ich kann allein nicht gehen<note xml:id="n05">Vgl. <bibl corresp="kbga-songs-33" type="song">die Zeile «Ich kann allein nicht gehen» (so in:
+                Reichs-Lieder, 648) des Liedes von <persName key="kbga-actors-1365">J. von
+                  Hausmann</persName>, So nimm denn meine Hände. Im Original heißt die Zeile: «Ich
+                mag allein nicht gehen» (EG 376,1)</bibl>.</note>, hilflos sehne ich mich nach dir!
+            Wenn uns die Not dazu brächte zu beten, wie wir noch nie gebetet haben, Gott zu suchen,
+            wie wir ihn noch nie gesucht haben, eins zu werden mit seinem gnädigen Willen über uns,
+            wie es Jesus in größter Not geworden ist [vgl. <ref type="can" subtype="bible" target="Mk.14.36">Mk. 14,36</ref> par.]! Seht, dazu ist’s jetzt Zeit, daraufhin zielen
+            und treiben unsere tiefsten Gedanken in diesen schrecklichen Kriegsjahren, wenn wir sie
+            aufkommen lassen in uns, sie nicht ersticken und unterdrücken durch allerlei
+            Nichtigkeiten. Dieser Friede mit Gott, dem Quell aller Wesen, kann jetzt gewonnen und
+            empfangen werden mitten in der Unruhe der Welt, eben weil diese Unruhe uns so mächtig
+            auf ihn, den Ewigen, hinweist.</p>
+          <p>Aber, meine Freunde, die Stürmer des Himmelreichs, wenn wir jetzt wirklich solche sind,
+            werden dabei nicht stehen bleiben und sich beruhigen können, den gefunden zu haben, der
+            über dem Getümmel steht und in dem wir jetzt in herzlichem Vertrauen Halt und
+            Freudigkeit finden können. Sie wären nicht die Wahren, wenn sie nicht weiterstürmen
+            müßten nach höheren Zielen, nicht weitergreifen nach anderen, noch <pb xml:id="p029" ed="pga"/> köstlicheren Gaben Gottes. Diese Zeit ist eine Zeit <hi rend="italic">großer Aufgaben</hi>. Ich denke jetzt vor allem an die kriegführenden Völker, aber
+            auch an uns. Was gibt ihnen jetzt da draußen den Mut, zu vertrauen und zu warten und
+            durchzuhalten in ihrer furchtbaren Not? Das Bewußtsein, daß jetzt eine Zeit großer
+            Pflichten ist. Ihre Pflichten helfen ihnen ihre Sorgen tragen, wie es uns ja auch im
+            täglichen Leben geht. Wir wissen, was wir als Christen vom Krieg und Kriegführen zu
+            denken haben, aber darum ist’s doch wahr, daß es etwas Wundervolles, etwas Göttliches
+            ist um dieses einmütige Einstehen all dieser Millionen für die Gemeinschaft ihres
+            Vaterlandes. Um dieses Einstehen nicht mit billigen Worten, sondern mit der Tat, mit
+            Leben und Gut und Blut. Darin ist auch ein Stück Himmelreich, wie da auf einmal alle
+            kleinen selbstischen Interessen, alle noch so großen Gegensätze schweigen und
+            zurücktreten mußten, weil es galt und gilt zu handeln, weil alle nichts mehr wollen als
+            sich einsetzen für ihre Brüder, für ihr Volk, für ihr Vaterland. Eine frische, herbe,
+            gesunde Luft atmen sie jetzt da draußen, eine Luft von Entschlossenheit, Ernst und
+            Opferwilligkeit sondergleichen. Daran sollten wir viel mehr denken, wenn wir über die
+            fremden Völker jetzt reden, sonst verstehen wir sie nicht, sonst tun wir ihnen Unrecht.
+            Freilich dürfen wir dann nicht parteiisch sein<note xml:id="n06">Im Kreis der
+              religiös-sozialen Theologen der Schweiz war die Parteinahme <persName key="kbga-actors-240">Hermann Kutters</persName> zugunsten der Deutschen anstößig
+              (vgl. <bibl corresp="kbga-bibls-931">Bw.Th. I, <ref type="pub" target="../volume/03/p012#p012">S. 12</ref>.<ref type="pub" target="../volume/03/p016#p016">16</ref>.<ref type="pub" target="3022#p029">29</ref></bibl>).</note>, müssen anerkennen, daß dieses große Stück Himmelreich
+            nicht etwa nur bei einem Volk sich findet, sondern wirklich überall. Von allen Völkern
+            bis hinunter zu den Serben, die man bei uns ganz mit Unrecht verachtet<note xml:id="n07">Vgl. <bibl corresp="kbga-bibls-2003"><persName key="kbga-actors-1487">E.
+                  Bonjour</persName>, <hi rend="italic">Geschichte der schweizerischen Neutralität.
+                  Vier Jahrhunderte eidgenössischer Außenpolitik</hi>, Bd. II, Basel/Frankfurt/Main
+                  1980<edition rend="sup">6</edition>, S. 149</bibl>: «Die deutschsprechende Schweiz
+              verfolgte seit Jahren bewundernd den deutschen Aufstieg … Mit den Augen der Deutschen
+              sah man im Kaiser den Friedensfürsten, dem ein europäischer Krieg aufgezwungen worden
+              sei, im zaristischen Rußland den Kriegshetzer, in den Serben die europäischen
+              Brandstifter.»</note>, hört man, daß sie von diesem ernsten, freudigen, starken Geist
+            erfüllt sind.</p>
+          <p>Wir stehen neben den Ereignissen, wir Schweizer. Wir segnen uns, daß wir von den
+            Kriegsstürmen bis jetzt verschont sind. Das ist ganz recht, aber entgeht uns nicht
+            vielleicht dabei das Gute, das jene jetzt im Sturm und unter bitteren Leiden gewinnen
+            und von dem ihnen sicher <pb xml:id="p030" ed="pga"/> nach dem Krieg <hi rend="italic">etwas</hi> erhalten bleiben wird? Ich glaube, es gibt viele nachdenkliche Menschen in
+            unserem Lande, die im Stillen denken, es hätte auch uns gut getan, wenn der Sturm uns
+            gepackt und geschüttelt hätte wie die Anderen, damit wir gezwungen würden, das Kleine
+            fahren zu lassen und das Große zu ergreifen: die Gemeinschaft und den rechten Brudersinn
+            und das Verzichten und Drangeben des eigenen Wohles um des Ganzen willen! Wir wollen das
+            nicht wünschen. Aber wenn es Gottes Wille ist, daß wir durch diese Zeit hindurchgehen,
+            ohne daß unsere Herzen und Gewissen auf die furchtbare Probe gestellt werden, wie es
+            jetzt den Deutschen, den Franzosen und allen anderen widerfährt, so ist es doch sicher
+            nicht sein Wille, daß das Stück Himmelreich, das jenen jetzt so nahe kommt, uns fremd
+            bleibe. Es kommt auch uns nahe. Wollen wir denn darauf warten, daß Gott auch uns in die
+            Schule des Leides und der Not nehme, um uns zu großen Gedanken und großem Tun endlich zu
+            zwingen? Warum wollen wir uns nicht als Zuschauer und gerade als Zuschauer des
+            ungeheuren Ringens da draußen sagen lassen, wie erbärmlich der Schlafzustand war, in dem
+            auch wir uns befanden, jeder auf seinem Weg? Wie das wahre Leben nicht ein knickeriges,
+            behutsames, ängstlich schleichendes Dasein sein darf, sondern ein Heldentum, ein
+            Sich-einsetzen-und-drangeben-Können, ein Leben in tiefem Ernst, der geradeaus sieht, und
+            in heller Freude, die nach oben sieht? O wenn wir doch jetzt stürmen wollten auf dieses
+            höhere Leben, von dem jetzt die Welt voll ist, um auch daran Teil zu haben, um auch
+            solche Menschen zu werden, wie sie jetzt draußen zu tausenden und lausenden sind, aber
+            mit besseren, edleren Zielen denn als Mord und Zerstörung. Die Tage werden sicher wieder
+            kommen, wo auch dieses Stück Himmelreich wieder verschwinden und die Welt wieder voll
+            sein wird von Feigheit und Krämergeist und Kleinlichkeit. Jetzt weht Heldengeist auf der
+            Erde. Selig die von uns, die unseren Friedenszustand nicht vertrödeln und verplempern in
+            Gedankenlosigkeit und Geschwätz, sondern [ihn benutzen,] um als Stürmer auch etwas an
+            uns zu reißen von diesem Heldengeist der heutigen Zeit.</p>
+          <p>Aber noch dürfen und können wir nicht innehalten, auch hier nicht, wenn es uns wahrhaft
+            um das Himmelreich zu tun ist. Gott zeigt uns mehr als das, ja wer nicht mehr als das
+            sieht, der hat das Eigentliche, die Hauptsache noch nicht gesehen, die Gott uns jetzt
+            zeigen will. Der ist kein Stürmer des Himmelreichs, meine Freunde, der sich jetzt dabei
+              be<pb xml:id="p031" ed="pga" break="no"/>ruhigen kann, daß er in der Unruhe der Welt
+            den Frieden Gottes habe. Und der ist kein Stürmer des Himmelreichs, der jetzt sein Herz
+            erhebt an dem gewaltigen Zug von Entschlossenheit und Tatkraft, der jetzt durch die Welt
+            geht, und auch wohl selber das Seine tut in Liebe zu Volk und Vaterland. Kein Stürmer,
+            wie Jesus sie haben wollte. Gott hat uns noch viel Größeres zu sagen an diesem
+            Menschheitssonntag, und das Gottesreich, das uns jetzt nahe kommt, ist mehr und schöner
+            als Alles, was wir bis jetzt genannt haben.</p>
+          <p>Unsere Zeit ist eine besondere Zeit, weil sie eine <hi rend="italic">Jesus</hi>zeit
+            sondergleichen ist. Das Gottesreich ist ja doch nicht ein unbestimmter Gottesfriede und
+            nicht ein unbestimmtes Heldentum, sondern das Gottesreich ist der Sieg Jesu, der
+            Gottesfriede und Heldentum zugleich ist im Geist und in der Wahrheit. Und ein solcher
+            geschieht jetzt, einen solchen können wir jetzt stürmend an uns reißen, wenn wir die
+            Augen offen und den Willen bereit haben, anzunehmen, was auf uns wartet. Ja, ein Sieg
+            Jesu, so merkwürdig es scheinen mag. Oder war das nicht ein Sieg Jesu, als er, ans Kreuz
+            geschlagen von der ganzen Welt, verlassen von seinen besten Freunden, Gott verherrlichte
+            und für seine Peiniger um Vergebung bat [<ref type="can" subtype="bible" target="Lk.23.34">Lk. 23,34</ref>]? Das <hi rend="italic">war</hi> ein Sieg, und so
+            siegt Jesus immer. Da trat Licht und Dunkel klar auseinander, da wurde es offenbar, was
+            göttlich ist und was menschlich, und durch diese Klarheit wurde Jesus zum Hebel, den
+            Gott mit aller Macht ansetzen konnte, um der Menschheit neues Leben zu schaffen. So
+            ist’s auch heute wieder, und das ist die tiefe Bedeutung dessen, was wir erleben. Das
+            Böse, das in der Menschheit schlummerte, ist aufgebrochen und hat alles Menschliche an
+            sich gerissen, nicht nur die finsteren Götzenmächte des Geldes und der Gewalt, die ihm
+            von jeher dienten, sondern auch das Edle und Gute, das da war: die Ordnung und die
+            Bildung und das, was wir <term key="kbga-terms-807">Christentum</term> nannten, auch das
+            Gottvertrauen, auch das Heldentum. Alles, was nicht von Jesus ist, das mußte und muß
+            fortwährend das Unrecht und den Jammer, in dem wir sind, vermehren und verschärfen. Das
+            Schönste und Beste, was wir ohne Jesus haben, mußte uns in den Krieg hinein treiben, muß
+            uns drinstecken lassen, wird, auch wenn einmal wieder ein sogenannter Friede da ist,
+            neue Kriege später nicht verhindern können.</p>
+          <p>
+            <hi rend="italic">Anders</hi> als diese ganze Welt voll Verbrechen und Entsetzen ist
+            jetzt schließlich nur Einer, nämlich der Geist Jesu, der verborgen in all den <pb xml:id="p032" ed="pga"/> Millionen lebt, den sie jetzt unterdrücken und verleugnen
+            müssen und den sie doch nicht zum Schweigen bringen, nicht als Kriegsgott anbeten
+            können. Wieder ist er ans Kreuz geschlagen, wieder ist er ein einsamer Fremdling in der
+            Welt, verachtet und verstoßen, ohne Gestalt noch Schöne [<ref type="can" subtype="bible" target="Jes.53.2">Jes. 53,2</ref>] —, aber wieder ist jetzt einmal Klarheit geworden,
+            Klarheit, was er will und bringt mit der Welt des Vaters, der Welt der Brüder, in der er
+            lebt, was er von uns fordert mit seiner wundersamen, jetzt so ganz unzeitgemäßen
+            Forderung, das Böse nicht durch Böses, sondern durch Gutes zu überwinden [<ref type="can" subtype="bible" target="Röm.12.21">Röm. 12,21</ref>], was er uns schenkt
+            mit seinem ernsten, sicheren Glauben an den Triumph Gottes über alle Geister und Mächte,
+            die ihm widerstehen. Größer, reiner, klarer, unerbittlicher steht er vor uns als zuvor,
+            nachdem er nun wieder vor aller Augen getötet und zu Grabe getragen worden ist. <hi rend="italic">Das</hi> ist sein Sieg, <hi rend="italic">das</hi> ist das große,
+            eigentliche Wort, das Gott jetzt mit uns redet. <hi rend="italic">Da</hi> kommt das
+            Himmelreich mit all seinen Gütern in unsere Nähe.</p>
+          <p>Und nun, meine Freunde, stehen wir noch einmal vor der Frage, ob wir das Himmelreich
+            als rechte Stürmer an uns reißen wollen. Die Klarheit Gottes ist nun wieder einmal da;
+            ob sie auch für uns da ist? Leuchtend hebt sich vom dunklen Himmel der Zeitereignisse
+            das Bild unseres Meisters ab; ob dieses Bild nun hineinleuchtet in unsere Seele?
+            Gewaltig erhebt sich alles Göttliche, was in uns schlummert, und ruft es hinaus, ob wir
+            es wollen oder nicht: der da, der Mann am Kreuz, mit seiner Botschaft von dem Gott, der
+            aller Menschen Vater ist, mit seiner Botschaft vom Vergeben und Tragen und
+            Friedestiften, mit seiner Botschaft von der Alleingewalt des Geistes — der hat Recht,
+            und wir mit unserem Wahn haben Unrecht und beweisen es, indem wir uns jetzt im Krieg
+            gegenseitig vernichten. Werden wir diesem Göttlichen in uns, das sich nach Jesus
+            ausstreckt, nachgeben? Nun braucht’s scharfe Augen! nun braucht’s einen fröhlichen
+            Willen! nun braucht’s ein starkes Herz! nun braucht’s Stürmer, die rücksichtslos
+            zugreifen und nehmen, was zu nehmen ist. Und diesmal haben wir Schweizer, wir armen
+            Schweizer, die wir von Gottes Sturm verschont sind, [es] nicht schwerer, sondern
+            leichter als die Anderen. Unverwim durch Not und Haß und andere Aufregung dürfen wir
+            jetzt unverwandt auf Gott selber schauen und auf den, den er uns gesandt hat, in dem
+            allein Leben und Unsterblichkeit ist. Werden wir die Stürmer sein, die es jetzt braucht,
+            die die Anderen nachher so nötig haben werden, wir, denen es so leicht gemacht ist?</p>
+          <p>
+            <pb xml:id="p033" ed="pga" rend="noPipe"/> Was für ein Sonntag voll Sonne und Seligkeit
+            und Kraft würde das sein, meine Freunde, wenn wir heute — an diesem großen, besonderen
+            Heute, das wir jetzt erleben dürfen — zu Stürmern des Himmelreichs werden würden. Was
+            für andere Werktage würden dann folgen, wenn wir jetzt zugreifen, wo uns das Gottesreich
+            so nahe gekommen ist? Seht, dann kann uns Gott weiterführen von einer Offenbarung zur
+            anderen, bis sich einmal die Erde unter uns verwandelt in die neue Erde und der Himmel
+            über uns in den neuen Himmel [vgl. <ref type="can" subtype="bible" target="Apk.21.1">Apk. 21,1</ref>]. Bis es einmal keine traurigen «gewöhnlichen» Zeiten mehr gibt.</p>
+        </div>
+        <div type="closer">
+          <salute>Amen.</salute>
+        </div>
+        <div type="songs">
+          <head>Lied:</head>
+          <listBibl type="songs">
+            <bibl corresp="kbga-songs-60" type="song">Nr. 297: «O Durchbrecher aller Bande» von
+                <persName key="kbga-actors-1342">G. Arnold</persName> (= GERS [1952] 306; EG
+              388)</bibl>
+            <!--<item><ref type="pub" subtype="bib1-ein1934" target="b0297">Nr. 297</ref>: «O Durchbrecher aller Bande» von G. Arnold (<bibl><title level="m">GERS [1952]</title> 306</bibl>; <bibl><title level="m">EG</title> 388</bibl>)</item>-->
+          </listBibl>
+        </div>
+      </div>
+    </body>
+  </text>
+</TEI>

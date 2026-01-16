@@ -1,0 +1,70 @@
+<template>
+    ---json
+    {
+        "templating": {
+            "extends": "templates/layouts/content.html"
+        },
+        "features": {
+            "toc": {
+                "enabled": false
+            },
+            "toolbar": {
+                "navigation": false
+            }
+        },
+        "urls": {
+            "template": "encyclopedia/:search?",
+            "ignore": "path,odd,view,userParams"
+        }
+    }
+    ---
+    [% template styles %]
+    <style>
+        #options {
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+        }
+        pb-split-list {
+            overflow: auto;
+            padding-left: 1rem;
+        }
+        pb-split-list::part(items) {
+            margin-top: 1rem;
+        }
+
+        pb-split-list .term {
+            max-width: 20em;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        #view {
+            overflow: auto;
+        }
+        [name="search"] {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            pb-split-list {
+                --pb-categorized-list-columns: 1;
+            }
+        }
+    </style>
+    [% endtemplate %]
+
+    [% template before %]
+    <pb-custom-form id="options" auto="" auto-submit="input" emit="transcription">
+        <input type="search" name="search" placeholder="" value="[[ $request?parameters?search ]]" data-i18n="[placeholder]search.search"/>
+    </pb-custom-form>
+    <pb-split-list class="register-split-list" url="api/lemma" subforms="#options" target="#list" emit="transcription" subscribe="transcription"/>
+    [% endtemplate %]
+
+    [% template after %]
+    <pb-view src="document1" view="single"/>
+    [% endtemplate %]
+
+    <pb-view id="view" src="document1" subscribe="detail" view="other" map="encyclopedia" append-footnotes="">
+    </pb-view>
+    <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]" root-path="[[ $config:data-root ]]" source-view="[[ $page:EXIDE ]]"/>
+</template>

@@ -1,0 +1,23 @@
+<template>
+    ---json
+    {
+        "templating": {
+            "extends": "templates/pages/basic.html"
+        },
+        "urls": {
+            "ignore": "selectors"
+        },
+        "features": {
+            "toc": {
+                "enabled": true
+            },
+            "iiif": {
+                "viewer": "pb-facsimile",
+                "base_uri": "https://www.deutschestextarchiv.de/media/images/",
+                "enabled": true,
+                "type": "image"
+            }
+        }
+    }
+    ---
+</template>

@@ -1,0 +1,48 @@
+<nav class="toolbar">
+    <ul>
+        [% block breadcrumb %][% endblock %]
+    </ul>
+    <ul class="hidden-mobile">
+        [% block toggle %][% endblock %]
+        [% if $features?toolbar?navigation %]
+        <li>
+            <span role="group" class="light">
+                <pb-navigation emit="transcription" keyboard="left" subscribe="transcription" direction="backward" unit="page" rendition="visible">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M328 112L184 256l144 144"/>
+                    </svg>
+                    <span><pb-i18n key="toolbar.previous"/></span>
+                </pb-navigation>
+                <pb-navigation emit="transcription" keyboard="right" subscribe="transcription" direction="forward" unit="page" rendition="visible">
+                    <span><pb-i18n key="toolbar.next"/></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M184 112l144 144-144 144"/>
+                    </svg>
+                </pb-navigation>
+            </span>
+        </li>
+        [% endif %]
+
+		[% if $features?toolbar?zoom and exists($context?doc) %]
+        <li>
+            <span role="group" class="light">
+                <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"/>
+                <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"/>
+            </span>
+        </li>
+		[% endif %]
+        [% if exists($context?doc) %]
+		<li>
+            <pb-restricted>
+                <pb-ajax subscribe="transcription" emit="transcription" url="api/odd" method="post" event="pb-refresh" title="Recompile ODD" data-i18n="[title]menu.admin.recompile">
+                    <h3 slot="title"><pb-i18n key="menu.admin.recompile"/></h3>
+                    <button class="light">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M320 146s24.36-12-64-12a160 160 0 10160 160" fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 58l80 80-80 80"/></svg>
+                    </button>
+                </pb-ajax>
+            </pb-restricted>
+        </li>
+        [% endif %]
+        [% block toolbar %][% endblock %]
+    </ul>
+</nav>

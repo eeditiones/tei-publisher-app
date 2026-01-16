@@ -1,0 +1,138 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:pb="http://teipublisher.com/1.0" xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:rng="http://relaxng.org/ns/structure/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>TEI Publisher Customization for ODD Authoring</title>
+        <author>Wolfgang Meier</author>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>TEI Consortium</publisher>
+        <availability status="free">
+          <licence target="http://creativecommons.org/licenses/by-sa/3.0/"> Distributed under a Creative Commons Attribution-ShareAlike 3.0 Unported License </licence>
+        </availability>
+      </publicationStmt>
+      <sourceDesc>
+        <p>Written from scratch.</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <p>A customization for writing TEI ODD documents with TEI Publisher extensions to the TEI Processing Model</p>
+      <schemaSpec ident="teipublisher_odds" start="TEI schemaSpec elementSpec classSpec macroSpec div" prefix="tei_" targetLang="en" docLang="en">
+
+        <moduleRef key="header"/>
+        <moduleRef key="core"/>
+        <moduleRef key="tei"/>
+        <moduleRef key="gaiji"/>
+        <moduleRef key="textstructure"/>
+        <moduleRef key="tagdocs"/>
+        <moduleRef key="dictionaries"/>
+        <moduleRef key="linking"/>
+        <moduleRef key="figures"/>
+        <elementSpec ident="teiCorpus" mode="delete" module="core"/>
+        <dataSpec ident="publisher.ident">
+          <desc>Data type for elementSpec/@ident</desc>
+          <content>
+            <alternate>
+              <dataRef name="Name"/>
+              <valList>
+                <valItem ident="*"/>
+                <valItem ident="text()"/>
+              </valList>
+            </alternate>
+          </content>
+        </dataSpec>
+        <elementSpec ident="tagsDecl" mode="change">
+          <content>
+            <sequence>
+              <elementRef key="behaviour" minOccurs="0" maxOccurs="unbounded"/>
+              <elementRef key="rendition" minOccurs="0" maxOccurs="unbounded"/>
+              <elementRef key="namespace" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+          </content>
+        </elementSpec>
+        <elementSpec ident="elementSpec" mode="change">
+          <attList>
+            <attDef ident="ident" usage="req" mode="replace">
+              <datatype>
+                <dataRef key="publisher.ident"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="template" ns="http://teipublisher.com/1.0" mode="add">
+          <desc versionDate="2020-10-23" xml:lang="en">Define a template expression to be used in place of the content. If present in a <gi>model</gi>, the <gi>pb:template</gi> is expanded first and the result is passed into the behaviour specified for the model, replacing the default content parameter accepted by all behaviours.</desc>
+          <content>
+            <alternate minOccurs="1" maxOccurs="unbounded">
+              <textNode/>
+              <anyElement require="http://relaxng.org/ns/structure/1.0" minOccurs="0" maxOccurs="unbounded"/>
+            </alternate>
+          </content>
+          <attList>
+            <attRef class="att.global" name="xml:space"/>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="model" mode="change">
+          <content>
+            <sequence>
+              <alternate minOccurs="0" maxOccurs="unbounded">
+                <classRef key="model.glossLike"/>
+                <classRef key="model.descLike"/>
+              </alternate>
+              <elementRef key="param" minOccurs="0" maxOccurs="unbounded"/>
+              <elementRef key="template" minOccurs="0" maxOccurs="1"/>
+              <elementRef key="outputRendition" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+          </content>
+          <attList>
+            <attDef usage="opt" ident="mode" ns="http://teipublisher.com/1.0">
+              <datatype>
+                <dataRef key="publisher.ident"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="behaviour" ns="http://teipublisher.com/1.0" mode="add">
+          <desc>Define a processing model behaviour based on a template expression. It combines one or more <gi>pb:param</gi> parameter definitions with a single <gi>pb:template</gi>.</desc>
+          <content>
+            <rng:zeroOrMore>
+              <rng:optional>
+                <rng:ref name="model.glossLike"/>
+              </rng:optional>
+              <rng:optional>
+                <rng:ref name="model.descLike"/>
+              </rng:optional>
+            </rng:zeroOrMore>
+            <rng:zeroOrMore>
+              <rng:element name="param">
+                <rng:attribute name="name">
+                  <rng:data type="NCName"/>
+                </rng:attribute>
+                <rng:optional>
+                  <rng:attribute name="value">
+                    <rng:text/>
+                  </rng:attribute>
+                </rng:optional>
+                <rng:text/>
+              </rng:element>
+            </rng:zeroOrMore>
+            <rng:ref name="template"/>
+          </content>
+          <attList>
+            <attDef ident="ident" usage="req">
+              <datatype>
+                <dataRef key="teidata.xmlName"/>
+              </datatype>
+            </attDef>
+            <attDef ident="output" usage="opt">
+              <datatype>
+                <dataRef key="teidata.word"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+      </schemaSpec>
+    </body>
+  </text>
+</TEI>

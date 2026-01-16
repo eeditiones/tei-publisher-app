@@ -1,0 +1,18 @@
+:root {
+    --jinks-colors-700: #1A3A4A;
+    --jinks-colors-600: #2A4A5A;
+    --jinks-colors-500: #3A5A6A;
+    --jinks-colors-400: #4A6A7A;
+    --jinks-colors-300: #7A9AAB;
+    --jinks-colors-200: #B8D8E8;
+    --jinks-colors-100: #D8E8F8;
+    --jinks-colors-50: #F0F8FF;
+
+    --jinks-colors-light: #FCFCF8;
+    --jinks-colors-grey: #1A3A4A;
+    --jinks-colors-dark: #2A4A5A;
+    --jinks-colors-medium: #7A9AAB;
+    --jinks-colors-accent: #4A7C59;
+
+    --jinks-colors-highlight: var(--jinks-colors-accent);
+}

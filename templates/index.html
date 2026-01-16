@@ -1,0 +1,62 @@
+<template>
+    ---json
+    {
+        "templating": {
+            "extends": "templates/layouts/base.html"
+        },
+        "features": {
+            "toolbar": {
+                "enabled": false
+            }
+        },
+        "styles": [
+            "resources/css/landing-page.css", "transform/teipublisher.css"
+        ],
+        "script": {
+            "custom": [
+                "resources/scripts/language.js"
+            ]
+        },
+        "theme": {
+            "layout": {
+                "class": "landing-layout"
+            }
+        }
+    }
+    ---
+    [% template styles %]
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/> -->
+    [% endtemplate %]
+
+    [% template hero %]
+    <header class="hero">
+        [[ landing:section($context, 'hero', $landing?content, 'landing.odd') ]]
+    </header>
+    [% endtemplate %]
+
+    <section id="about"><!-- control bleed / transparent by default -->
+    [[ landing:section($context, 'about', $landing?content, 'landing.odd') ]]
+    </section>
+    
+    <section id="highlights" class="section-highlight">
+        [[ landing:section($context, 'highlights', $landing?content, 'landing.odd') ]]
+    </section>
+
+    <section id="team" class="section-light">
+        [[ landing:section($context, 'team', $landing?content, 'landing.odd') ]]
+    </section>
+
+    <section class="section-dark">
+        [[ landing:section($context, 'section', $landing?content, 'landing.odd') ]]
+    </section>
+    
+    <section id="project-partners" class="section-light">
+        [[ landing:section($context, 'partners', $landing?content, 'landing.odd') ]]
+    </section>
+    
+    [% include "templates/bottom.html" %]
+
+    [% include "templates/footer.html" %]
+</template>

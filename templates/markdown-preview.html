@@ -1,0 +1,49 @@
+<main>
+    ---json
+    {
+        "templating": {
+            "extends": "templates/layouts/base.html"
+        },
+        "features": {
+            "toolbar": {
+                "enabled": true,
+                "navigation": false,
+                "zoom": false
+            },
+            "register": {
+                "enabled": false
+            },
+            "timeline": {
+                "enabled": false,
+                "document-view": false
+            }
+        }
+    }
+    ---
+    [% template styles %]
+    <style>
+        pb-markdown {
+            max-width: var(--pb-view-max-width);
+            --pb-code-highlight-white-space: pre-wrap;
+        }
+    </style>
+    [% endtemplate %]
+    [% template! breadcrumb %]
+    <li>
+        <nav aria-label="breadcrumb">
+            <ul>
+                <li>
+                    <a href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]">
+                        <pb-i18n key="breadcrumb.document-root">Documents</pb-i18n>
+                    </a>
+                </li>
+                <li>
+                    <a href="[[ $context-path ]]/[[ $doc?path ]]">[[ $doc?path ]]</a>
+                </li>
+            </ul>
+        </nav>
+    </li>
+    [% endtemplate %]
+
+    <pb-markdown url="[[ $context-path ]]/api/document/[[ encode-for-uri($doc?path) ]]/md" emit="transcription"/>
+</main>

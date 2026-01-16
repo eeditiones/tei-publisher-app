@@ -1,0 +1,25 @@
+.content {
+    margin: 0;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.metadata {
+    max-width: 400px;
+}
+
+.list dt {
+    font-size: 75%;
+    vertical-align: top;
+}
+
+.metadata h3 {
+    margin-bottom: 0;
+}
+
+.metadata p {
+    margin-top: 0;
+}

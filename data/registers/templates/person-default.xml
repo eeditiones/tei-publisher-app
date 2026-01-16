@@ -1,0 +1,16 @@
+<listPerson xmlns="http://www.tei-c.org/ns/1.0" xml:id="person-default">
+    <person xml:id="person-NEW">
+        <persName type="main"/>
+        <persName type="sort"/>
+        <gender value="U"/>
+        <birth>
+           <date when=""/>
+           <placeName ref=""/>
+        </birth>
+        <death>
+           <date when=""/>
+           <placeName ref=""/>
+        </death>
+        <note type="bio"/>
+     </person>
+</listPerson>

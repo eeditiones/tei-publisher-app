@@ -1,0 +1,129 @@
+.toc {
+    font-family: var(--jinks-content-font-family);
+    font-size: var(--jinks-toc-font-size);
+}
+
+.toc ul {
+    padding: 0;
+    margin: 0;
+}
+
+/* Item without child sections */
+.toc ul>li:not(:has(details)) {
+    padding: 0.75rem calc(1rem + 20px) 0.75rem 0.5rem;
+    border: 1px solid transparent;
+    border-radius: 8px;
+}
+
+/* Item with child sections */
+.toc details summary {
+    display: inline-flex;
+    gap: 1rem;
+    width: 100%;
+    padding: 0.75rem 0.5rem 0.75rem .5rem;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    /* override pico default */
+    line-height: var(--jinks-line-height);
+}
+
+.toc details summary > pb-link {
+    flex: 1;
+}
+
+.toc ul details>ul>li:not(:has(details)),
+.toc ul details>ul>li>details>summary {
+    padding-left: var(--jinks-toc-indent);
+}
+
+.toc ul details details>ul>li:not(:has(details)),
+.toc ul details details>ul>li>details>summary {
+    padding-left: calc(var(--jinks-toc-indent) * 2);
+}
+
+.toc ul details details details>ul>li:not(:has(details)),
+.toc ul details details details>ul>li>details>summary {
+    padding-left: calc(var(--jinks-toc-indent) * 3);
+}
+
+.toc ul details details details details>ul>li:not(:has(details)),
+.toc ul details details details details>ul>li>details>summary {
+    padding-left: calc(var(--jinks-toc-indent) * 4);
+}
+
+.toc ul details details details details details>ul>li:not(:has(details)),
+.toc ul details details details details details>ul>li>details>summary {
+    padding-left: calc(var(--jinks-toc-indent) * 5);
+}
+
+.toc ul details details details details details details>ul>li:not(:has(details)),
+.toc ul details details details details details details>ul>li>details>summary {
+    padding-left: calc(var(--jinks-toc-indent) * 6);
+}
+
+.toc ul details details details details details details details>ul>li:not(:has(details)),
+.toc ul details details details details details details details>ul>li>details>summary {
+    padding-left: calc(var(--jinks-toc-indent) * 7);
+}
+
+.toc details > summary > pb-link,
+.toc ul > li > pb-link {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.toc details>summary:has(> .active),
+.toc details:not(:has(summary>.active)) ul>li:has(> .active) {
+    background-color: var(--jinks-color-focus);
+}
+    
+.toc details > summary::after {
+    display: block;
+    content: "";
+    width: 1rem;
+    height: 1rem;
+    float: right;
+    background-image: var(--jinks-dropdown-button-chevron-image);
+    transform: none;
+    background-size: 1rem auto;
+    background-position: right center;
+    background-repeat: no-repeat;
+    margin-inline-start: 0.5rem;
+    padding-right: 1rem;
+}
+
+.toc details[open]>summary::after {
+    transform: rotate(180deg);
+}
+
+.toc details summary:hover,
+.toc ul>li:not(:has(details)):hover {
+    border: 1px solid #CFCDC5;
+    background-color: var(--jinks-form-background-color);
+}
+
+.toc li {
+    list-style-type: none;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.toc pb-link a {
+    color: var(--pb-link-color);
+    text-decoration: var(--pb-link-text-decoration);
+}
+
+.toc h1, .toc h2, .toc h3, .toc h4, .toc h5 {
+    font-family: var(--jinks-link-font-family);
+}
+
+.toc [slot=collapse-trigger] pb-link {
+    margin-left: 0px;
+}

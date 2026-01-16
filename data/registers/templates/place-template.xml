@@ -1,0 +1,6 @@
+<listPlace xmlns="http://www.tei-c.org/ns/1.0" xml:id="place-template">
+   <place>
+      <!-- repeatable for all name variants of a person -->
+      <placeName type="variant"/>  
+   </place>
+</listPlace>

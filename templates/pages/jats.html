@@ -1,0 +1,35 @@
+<template>
+    ---json
+    {
+        "templating": {
+            "extends": "templates/layouts/content.html"
+        },
+        "features": {
+            "toc": {
+                "enabled": true
+            },
+            "playground": {
+                "enabled": false
+            }
+        }
+    }
+    ---
+    [% template styles %]
+    <style>
+        :root {
+            --jinks-content-font-family: var(--pb-base-font-family);
+            --jinks-toc-font-size: var(--pb-base-font-size);
+        }
+
+        .before pb-view::part(content) {
+            --pb-content-font-size: var(--pb-base-font-size);
+        }
+    </style>
+    [% endtemplate %]
+    [% template before 1 %]
+    <pb-view src="document1" view="single">
+        <pb-param name="mode" value="metadata"/>
+    </pb-view>
+    [% endtemplate %]
+    <pb-view class="content" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
+</template>

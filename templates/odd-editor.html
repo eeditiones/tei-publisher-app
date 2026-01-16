@@ -1,0 +1,40 @@
+<main class="container-fluid">
+    ---json
+    {
+        "features": {
+            "toolbar": {
+                "enabled": false
+            },
+            "toc": {
+                "enabled": false
+            },
+            "upload": {
+                "enabled": false
+            },
+            "playground": {
+                "enabled": false
+            }
+        },
+        "templating": {
+            "extends": "templates/layouts/base.html"
+        },
+        "script": {
+            "extra-components": [
+                "pb-odd-editor"
+            ]
+        },
+        "menu": {
+            "login": true
+        }
+    }
+    ---
+    [% template styles %]
+    <style>
+        pb-odd-editor {
+            width: 100%;
+        }
+    </style>
+    [% endtemplate %]
+    <pb-odd-editor output-root="[[ ($config:output-root, $config:app-root || '/transform')[1] ]]" root-path="[[ $config:odd-root ]]" output-prefix="transform" odd="[[ request:get-parameter('odd', ()) ]]">
+    </pb-odd-editor>
+</main>

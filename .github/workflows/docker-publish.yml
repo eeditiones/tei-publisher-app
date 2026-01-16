@@ -1,0 +1,173 @@
+name: TEI Publisher CI and Docker Snapshots
+
+on:
+  push:
+    # Publish `main` and `master` as Docker `latest` image.
+    branches:
+      - main
+      - master
+      - 'release/*'
+
+    # Publish `v1.2.3` tags as releases.
+    tags:
+      - v*
+  
+  pull_request:
+    branches: [ main, master ]
+
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: teipublisher
+  DEMO_IMAGE: ghcr.io/eeditiones/jinks-demo
+  TEST_TAG: exist-db
+
+jobs:
+  # Run tests against the demo image from jinks repo
+  test:
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      fail-fast: false
+      matrix:
+        EXIST_BASE: [6.2.0, release]
+        experimental: [false]
+        include:
+            - EXIST_BASE: latest
+              experimental: true
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Pull demo image
+        run: docker pull ${DEMO_IMAGE}:latest
+      
+      - name: Start demo container
+        run: |
+          docker run -d \
+            --name teipublisher-test \
+            --publish 8080:8080 \
+            ${DEMO_IMAGE}:latest
+      
+      - name: Wait for server to be ready
+        run: |
+          echo "Waiting for eXist-db to start..."
+          timeout=120
+          elapsed=0
+          while [ $elapsed -lt $timeout ]; do
+            if curl -s -f http://localhost:8080/exist/apps/tei-publisher/ > /dev/null 2>&1; then
+              echo "Server is ready!"
+              exit 0
+            fi
+            echo "Still waiting... ($elapsed seconds)"
+            sleep 5
+            elapsed=$((elapsed + 5))
+          done
+          echo "Timeout waiting for server"
+          exit 1
+      
+      - name: Run npm install
+        run: npm install
+      
+      - name: Run tests
+        if: matrix.experimental != true
+        run: npm test
+      
+      - name: Run tests [expect failures]
+        if: matrix.experimental == true
+        continue-on-error: true
+        run: npm test
+      
+      - name: Retrieve eXist log
+        if: failure()
+        run: docker cp teipublisher-test:/exist/logs/exist.log .
+      
+      - name: Publish log as artifact
+        if: failure()
+        uses: actions/upload-artifact@v5
+        with:
+          name: exist-${{matrix.EXIST_BASE}}-teipublisher.log
+          path: ./exist.log
+      
+      - name: Stop container
+        if: always()
+        run: docker stop teipublisher-test || true
+
+  # Push demo image to both registries as teipublisher
+  push:
+    # Ensure test job passes before pushing image.
+    needs: test
+
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: linux/amd64,linux/arm64 
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        id: buildx
+      
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      - name: Pull demo image
+        run: docker pull ${DEMO_IMAGE}:latest
+      
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ghcr.io/eeditiones/${{ env.IMAGE_NAME }}
+            existdb/${{ env.IMAGE_NAME }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern=v{{major}}
+            type=raw,value=latest,enable={{is_default_branch}}
+      
+      - name: Push to GHCR
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
+        run: |
+          # Use buildx imagetools to copy multi-arch manifest for each tag
+          echo "${{ steps.meta.outputs.tags }}" | while IFS= read -r tag; do
+            if [ -n "$tag" ]; then
+              echo "Pushing ghcr.io/eeditiones/${{ env.IMAGE_NAME }}:$tag"
+              docker buildx imagetools create -t "ghcr.io/eeditiones/${{ env.IMAGE_NAME }}:$tag" ${DEMO_IMAGE}:latest
+            fi
+          done
+      
+      - name: Push to Docker Hub
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
+        run: |
+          # Use buildx imagetools to copy multi-arch manifest for each tag
+          echo "${{ steps.meta.outputs.tags }}" | while IFS= read -r tag; do
+            if [ -n "$tag" ]; then
+              echo "Pushing existdb/${{ env.IMAGE_NAME }}:$tag"
+              docker buildx imagetools create -t "existdb/${{ env.IMAGE_NAME }}:$tag" ${DEMO_IMAGE}:latest
+            fi
+          done

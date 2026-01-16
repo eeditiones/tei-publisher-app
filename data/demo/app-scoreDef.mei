@@ -1,0 +1,318 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="4.0.0">
+	<meiHead>
+		<fileDesc>
+			<titleStmt>
+				<title>Amor se vuoi ch’io torni (excerpt)</title>
+				<author>Bartolomeo Tromboncino</author>
+				<editor>Alfred Einstein</editor>
+			</titleStmt>
+			<pubStmt>
+				<date type="encoding-date">2021-03-04</date>
+				<respStmt>
+					<resp>encoded by</resp>
+					<name>Sebastian Bolz</name>
+				</respStmt>
+			</pubStmt>
+		</fileDesc>
+		<encodingDesc xml:id="encodingdesc-2074579117">
+			<appInfo xml:id="appinfo-0192105734">
+				<application xml:id="application-1842791945" isodate="2021-03-04T17:48:21"
+					version="3.4.0-dev-45f0f9c">
+					<name xml:id="name-0323248420">Verovio</name>
+					<p xml:id="p-0377169028">Transcoded from MusicXML</p>
+				</application>
+				<application version="3.6.2">
+					<name>MuseScore</name>
+					<p>MusicXML exported from MuseScore</p>
+				</application>
+			</appInfo>
+		</encodingDesc>
+	</meiHead>
+	<music>
+		<body>
+			<mdiv xml:id="mdiv-1910853648">
+				<score xml:id="score-0791383087">
+					<scoreDef xml:id="scoredef-0906799593">
+						<staffGrp xml:id="staffgrp-1944568383">
+							<!-- Regular staves with modernized clefs -->
+							<staffDef xml:id="P1" n="1" lines="5" ppq="1">
+								<label xml:id="label-1746788526">C.</label>
+								<labelAbbr xml:id="labelAbbr-0230315090">C.</labelAbbr>
+								<instrDef xml:id="instrdef-1552171134" midi.channel="0" midi.instrnum="0"/>
+								<clef xml:id="clef-0439761162" shape="C" line="1"/>
+								<keySig xml:id="keysig-1823566924" sig="0"/>
+								<meterSig xml:id="msig-2019196088" count="2" sym="cut" unit="2"/>
+							</staffDef>
+							<staffDef xml:id="P2" n="2" lines="5" ppq="1">
+								<label xml:id="label-1861409766">A.</label>
+								<labelAbbr xml:id="labelAbbr-0576320536">A.</labelAbbr>
+								<instrDef xml:id="instrdef-1590369894" midi.channel="1" midi.instrnum="0"/>
+								<clef xml:id="clef-1365317708" shape="C" line="3"/>
+								<keySig xml:id="keysig-0170093811" sig="0"/>
+								<meterSig xml:id="msig-2054596271" count="2" sym="cut" unit="2"/>
+							</staffDef>
+							<staffDef xml:id="P3" n="3" lines="5" ppq="1">
+								<label xml:id="label-0704852425">T.</label>
+								<labelAbbr xml:id="labelAbbr-1454125774">T.</labelAbbr>
+								<instrDef xml:id="instrdef-0784977186" midi.channel="2" midi.instrnum="0"/>
+								<clef xml:id="clef-0638408923" shape="C" line="3"/>
+								<keySig xml:id="keysig-1780856826" sig="0"/>
+								<meterSig xml:id="msig-1904040138" count="2" sym="cut" unit="2"/>
+							</staffDef>
+							<staffDef xml:id="P4" n="4" lines="5" ppq="1">
+								<label xml:id="label-1277890436">B.</label>
+								<labelAbbr xml:id="labelAbbr-1694068547">B.</labelAbbr>
+								<instrDef xml:id="instrdef-0009820675" midi.channel="3" midi.instrnum="0"/>
+								<clef xml:id="clef-1291288365" shape="F" line="4"/>
+								<keySig xml:id="keysig-2115078770" sig="0"/>
+								<meterSig xml:id="msig-2079121871" count="2" sym="cut" unit="2"/>
+							</staffDef>
+						</staffGrp>
+					</scoreDef>
+				
+					<!-- Alternative (original) clefs -->
+					<app xml:id="app-0253627557">
+						<lem xml:id="scoredef-0906799594"/>
+						<rdg xml:id="rdg-1077491896" label="original">
+							<scoreDef xml:id="scoredef-2045069857">
+								<staffGrp xml:id="staffgrp-1516815914" n="1" symbol="bracket">
+									<staffDef xml:id="P1_alt" n="1">
+										<clef xml:id="clefdef-1895949886" shape="C" line="1"/>
+									</staffDef>
+									<staffDef xml:id="P2_alt" n="2">
+										<clef xml:id="clefdef-1436599069" shape="C" line="2"/>
+									</staffDef>
+									<staffDef xml:id="P3_alt" n="3">
+										<clef xml:id="clefdef-0106493327" shape="C" line="2"/>
+									</staffDef>
+									<staffDef xml:id="P4_alt" n="4">
+										<clef xml:id="clefdef-0593021521" shape="F" line="3"/>
+									</staffDef>
+								</staffGrp>
+							</scoreDef>
+						</rdg>
+					</app>
+					
+					<section xml:id="section-0653255040">
+						<pb xml:id="pb-0760010562"/>
+						<measure xml:id="measure-0911190816" n="1">
+							<staff xml:id="staff-0137069261" n="1">
+								<layer xml:id="layer-1414483546" n="1">
+									<note xml:id="note-1310908414" dur.ppq="4" dur="1" oct="4" pname="g">
+										<verse xml:id="verse-1346502851" n="1">
+											<syl xml:id="syl-1132810239" con="d" wordpos="i">A</syl>
+										</verse>
+									</note>
+									<note xml:id="note-0839962872" dur.ppq="2" dur="2" oct="4" pname="g"
+										stem.dir="down">
+										<verse xml:id="verse-0425615954" n="1">
+											<syl xml:id="syl-0583045821" con="s" wordpos="t">mor</syl>
+										</verse>
+									</note>
+									<note xml:id="note-1964428317" dur.ppq="2" dur="2" oct="4" pname="g"
+										stem.dir="down">
+										<verse xml:id="verse-0651955749" n="1">
+											<syl xml:id="syl-1114713177" con="s">se</syl>
+										</verse>
+									</note>
+								</layer>
+							</staff>
+							<staff xml:id="staff-0553796965" n="2">
+								<layer xml:id="layer-1116179203" n="1">
+									<note xml:id="note-2006298477" dur.ppq="2" dur="2" oct="4" pname="g"
+										stem.dir="down">
+										<verse xml:id="verse-0000000254456908">
+											<syl xml:id="syl-0000001054561822">Amor</syl>
+										</verse>
+									</note>
+									<note xml:id="note-0898627816" dur.ppq="1" dur="4" oct="4" pname="f"
+										stem.dir="down"/>
+									<note xml:id="note-1711515044" dur.ppq="1" dur="4" oct="4" pname="e"
+										stem.dir="down"/>
+									<note xml:id="note-1969381540" dur.ppq="2" dur="2" oct="4" pname="d"
+										stem.dir="down"/>
+									<note xml:id="note-0971082268" dur.ppq="2" dur="2" oct="4" pname="c"
+										stem.dir="down"/>
+								</layer>
+							</staff>
+							<staff xml:id="staff-1020153064" n="3">
+								<layer xml:id="layer-0729004221" n="1">
+									<note xml:id="note-1332001106" dots="1" dur.ppq="3" dur="2" oct="4"
+										pname="d" stem.dir="down">
+										<verse>
+											<syl>Amor</syl>
+										</verse>
+									</note>
+									<note xml:id="note-0040996614" dur.ppq="1" dur="4" oct="4" pname="c"
+										stem.dir="down"/>
+									<note xml:id="note-0939826095" dur.ppq="2" dur="2" oct="3" pname="b"
+										stem.dir="up"/>
+									<note xml:id="note-0023373321" dur.ppq="2" dur="2" oct="4" pname="c"
+										stem.dir="down"/>
+								</layer>
+							</staff>
+							<staff xml:id="staff-0620029729" n="4">
+								<layer xml:id="layer-0501504358" n="1">
+									<note xml:id="note-0421468414" dur.ppq="4" dur="1" oct="3" pname="g">
+										<verse>
+											<syl>Amor</syl>
+										</verse>
+									</note>
+									<note xml:id="note-1637150914" dur.ppq="2" dur="2" oct="3" pname="g"
+										stem.dir="down"/>
+									<note xml:id="note-0435620874" dur.ppq="2" dur="2" oct="3" pname="g"
+										stem.dir="down"/>
+								</layer>
+							</staff>
+						</measure>
+						<measure xml:id="measure-1484018070" n="2">
+							<staff xml:id="staff-1686355655" n="1">
+								<layer xml:id="layer-1233117024" n="1">
+									<note xml:id="note-0978305557" dur.ppq="2" dur="2" oct="4" pname="g"
+										stem.dir="down">
+										<verse xml:id="verse-0575895526" n="1">
+											<syl xml:id="syl-1653942110" con="s">vuoi</syl>
+										</verse>
+									</note>
+									<note xml:id="note-1962883411" dur.ppq="2" dur="2" oct="4" pname="g"
+										stem.dir="down">
+										<verse xml:id="verse-1185775219" n="1">
+											<syl xml:id="syl-2091694521" con="s">ch’io</syl>
+										</verse>
+									</note>
+									<note xml:id="note-1137216288" dur.ppq="4" dur="1" oct="4" pname="e">
+										<verse xml:id="verse-0001440007" n="1">
+											<syl xml:id="syl-1548209774" con="d" wordpos="i">tor</syl>
+										</verse>
+									</note>
+								</layer>
+							</staff>
+							<staff xml:id="staff-0208394212" n="2">
+								<layer xml:id="layer-0198770030" n="1">
+									<note xml:id="note-0716179504" dur.ppq="2" dur="2" oct="4" pname="c"
+										stem.dir="down"/>
+									<note xml:id="note-0142375565" dur.ppq="2" dur="2" oct="3" pname="b"
+										stem.dir="up"/>
+									<note xml:id="note-1919318248" dur.ppq="4" dur="1" oct="4" pname="c"/>
+								</layer>
+							</staff>
+							<staff xml:id="staff-2126143109" n="3">
+								<layer xml:id="layer-2100320501" n="1">
+									<note xml:id="note-0475111736" dur.ppq="2" dur="2" oct="4" pname="d"
+										stem.dir="down"/>
+									<note xml:id="note-0148732566" dur.ppq="2" dur="2" oct="4" pname="d"
+										stem.dir="down"/>
+									<note xml:id="note-0678871305" dur.ppq="4" dur="1" oct="4" pname="g"/>
+								</layer>
+							</staff>
+							<staff xml:id="staff-0682222568" n="4">
+								<layer xml:id="layer-0045965848" n="1">
+									<note xml:id="note-1707138199" dur.ppq="2" dur="2" oct="3" pname="g"
+										stem.dir="down"/>
+									<note xml:id="note-0776860909" dur.ppq="2" dur="2" oct="3" pname="g"
+										stem.dir="down"/>
+									<note xml:id="note-1015141411" dur.ppq="4" dur="1" oct="3" pname="c"/>
+								</layer>
+							</staff>
+						</measure>
+						<measure xml:id="measure-1399136096" n="3">
+							<staff xml:id="staff-0905681746" n="1">
+								<layer xml:id="layer-1268423651" n="1">
+									<note xml:id="note-0881765689" dur.ppq="4" dur="1" oct="5" pname="c">
+										<verse xml:id="verse-1178447229" n="1">
+											<syl xml:id="syl-1420895052" con="s" wordpos="t">ni_al</syl>
+										</verse>
+									</note>
+									<note xml:id="note-0940063398" dur.ppq="2" dur="2" oct="4" pname="b"
+										stem.dir="down">
+										<verse xml:id="verse-0575664436" n="1">
+											<syl xml:id="syl-0843993331" con="d" wordpos="i">gio</syl>
+										</verse>
+									</note>
+									<note xml:id="note-0852414262" dur.ppq="2" dur="2" oct="4" pname="a"
+										stem.dir="down">
+										<verse xml:id="verse-0123660313" n="1">
+											<syl xml:id="syl-1676441724" con="s" wordpos="m">go_an</syl>
+										</verse>
+									</note>
+								</layer>
+							</staff>
+							<staff xml:id="staff-0804498758" n="2">
+								<layer xml:id="layer-1620285742" n="1">
+									<note xml:id="note-1672284399" dur.ppq="4" dur="1" oct="4" pname="e"/>
+									<note xml:id="note-0167201448" dur.ppq="2" dur="2" oct="4" pname="d"
+										stem.dir="down"/>
+									<note xml:id="note-0690976949" dur.ppq="2" dur="2" oct="4" pname="d"
+										stem.dir="down"/>
+								</layer>
+							</staff>
+							<staff xml:id="staff-1323941177" n="3">
+								<layer xml:id="layer-1819238314" n="1">
+									<note xml:id="note-1500021288" dur.ppq="4" dur="1" oct="4" pname="g"/>
+									<note xml:id="note-1570624063" dur.ppq="2" dur="2" oct="4" pname="g"
+										stem.dir="down"/>
+									<note xml:id="note-1060462189" dur.ppq="2" dur="2" oct="4" pname="g"
+										stem.dir="down"/>
+								</layer>
+							</staff>
+							<staff xml:id="staff-1430967771" n="4">
+								<layer xml:id="layer-1318021913" n="1">
+									<note xml:id="note-0851637365" dur.ppq="4" dur="1" oct="4" pname="c"/>
+									<note xml:id="note-0990134361" dur.ppq="2" dur="2" oct="3" pname="g"
+										stem.dir="down"/>
+									<note xml:id="note-0501906000" dur.ppq="2" dur="2" oct="3" pname="f"
+										stem.dir="down"/>
+								</layer>
+							</staff>
+							<tie xml:id="tie-0427437104" startid="#note-0690976949"
+								endid="#note-1937488955"/>
+						</measure>
+						<measure xml:id="measure-1393139344" right="invis" n="4">
+							<staff xml:id="staff-1659438428" n="1">
+								<layer xml:id="layer-1117189848" n="1">
+									<note xml:id="note-1700345331" dur.ppq="4" dur="1" oct="4" pname="g">
+										<verse xml:id="verse-0914883776" n="1">
+											<syl xml:id="syl-1985653131" con="d" wordpos="m">ti</syl>
+										</verse>
+									</note>
+									<note xml:id="note-0236700514" dur.ppq="4" dur="1" oct="4" pname="f">
+										<accid xml:id="accid-0651969722" accid="s"/>
+										<verse xml:id="verse-1099283315" n="1">
+											<syl xml:id="syl-1917941723" con="s" wordpos="t">co</syl>
+										</verse>
+									</note>
+								</layer>
+							</staff>
+							<staff xml:id="staff-1087684590" n="2">
+								<layer xml:id="layer-0538818846" n="1">
+									<note xml:id="note-1937488955" dur.ppq="2" dur="2" oct="4" pname="d"
+										stem.dir="down"/>
+									<note xml:id="note-1482849015" dur.ppq="2" dur="2" oct="4" pname="c"
+										stem.dir="down">
+										<accid xml:id="accid-0638424060" accid="s" func="edit"/>
+									</note>
+									<note xml:id="note-2130369910" dur.ppq="4" dur="1" oct="4" pname="d"/>
+								</layer>
+							</staff>
+							<staff xml:id="staff-1779993585" n="3">
+								<layer xml:id="layer-0469711560" n="1">
+									<note xml:id="note-0548027155" dur.ppq="4" dur="1" oct="3" pname="g"/>
+									<note xml:id="note-1178280559" dur.ppq="4" dur="1" oct="3" pname="a"/>
+								</layer>
+							</staff>
+							<staff xml:id="staff-1830417193" n="4">
+								<layer xml:id="layer-1461286016" n="1">
+									<note xml:id="note-0561030091" dur.ppq="4" dur="1" oct="3" pname="e"/>
+									<note xml:id="note-1824798486" dur.ppq="4" dur="1" oct="3" pname="d"/>
+								</layer>
+							</staff>
+						</measure>
+					</section>
+				</score>
+			</mdiv>
+		</body>
+	</music>
+</mei>

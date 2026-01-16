@@ -1,0 +1,291 @@
+<?teipublisher template="cortez.html" odd="serafin.odd" view="page" media="epub"?><?xml-model href="../../resources/odd/teilite.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="../../resources/odd/teilite.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?><TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="CIDTC-IDL-3823">
+   <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title>Hernán CORTÉS to Ioannes DANTISCUS, Mexico 1531-08-01</title>
+            <title type="s">Corpus of Texts and Correspondence of Ioannes Dantiscus</title>
+            <editor>Anna Skolimowska</editor>
+            <editor>Magdalena Turska</editor>
+            <editor>Katarzyna Jasińska-Zdun</editor>
+            <respStmt>
+               <resp>transcription</resp>
+               <persName>Jerzy Axer</persName>
+            </respStmt>
+            <respStmt>
+               <resp>initial TEI transcription</resp>
+               <persName>Anna Skolimowska</persName>
+            </respStmt>
+            <respStmt>
+               <resp>Polish translation</resp>
+               <persName>Anna Skolimowska</persName>
+            </respStmt>
+            <respStmt>
+               <resp>TEI encoding</resp>
+               <persName>Magdalena Turska</persName>
+            </respStmt>
+         </titleStmt>
+         <publicationStmt>
+            <publisher>Laboratory For Editing Sources, "Artes Liberales", University of
+               Warsaw</publisher>
+            <placeName>Warsaw</placeName>
+            <date>2010</date>
+            <availability>
+               <licence target="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <p>© 2025 This work is openly licensed via CC BY-SA 4.0.</p>
+                  <p>This license enables reusers to distribute, remix, adapt, and build upon the
+                     material in any medium or format, so long as attribution is given to the
+                     creator. The license allows for commercial use. If you remix, adapt, or build
+                     upon the material, you must license the modified material under identical
+                     terms. CC BY-SA includes the following elements: BY: credit must be given to
+                     the creator. SA: Adaptations must be shared under the same terms.
+                  </p></licence>
+            </availability>
+            <p>Transcribed from manuscript, collated with primary sources; critical apparatus and
+               commentary.</p>
+            <p>Working draft, please refer to http://dantiscus.al.uw.edu.pl for current version.</p>
+         </publicationStmt>
+         <sourceDesc>
+            <msDesc type="fair-copy" ana="primary" n="1">
+               <msIdentifier>
+                  <repository>B. Cz. <idno>1596</idno>, <locus>p. 301-30</locus></repository>
+               </msIdentifier>
+               <msContents>
+                  <p>fair copy in secretary's hand, author's signagure</p>
+               </msContents>
+               <physDesc>
+                  <p>seal next to the address</p>
+               </physDesc>
+            </msDesc>
+            <msDesc type="register" ana="primary" n="2">
+               <msIdentifier>
+                  <repository>CBKUL, <idno>R.III, 32, No. 532</idno></repository>
+               </msIdentifier>
+               <msContents>
+                  <p>20th century register with excerpt in Latin, English</p>
+               </msContents>
+            </msDesc>
+            <bibl type="print"><title>De Vocht 1961</title> No. DE, 149, 90 (reference)</bibl>
+            <bibl type="print"><title>Axer 1990</title> No. 13, 1990, p. 371-377 (in extenso)</bibl>
+            <bibl type="print"><title>Españoles</title> part IIIA, No. 2, 320-321 (in
+               extenso)</bibl>
+            <bibl type="print"><title>Rodriguez, Skolimowska</title> No. 20, p.106 (Spanish
+               register)</bibl>
+            <bibl type="print"><title>Reflejos</title> p. 125-126, 128-129 (in extenso; Polish
+               translation)</bibl>
+         </sourceDesc>
+      </fileDesc>
+      <profileDesc>
+         <abstract>
+            <p>A letter showing complex alignment between transcription and translation. The
+               translation does not contain page breaks, so the alignment has to be computed
+               dynamically for each page using a mapping function. Additionally incorporates a IIIF
+               view of the facsimile.</p>
+         </abstract>
+         <textClass>
+            <catRef scheme="#genre" target="#correspondence"/>
+            <catRef scheme="#form" target="#manuscript"/>
+            <catRef scheme="#feature" target="#image"/>
+            <catRef scheme="#feature" target="#translation"/>
+            <catRef scheme="#feature" target="#pages"/>
+            <catRef scheme="#feature" target="#alignment"/>
+            <catRef scheme="#feature" target="#person"/>
+            <catRef scheme="#feature" target="#place"/>
+            <catRef scheme="#feature" target="#ltr"/>
+            <catRef scheme="#period" target="#early-modern"/>
+         </textClass>
+         <langUsage>
+            <language ident="es">Spanish</language>
+            <language ident="pl">Polish</language>
+         </langUsage>
+         <correspDesc>
+            <correspAction type="sent">
+               <persName key="gnd-118522280" role="sender" ana="Cortés, Hernán de Monroy e Pizarro"/>
+               <placeName key="geo-3530597">México</placeName>
+               <date notBefore="1531-08-01" notAfter="1531-08-01">August 1 1531</date>
+            </correspAction>
+            <correspAction type="received">
+               <persName key="gnd-119442086" role="addressee" ana="Dantiscus, Ioannes"/>
+               <placeName key="geo-2849483">Regensburg</placeName>
+               <date notBefore="1532-04-06" notAfter="1532-04-06">April 6 1532</date>
+            </correspAction>
+         </correspDesc>
+      </profileDesc>
+      <revisionDesc>
+         <listChange>
+            <change resp="#turska" when="2025-03-11">Adjust to TEI Lite structure</change>
+         </listChange>
+      </revisionDesc>
+   </teiHeader>
+   <facsimile>
+      <surface xml:id="p302">
+         <graphic url="12446_000_BCz_1596p302.jpg"/>
+      </surface>
+      <surface xml:id="p301">
+         <graphic url="12446_000_BCz_1596p301.jpg"/>
+      </surface>
+   </facsimile>
+   <text>
+      <text type="source" xml:lang="es">
+         <div type="front" xml:id="s.1">
+            <div xml:id="s.1.1">
+               <p xml:id="s.1.1.1">
+                  <pb n="BCz, 1596, p. 302" facs="#p302"/>
+                  <seg type="address" xml:id="s.1.1.1.1">
+                     <lb/>Al muy Magnifico y muy Reverendo Señor <lb/>el Señor <rs type="person" key="gnd-119442086">obispo diócesis Colmensis</rs>
+                     <lb/>etc., enbaxador del Sereníssimo Señor<lb/>
+                     <rs type="person" key="gnd-118797158">rrey de Polonia</rs> etc.</seg>
+               </p>
+            </div>
+         </div>
+         <div type="body" xml:id="s.2">
+            <div xml:id="s.2.1">
+               <pb n="BCz, 1596, p. 301" facs="#p301"/>
+               <p xml:id="s.2.1.1">
+                  <seg xml:id="s.2.1.1.1">
+                     <seg type="incipit">Dos Cartas De Vuestra Señoría, una duplicada de otra, he
+                        rreceuido</seg>, y en cada una dellas los versos que Vuestra Señoría hizo
+                     intitulados a la <rs type="person" key="gnd-118560093">magestad cesárea</rs>, y
+                     leílos muchas vezes por bien comprehenderlos.</seg>
+                  <seg xml:id="s.2.1.1.2">Pareciéronme en su brevedad y mucha sentencia bien ser
+                     hechos de la mano de Vuestra Señoría, porque de otra no era bastante.</seg>
+                  <seg xml:id="s.2.1.1.3">Beso las manos de Vuestra Señoría por enbiarmelos y por
+                     sus cartas, pues dellas entendí tener salud Vuestra Magnífica Persona, y por
+                     otra de <persName key="gnd-137224435">Gerónimo Sailer</persName> que Vuestra
+                     Señoría havía obispado, de que holgue mucho; plega a Nuestro Señor que por
+                     pontificado se rrenuncie que bien creerá Vuestra Señoría que no me pesaría
+                     dello.</seg>
+               </p>
+               <p xml:id="s.2.1.2">
+                  <seg xml:id="s.2.1.2.1">Yo rrecibo tanta merced con las cartas de Vuestra Señoría
+                     que querría que, aunque la distancia del largo camino estorva mi deseo, se
+                     diese orden como se hiziese lo posible.</seg>
+                  <seg xml:id="s.2.1.2.2">Y pues <persName key="gnd-137224435">Gerónimo</persName>
+                     rreside en la corte de <placeName key="dantiscus-0000001">Castilla</placeName>,
+                     por la vía suya podrá Vuestra Señoría escrevirme.</seg>
+                  <seg xml:id="s.2.1.2.3">Suplico a Vuestra Señoría lo haga y me escriva siempre de
+                     su salud y prosperidad y de todo lo que sucediere en la estada de la <rs type="person" key="gnd-118560093">magestad cesárea</rs> allá, asi en lo del
+                        <rs type="person" key="gnd-118619993">Turco</rs> como en lo del <persName key="gnd-118575449">Luterio</persName> (que Dios confunda), y mandándome en
+                     las cosas que yo pueda hazerle servicio, que esto es lo que yo más deseo.</seg>
+                  <seg xml:id="s.2.1.2.4">Bien querría que la conversación de la corte de <rs type="person" key="gnd-118560093">Su Magestad</rs> continuase Vuestra
+                     Señoría, por gozar de más cerca de su conversación.</seg>
+               </p>
+               <p xml:id="s.2.1.3">
+                  <seg xml:id="s.2.1.3.1">Yo llegué bueno de salud a estas partes y lo mismo la <rs type="person" key="dantiscus-00001">marquesa</rs> que parió un <rs type="person" key="dantiscus-00003">hijo</rs>, y no bivió sino quinze días,
+                     el qual trocamos por una <rs type="person" key="dantiscus-00002">hija</rs> de
+                     que ahora está parida.</seg>
+                  <seg xml:id="s.2.1.3.2">Y no hay nuevas de la tierra que poder dezir a Vuestra
+                     Señoría porque de nuevo no ha havido conquista, aunque hoy parte un <rs type="person" key="gnd-1053071620" cert="low">cavallero</rs> por mí teniente
+                     de capitán general con gente a conquistar cierta gente y tierra y a poblarla,
+                     que creo que será próspera y hará bien mis hechos según la disposicion
+                     della.</seg>
+                  <seg xml:id="s.2.1.3.3"> Y tanbién yo tengo a punto ciertos navíos y gente para
+                     enbíar a la <placeName key="geo-2363254">Mar del Sur</placeName> en socorro de
+                     otros navíos y gente que enbié a la especiería llegando en salvamento.</seg>
+                  <seg xml:id="s.2.1.3.4">Creo que será muy gran cosa, daré aviso a Vuestra Señoría
+                     por la vía de <persName key="gnd-137224435">Gerónimo</persName> de lo que
+                     subcediere.</seg>
+                  <seg xml:id="s.2.1.3.5">Y cada día pienso de ocuparme en descobrir y habrá cosas
+                     nuevas que escrevir y enbíar a Vuestra Señoría, que aunque yo lo quisiera ahora
+                     hazer, lo de aquí vase acabando, porque todas las gentes se ocupan en
+                     granjerías que es la tierra para ello.</seg>
+               </p>
+               <p xml:id="s.2.1.4">
+                  <seg xml:id="s.2.1.4.1">Nuestro Señor la muy Reverenda y muy Magnifica Persona de
+                     Vuestra Señoría y estado guarde y acresciente.</seg>
+               </p>
+               <closer xml:id="s.2.1.5">
+                  <seg xml:id="s.2.1.5.1">De esta <placeName key="geo-3530597">gran ciudad de
+                        México</placeName>, primero de agosto de 1531.</seg>
+               </closer>
+               <closer xml:id="s.2.1.6">
+                  <salute xml:id="s.2.1.6.1">
+                     <seg xml:id="s.2.1.6.1.1">Servidor de Vuestra Señoría, el <rs type="person" key="gnd-118522280">marques del Valle</rs>
+                     </seg>
+                  </salute>
+               </closer>
+            </div>
+         </div>
+      </text>
+      <text type="translation" xml:lang="pl" xml:id="t.pl">
+         <div type="front" xml:id="t.1">
+            <div xml:id="t.1.1">
+               <p xml:id="t.1.1.1">
+                  <seg type="address" xml:id="t.1.1.1.1">Do Jaśnie Wielmożnego i Wielce Czcigodnego
+                     Pana a Pana <rs type="person" key="gnd-119442086">biskupa diecezji
+                        chełmińskiej</rs> etc., ambasadora Najjaśniejszego Pana <rs type="person" key="gnd-118797158">króla Polski</rs> etc.</seg>
+               </p>
+            </div>
+         </div>
+         <div type="body" xml:id="t.2">
+            <div xml:id="t.2.1">
+               <p xml:id="t.2.1.1">
+                  <seg xml:id="t.2.1.1.1">
+                     <seg type="incipit">Otrzymałem od Waszej Wielmożności dwa listy, jeden jest
+                        kopią drugiego</seg>, a w każdym z nich wiersze, które Wasza Wielmożność
+                     napisała, zadedykowane <rs type="person" key="gnd-118560093">Cesarzowi</rs>.
+                     Czytałem je wielokrotnie, aby je dobrze zrozumieć.</seg>
+                  <seg xml:id="t.2.1.1.2">Ich zwięzłość i głębokie znaczenie poświadczają, że są
+                     dziełem Waszej Wielmożności, ponieważ kto inny by tak nie potrafił.</seg>
+                  <seg xml:id="t.2.1.1.3">Całuję ręce Waszej Wielmożności za posłanie mi ich i za
+                     Jej listy, z których dowiedziałem się, że Wasza Dostojność ma się zdrowo, a z
+                     innego listu, od <persName key="gnd-137224435">Hieronima Sailera</persName>,
+                     że Wasza Wielmożność otrzymała biskupstwo, z czego bardzo się cieszę. Błagaj
+                     Pana Boga, żeby cię uchronił przed godnością papieską — co Waszej Wielmożności
+                     łatwo może przyjść na myśl — żebym potem tego nie żałował.</seg>
+               </p>
+               <p xml:id="t.2.1.2">
+                  <seg xml:id="t.2.1.2.1">Listy Waszej Wielmożności to dla mnie taka łaska, że
+                     chciałbym aby powtarzała się stale, na ile to możliwe, chociaż na przeszkodzie
+                     mojemu pragnieniu stoi wielkość dzielącej nas drogi.</seg>
+                  <seg xml:id="t.2.1.2.2">A ponieważ <persName key="gnd-137224435">Hieronim</persName> przebywa na Dworze <placeName key="dantiscus-0000001">Kastylijskim</placeName>, za jego pośrednictwem może Wasza Wielmożność do
+                     mnie pisać.</seg>
+                  <seg xml:id="t.2.1.2.3"> Błagam, aby Wasza Wielmożność to czyniła i pisała mi
+                     zawsze o swoim zdrowiu i pomyślności, i o wszystkim, co dzieje się tam, gdzie
+                     zatrzymuje się <rs type="person" key="gnd-118560093">Cesarski Majestat</rs>,
+                     tak w sprawach <rs type="person" key="gnd-118619993">tureckich</rs>, jak i
+                     odnośnie <persName key="gnd-118575449">Lutra</persName> (oby go Bóg pokarał!),
+                     zlecając mi sprawy, w których mógłbym świadczyć przysługi, tego bowiem pragnę
+                     najbardziej.</seg>
+                  <seg xml:id="t.2.1.2.4">Bardzo bym chciał, aby Wasza Wielmożność nadal rozmawiała
+                     ze mną z dworu <rs type="person" key="gnd-118560093">Jego Cesarskiej
+                     Mości</rs>, aby mieć przyjemność bardziej bezpośredniej rozmowy.</seg>
+               </p>
+               <p xml:id="t.2.1.3">
+                  <seg xml:id="t.2.1.3.1">Ja przybyłem w te strony w dobrym zdrowiu i tak samo <rs type="person" key="dantiscus-00001">Markiza</rs>, która urodziła <rs type="person" key="dantiscus-00003">syna</rs>. Żył jednak zaledwie
+                     piętnaście dni. Zamieniliśmy go na <rs type="person" key="dantiscus-00002">córkę</rs>, która się właśnie urodziła.</seg>
+                  <seg xml:id="t.2.1.3.2">Nie mam nowin z głębi lądu, które mógłbym przekazać Waszej
+                     Wielmożności, ponieważ nie zaczął się jeszcze nowy podbój, chociaż dzisiaj
+                     wyrusza pewien <rs type="person" key="gnd-1053071620" cert="low">szlachcic</rs>
+                     z wojskiem jako mój zastępca w roli kapitana generalnego, aby podbić pewne
+                     plemię i jego ziemie i zasiedlić je, co się powiedzie, jak sądzę, i pomoże moim
+                     działaniom ze względu na położenia tego obszaru.</seg>
+                  <seg xml:id="t.2.1.3.3">Mam także przygotowaną pewną liczbę okrętów i ludzi do
+                     wysłania na <placeName key="geo-2363254">Morze Południowe</placeName> jako
+                     wsparcie dla innych okrętów i załóg, które posłałem po przyprawy korzenne;
+                     trzeba pospieszyć im na ratunek.</seg>
+                  <seg xml:id="t.2.1.3.4">Spodziewam się, że to będzie wielka sprawa, dam znać
+                     Waszej Wielmożności za pośrednictwem <persName key="gnd-137224435">Hieronima</persName> o tym, co się wydarzy.</seg>
+                  <seg xml:id="t.2.1.3.5"> Codziennie myślę o odkrywaniu, więc będę miał nowiny,
+                     żeby je spisać i wysłać Waszej Wielmożności. Chciałbym wprawdzie uczynić to już
+                     teraz, ale to się tutaj kończy, bo ludzie zajmują się uprawą roli, gdyż ziemia
+                     jest po temu.</seg>
+               </p>
+               <p xml:id="t.2.1.4">
+                  <seg xml:id="t.2.1.4.1">Niech Nasz Pan strzeże i wspomaga Czcigodną i Dostojną
+                     Osobę Waszej Wielmożności i Jej sprawy.</seg>
+               </p>
+               <closer xml:id="t.2.1.5">
+                  <seg xml:id="t.2.1.5.1">Z tego <placeName key="geo-3530597">wielkiego miasta
+                        Meksyku</placeName>, 1 sierpnia 1531.</seg>
+               </closer>
+               <closer xml:id="t.2.1.6">
+                  <salute xml:id="t.2.1.6.1">
+                     <seg xml:id="t.2.1.6.1.1">Sługa Waszej Wielmożności <rs type="person" key="gnd-118522280">Markiz del Valle</rs>
+                     </seg>
+                  </salute>
+               </closer>
+            </div>
+         </div>
+      </text>
+   </text>
+</TEI>

@@ -1,0 +1,128 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+   <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title>Example taxonomy for TEI Publisher demo files</title>
+         </titleStmt>
+         <publicationStmt>
+            <p/>
+         </publicationStmt>
+         <sourceDesc>
+            <p/>
+         </sourceDesc>
+      </fileDesc>
+      <encodingDesc>
+         <classDecl>
+            <taxonomy xml:id="pb-taxonomy">
+               <category xml:id="genre">
+                  <catDesc>Genre of a text</catDesc>
+                  <category xml:id="prose">
+                     <catDesc>Prose</catDesc>
+                     <category xml:id="philosophy">
+                        <catDesc>Philosophy</catDesc>
+                     </category>
+                     <category xml:id="mathematics">
+                        <catDesc>Mathematics</catDesc>
+                     </category>
+                     <category xml:id="religion">
+                        <catDesc>Religion</catDesc>
+                     </category>
+                  </category>
+                  <category xml:id="correspondence">
+                     <catDesc>Letters and Correspondence</catDesc>
+                  </category>
+                  <category xml:id="drama">
+                     <catDesc>Drama</catDesc>
+                  </category>
+                  <category xml:id="lexicography">
+                     <catDesc>Lexicons and Dictionaries</catDesc>
+                  </category>
+               </category>
+               <category xml:id="period">
+                  <catDesc>Period</catDesc>
+                  <category xml:id="antique">
+                     <catDesc>Antique</catDesc>
+                  </category>
+                  <category xml:id="medieval">
+                     <catDesc>Medieval</catDesc>
+                  </category>
+                  <category xml:id="early-modern">
+                     <catDesc>Early Modern</catDesc>
+                  </category>
+                  <category xml:id="modern">
+                     <catDesc>Modern</catDesc>
+                  </category>
+               </category>
+               <category xml:id="form">
+                  <catDesc>Form</catDesc>
+                  <category xml:id="manuscript">
+                     <catDesc>Manuscript</catDesc>
+                  </category>
+                  <category xml:id="print">
+                     <catDesc>Print</catDesc>
+                  </category>
+               </category>
+               <category xml:id="feature">
+                  <catDesc>Feature</catDesc>
+                  <category xml:id="image">
+                     <catDesc>images</catDesc>
+                  </category>
+                  <category xml:id="iiif">
+                     <catDesc>IIIF presentation manifest</catDesc>
+                  </category>
+                  <category xml:id="normalization">
+                     <catDesc>normalization</catDesc>
+                  </category>
+                  <category xml:id="translation">
+                     <catDesc>translation</catDesc>
+                  </category>
+                  <category xml:id="alignment">
+                     <catDesc>alignment</catDesc>
+                  </category>
+                  <category xml:id="map">
+                     <catDesc>map</catDesc>
+                  </category>
+                  <category xml:id="variants">
+                     <catDesc>textual variants</catDesc>
+                  </category>
+                  <category xml:id="pages">
+                     <catDesc>pages</catDesc>
+                  </category>
+                  <category xml:id="columns">
+                     <catDesc>columns</catDesc>
+                  </category>
+                  <category xml:id="lines">
+                     <catDesc>line breaks</catDesc>
+                  </category>
+                  <category xml:id="formula">
+                     <catDesc>formulae</catDesc>
+                  </category>
+                  <category xml:id="mei">
+                     <catDesc>music</catDesc>
+                  </category>
+                  <category xml:id="person">
+                     <catDesc>people</catDesc>
+                  </category>
+                  <category xml:id="place">
+                     <catDesc>places</catDesc>
+                  </category>
+                  <category xml:id="script">
+                     <catDesc>non-Latin script</catDesc>
+                  </category>
+                  <category xml:id="rtl">
+                     <catDesc>rtl</catDesc>
+                  </category>
+                  <category xml:id="ltr">
+                     <catDesc>ltr</catDesc>
+                  </category>
+               </category>
+            </taxonomy>
+         </classDecl>
+      </encodingDesc>
+   </teiHeader>
+   <text>
+      <body>
+         <p/>
+      </body>
+   </text>
+</TEI>

@@ -1,0 +1,12 @@
+<listPlace xmlns="http://www.tei-c.org/ns/1.0" xml:id="place-default">
+    <place xml:id="place-NEW" type="PPL">
+        <placeName type="main"/>
+        <placeName type="sort"/>
+        <country/>
+        <region/>
+        <location>
+            <geo/>
+        </location>
+        <note/>
+     </place>
+</listPlace>

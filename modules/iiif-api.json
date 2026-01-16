@@ -1,0 +1,74 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "version": "1.0.0",
+        "title": "TEI Publisher Documentation and Demo – IIIF API",
+        "description": "Provides an endpoint to generate IIIF presentation manifests for TEI documents"
+    },
+    "servers": [
+        {
+            "description": "Endpoint for testing on localhost",
+            "url": "/exist/apps/tei-publisher"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "basicAuth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "cookieAuth": {
+                "type": "apiKey",
+                "name": "teipublisher.com.login",
+                "in": "cookie"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "iiif",
+            "description": "Generate IIIF manifests"
+        }
+    ],
+    "paths": {
+        "/api/iiif/{path}": {
+            "get": {
+                "summary": "Retrieve IIIF presentation manifest for document",
+                "operationId": "iiif:manifest",
+                "tags": [
+                    "iiif"
+                ],
+                "parameters": [
+                    {
+                        "name": "path",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "IIIF manifest",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        {
+            "cookieAuth": []
+        },
+        {
+            "basicAuth": []
+        }
+    ]
+}

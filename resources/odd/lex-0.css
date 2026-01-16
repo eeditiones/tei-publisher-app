@@ -1,0 +1,13 @@
+@media print {
+    .tei-div {
+        page-break-before: always;
+    }
+
+    .tei-sense {
+        text-indent: 2rem;
+    }
+
+    p {
+        margin: 0;
+    }
+}

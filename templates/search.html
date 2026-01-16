@@ -1,0 +1,71 @@
+<template>
+    ---json
+    {
+        "features": {
+            "toolbar": {
+                "navigation": false,
+                "progress": {
+                    "subscribe": "results"
+                }
+            },
+            "upload": {
+                "enabled": false
+            },
+            "timeline": {
+                "enabled": false
+            }
+        },
+        "templating": {
+            "extends": "templates/layouts/content.html"
+        },
+        "script": {
+            "custom": [
+                "resources/scripts/facets.js"
+            ]
+        }
+    }
+    ---
+    <style>
+        pb-search .targets {
+            margin-top: 1rem;
+        }
+
+        /* Fix for overlapping targets and pb-custom-form */
+        .right &gt; pb-search {
+            margin-bottom: 1rem;
+            height: fit-content;
+        }
+    </style>
+
+    [% template breadcrumb %]
+    <li>
+        <nav aria-label="breadcrumb">
+            <ul>
+                <li><a href="[[ $context-path ]]/browse.html"><pb-i18n key="breadcrumb.collection-root"/></a></li>
+                <li><pb-i18n key="search.results"/></li>
+            </ul>
+        </nav>
+    </li>
+    [% endtemplate %]
+
+    <main>
+        <pb-load class="results" url="api/search" emit="results"/>
+    </main>
+
+    [% template before %]
+    <pb-search id="search-form" subscribe="search" value="[[ page:parameter($context, 'query', '') ]]" submit-on-load="submit-on-load" subforms=".facets">
+        <!-- <div class="targets">
+            <label>
+                <input type="checkbox" name="field" value="text"/>
+                Search sections
+            </label>
+            <label>
+                <input type="checkbox" name="field" value="head"/>
+                Search headings
+            </label>
+        </div> -->
+        <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>
+    </pb-search>
+    <pb-custom-form class="facets" url="api/search/facets" subscribe="results" event="pb-results-received" emit="search"/>
+    [% endtemplate %]
+</template>

@@ -1,0 +1,19 @@
+:root {
+    --jinks-colors-700: #2D2B26;
+    --jinks-colors-600: #555041;
+    --jinks-colors-500: #6f6b5d;
+    --jinks-colors-400: #CFCDC5;
+    --jinks-colors-300: #DCDAD4;
+    --jinks-colors-200: #F6F6F3;
+    --jinks-colors-100: #FCFCF8;
+    --jinks-colors-50: #FEFEF9;
+
+    --jinks-colors-light: #FCFCF8;
+    --jinks-colors-grey: #5A5A5A;
+    --jinks-colors-dark: #4C5F41;
+    --jinks-colors-medium: #DBDBD0;
+    --jinks-colors-accent: #CFCDC5;
+    --jinks-colors-black-300: #737373;
+
+    --jinks-colors-highlight: var(--jinks-colors-accent);
+}
