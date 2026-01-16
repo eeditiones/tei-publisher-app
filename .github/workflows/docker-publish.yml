@@ -51,14 +51,14 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Pull demo image
-        run: docker pull ${DEMO_IMAGE}:latest
+        run: docker pull ${{ env.DEMO_IMAGE }}:latest
       
       - name: Start demo container
         run: |
           docker run -d \
             --name teipublisher-test \
             --publish 8080:8080 \
-            ${DEMO_IMAGE}:latest
+            ${{ env.DEMO_IMAGE }}:latest
       
       - name: Wait for server to be ready
         run: |
@@ -136,7 +136,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       
       - name: Pull demo image
-        run: docker pull ${DEMO_IMAGE}:latest
+        run: docker pull ${{ env.DEMO_IMAGE }}:latest
       
       - name: Docker meta
         id: meta
@@ -157,7 +157,7 @@ jobs:
           echo "${{ steps.meta.outputs.tags }}" | while IFS= read -r tag; do
             if [ -n "$tag" ]; then
               echo "Pushing ghcr.io/eeditiones/${{ env.IMAGE_NAME }}:$tag"
-              docker buildx imagetools create -t "ghcr.io/eeditiones/${{ env.IMAGE_NAME }}:$tag" ${DEMO_IMAGE}:latest
+              docker buildx imagetools create -t "ghcr.io/eeditiones/${{ env.IMAGE_NAME }}:$tag" ${{ env.DEMO_IMAGE }}:latest
             fi
           done
       
@@ -168,6 +168,6 @@ jobs:
           echo "${{ steps.meta.outputs.tags }}" | while IFS= read -r tag; do
             if [ -n "$tag" ]; then
               echo "Pushing existdb/${{ env.IMAGE_NAME }}:$tag"
-              docker buildx imagetools create -t "existdb/${{ env.IMAGE_NAME }}:$tag" ${DEMO_IMAGE}:latest
+              docker buildx imagetools create -t "existdb/${{ env.IMAGE_NAME }}:$tag" ${{ env.DEMO_IMAGE }}:latest
             fi
           done
