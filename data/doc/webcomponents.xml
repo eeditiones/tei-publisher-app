@@ -1,0 +1,1118 @@
+<?teipublisher odd="docbook.odd" template="documentation.html" depth="5" fill="2" media="print fo epub markdown"?><?xml-model href="https://cdn.docbook.org/schema/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en" label="d">
+    <info>
+        <title>Web Components</title>
+        <author>
+            <orgname>TEI Publisher Community</orgname>
+        </author>
+        <abstract>
+            <para>Documents the use of Web Components within TEI Publisher</para>
+        </abstract>
+        <keywordset role="genre">
+            <keyword>Documentation</keyword>
+        </keywordset>
+    </info>
+    <section xml:id="webcomponents">
+        <title>Introduction</title>
+        <para>Most of the dynamic elements in TEI Publisher, include the map, facsimile viewer, but
+            also the text view itself are custom HTML elements. They are like "Lego" blocks which
+            can be freely moved around and rearranged without knowing anything about the internal
+            implementation of the component. Each of them encapsulates a certain functionality and
+            appearance.</para>
+            <para>The technology enabling this Lego-like modular approach is a W3C standard called
+                    <emphasis>Web Components</emphasis>. It is built into all modern browsers,
+                reducing the need for external frameworks. There's a growing collection of
+                ready-to-use components available. TEI Publisher exposes its collection of Web
+                Components targeted at creating digital editions as a separate
+                <link xlink:href="https://www.npmjs.com/package/@teipublisher/pb-components">pb-components package</link>.</para>
+            <para>You do not need to know much about <emphasis>Web Components</emphasis> to use them
+                in TEI Publisher. From a user perspective, a component looks like any other HTML
+                element. You configure it by setting its properties via attributes. For example, the
+                following HTML code snippet will display the first page/section of two completely
+                different documents as you can see below in the embedded <link xlink:show="new" xlink:href="https://codepen.io/">Codepen</link> (to learn more on embedding
+                Publisher output and components see <link linkend="embedding">further
+                    chapters</link>) </para>
+            <programlisting language="xml" xml:space="preserve">
+&lt;pb-page&gt;
+  &lt;pb-document id="document1" path="test/kant_rvernunft_1781.TEI-P5.xml" odd="dta" view="page"&gt;&lt;/pb-document&gt;
+  &lt;pb-document id="document2" path="doc/documentation.xml" odd="docbook" view="div"&gt;&lt;/pb-document&gt;
+
+  &lt;!-- Display two document views side by side --&gt;
+  &lt;main&gt;
+      &lt;pb-view id="view1" src="document1"&gt;&lt;/pb-view&gt;
+      &lt;pb-view id="view2" src="document2"&gt;&lt;/pb-view&gt;
+  &lt;/main&gt;
+&lt;/pb-page&gt;</programlisting>
+
+            <programlisting role="codepen" xlink:href="wolfgangmm#WNvYYWB"/>
+            <para>
+            <tag>pb-page</tag>, <tag>pb-document</tag> and <tag>pb-view</tag> are three web
+            components from <code>pb-components</code> library, while <tag>main</tag> is a standard
+            HTML5 tag. The name of the custom element <emphasis role="bold">must</emphasis> start
+            with a prefix to distinguish it from standard HTML. This concept should be familiar to
+            XML people. For TEI Publisher components, the prefix is always <code>pb-</code>. </para>
+            <para>The part of the page which uses TEI Publisher web components should be wrapped
+            into a <tag>pb-page</tag> element. This element determines the TEI Publisher server
+            instance all other components will be communicating with (see the next section below).
+            It is also responsible for some other initialization steps, e.g. loading the list of
+            available user interface translations.</para>
+            <para><tag>pb-document</tag> specifies a document source, which can then be referenced
+            by id from other components. The component provides a way to configure basic properties
+            governing the document's default rendering, like associated ODD file, etc. In the
+            example above, we define three properties for each document:</para>
+            <variablelist>
+                <varlistentry>
+                    <term>path</term>
+                    <listitem>
+                        <para>the relative path to the XML document. This will be interpreted as
+                        relative to the <emphasis>data root collection</emphasis> of TEI Publisher,
+                        by default pointing to the <filename>data</filename> collection within the
+                        TEI Publisher app. </para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <variablelist>
+                <varlistentry>
+                    <term>odd</term>
+                    <listitem>
+                        <para>the name – without suffix – of the ODD to use for rendering the
+                        document. In the example, the first document is encoded in TEI and thus
+                        transformed through <filename> dta.odd</filename>, while the second is
+                        written in DocBook and passed through <filename>docbook.odd</filename>. </para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <variablelist>
+                <varlistentry>
+                    <term>view</term>
+                    <listitem>
+                        <para>this property determines how the document will be paginated if the
+                            user navigates forward/backward. Currently three possible methods are
+                            available:</para>
+                        <orderedlist>
+                            <listitem>
+                                <para>
+                                    <parameter>div</parameter> : displays one structural division
+                                    (TEI div, DocBook section …) at a time </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    <parameter>page</parameter> : displays the document page by
+                                    page. This requires page break indicators to be present
+                                        (<tag>pb</tag> in TEI, not supported for docbook). </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    <parameter>single</parameter> : the entire document (or a
+                                    selected fragment of it) is displayed at once </para>
+                            </listitem>
+                        </orderedlist>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <para><tag>pb-view</tag> is a critical component in TEI Publisher: it provides the
+            actual text view by transforming a part or entirety of the source XML into HTML based on
+            the processing model instructions in the ODD. pb-view also takes care of navigating to
+            the next page when the user clicks on the navigation controls in the toolbar.</para>
+
+            <para>Because webcomponents are all about encapsulation, <tag>pb-view</tag> ensures that
+            the styling of the text as governed by the ODD will be confined to the boundaries of the
+            component. This makes it possible to display two completely heterogenous texts (like the
+            documentation and Kant's Kritik) on the same page without styles contaminating each
+            other. As a downside, encapsulation also poses some challenges, which we discussed in
+            the section about <link linkend="css-styling-components">CSS styling</link>. </para>
+    </section>
+        <section xml:id="webcomponents-docs">
+            <title>Webcomponent Documentation</title>
+            <para>To better understand the various components TEI Publisher provides, it is best to
+            have a look at the small examples contained in the <link xlink:show="new" xlink:href="https://cdn.tei-publisher.com/api.html">web components API
+                documentation</link>. The list of components may be overwhelming at first sight.
+            However you don’t need to learn them all. There are just a few components that should be
+            understood before you start customizing. Their demo pages showcase a working example
+            along with the code snippet which actually implements it. </para>
+            <para> You can also get an editable live view like the one above if you click on the
+                    <guibutton>Edit Code</guibutton> button to the bottom right of each example. </para>
+            <para>In particular you may want to look at the following examples:</para>
+            <variablelist>
+                <varlistentry>
+                    <term>
+                        <link xlink:show="new" xlink:href="https://cdn.tei-publisher.com/api.html#pb-document.1">
+                            pb-document</link>
+                    </term>
+                    <listitem>
+                        <para>shows the example given above in action</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>
+                        <link xlink:show="new" xlink:href="https://cdn.tei-publisher.com/api.html#pb-view.1">
+                            pb-view</link>
+                    </term>
+                    <listitem>
+                        <para>adds navigation buttons to read the document page by page</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>
+                        <link xlink:show="new" xlink:href="https://cdn.tei-publisher.com/api.html#pb-facsimile.1">
+                            pb-facsimile</link>
+                    </term>
+                    <listitem>
+                        <para>display facsimiles via IIIF server and link to them</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>
+                        <link xlink:show="new" xlink:href="https://cdn.tei-publisher.com/api.html#pb-leaflet-map.1">
+                            pb-leaflet-map</link>
+                    </term>
+                    <listitem>
+                        <para>show a map and link to geo coordinates</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>
+                        <link xlink:show="new" xlink:href="https://cdn.tei-publisher.com/api.html#pb-load.1">
+                            pb-load</link>
+                    </term>
+                    <listitem>
+                        <para>call a server-side XQuery to retrieve additional information about the
+                            document, in this case actors appearing in the play</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>
+                        <link xlink:show="new" xlink:href="https://cdn.tei-publisher.com/api.html#pb-search.1">
+                            pb-search</link>
+                    </term>
+                    <listitem>
+                        <para>execute a search on the database, retrieve the results and paginate
+                            through them</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>
+                        <link xlink:show="new" xlink:href="https://cdn.tei-publisher.com/api.html#pb-grid.1">
+                            pb-grid</link>
+                    </term>
+                    <listitem>
+                        <para>dynamically add more columns to a horizontal grid of components</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <note>
+                <title>Caveat</title>
+                <para> Some properties of pb-view and other components are boolean properties. In
+                    HTML5 this corresponds to an attribute without value, which is illegal in XML.
+                    If you want to preserve valid XML, just write the attribute with the same name
+                    and value, e.g. <code> append-footnotes="append-footnotes"</code>. </para>
+            </note>
+        </section>
+
+        <section xml:id="webcomponents-communication">
+            <title>Communication between Components</title>
+            <para> To allow for maximum flexibility, nearly all of the TEI Publisher webcomponents
+                communicate via events: this way avoids hard wiring and components may appear
+                anywhere on the page. For example, the controls for paginating through a document do
+                not directly talk to the document view: they just send an
+                <emphasis>event</emphasis>, indicating the users' wish to navigate backward or
+                forward. Components listening for this event may then react to it by refreshing the
+                text being displayed. </para>
+            <para> Since you can have multiple text views showing content from different sources,
+                every event can be announced at a specific communication
+                    <emphasis>channel</emphasis>. This allows us to distinguish between different
+                sources, e.g. two transcriptions being shown side by side. Most TEI Publisher
+                components therefore accept two properties to configure the channel they are
+                listening or sending events to: </para>
+            <variablelist>
+                <varlistentry>
+                    <term>subscribe</term>
+                    <listitem>
+                        <para>name of the channel to which this component subscribes to. It will
+                            only react to events coming in via this channel.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>emit</term>
+                    <listitem>
+                        <para>name of the channel to which this components sends events.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <para>If neither of these properties is given, the component will subscribe and emit to
+                the global default channel. A component may also send to a different channel than it
+                subscribes to, allowing chains of events.</para>
+            <para>Common properties and methods accepted by many TEI Publisher components are
+                defined in the class PbMixin.</para>
+        </section>
+        <section xml:id="alignment">
+            <title>Handling Complex Alignments</title>
+            <para>It is often desirable to show two or more views of a document at the same time,
+                for example to display the translation aligned with a given source fragment. In the
+                simplest case, the transcription and translation may be aligned on the level of
+                divisions or page breaks and one can simply use two <tag>pb-view</tag> referencing
+                different starting points in the TEI document (this approach is used by the
+                Serafin's correspondence blueprint). </para>
+            <para>Unfortunately things are not always as simple as that. For example, even if the
+                transcription contains page breaks or milestones which can be used to display a
+                single page, the translation might not. One thus needs a different approach to
+                compute the alignment between fragments. Nevertheless, the logic of the alignment
+                algorithm will highly depend on the conventions used in the encoding. TEI allows a
+                wide variety of alignment mechanisms and we do not want to limit the freedom of the
+                editor by prescribing a particular method.</para>
+            <para>TEI Publisher thus implements a generic way to plug an XQuery function into the
+                processing pipeline. The function takes the source element being processed as input
+                and may replace it by its aligned equivalent. Such an equivalent may be another
+                element or fragment from the same or a different document. The source element will
+                usually point to the part of the transcription being displayed. The mapping function
+                uses this as starting point to determine an aligned fragment and returns it. The
+                returned fragment will then be further passed through the processing model.</para>
+            <para> The XQuery mapping function should be defined in the module
+                    <filename>modules/map.xql</filename>. It takes an element as its only argument
+                and may return any valid TEI fragment, which will become the input for futher
+                processing through the processing model. </para>
+            <para> The local name of the mapping function can then be supplied in the attribute
+                    <parameter> map</parameter> of <tag>pb-view</tag>. As an illustration, the Van
+                Gogh example includes the following <code>pb-view</code> for displaying the
+                translation: </para>
+            <programlisting language="xquery" xml:space="preserve">&lt;pb-view src="document1" map="vg-translation" xpath="//div[@type='original']"
+    subscribe="transcription"/&gt;</programlisting>
+            <para> In the <link xlink:href="../demo/let695.xml">Van Gogh letters</link>, the translation contains page breaks corresponding to
+                page breaks in the original letter, but these are using a different prefix for the
+                    <code>xml:id</code>. To align the translation with the transcription, we only
+                need to adjust the id, and retrieve the corresponding page break to be done. The
+                XQuery mapping function is thus rather simple: </para>
+            <programlisting language="xquery" xml:space="preserve">declare function mapping:vg-translation($root as element()) {
+    let $id := ``[pb-trans-`{$root/@f}`-`{$root/@n}`]``
+    let $node := root($root)/id($id)
+    return
+        $node
+};</programlisting>
+            <para> Note that returning the corresponding <tag>pb</tag> node of the translation is
+                sufficient here as further processing will automatically extract the page fragment
+                up to the next <tag>pb</tag>. More complex cases may require that mapping function
+                returns arbitrary TEI fragment. Also note that the <parameter>xpath</parameter>
+                attribute of the <tag>pb-view</tag> element in the template must still point to the
+                source transcription ( <parameter> div[@type='original']</parameter> in this case).
+                It's just the mapping function which translates a position in the source
+                transcription to a corresponding fragment in the translation. </para>
+            <para>The letter by <link xlink:href="../demo/CIDTC-3823-cortez.xml">Cortez to Dantiscus sent from Mexico</link> demonstrates a
+            much more sophisticated alignment, determining the translation fragment to be shown by
+            inspecting the ID range of the transcription. It illustrates the case where no milestone
+            elements exist in the translation to explicitly mark page boundaries of the original,
+            thus mapping algorithm aims to display closest corresponding fragment of the translated
+            text.</para>
+        </section>
+    <section xml:id="css-styling-components">
+        <title>Web Components Styling</title>
+        <para>Older versions of TEI Publisher used Google Material Design for most controls (text
+            inputs, selects, radio buttons etc.). The look and feel of those web components was
+            fixed and could not be changed easily. TEI Publisher 10 comes with a new version of its
+            web components. This version largely drops Google Material Design in favour of unstyled
+            HTML. This means that without further styling, all controls will look as the browser
+            renders them by default. The theme profile needs to make sure that controls and
+            components match the overall design.</para>
+        <para>However, a web component completely shields its content, so it cannot easily be styled
+            from outside. Web component styles remain encapsulated, preventing style contamination
+            between individual components and general application context. A blessing in general,
+            allowing components to be scripted and styled without the fear of collision with other
+            parts of the page, but poses additional challenges when adjusting the look and feel of a
+            component to fit a project's theme.</para>
+        <para>TEI Publisher 10 therefore implements a mechanism by which styles are mirrored within
+            the encapsulated component. To avoid redundancy, styles will be shared between
+            components. For the same reason, we copy only those styles, which are relevant for
+            components and, for example, omit those targetting the overall page layout. </para>
+        <para>Consequently components receive a stripped-down bundle of CSS files. All of them are
+            part of the theme profile, and most of them are shared between general page theme and
+            webcomponents. The stripped-down bundle
+                (<filename>resources/css/components.css</filename>) will be prepared by Jinks every
+            time you update an application. Included are:</para>
+        <variablelist>
+            <varlistentry>
+                <term><filename>jinks-variables.css</filename></term>
+                <listitem>
+                    <para>(shared) contains all important variable definitions, including those set
+                        via configuration properties</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><filename>controls.css</filename></term>
+                <listitem>
+                    <para>(shared) defines how buttons, text inputs and other user interface
+                        controls look like</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><code>pico-components.css</code></term>
+                <listitem>
+                    <para>a custom build of <link xlink:href="https://picocss.com/">Pico CSS</link>, the minimal CSS framework TEI
+                        Publisher 10 uses as a basis</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><filename>jinks-components.css</filename></term>
+                <listitem>
+                    <para>changes the default styling for specific web components so they fit into
+                        the theme</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        <para>The last file, <filename>jinks-components.css</filename>, defines the look of concrete
+            components. If you look at the file, you'll notice that most CSS selectors start with a
+                <code>:host()</code> expression, thus targeting a particular component's
+            content.</para>
+        <para>For example, the component handling user login is implemented as a link with an icon.
+            Without additional styling, we would just see the icon in the usual blue color assigned to links
+            and underlined (in most browsers). The following CSS removes the underline and turns the
+            link into a round button matching other menubar buttons in TEI Publisher 10's default
+            theme:</para>
+        <programlisting language="css">:host(pb-login) &gt; a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 81px;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    color: var(--jinks-menubar-color);
+    background-color: var(--jinks-menubar-button-color);
+    font-size: var(--jinks-menubar-font-size);
+    text-decoration: none;
+}</programlisting>
+        <para>If you were to overwrite or extend TEI Publisher's default theme profile, you may also
+            want to change those component-related definitions.</para>
+    </section>
+        <section xml:id="facsimiles">
+            <title>Facsimiles and other images</title>
+            <note role="todo">
+                <para>Move into profile docs for IIIF profile and just link from the documentation
+                    where mentioned?</para>
+            </note>
+            <para>While you can use the <parameter>graphic</parameter> behaviour in the ODD to embed
+                simple images, high-resolution images will usually be served by a separate IIIF
+                service (running outside eXist/TEI Publisher). As of version 8.1.0 of TEI Publisher,
+                two web components are available to handle images provided via the IIIF
+                protocol:</para>
+            <variablelist>
+                <varlistentry>
+                    <term>pb-facsimile</term>
+                    <listitem>
+                        <para>A viewer implementing the IIIF image API for viewing one or more
+                            images. The names/paths of those images need to be known beforehand and
+                            should be registered with the component via <tag>pb-facs-link</tag> or
+                            custom javascript. The viewer is based on <link xlink:href="https://openseadragon.github.io/">OpenSeadragon</link>.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>pb-tify</term>
+                    <listitem>
+                        <para>Supports IIIF presentation manifests: instead of registering a list of
+                            images, it expects all relevant metadata – including the list of images
+                            – to be provided in a single, standardized manifest. Under the hood,
+                                <tag>pb-tify</tag> is based on <link xlink:href="https://tify.rocks/">tify</link>, which also uses <link xlink:href="https://openseadragon.github.io/">OpenSeadragon</link>
+                            for the image display functionality. Available since version 2.10.0 of
+                            tei-publisher-components.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <section xml:id="passing-facsimiles">
+                <title>Passing the list of images to <tag>pb-facsimile</tag></title>
+                <para>Usually the facsimiles to be shown are registered with <tag>pb-facsimile</tag>
+                    by outputting a <tag>pb-facs-link</tag> web component via the ODD. In most cases
+                    this is done when processing a TEI <tag>pb</tag> or <tag>surface</tag>. The name
+                    of the image will be taken from the <parameter>@facs</parameter> attribute and
+                    copied to the <tag>pb-facs-link</tag>. To resolve the full API link,
+                        <tag>pb-facsimile</tag> prepends the <parameter>base-uri</parameter>
+                    configured on it. However, you can also specify an absolute URL on the
+                        <tag>pb-facs-link</tag>. Read more about troubleshooting IIIF links in the
+                        <link xlink:href="https://faq.teipublisher.com/images/image-endpoints/">FAQ</link>.</para>
+            </section>
+            <section xml:id="presentation-manifests">
+                <title>Using IIIF presentation manifests</title>
+                <para>A IIIF presentation manifest is a JSON structure describing a collection of
+                    resources. <tag>pb-tify</tag> expects to load a single manifest and takes all
+                    necessary information from there. If you have an external image database, it may
+                    already be able to deliver a manifest. If not, you can easily generate one on
+                    the fly by creating an API endpoint. This approach is demonstrated by the
+                    Shakespeare example in TEI Publisher, which proceeds as follows:</para>
+                <procedure>
+                    <step>
+                        <para><link xlink:href="modules/custom-api.json" role="source">modules/custom-api.json</link> defines an endpoint
+                                <parameter>/api/iiif/{path}</parameter> and the corresponding
+                            handler in <filename>modules/iiif.xql</filename>, function
+                                <function>iiif:manifest</function>. The <parameter>path</parameter>
+                            parameter is expected to point to an existing TEI document.</para>
+                    </step>
+                    <step>
+                        <para>The XQuery code in function <function>iiif:canvases</function> walks
+                            through each <tag>pb</tag> element in the TEI to output a IIIF canvas
+                            for the linked image.</para>
+                    </step>
+                    <step>
+                        <para>Function <function>iiif:manifest</function> adds additional metadata
+                            fields like title, language or download links to the manifest.</para>
+                    </step>
+                    <step>
+                        <para><link xlink:href="templates/pages/shakespeare.html" role="source">templates/pages/shakespeare.html</link> includes the
+                                <tag>pb-tify</tag> web component, pointing it to the custom API
+                            endpoint:</para>
+                        <synopsis language="xml" xml:space="preserve">&lt;pb-tify subscribe="transcription" emit="transcription" manifest="api/iiif/${docid}" 
+    data-template="pages:parse-params"&gt;&lt;/pb-tify&gt;</synopsis>
+                    </step>
+                </procedure>
+                <para>The manifest to be loaded can either be specified via the
+                        <option>@manifest</option> attribute on the <tag>pb-tify</tag> component, or
+                    it may be provided dynamically via <tag>pb-facs-link</tag> elements elsewhere on
+                    the page or in content generated by an ODD. In this case the
+                        <option>@facs</option> attribute of <tag>pb-facs-link</tag> should contain
+                    the URL to the manifest rather than a single IIIF image.</para>
+                <para>Switching to a specific page can also be done via <tag>pb-facs-link</tag>: the
+                        <option>@order</option> attribute is interpreted as a page number (starting
+                    with 1) and <tag>pb-tify</tag> will show the corresponding image when
+                        <tag>pb-facs-link</tag> is triggered, i.e. the user moves the mouse over or
+                    clicks the element (the <option>@trigger</option> attribute takes the values
+                    "mouseover" or "click"). If you would like a <tag>pb-facs-link</tag> to trigger
+                    manifest or page loading upon load, specify the boolean attribute
+                        <option>@emit-on-load</option>. The Shakespeare example does load the
+                    correct manifest in this way, i.e. by outputting a <tag>pb-facs-link</tag>
+                    through the ODD, using <option>@manifest</option> and <option>@order</option> to
+                    select the page currently shown in the transcription.</para>
+            </section>
+            <section xml:id="presentation-manifest-config">
+                <title>Customizing the generated manifest</title>
+                <para>The way in which facsimile images are referenced from a TEI document will
+                    differ between projects. We nevertheless tried to keep the code as generic as
+                    possible, but there are a few settings which may need adjustment.</para>
+                <para>All settings concerning IIIF manifest generation can be found in
+                        <filename>modules/iiif-config.xqm</filename>. In particular, you may want to
+                    change the following variables/functions:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term>$iiifc:IMAGE_API_BASE</term>
+                        <listitem>
+                            <para>The base URI of the IIIF image service to use for displaying
+                                images</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>iiifc:milestones</term>
+                        <listitem>
+                            <para>Should return the TEI elements in the document context which
+                                reference an image. Usually those are <tag>pb</tag> or
+                                    <tag>milestone</tag> elements, but other variations are
+                                possible.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>iiifc:milestone-id</term>
+                        <listitem>
+                            <para>For each element returned by <code>iiifc:milestones</code>,
+                                extract the path to the image. By default this tries to read the
+                                image path from the <option>@facs</option> attribute.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+            </section>
+        </section>
+    <section xml:id="web-components-loading">
+        <title>Loading Web components</title>
+        <para>By default TEI Publisher and apps generated from it load the user interface components
+            from a global CDN (content delivery network). For a long time this was the generally
+            recommended approach. CDNs promise reliability and fast, globally distributed access to
+            resources. Web browsers can cache those resources efficiently across
+            applications.</para>
+        <para>However, in some countries accessing resources hosted abroad can be legally
+            problematic. Also, users may want to use the application offline. And during
+            development, you may sometimes want to use the latest development version of the
+            component library to simplify debugging.</para>
+        <para>In Jinks you can therefore configure three different scenarios for loading the web
+            component library. This is controlled by the <code>script</code> configuration and it's
+            subproperties <code>cdn</code> and <code>webcomponents</code>. The latter takes the
+            following values:</para>
+        <variablelist>
+            <varlistentry>
+                <term>a concrete version number</term>
+                <listitem>
+                    <para>loads the given version of the web component library from the CDN
+                        specified by the <code>"cdn"</code> property</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><code>"local"</code></term>
+                <listitem>
+                    <para>tries to use a local, self-hosted copy of the library. This needs to be
+                        prepared by running the build script on the command line.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><code>"dev"</code></term>
+                <listitem>
+                    <para>access a development version of the component library running on the local
+                        machine. This requires that you have cloned the web components and started
+                        the development server (<code>npm start</code>).</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        <para>For production deployments of an application we recommend to consider self-hosting the
+            required component libraries. This means: all javascript libraries are downloaded and
+            bundled with your custom application. The bundling will be handled by the build script,
+            so you have to run this first, which means you need to have a copy of your applicatoin
+            on the file system. The necessary steps are as follows:</para>
+        <procedure>
+            <step>
+                <para>open a terminal with a shell</para>
+            </step>
+            <step>
+                <para><link xlink:href="quickstart.xml?id=java">Java</link> and the <link xlink:href="https://ant.apache.org/">Ant build tool</link> should be available within the shell
+                    environment</para>
+            </step>
+            <step>
+                <para>make sure you have <link xlink:href="https://nodejs.org">nodejs</link> with npm
+                    installed; also check if the build property <code>npm</code> in your
+                    <code>build.xml</code> (for generated apps) or <code>build.properties</code> (TEI
+                    Publisher app) points to the npm binary.</para>
+            </step>
+            <step>
+                <para>edit <filename>config.json</filename> and change the value of
+                    <code>script.webcomponents</code> to "local":</para>
+                <programlisting language="json" xml:space="preserve">{
+{
+    …
+    "script": {
+        "webcomponents": "local"
+    }
+    …
+}</programlisting>
+            </step>
+            <step>
+                <para>build your application package with the command <code>ant xar-local</code> (instead
+                    of just calling ant) and deploy as usual</para>
+            </step>
+        </procedure>
+    </section>
+    <section xml:id="custom-components">
+        <title>Creating Custom Web Components</title>
+        <para> In some cases an app may need to add its own web components to the collection
+            provided by TEI Publisher. Please consider following <emphasis role="bold">open-source-first approach</emphasis>, as we do, and contributing your component
+            back to the community, for others to use. </para>
+        <para> For that reason, we recommend here a setup which leads to relatively smooth
+            integration with <code>pb-components</code> in the future. </para>
+        <para> Start with forking and downloading the <code>pb-extension-template</code> package
+            from its <link xlink:show="new" xlink:href="http://github.com/eeditiones/pb-extension-template">GitHub
+                repository</link>. </para>
+        <figure>
+            <title>Visual Studio Code overview of pb-extension-template</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="component-extension.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>You will find it already includes several configuration files to get you started on
+            the development.</para>
+        <itemizedlist>
+            <listitem>
+                <para>
+                    <filename>package.json</filename> file which includes definition and
+                    specifications for common task, like generating documentation or running a web
+                    server for local development </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <filename>src</filename> directory to put your custom web component code. It
+                    already includes <filename>pb-clipboard.js</filename> file as an example of a
+                    simple component </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <filename>index.html</filename> file which illustrates the simplest scaffolding
+                    for using your new components </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <filename>demo</filename> directory to place your demo files for testing and
+                    documentation purposes. It already contains <filename>demo.js</filename>
+                    configuration file and <filename> pb-clipboard.html</filename> demo for
+                        <tag>pb-clipboard</tag>. </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <filename>api.html</filename> file serving as a documentation starting point for
+                    your package </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <filename>rollup.config.js</filename> provides building specification to create
+                    a bundle that can be included in any web page. </para>
+            </listitem>
+        </itemizedlist>
+        <para> To get you started, run <code>npm install</code>. This will install required
+            dependencies: above all <code>pb-components</code> but also <code>es-dev-server</code>
+            and <code> web-component-analyzer</code> packages which are needed for local development
+            and documentation. </para>
+        <figure>
+            <title>Visual Studio Code snippet</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="litelem-vscode-snippet.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para> If you are using Visual Studio code
+                <filename>.vscode/component.code-snippets</filename> will provide you with code
+            templates. If you create a new file in <filename>src</filename>, e.g.
+                <filename>pb-foo.js</filename> and start typing <emphasis>litelement</emphasis> you
+            will be offered a LitElement template. Otherwise you can copy the template manually or
+            copy existing <tag>pb-clipboard</tag> element and tweak it. </para>
+        <figure>
+            <title>LitElement template</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="litelem-template.png" width="600px"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <section xml:id="custom-components-clipboard">
+            <title>pb-clipboard example</title>
+            <para> We will discuss the details of the <tag>pb-clipboard</tag> element to illustrate
+                some basic concepts. You will find exact code of this example in <code>
+                    pb-extension-template/src/pb-clipboard.js</code>. Each custom component has a
+                defined API: an interface it presents to the outside world. It includes properties,
+                methods (also called functions) and events but it bundles HTML markup along with
+                local CSS and JavaScript into a single file. </para>
+            <para> Our example is a custom element designed to provide simple
+                    <emphasis>copy-to-clipboard</emphasis> functionality, helpful e.g. when
+                providing ready-made citation on a page. It consists of three parts: a label, the
+                content to be copied and a button to copy. </para>
+            <para>Thus, render function which actually displays this custom component could look
+                like this:</para>
+            <programlisting language="js" xml:space="preserve">
+    render() {
+        return html`
+            &lt;h3&gt;${translate(this.label)}&lt;/h3&gt;
+            &lt;div&gt;
+                &lt;slot&gt;&lt;/slot&gt;
+                &lt;paper-icon-button icon="icons:content-copy" @click="${this._copy}"
+                    title="${translate('clipboard.copy')}"&gt;&lt;/paper-icon-button&gt;
+            &lt;/div&gt;
+        `;
+    }
+      </programlisting>
+            <para> You will note that the render function uses not only regular HTML elements like
+                    <tag>h3</tag> or <tag>div</tag> but also components from the <code>paper-</code>
+                package. To be able to use them, we need to explicitly import them. Same is true for
+                    <code>LitElement</code> class itself and important interface from the
+                    <code>pb-components</code> package: <code>pbMixin</code>. </para>
+            <para> All user interface components may need to be localized. For that reason we also
+                import <code> translate</code> method from TEI Publisher's <code>i18n</code> module. </para>
+            <para>
+                <code>LitElement</code> and <code>pbMixin</code> must be imported for all custom
+                components extending <code>pb-components</code>. Code listing below demonstrates how
+                to correctly import all classes and custom elements required as well as how to
+                create a class signature that extends <code>pbMixin</code>. </para>
+            <programlisting language="js" xml:space="preserve">
+import { LitElement, html, css } from 'lit-element';
+import { pbMixin } from '@teipublisher/pb-components/src/pb-mixin';
+import { translate } from "@teipublisher/pb-components/src/pb-i18n";
+import '@polymer/paper-icon-button';
+import '@polymer/iron-icons';
+
+/**
+ * A component with a button which copies the contained content to the clipboard.
+ * Use for the typical 'quote this content as' hints on a webpage.
+ * 
+ * @slot content – contains the actual content to copy to the clipboard
+ */
+export class PbClipboard extends pbMixin(LitElement) {
+      </programlisting>
+
+            <para> Imports and render function sorted, there are two other static functions we need
+                to take care of: <function>properties</function> and <function>styles</function>.
+                    <code> pb-clipboard</code> has just a single property: the label to display
+                above the copy text. Nevertheless it needs to explicitly declare properties
+                inherited from pbMixin which is done via <code>...super.properties</code> notation. </para>
+            <programlisting language="js" xml:space="preserve">
+static get properties() {
+        return {
+            /**
+             * Label to display above the text to be copied
+             */
+            label: {
+                type: String
+            },
+            ...super.properties
+        };
+    }
+      </programlisting>
+
+            <para> You probably noticed that the button we added in the <function>render</function>
+                function specifies what to do upon click event via <code>click</code> attribute:
+                    <code> @click="${this._copy}"</code>. A protected <function>_copy</function>
+                function of the element is called in such case and for our simple
+                    <code>pb-clipboard</code> element it provides its core
+                    <emphasis>copy-to-clipboard</emphasis> functionality. </para>
+            <programlisting language="js" xml:space="preserve">
+/**
+* Copy text content from the &lt;slot&gt; to the clipboard
+*/
+
+    _copy() {
+        const slot = this.shadowRoot.querySelector('slot');
+        
+        // first import nodes from the slot into a temporary div
+        const content = document.createElement('div');
+        slot.assignedNodes().forEach((node) =&gt; {
+            content.appendChild(document.importNode(node, true));
+        });
+        
+        // copy the innerText of the temp div into the clipboard
+        navigator.clipboard.writeText(content.innerText);
+    }
+      </programlisting>
+
+            <para> We glanced over yet another interesting function invoked in the
+                    <code>render</code> method. <code>translate</code>, which accepts as an argument
+                a key identifying a corresponding label in i18n language files. It could be one of
+                keys shipping with TEI Publisher, but here, for a new component we need a more
+                specific label, presenting the user with a short, informative text to be displayed
+                when hovering over <emphasis> copy-to-clipboard</emphasis> button. Obviously, the
+                label should change in line with the language setting for the whole application,
+                which is why we need the i18n module in the first place. </para>
+            <programlisting language="js" xml:space="preserve">
+        title="${translate('clipboard.copy')}"
+      </programlisting>
+            <para> Please refer to the chapter on <link linkend="i18n">i18n</link> for in-depth
+                discussion of the subject. Here we'll just mention that additional language files
+                for new components should be placed in <filename>i18n/app</filename>, mimicking the
+                location and format of Publisher. </para>
+            <programlisting language="js" xml:space="preserve">
+{
+  "clipboard": {
+     "label": "Quote  as:",
+     "copy": "Click to copy to clipboard"
+  }
+}
+      </programlisting>
+            <para>And one last job is a little bit of styling to make things pretty.</para>
+            <programlisting language="js" xml:space="preserve">
+static get styles() {
+        return css`
+            :host {
+                display: block;
+            }
+            h3 {
+                margin: 0;
+                font-size: .85em;
+                font-weight: normal;
+                color: #3a3a3a;
+            }
+            div {
+                display: flex;
+                align-items: center;
+                padding: 0 16px;
+            }
+        `;
+    }
+      </programlisting>
+            <para> The final directive at the very bottom of <filename>pb-clipboard.js</filename> is
+                necessary to register the custom element with the browser. </para>
+            <programlisting language="js" xml:space="preserve">
+        customElements.define('pb-clipboard', PbClipboard);
+      </programlisting>
+        </section>
+        <section xml:id="custom-components-testing">
+            <title>Testing pb-clipboard</title>
+            <para> Have a look at the supplied <filename>index.html</filename> example. Run
+                    <code>npm start</code> to run a simple <link xlink:show="new" xlink:href="https://www.npmjs.com/package/es-dev-server">local server</link>
+                instance which allows to test our developments as we work on them without bundling. </para>
+            <para> Opening <filename>index.html</filename> with this server you can see
+                    <tag>pb-clipboard</tag> in action. </para>
+            <programlisting language="html" xml:space="preserve">
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Using pb-clipboard&lt;/title&gt;
+        &lt;style&gt;
+            pb-clipboard {
+                margin-bottom: 20px;
+            }
+        &lt;/style&gt;
+        &lt;script type="module" src="src/pb-clipboard.js"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;Using pb-clipboard&lt;/h1&gt;
+        &lt;pb-clipboard label="Quote as:"&gt;John Doe: "The miracles of foobar", Paradise Publishers, Little Village, Stardate 46254.7&lt;/pb-clipboard&gt;
+        &lt;input type="text" name="test-clipboard" value="" size="60"&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+      </programlisting>
+            <para>In order to use the element, you need to import the component code into your HTML
+                page, as demonstrated with the <tag>script</tag> and
+                    <code>src="src/pb-clipboard.js"</code>. </para>
+            <para>It's all that is needed to use <tag>pb-clipboard</tag> as any other HTML element.
+                Its label property is specified via <code>@label</code> attribute and the copy text
+                is just the text content of the element. </para>
+            <para>Pressing the button copies the citation text from the page and, just to test, you
+                can paste it into the input box below.</para>
+            <figure>
+                <title>pb-clipboard in action on the es-dev-server</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="pb-clipboard-action.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+        <section xml:id="custom-components-api">
+            <title>API documentation</title>
+            <para> Implementing a new feature is only half of the task – and sometimes the easier
+                bit. All <code> pb-components</code> come with their API documentation and most of
+                them also with one or more Demo showcases. Have a look e.g. at
+                    <tag>pb-collapse</tag> component for a simple one and compare with much more
+                elaborate sections devoted to <tag>pb-toggle-feature</tag> or <tag>
+                    pb-select-feature</tag>. </para>
+            <figure>
+                <title>Initial part of the API tab of pb-collapse documentation</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="api-docs.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para> API documentation is generated automatically by <code>npm docs</code> task. You
+                just need to add <link xlink:show="new" xlink:href="https://www.npmjs.com/package/web-component-analyzer#%E2%9E%A4-how-to-document-your-components-using-jsdoc">documentation-style comments</link> in your code. Example below illustrates how
+                to nest code examples or specify slots and events so they are picked by the
+                documentation generator. </para>
+            <programlisting language="js" xml:space="preserve">
+/**
+ * This is a documentation-style comment
+ *
+ * with code example
+ * ```html
+ * &lt;pb-foo&gt;
+ *   &lt;slot&gt;&lt;/slot&gt;
+ *   &lt;div slot="foo-content"&gt;
+ *       Foo bar
+ *   &lt;/div&gt;
+ * &lt;/pb-foo&gt;
+ * ```
+ * slots specification:
+ *
+ * @slot – unnamed default slot
+ * @slot foo-content – content to be shown when foo happens
+ *
+ * events specification:
+ * 
+ * @fires pb-foo-open – Fires opening the foo section
+ */
+      </programlisting>
+            <section xml:id="custom-components-demo">
+                <title>Demo</title>
+                <para>We encourage you to prepare a demo entry for each newly created component.
+                    Demo ideally presents one or more use case examples which illustrate where and
+                    how would you use a component. Keep the demo page simple and minimal, so other
+                    elements do not obstruct understanding the code.</para>
+                <figure>
+                    <title>Demo file for pb-clipboard</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="api-docs-demo.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para> Save your demo files in <filename>demo</filename> directory and register it
+                    in <filename> demo/demos.json</filename> with the demo filename and your chosen
+                    label for the tab (but please stick to Demo if you only have one). </para>
+                <programlisting language="js" xml:space="preserve">
+"pb-collapse": {
+  "demo/pb-collapse.html": "Demo"
+}
+        </programlisting>
+                <para>If you supply a number of demo files, choose meaningful labels for tabs,
+                    e.g.</para>
+                <programlisting language="js" xml:space="preserve">
+"pb-toggle-feature": {
+  "demo/pb-toggle-feature.html": "Server-side with pb-view",
+  "demo/pb-toggle-feature2.html": "Client-side",
+  "demo/pb-toggle-feature3.html": "Server-side with pb-load"
+}
+        </programlisting>
+            </section>
+        </section>
+        <section xml:id="custom-components-bundle">
+            <title>Bundling and distribution</title>
+            <para> Any new component <emphasis role="bold">must</emphasis> be explicitly imported by
+                    <filename> pb-extension-bundle.js</filename>. </para>
+            <programlisting language="js" xml:space="preserve">
+        import './src/pb-clipboard.js';
+      </programlisting>
+            <para> Run <code>npm build:production</code> to generate a distribution bundle. The
+                generated library (located in <filename>dist</filename>) will include everything,
+                including the version of the <code>pb-components</code> library you are building
+                upon and all dependencies. As a result, you can use it as a drop-in replacement for
+                    <code>pb-components</code> package: in your custom project, for TEI Publisher
+                itself or Publisher-generated custom apps. </para>
+        </section>
+        <section xml:id="custom-components-using">
+            <title>Using pb-extension-bundle in TEI Publisher or other apps</title>
+            <para> The created library can be used as a drop-in replacement for the default <code>
+                    pb-components</code> library. </para>
+            <para>To do so:</para>
+            <procedure>
+                <step>
+                    <para> clone <code>tei-publisher-app</code> or the generated app you would like
+                        to modify </para>
+                </step>
+                <step>
+                    <para> edit <filename>package.json</filename> and replace the dependency for
+                            <parameter> @teipublisher/pb-components</parameter> with the replacement
+                        library </para>
+                </step>
+                <step>
+                    <para> edit <filename>build.properties</filename> and change
+                            <parameter>scripts.dir</parameter> to point to the replacement library
+                    </para>
+                </step>
+                <step>
+                    <para> call <code>ant</code> to build <code>tei-publisher-app</code>
+                    </para>
+                </step>
+            </procedure>
+
+            <para> For example, to use the git source of <code>pb-extension-template</code> in
+                    <filename> package.json</filename>, change the dependencies as follows: </para>
+            <programlisting language="js" xml:space="preserve">
+"dependencies": {
+   "@teipublisher/pb-extension-template": "git+https://github.com/eeditiones/pb-extension-template#master"
+} 
+        </programlisting>
+            <para> then change <filename>build.properties</filename> to contain: </para>
+            <programlisting language="js" xml:space="preserve">scripts.dir=node_modules/@teipublisher/pb-extension-template/dist</programlisting>
+
+            <para> Building <code>tei-publisher-app</code> should then copy scripts and resources
+                from <code> pb-extension-template</code> instead of <code>pb-components</code>. </para>
+
+            <note>
+                <title>Note</title>
+                <para> Make sure to adjust the repository link and name of the extension module to
+                    the one you created. Example above assumes working directly with
+                        <code>pb-extension-template</code> but it's unlikely to be the case in real
+                    life. </para>
+            </note>
+        </section>
+
+    </section>
+    <section xml:id="embedding">
+        <title>Embedding TEI Publisher in other systems</title>
+        <para>All <code>pb-components</code> can be used <emphasis>outside</emphasis> TEI Publisher
+            itself. The components can be embedded into any environment, e.g. a CMS or blog software
+            (like WordPress or Drupal) or integrated into any modern front-end framework (like vue,
+            react or angular). All that is needed is a TEI Publisher instance available on the web
+            which stores the source TEI and provides a communication endpoint for the components to
+            talk to. </para>
+        
+        <section xml:id="embedding-examples">
+            <title>Live Examples</title>
+            <para>The embedded example below demonstrates such a use case: it provides a sandbox
+                running on <link xlink:show="new" xlink:href="https://codepen.io">codepen.io</link>
+                but communicates with the TEI Publisher instance on <link xlink:show="new" xlink:href="https://tei-publisher.org">teipublisher.com</link> which stores the
+                documents. The magic happens in the <code>endpoint</code> attribute passed to
+                    <tag>pb-page</tag>, which tells the components where to talk to: </para>
+            <programlisting role="codepen" xlink:href="wolfgangmm#YzXEvvw"/>
+            <para> You can actually edit the code above: for example, try to change the path for the first
+                document to <filename>test/F-rom.xml</filename> and the odd to <code>shakespeare</code>. See
+                how the live view changes? </para>
+            <para> And if you would like to read <emphasis>Romeo and Juliet</emphasis> in two-column mode,
+                just add <code>column-separator=".tei-cb"</code> to the main <tag>pb-view</tag>. </para>
+        </section>
+        
+        <section xml:id="embedding-whole-doc">
+            <title>Retrieving the whole document as a simple HTML</title>
+            <para>Embedding results of applying a Processing Model transformation on a document is
+                even simpler. Behind the scenes, TEI Publisher has a separate library part, which is
+                essentially an implementation of the TEI processing model. This library can be used
+                independently to retrieve the entire content of a TEI document as HTML, transformed
+                through an ODD with processing instructions.</para>
+            <para>All you need is a small XQuery which calls the library modules, setting the correct
+                source document and ODD. Fortunately, TEI Publisher already contains a boilerplate XQuery
+                script for this job, which you can call as follows in your browser:</para>
+            <para>
+                <link xlink:show="new" xlink:href="https://tei-publisher.org/exist/apps/tei-publisher/api/document/test%2FF-rom.xml/html?odd=shakespeare.odd">
+                    https://tei-publisher.org/exist/apps/tei-publisher/api/document/test%2FF-rom.xml/html?odd=shakespeare.odd</link>
+            </para>
+            <para>This will retrieve the content of Shakespeare's <emphasis>Romeo and
+                    Juliet</emphasis> as an HTML page, transformed through the odd
+                    <filename>shakespeare.odd</filename>. For embedding an entire document in an
+                iframe or similar, this should already be enough. Please note that <emphasis role="bold">/</emphasis> character in the path to the document <parameter>
+                    test/F-rom.xml</parameter> had to be URL encoded as <parameter>%2F</parameter> . </para>
+        </section>
+        <section xml:id="embedding-webcomponents">
+            <title>Embedding webcomponents for navigation</title>
+            <para>For longer documents, embedding the entire content in a page may not be too
+                user-friendly. A better way is to use the library of webcomponents provided by TEI
+                Publisher. This way, we can show the content page by page or division by division, allowing
+                the reader to navigate between sections.</para>
+            <programlisting role="codepen" xlink:href="wolfgangmm#ExVQKBK"/>
+            <para>Because webcomponents are part of the HTML5 standard and supported natively by most
+                modern browsers, we can easily import the component library which is at the core of the TEI
+                Publisher app and reuse the components it provides in other contexts. They should work in
+                any HTML5 page, no matter if it was written by hand, is generated by PHP, Python or a
+                CMS.</para>
+            <para>For a start, the page should import two scripts in its header:</para>
+            <programlisting language="html" xml:space="preserve">&lt;script src="https://cdn.jsdelivr.net/npm/web-components-loader/lib/index.min.js"&gt;&lt;/script&gt;
+&lt;script type="module" src="https://cdn.jsdelivr.net/npm/@teipublisher/pb-components/dist/pb-components-bundle.min.js"&gt;&lt;/script&gt;</programlisting>
+            <para>This imports necessary <code>pb-components</code> libraries from
+                    <code>jsdelivr.net</code> CDN which is considered the best practice for web
+                sites. </para>
+            <para>The second <tag>script</tag> tag imports all the components provided by TEI
+                Publisher. Note that here <code>pb-components@latest</code> points to the latest
+                available bundle, but you could specify a concrete version number to make sure your
+                website uses a fixed release. </para>
+            
+            <para>Now let's actually use the components to display Shakespeare's <emphasis>Romeo and
+                    Juliet</emphasis> : in the HTML <tag>body</tag>, include the following snippet: </para>
+            <programlisting language="html" xml:space="preserve">&lt;pb-page endpoint="https://tei-publisher.org/exist/apps/tei-publisher"&gt;
+    &lt;pb-document id="document1" path="test/F-rom.xml" odd="shakespeare"&gt;&lt;/pb-document&gt;
+    &lt;!-- Navigate to previous page --&gt;
+    &lt;pb-navigation direction="backward" unit="page" keyboard="left"&gt;
+      &lt;paper-button&gt;
+         &lt;iron-icon icon="icons:chevron-left"&gt;&lt;/iron-icon&gt;
+      &lt;/paper-button&gt;
+    &lt;/pb-navigation&gt;
+    &lt;pb-view id="view1" src="document1" view="page"&gt;&lt;/pb-view&gt;
+    &lt;!-- Navigate to next page --&gt;
+    &lt;pb-navigation direction="forward" unit="page" keyboard="right"&gt;
+      &lt;paper-button&gt;
+         &lt;iron-icon icon="icons:chevron-right"&gt;&lt;/iron-icon&gt;
+      &lt;/paper-button&gt;
+    &lt;/pb-navigation&gt;
+&lt;/pb-page&gt;</programlisting>
+            <para>In the <tag>pb-page</tag>
+                <code>endpoint</code> attribute we need to provide a critical piece of information:
+                the URL of the TEI Publisher instance for all the components to communicate with. If
+                you have set up your own instance of eXist-db and TEI Publisher, you should change
+                the URL <emphasis>to point to your instance</emphasis>. This is important because
+                the components will expect the documents you want to display to be stored in the
+                same instance. </para>
+            <para><tag>pb-document</tag> defines the document to be displayed. The path is relative
+                to the data root of the TEI Publisher instance. It also specifies the ODD to be used
+                for the transformation. </para>
+            <para><tag>pb-view</tag> is the main component for displaying the transformed content.
+                It references the <tag>pb-document</tag> to use as source in its
+                    <option>src</option> attribute. The Shakespeare does tag page breaks, so we
+                switch to page-by-page view via the <option> view</option> attribute to show the
+                user only one page at a time. The default would be to use a division-by-division
+                view (<code>view="div"</code>), but you could also request the entire content at
+                once using <code>view="single"</code>. </para>
+            <para><tag>pb-navigation</tag> adds forward/backward navigation buttons to the page,
+                allowing the user to switch to the next/previous page of the document. You can use
+                various types of buttons, but in this case we're choosing a <tag>paper-button</tag>
+                element with a chevron <tag> iron-icon</tag> (both <tag>paper-button</tag> and
+                    <tag>iron-icon</tag> are part of the standard <link xlink:show="new" xlink:href="https://www.webcomponents.org/author/PolymerElements">Polymer
+                    elements library</link>). </para>
+            <para>Another example of embedding TEI Publisher web components into a static website
+                can be found on our <link xlink:href="https://teipublisher.onrender.com/">demo
+                    blog</link>. It was created with <link xlink:href="https://gohugo.io">Hugo</link>, a very popular website generator which offers hundreds of
+                ready-made themes to choose from. Here content is written in markdown, but its not a
+                problem to embed TEI content served by TEI Publisher. </para>
+        </section>
+    </section>
+</article>

@@ -1,0 +1,133 @@
+.menubar {
+    --pico-color: var(--jinks-menubar-color);
+    --pico-primary: var(--jinks-menubar-color);
+    --pico-primary-hover: var(--jinks-menubar-color);
+
+    --jinks-select-color: var(--jinks-menubar-color);
+    --jinks-select-background-color: var(--jinks-menubar-background-color);
+
+    --pb-login-link-color: var(--jinks-menubar-color);
+    --pb-search-suggestions-color: var(--jinks-menubar-color);
+    --pb-search-suggestions-background: var(--jinks-menubar-background-color);
+
+    background-color: var(--jinks-menubar-background-color);
+    color: var(--jinks-menubar-color);
+    font-size: var(--jinks-menubar-font-size);
+    padding-inline: var(--s0);
+}
+
+.menubar .icon {
+    color: var(--pico-color);
+}
+
+.menubar > ul > li > a:link,
+.menubar > ul > li > a:visited {
+    color: var(--jinks-menubar-color);
+    background-color: transparent;
+    text-decoration: none;
+}
+
+.menubar pb-login::part(label) {
+    display: none;
+}
+
+/*
+ * overrided setting in pico-components.css
+ * that misalignes items on the right of the
+ * menubar
+ */
+nav.menubar ul:last-of-type,
+nav.toolbar ul:last-of-type {
+    margin-right: 0;
+}
+
+nav.menubar ul:first-of-type,
+nav.toolbar ul:first-of-type {
+    margin-left: 0;
+}
+
+.menubar ul:nth-child(1) {
+    gap: 2.5rem;
+}
+
+.menubar ul:nth-child(2) {
+    gap: var(--s-1);
+}
+
+.menubar li {
+    padding: 0;
+}
+
+.menubar details a:link,
+.menubar details a:visited,
+.menubar details ul {
+    color: var(--jinks-color-primary);
+}
+
+.menubar details.dropdown summary::after {
+    height: 1rem;
+}
+
+.menubar details {
+    --pico-form-element-background-color: var(--color-menu-bg);
+    --pico-form-element-border-color: var(--color-menu-bg);
+    --pico-form-element-focus-color: var(--color-menu-bg);
+    --pico-form-element-placeholder-color: var(--pico-primary);
+    --pico-form-element-active-background-color: var(--color-menu-bg);
+    --pico-form-element-active-border-color: var(--color-menu-bg);
+}
+
+.menubar form {
+    margin-bottom: 0;
+}
+
+.menubar button,
+.menubar input[type="search"],
+.menubar pb-search::part(input) {
+    background-color: var(--jinks-menubar-button-color);
+    color: var(--jinks-menubar-color);
+    border: thin solid transparent;
+}
+
+.menubar pb-search::part(input)::placeholder,
+.menubar input[type="search"]::placeholder {
+    color: var(--jinks-colors-medium);
+}
+
+.menubar .dropdown {
+    margin-bottom: 0;
+}
+
+.menubar .dropdown summary, .menubar .dropdown summary::after {
+    color: var(--jinks-menubar-color);
+}
+
+.mobile.menubar {
+    position: absolute;
+    right: 0;
+    left: 0;
+    padding: 2rem 1.5rem 2.5rem 1.5rem;
+    background-color: var(--jinks-menubar-background-color);
+    color: var(--jinks-menubar-color);
+    z-index: 3;
+    --pico-color: var(--jinks-menubar-color);
+    --pico-primary: var(--jinks-menubar-color);
+    --pico-primary-hover: var(--jinks-menubar-color);
+    color: var(--jinks-menubar-color);
+    --jinks-color-primary:var(--jinks-color-primary);
+    overflow: auto;
+}
+
+.mobile.menubar aside {
+    margin-top: 2rem;
+}
+
+.mobile.menubar aside > nav > ul > li {
+    padding: 1rem;
+    border-top: 1px solid  #A5A5A5;
+    border-bottom: 1px solid  #A5A5A5;
+}
+
+.mobile.menubar.hidden {
+    display: none;
+}

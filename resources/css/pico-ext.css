@@ -1,0 +1,63 @@
+/* Pico overwrites to let theme colours trickle into pico default settings  */
+:root {
+    --pico-font-family-sans-serif: var(--jinks-base-font-family);
+    --pico-font-size: var(--jinks-base-font-size, var(--pico-font-size));
+    --pico-font-weight: var(--jinks-base-font-weight);
+    --pico-line-height: var(--jinks-base-line-height);
+    --pico-background-color: var(--jinks-background-color);
+    --pico-border-color: var(--jinks-border-color);
+
+    --pico-card-sectioning-background-color: var(--jinks-toolbar-background-color);
+}
+
+[data-theme=light],
+:root:not([data-theme=dark]),
+:host:not([data-theme=dark]) {
+    --pico-primary: var(--jinks-colors-600);
+    --pico-primary-hover: var(--jinks-colors-500);
+    --pico-color: var(--jinks-color-primary);
+
+    --pico-h1-color: var(--jinks-h1-color);
+    --pico-h2-color: var(--jinks-h2-color);
+    --pico-h3-color: var(--jinks-h3-color);
+    --pico-h4-color: var(--jinks-h4-color);
+    --pico-h5-color: var(--jinks-h5-color);
+    --pico-h6-color: var(--jinks-h6-color);
+
+    --pico-card-sectioning-background-color: var(--jinks-toolbar-background-color);
+}
+
+@media only screen and (prefers-color-scheme: dark) {
+    :root:not([data-theme]),
+    :host(:not([data-theme])) {
+        --pico-primary: var(--jinks-colors-600);
+        --pico-primary-hover: var(--jinks-colors-700);
+        --pico-color: var(--jinks-color-primary);
+        --pico-h1-color: var(--jinks-h1-color);
+        --pico-h2-color: var(--jinks-h2-color);
+        --pico-h3-color: var(--jinks-h3-color);
+        --pico-h4-color: var(--jinks-h4-color);
+        --pico-h5-color: var(--jinks-h5-color);
+        --pico-h6-color: var(--jinks-h6-color);
+
+        --pico-card-sectioning-background-color: var(--jinks-toolbar-background-color);
+    }
+}
+
+[data-theme="dark"] {
+    --pico-primary: var(--jinks-colors-600);
+    --pico-primary-hover: var(--jinks-colors-700);
+    --pico-color: var(--jinks-color-primary);
+    --pico-h1-color: var(--jinks-h1-color);
+    --pico-h2-color: var(--jinks-h2-color);
+    --pico-h3-color: var(--jinks-h3-color);
+    --pico-h4-color: var(--jinks-h4-color);
+    --pico-h5-color: var(--jinks-h5-color);
+    --pico-h6-color: var(--jinks-h6-color);
+
+    --pico-card-sectioning-background-color: var(--jinks-toolbar-background-color);
+}
+
+a:link, a:visited {
+    --pico-text-decoration: none;
+}

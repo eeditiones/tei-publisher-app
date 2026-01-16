@@ -1,0 +1,54 @@
+{
+    "breadcrumb": {
+        "collection-root": "Kolekcje",
+        "document-root": "Kolekcje",
+        "demo": "Demo",
+        "jats": "JATS",
+        "docx": "DOCX",
+        "letters": "Listy",
+        "doc": "Dokumentacja"
+    },
+    "menu": {
+        "explore": "Zobacz",
+        "collections": "Kolekcje",
+        "about": "O projekcie",
+        "team": "Zespół",
+        "contact": "Kontakt",
+        "project": "Projekt",
+        "cite": "Cytowanie",
+        "cookies": "Cookies",
+        "credits": "Uznanie autorstwa",
+        "partners": "Partnerzy"
+    },
+    "timeline": {
+        "range": "Zakres czasowy: "
+    },
+    "browse": {
+        "category": "Kategoria",
+        "author": "Autor",
+        "title": "Tytuł"
+    },
+    "search": {
+        "title": "Tytuł",
+        "content": "Treść",
+        "results": "Wyniki wyszukiwania"
+    },
+    "register-details": {
+        "document-list": "Dokumenty",
+        "people": "Osoby",
+        "places": "Miejsca"
+    },
+    "odd": {
+        "licence": "Licencja",
+        "sources": "Źródła",
+        "metadata": "Metadane"
+    },
+    "facets": {
+        "place": "Miejsce",
+        "author": "Autor"
+    },
+    "toolbar": {
+        "next": "Dalej",
+        "previous": "Wstecz"
+    }
+}

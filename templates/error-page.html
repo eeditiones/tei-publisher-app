@@ -1,78 +1,100 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <html>
     <head>
+        <title>Ooops</title>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
-        <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"/>
-        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-16.png" sizes="16x16"/>
-        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-24.png" sizes="24x24"/>
-        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32"/>
-        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
+        <link rel="shortcut icon" type="image/x-icon" href="[[ $context-path ]]/resources/images/favicon.ico"/>
+        <link rel="shortcut icon" type="image/png" href="[[ $context-path ]]/resources/images/favicon-16.png" sizes="16x16"/>
+        <link rel="shortcut icon" type="image/png" href="[[ $context-path ]]/resources/images/favicon-24.png" sizes="24x24"/>
+        <link rel="shortcut icon" type="image/png" href="[[ $context-path ]]/resources/images/favicon-32.png" sizes="32x32"/>
+        <link rel="shortcut icon" type="image/png" href="[[ $context-path ]]/resources/images/favicon-64.png" sizes="64x64"/>
 
-        <title data-template="config:app-title"/>
-        <link rel="stylesheet" href="resources/css/theme.css"/>
-        <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
-        <custom-style>
-            <style include="pb-common-styles">
-                body {
-                    --pb-link-theme: {
-                        text-decoration: none;
-                        color: black;
-                    };
+        [% for $path in $styles?* %]
+        [% if matches($path, "(?:^https?://|^/).*$") %]
+        <link rel="stylesheet" href="[[ $path ]]"/>
+        [% else %]
+        <link rel="stylesheet" href="[[ $context-path ]]/[[ $path ]]"/>
+        [% endif %]
+        [% endfor %]
 
-                    --pb-content-theme: {
-                        margin-right: 32px;
-                    };
-
-                    --paper-card-header: {
-                        font-family: "Oswald",Verdana,"Helvetica",sans-serif;
-                        background-color: #607D8B;
-                    };
-
-                    --paper-card-header-color: #F0F0F0;
-                }
-
-                .tp-title {
-                    font-family: "Oswald",Verdana,"Helvetica",sans-serif;
-                    font-size: 36px;
-                    font-weight: 400;
-                }
-
-                pre {
-                    font-family: "Ubuntu Mono",Menlo,Consolas,Courier,monospace;
-                    font-size: 14px;
-                    width: 100%;
-                    overflow: auto;
-                    white-space: pre-wrap;
-                }
-
-                section {
-                    margin: 0 20px;
-                }
-                .content-body {
-                    position: relative;
-                    display: flex;
-                    justify-content: center;
-                }
-            </style>
-        </custom-style>
+        <style>
+            .fixed-layout &gt; main {
+                display: block;
+                max-width: var(--jinks-content-max-width);
+                margin: 1rem auto;
+            }
+            pre, jinn-codemirror {
+                display: block;
+                max-height: 360px;
+                overflow: auto;
+            }
+        </style>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/jinn-codemirror@1.17.0/dist/jinn-codemirror-bundle.js"/>
     </head>
-
     <body>
-        <pb-page data-template="pages:pb-page" unresolved="unresolved">
-            <app-header-layout>
-                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
-                    <app-toolbar data-template="lib:include" data-template-path="templates/menu.html"/>
-                </app-header>
+    <div class="fixed-layout">
+        <header class="page-header">
+            <div>
+                <nav class="menubar container-fluid">
+                    <ul>
+                        <li class="logo">
+                            <a href="[[ $context-path ]]"/>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            <div id="colorMode" class="theme-toggle" title="Toggle theme">
+                                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="1em" height="1em" fill="currentColor" stroke-linecap="round" class="theme-toggle__classic" viewBox="0 0 32 32">
+                                    <clipPath id="theme-toggle__classic__cutout">
+                                        <path d="M0-5h30a1 1 0 0 0 9 13v24H0Z"/>
+                                    </clipPath>
+                                    <g clip-path="url(#theme-toggle__classic__cutout)">
+                                        <circle cx="16" cy="16" r="9.34"/>
+                                        <g stroke="currentColor" stroke-width="1.5">
+                                            <path d="M16 5.5v-4"/>
+                                            <path d="M16 30.5v-4"/>
+                                            <path d="M1.5 16h4"/>
+                                            <path d="M26.5 16h4"/>
+                                            <path d="m23.4 8.6 2.8-2.8"/>
+                                            <path d="m5.7 26.3 2.9-2.9"/>
+                                            <path d="m5.8 5.8 2.8 2.8"/>
+                                            <path d="m23.4 23.4 2.9 2.9"/>
+                                        </g>
+                                    </g>
+                                </svg>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <main>
+            <h1>An error occurred – <span class="error">[[ $type ]]</span></h1>
 
-                <main>
-                    <section>
-                        <h1 class="tp-title">An error has occurred</h1>
-                        <p>An error has been generated by the application:</p>
-                        <pre class="error" data-template="pages:parse-params">${description}</pre>
-                    </section>
-                </main>
-            </app-header-layout>
-        </pb-page>
+            [% if ends-with($type, ':error-dynamic') %]
+            <p>The system encountered a dynamic error rendering the HTML template. This might be due to
+                a problem in the template itself or an XQuery module being imported.</p>
+            <p>The XQuery code the template was compiled into and which triggered the error is display at the bottom.</p>
+            [% elif ends-with($type, ':error-include') %]
+            <p>A file included into the HTML template being rendered could not be found.</p>
+            [% elif ends-with($type, ':error-extends') %]
+            <p>A base template extended by the HTML template could not be found.</p>
+            [% elif ends-with($type, ':error-eof') %]
+            <p>An error in the templating syntax prevented it from being rendered. This might be due to
+                a missing "endXXX" marker. See details below.</p>
+            [% elif ends-with($type, ':error-syntax') %]
+            <p>An error in the templating syntax prevented it from being rendered. This is likely due to
+                an unknown expression being used.</p>
+            [% endif %]
+
+            <h2>Full error details:</h2>
+            <pre>[[ $description ]]</pre>
+
+            [% if ends-with($type, ':error-dynamic') %]
+            <h2>XQuery code the template was translated into:</h2>
+            <jinn-codemirror mode="xquery" code="[[ $code ]]"/>
+            [% endif %]
+        </main>
+    </div>
     </body>
 </html>

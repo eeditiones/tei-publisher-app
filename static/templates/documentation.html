@@ -1,0 +1,25 @@
+<template>
+    ---json
+    {
+        "templating": {
+            "extends": "static/templates/layouts/content.html"
+        },
+        "styles": [
+            "resources/css/documentation.css"
+        ],
+        "features": {
+            "toc": {
+                "enabled": true,
+                "collapse": true
+            }
+        }
+    }
+    ---
+    [% template! breadcrumb %]
+    <li>[[ $parts?breadcrumb?content ]]</li>
+    [% endtemplate %]
+    <div class="content">
+    [[ $parts?default?content ]]
+    [[ $parts?default?footnotes ]]
+    </div>
+</template>

@@ -1,0 +1,26 @@
+<template>
+    [# import pb-tify if we're in document view and pb-tify is enabled %]
+    [% template scripts %]
+    [% if ($context?isStatic or exists($context?doc)) and $context?features?iiif?enabled and $context?features?iiif?viewer = "pb-tify" %]
+    
+        [% if $script?webcomponents = 'dev' %]
+        <script type="module" src="[[$script?cdn]]/src/pb-tify.js"/>
+        [% elif $script?webcomponents = 'local' %]
+        <script type="module" src="[[ $context-path ]]/resources/lib/pb-tify.js"/>
+        [% elif $script?webcomponents = '' %]
+        [% else %]
+        <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-tify.js"/>
+        [% endif %]
+    [% endif %]
+    [% endtemplate %]
+
+    [% template after %]
+    [% if ($context?isStatic or exists($context?doc)) and $context?features?iiif?enabled %]
+        [% if $context?features?iiif?viewer = "pb-tify" %]
+        <pb-tify subscribe="transcription" emit="transcription" style="height: 100%"/>
+        [% else %]
+        <pb-facsimile base-uri="[[ $context?features?iiif?base_uri ]]" default-zoom-level="0" type="[[ $context?features?iiif?type ]]" show-navigation-control="show-navigation-control" show-navigator="show-navigator" subscribe="transcription" style="height: 100%"/>
+        [% endif %]
+    [% endif %]
+    [% endtemplate %]
+</template>

@@ -3,6 +3,8 @@ xquery version "3.1";
 module namespace iapi="http://teipublisher.com/api/info";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
+import module namespace router="http://e-editiones.org/roaster";
+import module namespace errors = "http://e-editiones.org/roaster/errors";
 
 declare function iapi:version($request as map(*)) {
     map {

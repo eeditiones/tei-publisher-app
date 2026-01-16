@@ -225,7 +225,7 @@ declare function epub:body-xhtml($node, $config) {
     let $title := nav:get-section-heading($config?docConfig, $content)/node()
     let $title :=
         if ($title) then
-            $pm-config:epub-transform($title, map { "root": $title }, $config?odd)
+            $pm-config:epub-transform($title, map { "root": $node }, $config?odd)
         else
             "--no title---"
     let $body := $pm-config:epub-transform($content, map { "root": $node }, $config?odd)

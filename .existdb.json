@@ -1,10 +1,11 @@
+
 {
     "servers": {
         "localhost": {
             "server": "http://127.0.0.1:8080/exist",
             "user": "admin",
             "password": "",
-            "root": "/db/apps/tei-publisher"
+            "root": "/apps/tei-publisher"
         }
     },
     "sync": {
@@ -13,6 +14,10 @@
         "interval": 500,
         "ignore": [
             ".existdb.json",
+            ".devcontainer/**",
+            ".vscode/**",
+            "build.sh",
+            ".env",
             ".git/**",
             "components/**",
             "node_modules/**",

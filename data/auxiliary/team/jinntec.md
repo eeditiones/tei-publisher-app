@@ -1,0 +1,1 @@
+Software solutions with a touch of magic: we believe in the importance of cultural heritage - our tools help to preserve and disseminate it with sustainable technologies based on Open Source software and Open Standard. From assisted production workflows and data curation to publishing online or in print - [we have you covered](https://www.jinntec.de/).

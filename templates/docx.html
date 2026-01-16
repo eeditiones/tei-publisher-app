@@ -1,0 +1,29 @@
+<template>
+    ---json
+    {
+        "templating": {
+            "extends": "templates/layouts/content.html"
+        },
+        "urls": {
+            "ignore": "selectors"
+        },
+        "features": {
+            "toc": {
+                "enabled": true
+            },
+            "playground": {
+                "enabled": false
+            }
+        }
+    }
+    ---
+    [% template styles %]
+    <style>
+        :root {
+            --jinks-content-font-family: var(--jinks-base-font-family);
+            --jinks-heading-font-family: var(--jinks-base-font-family);
+        }
+    </style>
+    [% endtemplate %]
+    <pb-view class="content" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
+</template>

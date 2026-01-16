@@ -8,6 +8,9 @@ declare variable $exist:controller external;
 declare variable $exist:prefix external;
 declare variable $exist:root external;
 
+
+declare variable $landingPage := "index.html";
+
 declare variable $allowOrigin := local:allowOriginDynamic(request:get-header("Origin"));
 
 declare function local:allowOriginDynamic($origin as xs:string?) {
@@ -36,7 +39,7 @@ if ($exist:path eq '') then
 else if ($exist:path eq "/") then
     (: forward root path to index.xql :)
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <redirect url="index.html"/>
+        <redirect url="{$landingPage}"/>
     </dispatch>
 
 (: static HTML page for API documentation should be served directly to make sure it is always accessible :)
@@ -44,10 +47,11 @@ else if ($exist:path eq '/api.html') then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/templates/api.html"/>
     </dispatch>
-
+    
 (: static resources from the resources, transform, templates, odd or modules subirectories are directly returned :)
 else if (matches($exist:path, "^.*/(resources|transform|templates)/.*$")
     or matches($exist:path, "^.*/odd/.*\.css$")
+    or $exist:path eq '/robots.txt'
     or matches($exist:path, "^.*/modules/.*\.json$")) then
     let $dir := replace($exist:path, "^.*/(resources|transform|modules|templates|odd)/.*$", "$1")
     return
@@ -58,10 +62,10 @@ else if (matches($exist:path, "^.*/(resources|transform|templates)/.*$")
                     <set-header name="Cache-Control" value="no-cache"/>
                 else if (contains($exist:path, "/resources/fonts/")) then
                     <set-header name="Cache-Control" value="max-age=31536000"/>
-                else 
-                    (),
-                <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>,
-                if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/>
+                else (
+                    <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>,
+                    if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/>
+                )
             }
             </forward>
         </dispatch>
@@ -69,17 +73,15 @@ else if (matches($exist:path, "^.*/(resources|transform|templates)/.*$")
 (: other images are resolved against the data collection and also returned directly :)
 else if (matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|txt|mei)$", "s")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{$exist:controller}/data/{$exist:path}">
-            <set-header name="Cache-Control" value="max-age=31536000"/>
-        </forward>
+        <forward url="{$exist:controller}/data/{$exist:path}"/>
     </dispatch>
 
 (: all other requests are passed on the Open API router :)
 else
-    let $main := 
+    let $main :=
         if (matches($exist:path, "^/+api/+(?:odd|lint)")) then 
             "api-odd.xql" 
-        else if (matches($exist:path, "/+tex$") or matches($exist:path, "/+api/+apps/+generate$")) then
+        else if (matches($exist:path, "/+tex$") or matches($exist:path, "/+api/+(?:actions/reindex|actions/file-sync)$")) then
             "api-dba.xql"
         else 
             "api.xql"
@@ -91,5 +93,6 @@ else
                 <set-header name="Access-Control-Allow-Methods" value="GET, POST, DELETE, PUT, PATCH, OPTIONS"/>
                 <set-header name="Access-Control-Allow-Headers" value="Content-Type, api_key, Authorization"/>
                 <set-header name="Access-Control-Expose-Headers" value="pb-start, pb-total"/>
+                <set-header name="Cache-Control" value="no-cache"/>
             </forward>
         </dispatch>

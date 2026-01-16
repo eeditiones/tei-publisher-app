@@ -1,0 +1,82 @@
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?><TEI xmlns="http://www.tei-c.org/ns/1.0">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Wstęp</title>
+                <editor> Anna Skolimowska, Tomasz Płóciennik, Waldemar Bukowski </editor>
+            </titleStmt>
+            <publicationStmt>
+                <p>Publication Information</p>
+            </publicationStmt>
+            <sourceDesc>
+                <p>Information about the source</p>
+            </sourceDesc>
+        </fileDesc>
+    </teiHeader>
+    <text>
+        <body>
+            <div>
+                <head>WSTĘP</head>
+                <p>Przedmiotem niniejszej edycji jest niewielki, lecz niezwykle cenny zbiorek
+                    korespondencji prywatnej i urzędowej z połowy XV w. — obejmujący kilka dziesiąt
+                    oryginalnych listów z lat 1437–1459 do dzierżawcy salin krakowskich i ruskich,
+                    miecznika krakowskiego Mikołaja Serafina lub osób z nim związanych — zachowanej
+                    szczęśliwie w kodeksie Biblioteki Zakładu Narodowego im. Ossolińskich we
+                    Wrocławiu pod sygnaturą 165<note>Zawartość merytoryczną omawianej korespondencji
+                        scharakteryzował Wiesiołowski, <title>Z korespondencji prywatnej</title>, s.
+                        223–238, zaś krótki opis kodeksu zawierającego tę korespondencję i problemy
+                        jej edycji krótko przedstawione zostały w: <title>Lateinischen
+                            Schriftverkehr</title>, s. 233–242.</note>. </p>
+                <p>Są przynajmniej trzy powody, aby uznać ten zbiór za wyjątkowy i warty edycji. Po
+                    pierwsze, są to listy oryginalne, mają zatem wartość artefaktu. Po drugie, ta
+                    zwarta tematycznie korespondencja dokumentuje działalność publiczną i życie
+                    prywatne jednego człowieka w zakresie niespotykanym dla epoki, w której
+                    powstała. Jest więc niezwykle cennym źródłem dla przyszłego biografa żupnika,
+                    dysponującego wprawdzie obfitym, ale jednostronnym (bo pochodzącym głównie z
+                    ksiąg grodzkich i ziemskich) materiałem i pozwala zrekonstruować skład tzw.
+                    kręgu korespondencyjnego, czyli grupy osób skupionych wokół głównego
+                    korespondenta, oraz poddać ją analizie<note>Interesujące uwagi na ten temat
+                        formułuje we wstępie do swej pracy W. Jurkiewicz, <title>Korespondencja elit
+                            Polski stanisławowskiej. Analiza wybranych kręgów
+                            korespondencyjnych</title>, Bydgoszcz 1992, s. 5–9.</note>. A ponieważ
+                    listy są źródłem najbardziej niedyskretnym, pozwalają historykowi głębiej
+                    wniknąć za kulisy wielkiej polityki oraz w mentalność i życie codzienne
+                    społeczeństwa średniowiecznego. Z tego punktu widzenia nie mniej ważnym
+                    argumentem za publikacją korespondencji żupnika jest również to, że — jak
+                    stwierdza Jacek Wiesiołowski — obszerny „zbiór listów do Mikołaja Serafina
+                    pozwala na powiązanie w całość rozproszonych fragmentów korespondencji prywatnej
+                    z pierwszej połowy XV w.”<note> Wiesiołowski, <title>Z korespondencji
+                            prywatnej</title>, s. 237.</note>.</p>
+                <p>Trzeci wreszcie powód — równie ważny — to materia poruszanych w listach
+                    zagadnień. Korespondencja ta w znakomitej większości dotyczy kulisów codziennego
+                    funkcjonowania żup solnych, największego polskiego przedsiębior stwa
+                    przemysłowego o charakterze — jeśli można użyć takiego sformułowania —
+                    kapitalistycznym, działającego jednak w układzie feudalnym. „Żupy wielic kie
+                    były bez wątpienia najważniejszym źródłem dochodów królewskiego skarbu. I
+                    wyświetlenie gospodarki tych żup to magna pars dziejów finansowych Polski” —
+                    pisał przed laty jeden z najwybitniejszych znawców gospodarczych dziejów Polski
+                    Roman Rybarski w swej fundamentalnej, mającej już dzisiaj wartość źród ła,
+                    monografii o gospodarce żupnej w Polsce w XVI w.<note>Rybarski, <title>Wielickie
+                            żupy</title>, s. 9.</note> Krakowskie żupy solne mają w polskiej
+                    historiografii obfitą literaturę, istnieje w niej jednak duża luka, a jej
+                    granice zakreślają z jednej strony erudycyjna i wyczerpująca temat rozprawa
+                    Jerzego Wyrozumskiego o salinach krakowskich do końca XIV w., z drugiej zaś
+                    prace R. Rybarskiego i Antoniny Keckowej dotyczące epoki
+                        nowożytnej<note>Keckowa, <title>Żupy krakowskie</title>.</note>. Jeśli zaś
+                    chodzi o żupy ruskie, to dla okresu średniowiecza brak jest poważniejszej lite
+                        ratury<note>Szerzej na ten temat zob. Bukowski, <title>Objęcie w
+                            dzierżawę</title>, s. 105 n. 7</note>. Okres od schyłku XIV w. dostarcza
+                    badaczom tej epoki, a więc i dziejów żup, materiału o charakterze masowym.
+                    Składa się nań, oprócz dokumentów, duża ilość materiału zapiskowego z ksiąg
+                    sądowych grodzkich i ziemskich, a więc źródła jednostronnego i lakonicznego.
+                    Prezentowana korespondencja, opisująca życie codzienne żup, stanowi doskonałe
+                    jego uzupełnienie. Bez jej uwzględnienia nie jest możliwe dzisiaj napisanie
+                    kompetentnej historii żup solnych.</p>
+
+                <p>Redakcja: <emph>Anna Skolimowska</emph>, <emph>Tomasz Płóciennik</emph>,
+                        <emph>Waldemar Bukowski</emph></p>
+            </div>
+        </body>
+    </text>
+</TEI>

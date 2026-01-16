@@ -1,0 +1,283 @@
+<?teipublisher odd="docbook.odd" template="documentation.html" fill="1" depth="1" media="print fo epub markdown"?><?xml-model href="https://cdn.docbook.org/schema/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
+    <info>
+        <title>TLDR</title>
+        <author>
+            <orgname>TEI Publisher Community</orgname>
+        </author>
+        <keywordset role="genre">
+            <keyword>Documentation</keyword>
+        </keywordset>
+        <abstract>
+            <para>Here are some of the most important entry points into TEI Publisher.</para>
+        </abstract>
+    </info>
+    <section xml:id="navigation">
+        <title>Quick Navigation</title>
+        <informaltable>
+            <thead>
+                <tr>
+                    <td>Task</td>
+                    <td>Description</td>
+                </tr>
+            </thead>
+            <tbody>                    
+                <tr>
+                    <td>Local installation</td>
+                    <td>
+                        <link linkend="installation">Quick setup with Docker</link>
+                    </td>
+                </tr>
+                <tr>
+                    <td>TEI Publisher for Beginners</td>
+                    <td>
+                        <link linkend="new">Introduction for new users</link>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Server installation</td>
+                    <td>
+                        <link linkend="production">Important security considerations</link>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Development</td>
+                    <td>
+                        <link linkend="advanced">APIs, Routing, and Database tuning</link>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Community</td>
+                    <td>
+                        <link linkend="support">Community &amp; support</link>
+                    </td>
+                </tr>                    
+            </tbody>
+        </informaltable>
+        <para>This document serves as a cheat-sheet to help you navigate the TEI Publisher ecosystem.</para>                    
+    </section>       
+    
+    <section xml:id="installation">
+        <title>Local installation</title>
+        <subtitle>Quick Installation Guide using Docker</subtitle> 
+        <para>Docker is an open-source container platform. Containers are lightweight, standalone packages that include everything needed to run an application.</para>
+        <para>Using Docker, you can quickly run everything needed for TEI Publisher.</para>
+        <section xml:id="prerequisites">
+            <title>Requirements</title>
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        Docker ( 
+                            <link xlink:href="https://www.docker.com/products/docker-desktop/" xlink:show="new">Docker Desktop (Windows/Mac)</link>, 
+                            <link xlink:href="https://docs.docker.com/engine/install" xlink:show="new">Docker Engine (Linux)</link> or
+                            <link xlink:href="https://podman.io/docs/installation" xlink:show="new">Podman</link>
+                        )
+                    </para>                    
+                </listitem>
+                <listitem>
+                    <para>A modern web browser</para>
+                </listitem>
+            </itemizedlist>
+            <para>If you do <emphasis role="bold">not</emphasis> want to use the Docker
+                continue with <link xlink:href="installation.xml?id=exist-installation">installing
+                    into an eXist instance</link>. Find more information on TEI Publisher and Docker
+                    <link xlink:href="installation.xml?id=docker">here</link>. 
+                    </para>
+                    <note><para>When using the Docker image, you do <emphasis role="bold">not</emphasis> need
+                    <link xlink:href="https://www.java.com/" xlink:show="new">Java</link> or <link xlink:href="https://exist-db.org/" xlink:show="new">eXist-db</link> installed
+                locally.  </para></note>
+        </section>
+        <section xml:id="running">
+            <title>Running TEI Publisher and Jinks</title>
+            
+            <para>
+                <emphasis role="bold">
+                    Please be aware that the TEI Publisher Dev Docker Container is not safe for use on public servers!
+                    To run TEI Publisher on the server please make sure to read <link xlink:href="tldr.xml#production">Running TEI Publisher in Production</link> below.
+                </emphasis>
+            </para>
+           
+            
+            <para>Make sure Docker is running and start TEI Publisher using the official pre-built
+                Docker image by running the following command from your terminal: </para>
+            <para>
+            <programlisting>docker run -p 8080:8080 -v exist-data:/exist/data
+                existdb/teipublisher:latest</programlisting>
+            </para>
+            <para>Point your browser to <link xlink:href="http://localhost:8080/exist/apps/tei-publisher/doc/tldr.xml" xlink:show="new">localhost:8080/exist/apps/tei-publisher/doc/tldr.xml</link> to verify everthing
+                works fine. You should see this page but now served by the TEI Publisher Dev Docker
+                Container you just started.</para>
+            </section>
+            <section xml:id="homepage">
+            <title>TEI Publisher start page</title>
+            <para>The default landing page of the Docker image is <link xlink:href="/">localhost:8080</link> and it was built from a
+                    <link xlink:href="quickstart.xml?id=intro-jinks#intro-jinks">Jinks
+                    profile</link>. Jinks is the new TEI Publisher application manager. The <link xlink:href="/" xlink:show="new">TEI Publisher homepage</link> consists of three different <emphasis role="bold">Jinks profiles</emphasis> and Jinks itself:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        <link xlink:href="/exist/apps/tei-publisher/browse.html" xlink:show="new">Documentation &amp; Demo </link> - this article is part of the profile for self-guided learning.
+                    </para>
+                </listitem>                    
+                <listitem>
+                    <para>    
+                        <link xlink:href="/exist/apps/tp-serafin/" xlink:show="new">Serafin</link> - Real-world correspondence edition example
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <link xlink:href="/exist/apps/tp-workbench/">Workbench</link> - Interactive TEI editing
+                    </para>
+                </listitem>
+                    
+            </itemizedlist>
+            <para>Via the <link xlink:href="/exist/apps/dashboard" xlink:show="new">eXist-db Dashboard</link> you can see the TEI Publisher application manager <link xlink:href="/exist/apps/jinks" xlink:show="new">Jinks</link> itself, all applications created with Jinks, and all other
+             eXist-db applications.</para>
+        </section>
+    </section>
+    <section xml:id="new">
+        <title>Introduction to TEI Publisher</title>
+        <subtitle>Starting points for beginners and professionals</subtitle>
+        <para>
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        <link xlink:href="quickstart.xml">Gentle Introduction to TEI Publisher</link>
+                    </para>
+                    <para>A general introduction and tutorial. Enjoy it from start to finish or jump straight into <link xlink:href="quickstart.xml?id=using-jinks">Hands on with Jinks</link> to create your own app.</para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Everything there is to know about <link xlink:href="documentation.xml?id=odd">TEI Processing
+                        Model</link>; not always an easy read but worth it in the end.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <link xlink:href="documentation.xml?id=anatomy">Anatomy of
+                        a Jinks profile</link>: nerves and muscles of Publisher and how to train your own. For developers planning to customize or create Jinks profiles and applications.
+                    </para>
+                </listitem>
+                    
+                <listitem>
+                    <para>
+                        <link xlink:href="https://www.e-editiones.org/pages/getting-started/" xlink:show="new">Getting started</link>: a collection of resources and tutorials
+                        around TEI and TEI Publisher curated by e-editiones. 
+                    </para>
+                </listitem>
+            </itemizedlist>   
+        </para>
+    </section>    
+    <section xml:id="production">
+        <title>Server installation</title>
+        <subtitle>TEI Publisher in Production Environment</subtitle>
+        <para><emphasis>In production</emphasis> means running TEI Publisher on a server available on the internet. It differs significantly from the <link linkend="installation">local installation</link> on your private computer.</para>
+        <para>
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        <emphasis role="bold">
+                            Make sure TEI Publisher runs on a hardened (secured by minimizing vulnerabilities) eXist-db.
+                        </emphasis>
+                    </para>
+                    <para>You can use community-provided hardened eXist-db images, e.g. <link xlink:href="https://hub.docker.com/layers/duncdrum/existdb/release-nonroot-slim/images/sha256-0957a844af0a9d4b1b246c361956d9f13985b7b4b66e0ebc27736f14eacc2eab" xlink:show="new">duncdrum/existdb:release-nonroot-slim</link> in a Docker Compose setup,
+                        create your own images, or install <link xlink:href="http://exist-db.org/exist/apps/doc/basic-installation" xlink:show="new">eXist-db
+                            bare metal</link>. In either case please make sure to follow the eXist-db
+                        Documentation on <link xlink:href="http://exist-db.org/exist/apps/doc/production_good_practice" xlink:show="new">Production Use - Good Practice</link>.</para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <important>                            
+                            <para>
+                            <emphasis role="bold">
+                            It is strongly recommended to use a <link xlink:href="https://en.wikipedia.org/wiki/Proxy_server" xlink:show="new">proxy server
+                        </link>in production environments!
+                        </emphasis></para>
+                        </important>
+                    </para>
+                    <para>See <link xlink:href="documentation.xml?id=proxy">running behind a
+                            proxy</link>.</para>
+                </listitem>
+                <listitem>
+                    <para>
+                    <link xlink:href="https://www.e-editiones.org/pages/get-in-touch/" xlink:show="new">Get in
+                        touch</link> in case you or your IT Department are having any security concerns
+                    about hosting TEI Publisher or eXist-db. See <link xlink:href="documentation.xml?id=hosting" xlink:show="new">Hosting
+                        Options</link> if you'd like to outsource this service.
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </para>
+    </section>    
+    <section xml:id="advanced">
+        <title>Advanced Topics</title>
+        <section>
+            <title>TEI Publisher </title>
+            <itemizedlist>
+                <listitem>
+                    <para>
+                    <link xlink:href="documentation.xml?id=templates">Jinks
+                        Templates</link>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <link xlink:href="documentation.xml?id=themes-and-styling">Layout, Themes and Styling</link>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                    <link xlink:href="documentation.xml?id=api">Server Side API</link>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                    <link xlink:href="documentation.xml?id=url-routing">URL
+                        Routing</link>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                    <link xlink:href="documentation.xml?id=facets">Facet Search
+                        Configuration</link>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Tool: <link xlink:href="https://www.npmjs.com/package/@teipublisher/jinks-cli" xlink:show="new">@tei-publisher/jinks-cli</link> - nodejs command line
+                        interface for jinks</para>
+                </listitem>
+            </itemizedlist>
+        </section>
+        <section>
+            <title>eXist-db</title>
+            <itemizedlist>
+                <listitem>
+                    <para>
+                    <link xlink:href="https://exist-db.org/exist/apps/doc/tuning" xlink:show="new">Tuning the
+                        Database</link>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                    <link xlink:href="https://exist-db.org/exist/apps/doc/indexing" xlink:show="new">Configuring Database Indexes</link>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                    <link xlink:href="https://exist-db.org/exist/apps/doc/production_good_practice" xlink:show="new">Production Use - Good Practice</link>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Tool: <link xlink:href="https://www.npmjs.com/package/@existdb/xst" xlink:show="new">@existdb/xst</link> - nodejs command line interface for eXist-db
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </section>                
+    </section>
+    <section xml:id="support">
+        <title>Support &amp; Community</title>
+        <para>Still haven't found what you're looking for?
+            Please <link xlink:href="https://www.e-editiones.org/pages/get-in-touch/" xlink:show="new">get in touch</link> and let us know what you are
+            missing! </para>
+            <para>e-editiones, open scholarly society, is a hub for supportive and welcoming community of TEI, TEI Publisher, eXist-db users and Digital Humanities practitioners. See the <link xlink:href="https://www.e-editiones.org/posts/" xlink:show="new">e-editiones blog</link> or follow us on <link xlink:href="https://www.e-editiones.org/pages/get-in-touch/#mastodon%2C-linkedin%2C-bluesky%2C-instagram" xlink:show="new">social media</link> for news, announcements of monthly online meetups and other community events. Join the Slack for informal conversations and community support.</para>
+    </section>
+</article>

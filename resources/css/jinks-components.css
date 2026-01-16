@@ -1,0 +1,264 @@
+/*
+ * The styles in here overwrite the look of selected TEI Publisher webcomponents.
+ * It will be assembled by the generator into a components.css file, also including styles
+ * from controls.css, pico-components.css, jinks-variables.css and pico-ext.css.
+ */
+html {
+    scroll-behavior: smooth;
+    font-size: var(--jinks-base-font-size);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--jinks-heading-font-family);
+    font-weight: var(--jinks-heading-font-weight);
+    line-height: var(--jinks-heading-line-height);
+}
+
+h1 {
+    font-size: var(--jinks-h1-font-size);
+    font-weight: var(--jinks-h1-font-weight);
+    line-height: var(--jinks-h1-line-height);
+}
+h2 {
+    font-size: var(--jinks-h2-font-size);
+    font-weight: var(--jinks-h2-font-weight);
+    line-height: var(--jinks-h2-line-height);
+}
+h3 {
+    font-size: var(--jinks-h3-font-size);
+    font-weight: var(--jinks-h3-font-weight);
+    line-height: var(--jinks-h3-line-height);
+}
+h4 {
+    font-size: var(--jinks-h4-font-size);
+    font-weight: var(--jinks-h4-font-weight);
+    line-height: var(--jinks-h4-line-height);
+}
+
+:host {
+    font-family: var(--jinks-base-font-family);
+    font-size: var(--jinks-base-font-size);
+    line-height: var(--jinks-base-line-height);
+    --pico-font-family: var(--jinks-base-font-family);
+    --pico-font-size: var(--jinks-base-font-size);
+    --pico-line-height: var(--jinks-base-line-height);
+}
+
+:where(:host) {
+    background-color: inherit;
+    color: inherit;
+}
+
+/* Address shadow DOM inside a component using :host() */
+:host(pb-view) {
+    font-family: var(--jinks-content-font-family);
+    font-size: var(--jinks-content-font-size);
+    line-height: var(--jinks-content-line-height);
+}
+
+:host(pb-view) #view:has(.margin-note) {
+    margin-right: 200px;
+}
+
+:host(pb-view) details > summary {
+    margin-bottom: 1rem;
+}
+
+:host(pb-view) [rel="footnote"] {
+    line-height: 1;
+}
+
+:host(pb-view) [aria-label="breadcrumb"] li {
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: var(--jinks-base-font-size);
+}
+
+:host(pb-zoom) svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+:host(pb-lang) summary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 13.5px 7.2px;
+    border-radius: 81px;
+    background-color: var(--jinks-menubar-button-color);
+    font-size: var(--jinks-menubar-font-size);
+}
+
+:host(pb-lang) summary+ul {
+    background-color: var(--jinks-colors-light);
+    box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.15);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    margin: 0.5rem 0 0 0;
+    z-index: 99;
+    position: absolute;
+    right: 0;
+    flex-direction: column;
+    width: 100%;
+    min-width: fit-content;
+    white-space: nowrap;
+    list-style: none;
+    max-height: 80vh;
+    overflow-y: auto;
+    /* Prevent clipping by page border */
+    max-width: min(100%, calc(100vw - 2rem));
+    /* Smart positioning to avoid viewport overflow */
+    left: auto;
+    right: 0;
+    /* Ensure dropdown doesn't extend beyond viewport */
+    transform: translateX(0);
+    /* Add horizontal scroll if content is too wide */
+    overflow-x: auto;
+}
+
+:host(pb-lang) summary+ul li {
+    list-style: none;
+    padding: 8px 12px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background-color: var(--jinks-colors-light);
+    width: 100%;
+}
+
+:host(pb-lang) summary+ul li:hover {
+    border: 1px solid var(--jinks-colors-400);
+    background-color: var(--jinks-form-background-color);
+}
+
+:host(pb-lang) a,
+:host(pb-lang) a:link {
+    color: var(--jinks-color-primary);
+}
+
+:host(pb-lang) ul {
+    border-radius: 8px;
+    background: var(--White-White, #FFF);
+    box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.15);
+}
+
+:host(pb-lang) ul li:hover {
+    border: 1px solid var(--jinks-colors-400);
+    background-color: var(--jinks-colors-accent);
+}
+
+:host(pb-login) > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 81px;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    color: var(--jinks-menubar-color);
+    background-color: var(--jinks-menubar-button-color);
+    font-size: var(--jinks-menubar-font-size);
+    text-decoration: none;
+}
+
+:host(pb-login) > a svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+:host(pb-edit-xml) > a,
+:host(pb-download) > a {
+    text-decoration: none;
+    color: var(--jinks-color-primary);
+    font-size: var(--jinks-menubar-font-size);
+}
+
+:host(pb-edit-xml)>a:hover,
+:host(pb-download)>a:hover {
+    text-decoration: underline;
+}
+
+:host(pb-authority-lookup) {
+    font-size: var(--jinks-font-size-smaller);
+}
+
+:host(pb-authority-lookup) #output li button:nth-child(1) {
+    background-color: var(--jinks-colors-700);
+    color: var(--jinks-colors-light);
+}
+
+:host(pb-authority-lookup) .source {
+    background-color: var(--jinks-colors-accent);
+}
+
+:host(pb-authority-lookup) .register {
+    background-color: var(--jinks-colors-600);
+    color: var(--jinks-colors-light);
+}
+
+:host(pb-toggle-feature) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    padding: .5rem;
+    margin: 0;
+    border: none;
+    border-radius: var(--jinks-form-border-radius);
+    height: 36px;
+    color: var(--jinks-color-primary);
+    background-color: var(--jinks-form-background-color);
+
+    /* Card_shadow */
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
+
+    font-size: var(--jinks-form-control-font-size);
+}
+
+:host(pb-panel) > nav > ul {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+:host(pb-progress) > progress {
+    margin: 0;
+    display: block;
+    height: .25rem;
+    border-radius: 0;
+}
+
+:host(pb-manage-odds) > .odd-container {
+    border-color: var(--jinks-form-border-color);
+    margin-bottom: var(--s-1);
+    padding-bottom: var(--s-1);
+}
+
+:host(pb-paginate) .found {
+    font-size: var(--jinks-breadcrumbs-font-size);
+    padding-left: var(s-2);
+}
+
+@media (max-width: 768px) {
+    :host(pb-paginate) .found {
+        display: none;
+    }
+}
+
+:host(pb-dialog) header {
+    background-color: var(--jinks-dialog-header-background-color);
+    color: var(--jinks-dialog-header-color);
+}
+
+:host(pb-dialog) footer {
+    background-color: var(--jinks-dialog-footer-background-color);
+    color: var(--jinks-dialog-footer-color);
+}
+
+:host(pb-message) h2,
+:host(pb-message) h3 {
+    color: var(--jinks-dialog-header-color);
+    font-size: var(--jinks-dialog-header-font-size);
+    font-weight: normal;
+    margin-bottom: 0;
+}

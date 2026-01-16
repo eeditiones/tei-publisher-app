@@ -1,0 +1,68 @@
+.tei-speaker + * {
+    display: inline;
+}
+
+@media print {
+
+    @page:left {
+        margin-left: 1cm;
+        margin-right: 1cm;
+
+        @top-left {
+            content: string(runningHead);
+            font-family: var(--jinks-heading-font-family);
+            font-weight: var(--jinks-heading-font-weight);
+            line-height: var(--jinks-heading-line-height);
+        }
+
+        @bottom-left-corner {
+            content: counter(page);
+            font-family: var(--jinks-heading-font-family);
+            font-weight: var(--jinks-heading-font-weight);
+            line-height: var(--jinks-heading-line-height);
+        }
+    }
+
+    @page:right {
+        margin-left: 1cm;
+        margin-right: 1cm;
+
+        @top-right {
+            content: string(runningHead);
+            font-family: var(--jinks-heading-font-family);
+            font-weight: var(--jinks-heading-font-weight);
+            line-height: var(--jinks-heading-line-height);
+        }
+
+        @bottom-right-corner {
+            content: counter(page);
+            font-family: var(--jinks-heading-font-family);
+            font-weight: var(--jinks-heading-font-weight);
+            line-height: var(--jinks-heading-line-height);
+        }
+    }
+
+    body {
+        --jinks-heading-font-family: var(--jinks-content-font-family);
+        font-family: var(--jinks-content-font-family);
+    }
+
+    .running {
+        string-set: runningHead content(text);
+        display: none;
+    }
+
+    section {
+        columns: 2;
+    }
+
+    .tei-speaker {
+        margin-right: .5em;
+        text-indent: 1em;
+    }
+
+    h1, h2, h3 {
+        column-span: all;
+        text-align: center;
+    }
+}

@@ -1,0 +1,13 @@
+<template>
+    ---json
+    {
+        "templating": {
+            "extends": "templates/layouts/content.html"
+        }
+    }
+    ---
+    <!-- Basic template for a page with a single document -->
+    <div class="center">
+        <pb-view src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" direction="[[$context?defaults?direction]]"/>
+    </div>
+</template>

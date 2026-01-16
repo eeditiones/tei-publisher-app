@@ -23,9 +23,27 @@ declare variable $config:app-root :=
 (:~
  : The root of the collection hierarchy containing data.
  :)
-declare variable $config:data-root := $config:app-root || "/data";
+ 
+    
+    declare variable $config:data-root := $config:app-root || "/data";
+    
+
 
 (:~
  : The root of the collection hierarchy containing registers data.
  :)
 declare variable $config:register-root := $config:data-root || "/registers";
+
+(:~
+ : The default data collection.
+ :)
+
+  declare variable $config:data-default as xs:string :=   $config:data-root || "/";
+
+
+(:~
+ : Addressing method used in the app: by id or not
+ :)
+
+    declare variable $config:address-by-id as xs:boolean :=  false() ;
+

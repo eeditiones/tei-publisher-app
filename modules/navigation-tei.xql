@@ -88,7 +88,11 @@ declare function nav:get-metadata($config as map(*), $root as element(), $field 
 declare function nav:sort($sortBy as xs:string, $items as element()*) {
     switch ($sortBy)
         case "date" return
-            sort($items, (), ft:field(?, "date", "xs:date"))
+            try {
+                sort($items, (), ft:field(?, "date", "xs:date"))
+            } catch * {
+                sort($items, (), ft:field(?, "date"))
+            }
         default return
             sort($items, 'http://www.w3.org/2013/collation/UCA', ft:field(?, $sortBy))
 };
@@ -131,11 +135,20 @@ declare function nav:get-content($config as map(*), $div as element()) {
 };
 
 declare function nav:get-subsections($config as map(*), $root as node()) {
-    $root//tei:div[tei:head] except $root//tei:div[tei:head]//tei:div
+    (: Usually divisions have headings, which are used for the TOC labels :)
+    (: In case headings are not available, the divisions are passed instead and 
+    one must take care in the ODD to provide models for processing divs as TOC :)
+
+    let $headed := $root//tei:div[tei:head] except $root//tei:div[tei:head]//tei:div
+    let $subsections := if (count($headed)) then $headed else $root//tei:div except $root//tei:div//tei:div
+
+    (: respect the pagination-depth setting :)
+    return $subsections/self::tei:div[count(ancestor::tei:div) < $config?depth]
 };
 
 declare function nav:get-section-heading($config as map(*), $section as node()) {
-    $section/tei:head
+    (: If heading is not available, pass through the section (division) :)
+    if (count($section/tei:head)) then $section/tei:head else $section
 };
 
 declare function nav:is-filler($config as map(*), $div) {

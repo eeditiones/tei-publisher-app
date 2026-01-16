@@ -1,0 +1,262 @@
+/* Layouts
+ *
+ * 1. sticky-layout: The page header is sticky and the content scrolls underneath it.
+ * 2. fixed-layout: Uses a fixed grid layout spanning the viewport. The page header is fixed at the top.
+ */
+.fixed-layout {
+
+    display: grid;
+    height: 100vh;
+    width: 100vw;
+    grid-template-rows: auto auto 1fr auto;
+    /**
+     * Manually set the widths of the columsn instead of using auto, so the columns themselves will
+     *  regulate their width either by using variables (--column-before-width / column-after-width)
+     *  or by being resized and getting an absolute width set in HTML
+     */
+    grid-template-columns:
+        0.001fr
+        1fr
+        0.001fr;
+    grid-template-areas:
+        "header header header"
+        "before-top content-top after-top"
+        "before content after"
+        "footer footer footer";
+    position: relative;
+
+    /*
+     * set maximum page size for fixed layout
+     * (see also .center-l rules in base.css)
+     * --s2 has to be added in order to align
+     * the top navigation bar with the landing
+     * page layout
+     */
+    /* max-width: calc(var(--jinks-page-max-width) + var(--s2)); */
+    box-sizing: content-box;
+    margin-inline: auto;
+}
+
+.fixed-layout > .before-top nav > ul > li,
+.fixed-layout > .after-top nav > ul > li,
+.fixed-layout > .content-top nav > ul > li {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.fixed-layout > .before:not(:empty),
+.fixed-layout > .after:not(:empty) {
+    background-color: var(--jinks-colors-50);
+    padding: var(--s-1) var(--s-1) var(--s1) var(--s-1);
+    overflow: auto;
+}
+
+.fixed-layout > .before-top,
+.fixed-layout > .before {
+    border-right: 1px solid var(--jinks-color-border);
+	max-width: 45vw;
+}
+
+.fixed-layout > .after-top,
+.fixed-layout > .after {
+    border-left: 1px solid var(--jinks-color-border);
+	max-width: 45vw;
+}
+
+.fixed-layout > .before-top,
+.fixed-layout > .after-top {
+    background-color: var(--jinks-colors-50);
+    padding-left: var(--s-1);
+    padding-right: var(--s-1);
+}
+
+.fixed-layout > .below-content {
+    padding: 1rem;
+}
+
+.fixed-layout:has(> .before > :not(.resize-handler)) > .before-top,
+.fixed-layout:has(> .after > :not(.resize-handler)) > .after-top {
+    background-color: var(--jinks-colors-50);
+    padding: 0 var(--s-1) 0 var(--s-1);
+}
+
+/**
+ * If there is only one a resize handler in an element it's effectively empty. Do not display it
+ */
+.fixed-layout:not(:has(> .before > :not(.resize-handler)))
+    > :is(.before-top, .before),
+.fixed-layout:not(:has(> .after > :not(.resize-handler)))
+    > :is(.after-top, .after) {
+    display: none;
+}
+
+.fixed-layout > .before-top.hidden svg,
+.fixed-layout > .after-top svg {
+    rotate: 180deg;
+}
+.fixed-layout > .after-top.hidden svg {
+    rotate: 0deg;
+}
+
+.fixed-layout > .before-top.hidden ul:first-of-type {
+    display: none;
+}
+
+.fixed-layout:has(> .before.hidden) {
+    transition: grid-template-columns 0.6s ease, visibility 0.3s ease;
+}
+
+.fixed-layout:has(> .after.hidden) {
+    transition: grid-template-columns 0.6s ease, visibility 0.3s ease;
+}
+
+.fixed-layout > .before.hidden,
+.fixed-layout > .after.hidden {
+    visibility: hidden;
+    /* Make sure this is actually hidden and takes no more width */
+    width: auto !important;
+    padding: 0;
+}
+
+.fixed-layout > .after-top.hidden,
+.fixed-layout > .before-top.hidden {
+    background-color: inherit;
+    border: none;
+    width: auto !important;
+}
+
+.fixed-layout > main {
+    grid-area: content;
+    display: flex;    
+    justify-content: center;
+    overflow: auto;
+}
+
+.fixed-layout > main > * {
+    flex: 1;
+}
+
+.fixed-layout > .before {
+    grid-area: before;
+	/* Position the resize handler relative to here */
+	position: relative;
+}
+
+.fixed-layout > .before-top {
+    grid-area: before-top;
+}
+
+.fixed-layout>.after-top {
+    grid-area: after-top;
+}
+
+.fixed-layout > :is(.after-top, .after) {
+    width: var(--jinks-layout-after-width);
+}
+.fixed-layout > :is(.before-top, .before) {
+    width: var(--jinks-layout-before-width);
+}
+
+.fixed-layout > .after {
+    grid-area: after;
+    overflow: auto;
+
+	/* Position the resize handler relative to here */
+	position: relative;
+}
+
+.fixed-layout > .after,
+.fixed-layout > .before {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s1);
+}
+
+.fixed-layout > .page-header {
+    grid-area: header;
+}
+
+.fixed-layout > .content-top {
+    grid-area: content-top;
+    overflow: visible;
+}
+
+.fixed-layout > footer {
+    grid-area: footer;
+}
+
+.resize-handler {
+    top: 0px;
+    cursor: e-resize;
+
+    /* Make mobile work: prevent long-press actions */
+    touch-action: none;
+
+    width: 1rem;
+    bottom: 0px;
+
+    position: absolute;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.resize-handler:hover {
+    background-color: var(--jinks-colors-accent);
+    opacity: 0.5;
+}
+
+.before > .resize-handler {
+    right: 0px;
+    float: right;
+}
+.after > .resize-handler {
+    left: 0px;
+    float: left;
+}
+
+.fixed-layout > main > .center {
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .fixed-layout main {
+        display: block;
+    }
+
+    .fixed-layout > .before {
+        width: 100vw;
+        max-width: unset;
+    }
+
+    /* Hide aside toggle if .before is empty */
+    .fixed-layout:not(:has(> .before > :not(.resize-handler))) > footer.mobile-footer .aside-toggle {
+        display: none;
+    }
+
+    footer.mobile-footer .aside-toggle:not(.open) svg {
+        rotate: 180deg;
+    }
+
+    .resize-handler {
+        display: none;
+    }
+}
+
+@media (max-width: 1023px) {
+    .hidden-mobile {
+        display: none;
+    }
+    
+    /* Ensure .before sidebar is hidden on mobile when it has hidden-mobile class */
+    /* This overrides the more specific .fixed-layout > .before { display: flex; } rule */
+    .fixed-layout > .before.hidden-mobile,
+    .fixed-layout > .after.hidden-mobile {
+        display: none !important;
+    }
+}
+@media (min-width: 1024px) {
+    .mobile,
+    footer.mobile-footer.mobile {
+        display: none;
+    }
+}

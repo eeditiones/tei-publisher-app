@@ -1,0 +1,31 @@
+<!--
+    Defines extension modules to be loaded for a given output mode, optionally limited to a
+    specific odd file. Order is important: the first module function matching a given behaviour
+    will be used.
+
+    Every output element may list an arbitrary number of modules, though they should differ by
+    uri and prefix.
+
+    "mode" is the mode identification string passed to pmu:process.
+    The "odd" is defined by its name, without the .odd suffix.
+
+    Note: starting with tei-publisher-lib 3.1.0, the module import paths can be relative
+    to the modules/ collection.
+--><modules>
+    <!-- Import global variables and functions from modules/odd-global.xqm -->
+    <module uri="http://e-editiones.org/tei-publisher/odd-global" prefix="global" at="odd-global.xqm"/>
+    <!-- General latex extension functions -->
+    <!--output mode="latex">
+        <property name="class">"article"</property>
+        <property name="section-numbers">false()</property>
+        <property name="font-size">"12pt"</property>
+        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-latex" prefix="ext-latex" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-latex.xql"/>
+    </output-->
+    <!--output mode="web" odd="documentation">
+        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-html.xql"/>
+    </output-->
+    <!-- Required for MS Word docx to TEI transformations -->
+    <output mode="tei" odd="docx">
+        <module uri="http://www.tei-c.org/tei-simple/xquery/functions/docx" prefix="ext-docx"/>
+    </output>
+</modules>

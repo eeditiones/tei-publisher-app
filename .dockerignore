@@ -1,0 +1,35 @@
+# Version control
+.git/
+.gitignore
+
+# CI/CD configuration
+.github/
+.gitlab-ci.yml
+
+# IDE and editor configurations
+.vscode/
+.idea/
+.cursor/
+*.code-workspace
+
+# Development containers
+.devcontainer/
+
+# Node.js dependencies (ant will run npm install if needed, but we exclude pre-installed modules)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Test artifacts
+test/cypress/screenshots/
+test/cypress/videos/
+test/cypress/downloads/
+
+# Build configuration files (not needed in container)
+*.properties
+*.tmpl
+.dockerignore
+
+# eXist-db local configuration
+.existdb.json
+
