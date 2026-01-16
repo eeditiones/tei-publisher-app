@@ -31,7 +31,7 @@ describe('/api/document/{id}/html', () => {
   })
 
   it('retrieves part identified by xml:id as html', () => {
-    cy.request({ method: 'GET', url: '/api/document/doc%2Fdocumentation.xml/html', qs: { id: 'unix-installation' } })
+    cy.request({ method: 'GET', url: '/api/document/doc%2Finstallation.xml/html', qs: { id: 'unix-installation' } })
       .then(({ status, body }) => {
         expect(status).to.eq(200)
         expect(body).to.match(/Unix installation/)

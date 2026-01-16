@@ -341,6 +341,9 @@ pb-popover {
 
 .results nav[aria-label="breadcrumb"] ul li {
     padding: 0 0.5rem;
+    text-overflow: normal;
+    white-space: normal;
+    max-width: none;
 }
 
 .results .card header .count {

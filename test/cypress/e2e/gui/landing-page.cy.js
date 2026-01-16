@@ -49,22 +49,21 @@ describe('TEI-Publisher Landing Page', () => {
     it('shows hero heading', () => {
       cy.get('header.hero h1, .hero h1, [class*="hero"] h1')
         .should('exist')
-        .should('be.visible')
-        .invoke('text')
+        .should('be.visible')        
         .should('not.be.empty')
     })
 
     it('displays explore link', () => {
       // Hero section should have explore/browse link
-      cy.get('header.hero .button-link, .hero a[href*="browse"], a.button-link')
+      cy.get('header.hero .button-link, .hero a[href*="highlights"], a.button-link')
         .should('exist')
     })
 
-    it('explore link navigates to browse page', () => {
-      cy.get('a.button-link, .hero a[href*="browse"]')
+    it('explore link navigates to highlights page', () => {
+      cy.get('a.button-link, .hero a[href*="highlights"]')
         .first()
         .should('have.attr', 'href')
-        .and('include', 'browse')
+        .and('include', 'highlights')
     })
   })
 

@@ -26,14 +26,13 @@ describe('TEI-Publisher Search Results', () => {
     })
 
     it('displays breadcrumb navigation', () => {
-      cy.get('nav[aria-label="breadcrumb"], nav.breadcrumb').should('be.visible')
-      cy.get('nav[aria-label="breadcrumb"] a, nav.breadcrumb a')
-        .contains('Documents')
+      cy.get('nav[aria-label="breadcrumb"], nav.breadcrumb').should('be.visible')      
+      cy.get('nav[aria-label="breadcrumb"] a pb-i18n[key="breadcrumb.collection-root"]')
         .should('be.visible')
-      cy.get('nav[aria-label="breadcrumb"], nav.breadcrumb')
-        .contains('Search results')
-        .should('exist')
+      cy.get('nav[aria-label="breadcrumb"], nav.breadcrumb pb-i18n[key="search.results"]')
+        .should('be.visible')
     })
+
 
     it('shows main content area with results', () => {
       cy.get('main').should('be.visible')

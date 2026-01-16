@@ -251,7 +251,7 @@
   "data" : {
     "landing" : "landing/home.xml"
   },
-  "_lastModified" : null,
+  "_lastModified" : "2026-01-16T12:13:04.201Z",
   "pkg" : {
     "website" : "http://tei-publisher.org",
     "abbrev" : "tei-publisher",
@@ -300,7 +300,7 @@
     "jinks-templates" : "1.2.0"
   },
   "category" : "workflow",
-  "_overwrite" : "quick",
+  "_overwrite" : "reinstall",
   "defaults" : {
     "data" : "data",
     "address-by-id" : false,

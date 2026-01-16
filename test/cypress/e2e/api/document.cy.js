@@ -24,7 +24,7 @@ describe('Document API Tests', () => {
     it('saves in the root of the data collection', () => {
       cy.request({
         method: 'PUT',
-        url: '/api/document/doc.xml',
+        url: '/api/document/demo/doc.xml',
         headers: {
           'content-type': 'application/xml',
           Origin: getOrigin()
@@ -33,7 +33,7 @@ describe('Document API Tests', () => {
       }).then((response) => {
         expect(response.status).to.eq(200)
         expect(response.body).to.deep.eq({
-          path: `${dataDefault}/doc.xml`,
+          path: `demo/doc.xml`,
           status: 'ok'
         })
       })
@@ -51,7 +51,7 @@ describe('Document API Tests', () => {
       }).then((response) => {
         expect(response.status).to.eq(200)
         expect(response.body).to.deep.eq({
-          path: `${dataDefault}/collection/deep/down/doc.xml`,
+          path: `collection/deep/down/doc.xml`,
           status: 'ok'
         })
       })

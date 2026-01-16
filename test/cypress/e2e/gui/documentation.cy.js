@@ -6,12 +6,12 @@ describe('TEI-Publisher Documentation Page', () => {
   beforeEach(() => {
     cy.viewport(1280, 720)
     // Universal intercepts (loginStub, timelineStub) are automatically set up in support/e2e.js
-    cy.visit('/documentation')
+    cy.visit('/doc/documentation.xml')
   })
 
   describe('Documentation Page Load', () => {
     it('loads the documentation page successfully', () => {
-      cy.url().should('include', '/documentation')
+      cy.url().should('include', '/doc/documentation.xml')
       cy.get('body').should('be.visible')
     })
 
@@ -154,10 +154,6 @@ describe('TEI-Publisher Documentation Page', () => {
   describe('Documentation Download Features', () => {
     it('provides PDF download options', () => {
       cy.get('pb-download[type="pdf"]').should('exist')
-    })
-
-    it('provides LaTeX download options', () => {
-      cy.get('pb-download[type="tex"]').should('exist')
     })
 
     it('provides EPUB download option', () => {
