@@ -136,7 +136,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       
       - name: Pull demo image
-        run: docker pull ${{ env.DEMO_IMAGE }}:latest
+        run: docker pull ${{ env.DEMO_IMAGE }}:10.0.0-gm
       
       - name: Docker meta
         id: meta
