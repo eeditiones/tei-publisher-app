@@ -171,8 +171,10 @@ jobs:
           # Use buildx imagetools to copy multi-arch manifest for each tag
           echo "${{ steps.tags_with_latest.outputs.tags || steps.meta.outputs.tags }}" | while IFS= read -r tag; do
             if [ -n "$tag" ]; then
-              echo "Pushing ghcr.io/eeditiones/${{ env.IMAGE_NAME }}:$tag"
-              docker buildx imagetools create -t "ghcr.io/eeditiones/${{ env.IMAGE_NAME }}:$tag" ${{ env.DEMO_IMAGE }}:latest
+              # Extract tag-only (substring after last ':')
+              short_tag="${tag##*:}"
+              echo "Pushing ghcr.io/eeditiones/${{ env.IMAGE_NAME }}:$short_tag"
+              docker buildx imagetools create -t "ghcr.io/eeditiones/${{ env.IMAGE_NAME }}:$short_tag" ${{ env.DEMO_IMAGE }}:latest
             fi
           done
       
@@ -182,7 +184,9 @@ jobs:
           # Use buildx imagetools to copy multi-arch manifest for each tag
           echo "${{ steps.tags_with_latest.outputs.tags || steps.meta.outputs.tags }}" | while IFS= read -r tag; do
             if [ -n "$tag" ]; then
-              echo "Pushing existdb/${{ env.IMAGE_NAME }}:$tag"
-              docker buildx imagetools create -t "existdb/${{ env.IMAGE_NAME }}:$tag" ${{ env.DEMO_IMAGE }}:latest
+              # Extract tag-only (substring after last ':')
+              short_tag="${tag##*:}"
+              echo "Pushing existdb/${{ env.IMAGE_NAME }}:$short_tag"
+              docker buildx imagetools create -t "existdb/${{ env.IMAGE_NAME }}:$short_tag" ${{ env.DEMO_IMAGE }}:latest
             fi
           done
