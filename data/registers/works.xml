@@ -1,0 +1,425 @@
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?><TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="pb-works">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Local Authority File: Work register</title>
+            </titleStmt>
+            <publicationStmt>
+                <p>Publication Information</p>
+            </publicationStmt>
+            <sourceDesc>
+                <p>Information about the source</p>
+            </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+            <classDecl>
+                <taxonomy/>
+            </classDecl>
+        </encodingDesc>
+    </teiHeader>
+    <standOff>
+        <listBibl>
+            <bibl xml:id="gnd-4211173-0">
+                <idno type="GND">gnd-4211173-0</idno>
+                <title type="main">Čajka</title>
+                <author>Čechov, Anton Pavlovič</author>
+                <note/>
+            </bibl>
+            <bibl xml:id="gnd-1350488062">
+                <idno type="GND">gnd-1350488062</idno>
+                <title type="main">Le tombeau sous l'Arc de Triomphe</title>
+                <author>Raynal, Paul</author>
+                <note>Drama</note>
+            </bibl>
+            <bibl xml:id="gnd-1112572597">
+                <idno type="GND">gnd-1112572597</idno>
+                <title type="main">Nun singen sie wieder</title>
+                <author>Frisch, Max</author>
+                <note>Inhalt: Drama in zwei Teilen (Prosa); Uraufführung am 29.03.1945 am
+                    Schauspielhaus in Zürich</note>
+            </bibl>
+            <bibl xml:id="gnd-4496311-7">
+                <idno type="GND">gnd-4496311-7</idno>
+                <title type="main">Santa Cruz</title>
+                <author>Frisch, Max</author>
+                <note>Drama, 1947</note>
+            </bibl>
+            <bibl xml:id="gnd-4234728-2">
+                <idno type="GND">gnd-4234728-2</idno>
+                <title type="main">Die chinesische Mauer</title>
+                <author>Frisch, Max</author>
+                <note>es gibt weitere Fassungen mit wesentlichen Änderungen, erschienen 1955 und
+                    1972. Dazu Eymann, Ulrich: Max Frisch: "Die Chinesische Mauer" : Ein
+                    Fassungsvergleich. In: Literatur für Leser. - 1985, S. 29-41</note>
+            </bibl>
+            <bibl xml:id="gnd-1136804110">
+                <idno type="GND">gnd-1136804110</idno>
+                <title type="main">Tagebuch mit Marion</title>
+                <author>Frisch, Max</author>
+                <note>erstmals 1947 erschienen im Atlantis-Verlag, Zürich</note>
+            </bibl>
+            <bibl xml:id="gnd-1088067158">
+                <idno type="GND">gnd-1088067158</idno>
+                <title type="main">Monsieur Teste</title>
+                <author>Valéry, Paul</author>
+                <note/>
+            </bibl>
+            <bibl xml:id="gnd-4480217-1">
+                <idno type="GND">gnd-4480217-1</idno>
+                <title type="main">Journal des Goncourt</title>
+                <author>Goncourt, Jules de</author>
+                <note/>
+            </bibl>
+            <bibl xml:id="gnd-4733268-2">
+                <idno type="GND">gnd-4733268-2</idno>
+                <title type="main">Tagebuch 1946-1949</title>
+                <author>Frisch, Max</author>
+                <note>Der 1. Teil dieses Tagebuchs erschien 1947 u.d.T.: Tagebuch mit Marion im
+                    Atlantis-Verl. Zürich</note>
+            </bibl>
+            <bibl xml:id="gnd-4186700-2">
+                <idno type="GND">gnd-4186700-2</idno>
+                <title type="main">Ulenspiegel (Zeitschrift, Berlin, Ost)</title>
+                <note>Berlin-Dahlem, 1945-1948, Berlin (Ost) 1948-50</note>
+            </bibl>
+            <bibl xml:id="gnd-4113209-9">
+                <idno type="GND">gnd-4113209-9</idno>
+                <title type="main">Don Quijote</title>
+                <author>Cervantes Saavedra, Miguel de</author>
+                <note/>
+            </bibl>
+            <bibl xml:id="gnd-4099380-2">
+                <idno type="GND">gnd-4099380-2</idno>
+                <title type="main">Gulliver's travels</title>
+                <author>Swift, Jonathan</author>
+                <note>Zeit- und Sachbezug: Der unter einem Pseudonym veröffentlichte
+                    satirisch-phantastische Reiseroman wurde um 1713 im Londoner Scriblerus Club
+                    konzipiert, einer Vereinigung von Autoren (u. a. Swift, Gay, Pope), die das Ziel
+                    verfolgten, populäre Gattungen und „falschen Geschmack in der Gelehrsamkeit“
+                    satirisch zu überzeichnen. Verfasst wurde er zwischen 1720 und 1725 in Dublin.
+                    Zahlreiche Passagen wurden von dem Londoner Verleger Benjamin Motte in der
+                    ersten, 1726 erschienenen Ausgabe geändert bzw. getilgt. Erst 1735 erschien bei
+                    George Faulkner in Dublin eine Ausgabe, in der die Änderungen rückgängig gemacht
+                    wurden. Diese gilt als ‚editio princeps‘.; Inhalt: Das satirische Werk gliedert
+                    sich in vier Teile, die den vier Reisen Gullivers entsprechen: nach Liliput, ins
+                    Land der zwergenhaften Liliputaner; nach Brobdingnag, ins Land der Riesen; nach
+                    Laputa, Balnibarbi, Glubbdubdrib, Luggnagg und Japan; ins Land der Houyhnhnms
+                    und Yahoos.</note>
+            </bibl>
+            <bibl xml:id="gnd-1112572929">
+                <idno type="GND">gnd-1112572929</idno>
+                <title type="main">Als der Krieg zu Ende war</title>
+                <author>Frisch, Max</author>
+                <note/>
+            </bibl>
+            <bibl xml:id="gnd-4126973-1">
+                <idno type="GND">gnd-4126973-1</idno>
+                <title type="main">Dantons Tod</title>
+                <author>Büchner, Georg</author>
+                <note>Überlieferung: Büchners einziges Drama, das noch zu seinen Lebzeiten vom
+                    Verleger Karl Gutzkow mit Veränderungen veröffentlicht wurde. Die Uraufführung
+                    fand am 5. Januar 1902 im Berliner Belle-Alliance-Theater. Seitdem zahlreiche
+                    Adaptionen bis in die Gegenwart, etwa als Bühneninszenierung, Oper, Film und
+                    Hörspiel.; Zeit- und Sachbezug: Entstand kurz nach der Veröffentlichung seines
+                    "Hessischen Landboten", als sich Büchner vor der Justiz versteckte.; Inhalt:
+                    Drama in vier Akten. Den historischen Hintergrund bilden die revolutionären
+                    Ereignisse in Frankreich: beschrieben wird die Spätphase der
+                    Schreckensherrschaft, die der Titelheld Danton einst mit inszenierte. Der
+                    Konflikt mit Robespierre und seine Zweifel am Erfolg der Republik bringen ihn
+                    erst in Verruf und schließlich unter die Guillotine: die Revolution frisst ihre
+                    eigenen Kinder. Drastische Volksszenen verdeutlichen, dass keine Partei Lösungen
+                    für ein Ende des Elends hat und dass die gewaltsame Durchsetzung sozialer
+                    Reformen neue Probleme mit sich bringt. Büchner macht in seiner Darstellung der
+                    Jakobinerdiktatur während der Schlussphase der französischen Revolution auf die
+                    Missstände seiner Zeit in Deutschland aufmerksam.; Epoche: Vormärz</note>
+            </bibl>
+            <bibl xml:id="gnd-4138407-6">
+                <idno type="GND">gnd-4138407-6</idno>
+                <title type="main">Les mouches</title>
+                <author>Sartre, Jean-Paul</author>
+                <note/>
+            </bibl>
+            <bibl xml:id="gnd-4203113-8">
+                <idno type="GND">gnd-4203113-8</idno>
+                <title type="main">Orestia</title>
+                <author>Aeschylus</author>
+                <note>458 v. Chr. uraufgeführte Tragödientrilogie besteht aus den Stücken Agamemnōn,
+                    Choēphoroi (Die Opfernden am Grab) und Eumenides (Die Eumeniden) und wurde einst
+                    ergänzt durch das verlorene Satyrspiel Prōteus.</note>
+            </bibl>
+            <bibl xml:id="gnd-4128890-7">
+                <idno type="GND">gnd-4128890-7</idno>
+                <title type="main">Stiller</title>
+                <author>Frisch, Max</author>
+                <note/>
+            </bibl>
+            <bibl xml:id="gnd-4099321-8">
+                <idno type="GND">gnd-4099321-8</idno>
+                <title type="main">Tartuffe</title>
+                <author>Molière</author>
+                <note>Tschechische Ausgabe wie 130</note>
+            </bibl>
+            <bibl xml:id="gnd-4431494-2">
+                <idno type="GND">gnd-4431494-2</idno>
+                <title type="main">Les caves du Vatican</title>
+                <author>Gide, André</author>
+                <note>Roman, ersch. 1914</note>
+            </bibl>
+            <bibl xml:id="gnd-300257538">
+                <idno type="GND">gnd-300257538</idno>
+                <title type="main">Jeanne d'Arc au bûcher</title>
+                <note>Libretto von Paul Claudel</note>
+            </bibl>
+            <bibl xml:id="gnd-4425643-7">
+                <idno type="GND">gnd-4425643-7</idno>
+                <title type="main">Cristo si è fermato a Eboli</title>
+                <author>Levi, Carlo</author>
+                <note>Roman, 1945</note>
+            </bibl>
+            <bibl xml:id="gnd-4537245-7">
+                <idno type="GND">gnd-4537245-7</idno>
+                <title type="main">Graf Öderland</title>
+                <author>Frisch, Max</author>
+                <note>Uraufführung am 10.02.1951 am Schauspielhaus in Zürich; Uraufführung der
+                    endgültigen Fassung am 25.9.1961 am Schillertheater in Berlin; weitere Fassungen
+                    1951, 1956 und 1961; Erstausgabe 1951, endgültige Fassung in 'Stücke' Bd. 1.-
+                    1962</note>
+            </bibl>
+            <bibl xml:id="gnd-4136687-6">
+                <idno type="GND">gnd-4136687-6</idno>
+                <title type="main">Des Teufels General</title>
+                <author>Zuckmayer, Carl</author>
+                <note>Uraufführung am 14.12.1946 im Schauspielhaus, Zürich (Regie: Hilpert)</note>
+            </bibl>
+            <bibl xml:id="gnd-4605480-7">
+                <idno type="GND">gnd-4605480-7</idno>
+                <title type="main">Bodas de sangre</title>
+                <author>García Lorca, Federico</author>
+                <note>Lyrische Tragödie</note>
+            </bibl>
+            <bibl xml:id="gnd-4099152-0">
+                <idno type="GND">gnd-4099152-0</idno>
+                <title type="main">Woyzeck</title>
+                <author>Büchner, Georg</author>
+                <note>Zeit- und Sachbezug: Büchner bezieht sich u.a. auf das historische Vorbild des
+                    Perückenmachers Johann Christian Woyzeck, welcher nach dem Mord an seiner
+                    Geliebten hingerichtet wurde.; Überlieferung: Von dem unvollendeten Drama
+                    existieren mehrere bruchstückartige Fassungen. Wurde 1875 in Auszügen in der
+                    Wiener "Neuen Freien Presse" und 1878 in der deutschen Wochenschrift "Mehr
+                    Licht!" publiziert. Kam erst 1913 im Münchner Residenztheater zur Uraufführung.
+                    Große Wirkung auf den Naturalismus; bis heute zahlreiche Adaptionen für Bühne,
+                    Funk und Film.; Inhalt: Der einfache, arbeitslose Soldat Franz Woyzeck lässt
+                    sich von einem skrupellosen Arzt zu Versuchszwecken auf Erbsendiät setzen. Neben
+                    der physischen und psychischen Ausbeutung wird Woyzeck auch in der
+                    Öffentlichkeit gedemütigt. Als seine Freundin Marie heimlich eine Affäre
+                    beginnt, glaubt Woyzeck, innere Stimmen zu hören, die ihm befehlen, sie
+                    umzubringen. Er führt Marie in den nahegelegenen Wald und ersticht sie dort am
+                    Ufer eines Sees - das Opfer wird zum Täter. Büchner stellt die Frage nach der
+                    Verantwortlichkeit von Moral, Religion, Wissenschaft und der sozialen
+                    Verhältnisse für die Leidensgeschichte des Protagonisten.; Epoche:
+                    Vormärz</note>
+            </bibl>
+            <bibl xml:id="work-000001">
+                <title type="main">Oberst Kusmin</title>
+                <author>Scheinin, Lew</author>
+                <note/>
+            </bibl>
+            <bibl xml:id="gnd-4122572-7">
+                <idno type="GND">gnd-4122572-7</idno>
+                <title type="main">Der Hauptmann von Köpenick</title>
+                <author>Zuckmayer, Carl</author>
+                <note>Uraufführung: Deutsches Theater, Berlin, 05.03.1931</note>
+            </bibl>
+            <bibl xml:id="gnd-1273395107">
+                <idno type="GND">gnd-1273395107</idno>
+                <title type="main">Johann Wolfgang Goethe, Iphigenie auf Tauris</title>
+                <author>Leis, Mario</author>
+                <note/>
+            </bibl>
+            <bibl xml:id="work-000002">
+                <title type="main">Die Möwe</title>
+                <author>Tschechow, Anton</author>
+                <note/>
+            </bibl>
+            <bibl xml:id="gnd-4099401-6">
+                <idno type="GND">gnd-4099401-6</idno>
+                <title type="main">A streetcar named desire</title>
+                <author>Williams, Tennessee</author>
+                <note/>
+            </bibl>
+            <bibl xml:id="gnd-1117582728">
+                <idno type="GND">gnd-1117582728</idno>
+                <title type="main">Sur le pont d'Avignon</title>
+                <note/>
+            </bibl>
+            <bibl xml:id="gnd-1142549232">
+                <idno type="GND">gnd-1142549232</idno>
+                <title type="main">Der Hofmeister</title>
+                <author>Brecht, Bertolt</author>
+                <note>Brechts Bearbeitung für das Berliner Ensemble; UA am 15.4.1950</note>
+            </bibl>
+            <bibl xml:id="gnd-4113925-2">
+                <idno type="GND">gnd-4113925-2</idno>
+                <title type="main">Mein Kampf</title>
+                <author>Hitler, Adolf</author>
+                <note>Band 1: Eine Abrechnung (Erstausgabe 18.07.1925), Band 2: Die
+                    nationalsozialistische Bewegung (Erstausgabe 10.12.1926); Bis 1945 wurde das
+                    Werk in fast 700 Auflagen und ca. 10 Millionen Exemplaren gedruckt. Sein
+                    öffentlicher Verkauf ist seitdem verboten.</note>
+            </bibl>
+            <bibl xml:id="gnd-4264146-9">
+                <idno type="GND">gnd-4264146-9</idno>
+                <title type="main">Don Juan</title>
+                <author>Frisch, Max</author>
+                <note>Uraufführung gleichzeitig am 05.05.1953 im Schauspielhaus Zürich (Regie: Oskar
+                    Wälterlin) und im Schiller-Theater Berlin (Regie: Hans Schalla). 2. Fassung:
+                    Deutsches Schauspielhaus Hamburg, 12.9.1962 (Regie: Ulrich Erfurth)</note>
+            </bibl>
+            <bibl xml:id="gnd-4135525-8">
+                <idno type="GND">gnd-4135525-8</idno>
+                <title type="main">Ilias</title>
+                <author>Homerus</author>
+                <note>Echtheit teilweise umstritten. Einzelne Bücher, bzw. Buchteile tragen in
+                    zahlreichen Textausgaben Titel, die zwar nicht überliefert sind, aber auch in
+                    der Forschung aus Gründen der Gliederung häufig zitiert werden. TITAN trägt
+                    deshalb zusätzlich zur Zählung der 24 Bücher solche Titel als Verweisungen in
+                    den jeweiligen Datensätzen ein, um Zuordnungsprobleme zu vermeiden</note>
+            </bibl>
+            <bibl xml:id="gnd-4041739-6">
+                <idno type="GND">gnd-4041739-6</idno>
+                <title type="main">Neue Zürcher Zeitung</title>
+                <note/>
+            </bibl>
+            <bibl xml:id="gnd-4006406-2">
+                <idno type="GND">gnd-4006406-2</idno>
+                <title type="main">Bibel</title>
+                <note/>
+            </bibl>
+            <bibl xml:id="gnd-4099192-1">
+                <idno type="GND">gnd-4099192-1</idno>
+                <title type="main">Homo Faber</title>
+                <author>Frisch, Max</author>
+                <note/>
+            </bibl>
+            <bibl xml:id="gnd-4122499-1">
+                <idno type="GND">gnd-4122499-1</idno>
+                <title type="main">Bibel. Deutsch (Luther)</title>
+                <note>Die erste Gesamtausgabe der Bibel, von Martin Luther aus den ursprünglichen
+                    hebräischen und griechischen Textfassungen übersetzt, 1534 auf der Leipziger
+                    Buchmesse präsentiert, sorgte für einen sprachlichen Ausgleich zwischen
+                    regionalen Dialekten und knüpfte sprachlich an die Lebenswelt der einfachen
+                    Bevölkerung an, mit erzählenden Holzschnitten von Lucas Cranach illustriert, nur
+                    noch 60 erhaltene Exemplare weltweit, Weimarer Exemplar seit 2015
+                    Weltdokumentenerbe der UNESCO.</note>
+            </bibl>
+            <bibl xml:id="gnd-4001515-4">
+                <idno type="GND">gnd-4001515-4</idno>
+                <title type="main">Bibel. Altes Testament</title>
+                <note/>
+            </bibl>
+            <bibl xml:id="gnd-7670609-6">
+                <idno type="GND">gnd-7670609-6</idno>
+                <title type="main">Blätter aus dem Brotsack</title>
+                <author>Frisch, Max</author>
+                <note/>
+            </bibl>
+            <bibl xml:id="gnd-1171916485">
+                <idno type="GND">gnd-1171916485</idno>
+                <title type="main">Zürich-Transit</title>
+                <author>Frisch, Max</author>
+                <note/>
+            </bibl>
+            <bibl xml:id="gnd-4391212-6">
+                <idno type="GND">gnd-4391212-6</idno>
+                <title type="main">Yerma</title>
+                <author>García Lorca, Federico</author>
+                <note>Drama (1934)</note>
+            </bibl>
+            <bibl xml:id="gnd-1217506039">
+                <idno type="GND">gnd-1217506039</idno>
+                <title type="main">Morgenblatt für gebildete Stände</title>
+                <note>Zeit- und Sachbezug: Deutsche Kulturzeitung mit mehreren getrennt geführten
+                    Beilagen. - Inhalt: Mischung aus Reiseberichten, Gedichten, Lebenserinnerungen,
+                    Aufsätzen zu Literatur, Geschichte, Kunst und Naturkunde, sowie Rezensionen. -
+                    Überlieferung: Die Publikation war mit einer Auflage von 2.500 Exemplaren, davon
+                    etwa 1.400 Abonnements, das führende literarische Unterhaltungsorgan in der
+                    ersten Hälfte des 19. Jahrhunderts.</note>
+            </bibl>
+            <bibl xml:id="gnd-4485181-9">
+                <idno type="GND">gnd-4485181-9</idno>
+                <title type="main">Our town</title>
+                <author>Wilder, Thornton</author>
+                <note>Uraufführung 1938</note>
+            </bibl>
+            <bibl xml:id="gnd-4099365-6">
+                <idno type="GND">gnd-4099365-6</idno>
+                <title type="main">A midsummer night's dream</title>
+                <author>Shakespeare, William</author>
+                <note/>
+            </bibl>
+            <bibl xml:id="gnd-4099202-0">
+                <idno type="GND">gnd-4099202-0</idno>
+                <title type="main">Die Leiden des jungen Werthers</title>
+                <author>Goethe, Johann Wolfgang von</author>
+                <note>Überlieferung: Erschien 1774 in 2 Teilen, eine bearbeitete Fassung wurde 1787
+                    veröffentlicht. Gilt als einer der ersten Bestseller der deutschen Literatur und
+                    Paradebeispiel des Romans des Sturm und Drang, das auch im Ausland häufig
+                    bearbeitet und übersetzt wurde. Vielfach illustriert, am bekanntesten sind die
+                    Zeichnungen von D. N. Chodowiecki. Der sog. "Werther-Effekt" - gemeint ist der
+                    medial vermittelte Nachahmungs-Suizid - ist nach dem Stück benannt. Der
+                    Kleidungsstil des Werther (blau und gelb) wurde zum Trend und besonders häufig
+                    von Regenten gewählt, um Volksnähe und hohen Bildungsstand zum Ausdruck zu
+                    bringen. Als Roman, Oper, Bühnenstück, Film und in Liedern bis in die Gegenwart
+                    adaptiert ("Wertheriaden"). Das Werk wurde in die ZEIT-Bibliothek der 100 Bücher
+                    und auch in die ZEIT-Schülerbibliothek aufgenommen.; Epoche: Sturm und Drang;
+                    Zeit- und Sachbezug: G. verarbeitete in dem Briefroman seine unglückliche Liebe
+                    zu Charlotte Buff sowie den Selbstmord eines nahen Freundes.; Inhalt:
+                    Liebesroman mit tragischem Ende: im Mittelpunkt steht Werther, welcher sich über
+                    seine unglückliche und unerfüllte Liebe zu der bereits einem anderen
+                    versprochenen Lotte das Leben nimmt. Die 1. Fassung enthält den Kommentar eines
+                    (fiktiven) Herausgebers. Dieser Epilog, die Anlegung als Briefroman sowie die
+                    Ich-Erzählweise sollten die Authentizität des Geschehenen belegen.</note>
+            </bibl>
+            <bibl xml:id="gnd-4099369-3">
+                <idno type="GND">gnd-4099369-3</idno>
+                <title type="main">Romeo and Juliet</title>
+                <author>Shakespeare, William</author>
+                <note/>
+            </bibl>
+            <bibl xml:id="gnd-4099171-4">
+                <idno type="GND">gnd-4099171-4</idno>
+                <title type="main">Der Besuch der alten Dame</title>
+                <author>Dürrenmatt, Friedrich</author>
+                <note>Drama wurde 1956 uraufgeführt</note>
+            </bibl>
+            <bibl xml:id="gnd-4280462-0">
+                <idno type="GND">gnd-4280462-0</idno>
+                <title type="main">Le grand Meaulnes</title>
+                <author>Alain-Fournier</author>
+                <note/>
+            </bibl>
+            <bibl xml:id="gnd-4099262-7">
+                <idno type="GND">gnd-4099262-7</idno>
+                <title type="main">Martin Salander</title>
+                <author>Keller, Gottfried</author>
+                <note>Epoche: Realismus; Überlieferung: Kellers zweiter und letzter Roman erschien
+                    1886 zuerst in der "Deutschen Rundschau" und im selben Jahr als Buchausgabe. Der
+                    Plan eines weiteren Romans "Arnold Salander" wurde nicht mehr ausgeführt.; Zeit-
+                    und Sachbezug: In diesem Zeitroman kommt Kellers von Skepsis und Bitterkeit
+                    geprägte Sicht auf den Verfall parlamentarisch-demokratischer Prinzipien und auf
+                    die ungehemmte Entfaltung kapitalistischer Verhältnisse zum Ausdruck.; Inhalt:
+                    Der Roman erzählt die von den Wechselfällen der Gründerjahre geprägte Geschichte
+                    einer Schweizer Familie und entwirft darin zugleich ein Gesellschaftsbild der
+                    Epoche, das von moralischen und sozialen Verfallserscheinungen gekennzeichnet
+                    ist.</note>
+            </bibl>
+            <bibl xml:id="gnd-1221727273">
+                <idno type="GND">gnd-1221727273</idno>
+                <title type="main">Die Forderungen der arbeitenden Klassen</title>
+                <author>Rodbertus, Karl</author>
+                <note/>
+            </bibl>
+        </listBibl>
+    </standOff>
+</TEI>

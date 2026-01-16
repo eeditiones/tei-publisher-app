@@ -1,0 +1,25 @@
+<main>
+    ---json
+    {
+        "templating": {
+            "extends": "templates/layouts/base.html"
+        },
+        "features": {
+            "upload": {
+                "enabled": false
+            }
+        }
+    }
+    ---
+    [% template styles %]
+    <style>
+        pb-markdown {
+            max-width: var(--pb-view-max-width);
+            --pb-code-highlight-white-space: pre-wrap;
+        }
+    </style>
+    [% endtemplate %]
+    <pb-markdown>
+    [% block content %][% endblock %]
+    </pb-markdown>
+</main>

@@ -8,7 +8,7 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../.
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
 import module namespace kwic="http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace facets="http://teipublisher.com/facets" at "../../facets.xql";
-
+import module namespace facets-config="http://teipublisher.com/api/facets-config" at "../../facets-config.xql";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
@@ -73,7 +73,7 @@ declare %private function sapi:show-hits($request as map(*), $hits as item()*, $
     let $expanded := util:expand($hit, "add-exist-id=all")
     let $docId := config:get-identifier($div)
     return
-        <paper-card>
+        <div class="card">
             <header>
                 <div class="count">{$request?parameters?start + $p - 1}</div>
                 { query:get-breadcrumbs($config, $hit, $parent-id) }
@@ -107,17 +107,17 @@ declare %private function sapi:show-hits($request as map(*), $hits as item()*, $
                     kwic:get-summary($expanded, $match, $config)
             }
             </div>
-        </paper-card>
+        </div>
 };
 
 declare function sapi:facets($request as map(*)) {
-    
+
     let $hits := session:get-attribute($config:session-prefix || ".hits")
     where count($hits) > 0
     return
         <div>
         {
-            for $config in $config:facets?*
+            for $config in $facets-config:facets?*
             return
                 facets:display($config, $hits)
         }
@@ -127,21 +127,21 @@ declare function sapi:facets($request as map(*)) {
 declare function sapi:list-facets($request as map(*)) {
     let $type := $request?parameters?type
     let $lang := tokenize($request?parameters?language, '-')[1]
-    let $facetConfig := filter($config:facets?*, function($facetCfg) {
+    let $facetConfig := filter($facets-config:facets?*, function($facetCfg) {
         $facetCfg?dimension = $type
     })
     let $hits := session:get-attribute($config:session-prefix || ".hits")
     let $facets := ft:facets($hits, $type, ())
-    let $matches := 
+    let $matches :=
         for $key in if (exists($request?parameters?value)) then $request?parameters?value else map:keys($facets)
         let $label := facets:translate($facetConfig, $lang, $key)
-        return 
+        return
             map {
                 "text": $label,
                 "freq": $facets($key),
                 "value": $key
-            } 
-           
+            }
+
     let $filtered := filter($matches, function($item) {
         matches($item?text, '(?:^|\W)' || $request?parameters?query, 'i')
     })

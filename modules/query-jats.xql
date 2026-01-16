@@ -135,17 +135,21 @@ declare function jats:get-breadcrumbs($config as map(*), $hit as node(), $parent
     let $work := root($hit)/*
     let $work-title := nav:get-document-title($config, $work)
     return
-        <div class="breadcrumbs">
-            <a class="breadcrumb" href="{$parent-id}">{$work-title}</a>
-            {
-                for $parentDiv in $hit/ancestor-or-self::sec[title]
-                let $id := util:node-id($parentDiv)
-                return
-                    <a class="breadcrumb" href="{$parent-id}?action=search&amp;root={$id}&amp;view={$config?view}&amp;odd={$config?odd}">
-                    {$parentDiv/title/string()}
-                    </a>
-            }
-        </div>
+        <nav aria-label="breadcrumb">
+            <ul>
+                <li><a href="{$parent-id}">{$work-title}</a></li>
+                {
+                    for $parentDiv in $hit/ancestor-or-self::sec[title]
+                    let $id := util:node-id($parentDiv)
+                    return
+                    <li>
+                        <a href="{$parent-id}?action=search&amp;root={$id}&amp;view={$config?view}&amp;odd={$config?odd}">
+                        {$parentDiv/title/string()}
+                        </a>
+                    </li>
+                }
+            </ul>
+        </nav>
 };
 
 (:~

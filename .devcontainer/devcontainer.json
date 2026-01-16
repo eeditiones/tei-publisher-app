@@ -1,15 +1,22 @@
 {
-    "name": "TEI Publisher App Development Container",
+    "name": "tei-publisher",
     "build": {
         "dockerfile": "Dockerfile.dev",
         "args": {
             "HTTP_PORT": "8080",
             "HTTPS_PORT": "8443",
+            "PUBLISHER_LIB_VERSION": "6.0.2",
+            "JINKS_TEMPLATES_VERSION": "1.2.0",
+            "ROUTER_VERSION": "1.11.0",
+            "EXIST_VERSION": "6.4.0",
+            "JWT_VERSION": "2.0.1",
+            "CRYPTO_VERSION": "6.0.1",
+            "INSTALL_NER": "false",
             "INSTALL_TEXLIVE": "false"
         }
     },
-    "runArgs": ["--name=TEIPublisherDev"],
-    "forwardPorts": [ 8080, 8001, 8443 ],
+    "runArgs": ["--name=tei-publisher-dev"],
+    "forwardPorts": [ 8080, 8443 ],
     "customizations": {
         "vscode": {
             "extensions": [ "exist-db.existdb-vscode", "42crunch.vscode-openapi", "redhat.vscode-xml" ]
@@ -19,10 +26,8 @@
     "postCreateCommand": [
         "${containerWorkspaceFolder}/.devcontainer/init.sh"
     ],
-    "postStartCommand": "${containerWorkspaceFolder}/.devcontainer/python-api.sh",
+    
     "features": {
-        "ghcr.io/devcontainers/features/node:1": {
-            "version": "latest"
-        }
+    
     }
 }

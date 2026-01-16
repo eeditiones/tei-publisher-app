@@ -1,0 +1,343 @@
+<?teipublisher odd="docbook.odd" template="documentation.html" depth="2" fill="1" media="print fo epub markdown"?><?xml-model href="https://cdn.docbook.org/schema/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en" label="a">
+    <info>
+        <title>Installing TEI Publisher</title>
+        <author>
+            <orgname>TEI Publisher Community</orgname>
+        </author>
+        <keywordset role="genre">
+            <keyword>Documentation</keyword>
+        </keywordset>
+        <abstract>
+            <para>How to install your own instance of TEI Publisher</para>
+        </abstract>
+    </info>
+    <section xml:id="installation">
+        <title>Installation</title>
+        <para>TEI Publisher requires the <link xlink:show="new" xlink:href="http://exist-db.org">eXist XML database</link> to operate. It is distributed as an eXist application
+            package, making it easy to install on any eXist database instance – either on your local
+            machine or any remote server. </para>
+        <para>The quickest way to get TEI Publisher and associated apps up and running is to use docker. 
+            However, you can also install eXist and TEI Publisher manually, as <link linkend="exist-installation">described below</link>.</para>
+        <section xml:id="docker">
+            <title>Using docker</title>
+            <para> If you do not want to install eXist yourself, you can use docker to run TEI
+                Publisher. Docker is a tool to simplify the installation of applications and
+                services. It creates a virtual environment including everything required for the
+                service to run. Using our <link xlink:show="new" xlink:href="https://hub.docker.com/r/existdb/teipublisher">docker image</link>,
+                eXist will already be set up to include both Jinks and TEI Publisher<!-- as well as
+            the... TODO: add here any demos that will also be included -->. </para>
+            <procedure>
+                <step>
+                    <para> Install <link xlink:show="new" xlink:href="https://www.docker.com/">docker</link> on your machine. Windows and Mac users may download the
+                            <link xlink:show="new" xlink:href="https://www.docker.com/products/docker-desktop">docker
+                            desktop</link> app. </para>
+                </step>
+                <step>
+                    <para>Run the following command. This will automatically download the image if not yet available:</para>
+                    <synopsis>docker run -p 8080:8080 -v exist-data:/exist/data --name teipublisher existdb/teipublisher:latest</synopsis>
+                    <para>Startup should be fast because the database is already pre-populated.
+                        However, changes you make may not persist if the docker container is deleted
+                        or updated to a newer release. If you want to be sure that your changes are
+                        safe, you should specify a local volume for storing the database by
+                        adding:</para>
+                    <synopsis>-v exist-data:/exist/data</synopsis>
+                    <para>See below for an explanation of the parameters:</para>
+                    <variablelist>
+                        <varlistentry>
+                            <term>-p</term>
+                            <listitem>
+                                <para>Maps a port on your local machine (8080) to the port
+                                    used by eXist within the container. eXist will always run on
+                                    8080 for HTTP. If those ports are already
+                                    occupied by different services on your machine, choose a
+                                    different port for the first number.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>-v</term>
+                            <listitem>
+                                <para> Creates a named ("exist-data") volume for storing the
+                                    database, using the directory specified after the colon. If you
+                                    skip this, any changes to the database will be lost if you
+                                    remove the docker container, update it or create a new one. With
+                                        <option>-v</option> the data will be stored outside the
+                                    container. </para>
+                                <para>If you just intend to play around a bit, you can skip the
+                                    parameter.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>--name</term>
+                            <listitem>
+                                <para> Assigns a name to the container, so you can reference it in
+                                    other docker commands, like <code>docker stop</code>. We'll use
+                                    the name in all commands below. </para>
+                            </listitem>
+                        </varlistentry>
+                    </variablelist>
+                    <para>Once the container has started, you can access TEI Publisher in your
+                        browser by navigating to</para>
+                    <synopsis>http://localhost:8080</synopsis>
+                </step>
+                <step>
+                    <para>To stop the container run</para>
+                    <synopsis>docker stop teipublisher</synopsis>
+                </step>
+                <step>
+                    <para>To start the container again:</para>
+                    <synopsis>docker start teipublisher</synopsis>
+                    <para>Note that when you restart a container, it will run in detached mode, so
+                        you won't see any console output. You can view the output with following
+                        command though:</para>
+                    <synopsis>docker logs teipublisher</synopsis>
+                </step>
+            </procedure>
+            <section xml:id="docker-other">
+                <title>Other useful commands</title>
+                <variablelist>
+                    <varlistentry>
+                        <term>docker container ps -a</term>
+                        <listitem>
+                            <para>Lists all running and stopped containers</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>docker volume ls</term>
+                        <listitem>
+                            <para>Displays existing volumes (where your database is stored)</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>docker cp teipublisher:/exist-data .</term>
+                        <listitem>
+                            <para>Copy the contents of the database data volume to the current
+                                directory on local disk, so you can back it up. Note that this will
+                                copy the raw database files as created by eXist (not your XML, which
+                                is binary encoded inside those files). Also make sure you run the
+                                command after stopping the active container.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>docker volume rm exist-data</term>
+                        <listitem>
+                            <para>Remove the contents of the database data volume (in case you would
+                                like to start from scratch, deleting all changes you made).</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+
+                <para> Have a look at the docker documentation and <link xlink:show="new" xlink:href="https://docs.docker.com/get-started/docker_cheatsheet.pdf"> cheatsheet</link> for more commands. </para>
+            </section>
+        </section>
+
+        <section xml:id="exist-installation">
+            <title>Installing into an eXist instance</title>
+
+            <section xml:id="java">
+                <title>Java</title>
+                <para> Before installing eXist, make sure you have Java installed on your machine.
+                    You can run <command>java -version</command> on a command line to check which
+                    version of Java you have. Make sure you have at least Java 8 (recommended: Java
+                    11). Please note that the <command>java -version</command> shows the full
+                    version string, so 1.8.0 or similar instead of just 8. </para>
+                <para> If you do not have Java installed, you can choose between a variety of
+                    different Java distributions for your operating system. While these are largely
+                    equivalent, so far we have had the smoothest installation experience across
+                    operating systems with the <link xlink:show="new" xlink:href="https://www.azul.com/downloads/?package=jdk#zulu">Zulu
+                        Community OpenJDK</link> builds. In particular for Windows users, this
+                    provides the best out of the box experience. </para>
+            </section>
+            <section xml:id="download">
+                <title>Download</title>
+
+                <para> Download an eXist distribution following the link on its <link xlink:show="new" xlink:href="http://exist-db.org/exist/apps/homepage/index.html#downloads">
+                        homepage</link>. </para>
+                <note>
+                    <para>It is recommended that you set up an admin password when installing eXist
+                        but make sure to remember or store it securely!</para>
+                </note>
+            </section>
+
+            <section xml:id="mac-installation">
+                <title>Mac installation</title>
+                <para> On a Mac download the file with the <command>.dmg</command> extension, e.g. "
+                        <filename> eXist-db-6.x.x.dmg</filename> ". </para>
+
+
+                <para> Double clicking the downloaded <command>.dmg</command> file should install
+                    eXist on your local system. It is only required to drag the eXist app icon over
+                    to the Applications folder. </para>
+
+                <para>Once the installation has completed, you should find an app in your
+                    Applications folder which you can use to launch eXist.</para>
+            </section>
+
+            <section xml:id="windows-installation">
+                <title>Windows installation</title>
+                <para> On Windows download the file with the <command>.jar</command> extension, e.g.
+                    " <filename> exist-installer-6.x.x.jar</filename> ". </para>
+
+                <para> Double clicking the <command>.jar</command> should install eXist on your
+                    local system. It will launch an installer to guide you through basic settings.
+                    The default settings suggested by the installer provide a good starting point
+                    for most projects. </para>
+
+                <note>
+                    <para> If double-clicking the <command>.jar</command> does not have any effect,
+                        there's may be something wrong with your Java setup. The
+                            <filename>java</filename> binary needs to be in your
+                            <envar>%PATH%</envar> environment. </para>
+                    <para>You can also try to manually start the installer by opening a command
+                        prompt, changing to the directory where you downloaded the distribution and
+                        typing:</para>
+                    <synopsis>java -jar exist-installer-6.x.x.jar</synopsis>
+                </note>
+
+                <para>Once the installation is completed, you should find an eXist-db shortcut to
+                    launch eXist.</para>
+            </section>
+
+            <section xml:id="unix-installation">
+                <title>Unix installation</title>
+                <para> Download the file with the <command>.jar</command> extension, e.g. "
+                        <filename> exist-installer-6.x.x.jar</filename> ". </para>
+
+                <para> Double clicking the <command>.jar</command> should install eXist on your
+                    local system. It will launch an installer to guide you through basic settings.
+                    Default settings suggested by the installer provide a good starting point for
+                    most projects so there's no need to change anything. </para>
+
+                <para> Once the installation is completed, you should find an eXist-db shortcut to
+                    launch eXist, otherwise navigate to the installation directory and run <command>
+                        bin/startup.sh</command>. </para>
+
+                <note>
+                    <para> Some <emphasis>Linux users</emphasis> may prefer the plain
+                            <command>.tar.bz2</command> package, which can just be untarred to any
+                        location. This package does not include an installer and eXist has to be
+                        launched on the command line: navigate into the untarred directory and run </para>
+                    <synopsis>bin/startup.sh</synopsis>
+                    <para> in a shell, skipping the jar installer step above. Ignore the next
+                        section, navigate directly to <link xlink:show="new" xlink:href="http://localhost:8080"> http://localhost:8080</link> and
+                        follow the steps for installing TEI Publisher via the dashboard described
+                        further below. </para>
+                </note>
+            </section>
+
+            <section xml:id="first-launch">
+                <title>First launch</title>
+                <para>Once eXist is launched for the first time you should see (with the exception
+                    of some Unix system configurations described above) a splash window popping up,
+                    showing that default applications are being installed:</para>
+                <figure>
+                    <title>Splash Screen on eXist Startup</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="eXistSplash.png" width="256px"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>Upon first start, an additional configuration window will pop up on Windows
+                    and Mac, allowing you to configure basic parameters. Default settings suggested
+                    provide a good starting point for most projects so usually there's no need to
+                    change anything. </para>
+                <figure>
+                    <title>Configuration Dialog Showing on First Start</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="eXistInitialConfig.png" width="512px"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para> Clicking on <guibutton>Save</guibutton> will show a popup asking to confirm
+                    the location of the data directory. Unless you have specific requirements just
+                    agree to the suggestion of the configuration dialog. </para>
+                <para>
+                    <emphasis>Windows users</emphasis> will be asked if they would like to install
+                    eXist as a service. This is highly recommended to ensure that the database is
+                    correctly closed whenever the operating system shuts down. </para>
+                <para>If all went well, eXist should now be up and running in the background. Mac
+                    and Windows users should find a small eXist icon in their task bar.
+                    Right-clicking on it will reveal a menu:</para>
+                <figure>
+                    <title>Taskbar Launcher Context Menu</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="eXistTaskbarIcon.png" width="512px"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+
+            <section xml:id="packageManager">
+                <title>Installing Jinks and TEI Publisher Documentation/Demo</title>
+                <para>TEI Publisher no longer comes as a single application. To get started, you
+                    need to install two packages:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term>Jinks</term>
+                        <listitem>
+                            <para>The central application manager from which every other application
+                                is generated</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>TEI Publisher Documentation and Demo</term>
+                        <listitem>
+                            <para>Contains the documentation for TEI Publisher as well as a few
+                                demonstration pages for various features. This mimics the old TEI
+                                Publisher application in that it allows you to explore the
+                                possibilities, upload documents and experiment with ODDs. The app is
+                                generated from the <emphasis>Documentation + Demo</emphasis>
+                                blueprint in <productname>Jinks</productname>.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+                <para>Clicking on <guimenuitem>Open Dashboard</guimenuitem> in the taskbar will open
+                    a browser and display eXist's Dashboard: the central administrative hub for the
+                    database. Alternatively – e.g. when you chose the manual installation on Linux –
+                    you can also open a browser window and navigate to: <link xlink:show="new" xlink:href="http://localhost:8080">http://localhost:8080</link>. </para>
+                <para>Log into the dashboard using the admin account and the password you chose
+                    during the installation (it will be empty by default). Use the left sidebar to
+                    navigate to the <guilabel>Package Manager</guilabel>. You'll see two tabs: the
+                    first one lists the application packages currently installed, the second can be
+                    used to install additional packages from eXist's public application
+                    repository.</para>
+                <note>
+                    <para>Should you encounter any issues with the login, try via a different app
+                        (they share logins):</para>
+                    <procedure>
+                        <step>
+                            <para>From the dashboard, open the <productname>monex</productname>
+                                application.</para>
+                        </step>
+                        <step>
+                            <para>If you are not logged in yet, this should present you with a login
+                                dialog. Provide your credentials and sign in.</para>
+                        </step>
+                        <step>
+                            <para>Go back to the <productname>dashboard</productname>. The display
+                                should change and you should see the admin view.</para>
+                        </step>
+                    </procedure>
+                </note>
+                <para> Switch to the <guilabel>Available</guilabel> tab and search the list for
+                        <productname> Jinks</productname>. Once you find it, click on the little
+                    install icon. You can also search for TEI Publisher and install the app so you
+                    can play around with the provided demos and showcases. </para>
+                <para>After installing, you will find <productname>Jinks</productname> (and
+                        <productname>TEI Publisher Documentation and Demo</productname>, if
+                    pertinent) in the tab showing installed apps. Click on the icon to open the
+                    app.</para>
+                <figure>
+                    <title>The Package Manager </title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="eXistDashboard.png" width="640px"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+        </section>
+    </section>
+</article>

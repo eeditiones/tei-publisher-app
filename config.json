@@ -1,0 +1,12 @@
+{
+  "label" : "TEI Publisher Documentation and Demo",
+  "id" : "https://e-editiones.org/apps/tei-publisher",
+  "defaults" : {
+    "site-root" : "/exist/apps/tei-publisher"
+  },
+  "extends" : [ "base10", "markdown", "demo-data", "theme-base10", "jats", "docbook", "iiif", "playground", "landing-page", "docs", "docker", "ci", "docx", "upload" ],
+  "pkg" : {
+    "abbrev" : "tei-publisher"
+  },
+  "description" : "TEI Publisher provides a flexible and sustainable toolbox which enables scholars with limited technical skills to publish their material without forcing it into a one-size-fits-all framework."
+}

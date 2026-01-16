@@ -1,0 +1,447 @@
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+schematypens="http://purl.oclc.org/dsdl/schematron"?><TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="pb-bibl">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Local Authority File: Bibliography</title>
+            </titleStmt>
+            <publicationStmt>
+                <p>Publication Information</p>
+            </publicationStmt>
+            <sourceDesc>
+                <p>Information about the source</p>
+            </sourceDesc>
+        </fileDesc>
+    </teiHeader>
+    <standOff>
+        <listBibl>
+            <bibl xml:id="bibl_SL_001">
+                <author>Laks Sz.</author>, <title>Poloniki… polemiki… polityki…</title>,
+                    <pubPlace>Londyn</pubPlace>
+                <date>1977</date>
+            </bibl>
+            <bibl xml:id="bibl_SL_002">
+                <author>Laks Sz.</author>, <title>Słowa i antysłowa</title>,
+                    <pubPlace>Londyn</pubPlace>
+                <date>1978</date>
+            </bibl>
+            <bibl xml:id="bibl_SL_003">
+                <author>Laks Sz.</author>, <title>„Szargam świętości”</title>,
+                    <pubPlace>Londyn</pubPlace>
+                <date>1980</date>
+            </bibl>
+            <bibl xml:id="bibl_SL_004">
+                <author>Laks Sz.</author>, <title>Dziennik pisany w biały dzień</title>,
+                    <pubPlace>Londyn</pubPlace>
+                <date>1981</date></bibl>
+            <bibl xml:id="bibl_SL_005">
+                <author>Laks Sz.</author>, <title>Taryfa ulgowa kosztuje drożej</title>,
+                    <pubPlace>Londyn</pubPlace>
+                <date>1982</date></bibl>
+            <bibl xml:id="bibl_SL_006">
+                <author>Laks Sz.</author>, <title>Moja wojna o pokój</title>,
+                    <pubPlace>Londyn</pubPlace>
+                <date>1983</date></bibl>
+            <bibl xml:id="bibl_SL_007">
+                <author>Laks Sz.</author>, <title>O kulturze z cudzysłowem i bez</title>,
+                    <pubPlace>Londyn</pubPlace>
+                <date>1984</date></bibl>
+            <bibl xml:id="bibl_SL_008">
+                <title>Antologia poezji hebrajskiej</title>, oprac. Z. Szeps,
+                    <pubPlace>Londyn</pubPlace>
+                <date>1974</date></bibl>
+            <bibl xml:id="bibl_SL_009">
+                <author>Axel M.</author>, <title>Dookoła „Lulu”</title>, <title type="journal">„Oficyna Poetów”</title>
+                <date>1980</date>, nr 2 (57), s. 48–50</bibl>
+            <bibl xml:id="bibl_SL_010">
+                <author>Axel M.</author>, <title>Miarka za miarkę. Specyficzny reportaż z pobytu w
+                    Niemczech Zachodnich, kilka uwag o faszyzmie i terroryzmie, a także Sołżenicyna
+                    spojrzenie na społeczeństwa Zachodu</title>, <title type="journal">„Oficyna
+                    Poetów”</title>
+                <date>1978</date>, nr 3 (50), s. 30–33</bibl>
+            <bibl xml:id="bibl_SL_011">
+                <author>Barańczak S.</author>, <title>Samobójstwo sandaueryzmu (I)</title>, <title type="journal">„Kultura”</title>
+                <date>1982</date>, nr 10 (421), s. 29–38</bibl>
+            <bibl xml:id="bibl_SL_012">
+                <author>Barańczak S.</author>, <title>Samobójstwo sandaueryzmu (dok.)</title>,
+                    <title type="journal">„Kultura”</title>
+                <date>1982</date>, nr 11 (422), s. 17–31</bibl>
+            <bibl xml:id="bibl_SL_013">
+                <author>Bednarczyk Cz.</author>, <title>Marian</title>, <title type="journal">„Oficyna Poetów”</title>
+                <date>1978</date>, nr 3 (50), s. 5</bibl>
+            <bibl xml:id="bibl_SL_014">
+                <author>Bednarczyk Cz.</author>, <title>Rosocha</title>, <pubPlace>Londyn</pubPlace>
+                1978</bibl>
+            <bibl xml:id="bibl_SL_015">
+                <author>Bednarczyk K.</author>, <title>Obmowy świtów</title>,
+                    <pubPlace>Londyn</pubPlace>
+                <date>1978</date></bibl>
+            <bibl xml:id="bibl_SL_016">
+                <author>Bierezin J.</author>, <title>Takiego zwierzęcia nie ma</title>, <title type="journal">„Kultura”</title>
+                <date>1983</date>, nr 5 (428), s. 140–143</bibl>
+            <bibl xml:id="bibl_SL_017">
+                <author>Brzozowska K.</author>, <title>Muzyka w krzywym zwierciadle</title>, <title type="journal">„Tydzień Polski”</title> 1979, nr 21 (124), s. 7</bibl>
+            <bibl xml:id="bibl_SL_018">
+                <author>Danilewicz-Zielińska M.</author>, <title>Polska chodzi za mną. Rozmowa z
+                    Marią Danilewicz-Zielińską</title>, rozm. przepr. H. Siewierski, <title type="journal">„Tygodnik Powszechny”</title>
+                <date>1982</date>, nr 22, s. 5</bibl>
+            <bibl xml:id="bibl_SL_019">
+                <author>Danilewicz-Zielińska M.</author>, <title>Szkice o literaturze
+                    emigracyjnej</title>, <pubPlace>Paryż</pubPlace>
+                <date>1978</date></bibl>
+            <bibl xml:id="bibl_SL_020">
+                <author>Dusza E.</author>,<title> Wyznania starego człowieka</title>, <title type="journal">„Oficyna Poetów”</title>
+                <date>1980</date>, nr 2 (57), s. 55–59</bibl>
+            <bibl xml:id="bibl_SL_021">
+                <author>Ekolog</author>, <title>Bitwa pod Racławicami</title>, <title type="journal">„Myśl Polska”</title>
+                <date>1977</date>, nr 13/14 (779/780), s. 6</bibl>
+            <bibl xml:id="bibl_SL_022">
+                <author>Fedotow S.</author>, <title>Polityka kierownictwa Radia Swoboda</title>,
+                    <title type="journal">„Kultura”</title>
+                <date>1978</date>, nr 10 (373), s. 71</bibl>
+            <bibl xml:id="bibl_SL_023">
+                <author>Fénelon F.</author>, <title>Sursis pour l’Orchestre</title>, Paris
+                    <date>1976</date></bibl>
+            <bibl xml:id="bibl_SL_024">
+                <author>Ficowski J.</author>, <title>Odczytanie popiołów</title>,
+                    <pubPlace>Londyn</pubPlace>
+                <date>1979</date></bibl>
+            <bibl xml:id="bibl_SL_025">
+                <author>Garliński J.</author>, <title>Chybiony film o Oświęcimiu</title>, <title type="journal">„Tydzień Polski”</title>
+                <date>1981</date>, nr 3 (14), s. 6</bibl>
+            <bibl xml:id="bibl_SL_026">
+                <author>Garliński J.</author>, <title>Polska w drugiej wojnie światowej</title>,
+                    <pubPlace>Londyn</pubPlace> 1982</bibl>
+            <bibl xml:id="bibl_SL_027">
+                <author>Glińska Z.</author>, <title>Testament Mateusza Glińskiego spisany przez
+                    Zofię Glińską</title>, <pubPlace>Londyn</pubPlace> 1982</bibl>
+            <bibl xml:id="bibl_SL_028">
+                <author>Gliński M.</author>, <title>Chopin. Listy do Delfiny</title>, Nowy
+                Jork–Detroit–Toronto <date>1973</date></bibl>
+            <bibl xml:id="bibl_SL_029">
+                <author>Grynberg H.</author>, Niedosłowne igraszki, <title type="journal">„Kultura”</title>
+                <date>1978</date>, nr 11 (374), s. 156–157</bibl>
+            <bibl xml:id="bibl_SL_030">
+                <author>Halski Cz.</author>, <title>In memoriam</title>, <title type="journal">„Gazeta Niedzielna”</title>
+                <date>1983</date>, nr 16 (1811), s. 6</bibl>
+            <bibl xml:id="bibl_SL_031">
+                <author>Hertz A.</author>, <title>Wyznania starego człowieka</title>,
+                    <pubPlace>Londyn</pubPlace>
+                <date>1979</date></bibl>
+            <bibl xml:id="bibl_SL_032">
+                <author>Iranek-Osmecki K.</author>, <title>Kto ratuje jedno życie... Polacy i Żydzi
+                    1939–1945</title>, <pubPlace>Londyn</pubPlace>
+                <date>1968</date></bibl>
+            <bibl xml:id="bibl_SL_033">
+                <author>Irzyk Z.</author>, <title>Królestwo literatów. Szkice literackie</title>,
+                    <pubPlace>Warszawa</pubPlace>
+                <date>1978</date></bibl>
+            <bibl xml:id="bibl_SL_034">
+                <author>Janin J.</author>, <title>Droga do wolności</title>,
+                    <pubPlace>Londyn</pubPlace>
+                <date>1977</date></bibl>
+            <bibl xml:id="bibl_SL_035">
+                <author>Janin J.</author>, <title>Oblicza Paryża</title>,
+                    <pubPlace>Londyn</pubPlace>
+                <date>1980</date></bibl>
+            <bibl xml:id="bibl_SL_036">
+                <author>Jenne B. J.</author>, <title>Dominikowi Morawskiemu miast odpowiedzi
+                    odrzuconej w „Kulturze”</title>, <title type="journal">„Oficyna Poetów”</title>
+                <date>1976</date>, nr 4 (43), s. 39–40</bibl>
+            <bibl xml:id="bibl_SL_037">
+                <author>Katz-Hewetson J.</author>, <title>Jubileusz „Oficyny Poetów”</title>, <title type="journal">„Kultura”</title>
+                <date>1978</date>, nr 12 (375), s. 116–119</bibl>
+            <bibl xml:id="bibl_SL_038">
+                <author>Katz-Hewetson J.</author>, <title>Oficyna Poetów i Malarzy</title>, <title type="journal">„Kultura”</title>
+                <date>1981</date>, nr 9 (408), s. 86–95</bibl>
+            <bibl xml:id="bibl_SL_039">
+                <title>Korespondencja Gombrowicz–Czerniawski</title>, <title type="journal">„Oficyna
+                    Poetów”</title>
+                <date>1978</date>, nr 1 (48), s. 7–10</bibl>
+            <bibl xml:id="bibl_SL_040">
+                <author>Korian T.</author>, <title>Pielgrzymka do Mallarmégo</title>, <title type="journal">„Wiadomości”</title>
+                <date>1973</date>, nr 40 (4036), s. 1–2</bibl>
+            <bibl xml:id="bibl_SL_041">
+                <author>Korzec P.</author>, <title>Juifs en Pologne. La question juive pendant
+                    l’entre-deux-guerres</title>, Paris <date>1980</date></bibl>
+            <bibl xml:id="bibl_SL_042">
+                <title>Kronika i różne</title>, <title type="journal">„Oficyna Poetów”</title>
+                <date>1974</date>, nr 2 (33), s. 47</bibl>
+            <bibl xml:id="bibl_SL_043">
+                <author>Lisiecka A.</author>, <title>Polityki i polityczki</title>, <title type="journal">„Oficyna Poetów”</title>
+                <date>1977</date>, nr 4 (47), s. 41–43</bibl>
+            <bibl xml:id="bibl_SL_044">
+                <author>Lisiecka A.</author>, <title>Waldemoza Chopina</title>, <title type="journal">„Oficyna Poetów”</title>
+                <date>1978</date>, nr 1 (48), s. 26–29</bibl>
+            <bibl xml:id="bibl_SL_045">
+                <author>Łobodowski J.</author>, <title>Czy należy zrzucać ze schodów?</title>,
+                    <title type="journal">„Wiadomości”</title>
+                <date>1978</date>, nr 16 (1672), s. 6</bibl>
+            <bibl xml:id="bibl_SL_046">
+                <author>Łobodowski J.</author>, <title>Melonik i laseczka</title>, <title type="journal">„Wiadomości”</title>
+                <date>1978</date>, nr 13/14 (1669/1670), s. 10</bibl>
+            <bibl xml:id="bibl_SL_047">
+                <author>Łobodowski J.</author>, <title>Na życzenie p. M. E. Wagnera</title>, <title type="journal">„Tydzień Polski”</title> 1979, nr 3 (17), s. 8</bibl>
+            <bibl xml:id="bibl_SL_048">
+                <author>Łobodowski J.</author>, <title>O Ameryce raz jeszcze</title>, <title type="journal">„Wiadomości”</title>
+                <date>1978</date>, nr 9 (1665), s. 4</bibl>
+            <bibl xml:id="bibl_SL_049">
+                <author>Łobodowski J.</author>, <title>O ludziach niezastąpionych</title>, <title type="journal">„Wiadomości”</title>
+                <date>1980</date>, nr 49/50/51/52 (1810–1813), s. 14</bibl>
+            <bibl xml:id="bibl_SL_050">
+                <author>Łobodowski J.</author>, <title>Polacy nie gęsi…</title>, <title type="journal">„Wiadomości”</title>
+                <date>1975</date>, nr 28 (1528), s. 4</bibl>
+            <bibl xml:id="bibl_SL_051">
+                <author>Łobodowski J.</author>, <title>Wesele u państwa Blajów</title>, <title type="journal">„Wiadomości”</title>
+                <date>1978</date>, nr 31 (1687), s. 4</bibl>
+            <bibl xml:id="bibl_SL_052">
+                <author>Łobodowski J.</author>, <title>Wyprawa do Ameryki</title>, <title type="journal">„Kultura”</title> 1979, nr 1–2 (376–377), s. 126–140</bibl>
+            <bibl xml:id="bibl_SL_053">
+                <author>Mackiewicz J.</author>, <title>Zwycięstwo prowokacji</title>, Monachium
+                1962</bibl>
+            <bibl xml:id="bibl_SL_054">
+                <author>Manger I.</author>, <title>Wiersze i poematy</title>,
+                    <pubPlace>Londyn</pubPlace> 1976</bibl>
+            <bibl xml:id="bibl_SL_055">
+                <author>Miązek B.</author>, <title>Brzydki pamflet na Alicję Lisiecką i jej
+                    „Księcia”</title>, <title type="journal">„Wiadomości”</title>
+                <date>1980</date>, nr 19 (1780), s. 3–4</bibl>
+            <bibl xml:id="bibl_SL_056">
+                <author>Mirewicz J.</author>, <title>„Gry oświęcimskie” czyli lekcja
+                    szczerości</title>, <title type="journal">„Przegląd Powszechny. Sodalis
+                    Marianus”</title>
+                <date>1980</date>, nr 3–4 (391–392), s. 13–14</bibl>
+            <bibl xml:id="bibl_SL_057">
+                <author>Mirewicz J.</author>, <title>Bronię Łobodowskiego</title>, <title type="journal">„Wiadomości”</title>
+                <date>1978</date>, nr 25 (1681), s. 3</bibl>
+            <bibl xml:id="bibl_SL_058">
+                <author>Mirewicz J.</author>, <title>Czy należy zrzucać przeciwnika ze
+                    schodów?</title>, <title type="journal">„Przegląd Powszechny. Sodalis
+                    Marianus”</title>
+                <date>1978</date>, nr 1 (365)</bibl>
+            <bibl xml:id="bibl_SL_059">
+                <author>Niemojowska M.</author>, <title>Czytane w świetle dnia</title>, <title type="journal">„Gwiazda Polarna”</title>
+                <date>1982</date>, nr 15, s. 22–23, 26</bibl>
+            <bibl xml:id="bibl_SL_060">
+                <title>Opium. Z Krystyną i Czesławem Bednarczykami, założycielami i właścicielami
+                    „Oficyny Poetów i Malarzy” rozmawia Andrzej Ziembicki</title>, <title type="journal">„Nowe Książki”</title>
+                <date>1981</date>, nr 10, s. 1–6</bibl>
+            <bibl xml:id="bibl_SL_061">
+                <author>Pandora</author>, <title>Polacy i Żydzi. 1939–45</title>, <title type="journal">„Wiadomości”</title> 1969, nr 9 (1196), s. 3</bibl>
+            <bibl xml:id="bibl_SL_062">
+                <author>Pragier A.</author>, <title>Czas teraźniejszy</title>,
+                    <pubPlace>Londyn</pubPlace>
+                <date>1975</date></bibl>
+            <bibl xml:id="bibl_SL_063">
+                <author>Pragier A.</author>, <title>Dwa listy. Do redaktora „Wiadomości”</title>,
+                    <title type="journal">„Wiadomości”</title>
+                <date>1971</date>, nr 39 (1330), s. 6</bibl>
+            <bibl xml:id="bibl_SL_064">
+                <author>Pragier A.</author>, <title>Nieopatrzny krok</title>, <title type="journal">„Wiadomości”</title>
+                <date>1975</date>, nr 44 (1544), s. 6</bibl>
+            <bibl xml:id="bibl_SL_065">
+                <author>Pragier A.</author>, <title>Plamy na słońcu, czyli artykuł
+                    antysemicki</title>, <title type="journal">„Wiadomości”</title>
+                <date>1971</date>, nr 33 (1324), s. 4</bibl>
+            <bibl xml:id="bibl_SL_066">
+                <author>Pragier A.</author>, <title>Żółta łata</title>, <title type="journal">„Wiadomości”</title>
+                <date>1971</date>, nr 48 (1339), s. 2</bibl>
+            <bibl xml:id="bibl_SL_067">
+                <author>Pszonka (Babin)</author>, <title>Dwóch narcyzów, „spokojny Don” i
+                    chomąto</title>, <title type="journal">„Orzeł Biały”</title>
+                <date>1977</date>, nr 151, s. 29–30</bibl>
+            <bibl xml:id="bibl_SL_068">
+                <author>Pszonka (Babin)</author>, <title>Szarganie świętości</title>, <title type="journal">„Orzeł Biały”</title>
+                <date>1981</date>, nr 199 (1346), s. 33–34</bibl>
+            <bibl xml:id="bibl_SL_069">
+                <title>Redakcja, Nasi autorzy</title>, <title type="journal">„Gwiazda
+                    Polarna”</title>
+                <date>1983</date>, nr 16, s. 7</bibl>
+            <bibl xml:id="bibl_SL_070">
+                <title>Redakcja, Pięćdziesiąt</title>, <title type="journal">„Oficyna
+                    Poetów”</title> 1979, nr 1 (52), s. 45–47</bibl>
+            <bibl xml:id="bibl_SL_071">
+                <author>Rodzinski H.</author>, <title>Our Two Lives. The Story of an Extraordinary
+                    Marriage and a Brilliant Career in Music</title>, New York 1976</bibl>
+            <bibl xml:id="bibl_SL_072">
+                <author>Rodzińska H.</author>, <title>Nasze wspólne życie</title>, przeł. A.
+                Szpakowska, <pubPlace>Warszawa</pubPlace>
+                <date>1980</date></bibl>
+            <bibl xml:id="bibl_SL_073">
+                <author>Rowiński K.</author>, <title>„Taryfa ulgowa kosztuje drożej” Szymona
+                    Laksa</title>, <title>„Dziennik Polski i Dziennik Żołnierza”</title>
+                <date>1982</date>, nr 171, s. 3</bibl>
+            <bibl xml:id="bibl_SL_074">
+                <author>Rowiński K.</author>, <title>Książki i recenzje</title>, <title>„Dziennik
+                    Polski i Dziennik Żołnierza”</title>
+                <date>1978</date>, nr 192, s. 3</bibl>
+            <bibl xml:id="bibl_SL_075">
+                <author>Rudnicki A.</author>, <title>Le Matin d’une Coexistence</title>, trad. par
+                S. Laks, J.-Y. Erhel et al., Paris <date>1975</date></bibl>
+            <bibl xml:id="bibl_SL_076">
+                <author>Scheps S.</author>, <title>Armand Lévy, compagnon de Mickiewicz,
+                    révolutionnaire romantique</title>, London 1977</bibl>
+            <bibl xml:id="bibl_SL_077">
+                <author>Terlecki T.</author>, <title>Postscriptum do sztuki Dylana Thomasa. Pod
+                    mleczną drogą</title>, <title type="journal">„Oficyna Poetów”</title> 1979, nr 4
+                (55), s. 3–8</bibl>
+            <bibl xml:id="bibl_SL_078">
+                <author>Terlecki T.</author>, <title>W sprawie książki o Jancie</title>, <title type="journal">„Wiadomości”</title>
+                <date>1977</date>, nr 25 (1630), s. 4</bibl>
+            <bibl xml:id="bibl_SL_079">
+                <title>Testimony. The Memoirs of Dmitrij Shostakovitsh as Related to and Edited by
+                    Solomon Volkov</title>, transl. A. W. Bouis, New York 1979</bibl>
+            <bibl xml:id="bibl_SL_080">
+                <author>Toporska B.</author>, <title>Spójrz wstecz, Ajonie</title>,
+                    <pubPlace>Londyn</pubPlace> 1981</bibl>
+            <bibl xml:id="bibl_SL_081">
+                <author>Trypućko J.</author>, <title>Łacińska końcówka w polskim systemie
+                    fleksyjnym. Przyczynek do zagadnienia interferencji językowej</title>, Uppsala
+                1974 (Acta Universitatis Upsaliensis, Studia Slavica Upsaliensia, 14)</bibl>
+            <bibl xml:id="bibl_SL_082"><title>W drugą rocznicę zgonu ś.p. prof. Mateusza
+                    Glińskiego</title>, <title type="journal">„Oficyna Poetów”</title>
+                <date>1978</date>, nr 1 (48), s. 55</bibl>
+            <bibl xml:id="bibl_SL_083">
+                <author>Wagner M. E.</author>, <title>Mylna sumacja</title>, <title type="journal">„Tydzień Polski”</title>
+                <date>1978</date>, nr 50 (297), s. 8</bibl>
+            <bibl xml:id="bibl_SL_084">
+                <author>Westfal S.</author>, <title>Teka językowa</title>, oprac. J. Trypućko,
+                Glasgow <date>1975</date></bibl>
+            <bibl xml:id="bibl_SL_085">
+                <author>Wieniewski I.</author>, <title>Ciekawostki językowe</title>, <title>„Orzeł
+                    Biały”</title>
+                <date>1977</date>, nr 159 (1306), s. 35–36</bibl>
+            <bibl xml:id="bibl_SL_086">
+                <author>Wieniewski I.</author>, <title>Kompozytor i pisarz</title>, <title>„Dziennik
+                    Polski i Dziennik Żołnierza”</title>
+                <date>1977</date>, nr 57, s. 3</bibl>
+            <bibl xml:id="bibl_SL_087">
+                <author>Wieniewski I.</author>, <title>Pisma wybrane</title>,
+                    <pubPlace>Londyn</pubPlace>
+                <date>1980</date></bibl>
+            <bibl xml:id="bibl_SL_088">
+                <author>Winczakiewicz A.</author>, <title>J’ai Survécu</title>, Paris 1977</bibl>
+            <bibl xml:id="bibl_SL_089">
+                <title>Wybór prac nadesłanych na konkurs imienia Józefa Wyrwy (pseudonimy Furgalski,
+                    Stary), ogłoszony dla uczczenia 30-letniej rocznicy zakończenia działań
+                    oddziałów partyzanckich</title>, oprac. T. Wyrwa, <pubPlace>Londyn</pubPlace>
+                1977</bibl>
+            <bibl xml:id="bibl_SL_090">
+                <author>Wygodzki S.</author>, <title>„Polem bitwy” – polszczyzna</title>, <title type="journal">„Nowiny Kurier”</title>
+                <date>1977</date>, nr 18 (6733), s. 7</bibl>
+            <bibl xml:id="bibl_SL_091">
+                <author>Wyrwa T.</author>, <title>Naukowcy polscy na Zachodzie i Kraj</title>,
+                    <title type="journal">„Oficyna Poetów”</title>
+                <date>1976</date>, nr 3 (42), s. 59–60</bibl>
+            <bibl xml:id="bibl_SL_092">
+                <author>Wyrwa T.</author>, <title>Prasa konspiracyjna w imieniu Polski walczącej
+                    1940–1945</title>, <pubPlace>Londyn</pubPlace> 1984</bibl>
+            <bibl xml:id="bibl_SL_093">
+                <author>Wyrwa T.</author>, <title>W cieniu majora Hubala</title>,
+                    <pubPlace>Londyn</pubPlace>
+                <date>1974</date></bibl>
+            <bibl xml:id="bibl_SL_094">
+                <author>Żurkowska H.</author>, <title>Muzyka w krzywym zwierciadle</title>, <title type="journal">„Wiadomości”</title> 1979, nr 27 (1736), s. 3</bibl>
+            <bibl xml:id="bibl_SL_095">
+                <author>Laks Sz.</author>, <title>Na pożegnanie</title>, w: <title>Tola Korian.
+                    Artystka słowa i pieśni</title>, red. K. Fejcher, <pubPlace>Londyn</pubPlace>
+                <date>1984</date>, s. 72–79</bibl>
+            <bibl xml:id="bibl_SL_096">
+                <author>Laks Sz.</author>, <title>Opowieści Artura Rubinsteina</title>, w: <title type="journal">„Gwiazda Polarna”</title>. 75 lat w służbie Polski i Polonii, New
+                York <date>1983</date>, s. 341–348</bibl>
+            <bibl xml:id="bibl_SL_097">
+                <author>Laks Sz.</author>, <title>Co wolno Korzecowi to nie Chmielowcowi</title>,
+                    <title type="journal">„Wiadomości”</title>
+                <date>1971</date>, nr 7 (1298), s. 6</bibl>
+            <bibl xml:id="bibl_SL_098">
+                <author>Laks Sz.</author>, <title>List do redakcji</title>, <title type="journal">„Kultura”</title>
+                <date>1971</date>, nr 10 (289), s. 155</bibl>
+            <bibl xml:id="bibl_SL_099">
+                <author>Laks Sz.</author>, <title>List do redakcji</title>, <title type="journal">„Kultura”</title>
+                <date>1971</date>, nr 11 (290), s. 156</bibl>
+            <bibl xml:id="bibl_SL_100">
+                <author>Laks Sz.</author>, <title>Plamy na słońcu</title>, <title type="journal">„Wiadomości”</title>
+                <date>1971</date>, nr 40 (1331), s. 6</bibl>
+            <bibl xml:id="bibl_SL_101">
+                <author>Laks Sz.</author>, <title>„Cacuś wspaniały”</title>, <title type="journal">„Wiadomości”</title>
+                <date>1971</date>, nr 50 (1341), s. 4</bibl>
+            <bibl xml:id="bibl_SL_102">
+                <author>Laks Sz.</author>, <title>O kurtuazji</title>, <title type="journal">„Wiadomości”</title>
+                <date>1972</date>, nr 2 (1345), s. 6</bibl>
+            <bibl xml:id="bibl_SL_103">
+                <author>Laks Sz.</author>, <title>List do redakcji</title>, <title type="journal">„Kultura”</title>
+                <date>1973</date>, nr 9 (312), s. 160</bibl>
+            <bibl xml:id="bibl_SL_104">
+                <author>Laks Sz.</author>, <title>Polszczyzna</title>, <title type="journal">„Wiadomości”</title>
+                <date>1973</date>, nr 44 (1440), s. 6</bibl>
+            <bibl xml:id="bibl_SL_105">
+                <author>Laks Sz.</author>, <title>Pamięci Fryderyka Goldschlaga</title>, <title type="journal">„Wiadomości”</title>
+                <date>1974</date>, nr 3 (1452), s. 5</bibl>
+            <bibl xml:id="bibl_SL_106">
+                <author>Laks Sz.</author>, <title>Już niedługo będzie chrząszcz brzmiał w
+                    trzcinie</title>, <title type="journal">„Tydzień Polski”</title>
+                <date>1975</date>, nr 6 (33), s. 1</bibl>
+            <bibl xml:id="bibl_SL_107">
+                <author>Laks Sz.</author>, <title>Do wiadomości Glosatora</title>, <title type="journal">„Wiadomości”</title>
+                <date>1975</date>, nr 9 (1509), s. 4</bibl>
+            <bibl xml:id="bibl_SL_108">
+                <author>Laks Sz.</author>, <title>Chaos w pisowni polskiej</title>, <title type="journal">„Wiadomości”</title>
+                <date>1975</date>, nr 16 (1516), s. 2</bibl>
+            <bibl xml:id="bibl_SL_109">
+                <author>Laks Sz.</author>, <title>Urojony wróg polszczyzny</title>, <title type="journal">„Wiadomości”</title>
+                <date>1975</date>, nr 25 (1525), s. 6</bibl>
+            <bibl xml:id="bibl_SL_110">
+                <author>Laks Sz.</author>, <title>Jeszcze o chaosie w pisowni polskiej</title>,
+                    <title type="journal">„Wiadomości”</title>
+                <date>1975</date>, nr 30 (1530), s. 4</bibl>
+            <bibl xml:id="bibl_SL_111">
+                <author>Laks Sz.</author>, <title>Archipelag w archipelagu</title>, <title type="journal">„Oficyna Poetów”</title>
+                <date>1975</date>, nr 2 (37), s. 57–60</bibl>
+            <bibl xml:id="bibl_SL_112">
+                <author>Laks Sz.</author>, <title>Podmiot, orzeczenie i okoliczności
+                    niełagodzące</title>, <title type="journal">„Oficyna Poetów”</title>
+                <date>1975</date>, nr 3 (38), s. 37–39</bibl>
+            <bibl xml:id="bibl_SL_113">
+                <author>Laks Sz.</author>, <title>Swawole powakacyjne</title>, <title type="journal">„Oficyna Poetów”</title>
+                <date>1976</date>, nr 1 (40), s. 53–55</bibl>
+            <bibl xml:id="bibl_SL_114">
+                <author>Laks Sz.</author>, <title>W odpowiedzi Pszonce z „Orła Białego”</title>,
+                    <title type="journal">„Oficyna Poetów”</title>
+                <date>1977</date>, nr 4 (47), s. 43–45</bibl>
+            <bibl xml:id="bibl_SL_115">
+                <author>Laks Sz.</author>, <title>Do Redakcji</title>, <title type="journal">„Oficyna Poetów”</title>
+                <date>1978</date>, nr 2 (49), s. 40</bibl>
+            <bibl xml:id="bibl_SL_116">
+                <author>Laks Sz.</author>, <title>„Teka językowa” Stanisława Westfala</title>,
+                    <title type="journal">„Oficyna Poetów”</title>
+                <date>1978</date>, nr 3 (46), s. 29–30</bibl>
+            <bibl xml:id="bibl_SL_117">
+                <author>Laks Sz.</author>, <title>Terror – tragedia naszych czasów</title>, <title type="journal">„Gwiazda Polarna”</title>
+                <date>1981</date>, nr 49, s. 9</bibl>
+            <bibl xml:id="bibl_SL_118">
+                <author>Laks Sz.</author>, <title>„Nasze wspólne życie”</title>, <title type="journal">„Gwiazda Polarna”</title>
+                <date>1981</date>, nr 50, s. 9–10</bibl>
+            <bibl xml:id="bibl_SL_119">
+                <author>Laks Sz.</author>, <title>W poszukiwaniu samego siebie</title>, <title type="journal">„Gwiazda Polarna”</title>
+                <date>1982</date>, nr 16, s. 3</bibl>
+            <bibl xml:id="bibl_SL_120">
+                <author>Laks Sz.</author>, <title>Migawki 13-grudniowe</title>, <title type="journal">„Gwiazda Polarna”</title>
+                <date>1982</date>, nr 52, s. 24–25</bibl>
+            <bibl xml:id="bibl_SL_121">
+                <author>Laks Sz.</author>, <title>O Rubinsteinie trochę inaczej</title>, <title type="journal">„Tydzień Polski”</title>
+                <date>1983</date>, nr 9 (54), s. 6</bibl>
+            <bibl xml:id="bibl_SL_122">
+                <author>Laks Sz.</author>, <title>Co zrobić z tym fantem?</title>, <title type="journal">„Gwiazda Polarna”</title>
+                <date>1983</date>, nr 14, s. 23</bibl>
+            <bibl xml:id="bibl_SL_123">
+                <author>Laks Sz.</author>, <title>Zapomniany bohater naszych czasów</title>, <title type="journal">„Gwiazda Polarna”</title>
+                <date>1983</date>, nr 19, s. 8, 15</bibl>
+            <bibl xml:id="bibl_SL_124">
+                <author>Laks Sz.</author>, <title>O pewnej „Sytuacji” bez wyjścia</title>, <title type="journal">„Gwiazda Polarna”</title>
+                <date>1983</date>, nr 25, s. 18</bibl>
+            <bibl xml:id="bibl_SL_125">
+                <author>Laks Sz.</author>, <title>Na pożegnanie Toli Korian</title>, <title type="journal">„Gwiazda Polarna”</title>
+                <date>1983</date>, nr 40, s. 8</bibl>
+        </listBibl>
+    </standOff>
+</TEI>

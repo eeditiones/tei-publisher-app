@@ -1,0 +1,1170 @@
+<?xml-model href="teipublisher_odds.xsd"?><TEI xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xml:lang="en">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>TEI Publisher ODD
+                 <desc>Base ODD from which all other ODDs inherit</desc>
+                </title>
+                <title type="short">TEI Publisher Base</title>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>eXistSolutions GmbH</publisher>
+                <availability>
+                    <licence target="https://www.gnu.org/licenses/gpl-3.0.en.html">Distributed under
+                        GNU General Public License</licence>
+                    <p>Copyright 2017 <ref target="http://existsolutions.com">eXistSolutions
+                            GmbH</ref>
+                    </p>
+                    <p>This program is free software: you can redistribute it and/or modify it under
+                        the terms of the GNU General Public License as published by the Free
+                        Software Foundation, either version 3 of the License, or (at your option)
+                        any later version.</p>
+                    <p>This program is distributed in the hope that it will be useful, but WITHOUT
+                        ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+                        FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+                        more details.</p>
+                </availability>
+            </publicationStmt>
+            <sourceDesc>
+                <p>Default customization maintained by <ref target="http://tei-publisher.com">TEI
+                        Publisher</ref>, building upon the ODD developed by TEI Consortium as
+                    tei_simplePrint.odd.</p>
+                <p>born digital</p>
+            </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+            <tagsDecl>
+                <rendition xml:id="allcaps">text-transform: uppercase;</rendition>
+                <rendition xml:id="blackletter">font-family: fantasy;</rendition>
+                <rendition xml:id="bold">font-weight: bold;</rendition>
+                <rendition xml:id="bottombraced">padding-bottom: 2pt; border-bottom: dashed gray
+                    2pt;</rendition>
+                <rendition xml:id="block">display:block;</rendition>
+                <rendition xml:id="boxed">padding: 2pt; border: solid black 1pt;</rendition>
+                <rendition xml:id="centre">text-align: center;</rendition>
+                <rendition xml:id="cursive">font-family: cursive;</rendition>
+                <rendition xml:id="doublestrikethrough">text-decoration: line-through; color:
+                    red;</rendition>
+                <rendition xml:id="doubleunderline">text-decoration: underline; color:
+                    red;</rendition>
+                <rendition xml:id="dropcap">font-size : 6em; font-family: cursive; font-weight :
+                    bold; vertical-align: top; height: 1em; line-height: 1em; float : left; width :
+                    1em; color : #c00; margin: 0em; padding: 0px;</rendition>
+                <rendition xml:id="float">float:right; display: block; font-size: smaller; clear:
+                    right; padding: 4pt; width: 15%; </rendition>
+                <rendition xml:id="hyphen"/>
+                <rendition xml:id="inline">display:inline;</rendition>
+                <rendition xml:id="italic">font-style: italic;</rendition>
+                <rendition xml:id="justify">text-align: justify;</rendition>
+                <rendition xml:id="larger">font-size: larger;</rendition>
+                <rendition xml:id="left">text-align: left;</rendition>
+                <rendition xml:id="leftbraced">padding-left: 2pt; border-left: dotted gray 2pt; </rendition>
+                <rendition xml:id="letterspace">letter-spacing: 0.5em;</rendition>
+                <rendition xml:id="literal">font-family:monospace; white-space:pre;</rendition>
+                <rendition xml:id="normalstyle">font-style:roman;</rendition>
+                <rendition xml:id="normalweight">font-weight:normal;</rendition>
+                <rendition xml:id="right">text-align: right;</rendition>
+                <rendition xml:id="rightbraced">padding-right: 2pt; border-right: dotted gray 2pt; </rendition>
+                <rendition xml:id="rotateleft">-webkit-transform: rotate(90deg); transform:
+                    rotate(90deg);</rendition>
+                <rendition xml:id="rotateright">-webkit-transform: rotate(-90deg); transform:
+                    rotate(-90deg);</rendition>
+                <rendition xml:id="rules">border: 1px solid black; padding:
+                    2px;border-collapse:collapse;border-spacing:0;</rendition>
+                <rendition xml:id="smallcaps">font-variant: small-caps;</rendition>
+                <rendition xml:id="smaller">font-size: smaller;</rendition>
+                <rendition xml:id="strikethrough">text-decoration: line-through;</rendition>
+                <rendition xml:id="subscript">vertical-align: bottom; font-size:
+                    smaller;</rendition>
+                <rendition xml:id="superscript">vertical-align: super; font-size:
+                    smaller;</rendition>
+                <rendition xml:id="topbraced">padding-top: 2pt; border-top: dotted gray 2pt; </rendition>
+                <rendition xml:id="typewriter">font-family:monospace;</rendition>
+                <rendition xml:id="underline">text-decoration: underline;</rendition>
+                <rendition xml:id="wavyunderline">text-decoration: underline; text-decoration-style:
+                    wavy;</rendition>
+                <rendition source="tp.css"/>
+            </tagsDecl>
+        </encodingDesc>
+        <revisionDesc>
+            <change when="2026-01-06">substantially extend default models to cover various use-case scenarios covered by Jinks</change>
+            <change when="2023-03-17">merge teipublisher.odd with tei_simplePrint.odd and rework
+                default models</change>
+            <change when="2017-09-08">adjust metadata in teiHeader</change>
+        </revisionDesc>
+    </teiHeader>
+    <text>
+        <body>
+            <schemaSpec start="TEI teiCorpus" ident="teipublisher">
+                <elementSpec ident="ab" mode="change">
+                    <model behaviour="paragraph"/>
+                </elementSpec>
+                <elementSpec ident="add" mode="change">
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="app" mode="add">
+                    <model predicate="$parameters?mode=('toc', 'breadcrumb')" behaviour="inline">
+                        <param name="content" value="lem"/>
+                    </model>
+                    <model behaviour="alternate">
+                        <param name="default" value="lem"/>
+                        <param name="alternate" value="rdg"/>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="anchor" mode="change">
+                    <model predicate="$parameters?mode=('toc', 'breadcrumb')" behaviour="omit"/>
+                    <model predicate="@corresp" behaviour="note">
+            <desc>Process notes with corresp attribute (assuming the note is stand off, 
+                            somewhere in the same document)</desc>
+            <param name="content" value="let $target := @corresp return root($parameters?root)/id($target)/node()"/>
+            <param name="label" value="@n"/>
+        </model>
+                    <model predicate="@type='note'" behaviour="note">
+            <desc>Process notes with @type=note (assuming the note is stand off, 
+                            in the listAnnotation section in the same document)</desc>
+            <param name="content" value="let $target := '#' || @xml:id return root($parameters?root)//listAnnotation/note[@target=$target]/node()"/>
+            <param name="label" value="let $target := '#' || @xml:id return root($parameters?root)//listAnnotation/note[@target=$target]/@n/string()"/>
+        </model>
+                    <model predicate="@xml:id" behaviour="anchor">
+            <param name="id" value="@xml:id"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="argument" mode="change">
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="author" mode="change">
+                    <model predicate="ancestor::teiHeader" behaviour="block"/>
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="back" mode="change">
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="body" mode="change">
+                    <modelSequence>
+            <model behaviour="index">
+                <param name="type" value="'toc'"/>
+            </model>
+            <model behaviour="block"/>
+        </modelSequence>
+                </elementSpec>
+                <elementSpec ident="byline" mode="change">
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="castGroup" mode="change">
+                    <model predicate="child::*" behaviour="list">
+            <desc>Treat as a list</desc>
+            <param name="content" value="castItem|castGroup"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="castItem" mode="change">
+                    <model behaviour="listItem">
+            <desc>Treat as a list item</desc>
+        </model>
+                </elementSpec>
+                <elementSpec ident="castList" mode="change">
+                    <model predicate="child::*" behaviour="list" useSourceRendition="true">
+            <param name="content" value="castItem"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="cb" mode="change">
+                    <model behaviour="break">
+            <param name="type" value="'column'"/>
+            <param name="label" value="@n"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="cell" mode="change">
+                    <model behaviour="cell">
+            <desc>Insert table cell. </desc>
+        </model>
+                </elementSpec>
+                <elementSpec ident="choice" mode="change">
+                    <model predicate="sic and corr" behaviour="alternate">
+            <param name="default" value="corr[1]"/>
+            <param name="alternate" value="sic[1]"/>
+        </model>
+                    <model predicate="abbr and expan" behaviour="alternate">
+            <param name="default" value="expan[1]"/>
+            <param name="alternate" value="abbr[1]"/>
+        </model>
+                    <model predicate="orig and reg" behaviour="alternate">
+            <param name="default" value="reg[1]"/>
+            <param name="alternate" value="orig[1]"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="cit" mode="change">
+                    <model predicate="child::quote and child::bibl" behaviour="cit">
+            <desc>Insert citation </desc>
+        </model>
+                </elementSpec>
+                <elementSpec ident="closer" mode="change">
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="code" mode="change">
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="corr" mode="change">
+                    <model predicate="parent::choice and count(parent::*/*) gt 1" behaviour="inline">
+            <desc>simple inline, if in parent choice. </desc>
+        </model>
+                    <model behaviour="inline">
+            <outputRendition xml:space="preserve" scope="before">
+            content: '[';
+            </outputRendition>
+            <outputRendition xml:space="preserve" scope="after">
+            content: ']';
+            </outputRendition>
+        </model>
+                </elementSpec>
+                <elementSpec ident="damage" mode="add">
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="date" mode="change">
+                    <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb'" behaviour="inline"/>
+                    <model predicate="@when" behaviour="alternate">
+            <param name="default" value="if (normalize-space(.)) then . else @when/string()"/>
+            <param name="alternate" value="try { format-date(xs:date(@when), '[D1o] [MNn] [Y]', (session:get-attribute('lang'), 'en')[1], (), ()) } catch * { @when/string() }"/>
+        </model>
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="dateline" mode="change">
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="birth" mode="add">
+                    <model predicate="parent::person and date" behaviour="inline">
+            <param name="content" value="(date, if (placeName) then (' (', placeName, ')') else ())"/>
+        </model>
+                    <model predicate="parent::person" behaviour="inline">
+            <param name="content" value="(@when, if (placeName) then (' (', placeName, ')') else ())"/>
+        </model>
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="occupation" mode="add">
+                    <model predicate="$parameters?mode='register-details'" behaviour="inline" cssClass="badge"/>
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="death" mode="add">
+                    <model predicate="parent::person and date" behaviour="inline">
+            <param name="content" value="(date, if (placeName) then (' (', placeName, ')') else ())"/>
+        </model>
+                    <model predicate="parent::person" behaviour="inline">
+            <param name="content" value="(@when, if (placeName) then (' (', placeName, ')') else ())"/>
+        </model>
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="region" mode="add">
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="country" mode="add">
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="del" mode="change">
+                    <model behaviour="inline">
+            <outputRendition xml:space="preserve">
+            text-decoration: line-through;
+            </outputRendition>
+        </model>
+                </elementSpec>
+                <elementSpec ident="div" mode="change">
+                    <model predicate="$parameters?mode = 'register'" behaviour="pass-through">
+            <desc>Output register data if register profile is enabled</desc>
+            <param name="people" value="let $refs := (root(.)//persName[@key or @ref], root(.)//rs[@type='person'][@key or @ref]) let $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::person]"/>
+            <param name="places" value="let $refs := (root(.)//placeName[@key or @ref], root(.)//rs[@type='place'][@key or @ref]) let $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::place]"/>
+            <pb:template xmlns="" xml:space="preserve"><div class="register">
+<h3><pb-i18n key="register-details.people">ppl</pb-i18n></h3>
+<ul>
+[[people]]
+</ul>
+
+<h3><pb-i18n key="register-details.places">pl</pb-i18n></h3>
+<ul>
+[[places]]
+</ul>
+</div></pb:template>
+        </model>
+                    <model predicate="parent::body or parent::front or parent::back" behaviour="section"/>
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="docTitle" mode="change">
+                    <model behaviour="block" useSourceRendition="true"/>
+                </elementSpec>
+                <elementSpec ident="edition" mode="change">
+                    <model predicate="ancestor::teiHeader" behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="epigraph" mode="change">
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="ex" mode="change">
+                    <model predicate="ancestor::expan" behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="figure" mode="change">
+                    <model predicate="head or @rendition='simple:display'" behaviour="block"/>
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="floatingText" mode="change">
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="foreign" mode="change">
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="formula" mode="change">
+                    <model predicate="@rendition='simple:display'" behaviour="block"/>
+                    <model output="latex" predicate="@rend=&#34;display&#34;" behaviour="inline">
+            <param name="content" value="string()"/>
+            <pb:template xmlns="" xml:space="preserve">\begin{equation}[[content]]\end{equation}</pb:template>
+        </model>
+                    <model output="latex" behaviour="inline">
+            <param name="content" value="string()"/>
+            <pb:template xmlns="" xml:space="preserve">\begin{math}[[content]]\end{math}</pb:template>
+        </model>
+                    <model predicate="@rend='display'" behaviour="webcomponent">
+            <param name="name" value="'pb-formula'"/>
+            <param name="display" value="true()"/>
+        </model>
+                    <model behaviour="webcomponent">
+            <param name="name" value="'pb-formula'"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="front" mode="change">
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="fw" mode="change">
+                    <model predicate="ancestor::p or ancestor::ab" behaviour="inline"/>
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="g" mode="change">
+                    <model predicate="not(text())" behaviour="glyph">
+            <param name="uri" value="@ref"/>
+        </model>
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="gap" mode="change">
+                    <model predicate="desc" behaviour="inline"/>
+                    <model output="plain" predicate="@extent or @quantity" behaviour="inline">
+            <outputRendition xml:space="preserve" scope="before">
+            content: "[.. ..]";
+            </outputRendition>
+        </model>
+                    <model predicate="@extent or @quantity" behaviour="inline">
+            <param name="extent" value="head((@extent, @quantity))"/>
+            <param name="unit" value="@unit"/>
+            <param name="reason" value="if (@reason) then @reason || ': ' else ()"/>
+            <pb:template xmlns="" xml:space="preserve"><pb-popover>
+                            <span class="gap" slot="default"/>
+                            <template slot="alternate">[[reason]] [[ extent ]] [[unit]]</template>
+            </pb-popover></pb:template>
+            <outputRendition xml:space="preserve" scope="before">
+            content: "[.. ..]";
+            </outputRendition>
+        </model>
+                    <model behaviour="inline">
+            <outputRendition xml:space="preserve" scope="before">
+            content: '[...]';
+            </outputRendition>
+        </model>
+                </elementSpec>
+                <elementSpec ident="graphic" mode="change">
+                    <model behaviour="graphic">
+            <param name="url" value="@url"/>
+            <param name="width" value="@width"/>
+            <param name="height" value="@height"/>
+            <param name="scale" value="@scale"/>
+            <param name="title" value="desc"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="group" mode="change">
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="head" mode="change">
+                    <model predicate="$parameters?display='browse' or $parameters?mode='toc'" behaviour="inline">
+                        <desc>For browse view and table of contents, just output inline text</desc>
+                    </model>
+                    <model predicate="parent::figure" behaviour="block" cssClass="figure-head"/>
+                    <model predicate="parent::table" behaviour="block" cssClass="table-head"/>
+                    <model predicate="parent::lg" behaviour="block" cssClass="lg-head"/>
+                    <model predicate="parent::list" behaviour="block" cssClass="list-head"/>
+                    <model predicate="parent::div" behaviour="heading">
+            <param name="level" value="count(ancestor::div)"/>
+        </model>
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="hi" mode="change">
+                    <model behaviour="inline" useSourceRendition="true"/>
+                </elementSpec>
+                <elementSpec ident="imprimatur" mode="change">
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="item" mode="change">
+                    <model behaviour="listItem"/>
+                </elementSpec>
+                <elementSpec ident="l" mode="change">
+                    <model behaviour="block" useSourceRendition="true"/>
+                </elementSpec>
+                <elementSpec ident="licence" mode="add">
+                    <model predicate="@target" behaviour="block" cssClass="licence">
+            <param name="content" value="'Licence'"/>
+            <param name="uri" value="@target"/>
+            <pb:template xmlns="" xml:space="preserve"><a class="licence" href="[[uri]]">
+                            <pb-i18n key="odd.licence"/>
+                            </a></pb:template>
+        </model>
+                </elementSpec>
+                <elementSpec ident="lb" mode="change">
+                    <model behaviour="break" useSourceRendition="true">
+            <param name="type" value="'line'"/>
+            <param name="label" value="@n"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="lg" mode="change">
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="list" mode="change">
+                    <model behaviour="list" useSourceRendition="true">
+            <param name="content" value="item"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="listBibl" mode="change">
+                    <model predicate="bibl" behaviour="list"/>
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="bibl" mode="add">
+                    <model predicate="ancestor::sourceDesc and $parameters?mode='metadata-panel'" behaviour="listItem"/>
+                    <modelSequence predicate="$parameters?mode='register-details'">
+            <desc>Register details view</desc>
+            <model behaviour="block">
+                <param name="content" value="."/>
+            </model>
+            <model predicate="$parameters?mode='register-details'" behaviour="block">
+                <desc>List of documents (from data-default collection), where references occur;
+                    (shown in register details view only); trying to match by key or ref attributes</desc>
+                <param name="content" value="let $id := @xml:id return (collection($global:data-default)//bibl[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt, collection($global:data-default)//title[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt)"/>
+                <pb:template xmlns="" xml:space="preserve"><div>
+  <h2><pb-i18n key="register-details.document-list"/></h2>
+  <ul>
+  [[content]]
+  </ul>
+</div></pb:template>
+            </model>
+        </modelSequence>
+                    <model predicate="parent::listBibl and $parameters?mode='register-overview'" behaviour="pass-through">
+            <desc>Register entry overview in list</desc>
+            <param name="id" value="@xml:id"/>
+            <param name="label" value="(head(author), ' ', head(title), ' ', head(date))"/>
+            <param name="description" value="."/>
+            <pb:template xmlns="" xml:space="preserve"><header>
+                            <a href="bibliography/[[ id ]]">[[ label ]]</a>
+                            </header>
+                            <p>[[ description ]]</p></pb:template>
+        </model>
+                </elementSpec>
+                <elementSpec ident="notatedMusic" mode="add">
+                    <model behaviour="figure">
+            <param name="title" value="label"/>
+            <param name="content" value="(ptr, mei:mdiv)"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="note" mode="change">
+                    <model predicate="$parameters?mode='register-overview' and $parameters?show-notes and text()" behaviour="block">
+            <desc>When show-notes parameter is set, display note in register overview (index)</desc>
+        </model>
+                    <model predicate="$parameters?mode='register-overview' and not($parameters?show-notes)" behaviour="omit">
+            <desc>Omit notes in register overview (index) When show-notes parameter is not set</desc>
+        </model>
+                    <model predicate="parent::person or parent::place or parent::org" behaviour="paragraph"/>
+                    <model predicate="$parameters?mode='toc' or ancestor::listAnnotation" behaviour="omit"/>
+                    <model behaviour="note">
+            <param name="place" value="@place"/>
+            <param name="label" value="@n"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="opener" mode="change">
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="p" mode="change">
+                    <model output="print" predicate="ancestor::note" behaviour="inline"/>
+                    <model behaviour="paragraph" useSourceRendition="true"/>
+                </elementSpec>
+                <elementSpec ident="pb" mode="change">
+                    <model output="print" behaviour="omit"/>
+                    <model predicate="$parameters?iiif-viewer='pb-facsimile'" behaviour="webcomponent">
+            <desc>If iiif-viewer parameter passed is set to pb-facsimile prepare pb-facs-link accordingly;
+                            assumes that facs attribute starts with 'iiif' prefix, use the trailing part as a
+                            link to the IIIF image; fits pb-facsimile viewer</desc>
+            <param name="name" value="'pb-facs-link'"/>
+            <param name="facs" value="replace(@facs, '^iiif:(.*)$', '$1')"/>
+            <param name="subscribe" value="'transcription'"/>
+            <param name="content" value="'Page ' || @n"/>
+            <param name="emit" value="'transcription'"/>
+        </model>
+                    <model predicate="$parameters?static" behaviour="webcomponent" cssClass="facs pb">
+            <desc>Use the url from the facs attribute to link with IIIF image;
+                            assumes pb-tify viewer; passes document's path or xml:id 
+                            (depending on the app's addressing configuration) to the api/iiif endpoint
+                            to generate relevant manifest</desc>
+            <param name="name" value="'pb-facs-link'"/>
+            <param name="content" value="@n"/>
+            <param name="emit" value="'transcription'"/>
+            <param name="subscribe" value="'transcription'"/>
+            <param name="order" value="count($get(.)/preceding::pb) + 1"/>
+            <param name="emit-on-load" value="'emit-on-load'"/>
+            <param name="facs" value="$parameters?context-path || &#34;/&#34; || substring-after(document-uri(root($parameters?root)), $global:data-root || '/') || '/manifest.json'"/>
+        </model>
+                    <model predicate="@facs" behaviour="webcomponent" cssClass="facs pb">
+            <desc>Use the url from the facs attribute to link with IIIF image;
+                            assumes pb-tify viewer; passes document's path or xml:id 
+                            (depending on the app's addressing configuration) to the api/iiif endpoint
+                            to generate relevant manifest</desc>
+            <param name="name" value="'pb-facs-link'"/>
+            <param name="content" value="@n"/>
+            <param name="emit" value="'transcription'"/>
+            <param name="subscribe" value="'transcription'"/>
+            <param name="order" value="count($get(.)/preceding::pb) + 1"/>
+            <param name="emit-on-load" value="'emit-on-load'"/>
+            <param name="facs" value="let $ref := if ($global:address-by-id)                          then                              root($parameters?root)/descendant-or-self::TEI/@xml:id                          else                              substring-after(document-uri(root($parameters?root)), $global:data-root || '/')                         return 'api/iiif/' || $ref"/>
+        </model>
+                    <model behaviour="break" cssClass="pb" useSourceRendition="true">
+            <desc>Output Page label when no facsimile information is available</desc>
+            <param name="type" value="'page'"/>
+            <param name="label" value="(concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else ''))"/>
+            <outputRendition xml:space="preserve">
+            display: block; margin-left: 4pt; color: grey; float: right;
+            </outputRendition>
+            <outputRendition xml:space="preserve" scope="before">
+            content: '[Page ';
+            </outputRendition>
+            <outputRendition xml:space="preserve" scope="after">
+            content: ']';
+            </outputRendition>
+        </model>
+                </elementSpec>
+                <elementSpec ident="postscript" mode="change">
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="ptr" mode="add">
+                    <model predicate="parent::notatedMusic" behaviour="pass-through">
+            <desc>Load and display external MEI</desc>
+            <param name="url" value="@target"/>
+            <pb:template xmlns="" xml:space="preserve"><pb-mei url="[[url]]" player="player">
+                                        <pb-option name="appXPath" on="./rdg[contains(@label, 'original')]" off="">Original Clefs</pb-option>
+                                        </pb-mei></pb:template>
+        </model>
+                    <model predicate="(parent::place or parent::person) and @target" behaviour="listItem">
+            <desc>Output as list item in register view</desc>
+            <param name="target" value="@target"/>
+            <param name="content" value="@type"/>
+            <pb:template xmlns="" xml:space="preserve"><a href="[[target]]" target="_blank">[[content]]</a></pb:template>
+        </model>
+                    <model predicate="@target" behaviour="link">
+            <param name="uri" value="@target"/>
+            <param name="content" value="if (@type) then @type else ."/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="publicationStmt" mode="add">
+                    <model predicate="$parameters?display='browse'" behaviour="block">
+            <param name="content" value=".//availability"/>
+        </model>
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="idno" mode="add">
+                    <model predicate="@type='ISBN'" behaviour="pass-through">
+            <param name="type" value="@type"/>
+            <pb:template xmlns="" xml:space="preserve"><div>
+                            <b>[[type]]</b>: [[content]]
+                        </div></pb:template>
+        </model>
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="sourceDesc" mode="add">
+                    <model predicate="$parameters?mode='metadata-panel'" behaviour="pass-through">
+            <pb:template xmlns="" xml:space="preserve"><div>
+                            <h3><pb-i18n key="odd.sources"/></h3>
+                            <ul>
+                                [[content]]
+                            </ul>
+                        </div></pb:template>
+        </model>
+                    <model behaviour="pass-through"/>
+                </elementSpec>
+                <elementSpec ident="msDesc" mode="add">
+                    <model predicate="$parameters?mode='metadata-panel'" behaviour="listItem"/>
+                </elementSpec>
+                <elementSpec ident="publisher" mode="add">
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="q" mode="change">
+                    <model predicate="l" behaviour="block" cssClass="block-quote" useSourceRendition="true"/>
+                    <model predicate="ancestor::p or ancestor::cell or ancestor::cit" behaviour="inline" cssClass="inline-quote" useSourceRendition="true">
+            <desc>If inside a paragraph, table cell or citation then rendered inline</desc>
+        </model>
+                    <model behaviour="block" cssClass="block-quote" useSourceRendition="true"/>
+                </elementSpec>
+                <elementSpec ident="quote" mode="change">
+                    <model predicate="ancestor::p or ancestor::cell or ancestor::cit" behaviour="inline" cssClass="inline-quote" useSourceRendition="true">
+            <desc>If inside a paragraph, table cell or citation then rendered inline</desc>
+        </model>
+                    <model behaviour="block" cssClass="block-quote" useSourceRendition="true"/>
+                </elementSpec>
+                <elementSpec ident="ref" mode="change">
+                    <model predicate="@subtype='placeholder'" behaviour="pass-through">
+            <desc>placeholder for unavailable next/prev links</desc>
+            <param name="type" value="if (@type='prev') then 'previous' else @type"/>
+            <param name="svg" value="$parameters?context-path || '/resources/css/correspondence-icons.svg'"/>
+            <pb:template xmlns="" xml:space="preserve"><li class="unavailable">
+                                            <svg class="icon">
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[svg]]#[[type]]"/>
+                                            </svg>
+                            </li></pb:template>
+        </model>
+                    <model predicate="parent::correspContext and @type" behaviour="pass-through">
+            <desc>refs inside the correspContext are interpreted as links for next/previous elements in the corpus; 
+                            type attribute is used to determine what navigation structure it is: known values are 
+                            -  in the entire corpus (type='next' or type='previous') ('prev' is mapped to 'previous')
+                            - next in the correspondence subcorpus between two correspondents (type='next-in-correspondence' or type='prev-in-correspondence')
+                            for which relevant svg icons are provided
+                        </desc>
+            <param name="type" value="if (@type='prev') then 'previous' else @type"/>
+            <param name="target" value="@target"/>
+            <param name="svg" value="$parameters?context-path || '/resources/css/correspondence-icons.svg'"/>
+            <pb:template xmlns="" xml:space="preserve"><li><pb-popover>
+                            <a href="[[target]]" emit="transcription" subscribe="transcription" slot="default">
+                                <svg class="icon">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[svg]]#[[type]]"/>
+                                </svg>
+                            </a>
+                            <template slot="alternate">[[type]]:  [[ content ]]</template>
+            </pb-popover></li></pb:template>
+        </model>
+                    <model predicate="@target" behaviour="link">
+            <param name="uri" value="@target"/>
+        </model>
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="role" mode="change">
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="roleDesc" mode="change">
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="row" mode="change">
+                    <model predicate="@role='label'" behaviour="row" cssClass="row-label"/>
+                    <model behaviour="row"/>
+                </elementSpec>
+                <elementSpec ident="salute" mode="change">
+                    <model predicate="parent::closer" behaviour="inline"/>
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="seg" mode="change">
+                    <model behaviour="inline" useSourceRendition="true"/>
+                </elementSpec>
+                <elementSpec ident="sic" mode="change">
+                    <model predicate="parent::choice" behaviour="inline"/>
+                    <model behaviour="inline" cssClass="sic"/>
+                </elementSpec>
+                <elementSpec ident="signed" mode="change">
+                    <model predicate="parent::closer" behaviour="block" cssClass="signed"/>
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="sp" mode="change">
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="speaker" mode="change">
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="spGrp" mode="change">
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="stage" mode="change">
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="supplied" mode="change">
+                    <model predicate="parent::choice" behaviour="inline"/>
+                    <model predicate="@reason" behaviour="pass-through">
+            <param name="reason" value="@reason"/>
+            <pb:template xmlns="" xml:space="preserve"><span class="tei-supplied [[reason]]">[[ content ]]</span></pb:template>
+        </model>
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="subst" mode="change">
+                    <model behaviour="inline">
+            <desc>explicitly set content to avoid whitespace issues</desc>
+            <param name="content" value="(del, add)"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="table" mode="change">
+                    <model behaviour="table"/>
+                </elementSpec>
+                <elementSpec ident="fileDesc" mode="change">
+                    <modelSequence predicate="$parameters?display='browse'">
+            <model behaviour="block">
+                <param name="content" value="(titleStmt, editionStmt, publicationStmt)"/>
+            </model>
+            <model behaviour="block" cssClass="sample-description">
+                <desc>Output abstract containing demo description</desc>
+                <param name="content" value="../profileDesc/abstract"/>
+            </model>
+        </modelSequence>
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="profileDesc" mode="change">
+                    <model predicate="$parameters?display='browse' or $parameters?mode='metadata-panel'" behaviour="omit"/>
+                </elementSpec>
+                <elementSpec ident="revisionDesc" mode="change">
+                    <model predicate="$parameters?display='browse' or $parameters?mode='metadata-panel'" behaviour="omit"/>
+                </elementSpec>
+                <elementSpec ident="encodingDesc" mode="change">
+                    <model predicate="$parameters?display='browse' or $parameters?mode='metadata-panel'" behaviour="omit"/>
+                </elementSpec>
+                <elementSpec ident="teiHeader" mode="change">
+                    <model output="latex" behaviour="metadata"/>
+                    <model output="fo" behaviour="omit"/>
+                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
+            <param name="content" value="fileDesc/titleStmt"/>
+        </model>
+                    <model predicate="$parameters?mode='metadata-panel'" behaviour="pass-through"/>
+                    <model predicate="$parameters?display='browse'" behaviour="block"/>
+                    <model behaviour="metadata"/>
+                </elementSpec>
+                <elementSpec ident="TEI" mode="change">
+                    <model predicate="$parameters?mode='breadcrumb'" behaviour="pass-through">
+            <param name="content" value="teiHeader"/>
+        </model>
+                    <model predicate="$parameters?mode='metadata-panel'" behaviour="pass-through">
+            <param name="content" value="teiHeader"/>
+        </model>
+                    <model predicate="$parameters?mode='edition-navigation' and descendant::correspContext" behaviour="pass-through">
+            <desc>process correspContext to provide in-edition navigation buttons to move between documents</desc>
+            <param name="content" value="descendant::correspContext"/>
+        </model>
+                    <model predicate="$parameters?mode = 'register'" behaviour="pass-through">
+            <desc>Output register data if register profile is enabled</desc>
+            <param name="people" value="for $key in distinct-values((root(.)//persName/@key, root(.)//persName/@ref)) return collection($global:register-root)/id($key)[self::person]"/>
+            <param name="places" value="for $key in distinct-values((root(.)//placeName/@key, root(.)//placeName/@ref)) return collection($global:register-root)/id($key)[self::place]"/>
+            <pb:template xmlns="" xml:space="preserve"><div class="register">
+<h3>People</h3>
+<ul>
+[[people]]
+</ul>
+
+<h3>Places</h3>
+<ul>
+[[places]]
+</ul>
+</div></pb:template>
+        </model>
+                    <model behaviour="document"/>
+                </elementSpec>
+                <elementSpec ident="text" mode="change">
+                    <model behaviour="body"/>
+                </elementSpec>
+                <elementSpec ident="time" mode="change">
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="title" mode="change">
+                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline"/>
+                    <model predicate="$parameters?mode='metadata-panel'" behaviour="block"/>
+                    <model predicate="$parameters?mode='register-details' and $parameters?static" behaviour="link">
+            <param name="uri" value="$parameters?context-path || &#34;/letters/&#34; || util:document-name(.) || '/1/index.html'"/>
+            <param name="content" value="string()"/>
+        </model>
+                    <model predicate="$parameters?mode='register-details'" behaviour="link">
+            <desc>create a link to the document, respecting address-by-id configuration</desc>
+            <param name="content" value="string()"/>
+            <param name="uri" value="                         if ($global:address-by-id) then                             '../' || root(.)/descendant-or-self::TEI/@xml:id                                                      else                                 '../' || substring-after(document-uri(root(.)), $global:data-root || '/')                          "/>
+        </model>
+                    <model predicate="$parameters?display='browse'" behaviour="heading">
+            <param name="level" value="5"/>
+        </model>
+                    <model predicate="@key or @ref" behaviour="alternate">
+            <param name="alternate" value="let $key:= head((@key, @ref))  return collection($global:register-root)/id($key)"/>
+            <param name="default" value="."/>
+        </model>
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="titlePage" mode="change">
+                    <model behaviour="block" useSourceRendition="true"/>
+                </elementSpec>
+                <elementSpec ident="titlePart" mode="change">
+                    <model behaviour="block" useSourceRendition="true"/>
+                </elementSpec>
+                <elementSpec ident="titleStmt" mode="add">
+                    <model output="latex" behaviour="metadata"/>
+                    <model output="fo" behaviour="heading"/>
+                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
+            <desc>for breadcrumbs, pick only the first title</desc>
+            <param name="content" value="title[1]"/>
+        </model>
+                    <model predicate="$parameters?mode='register-details'" behaviour="listItem">
+            <desc>List of letters in register detail view</desc>
+            <param name="content" value="head((title[@type='main'], title))"/>
+        </model>
+                    <model predicate="$parameters?mode='metadata-panel'" behaviour="block"/>
+                    <modelSequence output="web" predicate="$parameters?display='browse'">
+            <desc>Display short metadata in document lists in the browse view</desc>
+            <model predicate="$parameters?static" behaviour="link">
+                <param name="content" value="title[1]"/>
+                <param name="uri" value="$parameters?context-path || '/' || util:document-name(.) || '/1/index.html'"/>
+            </model>
+            <model predicate="not($parameters?static)" behaviour="link">
+                <param name="content" value="title[1]"/>
+                <param name="uri" value="$parameters?doc"/>
+            </model>
+            <model behaviour="block">
+                <param name="content" value="subsequence(title, 2)"/>
+            </model>
+            <model behaviour="block">
+                <param name="content" value="author"/>
+            </model>
+        </modelSequence>
+                    <model output="web" behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="trailer" mode="change">
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="unclear" mode="change">
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="w" mode="change">
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="mei:mdiv" mode="add">
+                    <model behaviour="pass-through">
+            <desc>Single MEI mdiv needs to be wrapped to create complete MEI
+                                        document</desc>
+            <param name="data" value="let $title := root($parameters?root)//titleStmt/title let $data :=   &lt;mei xmlns=&#34;http://www.music-encoding.org/ns/mei&#34; meiversion=&#34;4.0.0&#34;&gt;     &lt;meiHead&gt;         &lt;fileDesc&gt;             &lt;titleStmt&gt;                 &lt;title&gt;&lt;/title&gt;             &lt;/titleStmt&gt;             &lt;pubStmt&gt;&lt;/pubStmt&gt;         &lt;/fileDesc&gt;     &lt;/meiHead&gt;     &lt;music&gt;         &lt;body&gt;{.}&lt;/body&gt;     &lt;/music&gt;   &lt;/mei&gt; return   serialize($data)"/>
+            <pb:template xmlns="" xml:space="preserve"><pb-mei player="player" data="[[data]]"/></pb:template>
+        </model>
+                </elementSpec>
+                <elementSpec ident="person" mode="add">
+                    <model predicate="parent::listPerson and $parameters?mode='register-overview'" behaviour="pass-through">
+            <desc>Register entry overview in list</desc>
+            <param name="id" value="@xml:id"/>
+            <param name="label" value="head((persName[@type='sort'], persName[@type='main'], persName[1]))"/>
+            <param name="description" value="note[@type='bio']"/>
+            <pb:template xmlns="" xml:space="preserve"><div>
+<header>
+    <a href="people/[[ id ]]">[[ label ]]</a>
+</header>
+[[ description ]]
+</div></pb:template>
+        </model>
+                    <model predicate="parent::listPerson and $parameters?mode='register'" behaviour="listItem">
+            <desc>Register sidebar</desc>
+            <param name="content" value="persName[@type=('main', 'full')]"/>
+        </model>
+                    <modelSequence predicate="parent::listPerson">
+            <desc>Register details view</desc>
+            <model behaviour="heading">
+                <desc>Heading with full name and dates</desc>
+                <param name="content" value="(persName[@type!='variant'])[1]"/>
+            </model>
+            <model predicate="$parameters?mode='register-details'" behaviour="block">
+                <desc>Dates</desc>
+                <param name="content" value="(birth, death)"/>
+            </model>
+            <model predicate="$parameters?mode='register-details'" behaviour="paragraph">
+                <desc>Variant names</desc>
+                <param name="content" value="persName[@type='variant']"/>
+            </model>
+            <model predicate="$parameters?mode='register-details'" behaviour="block">
+                <desc>Images</desc>
+                <param name="content" value="figure"/>
+            </model>
+            <model behaviour="pass-through">
+                <desc>Short bio note</desc>
+                <param name="content" value="note[@type='bio']"/>
+            </model>
+            <model predicate="$parameters?mode='register-details'" behaviour="pass-through">
+                <desc>Additional notes</desc>
+                <param name="content" value="note[@type!='bio']"/>
+            </model>
+            <model behaviour="list">
+                <desc>Links to wikidata, wikipedia etc.</desc>
+                <param name="content" value="ptr"/>
+            </model>
+            <model predicate="$parameters?mode='register-details'" behaviour="block" cssClass="occupation">
+                <desc>Occupation</desc>
+                <param name="content" value="occupation"/>
+                <outputRendition xml:space="preserve">
+                display: flex;
+gap: var(--s-1);
+flex-wrap: wrap;
+                </outputRendition>
+            </model>
+            <model predicate="$parameters?mode='register-details' and $parameters?static" behaviour="block">
+                <desc>List of documents (from data-default collection), where references
+                    occur; (shown in register details view only); trying to match by key
+                    or ref attributes</desc>
+                <param name="content" value="let $id := @xml:id return collection($global:data-default)//persName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt"/>
+                <pb:template xmlns="" xml:space="preserve"><div>
+                        <h2>
+                            <pb-i18n key="register-details.document-list"/>
+                        </h2>
+                        <ul>
+                            [[content]]
+                        </ul>
+                    </div></pb:template>
+            </model>
+            <model predicate="$parameters?mode='register-details' and not($parameters?static)" behaviour="heading">
+                <desc>List of documents (from data-default collection), where references occur;
+                    (shown in register details view only); trying to match by key or ref attributes</desc>
+                <param name="uri" value="$parameters?context-path || '/browse.html?facet-person=' || @xml:id"/>
+                <param name="content" value="let $id := @xml:id return count(collection($global:data-default)//persName[@key = $id or @ref = $id]/ancestor::TEI)"/>
+                <param name="level" value="4"/>
+                <pb:template xmlns="" xml:space="preserve">
+                    <a href="[[uri]]">
+                        <pb-i18n key="register-details.document-list"/> ( [[content]] ) <iron-icon icon="icons:launch"/>
+                    </a></pb:template>
+            </model>
+        </modelSequence>
+                </elementSpec>
+                <elementSpec ident="place" mode="add">
+                    <model predicate="$parameters?mode='register-overview'" behaviour="pass-through">
+            <desc>Register entry overview in list</desc>
+            <param name="id" value="@xml:id"/>
+            <param name="label" value="placeName[1]/string()"/>
+            <param name="longitude" value="tokenize(location/geo)[2]"/>
+            <param name="latitude" value="tokenize(location/geo)[1]"/>
+            <param name="zoom" value="if (@type != 'approximate') then 12 else 9"/>
+            <param name="description" value="note"/>
+            <pb:template xmlns="" xml:space="preserve"><div>
+<header>
+    <a href="places/[[id]]">
+        [[ label ]]
+    </a>
+    <pb-geolocation latitude="[[ latitude ]]" longitude="[[ longitude ]]" label="[[ label ]]" emit="map" event="click" zoom="[[ zoom ]]">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-map" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8zm1 12.98 4-.8V1.11l-4 .8zm-6-.8V1.11l-4 .8v12.98z"/>
+      </svg>
+    </pb-geolocation>
+</header>
+[[ description ]]
+</div></pb:template>
+        </model>
+                    <model predicate="$parameters?mode='register'" behaviour="listItem">
+            <desc>Register sidebar: add pb-geolocation, which emits to channel 'map' to avoid interference with other pb-view </desc>
+            <param name="content" value="placeName[@type='main']"/>
+            <param name="longitude" value="tokenize(location/geo, ' ')[2]"/>
+            <param name="latitude" value="tokenize(location/geo, ' ')[1]"/>
+            <param name="label" value="placeName[@type='main']/node()"/>
+            <pb:template xmlns="" xml:space="preserve"><pb-geolocation event="mouseover" longitude="[[longitude]]" latitude="[[latitude]]" label="[[label]]" auto="auto" wait-for="pb-leaflet-map" zoom="11" emit="map">[[content]]</pb-geolocation></pb:template>
+        </model>
+                    <modelSequence>
+            <desc>Register details view</desc>
+            <model behaviour="heading">
+                <param name="longitude" value="tokenize(location/geo, ' ')[2]"/>
+                <param name="latitude" value="tokenize(location/geo, ' ')[1]"/>
+                <param name="label" value="placeName[@type='main']/node()"/>
+                <param name="content" value="placeName[@type='main']"/>
+                <param name="location" value="string-join((country, region), ', ')"/>
+                <pb:template xmlns="" xml:space="preserve"><pb-geolocation event="click" longitude="[[longitude]]" latitude="[[latitude]]" label="[[label]]" auto="auto" wait-for="#map" subscribe="map" emit="map" zoom="11">[[content]] <small>[[location]]</small></pb-geolocation></pb:template>
+            </model>
+            <model behaviour="paragraph">
+                <desc>Additional notes</desc>
+                <param name="content" value="note"/>
+            </model>
+            <model behaviour="list" cssClass="links">
+                <desc>Links to wikidata, wikipedia etc.</desc>
+                <param name="content" value="ptr"/>
+            </model>
+            <model predicate="$parameters?mode='register-details' and $parameters?static" behaviour="block">
+                <desc>List of documents (from data-default collection), where references
+                    occur; (shown in register details view only); trying to match by key
+                    or ref attributes</desc>
+                <param name="content" value="let $id := @xml:id return collection($global:data-default)//placeName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt"/>
+                <pb:template xmlns="" xml:space="preserve"><div>
+                        <h2>
+                            <pb-i18n key="register-details.document-list"/>
+                        </h2>
+                        <ul>
+                            [[content]]
+                        </ul>
+                    </div></pb:template>
+            </model>
+            <model predicate="$parameters?mode='register-details' and not($parameters?static)" behaviour="block">
+                <desc>Link to the list of documents, where references occur via facet query</desc>
+                <param name="uri" value="$parameters?context-path || '/browse.html?facet-place=' || @xml:id"/>
+                <param name="content" value="let $id := @xml:id return count(collection($global:data-default)//placeName[@key = $id or @ref = $id]/ancestor::TEI)"/>
+                <pb:template xmlns="" xml:space="preserve">
+                    <a href="[[uri]]">
+                        <pb-i18n key="register-details.document-list"/> ( [[content]] ) <iron-icon icon="icons:launch"/>
+                    </a></pb:template>
+            </model>
+        </modelSequence>
+                </elementSpec>
+                <elementSpec ident="rs" mode="add">
+                    <model output="fo" behaviour="inline"/>
+                    <model output="print" behaviour="inline"/>
+                    <model predicate="$parameters?display='browse' or $parameters?mode=('breadcrumb', 'toc', 'register', 'register-details')" behaviour="inline"/>
+                    <model predicate="@key or @ref" behaviour="alternate" cssClass="persName context">
+            <param name="default" value="."/>
+            <param name="alternate" value="let $key:= head((@key, @ref))                          let $resolved := id($key, collection($global:register-root)/id('pb-persons')) return if (count($resolved)) then $resolved else $key"/>
+        </model>
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="persName" mode="add">
+                    <model output="fo" behaviour="inline"/>
+                    <model output="print" behaviour="inline"/>
+                    <model predicate="(@key or @ref) and $parameters?mode='register-details'" behaviour="link">
+            <param name="uri" value="head((@key, @ref))"/>
+            <param name="target" value="'_blank'"/>
+        </model>
+                    <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb' or $parameters?mode='toc'" behaviour="inline"/>
+                    <model predicate="$parameters?mode='register'" behaviour="pass-through">
+            <desc>Register sidebar</desc>
+            <param name="content" value="."/>
+            <param name="alternate" value="parent::person/note"/>
+            <param name="uri" value="$parameters?context-path || '/people/' || parent::person/@xml:id"/>
+            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" class="persName">
+                        <pb-popover>
+                            <span slot="default">[[content]]</span>
+                            <template slot="alternate">[[alternate]]</template>
+                        </pb-popover>
+                        </a></pb:template>
+        </model>
+                    <model predicate="$parameters?mode='register-overview'" behaviour="inline">
+            <desc>When filtering/browsing the register, persons mentioned in descriptions, etc. are inlined</desc>
+        </model>
+                    <model predicate="@type='variant'" behaviour="inline" cssClass="name variant"/>
+                    <model predicate="parent::person" behaviour="inline"/>
+                    <model predicate="ancestor::correspContext" behaviour="inline">
+            <desc>do not resolve correspContext descriptions</desc>
+        </model>
+                    <model predicate="@key or @ref" behaviour="alternate" cssClass="persName context">
+            <param name="default" value="."/>
+            <param name="alternate" value="let $key:= head((@key, @ref))                          let $resolved := id($key, collection($global:register-root)/id('pb-persons')) return if (count($resolved)) then $resolved else $key"/>
+        </model>
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="placeName" mode="add">
+                    <model output="fo" behaviour="inline"/>
+                    <model output="print" behaviour="inline"/>
+                    <model predicate="@key and $parameters?mode='register-details'" behaviour="inline">
+            <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))/placeName[@type='main']/string()"/>
+        </model>
+                    <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb' or $parameters?mode='toc'" behaviour="inline"/>
+                    <model predicate="$parameters?mode='register'" behaviour="pass-through">
+            <desc>Register sidebar</desc>
+            <param name="default" value="."/>
+            <param name="alternate" value="parent::place/note"/>
+            <param name="uri" value="$parameters?context-path || '/places/' || parent::place/@xml:id"/>
+            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" class="placeName context">
+            <pb-popover>
+                <span slot="default">[[content]]</span>
+                <template slot="alternate">[[alternate]]</template>
+            </pb-popover>
+            </a></pb:template>
+        </model>
+                    <model predicate="@type='variant'" behaviour="inline" cssClass="name variant"/>
+                    <model predicate="parent::place" behaviour="inline"/>
+                    <model predicate="ancestor::correspContext" behaviour="inline"/>
+                    <model predicate="@key or @ref" behaviour="alternate" cssClass="placeName context">
+            <param name="default" value="."/>
+            <param name="alternate" value="let $key:= head((@key, @ref))                          let $resolved := id($key, collection($global:register-root)/id('pb-places')) return if (count($resolved)) then $resolved else $key"/>
+        </model>
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="orgName" mode="add">
+                    <model output="fo" behaviour="inline"/>
+                    <model output="print" behaviour="inline"/>
+                    <model predicate="@key and $parameters?mode='register-details'" behaviour="inline">
+            <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-organizations'))/placeName[@type='main']/string()"/>
+        </model>
+                    <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb' or $parameters?mode='toc'" behaviour="inline"/>
+                    <model predicate="$parameters?mode='register'" behaviour="pass-through">
+            <desc>Register sidebar</desc>
+            <param name="default" value="."/>
+            <param name="alternate" value="parent::org/note"/>
+            <param name="uri" value="$parameters?context-path || '/organizations/' || parent::org/@xml:id"/>
+            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" class="orgName context">
+            <pb-popover>
+                <span slot="default">[[content]]</span>
+                <template slot="alternate">[[alternate]]</template>
+            </pb-popover>
+            </a></pb:template>
+        </model>
+                    <model predicate="@type='variant'" behaviour="inline" cssClass="name variant"/>
+                    <model predicate="parent::org" behaviour="inline"/>
+                    <model predicate="ancestor::correspContext" behaviour="inline"/>
+                    <model predicate="@key or @ref" behaviour="alternate" cssClass="orgName context">
+            <param name="default" value="."/>
+            <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-organizations'))"/>
+        </model>
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="correspAction" mode="add">
+                    <model predicate="@type='sent'" behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="correspContext" mode="add">
+                    <model predicate="$parameters?static" behaviour="pass-through">
+            <desc>Outputs links to next/previous letter within entire and current correspondence (static mode)</desc>
+            <param name="previous-in-correspondence-target" value="ref[@type = 'previous-in-correspondence']/@target"/>
+            <param name="previous-target" value="ref[@type = 'previous']/@target"/>
+            <param name="next-target" value="ref[@type = 'next']/@target"/>
+            <param name="next-in-correspondence-target" value="ref[@type = 'next-in-correspondence']/@target"/>
+            <param name="svg" value="$parameters?context-path || '/resources/css/correspondence-icons.svg'"/>
+            <param name="previous-in-correspondence" value="ref[@type = 'previous-in-correspondence']"/>
+            <param name="previous" value="ref[@type = 'previous']"/>
+            <param name="next-in-correspondence" value="ref[@type = 'next-in-correspondence']"/>
+            <param name="next" value="ref[@type = 'next']"/>
+            <param name="context" value="$parameters?context-path || '/' || substring-after(util:collection-name($parameters?root), $global:data-root || &#34;/&#34;)"/>
+            <pb:template xmlns="" xml:space="preserve"><ul class="correspContext light" role="group">
+                            <li>
+                                <pb-popover>
+                                    <a href="[[context]]/[[previous-target]]/1/index.html" slot="default" class="correspRef">
+                                        <svg class="icon">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[svg]]#previous"/>
+                                        </svg>
+                                    </a>
+                                    <template slot="alternate">[[ previous ]]</template>
+                                </pb-popover>
+                            </li>
+                            <li>
+                                <pb-popover>
+                                    <a href="[[context]]/[[previous-in-correspondence-target]]/1/index.html" slot="default" class="correspRef">
+                                        <svg class="icon">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[svg]]#previous-in-correspondence"/>
+                                        </svg>
+                                    </a>
+                                    <template slot="alternate">[[ previous-in-correspondence ]]</template>
+                                </pb-popover>
+                            </li>
+                            <li>
+                                <pb-popover>
+                                    <a href="[[context]]/[[next-in-correspondence-target]]/1/index.html" emit="transcription" subscribe="transcription" slot="default" class="correspRef">
+                                        <svg class="icon">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[svg]]#next-in-correspondence"/>
+                                        </svg>
+                                    </a>
+                                    <template slot="alternate">[[ next-in-correspondence ]]</template>
+                                </pb-popover>
+                            </li>
+                            <li>
+                                <pb-popover>
+                                    <a href="[[context]]/[[next-target]]/1/index.html" emit="transcription" subscribe="transcription" slot="default" class="correspRef">
+                                        <svg class="icon">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[svg]]#next"/>
+                                        </svg>
+                                    </a>
+                                    <template slot="alternate">[[ next ]]</template>
+                                </pb-popover>
+                            </li>
+                            </ul>
+                        </pb:template>
+        </model>
+                    <model behaviour="pass-through">
+            <desc>Outputs links to next/previous letter within entire corpus and current correspondence</desc>
+            <param name="previous-in-correspondence" value="if ($parameters?in-correspondence = 'true') then head((ref[@type = 'previous-in-correspondence'], &lt;ref type=&#34;previous-in-correspondence&#34; subtype=&#34;placeholder&#34;/&gt;)) else ()"/>
+            <param name="previous" value="head((ref[@type = ('previous', 'prev')], &lt;ref type=&#34;previous&#34; subtype=&#34;placeholder&#34;/&gt;))"/>
+            <param name="next-in-correspondence" value="if ($parameters?in-correspondence = 'true') then head((ref[@type = 'next-in-correspondence'], &lt;ref type=&#34;next-in-correspondence&#34; subtype=&#34;placeholder&#34;/&gt;)) else ()"/>
+            <param name="next" value="head((ref[@type = 'next'], &lt;ref type=&#34;next&#34; subtype=&#34;placeholder&#34;/&gt;))"/>
+            <pb:template xmlns="" xml:space="preserve"><ul class="correspContext light" role="group">
+                        [[previous]]
+                        [[previous-in-correspondence]]
+                        [[next-in-correspondence]]
+                        [[next]]
+                        </ul></pb:template>
+        </model>
+                </elementSpec>
+            </schemaSpec>
+        </body>
+    </text>
+</TEI>

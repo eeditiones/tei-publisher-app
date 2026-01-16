@@ -5,10 +5,32 @@ module namespace rapi="http://teipublisher.com/api/registers";
 import module namespace router="http://e-editiones.org/roaster";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace annocfg = "http://teipublisher.com/api/annotations/config" at "annotation-config.xqm";
+import module namespace annocfg = "http://teipublisher.com/api/annotations/config" at "annotations/annotation-config.xqm";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
+
+declare function rapi:html($request as map(*)) {
+    rapi:generate-html($request, "web")
+};
+
+declare %private function rapi:generate-html($request as map(*), $outputMode as xs:string) {
+    let $xml := rapi:entry($request)
+    return
+        if (exists($xml)) then
+            let $config := tpu:parse-pi(root($xml), ())
+            let $out := 
+                if ($outputMode = 'print') then
+                    $pm-config:print-transform($xml, map { "root": $xml, "webcomponents": 7 }, $config?odd)
+                else
+                    $pm-config:web-transform($xml, map { "root": $xml, "webcomponents": 7 }, $config?odd)
+            
+            return
+                $out
+        else
+            error($errors:NOT_FOUND, "Document " || $request?parameters?id || " not found")
+};
 
 (:~
  : Resolve register entry by id and type and return the record for use in the editing form
@@ -31,6 +53,7 @@ declare function rapi:entry($request as map(*)) {
             error($errors:BAD_REQUEST, "No " || $type || " entry id specified")
 };
 
+(: TODO rewrite, removing entry by id (with update delete) not the filename :)
 
 declare function rapi:delete($request as map(*)) {
     let $id := xmldb:decode($request?parameters?id)
@@ -39,12 +62,12 @@ declare function rapi:delete($request as map(*)) {
 
     return
       if ($entry) then
-            (: let $del := xmldb:remove(util:collection-name($doc), util:document-name($doc)) :)
-            let $foo := 'bar'
+            (: let $del := xmldb:remove(util:collection-name($doc), util:document-name($doc)) :)   
+            let $del := 'cant delete entire file'
 
             return (
                 session:set-attribute($config:session-prefix || ".works", ()),
-                router:response(204, 'Document deleted')
+                router:response(204, 'Entry not deleted, this feature is not yet implemented')
             )
         else
             error($errors:NOT_FOUND, "Entry for " || $type || ": " || $id || " not found")
@@ -60,7 +83,10 @@ declare function rapi:save($request as map(*)) {
     let $body := $request?body/*[1]
 
     let $type := local-name($body)
-    let $type := if ($type = 'org') then "organization" else $type
+    let $type := switch($type) 
+                    case "org" return "organization" 
+                    case "bibl" return "work" 
+                    default return $type
     let $id := ($body/@xml:id, $request?parameters?id)[1]
 
     let $data := rapi:prepare-record($body, $user, $type)
@@ -101,6 +127,8 @@ declare function rapi:insert-point($type as xs:string) {
             collection($config:register-root)/id($root)//tei:listOrg
         case "term" return
             collection($config:register-root)/id($root)//tei:taxonomy
+        case "work" return
+            collection($config:register-root)/id($root)//tei:listBibl
         default return
             collection($config:register-root)/id($root)//tei:listPerson
 };
@@ -171,15 +199,22 @@ declare function rapi:next($type) {
     switch ($type)
         case 'place'
             return collection($config:register-root)/id($config?id)//tei:place[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
+        case 'organization'
+            return collection($config:register-root)/id($config?id)//tei:org[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
+        case 'term'
+            return collection($config:register-root)/id($config?id)//tei:category[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
+        case 'work'
+            return collection($config:register-root)/id($config?id)//tei:bibl[@type eq 'work'][starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
         default 
             return collection($config:register-root)/id($config?id)//tei:person[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
     
-    let $last := if (count($all-ids)) then sort($all-ids)[last()] else 1
+    let $numeric-ids := for $id in $all-ids return if ($id castable as xs:integer) then $id else ()
+    let $last := if (count($all-ids)) then sort($numeric-ids)[last()] else 1
     let $next :=
             try {
                 xs:integer($last) + 1
             } catch * {
-                '_error'
+                1
             }
     
     return $config?prefix || rapi:pad($next, 6)
@@ -249,6 +284,15 @@ declare function rapi:query($type as xs:string, $query as xs:string?) {
                     map {
                         "id": $term/@xml:id/string(),
                         "label": $term/tei:catDesc/string()
+                    }
+            case "work" return
+                for $bibl in collection($config:register-root)//tei:bibl[ft:query(tei:title, $query)]
+                return
+                    map {
+                        "id": $bibl/@xml:id/string(),
+                        "label": $bibl/tei:title[@type="main"]/string(),
+                        "details": ``[`{$bibl/tei:author}`; `{$bibl/tei:note/string()}`]``,
+                        "link": $bibl/tei:ptr/@target/string()
                     }
             default return
                 ()
@@ -337,6 +381,16 @@ declare function rapi:create-record($type as xs:string, $id as xs:string, $data 
             <category xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
                 <catDesc>{$data?name}</catDesc>
             </category>
+        case "work" return
+            <bibl xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}" type="work">
+                <title type="main">{$data?name}</title>
+                {
+                    rapi:process-array($data?firstAuthor, function($item) {
+                        <author xmlns="http://www.tei-c.org/ns/1.0">{$item?label}</author>
+                    })
+                }
+                <note>{$data?note}</note>
+            </bibl>
         default return
             ()
 };
@@ -379,6 +433,7 @@ declare function rapi:local-search-strings($type as xs:string, $entry as element
         case "place" return $entry/tei:placeName/string()
         case "organization" return $entry/tei:orgName/string()
         case "term" return $entry/tei:catDesc/string()
+        case "work" return $entry/tei:title/string()
         default return $entry/tei:persName/string()
 };
 

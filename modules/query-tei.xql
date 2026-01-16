@@ -35,23 +35,23 @@ declare function teis:query-default($fields as xs:string+, $query as xs:string, 
                     if (exists($target-texts)) then
                         for $text in $target-texts
                         return
-                            $config:data-root ! doc(. || "/" || $text)//tei:head[ft:query(., $query, query:options($sortBy))]
+                            $config:data-default ! doc(. || "/" || $text)//tei:head[ft:query(., $query, query:options($sortBy))]
                     else
-                        collection($config:data-root)//tei:head[ft:query(., $query, query:options($sortBy))]
+                        collection($config:data-default)//tei:head[ft:query(., $query, query:options($sortBy))]
                 default return
                     if (exists($target-texts)) then
                         for $text in $target-texts
-                        let $divisions := $config:data-root ! doc(. || "/" || $text)//tei:div[ft:query(., $query, query:options($sortBy))]
+                        let $divisions := $config:data-default ! doc(. || "/" || $text)//tei:div[ft:query(., $query, query:options($sortBy))]
                         return
                             if (empty($divisions)) then
-                                $config:data-root ! doc(. || "/" || $text)//tei:text[ft:query(., $query, query:options($sortBy))]
+                                $config:data-default ! doc(. || "/" || $text)//tei:text[ft:query(., $query, query:options($sortBy))]
                             else
                                 $divisions
                     else
-                        let $divisions := collection($config:data-root)//tei:div[ft:query(., $query, query:options($sortBy))]
+                        let $divisions := collection($config:data-default)//tei:div[ft:query(., $query, query:options($sortBy))]
                         return
                             if (empty($divisions)) then
-                                collection($config:data-root)//tei:text[ft:query(., $query, query:options($sortBy))]
+                                collection($config:data-default)//tei:text[ft:query(., $query, query:options($sortBy))]
                             else
                                 $divisions
     else ()
@@ -78,48 +78,48 @@ declare function teis:autocomplete($doc as xs:string?, $fields as xs:string+, $q
     return
         switch ($field)
             case "author" return
-                collection($config:data-root)/ft:index-keys-for-field("author", $lower-case-q,
+                collection($config:data-default)/ft:index-keys-for-field("author", $lower-case-q,
                     function($key, $count) {
                         $key
                     }, 30)
             case "file" return
-                collection($config:data-root)/ft:index-keys-for-field("file", $lower-case-q,
+                collection($config:data-default)/ft:index-keys-for-field("file", $lower-case-q,
                     function($key, $count) {
                         $key
                     }, 30)
             case "text" return
                 if ($doc) then (
-                    doc($config:data-root || "/" || $doc)/util:index-keys-by-qname(xs:QName("tei:div"), $lower-case-q,
+                    doc($config:data-default || "/" || $doc)/util:index-keys-by-qname(xs:QName("tei:div"), $lower-case-q,
                         function($key, $count) {
                             $key
                         }, 30, "lucene-index"),
-                    doc($config:data-root || "/" || $doc)/util:index-keys-by-qname(xs:QName("tei:text"), $lower-case-q,
+                    doc($config:data-default || "/" || $doc)/util:index-keys-by-qname(xs:QName("tei:text"), $lower-case-q,
                         function($key, $count) {
                             $key
                         }, 30, "lucene-index")
                 ) else (
-                    collection($config:data-root)/util:index-keys-by-qname(xs:QName("tei:div"), $lower-case-q,
+                    collection($config:data-default)/util:index-keys-by-qname(xs:QName("tei:div"), $lower-case-q,
                         function($key, $count) {
                             $key
                         }, 30, "lucene-index"),
-                    collection($config:data-root)/util:index-keys-by-qname(xs:QName("tei:text"), $lower-case-q,
+                    collection($config:data-default)/util:index-keys-by-qname(xs:QName("tei:text"), $lower-case-q,
                         function($key, $count) {
                             $key
                         }, 30, "lucene-index")
                 )
             case "head" return
                 if ($doc) then
-                    doc($config:data-root || "/" || $doc)/util:index-keys-by-qname(xs:QName("tei:head"), $lower-case-q,
+                    doc($config:data-default || "/" || $doc)/util:index-keys-by-qname(xs:QName("tei:head"), $lower-case-q,
                         function($key, $count) {
                             $key
                         }, 30, "lucene-index")
                 else
-                    collection($config:data-root)/util:index-keys-by-qname(xs:QName("tei:head"), $lower-case-q,
+                    collection($config:data-default)/util:index-keys-by-qname(xs:QName("tei:head"), $lower-case-q,
                         function($key, $count) {
                             $key
                         }, 30, "lucene-index")
             default return
-                collection($config:data-root)/ft:index-keys-for-field("title", $lower-case-q,
+                collection($config:data-default)/ft:index-keys-for-field("title", $lower-case-q,
                     function($key, $count) {
                         $key
                     }, 30)
@@ -133,19 +133,23 @@ declare function teis:get-breadcrumbs($config as map(*), $hit as node(), $parent
     let $work := root($hit)/*
     let $work-title := nav:get-document-title($config, $work)/string()
     return
-        <div class="breadcrumbs">
-            <a class="breadcrumb" href="{$parent-id}">{$work-title}</a>
-            {
-                for $parentDiv in $hit/ancestor-or-self::tei:div[tei:head]
-                let $id := util:node-id(
-                    if ($config?view = "page") then ($parentDiv/preceding::tei:pb[1], $parentDiv)[1] else $parentDiv
-                )
-                return
-                    <a class="breadcrumb" href="{$parent-id || "?action=search&amp;root=" || $id || "&amp;view=" || $config?view || "&amp;odd=" || $config?odd}">
-                    {$parentDiv/tei:head/string()}
-                    </a>
-            }
-        </div>
+        <nav aria-label="breadcrumb">
+            <ul>
+                <li><a href="{$parent-id}">{$work-title}</a></li>
+                {
+                    for $parentDiv in $hit/ancestor-or-self::tei:div[tei:head]
+                    let $id := util:node-id(
+                        if ($config?view = "page") then ($parentDiv/preceding::tei:pb[1], $parentDiv)[1] else $parentDiv
+                    )
+                    return
+                        <li>
+                            <a href="{$parent-id || "?action=search&amp;root=" || $id || "&amp;view=" || $config?view || "&amp;odd=" || $config?odd}">
+                            {$parentDiv/tei:head/string()}
+                            </a>
+                        </li>
+                }
+            </ul>
+        </nav>
 };
 
 (:~

@@ -1,0 +1,33 @@
+@media screen {
+    pb-page > div > aside {
+        position: fixed;
+        left: 20px;
+        top: 20px;
+    }
+
+    nav button {
+        --jinks-form-background-color: var(--jinks-colors-500);
+        --jinks-form-hover-color: var(--jinks-colors-600);
+        --jinks-form-text-color: var(--jinks-colors-100);
+        --jinks-form-border-color: var(--jinks-colors-200);
+        width: 100%;
+    }
+    nav button > svg {
+        width: 24px;
+    }
+
+    pb-page > div > main {
+        margin-left: 90px;
+    }
+
+    pb-print-preview {
+        height: 100vh;
+        width: calc(100vw - 90px);
+    }
+}
+
+@media print {
+    pb-page > div > aside, pb-progress {
+        display: none;
+    }
+}

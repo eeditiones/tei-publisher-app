@@ -1,9 +1,7 @@
-(:~
- : Settings for generating a IIIF presentation manifest for a document.
- :)
+
 module namespace iiifc="https://e-editiones.org/api/iiif/config";
 
-import module namespace iiif="https://e-editiones.org/api/iiif" at "lib/api/iiif.xql";
+import module namespace iiif="https://e-editiones.org/api/iiif" at "iiif.xql";
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "navigation.xql";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
@@ -11,7 +9,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 (:~
  : Base URI of the IIIF image API service to use for the images
  :)
-declare variable $iiifc:IMAGE_API_BASE := "https://apps.existsolutions.com/cantaloupe/iiif/2";
+declare variable $iiifc:IMAGE_API_BASE := "https://apps.existsolutions.com/cantaloupe/iiif/2/";
 
 (:~
  : URL prefix to use for the canvas id
@@ -32,7 +30,16 @@ declare function iiifc:milestones($doc as node()) {
  : out or add something, this is the place. By default strips any prefix before a colon.
  :)
 declare function iiifc:milestone-id($milestone as element()) {
-    replace($milestone/@facs, "^[^:]+:(.*)", "$1")
+    let $facs := $milestone/@facs
+    let $link :=
+        if (starts-with($facs, "#")) then
+            let $target := id(substring-after($facs, "#"), root($milestone))
+            return
+                head($target/descendant-or-self::tei:graphic)/@url
+        else
+            $facs
+    return
+        replace($link, "^[^:]+:(.*)", "$1")
 };
 
 (:~

@@ -18,30 +18,28 @@
 xquery version "3.1";
 
 module namespace tpu="http://www.tei-c.org/tei-publisher/util";
-
-
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
-import module namespace templates="http://exist-db.org/xquery/html-templating";
-
-declare variable $tpu:template-config := map {
-    $templates:CONFIG_APP_ROOT : $config:app-root,
-    $templates:CONFIG_STOP_ON_ERROR : true()
-};
 
 declare function tpu:parse-pi($doc as document-node(), $view as xs:string?) {
     tpu:parse-pi($doc, $view, request:get-parameter("odd", ()))
 };
 
 declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd as xs:string?) {
+    let $fill := request:get-parameter("fill", ())
+    return
+        tpu:parse-pi($doc, $view, $odd, if ($fill) then number($fill) else ())
+};
+
+declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd as xs:string?, $fill as xs:double?) {
     let $defaultConfig := config:default-config(document-uri($doc))
-    let $default := map {
-        "view": ($view, $defaultConfig?view)[1],
-        "depth": $defaultConfig?depth,
-        "fill": $defaultConfig?fill,
-        "type": config:document-type($doc/*),
-        "template": $defaultConfig?template,
-        "media": $defaultConfig?media
-    }
+    let $default := map:merge((
+        $defaultConfig,
+        map {
+            "view": ($view, $defaultConfig?view)[1],
+            "type": config:document-type($doc/*),
+            "fill": ($fill, $defaultConfig?fill)[1]
+        }
+    ))
     let $pis :=
         map:merge(
             for $pi in $doc/processing-instruction("teipublisher")
@@ -83,34 +81,4 @@ declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd
             map:merge(($pisWithOdd, map { "odd": $defaultConfig?odd }))
     return
         map:merge(($default, $config))
-};
-
-declare function tpu:get-template-config($request as map(*)) {
-    if (map:contains($request, "parameters")) then
-        for $param in map:keys($request?parameters)
-        return
-            request:set-attribute($param, $request?parameters($param))
-    else
-        (),
-    map:merge((
-        $tpu:template-config,
-        map {
-            $templates:CONFIG_PARAM_RESOLVER : function($param) {
-                let $pval := array:fold-right(
-                    [
-                        request:get-parameter($param, ()),
-                        request:get-attribute($param),
-                        session:get-attribute($config:session-prefix || "." || $param)
-                    ], (),
-                    function($zero, $current) {
-                        if (exists($zero)) then
-                            $zero
-                        else
-                            $current
-                    }
-                )
-                return
-                    $pval
-            }
-        }))
 };

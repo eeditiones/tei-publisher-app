@@ -4,44 +4,19 @@ xquery version "3.1";
  : A set of helper functions to access the application context from
  : within a module.
  :)
-module namespace config = "http://www.tei-c.org/tei-simple/config";
+module namespace config="http://www.tei-c.org/tei-simple/config";
 
-import module namespace http = "http://expath.org/ns/http-client";
-import module namespace nav = "http://www.tei-c.org/tei-simple/navigation" at "navigation.xql";
-import module namespace tpu = "http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
+import module namespace gen="https://e-editiones.org/tei-publisher/generator/config" at "generated-config.xql";
+import module namespace http="http://expath.org/ns/http-client" at "java:org.exist.xquery.modules.httpclient.HTTPClientModule";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "navigation.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
+import module namespace util="http://exist-db.org/xquery/util";
+import module namespace errors = "http://e-editiones.org/roaster/errors";
 
-declare namespace templates = "http://exist-db.org/xquery/html-templating";
-
-declare namespace repo = "http://exist-db.org/xquery/repo";
-declare namespace expath = "http://expath.org/ns/pkg";
-declare namespace jmx = "http://exist-db.org/jmx";
-declare namespace tei = "http://www.tei-c.org/ns/1.0";
-
-(:~~
- : A list of regular expressions to check which external hosts are
- : allowed to access this TEI Publisher instance. The check is done
- : against the Origin header sent by the browser.
- :)
-declare variable $config:origin-whitelist := (
-    "(?:https?://localhost:.*|https?://127.0.0.1:.*)",
-    "https?://jsdelivr.net",
-    "https?://unpkg.com",
-    "https?://cdpn.io",
-    "https://cdn.tei-publisher.com",
-    "https?://teipublisher.onrender.com"
-);
-
-(:~
- : Set to true to allow caching: if the browser sends an If-Modified-Since header,
- : TEI Publisher will respond with a 304 if the resource has not changed since last
- : access. However, this does *not* take into account changes to ODD or other auxiliary 
- : files, so don't use it during development.
- :)
-declare variable $config:enable-proxy-caching :=
-    let $prop := util:system-property("teipublisher.proxy-caching")
-    return
-        exists($prop) and lower-case($prop) = 'true'
-;
+declare namespace repo="http://exist-db.org/xquery/repo";
+declare namespace expath="http://expath.org/ns/pkg";
+declare namespace jmx="http://exist-db.org/jmx";
+declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 (:~
  : The version of the pb-components webcomponents library to be used by this app.
@@ -60,29 +35,47 @@ declare variable $config:enable-proxy-caching :=
  : In this case, change $config:webcomponents-cdn to point to http://localhost:port 
  : (default: 8000, but check where your server is running).
  :)
-declare variable $config:webcomponents := "2.24.3";
+declare variable $config:webcomponents := $gen:webcomponents;
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your
  : own library extending pb-components and published it to a CDN.
  :)
-(: declare variable $config:webcomponents-cdn := "https://unpkg.com/@teipublisher/pb-components"; :)
-declare variable $config:webcomponents-cdn := "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components";
-(: declare variable $config:webcomponents-cdn := "https://cdn.tei-publisher.com/"; :)
-(: declare variable $config:webcomponents-cdn := "http://localhost:8000"; :)
+declare variable $config:webcomponents-cdn := $gen:webcomponents-cdn;
 
-(: Version of fore to use for annotation editor. Set to 'local' for self-hosted version. :)
-declare variable $config:fore := "2.4.1";
+(: Version of fore to use for annotation editor :)
+declare variable $config:fore := $gen:fore;
+
+(:~~
+ : A list of regular expressions to check which external hosts are
+ : allowed to access this TEI Publisher instance. The check is done
+ : against the Origin header sent by the browser.
+ :)
+declare variable $config:origin-whitelist := (
+    "(?:https?://localhost:.*|https?://127.0.0.1:.*)"
+);
+
+(:~
+ : Set to true to allow caching: if the browser sends an If-Modified-Since header,
+ : TEI Publisher will respond with a 304 if the resource has not changed since last
+ : access. However, this does *not* take into account changes to ODD or other auxiliary 
+ : files, so don't use it during development.
+ :)
+declare variable $config:enable-proxy-caching :=
+    let $prop := util:system-property("teipublisher.proxy-caching")
+    return
+        exists($prop) and lower-case($prop) = 'true'
+;
 
 (:~
  : Should documents be located by xml:id or filename?
  :)
-declare variable $config:address-by-id := false();
+declare variable $config:address-by-id := $gen:address-by-id;
 
 (:~
  : Set default language for publisher app i18n
  :)
-declare variable $config:default-language := "en";
+declare variable $config:default-language := $gen:default-language;
 
 (:
  : The default to use for determining the amount of content to be shown
@@ -90,18 +83,25 @@ declare variable $config:default-language := "en";
  : the parameters below for further configuration), or 'page' to browse
  : a document by actual pages determined by TEI pb elements.
  :)
-declare variable $config:default-view := "div";
+declare variable $config:default-view := $gen:default-view;
 
 (:
  : The default HTML template used for viewing document content. This can be
  : overwritten by the teipublisher processing instruction inside a TEI document.
  :)
-declare variable $config:default-template := "view.html";
+declare variable $config:default-template := $gen:default-template;
+
+declare variable $config:default-media := $gen:default-media;
 
 (:
  : The element to search by default, either 'tei:div' or 'tei:text'.
  :)
-declare variable $config:search-default := "tei:text";
+declare variable $config:search-default := $gen:search-default;
+
+(:
+ : The default sort order to use for the browse view.
+ :)
+declare variable $config:sort-default := $gen:sort-default;
 
 (:
  : Defines which nested divs will be displayed as single units on one
@@ -112,7 +112,7 @@ declare variable $config:search-default := "tei:text";
  : $pagination-depth to 3 to not show the sub-subsections as separate pages.
  : Setting $pagination-depth to 1 would show entire top-level divs on one page.
  :)
-declare variable $config:pagination-depth := 10;
+declare variable $config:pagination-depth := $gen:pagination-depth;
 
 (:
  : If a div starts with less than $pagination-fill elements before the
@@ -120,72 +120,12 @@ declare variable $config:pagination-depth := 10;
  : up the page by pulling following divs in. When set to 0, it will never
  : attempt to fill up the page.
  :)
-declare variable $config:pagination-fill := 5;
-
-(:
- : Display configuration for facets to be shown in the sidebar. The facets themselves
- : are configured in the index configuration, collection.xconf.
- :)
-declare variable $config:facets := [
-    map {
-        "dimension": "place",
-        "heading": "annotations.place",
-        "source": "api/search/facets/place",
-        "max": 5
-    },
-    map {
-        "dimension": "genre",
-        "heading": "facets.genre",
-        "max": 10,
-        "hierarchical": true()
-    },
-    map {
-        "dimension": "language",
-        "heading": "facets.language",
-        "source": "api/search/facets/language",
-        "max": 5,
-        "hierarchical": false(),
-        "output": function($label, $language) {
-            switch($label)
-                case "de" return "German"
-                case "es" return "Spanish"
-                case "la" return "Latin"
-                case "fr" return "French"
-                case "en" return "English"
-                case "pl" return "Polish"
-                case "uk" return "Ukrainian"
-                default return $label
-        }
-    },
-    map {
-        "dimension": "feature",
-        "heading": "facets.feature",
-        "source": "api/search/facets/feature",
-        "output": function($label) {
-            upper-case(substring($label,1,1)) || substring($label, 2)
-        },
-        "max": 5,
-        "hierarchical": false()
-    },
-    map {
-        "dimension": "period",
-        "heading": "facets.period",
-        "max": 15,
-        "hierarchical": false()
-    },
-    map {
-        "dimension": "form",
-        "heading": "facets.form",
-        "max": 15,
-        "hierarchical": false()
-    }
-];
+declare variable $config:pagination-fill := $gen:pagination-fill;
 
 (:
  : The function to be called to determine the next content chunk to display.
  : It takes two parameters:
  :
- : * $config as map(*): configuration parameters
  : * $elem as element(): the current element displayed
  : * $view as xs:string: the view, either 'div', 'page' or 'body'
  :)
@@ -195,7 +135,6 @@ declare variable $config:next-page := nav:get-next#3;
  : The function to be called to determine the previous content chunk to display.
  : It takes two parameters:
  :
- : * $config as map(*): configuration parameters
  : * $elem as element(): the current element displayed
  : * $view as xs:string: the view, either 'div', 'page' or 'body'
  :)
@@ -218,24 +157,23 @@ declare variable $config:login-domain := "org.exist.tei-simple";
  : are the font directories.
  :)
 declare variable $config:fop-config :=
-let $fontsDir := config:get-fonts-dir()
-return
-    <fop version="1.0">
-        <!-- Strict user configuration -->
-        <strict-configuration>true</strict-configuration>
+    let $fontsDir := config:get-fonts-dir()
+    return
+        <fop version="1.0">
+            <!-- Strict user configuration -->
+            <strict-configuration>true</strict-configuration>
 
-        <!-- Strict FO validation -->
-        <strict-validation>false</strict-validation>
+            <!-- Strict FO validation -->
+            <strict-validation>false</strict-validation>
 
-        <!-- Base URL for resolving relative URLs -->
-        <base>./</base>
+            <!-- Base URL for resolving relative URLs -->
+            <base>./</base>
 
-        <renderers>
-            <renderer mime="application/pdf">
-                <fonts>
+            <renderers>
+                <renderer mime="application/pdf">
+                    <fonts>
                     {
-                        if ($fontsDir) then
-                            (
+                        if ($fontsDir) then (
                             <font kerning="yes"
                                 embed-url="file:{$fontsDir}/Junicode.ttf"
                                 encoding-mode="single-byte">
@@ -256,22 +194,21 @@ return
                                 encoding-mode="single-byte">
                                 <font-triplet name="Junicode" style="italic" weight="700"/>
                             </font>
-                            )
-                        else
+                        ) else
                             ()
                     }
-                </fonts>
-            </renderer>
-        </renderers>
-    </fop>
+                    </fonts>
+                </renderer>
+            </renderers>
+        </fop>
 ;
 
 (:~
  : The command to run when generating PDF via LaTeX. Should be a sequence of
  : arguments.
  :)
-declare variable $config:tex-command := function ($file) {
-    ("pdflatex", "-interaction=nonstopmode", $file)
+declare variable $config:tex-command := function($file) {
+    ( "pdflatex", "-interaction=nonstopmode", $file )
 };
 
 (:
@@ -316,20 +253,7 @@ declare variable $config:epub-images-path := ();
 (:
     Determine the application root collection from the current module load path.
 :)
-declare variable $config:app-root :=
-let $rawPath := system:get-module-load-path()
-let $modulePath :=
-(: strip the xmldb: part :)
-if (starts-with($rawPath, "xmldb:exist://")) then
-    if (starts-with($rawPath, "xmldb:exist://embedded-eXist-server")) then
-        substring($rawPath, 36)
-    else
-        substring($rawPath, 15)
-else
-    $rawPath
-return
-    substring-before($modulePath, "/modules")
-;
+declare variable $config:app-root := $gen:app-root;
 
 (:
  : The context path to use for links within the application, e.g. menus.
@@ -346,52 +270,30 @@ return
  :    and the app should be mapped to the root of the website (i.e. without /exist/apps/...)
  : 3. otherwise determine path from request as in 1a.
  :)
-declare variable $config:context-path :=
-    let $prop := util:system-property("teipublisher.context-path")
-    return
-        if (exists($prop)) then
-            if ($prop = "auto") then
-                request:get-context-path() || substring-after($config:app-root, "/db") 
-            else
-                $prop
-        else if (exists(request:get-header("X-Forwarded-Host")))
-            then ""
-        else
-            request:get-context-path() || substring-after($config:app-root, "/db")
-;
+declare variable $config:context-path := $gen:context-path;
 
 (:~
  : The root of the collection hierarchy containing data.
  :)
-declare variable $config:data-root := $config:app-root || "/data";
+declare variable $config:data-root := $gen:data-root;
 
 (:~
  : The root of the collection hierarchy whose files should be displayed
  : on the entry page. Can be different from $config:data-root.
  :)
-declare variable $config:data-default := $config:data-root;
-
-
-(:~
- : Location of the taxonomies.
- :)
-declare variable $config:taxonomy := $config:data-root || "/taxonomy.xml";
+declare variable $config:data-default := $gen:data-default;
 
 (:~
  : A sequence of root elements which should be excluded from the list of
  : documents displayed in the browsing view.
  :)
-declare variable $config:data-exclude := (
-    doc($config:taxonomy)//tei:text,
-    collection($config:register-root)//tei:text,
-    collection($config:data-root || "/doc")//tei:text
-);
+declare variable $config:data-exclude := $gen:data-exclude;
 
 (:~
  : The root of the collection hierarchy containing registers data.
  :)
-declare variable $config:register-root := $config:data-root || "/registers";
-declare variable $config:register-forms := $config:data-root || "/registers/templates";
+declare variable $config:register-root := $gen:register-root;
+declare variable $config:register-forms := $config:register-root || "/templates";
 
 declare variable $config:register-map := map {
     "person": map {
@@ -404,6 +306,11 @@ declare variable $config:register-map := map {
         "default": "place-default",
         "prefix": "place-"
     },
+    "bibliography": map {
+        "id": "pb-bibl",
+        "default": "bibl-default",
+        "prefix": "bibl-"
+    },
     "organization": map {
         "id": "pb-organizations",
         "default": "organization-default",
@@ -413,35 +320,46 @@ declare variable $config:register-map := map {
         "id": "pb-keywords",
         "default": "term-default",
         "prefix": "category-"
+    },
+    "work": map {
+        "id": "pb-works",
+        "default": "work-default",
+        "prefix": "work-"
     }
 };
 
+(:~
+ : The main ODD to be used by default
+ :)
+declare variable $config:default-odd := $gen:default-odd;
 
-declare variable $config:default-odd := "teipublisher.odd";
-
-(:~~
+(:~
  : Complete list of ODD files used by the app. If you add another ODD to this list,
  : make sure to run modules/generate-pm-config.xql to update the main configuration
  : module for transformations (modules/pm-config.xql).
  :)
-declare variable $config:odd-available := 
-    xmldb:get-child-resources($config:odd-root)[ends-with(., ".odd")][. != "teipublisher_odds.odd"];
+declare variable $config:odd-available := $gen:odd-available;
 
 (:~
  : List of ODD files which are used internally only, i.e. not for displaying information
  : to the user.
  :)
-declare variable $config:odd-internal := "docx.odd";
+declare variable $config:odd-internal := $gen:odd-internal;
 
-declare variable $config:odd-root := $config:app-root || "/odd";
+(:~
+ : List of media types supported by the ODD files.
+ :)
+declare variable $config:odd-media := $gen:odd-media;
+
+declare variable $config:odd-root := $config:app-root || "/resources/odd";
 
 declare variable $config:output := "transform";
 
 declare variable $config:output-root := $config:app-root || "/" || $config:output;
 
-declare variable $config:default-odd-for-docx := 'docx-output.odd';
+declare variable $config:default-odd-for-docx := $config:default-odd;
 
-declare variable $config:default-docx-pi := ``[odd="`{$config:default-odd-for-docx}`"]``;
+declare variable $config:default-docx-pi := 'odd="' || $config:default-odd-for-docx || '"]';
 
 declare variable $config:module-config := doc($config:odd-root || "/configuration.xml")/*;
 
@@ -451,85 +369,55 @@ declare variable $config:expath-descriptor := doc(concat($config:app-root, "/exp
 
 declare variable $config:session-prefix := $config:expath-descriptor/@abbrev/string();
 
-declare variable $config:default-fields := ("lemma");
+declare variable $config:default-fields := ();
 
 declare variable $config:dts-collections := map {
     "id": "default",
-    "title": "TEI Publisher Default Collection",
+    "title": $config:expath-descriptor/expath:title/string(),
     "memberCollections": (
-        map {
-            "id": "documents",
-            "title": "Document Collection",
-            "path": $config:data-default,
-            "memberCollections": (
-                map {
-                    "id": "https://teipublisher.com/dts/demo",
-                    "title": "TEI Publisher Demo Documents",
-                    "path": $config:data-default || "/test",
-                    "members": function() {
-                        nav:get-root("test", map {
-                            "leading-wildcard": "yes",
-                            "filter-rewrite": "yes"
-                        })
-                    },
-                    "metadata": config:dts-metadata#1
+            map {
+                "id": "documents",
+                "title": "Document Collection",
+                "path": $config:data-default,
+                "members": function() {
+                    nav:get-root((), map {
+                        "leading-wildcard": "yes",
+                        "filter-rewrite": "yes"
+                    })
                 },
-                map {
-                    "id": "https://teipublisher.com/dts/playground",
-                    "title": "Playground",
-                    "path": $config:data-default || "/playground",
-                    "members": function() {
-                        nav:get-root("playground", map {
-                            "leading-wildcard": "yes",
-                            "filter-rewrite": "yes"
-                        })
-                    },
-                    "metadata": config:dts-metadata#1
-                },
-                map {
-                    "id": "https://teipublisher.com/dts/documentation",
-                    "title": "Documentation",
-                    "path": $config:data-default || "/doc",
-                    "members": function() {
-                        doc($config:data-default || "/doc/documentation.xml")
-                    },
-                    "metadata": config:dts-metadata#1
+                "metadata": function($doc as document-node()) {
+                    let $properties := tpu:parse-pi($doc, ())
+                    return
+                        map:merge((
+                            map:entry("title", nav:get-metadata($properties, $doc/*, "title")/string()),
+                            map {
+                                "dts:dublincore": map {
+                                    "dc:creator": string-join(nav:get-metadata($properties, $doc/*, "author"), "; "),
+                                    "dc:license": nav:get-metadata($properties, $doc/*, "license")
+                                }
+                            }
+                        ))
                 }
-            )
-        },
-        map {
-            "id": "https://teipublisher.com/dts/odd",
-            "title": "ODD Collection",
-            "path": $config:odd-root,
-            "members": function() {
-                collection($config:odd-root)/tei:TEI
             },
-            "metadata": function($doc as document-node()) {
-                map {
-                    "title": string-join($doc//tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[not(@type)], "; ")
+            map {
+                "id": "odd",
+                "title": "ODD Collection",
+                "path": $config:odd-root,
+                "members": function() {
+                    collection($config:odd-root)/tei:TEI
+                },
+                "metadata": function($doc as document-node()) {
+                    map {
+                        "title": string-join($doc//tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[not(@type)], "; ")
+                    }
                 }
             }
-        }
     )
 };
 
 declare variable $config:dts-page-size := 10;
 
 declare variable $config:dts-import-collection := $config:data-default || "/playground";
-
-declare function config:dts-metadata($doc as document-node()) {
-    let $properties := tpu:parse-pi($doc, ())
-    return
-        map:merge((
-            map:entry("title", string-join(nav:get-metadata($properties, $doc/*, "title"), ', ')),
-            map {
-                "dts:dublincore": map {
-                    "dc:creator": string-join(nav:get-metadata($properties, $doc/*, "author"), "; "),
-                    "dc:license": nav:get-metadata($properties, $doc/*, "license")
-                }
-            }
-        ))
-};
 
 (:~
  : Returns a default display configuration as a map for the given collection and
@@ -546,28 +434,37 @@ declare function config:dts-metadata($doc as document-node()) {
  : @param $docUri relative document path (including $collection)
  :)
 declare function config:collection-config($collection as xs:string?, $docUri as xs:string?) {
-    let $prefix := replace($collection, "^([^/]+).*$",
-"$1")     return         switch ($prefix)
-            case "jats" return
-                map {
-                    "template": "jats.html",
-                    "odd": "jats.odd",
-                    "view": "single",
-                    "media": ("print", "epub")
-                }
-            (: For annotations we need to overwrite document-specific settings :)
-            case "annotate" return
-                map {
-                    "template": "annotate.html",
-                    "overwrite": true(),
-                    "depth": 1,
-                    "fill": 0
-                }
-            default return
-                (: Return empty sequence to use default config :)
-            
+    (: Return the generated configuration to use the json-defined config in collection-config :)
+	(: Example:
+	 : "collection-config": {
+     :   "annotate": {
+	 :       "odd": "annotate.odd",
+	 :       "view": "div",
+     :       "template": "annotate.html"
+     :   }
+     : },
+	 :)
+	gen:collection-config($collection, $docUri)
 
-  () };
+	(:
+     : Replace line above with the following code to switch between different view configurations per collection.
+     : $collection corresponds to the relative collection path (i.e. after $config:data-root).
+     :)
+   (:
+    switch ($collection)
+        case "playground" return
+			 map {
+                "odd": "dodis.odd",
+                "view": "body",
+                "depth": $config:pagination-depth,
+                "fill": $config:pagination-fill,
+                "template": "facsimile.html"
+			}
+		default return
+			gen:collection-config($collection, $docUri)
+		:)
+
+};
 
 (:~
  : Helper function to retrieve the default config for the given document path.
@@ -579,7 +476,8 @@ declare function config:default-config($docUri as xs:string?) {
         "view": $config:default-view,
         "depth": $config:pagination-depth,
         "fill": $config:pagination-fill,
-        "template": $config:default-template
+        "template": $config:default-template,
+        "media": $config:default-media
     }
     let $collection := 
         if (exists($docUri)) then
@@ -609,12 +507,19 @@ declare function config:document-type($div as element()) {
 };
 
 declare function config:get-document($idOrName as xs:string) {
-    if ($config:address-by-id) then
-        root(collection($config:data-root)/id($idOrName))
-    else if (starts-with($idOrName, '/')) then
-        doc(xmldb:encode-uri($idOrName))
-    else
-        doc(xmldb:encode-uri($config:data-root || "/" || $idOrName))
+    let $document :=
+        if ($config:address-by-id) then
+            root(collection($config:data-root)/id($idOrName))
+        else if (starts-with($idOrName, '/')) then
+            doc(xmldb:encode-uri($idOrName))
+        else
+            doc(xmldb:encode-uri($config:data-root || "/" || $idOrName))
+    return 
+        if (count($document)) then 
+            $document 
+        else 
+            (: if document not found, try to find it again in any way: by id, or by path in data-root or data-default  :)
+            head((collection($config:data-root)/id($idOrName), doc(xmldb:encode-uri($idOrName)), doc(xmldb:encode-uri($config:data-root || "/" || $idOrName)), doc(xmldb:encode-uri($config:data-default || "/" || $idOrName))))
 };
 
 (:~
@@ -626,19 +531,34 @@ declare function config:get-id($node as node()) {
 };
 
 (:~
- : Returns a path relative to $config:data-root used to locate a document in the database.
+ : Returns a path relative to $config:data-default used to locate a document in the database.
+ : The relative path is used for URL construction within an application context.
+ :
+ : @param $node the node to get the path for
+ : @return a path relative to $config:data-root
  :)
-declare function config:get-relpath($node as node()) {
-    let $root := if (ends-with($config:data-root, "/")) then
-        $config:data-root
-    else
-        $config:data-root || "/"
-    return
-        substring-after(document-uri(root($node)), $root)
-};
+ declare function config:get-relpath($node as node()) {
+    config:get-relpath($node, $config:data-root)
+ };
+
+(:~
+ : Returns a path relative to $root used to locate a document in the database.
+ : 
+ : @param $node the node to get the path for
+ : @param $root the root of the collection hierarchy, usually $config:data-root or $config:data-default
+ : @return a path relative to $root
+ :)
+ declare function config:get-relpath($node as node(), $root as xs:string) {
+     let $root := if (ends-with($root, "/")) then $root else $root || "/"
+     return
+         substring-after(document-uri(root($node)), $root)
+ };
 
 declare function config:get-identifier($node as node()) {
-    config:get-relpath($node)
+    if ($config:address-by-id) then
+        config:get-id($node)
+    else
+        config:get-relpath($node)
 };
 
 
@@ -667,45 +587,6 @@ declare function config:expath-descriptor() as element(expath:package) {
     $config:expath-descriptor
 };
 
-declare %templates:wrap function config:app-title($node as node(), $model as map(*)) as text() {
-    $config:expath-descriptor/expath:title/text()
-};
-
-declare function config:app-meta($node as node(), $model as map(*)) as element()* {
-    <meta xmlns="http://www.w3.org/1999/xhtml" name="description" content="{$config:repo-descriptor/repo:description/text()}"/>,
-    for $author in $config:repo-descriptor/repo:author
-    return
-        <meta xmlns="http://www.w3.org/1999/xhtml" name="creator" content="{$author/text()}"/>
-};
-
-(:~
- : For debugging: generates a table showing all properties defined
- : in the application descriptors.
- :)
-declare function config:app-info($node as node(), $model as map(*)) {
-    let $expath := config:expath-descriptor()
-    let $repo := config:repo-descriptor()
-    return
-        <table class="app-info">
-            <tr>
-                <td>app collection:</td>
-                <td>{$config:app-root}</td>
-            </tr>
-            {
-                for $attr in ($expath/@*, $expath/*, $repo/*)
-                return
-                    <tr>
-                        <td>{node-name($attr)}:</td>
-                        <td>{$attr/string()}</td>
-                    </tr>
-            }
-            <tr>
-                <td>Controller:</td>
-                <td>{request:get-attribute("$exist:controller")}</td>
-            </tr>
-        </table>
-};
-
 (: Try to dynamically determine data directory by calling JMX. :)
 declare function config:get-data-dir() as xs:string? {
     try {
@@ -713,13 +594,7 @@ declare function config:get-data-dir() as xs:string? {
         let $response := http:send-request($request)
         return
             if ($response[1]/@status = "200") then
-                let $dir := $response[2]//jmx:DataDirectory/string()
-                return
-                    if (matches($dir, "^\w:")) then
-                        (: windows path? :)
-                        "/" || translate($dir, "\", "/")
-                    else
-                        $dir
+                $response[2]//jmx:DataDirectory/string()
             else
                 ()
     } catch * {

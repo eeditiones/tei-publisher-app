@@ -1,0 +1,47 @@
+.footnotes {
+    font-size: 85%;
+}
+.content h1, h1 {
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: #5572C0;
+}
+.content h2, h2 {
+    font-size: 26px;
+    font-weight: 400;
+    background-color: #5572C0;
+    color: white;
+    padding: .5em .25em;
+}
+.content h3, h3 {
+    font-weight: 400;
+    background-color: #DAE1F2;
+    padding: .5em .25em;
+}
+.content h4, h4 {
+    font-weight: 400;
+    color: #2C3962;
+    text-transform: uppercase;
+    border-top: 1px solid #2C3962;
+    padding-top: .25em;
+}
+.b {
+    font-weight: bold;
+}
+.i {
+    font-style: italic;
+}
+.u {
+    text-decoration: underline;
+}
+.strike {
+    text-decoration: line-through;
+}
+
+@media print {
+    :root {
+        --jinks-content-font-family: var(--jinks-base-font-family);
+        --jinks-heading-font-family: var(--jinks-base-font-family);
+    }
+}

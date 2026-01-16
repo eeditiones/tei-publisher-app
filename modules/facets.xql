@@ -42,7 +42,9 @@ declare function facets:print-table($config as map(*), $nodes as element()+, $va
     let $lang := tokenize(facets:get-parameter("language"), '-')[1]
     let $count := if ($all) then 50 else $config?max
     let $facets :=
-        if (exists($values)) then
+        if ($config?max = 0) then
+            map {}
+        else if (exists($values)) then
             ft:facets($nodes, $config?dimension, $count, $values)
         else
             ft:facets($nodes, $config?dimension, $count)
@@ -56,10 +58,12 @@ declare function facets:print-table($config as map(*), $nodes as element()+, $va
                         return
                         <tr>
                             <td>
-                                <paper-checkbox class="facet" name="facet-{$config?dimension}" value="{$label}">
+                                <label>
+                                    <input type="checkbox" class="facet" name="facet-{$config?dimension}" value="{$label}">
                                     { if ($label = $params) then attribute checked { "checked" } else () }
+                                    </input>
                                     <pb-i18n key="{$content}">{$content}</pb-i18n>
-                                </paper-checkbox>
+                                </label>
                             </td>
                             <td>{$freq}</td>
                         </tr>,
@@ -95,35 +99,44 @@ declare function facets:display($config as map(*), $nodes as element()+) {
 
     (: facet count for current values selected :)
     let $fcount :=
-        map:size(
-            if (count($params)) then
+        if ($config?max = 0) then
+            ()
+        else
+            map:size(
+                if (count($params)) then
                     ft:facets($nodes, $config?dimension, $maxcount, $params)
                 else
                     ft:facets($nodes, $config?dimension, $maxcount)
-        )
-
-    where $table
+            )
     return (
         <div class="facet-dimension" data-dimension="facet-{$config?dimension}">
-            <h3><pb-i18n key="{$config?heading}">{$config?heading}</pb-i18n>
             {
-                if ($fcount > $max) then
-                    <paper-checkbox class="facet" name="all-{$config?dimension}">
-                        { if (facets:get-parameter("all-" || $config?dimension)) then attribute checked { "checked" } else () }
-                        <pb-i18n key="facets.show">Show top 50</pb-i18n>
-                    </paper-checkbox>
+                if ($config?max != 0) then
+                    <h3><pb-i18n key="{$config?heading}">{$config?heading}</pb-i18n>
+                    {
+                        if ($fcount > $max) then
+                            <label>
+                                <input type="checkbox" class="facet" name="all-{$config?dimension}">
+                                { if (facets:get-parameter("all-" || $config?dimension)) then attribute checked { "checked" } else () }
+                                </input>
+                                <pb-i18n key="facets.show">Show top 50</pb-i18n>
+                            </label>
+                        else
+                            ()
+                    }
+                    </h3>
                 else
                     ()
             }
-            </h3>
+            
             {
                 $table,
                 (: if config specifies a property "source", output combo-box :)
                 if (map:contains($config, "source")) then
                     (: use source as URL to API endpoint from which to retrieve possible values :)
-                    <pb-combo-box source="{$config?source}" close-after-select="" placeholder="{$config?heading}"
-                        >
-                        <select multiple="">
+                    <pb-combo-box source="{$config?source}" close-after-select=""
+                        on-update="pb-search-resubmit">
+                        <select multiple="" placeholder="{$config?heading}">
                         {
                             for $param in facets:get-parameter("facet-" || $config?dimension)
                             let $label := facets:translate($config, $lang, $param)

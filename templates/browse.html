@@ -1,0 +1,126 @@
+<template>
+    ---json
+    {
+        "features": {
+            "toolbar": {
+                "enabled": false,
+                "progress": {
+                    "subscribe": "search"
+                }
+            },
+            "playground": {
+                "enabled": true
+            }
+        },
+        "templating": {
+            "extends": "templates/layouts/content.html"
+        },
+        "script": {
+            "custom": [
+                "resources/scripts/facets.js",
+                "resources/scripts/browse.js"
+            ]
+        },
+        "theme": {
+            "layout": {
+                "before": {
+                    "toggle": false
+                }
+            }
+        }
+    }
+    ---
+    [% template styles %]
+    <style>
+        .fixed-layout main {
+            display: block;
+        }
+    </style>
+    [% endtemplate %]
+
+    [% template hero %]
+        [% if $context?features?hero %]
+            <div class="hero">
+                <h1>[[ $label ]]</h1>
+            </div>
+        [% endif %]
+    [% endtemplate %]
+    [% template before-top %]
+    [% if $context?theme?layout?search = 'before-top' %]
+    <li>
+        <pb-search subscribe="search" value="[[ $request?parameters?query ]]" subforms=".facets,.options" submit-on-load="submit-on-load">
+            <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>
+            <input type="hidden" name="field" value="text"/>
+        </pb-search>
+    </li>
+    [% endif %]
+    [% endtemplate %]
+    [% template before %]
+    <pb-search class="mobile" subscribe="search" value="[[ $request?parameters?query ]]" subforms=".facets,.options" submit-on-load="submit-on-load">
+        <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>
+        <input type="hidden" name="field" value="text"/>
+    </pb-search>
+    [% if $context?theme?layout?search = 'before' %]
+    <pb-search subscribe="search" value="[[ $request?parameters?query ]]" subforms=".facets,.options" submit-on-load="submit-on-load">
+        <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>
+        <input type="hidden" name="field" value="text"/>
+    </pb-search>
+    [% endif %]
+    
+    <pb-custom-form class="options">
+        <fieldset>
+            <label for="search.sort"><pb-i18n key="browse.sort"/>:</label>
+            <select name="sort" id="search.sort">
+                [% let $current = page:parameter($context, 'sort', $context?features?browse?sort?default) %]
+                [% for $option in $context?features?browse?sort?options?* %]
+                [% if $current = $option?value %]
+                <option value="[[ $option?value ]]" selected="selected" data-i18n="[[ $option?key ]]"/>
+                [% else %]
+                <option value="[[ $option?value ]]" data-i18n="[[ $option?key ]]"/>
+                [% endif %]
+                [% endfor %]
+                [% endlet %]
+            </select>
+        </fieldset>
+        <fieldset>
+            <label for="search.field"><pb-i18n key="search.scope"/>:</label>
+            <select name="field" id="search.field">
+                [% let $current = page:parameter($context, 'field', $context?features?browse?field?default) %]
+                [% for $option in $context?features?browse?field?options?* %]
+                [% if $current = $option?value %]
+                <option value="[[ $option?value ]]" selected="selected" data-i18n="[[ $option?key ]]"/>
+                [% else %]
+                <option value="[[ $option?value ]]" data-i18n="[[ $option?key ]]"/>
+                [% endif %]
+                [% endfor %]
+                [% endlet %]
+            </select>
+        </fieldset>
+        <input type="hidden" name="collection" value="[[ page:parameter($context, 'collection') ]]"/>
+    </pb-custom-form>
+    <pb-custom-form class="facets" url="api/search/facets" event="pb-results-received" subscribe="search" emit="search">
+    </pb-custom-form>
+    [% endtemplate %]
+
+    [% template content-top %]
+    <nav class="toolbar">
+        <ul>
+            <li>
+                <nav aria-label="breadcrumb">
+                    <ul/>
+                </nav>
+            </li>
+        </ul>
+        <ul>
+            [% block before-document-list %][% endblock %]
+            <li>
+                <pb-paginate id="paginate" per-page="10" range="5" subscribe="search" emit="search"/>
+            </li>
+        </ul>
+    </nav>
+    [% endtemplate %]
+
+    <div id="document-list">
+        <pb-load url="api/collection/{collection}" expand="" emit="search"/>
+    </div>
+</template>

@@ -1,9 +1,10 @@
-name: TEI Publisher CI and Docker Snapshots
+name: Deploy Docker
 
 on:
   push:
-    # Publish `master` as Docker `latest` image.
+    # Publish `main` and `master` as Docker `latest` image.
     branches:
+      - main
       - master
       - 'release/*'
 
@@ -12,18 +13,17 @@ on:
       - v*
   
   pull_request:
-    branches: [ master ]
+    branches: [ main, master ]
 
   workflow_dispatch:
 
 env:
   IMAGE_NAME: teipublisher
+  DEMO_IMAGE: ghcr.io/eeditiones/jinks-demo
   TEST_TAG: exist-db
-  EXIST_TAG: 6.4.0
 
 jobs:
-  # Run tests.
-  # See also https://docs.docker.com/docker-hub/builds/automated-testing/
+  # Run tests against the demo image from jinks repo
   test:
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
@@ -39,41 +39,72 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
-      - name: Build default images for testing on CI
-        uses: docker/build-push-action@v6
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Login to GHCR
+        uses: docker/login-action@v3
         with:
-          context: .
-          file: ./Dockerfile
-          build-args: |
-            EXIST_VERSION=${{ matrix.EXIST_BASE }}
-          load: true
-          tags: ${{ env.TEST_TAG }}
-          # cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:buildcache
-      - name: Start docker image
-        run: docker run --publish 8080:8080 --name db --detach ${{ env.TEST_TAG }}
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Pull demo image
+        run: docker pull ${{ env.DEMO_IMAGE }}:latest
+      
+      - name: Start demo container
+        run: |
+          docker run -d \
+            --name teipublisher-test \
+            --publish 8080:8080 \
+            ${{ env.DEMO_IMAGE }}:latest
+      
+      - name: Wait for server to be ready
+        run: |
+          echo "Waiting for eXist-db to start..."
+          timeout=120
+          elapsed=0
+          while [ $elapsed -lt $timeout ]; do
+            if curl -s -f http://localhost:8080/exist/apps/tei-publisher/ > /dev/null 2>&1; then
+              echo "Server is ready!"
+              exit 0
+            fi
+            echo "Still waiting... ($elapsed seconds)"
+            sleep 5
+            elapsed=$((elapsed + 5))
+          done
+          echo "Timeout waiting for server"
+          exit 1
+      
       - name: Run npm install
         run: npm install
+      
       - name: Run tests
         if: matrix.experimental != true
         run: npm test
+      
       - name: Run tests [expect failures]
         if: matrix.experimental == true
         continue-on-error: true
         run: npm test
+      
       - name: Retrieve eXist log
         if: failure()
-        run: docker cp db:/exist/logs/exist.log .
+        run: docker cp teipublisher-test:/exist/logs/exist.log .
+      
       - name: Publish log as artifact
         if: failure()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v5
         with:
-          name: exist-${{matrix.EXIST_BASE}}-tp.log
+          name: exist-${{matrix.EXIST_BASE}}-teipublisher.log
           path: ./exist.log
-      - name: Stop docker
-        run: docker stop db
+      
+      - name: Stop container
+        if: always()
+        run: docker stop teipublisher-test || true
 
-  # Push image to GitHub Packages.
-  # See also https://docs.docker.com/docker-hub/builds/
+  # Push demo image to both registries as teipublisher
   push:
     # Ensure test job passes before pushing image.
     needs: test
@@ -82,71 +113,69 @@ jobs:
     if: github.event_name == 'push'
 
     steps:
-      - uses: actions/checkout@v6
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         with:
           platforms: linux/amd64,linux/arm64 
 
-      - name: Make buildkit default
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         id: buildx
-        with:
-          install: true
-
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ghcr.io/eeditiones/${{ env.IMAGE_NAME }}
-          # TODO(DP): This could be extended further
-          tags: |
-            type=semver,pattern={{version}}
-            type=semver,pattern=v{{major}}
-            type=raw,value=latest,enable={{is_default_branch}}    
-
-
-      # was ${{ github.actor }}
+      
       - name: Login to GHCR
-        if: github.event_name != 'pull_request'
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      # TODO(DP): This should be based on release
-      - name: Push prod image
-        if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
-        uses: docker/build-push-action@v6
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
         with:
-          context: .
-          platforms: linux/amd64,linux/arm64
-          build-args: |
-            BUILD=prod
-            USR=nonroot:nonroot
-            EXIST_VERSION=${{ env.EXIST_TAG }}
-          builder: ${{ steps.buildx.outputs.name }}
-          push: true
-          sbom: true
-          tags: |
-            ${{ steps.meta.outputs.tags }}-prod
-          labels: ${{ steps.meta.outputs.labels }}
-          
-      - name: Push dev image
-        if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
-        uses: docker/build-push-action@v6
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      - name: Pull demo image
+        run: docker pull ${{ env.DEMO_IMAGE }}:latest
+      
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
         with:
-          context: .
-          platforms: linux/amd64,linux/arm64
-          build-args: |
-            BUILD=local
-            USR=root:root
-            EXIST_VERSION=${{ env.EXIST_TAG }}
-          builder: ${{ steps.buildx.outputs.name }}
-          push: true
-          sbom: true
+          images: |
+            ghcr.io/eeditiones/${{ env.IMAGE_NAME }}
+            existdb/${{ env.IMAGE_NAME }}
           tags: |
-            ${{ steps.meta.outputs.tags }}-dev
-            ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}  
+            type=semver,pattern={{version}}
+            type=semver,pattern=v{{major}}
+            type=raw,value=latest,enable={{is_default_branch}}
+      
+      - name: Add latest tag for releases
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          echo "tags<<EOF" >> $GITHUB_OUTPUT
+          echo -e "${{ steps.meta.outputs.tags }}\nlatest" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        id: tags_with_latest
+      
+      - name: Push to GHCR
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
+        run: |
+          # Use buildx imagetools to copy multi-arch manifest for each tag
+          echo "${{ steps.tags_with_latest.outputs.tags || steps.meta.outputs.tags }}" | while IFS= read -r tag; do
+            if [ -n "$tag" ]; then
+              echo "Pushing ghcr.io/eeditiones/${{ env.IMAGE_NAME }}:$tag"
+              docker buildx imagetools create -t "ghcr.io/eeditiones/${{ env.IMAGE_NAME }}:$tag" ${{ env.DEMO_IMAGE }}:latest
+            fi
+          done
+      
+      - name: Push to Docker Hub
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
+        run: |
+          # Use buildx imagetools to copy multi-arch manifest for each tag
+          echo "${{ steps.tags_with_latest.outputs.tags || steps.meta.outputs.tags }}" | while IFS= read -r tag; do
+            if [ -n "$tag" ]; then
+              echo "Pushing existdb/${{ env.IMAGE_NAME }}:$tag"
+              docker buildx imagetools create -t "existdb/${{ env.IMAGE_NAME }}:$tag" ${{ env.DEMO_IMAGE }}:latest
+            fi
+          done

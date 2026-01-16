@@ -1,0 +1,109 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "version": "1.0.0",
+        "title": "TEI Publisher Documentation and Demo – Markdown API",
+        "description": "Adds a route to preview markdown generated from TEI documents"
+    },
+    "servers": [
+        {
+            "description": "Endpoint for testing on localhost",
+            "url": "/exist/apps/tei-publisher"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "basicAuth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "cookieAuth": {
+                "type": "apiKey",
+                "name": "teipublisher.com.login",
+                "in": "cookie"
+            }
+        }
+    },
+    "tags": [],
+    "paths": {
+        "/markdown/{docid}": {
+            "get": {
+                "summary": "Retrieve the HTML template for a markdown file and render it",
+                "tags": [
+                    "view"
+                ],
+                "operationId": "vapi:view",
+                "x-error-handler": "vapi:handle-error",
+                "parameters": [
+                    {
+                        "name": "docid",
+                        "in": "path",
+                        "description": "Relative path to the document",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "test/orlik_to_serafin.xml"
+                        },
+                        "allowReserved": true
+                    },
+                    {
+                        "name": "template",
+                        "in": "query",
+                        "description": "Name of the template to be used. Overwrites any default template setting.",
+                        "schema": {
+                            "type": "string",
+                            "default": "markdown-preview.html"
+                        }
+                    },
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "HTML view for the document",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "The document was not found",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An error occurred",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        {
+            "cookieAuth": []
+        },
+        {
+            "basicAuth": []
+        }
+    ]
+}

@@ -1,0 +1,199 @@
+
+/* 
+.context
+general handle for all semantic context annotations: 
+people, places, organizations etc */
+
+.context:not(.disable) {
+    /* highlight colour for when not toggled to .disable */
+    color: grey;
+}
+
+.pb {
+    float: right;
+    background-color: rgba(255, 255, 255, 0.4); 
+    border-radius: 1rem; 
+    color: grey;
+    margin-left: 2rem;
+    padding: .5rem;
+    font-size: 1rem;
+}
+
+/* Default styles for TEI elements */
+
+.tei-title {
+    font-style: italic;
+}
+
+.tei-add {
+    color: green;
+    font-size: 0.8em;
+    vertical-align: super;
+}
+
+/* Quotes: inline and block level */
+    .tei-quote.inline-quote::before {
+        content: '‘';
+    }
+    .tei-quote.inline-quote::after {                
+        content: '’';
+    }
+    .tei-quote.block-quote {
+        margin: 2rem;
+    }
+
+    .tei-q.inline-quote::before {
+        content: '‘';
+    }
+    .tei-q.inline-quote::after {                
+        content: '’';
+    }
+    .tei-q.block-quote {
+        margin: 2rem;
+    }
+
+.tei-dateline {
+    text-align: right;
+}
+
+.tei-closer {
+    .tei-signed, .tei-salute {
+        text-align: right;
+    }
+}
+
+.tei-castList {
+    list-style: ordered;
+}
+
+.tei-code {
+    font-family: monospace;
+}
+
+.tei-foreign {
+    font-style: italic;
+}
+
+.tei-damage {
+    color: grey;
+}
+
+.tei-gap {
+    color: grey;
+}
+
+.tei-figure {
+    margin: 1rem 0;
+    width: fit-content;
+}
+
+.tei-figure .figure-head {
+    font-style: italic;
+    text-align: right;
+}
+
+.table-head {
+    font-style: italic;
+}
+
+.lg-head {
+    font-style: italic;
+}
+
+.list-head {
+    font-weight: bold;
+}
+
+.tei-hi {
+    font-style: italic;
+}
+
+.tei-l {
+    margin-left: 1em;
+}
+
+.tei-row.row-label {
+    font-weight: bold;
+}
+
+.tei-ex::before {
+    content: '(';
+}
+
+.tei-ex::after {                   
+    content: ')';
+}
+
+.tei-sic.sic::before {
+    content: '{';
+}
+
+.tei-sic.sic::after {                   
+    content: '}';
+}
+
+.tei-signed {
+    font-style: italic;
+}
+
+.tei-signed.signed {
+    text-align: right;
+}
+
+.tei-speaker {
+    font-style: italic;
+}
+
+.tei-stage {
+    font-style: italic;
+}
+
+.tei-supplied::before {
+    content: '[';
+}
+
+.tei-supplied::after {
+    content: ']';
+}
+
+.tei-table {
+    font-size: smaller;
+}
+
+.tei-titlePage {
+    text-align: center;
+}
+
+.tei-unclear::after {
+    content: ' [?] ';
+}
+
+div.tei-person,
+ul.tei-person {
+    margin-bottom: var(--s-1);
+}
+
+.tei-death::before {
+    content: ' – ';
+}
+
+.center {
+    text-align: center;
+}
+
+.right {
+    text-align: right;
+}
+
+.justify {
+    text-align: justify;
+}
+
+.occupation {
+    margin: 1rem;
+}
+
+p:empty,
+ul:empty {
+    display: none;
+}

@@ -1,0 +1,421 @@
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    height: 2.25rem;
+    border-radius: var(--jinks-form-border-radius);
+    padding: 0px 12px;
+    background-color: var(--jinks-background-color-dark);
+    color: var(--jinks-color-white);
+}
+
+.badge.accent {
+    background-color: var(--jinks-colors-accent);
+    color: var(--jinks-color-primary);
+}
+
+label, input {
+    font-size: var(--jinks-form-control-font-size);
+    color: var(--jinks-color-primary);
+}
+
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    padding: 2px;
+    background-color: var(--jinks-form-background-color);
+    border: 1px solid var(--jinks-form-border-color);
+    border-radius: 3.429px;
+    margin: 0;
+}
+
+input[type="checkbox"]:checked {
+    background-color: var(--jinks-colors-accent);
+    border: 1px solid var(--jinks-colors-accent);
+    background-size: 16px;
+}
+
+input:not([type]),
+input[type="text"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="password"] {
+    width: 100%;
+    height: 2.25rem;
+    line-height: 2.25rem;
+    padding: 0px 12px;
+    background-color: var(--jinks-form-background-color);
+    border: 1px solid var(--jinks-form-border-color);
+    border-radius: var(--jinks-form-border-radius);
+    margin-bottom: 20px;
+}
+
+input[type="search"], .menubar input[type="search"] {
+    display: inline-flex;
+    gap: 0.25rem;
+    height: 2.25rem;
+    line-height: 2.25rem;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--jinks-form-border-radius);
+    border: 1px solid var(--jinks-form-border-color);
+    background-color: var(--jinks-form-background-color);
+    font-size: var(--jinks-form-control-font-size);
+    padding: 0px 12px 0px 1.875rem;
+    background-image: var(--jinks-search-input-icon);
+    background-position: center left 0.75rem;
+    background-size: .875rem auto;
+    background-repeat: no-repeat;
+    appearance: none;
+}
+
+label:has(input:not([type="checkbox"])) {
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+label:has(input:not([type="checkbox"])) > input {
+    margin: 0;
+}
+
+label:has(input[type="checkbox"]) {
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+    padding: .5rem;
+}
+
+label:has(input[type="checkbox"]) > input {
+    margin: 0;
+}
+
+pb-search {
+    border-radius: var(--jinks-form-border-radius);
+    height: 2.25rem;
+}
+
+pb-search:has([slot="searchButton"])::part(input) {
+    flex: 2;
+    padding-left: 1.875rem;
+    border-radius: var(--jinks-form-border-radius) 0 0 var(--jinks-form-border-radius);
+    border-right: none;
+    height: 2.25rem;
+    line-height: 2.25rem;
+}
+
+pb-search [slot="searchButton"] {
+    border-radius: 0 var(--jinks-form-border-radius) var(--jinks-form-border-radius) 0;
+    border: 1px solid var(--jinks-form-border-color);
+    border-left: none;
+    height: 2.25rem;
+    line-height: 2.25rem;
+}
+
+input:focus, select:focus, pb-search:focus-within {
+    outline: none;
+    box-shadow: 0px 0px 0px 1px var(--jinks-form-focus-color1), 0px 0px 0px 4px var(--jinks-form-focus-color2);
+}
+
+pb-search:focus-within::part(input) {
+    outline: none;
+    box-shadow: none;
+}
+
+label > input {
+    margin-top: 0.5rem;
+}
+
+select:not([multiple], [size]) {
+    height: 2rem;
+    padding: 0 calc(2rem + 4px) 0px 12px;
+    gap: .25rem;
+    border-radius: var(--jinks-form-border-radius);
+    border: 1px solid var(--jinks-form-border-color);
+    margin-bottom: 0;
+    margin-top: 4px; /* leave room for focus shadow */
+    background-image: var(--jinks-select-image);
+    background-repeat: no-repeat;
+    background-position: center right 0.75rem;
+    background-size: var(--jinks-select-image-size) auto;
+    background-color: var(--jinks-form-background-color);
+    appearance: none;
+    color: var(--jinks-color-primary);
+}
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: .5rem;
+    align-items: center;
+    margin-bottom: .5rem;
+}
+
+button,
+.btn:not(pb-link),
+pb-link.btn a {
+    display: inline-flex;
+    padding: 12px 24px;
+    gap: 0.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--jinks-form-border-radius-full);
+    border: none;
+    color: var(--jinks-form-text-color);
+    background-color: var(--jinks-form-background-color);
+    font-size: var(--jinks-form-control-font-size);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+button:hover, .dropdown-button summary:hover, btn:hover {
+    background-color: var(--jinks-form-hover-color);
+}
+
+button.secondary {
+    color: var(--jinks-colors-light);
+    background-color: var(--jinks-colors-500);
+}
+
+/* Button with label or icon */
+button:has(svg + span),
+button:has(span + svg),
+.btn:not(pb-link):has(svg + span),
+.btn:not(pb-link):has(span + svg),
+pb-link.btn a:has(svg + span),
+pb-link.btn a:has(span + svg){
+    height: 36px;
+    padding: 6px 12px;
+    /* Card_shadow */
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
+}
+
+/* Button with icon only */
+button:has(svg):not(:has(span)),
+.btn:not(pb-link):has(svg):not(:has(span)),
+.pb-link.btn a:not(:has(span)){
+    border-radius: var(--jinks-form-border-radius);
+    height: 36px;
+    width: 36px;
+    padding: 0;
+    /* Card_shadow */
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
+}
+
+/* Group of buttons, e.g. navigate left/right */
+[role="group"] {
+    list-style-type: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 10px;
+    margin: 0;
+    border: none;
+    border-radius: var(--jinks-form-border-radius);
+    height: 36px;
+    color: var(--jinks-color-primary);
+    background-color: var(--jinks-form-background-color);
+
+    /* Card_shadow */
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
+}
+
+[role="group"] a {
+    color: inherit;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+}
+
+[role="group"] button {
+    box-shadow: none;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+[role="group"] li {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+[role="group"] input {
+    border: none;
+    background-color: transparent;
+    margin: 0;
+}
+
+[role="group"] input:focus {
+    box-shadow: none;
+}
+
+.light,
+pb-link .btn.light a {
+    background-color: var(--jinks-colors-light);
+}
+
+.accent,
+pb-link .btn.accent a {
+    background-color: var(--jinks-colors-500);
+    color: var(--jinks-colors-light);
+}
+
+[role="group"] pb-zoom,
+[role="group"] pb-navigation,
+[role="group"] pb-link {
+    width: 1.5rem;
+    height: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+[role="group"] pb-navigation {
+    width: auto;
+}
+
+[role="group"]:has(pb-navigation > span+svg),
+[role="group"]:has(pb-navigation > svg+span) {
+    gap: 0.75rem;
+}
+
+button.icon svg, .dropdown-button summary svg, [role="group"] svg, button svg, .btn svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+
+.dropdown-button, .dropdown {
+    margin-bottom: 0;
+    position: relative;
+}
+
+.dropdown-button[open] summary,
+.dropdown[open] summary {
+    margin-bottom: 0;
+}
+
+.dropdown-button summary {
+    height: 36px;
+    padding: 5.774px 12px;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--jinks-form-border-radius);
+    background-color: var(--jinks-form-background-color);
+    font-size: var(--jinks-form-control-font-size);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
+}
+
+.dropdown-button summary, .dropdown summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+}
+
+.dropdown-button summary::after,
+.dropdown summary::after {
+    display: block;
+    content: "";
+    width: 1rem;
+    height: 1rem;
+    background-image: var(--jinks-dropdown-button-chevron-image);
+    transform: none;
+    height: var(--jinks-dropdown-button-chevron-size);
+    width: var(--jinks-dropdown-button-chevron-size);
+    background-size: var(--jinks-dropdown-button-chevron-size) auto;
+    background-position: right center;
+    background-repeat: no-repeat;
+}
+
+.dropdown-button[open]>summary::after {
+    transform: rotate(180deg);
+}
+
+.dropdown-button[open]>summary {
+    margin-bottom: 0;
+}
+
+.dropdown-button>summary+ul, .dropdown>summary+ul {
+    background-color: var(--jinks-color-white);
+    box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.15);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    margin: 0.5rem 0 0 0;
+    /* z-index value higher than elements in timeline */
+    z-index: 999;
+    position: absolute;
+    flex-direction: column;
+    width: 100%;
+    min-width: fit-content;
+    white-space: nowrap;
+    list-style: none;
+    max-height: 80vh;
+    overflow-y: auto;
+    /* Prevent clipping by page border */
+    max-width: min(100%, calc(100vw - 2rem));
+    /* Smart positioning to avoid viewport overflow */
+    left: auto;
+    right: 0;
+    /* Ensure dropdown doesn't extend beyond viewport */
+    transform: translateX(0);
+    /* Add horizontal scroll if content is too wide */
+    overflow-x: auto;
+}
+
+.dropdown-button>summary+ul li, .dropdown>summary+ul li {
+    list-style: none;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    background-color: var(--jinks-color-white);
+    width: 100%;
+}
+
+.dropdown-button>summary+ul li:hover, .dropdown>summary+ul li:hover {
+    border: 1px solid var(--jinks-colors-400);
+    background-color: var(--jinks-form-background-color);
+}
+
+.dropdown-button a, .dropdown a, .dropdown-button a:link, .dropdown a:link {
+    color: var(--jinks-color-primary);
+}
+
+dialog > article{
+    border-radius: 1rem;
+    background-color: var(--jinks-colors-light);
+}
+
+dialog > article > header {
+    display: flex;
+    padding: 1rem 1.5rem;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+    color: var(--jinks-colors-light);
+    background-color: var(--jinks-colors-500);
+}
+
+dialog > article > header > [name="title"] {
+    font-size: 1.125rem;
+    margin: 0;
+    line-height: 140%;
+}
+
+dialog > article > header > button[rel="prev"] {
+    background-color: transparent;
+    color: var(--jinks-colors-light);
+    opacity: 0.8;
+}

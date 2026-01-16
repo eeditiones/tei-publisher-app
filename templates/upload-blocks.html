@@ -1,0 +1,21 @@
+<template>
+    [% template after 2 %]
+    [# Include only if the upload feature is enabled and no document is currently being viewed #]
+    [% if $context?features?upload?enabled and empty($context?doc) %]
+    <pb-restricted group="[[ $pkg?user?group ]]">
+        [% if $context?features?upload?target %]
+        <pb-upload id="upload" subscribe="search" emit="search" accept="[[ $context?features?upload?accept ]]" event="pb-search-resubmit" target="[[ $context?features?upload?target ]]" can-write=""/>
+        [% else %]
+        <pb-upload id="upload" subscribe="search" emit="search" accept="[[ $context?features?upload?accept ]]" event="pb-search-resubmit" can-write=""/>
+        [% endif %]
+    </pb-restricted>
+    [% endif %]
+    [% endtemplate %]
+    [% template styles %]
+    <style>
+        pb-upload[disabled] {
+            display: none;
+        }
+    </style>
+    [% endtemplate %]
+</template>

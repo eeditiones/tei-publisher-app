@@ -1,0 +1,148 @@
+# This workflow builds a xar archive for TEI Publisher applications
+
+name: CI
+
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        exist-version: [6.4.0, release]
+        java-version: [11]
+        experimental: [false]
+        include:
+          - exist-version: latest
+            java-version: 21
+            experimental: true
+
+
+    steps:
+      # Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      # Speed up apt-get installs
+      - name: Disable man-db to make package install and removal faster
+        run: |
+          echo 'set man-db/auto-update false' | sudo debconf-communicate >/dev/null
+          sudo dpkg-reconfigure man-db
+
+      # Install Test Dependencies
+      - name: Install Test Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libxml2-utils bats
+
+      # Sanity check - ensure all XML files are well-formed
+      - name: Validate XML files
+        run: |
+          xmllint --noout $(find . -type f -name '*.xml')
+
+      # Setup Node.js (needed for Ant build which calls npm install)
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "lts/*"
+          cache: 'npm'
+
+      # Build
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.java-version }}
+      
+      - name: Build with Ant
+        run: ant
+
+      - name: Make buildkit default
+        uses: docker/setup-buildx-action@v3
+        id: buildx
+
+      # Build Docker image with buildx
+      - name: Build Docker image
+        env:
+          DOCKER_BUILDKIT: 1
+        run: |
+          docker buildx build \
+            --build-arg EXIST_VERSION=${{ matrix.exist-version }} \
+            --build-arg BUILD=local \
+            --load \
+            -t ${{ github.repository }}-ci:${{ matrix.exist-version }} \
+            .
+
+      - name: Start exist-ci containers
+        run: |
+            docker run -dit -p 8080:8080 \
+              --name exist --rm --health-interval=1s --health-start-period=2s \
+              ${{ github.repository }}-ci:${{ matrix.exist-version }}
+ 
+
+      - name: Wait for server to start
+        timeout-minutes: 1
+        run: |
+          echo "Waiting for server to start..."
+          until docker logs exist 2>&1 | grep -q "Server has started"; do
+            echo "Still waiting..."
+            sleep 4
+          done
+
+      # Test
+      - name: Run smoke test
+        run: bats --tap test/*.bats
+
+      - name: debug logs
+        if: failure()
+        run: docker logs exist | grep 'ERROR'
+
+      - name: Copy logs on failure
+        if: failure()
+        run: |
+          echo "Copying logs..."
+          docker cp exist:/exist/logs/exist.log ./exist.log
+
+      - name: Upload logs artifact
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: exist-${{ matrix.exist-version }}-log
+          path: exist.log
+
+      - name: Run Cypress e2e test
+        if: matrix.experimental != true
+        uses: cypress-io/github-action@v6
+        with:
+          browser: firefox
+
+      - name: Run Cypress e2e test (expect fail)
+        if: matrix.experimental == true
+        continue-on-error: true
+        uses: cypress-io/github-action@v6
+        with:
+          browser: firefox
+
+      - name: Upload cypress screenshots
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: cypress-screenshots-${{ matrix.exist-version }}-${{ matrix.java-version }}-${{ matrix.experimental && 'experimental' || 'stable' }}
+          path: test/cypress/screenshots/
+
+      # Upload build artifacts
+      - name: Upload build artifacts
+        if: success()
+        uses: actions/upload-artifact@v6
+        with:
+          name: xar-package-${{ matrix.exist-version }}-${{ matrix.java-version }}-${{ matrix.experimental && 'experimental' || 'stable' }}
+          path: build/*.xar
+          retention-days: 7

@@ -6,7 +6,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace nlp-config="http://teipublisher.com/api/nlp/config" at "../../nlp-config.xqm";
-import module namespace anno-config="http://teipublisher.com/api/annotations/config" at "../../annotation-config.xqm";
+import module namespace anno-config="http://teipublisher.com/api/annotations/config" at "../../annotations/annotation-config.xqm";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace http = "http://expath.org/ns/http-client";
 import module namespace router="http://e-editiones.org/roaster";
@@ -125,10 +125,10 @@ declare function nlp:strings($request as map(*)) {
 declare function nlp:matches-to-annotations($request as map(*)) {
     let $json := $request?body
     for $docPath in map:keys($json)
-    let $doc := doc($config:data-default || "/" || $docPath)/tei:TEI/tei:text
+    let $doc := doc($config:data-root || "/" || $docPath)/tei:TEI/tei:text
     let $matches := $json($docPath)
     return
-        if (array:size($matches) > 0) then
+        if (array:size($matches) > 0 and $doc) then
             let $pairs := (
                 nlp:extract-plain-offsets($doc, true(), true()), 
                 nlp:extract-plain-offsets($doc//tei:note, false(), true())

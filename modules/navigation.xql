@@ -114,3 +114,28 @@ declare function nav:output-footnotes($footnotes as element()*) {
     }
     </div>
 };
+
+declare function nav:toc-entry($context as map(*), $content as node()?, $collapse as xs:boolean?) {
+    if ($context?hasDivs) then
+        <details>
+            {
+                if (not($collapse)) then
+                    attribute open { "open" }
+                else
+                    ()
+            }
+            <summary>
+            {
+                if ($context?xmlId) then
+                    <pb-link xml-id="{$context?xmlId}" node-id="{$context?nodeId}" emit="{$context?target}" subscribe="{$context?target}">{$context?label}</pb-link>
+                else
+                    <pb-link node-id="{$context?nodeId}" emit="{$context?target}" subscribe="{$context?target}">{$context?label}</pb-link>
+            }
+            </summary>
+            { $content }
+        </details>
+    else if ($context?xmlId) then
+        <pb-link xml-id="{$context?xmlId}" node-id="{$context?nodeId}" emit="{$context?target}" subscribe="{$context?target}">{$context?label}</pb-link>
+    else
+        <pb-link node-id="{$context?nodeId}" emit="{$context?target}" subscribe="{$context?target}">{$context?label}</pb-link>
+};

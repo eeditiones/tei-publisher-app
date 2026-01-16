@@ -1,0 +1,160 @@
+.doc-title {
+    font-size: 2.488em;
+}
+
+.abstract {
+    border-left: 4px solid var(--pb-color-focus);
+}
+
+.journal-meta {
+    font-size: var(--pb-footnote-font-size);
+}
+
+.journal-title+.publisher:before {
+    content: ", ";
+}
+
+.issn:before {
+    content: ", ISSN: "
+}
+
+.footnotes {
+    margin-top: 1em;
+    padding-top: .5em;
+    position: relative;
+}
+
+.footnotes:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    border-top: 1px solid var(--pb-color-lighter);
+}
+
+@media print {
+
+    @page {
+        size: A4;
+
+        @footnote {
+            float: bottom;
+        }
+    }
+
+    @page: left {
+        margin-left: 3cm;
+        margin-right: 2cm;
+
+        @top-left {
+            content: string(title1) ' – ' string(title2);
+            font-family: var(--pb-heading-font-family);
+        }
+
+        @bottom-left-corner {
+            content: counter(page);
+            font-family: var(--pb-heading-font-family);
+        }
+    }
+
+    @page: right {
+        margin-left: 2cm;
+        margin-right: 3cm;
+
+        @top-right {
+            content: string(title1) ' – ' string(title2);
+            font-family: var(--pb-heading-font-family);
+        }
+
+        @bottom-right-corner {
+            content: counter(page);
+            font-family: var(--pb-heading-font-family);
+        }
+    }
+
+    @page Title {
+        margin-left: 2cm;
+        margin-right: 2cm;
+
+        @top-left {
+            content: '';
+        }
+
+        @top-right {
+            content: '';
+        }
+    }
+
+    body {
+        --pb-heading-font-family: Inter, Verdana, "Helvetica", sans-serif;
+    }
+
+    .note {
+        break-inside: avoid;
+    }
+
+    p {
+        hyphens: auto;
+        text-align: justify;
+        widows: 2;
+        orphans: 2;
+    }
+
+    .frontmatter {
+        page: Title;
+    }
+
+    section {
+        margin-bottom: 2.5em;
+    }
+
+    section section {
+        margin-bottom: 1.5em;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        break-after: avoid;
+    }
+
+    h1.title {
+        string-set: title1 content(text);
+        break-before: page;
+    }
+
+    .journal-meta+h1.title {
+        break-before: avoid;
+    }
+
+    .journal-meta {
+        break-before: page;
+    }
+
+    h2 {
+        string-set: title2 content(text);
+    }
+
+    .frontmatter h1 {
+        break-before: auto;
+        page: Title;
+    }
+
+    dt {
+        break-after: avoid;
+    }
+
+    figure {
+        break-inside: avoid;
+        -prince-float: snap;
+    }
+
+    .footnote {
+        float: footnote;
+        hyphens: auto;
+    }
+}

@@ -1,0 +1,1226 @@
+<?teipublisher odd="docbook.odd" template="documentation.html" depth="2" fill="2" media="print fo epub markdown"?><?xml-model href="https://cdn.docbook.org/schema/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en" label="e">
+    <info>
+        <title>Annotating Documents</title>
+        <author>
+            <orgname>TEI Publisher Community</orgname>
+        </author>
+        <abstract>
+            <para>Documentation for the web-based annotation editor</para>
+        </abstract>
+        <keywordset role="genre">
+            <keyword>Documentation</keyword>
+        </keywordset>
+    </info>
+    <section xml:id="web-annotations">
+    <title>Annotating Documents</title>
+    <para>Since version 7.1.0, TEI Publisher supports annotating TEI documents via a graphic, web
+      based interface. This means you can enhance existing TEI documents directly within TEI
+      Publisher in a user-friendly environment where XML code is neatly hidden from sight when not
+      needed.</para>
+    <para>The annotation editor is not meant for creating documents from scratch but targets one of
+      the most tedious and time consuming tasks in any edition project: adding semantic, analytical
+      or text-critical markup to an existing transcription.</para>
+
+    <para>In version 9.0.0 a new, more ergonomic layout, as well as an extended feature set for
+      curation of <link linkend="registers">local registers</link> have been introduced.</para>
+    <figure>
+      <title>Annotation editor in TEI Publisher v. 9.0.0</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="ann-overview-v9.png" width="900px"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Earlier version of an annotation editor</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="ann-overview.png" width="900px"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para>Typical workflow for many projects will resemble the following:</para>
+    <orderedlist>
+      <listitem>
+        <para>An initial transcription is created, either manually in an XML editor, using OCR or
+          HTR tools like Transkribus or converted from another format, e.g. imported from Word.
+          Regardless of the method, this transcription will already contain at least the basic
+          structural markup, i.e. divisions, headings, paragraphs etc.</para>
+      </listitem>
+      <listitem>
+        <para>That initial transcription is gradually enriched: textual features like emphasis can
+          be marked, abbreviations expanded, corrections and regularizations applied; people, places
+          or terms appearing in the text can be explicitly tagged and linked to an authority
+          register; dates or measures normalized. This is an iterative process: the resulting TEI
+          encoding is constantly reviewed, which may result in further changes to be made.</para>
+      </listitem>
+    </orderedlist>
+    <para>Web annotations try to ease the burden of the enrichment phase by allowing editors to mark
+      everything directly within the user-friendly environment, closely resembling the publication
+      view. It is much easier to read and doesn't require half as much TEI experience as using an
+      XML editor. Just use your mouse to highlight the text fragment to annotate, click on the
+      annotation type and optionally select additional information, e.g. to link with an external
+      authority file.</para>
+    <section xml:id="annotations-prerequisites">
+      <title>Prerequisites and considerations</title>
+      <itemizedlist>
+        <listitem>
+          <para><emphasis role="bold">Browsers</emphasis></para>
+          <para>The annotation editor requires a modern browser like Firefox, Chrome or a
+            Chrome-based browser like the newest Edge on Windows 10.</para>
+          <para><emphasis>Safari</emphasis> will not work due to a known bug in text selection,
+            which Apple seems reluctant to fix.</para>
+          <para>Directly exporting the resulting text to a directory of the user's choice, is
+            currently only supported in Chrome.</para>
+        </listitem>
+        <listitem>
+          <para><emphasis role="bold">Division size</emphasis></para>
+          <para>The editor should work fine for texts up to the length of a journal article or
+            chapter. Really long texts (e.g. a whole book) will be automatically split by top
+            divisions, but you may still experience a recognizable time lag for long
+            divisions.</para>
+        </listitem>
+      </itemizedlist>
+      <para>Annotations have been extensively tested, and should work reliably for tagging entities
+        and other inline markup. You may want to keep an eye on the resulting TEI when testing
+        annotations on your material. We appreciate bug reports and suggestions for
+        improvement.</para>
+    </section>
+    <section xml:id="annotations-rationale">
+      <title>Annotations: the pen and paper of the digital world</title>
+      <para>How the annotation editor works is easy to understand if you imagine reviewing a text
+        the old-fashioned way: print it out, then use a marker to highlight certain passages, write
+        corrections over the text with a pen, or scribble notes into the margin. Once back at your
+        computer, all the changes need to be transferred into the TEI. You may then continue with a
+        second round of review by printing out the results again.</para>
+
+      <para>Within our electronic environment, the printout corresponds to the source TEI document
+        and the marks and scribbles are annotations. Until you explicitely merge the annotations
+        into the source TEI, they will be kept separate from the document they apply to. Once
+        merged, a new version of the source TEI document is established and the editing process
+        restarts.</para>
+      <para>Notably, TEI Publisher is able to detect existing markup in the base text when it is
+        loaded. Any markup corresponding to a known annotation type will be recognized and displayed
+        as such, therefore it can be modified. In this sense it is slightly different from working
+        with pen and paper.</para>
+      <para>From the printout example it should be clear that you cannot change the printed text
+        itself (unless you had some magic paper). Accordingly, annotations are not allowed to change
+        the base text, i.e. the text "printed" on the screen. If you want to explicitly indicate a
+        correction, you can use the <emphasis>corr</emphasis> or <emphasis>reg</emphasis> annotation
+        type, which corresponds to the TEI encoding with choice/sic/corr or choice/orig/reg. </para>
+      <para>You can use annotations for virtually any kind of inline markup. The only strict
+        requirement is that the <emphasis>base text</emphasis>, our source document, remains stable
+          <emphasis>during an editing session</emphasis> i.e. until annotations are merged. The
+        reason for that is the annotations are anchored to a certain position in the document, so
+        any changes to it would mean that our coordinates might suddenly point to different
+        fragments.</para>
+      <para>That said, there's also a special <emphasis>edit</emphasis> annotation type, which does
+        allow you to perform limited editing of a text. It will just "seamlessly" change the
+        transcription text fragment without adding any explicit markup. Nevertheless, such a change
+        to the TEI document is only applied when you merge and therefore establish a new base text.
+        The limitation is that only text fragments can be edited: the boundaries of structural
+        markup or annotations may not be crossed. It can be convenient for fixing a typo in a
+        transcription that wasn’t caught when the base text was prepared.</para>
+      <para>You also cannot use the annotation editor to modify the structural markup of the base
+        text, i.e. block-level elements like divs, paragraphs, headings or notes. In case you need
+        to change the structure, you have to merge your annotations first, saving a new version of
+        the TEI document and switch to an XML editor to change the XML there. The new document can
+        be then reloaded into the annotation editor and you can continue.</para>
+      <para>As already indicated, it is possible to handle common nested encoding structures like
+          <tag>choice</tag> or <tag>app</tag> as annotations. Nevertheless the inner elements, i.e.
+          <tag>lem</tag>, <tag>rdg</tag>, <tag>sic</tag>, <tag>corr</tag> or <tag>orig</tag>,
+          <tag>reg</tag>, need to have simple text content: they cannot be annotated themselves (at
+        least not in the current version).</para>
+    </section>
+    <section xml:id="annotations-applying">
+      <title>Applying Annotations</title>
+      <para>To start annotating a document, select or upload one into the annotations collection in
+        TEI Publisher.</para>
+      <figure>
+        <title>Annotation playground</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="ann-playground.png" width="900px"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>Selecting any document in this collection will load the annotation view. This view is
+        split into distinct areas:</para>
+      <orderedlist>
+        <listitem>
+          <para>a narrow toolbar on top of the page with a group of buttons for each annotation type
+            in the middle, and another group on the right hand side for document management</para>
+        </listitem>
+        <listitem>
+          <para>the annotation view in the middle, displaying the text content to be
+            annotated</para>
+        </listitem>
+        <listitem>
+          <para>a sidebar to the right, initially empty, but which comes to life once you start
+            making annotations; this area is used to show forms and information relevant to the
+            current annotation</para>
+        </listitem>
+      </orderedlist>
+      <figure>
+        <title>Annotation view</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="ann-init.png" width="900px"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>To annotate a certain passage, select it with your mouse. The buttons in the center of
+        the top toolbar now become active. Choose an annotation by clicking the corresponding button
+        or using a keyboard shortcut. Hovering over buttons you can see an info text with a brief
+        description and a keyboard shortcut.</para>
+      <figure>
+        <title>Annotation types</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="ann-types.png" width="300px"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>Depending on the chosen annotation type, a form will now appear in the right side panel.
+        We distinguish three categories of annotations and what you see in the right panel differs
+        depending on the chosen annotation type:</para>
+      <orderedlist>
+        <listitem>
+          <para>"toggle" annotations, which do not need require additional information, so they
+            simply switch an annotation on/off, e.g. for deletions or titles (not part of the
+            default annotation editor setup).</para>
+        </listitem>
+        <listitem>
+          <para>analytic or text critical annotations, which may require further input from the
+            user, e.g. a normalized date.</para>
+        </listitem>
+        <listitem>
+          <para>semantic annotations, which are (usually) connected to an external authority, e.g.
+            for people, places, organizations or terms.</para>
+        </listitem>
+      </orderedlist>
+      <para>These categories are not mutually exclusive but may be helpful to explain the main
+        functional differences between the three use scenarios. </para>
+      <section xml:id="annotations-toggle">
+        <title>Toggle Annotations</title>
+        <para>Toggle annotations are immediately applied when you click the annotation button. Since
+          they do not need any additional input they also do not require further confirmation. Some
+          good candidates might be marking of titles or deletions. </para>
+        <para>It is worth noting that it's not a textual phenomenon that constitutes a <emphasis>
+            toggle</emphasis> annotation versus <emphasis>semantic</emphasis> or
+            <emphasis>analytic</emphasis> in our simple category scheme. It is rather what kinds of
+          detail a particular project decides to encode or not. Encoding of titles can be a
+            <emphasis>toggle</emphasis> if we just decide to simply say that a text fragment is a
+          title. It could become a <emphasis>semantic</emphasis> annotation if we'd like to
+          associate it with a bibliographical reference or other detailed information. </para>
+      </section>
+      <section xml:id="annotations-analytic">
+        <title>Analytic and Text Critical Annotations</title>
+        <para>These annotations are not connecting to an authority reference, but typically require
+          further input to be made by the user. For example a <tag>date</tag> annotation requires
+          the editor to supply a normalized date, while normalizations, abbreviations and
+          corrections need regularized, expanded or corrected form, respectively. Apparatus entries
+          will require all the variant readings. For all these annotations an input form will be
+          shown into which such information can be entered. The exact content of the form depends on
+          the annotation type.</para>
+        <para>To store the annotation, you must click on the save button beneath the form after
+          filling the required fields.</para>
+        <figure>
+          <title>Correction</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="ann-correction.png" width="800px"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+      <section xml:id="annotations-semantic">
+        <title>Semantic Annotations</title>
+        <para>Semantic annotations include markup for entities like people, places or terms. Most
+          editions will try to link those to a description of the entity, either provided by an
+          external authority file or from a local resource. In any case you will want to reference a
+          unique identifier to mark occurrences of the same entity throughout the edition.</para>
+        <para>When choosing a semantic annotation from the toolbar, you will therefore see an
+          additional panel, which allows you to consult the authority file configured for the
+          annotation type, e.g. Geonames for places or GND for people:</para>
+        <figure>
+          <title>Annotating a person</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="ann-person.png" width="800px"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <para>The semantic annotation dialog displays the query results for you to choose from and
+          the query sent initially corresponds to the text selection made. Often this may not find
+          the relevant entity, but you can change the query in the input field on top of the dialog
+          and run the search again by pressing enter.</para>
+        <para>Use the icon to the left of an entry name to select it. The reference ID of the entry
+          will be copied into the top input field in the details panel and a short summary of the
+          entity should appear beneath:</para>
+        <figure>
+          <title>Right panel after selecting an entry</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="ann-entity-selected.png" width="800px"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <para>The ID will be used as reference in the resulting TEI, i.e. it will appear in an
+          attribute attached to e.g. <tag>persName</tag> or other TEI element. The exact mapping
+          between an annotation type and a TEI snippet produced can be freely configured (see
+          below).</para>
+        <para>Semantic annotations are stored in the annotation list immediately after you select an
+          authority entry, so you don't have to click anywhere else to confirm your choice.</para>
+        <para><emphasis>NB:</emphasis> at times you will find that an entity doesn't yet exist in
+          the external authority register. In TEI Publisher you can now also add entries to your
+          local register. Read more on this subject in the <link linkend="registers">local
+            registers</link> chapter.</para>
+      </section>
+      <section xml:id="annotations-batch">
+        <title>Batch edits and suggestions</title>
+        <para>It is not uncommon that the same entity will be mentioned multiple times in a
+          document. To simplify and speed up the editing process, the annotation editor tries to
+          detect other occurrences of the currently selected entity throughout the document. After
+          choosing an entity from the external authority, a list of potential matches is presented
+          in the right side panel, beneath the annotation details.</para>
+        <para>The list is compiled by traversing the text shown on screen, searching for strings
+          which may match the same entity. The actual query used depends on the information provided
+          by the authority used: e.g. if the authority supplies alternative names, these will be
+          added to the list of strings to search for.</para>
+        <para>Each occurrence found will be presented with a little bit of the original context
+          shown on both sides, and with an additional checkbox to the left. Checking it will
+          immediately tag the corresponding passage as another instance of the same entity. You can
+          also check all boxes at once by clicking on the first icon (the one with double
+          checkmarks) in the toolbar above the list.</para>
+        <para>Placing your mouse over an entry will scroll the text to the corresponding occurrence,
+          showing you the match in its full context to assist the revision process.</para>
+        <para>Existing annotations referencing the same entity will still be shown in the list – but
+          with their checkbox already marked. Sometimes you may also see an occurrence marked in
+          red, indicating that this is an existing annotation referencing a different entity, so
+          considered a potential inconsistency to review. You will see such cases additionally
+          underlined with red dots as shown below. In this example, one of the entities marked as
+          "Oxford" points to a different record in the authority register. To fix this by applying
+          the currently selected entity, check the item's checkbox.</para>
+        <figure>
+          <title>Inconsistency warning</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="ann-inconsistency.png" width="800px"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>When working on a broader material, main actors and places will be often mentioned in
+          many documents. It is now possible to detect potential matches across the entire
+          collection and review and apply them individually, or even all at once. To start the
+          search beyond the current document use the magnifying glass icon in the
+            <emphasis>Occurrences</emphasis> toolbar. </para>
+
+        <figure>
+          <title>Start search through the entire collection</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="ann-corpus.png" width="500px"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>If matches can be found in other documents, a review panel will pop up, where you can
+          review them on a document-by-document and match-by-match basis. Each document is presented
+          as a separate results page and you can select or deselect occurrences depending where you
+          want annotations to be applied.</para>
+        <para>Similarly to the conventions throughout the annotation editor, color coding is used to
+          highlight existing annotations and potential inconsistencies. Clicking the disk icon will
+          directly merge and save the checked annotations into the current document and remove it
+          from the list of items to review.</para>
+        <para>Alternatively you can click on the file's path in the header: this will open the
+          corresponding document in a new annotation editor in a separate browser tab. The selected
+          annotations will be added to the document for review, but are not merged yet. You need to
+          explicitely save them before closing the additional tab.</para>
+        <para>Note that opening a document for review in an extra tab will also remove it from the
+          list of pending documents in the dialog.</para>
+        <figure>
+          <title>Review matches across collection</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="ann-review.png" width="800px"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+    </section>
+    <section xml:id="annotations-modify">
+      <title>Modifying Annotations</title>
+      <para>The annotation view shows a colored line beneath the text spanned by each annotation.
+        You can select text within an existing annotation or across multiple different ones and
+        apply yet another annotation to it, thus resulting in <emphasis>nested
+          annotations</emphasis>. However, the editor will ensure that you do not select partial
+        elements, for example, a range of text followed by half of a <tag>persName</tag>. This would
+        result in invalid XML, so the editor will automatically expand your selection to include the
+        entire <tag>persName</tag>.</para>
+      <figure>
+        <title>Nested annotations</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="ann-nested.png" width="800px"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>To the right of the annotated text, a colored box indicates the type of the annotation.
+        The sequence of boxes also indicates how annotations are nested: the ones appearing to the
+        right are wrapping those to the left. In the example above the "church of San Francisco" is
+        a reference to a place, while "San Francisco" refers to a person, a patron saint of the
+        church. The <tag>persName</tag> element is nested in the <tag>placeName</tag>.</para>
+      <para>Click on the colored box to see details about the annotation. For semantic annotations,
+        the details will include a summary of the entity drawn from the connected authority or the
+        local TEI register. For analytic and text critical annotations, a table is shown, listing
+        the corresponding attributes associated with the annotation.</para>
+      <figure>
+        <title>Annotation details</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="ann-details.png" width="800px"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>The toolbar at the bottom of the popup allows to delete or modify the annotation.
+        Clicking the delete button will immediately remove the annotation, without asking for
+        confirmation.</para>
+      <para>Clicking on the pen icon will open the annotation details in the right sidebar, where
+        you can modify them. For semantic annotations, the authority lookup panel will display
+        automatically below and you can change the connected authority entry by selecting a
+        different one.</para>
+      <para>Again, semantic annotations are applied immediately, while analytic and text critical
+        annotations require a click on the save button after making modifications.</para>
+    </section>
+    <section xml:id="annotations-merge">
+      <title>Merge, Export, Undo and Preview</title>
+      <para>The buttons to the right side of the main toolbar provide important functions for saving
+        etc.: <figure>
+          <title>Toolbar</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="ann-toolbar.png" width="400px"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <variablelist>
+          <varlistentry>
+            <term>Reload source TEI</term>
+            <listitem>
+              <para>This will reload the source TEI XML into the annotation view, discarding any
+                existing annotations. Use this if you had to change the TEI in an external editor
+                and want to continue annotating.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>Merge and save annotations to TEI</term>
+            <listitem>
+              <para>Merges the current set of annotations into the TEI and saves it, establishing a
+                new version of the base document. The annotation view will be reloaded to reflect
+                the new base.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>Save and export TEI to a local file</term>
+            <listitem>
+              <para>(Chrome only) As above, merges and saves the annotations, but additionally
+                prompts for a local file into which a copy of the resulting TEI will be
+                written.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>Undo last change</term>
+            <listitem>
+              <para>Reverts the last action applied. For batch operations (if you clicked the "apply
+                all" button above the occurrences list) this may comprise multiple annotations. The
+                annotation view will be reloaded and the remaining annotations are
+                re-applied.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>Display preview pane</term>
+            <listitem>
+              <para>Shows the preview pane at the very bottom of the screen, floating above the
+                page. Next section discusses this in detail.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist></para>
+    </section>
+    <section xml:id="annotations-preview">
+      <title>The Preview Pane</title>
+      <para>The preview pane allows you to check how the annotations you applied to the current
+        document would change the TEI. It also provides a preview of how the text would be displayed
+        via one of the available ODDs. You can choose between one of four tabs, each dedicated to a
+        specific aspect or format:</para>
+      <orderedlist>
+        <listitem>
+          <para>the resulting HTML, i.e. how your document would display in TEI Publisher if the
+            annotations were merged, rendered through the ODD selected by the dropdown to the
+            right</para>
+        </listitem>
+        <listitem>
+          <para>the TEI of the entire document if annotations were merged</para>
+        </listitem>
+        <listitem>
+          <para>the internal JSON structure representing the annotations (for debugging
+            purposes)</para>
+        </listitem>
+        <listitem>
+          <para>the TEI fragments which would be changed if annotations were merged</para>
+        </listitem>
+      </orderedlist>
+      <para>What you see in the preview does not mean that the TEI source document has been already
+        changed: it just applies the annotations in memory, leaving the source untouched. It allows
+        you to double check if annotations will be applied in the correct way. When you are
+        satisfied with the review, the merge button described in the <link linkend="annotations-merge">previous section</link>, will trigger the permanent change. </para>
+      <figure>
+        <title>HTML preview</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="ann-preview.png" width="800px"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
+    <section xml:id="ner">
+      <title>Named Entity Recognition</title>
+      <para>TEI Publisher includes support for detecting and tagging named entities in texts. The
+        idea is to further simplify the work of editors when annotating documents via TEI
+        Publisher’s web-based annotation editor by automatically identifying potential candidates
+        for people, places etc.</para>
+      <para>For named entity recognition to be available in the web-based annotation editor, a
+        separate Python service is needed: clone the <link xlink:href="https://github.com/eeditiones/tei-publisher-ner">tei-publisher-ner</link>
+        repository and follow the instructions in the README.</para>
+      <figure>
+        <title>NER icon</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="toolbar-ner.png" width="600px"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <note>
+        <para>The presentation below has been realised with an earlier version of the TEI Publisher,
+          nevertheless everything works the same, the only difference being the position of the NER
+          icon in the toolbar.</para>
+      </note>
+
+
+      <figure>
+        <title>NER in action</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="wikipedia.gif"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>One of the distinguishing features of this solution is that it makes it rather easy to
+        train a recognition model on your own data sets. Head over to the <link xlink:href="https://www.e-editiones.org/posts/names-sell-named-entity-recognition-in-tei-publisher/">article on e-editiones</link> to read more about the service, how to use it, and how to
+        train it.</para>
+    </section>
+  </section>
+  <section xml:id="configuring-annotation-editor">
+    <title>Configuring the Annotation Editor</title>
+    <para>The annotation editor is fully configurable. This includes<orderedlist>
+        <listitem>
+          <para>the connectors used for authority lookups</para>
+        </listitem>
+        <listitem>
+          <para>how authority entries can be extended with additional information</para>
+        </listitem>
+        <listitem>
+          <para>how annotations are mapped to TEI elements</para>
+        </listitem>
+      </orderedlist></para>
+    <para>If you would like to customize the editor for your own needs, we recommend to generate a
+        <emphasis>separate application just for annotation purposes</emphasis>. This makes it easier
+      to configure and you maintain a clear separation between data which is still being worked on
+      and the final edition you want to show to users.</para>
+    <para>To generate a separate application for annotations, select
+        <guimenuitem>Admin</guimenuitem> /<guimenuitem>App Generator</guimenuitem>. In the form,
+      make sure to choose the ODD called "Annotations" and select "Annotation Editing" as
+      template.</para>
+    <section xml:id="annotation-authorities">
+      <title>Configuring Authorities</title>
+      <para>In its current state, TEI Publisher supports the following external authorities for
+        entity lookup:<variablelist>
+          <varlistentry>
+            <term>GeoNames</term>
+            <listitem>
+              <para><link xlink:href="https://www.geonames.org/">geonames.org</link> – for
+                places</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>GND</term>
+            <listitem>
+              <para><link xlink:href="https://gnd.network/">Gemeinsame Normdatei</link> via <link xlink:href="http://lobid.org/">lobid.org</link> – for people, organizations and
+                terms</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>Metagrid</term>
+            <listitem>
+              <para><link xlink:href="https://metagrid.ch/">metagrid.ch</link> – for people</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>Airtable</term>
+            <listitem>
+              <para><link xlink:href="https://www.airtable.com/">airtable.com</link> – arbitrary
+                entities, each corresponding to a table</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>Reconciliation</term>
+            <listitem>
+              <para><link xlink:href="https://reconciliation-api.github.io/testbench/">Reconciliation Service</link> – arbitrary entities, provided by any
+                reconciliation service</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>KBGA</term>
+            <listitem>
+              <para><link xlink:href="https://theologie.unibas.ch/de/karl-barth-zentrum/gesamtausgabe/">Karl
+                  Barth Gesamtausgabe</link> – for people, organizations, terms,
+                abbreviations</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>Custom</term>
+            <listitem>
+              <para>A custom connector, which delegates to one or more authorities, but also
+                searches a local TEI register</para>
+            </listitem>
+          </varlistentry>
+        </variablelist></para>
+      <para>The HTML template defining the user interface of the annotations editor determines which
+        authority is used for which annotation type and can be easily adjusted. Just edit the
+          <filename> templates/pages/annotate.html</filename> file, which can be done in eXide (or
+        any editor of your choice). A simple configuration looks as follows:</para>
+      <programlisting language="xml" xml:space="preserve">
+&lt;pb-authority-lookup subscribe="transcription" emit="transcription"&gt;
+    &lt;pb-authority connector="GND" name="organization" prefix="gnd"&gt;&lt;/pb-authority&gt;
+    &lt;pb-authority connector="GeoNames" name="place" user="existdb" prefix="geo"&gt;&lt;/pb-authority&gt;
+    &lt;pb-authority connector="GND" name="term" prefix="gnd"&gt;&lt;/pb-authority&gt;
+    &lt;pb-authority connector="GND" name="person" prefix="gnd"&gt;&lt;/pb-authority&gt;
+&lt;/pb-authority-lookup&gt;
+      </programlisting>
+      <para>Each top-level pb-authority needs at least two attributes:<itemizedlist>
+          <listitem>
+            <para>a <option>name</option> indicating the annotation type for which it should be
+              used</para>
+          </listitem>
+          <listitem>
+            <para>a <option>connector</option>, which selects one of the authority connectors listed
+              above</para>
+          </listitem>
+        </itemizedlist></para>
+      <para>In addition, you may define a <option>prefix</option>: this will be prepended to the
+        xml:id referenced by the resulting TEI element (separated by a hyphen "-"). For example, you
+        may want to prefix the numeric IDs received from GND with the prefix "gnd" to obtain an XML
+        ID like "gnd-124507514" since a number alone would not be a valid @xml:id.</para>
+      <para>Some connectors require additional configuration attributes. At the moment those are the
+          <emphasis> GeoNames</emphasis>, <emphasis>Airtable</emphasis> and
+          <emphasis>Reconciliation</emphasis> connectors. GeoNames requires you to register a user,
+        whose name is given in the <option> user</option> attribute and Reconciliation requires that
+        you specify a service URL.</para>
+      <para>The <emphasis>Airtable</emphasis>, <emphasis>Reconciliation</emphasis> and <emphasis>
+          Custom</emphasis> connectors are described in more detail below.</para>
+      <section xml:id="connector-airtable">
+        <title>Airtable Connector</title>
+        <para><link xlink:href="https://www.airtable.com/">airtable.com</link> is not an authority
+          file as such, but rather a commercial online database, allowing users to define their own
+          tables and forms. It can therefore be turned into an authority, e.g. by defining a
+            <emphasis> people</emphasis> or <emphasis>places</emphasis> table and connecting it with
+          the airtable connector. Since any kind of data can be stored in an airtable, a slightly
+          more complex configuration is necessary to specify how to access relevant tables and
+          extract the required information. An example configuration for a single table is shown
+          below:</para>
+        <programlisting language="xml" xml:space="preserve">&lt;pb-authority connector="Airtable" name="topic" api-key="my-api-key" base="database-id" 
+  table="Topics" fields="Name, Variants, Definition, Term Type" label="${Name}" 
+  tokenize="Name, Variants" tokenize-regex="\s*;\s*"
+  filter="or(find('${key}', lower({Name})), find('${key}', lower({Variants})))"&gt;
+  &lt;template class="info"&gt;
+    &lt;h3&gt;${Name}&lt;/h3&gt;
+    &lt;p&gt;
+        ${Term Type}
+        &lt;br/&gt;
+        ${Definition}
+        &lt;br/&gt;
+        ${Variants}
+    &lt;/p&gt;
+  &lt;/template&gt;
+  &lt;template class="detail"&gt;
+    ${Term Type}. ${Definition}. ${Variants}.
+  &lt;/template&gt;
+&lt;/pb-authority&gt;</programlisting>
+        <para>This will retrieve authority entries from a table called 'Topics' using the columns
+          Name, Variants, Definition and Term Type.</para>
+        <variablelist>
+          <varlistentry>
+            <term>api-key</term>
+            <listitem>
+              <para>The personal API key obtained from your airtable.com user profile</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>base</term>
+            <listitem>
+              <para>The API key for your database</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>table</term>
+            <listitem>
+              <para>Name of the table to use</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>fields</term>
+            <listitem>
+              <para>A list of table column names to be retrieved as fields. Fields can be referenced
+                in other configuration expressions using the <code>${column}</code> notation</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>label</term>
+            <listitem>
+              <para>The field or expression to use as main label when displaying authority lookup
+                results</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>filter</term>
+            <listitem>
+              <para>The airtable formula to be used for searching</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>template class="info"</term>
+            <listitem>
+              <para>An HTML fragment to show when displaying a popover with annotation details in
+                the annotation editor</para>
+              <figure>
+                <title>"Info" template in action</title>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="ann-airtable-info.png" width="500px"/>
+                  </imageobject>
+                </mediaobject>
+              </figure>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>template class="detail"</term>
+            <listitem>
+              <para>HTML fragment to show as the detailed match description in the dialog presenting
+                the results of querying the authority register</para>
+              <figure>
+                <title>"Detail" template in action</title>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="ann-airtable-detail.png" width="500px"/>
+                  </imageobject>
+                </mediaobject>
+              </figure>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>tokenize</term>
+            <listitem>
+              <para>Defines which columns should be used when searching the text for other potential
+                occurrences of the entity. For the search, the column values are split using the
+                regular expression given in <option>tokenize-regex</option></para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>tokenize-regex</term>
+            <listitem>
+              <para>an optional regular expression used to split values before searching the text
+                for other occurrences. This is useful if you have variant names separated by, or ;
+                and each variant should be searched for separately.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+      <section xml:id="connector-reconciliation">
+        <title>Reconciliation Service Connector</title>
+        <para>Like the airtable connector described above, the <link xlink:href="https://reconciliation-api.github.io/specs/latest/">Reconciliation
+            Service</link> is not really an authority file itself. Rather, it is a communication
+          protocol for authority data providers originally developed for the open-source data
+          cleaning software <link xlink:href="openrefine.org/">OpenRefine</link>. The specification
+          is an open, <link xlink:href="https://www.w3.org/community/reconciliation/">community-maintained</link> standard now, and several authority data providers offer
+          comforming API endpoints. GeoNames, the German GND (again via lobid), Getty vocabularies
+          and Wikidata are some examples – find a list of current services at the <link xlink:href="https://reconciliation-api.github.io/testbench/">service testbench</link>.
+          In addition to the general attributes described above, the only additional bit of
+          configuration is the service URL that should be queried. You specify it in the "endpoint"
+          attribute:</para>
+        <programlisting language="xml" xml:space="preserve">&lt;pb-authority connector="Reconciliation" name="term" prefix="wd" endpoint="https://wikidata.reconci.link/api"/&gt;</programlisting>
+        <para>This will retrieve authority entries from wikidata.</para>
+        <para>Currently, the Reconciliation connector cannot be used as a data provider for the
+          Custom connector described below. This will be added in a future release.</para>
+      </section>
+      <section xml:id="connector-custom">
+        <title>Custom Connector</title>
+        <para>The custom connector delegates queries to one or more authorities, but most
+          importantly it creates a copy of every authority entry you select and writes it to a local
+          TEI register.</para>
+        <para>For many editions the information provided by an external authority will not be
+          sufficient. It may be incomplete, in the sense it may lack important information relevant
+          in the context of the edition but also many historical persons or places may not yet
+          appear in any authority.</para>
+        <para>Using the custom connector gives you a possibility to extend the information about an
+          entity, or add new ones. This works as follows:<orderedlist>
+            <listitem>
+              <para>whenever you select an entry from the external authority, the custom connector
+                creates a skeleton <tag>person</tag>, <tag>place</tag> or <tag>category</tag> TEI
+                element in the local TEI registry (the exact location of the registry can be
+                configured) using the information provided by the authority</para>
+            </listitem>
+            <listitem>
+              <para>you can extend the local entry with additional information, e.g. add a note to
+                explain why the person is important in the context of the edition</para>
+            </listitem>
+            <listitem>
+              <para>if the custom connector has an attribute <option>edit</option>, users can modify
+                or add entries to the local register using a form. Obviously the form needs to be
+                provided by the developer as described further below. Currently there are forms for
+                people, places and organizations. </para>
+            </listitem>
+            <listitem>
+              <para>any subsequent authority query will also search the local registry and matches
+                found there will be ranked at the top of the results</para>
+            </listitem>
+            <listitem>
+              <para>to support entites which do not exist in an external authority, just create an
+                entry in the local registry and assign it a local xml:id</para>
+            </listitem>
+          </orderedlist></para>
+        <para>To configure the custom connector, simply wrap it around the definition for the
+          external authority you want to use, e.g.:</para>
+        <programlisting language="xml" xml:space="preserve">&lt;pb-authority connector="Custom" name="person"&gt;
+    &lt;pb-authority connector="GND" prefix="gnd"&gt;&lt;/pb-authority&gt;
+&lt;/pb-authority&gt;</programlisting>
+        <para>This defines a custom connector for the annotation type 'person', delegating queries
+          to the GND connector, but also maintaining a local registry. By default the local registry
+          is stored in a TEI document residing in <filename>data/registry.xml</filename>. You can
+          change the location by modifying the variable
+            <varname>$anno:local-authority-file</varname> in the annotation configuration,
+            <filename>modules/annotation-config.xqm</filename>. You can also change the function
+            <function>rapi:insert-point</function> to configure where exactly the local entity
+          definitions will be stored.</para>
+        <note>
+          <para>Currently, it is not possible to use the Reconciliation connector described above in
+            the context of the Custom connector. This will be added in a future release.</para>
+        </note>
+      </section>
+    </section>
+    <section xml:id="annotations-config">
+      <title>Configuring Annotations</title>
+      <note>
+        <para>TEI Publisher 9 introduces various changes to the annotation editor, including a
+          different page layout. It also uses a sophisticated framework for forms, called <link xlink:show="new" xlink:href="https://jinntec.github.io/Fore/doc/index.html">Fore</link>,
+          which is in particular used for the custom entity editors, but also powers some of the
+          functionality of the main editor page. The user-customizable parts more or less stayed the
+          same though, so updating an existing annotation app should be fairly easy.</para>
+      </note>
+      <para>Adding new annotation types or modifying existing ones involves the following three
+        files within TEI Publisher or generated apps:</para>
+      <variablelist>
+        <varlistentry>
+          <term><filename>templates/pages/annotate.html</filename></term>
+          <listitem>
+            <para>The HTML page for the annotation editor</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><filename>modules/annotation-config.xqm</filename></term>
+          <listitem>
+            <para>Defines how annotations are mapped to TEI</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><filename>odd/annotations.odd</filename></term>
+          <listitem>
+            <para>The ODD used to render the annotation text view. In generated apps this will live
+              in <filename>resources/odd/annotations.odd</filename>.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+      <para>Let's assume we would like to support an annotation to tag foreign language passages
+        with the TEI <tag>foreign</tag> element:</para>
+      <para>First, open <filename>templates/pages/annotate.html</filename> in eXide and locate the
+          <tag> div</tag> with class <option>header-toolbar</option>. This is the main toolbar and
+        you'll find the list of <option>annotation-action</option> buttons in the second
+          <option>span.icon-group</option>. Like many elements in TEI Publisher, <tag>
+          paper-icon-button</tag> is a webcomponent from the polymer library, which renders a button
+        compliant with Google's material design. You could use any other button-type element here,
+        but for consistency, let's stick with <tag>paper-icon-button</tag>. We define our new button
+        like this:</para>
+      <programlisting>&lt;paper-icon-button class="annotation-action toggle" title="Foreign" data-type="foreign" icon="icons:language" data-shortcut="⌘+⇧+b,ctrl+⇧+b" disabled="disabled"&gt;&lt;/paper-icon-button&gt;</programlisting>
+      <figure>
+        <title>Configure a new annotation type</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="ann-configure.png" width="800px"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>Make sure to include all the attributes shown:</para>
+      <variablelist>
+        <varlistentry>
+          <term>class</term>
+          <listitem>
+            <para>must at least contain <option>annotation-action</option>. The
+                <option>toggle</option> indicates that this is a toggling annotation, which just
+              switches between on and off and does not need further input. For semantic annotations
+              you can also add <option>authority</option>, which would trigger the authority
+              lookup.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>title</term>
+          <listitem>
+            <para>a label to be shown when the mouse is moved over the button.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>data-type</term>
+          <listitem>
+            <para>indicates the annotation type.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>icon</term>
+          <listitem>
+            <para>the <link xlink:href="http://kevingleason.me/Polymer-Todo/bower_components/iron-icons/demo/index.html">material design icon</link> to use</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>data-shortcut</term>
+          <listitem>
+            <para>an optional keyboard shortcut: here we use command-shift-b for Mac and
+              ctrl-shift-b on windows</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>disabled</term>
+          <listitem>
+            <para>initially disables the button</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+      <para>If you reload the annotation editor in the browser, you should now see your new button.
+        However, TEI Publisher does not yet know how to translate the new annotation into actual TEI
+        markup. To fix this, open <filename>modules/annotation-config.xqm</filename> and search for
+        the function <function>anno:annotations</function>. This is a long switch statement with
+        cases corresponding to the different annotation types. Add a new case at the top:</para>
+      <programlisting>declare function anno:annotations($type as xs:string, $properties as map(*), $content as function(*)) {
+    switch ($type)
+        case "foreign" return
+            &lt;foreign xmlns="http://www.tei-c.org/ns/1.0"&gt;{$content()}&lt;/foreign&gt;
+    ...
+};</programlisting>
+      <para>This will simply wrap a <tag>foreign</tag> tag around the existing content. Note that
+          <parameter> $content</parameter> is passed in as a function pointer, so it is important to
+        call it as <code> $content()</code>. Also note how we need to declare the TEI namespace.
+        Without this namespace declaration, the element would not be recognized as TEI.</para>
+      <para>Now we can try our new annotation: select a passage, click on the button and see how the
+        text is marked as an annotation. The color is chosen automatically. You can also check in
+        the TEI preview pane that the annotation is correctly output as a TEI <tag>foreign</tag>
+        element.</para>
+      <para>However, if you save the annotations, you'll notice that – once the annotation view
+        refreshes – the foreign text is rendered in italics, but not marked as an annotation! To fix
+        this, we need to modify the ODD used for rendering the annotation view.</para>
+      <para>Open <filename>odd/annotations.odd</filename> (named "Annotations"), either in eXide or
+        the ODD editor. Add an <tag>elementSpec</tag> for element <tag>foreign</tag> with an inline
+        model and a <option>cssClass</option> containing <code>annotation
+        annotation-foreign</code>.</para>
+      <programlisting>&lt;elementSpec ident="foreign" mode="change"&gt;
+    &lt;model behaviour="inline" cssClass="annotation annotation-foreign"/&gt;
+&lt;/elementSpec&gt;</programlisting>
+      <para>If you like, you can also keep the <tag>outputRendition</tag>, which renders the text in
+        italic. Key is that you declare the two <emphasis>annotation annotation-foreign</emphasis>
+        CSS classes, because those will tell TEI Publisher that the element should be treated as an
+        annotation.</para>
+      <para>As a general guideline, the ODD rules for annotations should produce simple inline tags.
+        They should output the content of the element without any modification. They may use <tag>
+          outputRendition</tag> to change the appearance, or supply other parameters (than <option>
+          content</option>).</para>
+      <para>After saving the ODD, reloading the annotation editor should properly display the <tag>
+          foreign</tag> as an annotation and we can start using our new annotation type.</para>
+      <para>However, we may not be entirely happy with the simple on/off toggle: it would be much
+        better if we could also indicate the used language in <tag>foreign</tag>. This means we have
+        to change our annotation from a mere toggle into one which can take an additional
+        parameter:</para>
+      <para>To achieve this, go back to <filename>templates/pages/annotate.html</filename> and
+        remove the <option>toggle</option> class from the <tag>paper-icon-button</tag>:</para>
+      <programlisting>&lt;paper-icon-button class="annotation-action" title="Foreign" 
+        data-type="foreign" icon="icons:language" data-shortcut="⌘+⇧+b,ctrl+⇧+b"
+        disabled="disabled"&gt;&lt;/paper-icon-button&gt;</programlisting>
+      <para>We would also like to provide an input field into which the user can enter the language.
+        Scroll down to the "Annotation Details" section in which the <tag>form</tag> for the
+        annotation types is defined and add another input on top:</para>
+      <programlisting>&lt;iron-form id="edit-form"&gt;
+    &lt;form action=""&gt;
+        &lt;paper-input class="annotation-form foreign" name="lang" label="Language"&gt;&lt;/paper-input&gt;
+    ...
+&lt;/iron-form&gt;</programlisting>
+      <para>Again we're using a webcomponent for the input to get the material design look and feel.
+        The class attribute is particularly important: it must always contain
+          <option>annotation-form</option>, followed by the annotation type:
+          <option>foreign</option>. The name is arbitrary, but should be unique and we need to
+        remember it for later. The label should contain a short title, which will be shown next to
+        the input.</para>
+      <para>Finally, we need to change our rule in
+          <filename>modules/annotation-config.xqm</filename> to add the new parameter to the
+        generated <tag>foreign</tag> element. Navigate to the file and change the
+          <function>anno:annotations</function> function as follows:</para>
+      <programlisting>declare function anno:annotations($type as xs:string, $properties as map(*), $content as function(*)) {
+    switch ($type)
+        case "foreign" return
+            &lt;foreign xmlns="http://www.tei-c.org/ns/1.0" xml:lang="{$properties?lang}"&gt;{$content()}&lt;/foreign&gt;
+    ...
+};</programlisting>
+      <para>The function receives all the parameters entered into the form fields in the
+          <varname>$properties</varname> map. In the form we used <code>name="lang"</code>, so the
+        corresponding value is retrieved from the map with <code>$properties?lang</code>.</para>
+      <para>That's all. You should now be able to modify your existing foreign annotation, enter a
+        language and see how it is output into TEI.</para>
+      <section xml:id="annotations-insert">
+        <title>Inserting an annotation before the selection</title>
+        <para>By default, the text currently selected on the page will become the content of the
+          annotation. For some elements this is not a suitable approach. A page beginning
+            (<tag>pb</tag>) or a note would be typical examples. The editor supports this: if you
+          add a class <option>before</option> to the annotation action button, TEI Publisher will
+          not replace the text, but insert the new annotation right before the selection:</para>
+        <synopsis language="xml">&lt;paper-icon-button class="annotation-action before"&gt;...&lt;/paper-icon-button&gt;</synopsis>
+      </section>
+    </section>
+    <section xml:id="annotations-considerations">
+      <title>Other Considerations</title>
+      <para>Web annotations require a clear mapping between the HTML view of the text in the browser
+        and the TEI document in the database. It is therefore important to acknowledge the following
+        restrictions:</para>
+      <orderedlist>
+        <listitem>
+          <para>TEI Publisher's page-by-page display of a text will not work in the annotation
+            editor</para>
+        </listitem>
+        <listitem>
+          <para>Likewise, the <option>fill</option> parameter, which causes TEI Publisher to fill up
+            short fragments with content from nested divs, should be set to 0 for annotation
+            purposes.</para>
+        </listitem>
+        <listitem>
+          <para>The annotation editor can operate on documents with multiple division and will show
+            them one after the other. However, these need to be top-level divisions. Therefore the
+              <option>depth</option> parameter should be set to 1.</para>
+        </listitem>
+      </orderedlist>
+      <para>To ensure these conditions are met, TEI Publisher sets the following configuration for
+        the annotate collection in <filename>config.xqm</filename>:</para>
+      <programlisting language="xquery">declare function config:collection-config($collection as xs:string?, $docUri as xs:string?) {
+    switch ($collection)
+        (: For annotations we need to overwrite document-specific settings :)
+        case "annotate" return
+            map {
+                "template": "annotate.html",
+                "overwrite": true(),
+                "depth": 1,
+                "fill": 0
+            }
+        default return
+            (: Return empty sequence to use default config :)
+            ()
+};</programlisting>
+      <para>Generated applications should choose similar settings. If you create a separate app just
+        for annotations, the following function in the <filename>config.xqm</filename> will suffice
+        to impose the right settings for all documents:</para>
+      <programlisting language="xquery">declare function config:collection-config($collection as xs:string?, $docUri as xs:string?) {
+    map {
+        "template": "annotate.html",
+        "overwrite": true(),
+        "depth": 1,
+        "fill": 0
+    }
+};</programlisting>
+    </section>
+  </section>
+  <section xml:id="registers">
+    <title>Local authority registers</title>
+    <para>In TEI Publisher 9 a suggested structure for local taxonomies and registers for people,
+      places and organizations has been introduced in recognition of a common need in editorial
+      projects to create and maintain such datasets. As with virtually all other aspects of the TEI
+      Publisher, the default solution can be fully customised, extended and tailored to the specific
+      needs of the project. </para>
+    <figure>
+      <title>Default structure of the registers collection</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="register-structure.png" width="400px"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para>To keep things simple, we have extracted each type of register into a separate TEI
+      document. By default these reside in <code>data/registers</code> collection, but location can
+      be changed in the <code>modules/config.xqm</code>. Below is the relevant excerpt from the
+      configuration file:</para>
+    <programlisting language="xquery" xml:space="preserve">    (:~
+    : The root of the collection hierarchy containing registers data.
+    :)
+   declare variable $config:register-root := $config:data-root || "/registers";
+  </programlisting>
+    <para> The people, place and organization registers have a similar structure, utilizing a
+        <code>&lt;standOff&gt;</code> as a wrapper for <code>listPerson</code>,
+        <code>listPlace</code> and <code>listOrg</code>, respectively. Keywords register, as is more
+      fitting for this kind of ontology, uses <code>taxonomy</code> instead. </para>
+    <para>The sample below presents the general structure of the person register as well as
+      microstructure of a sample entry. Since in TEI Publisher we are using the GND as the data
+      source for annotating references to people, the local register entries are reflecting some of
+      the GND information, namely short biographical note, birth and death information and a list of
+      professions. Nevertheless, this structure can be adjusted as necessary within the project. </para>
+    <figure>
+      <title>Default encoding structure of the person register</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="register-xml.png" width="800px"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <section xml:id="register-maintain">
+      <title>Maintaining authority registers</title>
+      <para>Typically, when annotating the text of the transcription we will consult an authority
+        file, either an external resource like GND or VIAF, or one internal to the project to
+        identify a reference to a place or an individual. On the level of the TEI encoding we will
+        be usually just adding an identifier reference to the dedicated element, like
+          <code>persName</code>. </para>
+      <para>As it is a tedious and error prone task to provide these identifiers manually, TEI
+        Publisher offers a mechanism to query authority registers, present matching results and make
+        a selection in a user friendly interactive component (see arrow marked as 1. on the
+        screenshot below). Thanks to its functionality a connection can be made without ever typing
+        or copying long identifiers.</para>
+      <programlisting language="xml" xml:space="preserve">... in Altenberg &lt;persName ref="gnd-136602592"&gt;Ambrosius Leibnütz&lt;/persName&gt; ...</programlisting>
+
+      <para>As a side effect of such an operation, TEI Publisher creates a local register entry for
+        the selected entity.</para>
+      <para>Nevertheless, from time to time an entry will not yet exist in the authority register we
+        are using, or possibly the information there is incomplete or incorrect. One could edit the
+        local register manually in such cases, but from TEI Publisher version 9 we now offer
+        features to edit or create an entry in the local register (see arrows marked 2 and 3 in
+        the screenshot) through a form-based interface. Just click on the
+          <emphasis>pencil</emphasis> icon to edit the entry locally (or use <emphasis>plus
+          sign</emphasis> icon to add a completely new one.</para>
+      <figure>
+        <title>Accessing register linking and editing functions in annotation editor</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="register-edit.png" width="800px"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <section xml:id="register-edit">
+        <title>Editing a person</title>
+        <para>Say, we would like to add a variant name for our <emphasis>Ambrosius
+            Leibnütz</emphasis> entry, and also edit and translate the German content (which was
+          pulled automatically in from GND) into English. From the annotation editor we can use the
+            <emphasis>pencil</emphasis> icon to open the editing form. It will appear in the right
+          hand panel and presents form controls for the information stored in the register. We can
+          edit these fields and just press the <emphasis>save</emphasis> icon when done. At this
+          point new data will be stored in the local register. NB: saving obviously only works for
+          logged in users.</para>
+        <para>The screenshot below presents a comparison of an entry freshly added to the local
+          register from GND, and the same entry after edits in the TEI Publisher form.</para>
+
+        <figure>
+          <title>Editing a person entry</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="register-change.png" width="800px"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>You will note that this form makes use of several types of form controls: basic text
+          fields, for name or date; select for choosing the gender and a custom XML editing widget
+          to edit the note. The latter is a third-party web component called
+            <code>jinn-xml-editor</code> which allows for basic edits and provides syntax checks and
+          higlighting.</para>
+        <figure>
+          <title>Error message from the note editing widget</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="register-jinn-xml-editor.png" width="800px"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+    </section>
+    <section xml:id="register-customize">
+      <title>Customizing local registers</title>
+      <para>Each project may have particular needs in terms what kinds of registers it needs and the
+        exact microstructure the registry entries need to have. Therefore TEI Publisher proposes a
+        modular approach to the subject, which allows for customizations of all aspects.
+        Nevertheless there are several conceptual blocks which need careful orchestration to
+        smoothly work together. Namely, a place to store each of the registers, the data model for
+        individual entry, the data model and source code for the input form, as well as the API
+        endpoints and corresponding functions for all CRUD (create, read, update, delete) operations
+        on the register, and, last but not least, the hooks in the annotation template to enable all
+        this to the user.</para>
+      <note>
+        <para>When creating a custom app with the TEI Publisher the <code>data/registers</code>
+          collection will be included in the generated application. Nevertheless it is strongly
+          recommended to move registers and other application data to a separate package, as
+          discussed in <link xlink:href="documentation.xml#data-organization">data-organization chapter</link>.</para>
+      </note>
+      <para>The API endpoints for registers customization start with <code>/api/register</code> and
+        call a set of functions from <code>modules/registers.xql</code>, which can be customized to
+        reflect differences in the data coming from external authority and local entry
+        structures.</para>
+      <para>As mentioned before, location of the registers is determined via
+          <code>$config:register-root</code> variable in <code>config.xqm</code>. In the same module
+        there are further customization options related to registers: location of the models for the
+        input forms (in <code>$config:register-forms</code>) and dedicated configuration for each of
+        the editable register types.</para>
+      <para>The actual forms themselves are located in <code>templates/pages/annotations</code> as
+        they are effectively HTML files with embedded <link xlink:show="new" xlink:href="https://jinntec.github.io/Fore/doc/index.html">Fore</link> form webcomponents.
+        Please consult Fore <link xlink:show="new" xlink:href="https://jinntec.github.io/fore-docs">documentation</link> how to customize these.</para>
+      <figure>
+        <title>Register configuration in config.xqm</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="register-config.png" width="800px"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>The <code>$config:register-map</code> allows to determine the following information for
+        each registry:</para>
+      <orderedlist>
+        <listitem>
+          <para><code>id</code>: identifier by which the registry can be reached in the database,
+            either to access information about existing entry or to determine the insertion point
+            for a new one; e.g. for the <emphasis>person</emphasis> registry it is by default set to
+              <code>pb-person</code> which is the @xml:id attribute of the TEI element in
+              <code>data/registers/persons.xml</code></para>
+          <programlisting xml:space="preserve">&lt;TEI xmlns="http://www.tei-c.org/ns/1.0"  xml:id="pb-persons"&gt;</programlisting>
+          <para>this identifier is always resolved in the context of the
+              <code>$config:register-root</code> variable to avoid potential conflicts</para>
+        </listitem>
+        <listitem>
+          <para><code>default</code>: identifier by which the default data model for an entry can be
+            accessed; this identifier is always resolved in the context of the
+              <code>$config:register-forms</code></para>
+        </listitem>
+        <listitem>
+          <para><code>prefix</code>: a prefix for the newly created entry, e.g. a new person will be
+            given an id like <code>person-00015</code> or similar, depending how many have been
+            created locally earlier.</para>
+        </listitem>
+      </orderedlist>
+    </section>
+
+  </section>
+</article>

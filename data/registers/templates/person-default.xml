@@ -1,6 +1,6 @@
 <listPerson xmlns="http://www.tei-c.org/ns/1.0" xml:id="person-default">
     <person xml:id="person-NEW">
-        <persName type="main"></persName>
+        <persName type="main"/>
         <persName type="sort"/>
         <gender value="U"/>
         <birth>

@@ -1,0 +1,1 @@
+[e-editiones](https://www.e-editiones.org/) is an international non profit society bringing together edition projects, cultural heritage institutions, scholars, and developers to empower digital projects by promoting open standards and community collaboration – with the ultimate goal of helping to sustain editions far into the future.

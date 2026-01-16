@@ -1,0 +1,448 @@
+{
+  "actions" : [ {
+    "app" : "jinks",
+    "description" : "Reindex the data",
+    "label" : "Reindex data",
+    "name" : "reindex"
+  }, {
+    "description" : "Rebuild list of ODDs and recompile",
+    "label" : "Fix ODDs",
+    "name" : "fix-odds"
+  }, {
+    "app" : "jinks",
+    "description" : "Download the app as a `.xar` file",
+    "label" : "Download",
+    "name" : "download"
+  }, {
+    "app" : "jinks",
+    "description" : "Sync the app to a directory on the local file system",
+    "label" : "Sync",
+    "name" : "file-sync",
+    "parameters" : [ {
+      "required" : true,
+      "description" : "The path to the target directory",
+      "label" : "Directory",
+      "name" : "target"
+    } ]
+  } ],
+  "profiles" : [ "base10", "markdown", "demo-data", "theme-base10", "jats", "docbook", "iiif", "playground", "landing-page", "docs", "docker", "ci", "docx", "upload" ],
+  "label" : "TEI Publisher Documentation and Demo",
+  "version" : "1.0.0",
+  "id" : "https://e-editiones.org/apps/tei-publisher",
+  "styles" : [ "https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/classic.min.css", "resources/css/pico-components.css", "resources/css/jinks-theme.css" ],
+  "_noDeploy" : false,
+  "ci" : {
+    "provider" : "github",
+    "enabled" : true
+  },
+  "template-suffix" : "\\.tpl",
+  "ignore" : [ "repo.xml", "resources/odd/teilite.rng", "resources/css/components.css" ],
+  "target" : "/db/apps/jinks/temp/tei-publisher",
+  "menu" : {
+    "language" : true,
+    "delete" : true,
+    "dark-mode" : true,
+    "items" : [ {
+      "url" : "browse.html",
+      "id" : "Start"
+    }, {
+      "url" : "browse.html?collection=doc",
+      "id" : "documentation"
+    }, {
+      "url" : "https://www.e-editiones.org/tags/release",
+      "id" : "news"
+    } ],
+    "login" : true,
+    "download" : true,
+    "search" : true
+  },
+  "theme" : {
+    "layout" : {
+      "class" : "fixed-layout",
+      "search" : "before-top",
+      "footer" : {
+        "mobile" : {
+          "enabled" : true
+        }
+      },
+      "after" : {
+        "width" : "min(30vw, 356px)",
+        "hidden" : false,
+        "toggle" : true
+      },
+      "before" : {
+        "width" : "min(30vw, 356px)",
+        "hidden" : false,
+        "toggle" : true
+      },
+      "max-width" : "84rem"
+    },
+    "landing" : {
+      "hero" : {
+        "background-position" : "center",
+        "background-color" : "rgba(0, 0, 0, 0.6)",
+        "class" : "two-column",
+        "background-size" : "cover",
+        "background-image" : "../images/typewriter1.jpg",
+        "background-repeat" : "no-repeat"
+      },
+      "bottom" : {
+        "background-color" : "rgba(0, 0, 0, 0.4)",
+        "background-size" : "cover",
+        "background-image" : "../images/typewriter3.jpg",
+        "background-repeat" : "no-repeat"
+      }
+    },
+    "menubar" : {
+      "background-color" : "var(--jinks-colors-500)",
+      "color" : "#ffffff",
+      "background-image" : "none"
+    },
+    "splash" : {
+      "width" : "320px",
+      "image" : "../images/tei-publisher-logo-color.svg",
+      "height" : "auto"
+    },
+    "body" : {
+      "background-color" : "var(--jinks-colors-100)"
+    },
+    "logo" : {
+      "width" : "140px",
+      "image" : "../images/tei-publisher-logo-contrast-color.svg",
+      "height" : "48px"
+    },
+    "breadcrumbs" : {
+      "max" : "40ch"
+    },
+    "content" : {
+      "max-width" : "70ch"
+    },
+    "texture" : {
+      "background-image" : null
+    },
+    "colors" : {
+      "palettes" : {
+        "green" : "palette-green.css",
+        "teal" : "palette-teal.css",
+        "neutral" : "palette-neutral.css",
+        "blue" : "palette-blue.css",
+        "beige" : "palette-beige.css"
+      },
+      "palette" : "beige"
+    },
+    "fonts" : {
+      "toc" : {
+        "size" : "1.125rem"
+      },
+      "menubar" : {
+        "size" : "14px"
+      },
+      "footnote" : {
+        "size" : "0.9em"
+      },
+      "base" : {
+        "family" : "'Inter', 'Noto', sans-serif",
+        "line-height" : "1.4",
+        "size" : "16px",
+        "weight" : "400"
+      },
+      "heading" : {
+        "family" : "'Inter', 'Noto', sans-serif",
+        "size" : "1.2rem",
+        "weight" : "400"
+      },
+      "breadcrumbs" : {
+        "size" : "0.9rem"
+      },
+      "content" : {
+        "family" : "JunicodeVF, Georgia, 'Times New Roman', serif",
+        "line-height" : "150%",
+        "size" : "1.25rem",
+        "weight" : "400"
+      }
+    },
+    "toolbar" : {
+      "background-color" : "var(--jinks-colors-200)",
+      "color" : "var(--jinks-color-primary)"
+    }
+  },
+  "features" : {
+    "browse" : {
+      "sort" : {
+        "options" : [ {
+          "label" : "Category",
+          "value" : "category",
+          "key" : "browse.category"
+        }, {
+          "label" : "Title",
+          "value" : "title",
+          "key" : "browse.title"
+        }, {
+          "label" : "Author",
+          "value" : "author",
+          "key" : "browse.author"
+        } ],
+        "default" : "category"
+      },
+      "field" : {
+        "options" : [ {
+          "label" : "Content",
+          "value" : "text",
+          "key" : "search.content"
+        }, {
+          "label" : "Title",
+          "value" : "title",
+          "key" : "search.title"
+        } ],
+        "default" : "text"
+      },
+      "read-only" : false
+    },
+    "menubar" : true,
+    "upload" : {
+      "target" : "",
+      "accept" : ".xml, .tei, .odd, .docx, .md, .mei",
+      "enabled" : true
+    },
+    "iiif" : {
+      "viewer" : "pb-tify",
+      "base_uri" : "https://apps.existsolutions.com/cantaloupe/iiif/2/",
+      "milestone_xpath" : "//tei:pb",
+      "enabled" : false,
+      "replace_facs" : {
+        "regex" : "^[^:]+:(.*)",
+        "replace" : "$1"
+      }
+    },
+    "toolbar" : {
+      "zoom" : true,
+      "navigation" : true,
+      "enabled" : true,
+      "progress" : {
+        "subscribe" : "transcription",
+        "enabled" : true
+      }
+    },
+    "hero" : false,
+    "toc" : {
+      "collapse" : false,
+      "enabled" : true
+    },
+    "toolbar-toggles" : {
+      "toggle-reading" : false,
+      "enabled" : false
+    },
+    "playground" : {
+      "enabled" : true
+    }
+  },
+  "indexing" : {
+    "tei" : {
+      "enable" : true,
+      "context" : "div"
+    },
+    "docbook" : {
+      "enable" : true
+    },
+    "jats" : {
+      "enable" : true
+    }
+  },
+  "data" : {
+    "landing" : "landing/home.xml"
+  },
+  "_lastModified" : "2026-01-16T12:13:04.201Z",
+  "pkg" : {
+    "website" : "http://tei-publisher.org",
+    "abbrev" : "tei-publisher",
+    "author" : "Wolfgang Meier et al.",
+    "version" : "1.0.0",
+    "dependencies" : [ {
+      "semver" : "1",
+      "package" : "http://e-editiones.org/roaster"
+    }, {
+      "semver" : "6",
+      "package" : "http://existsolutions.com/apps/tei-publisher-lib"
+    }, {
+      "semver" : "1",
+      "package" : "http://tei-publisher.com/library/jinks-templates"
+    } ],
+    "permissions" : "rw-r--r--",
+    "user" : {
+      "password" : "simple",
+      "name" : "tei",
+      "group" : "tei"
+    }
+  },
+  "description" : "TEI Publisher provides a flexible and sustainable toolbox which enables scholars with limited technical skills to publish their material without forcing it into a one-size-fits-all framework.",
+  "_dry" : false,
+  "source" : "/db/apps/jinks/profiles/upload",
+  "type" : "feature",
+  "skip" : [ "^doc/.*$", "setup.xql", "config.json" ],
+  "odds" : [ "teipublisher.odd", "dta.odd", "shakespeare.odd", "vangogh.odd", "osinski.odd", "jats.odd", "docbook.odd", "landing.odd", "docx.odd", "docx-output.odd" ],
+  "docker" : {
+    "eXist" : "6.4.0",
+    "features" : {
+      "nodejs" : false,
+      "xst" : false,
+      "ner" : false,
+      "tex" : false
+    },
+    "jwt" : "2.0.1",
+    "roaster" : "1.11.0",
+    "ports" : {
+      "https" : 8443,
+      "http" : 8080
+    },
+    "crypto" : "6.0.1",
+    "tei-publisher-lib" : "6.0.2",
+    "ant" : "1.10.15",
+    "jinks-templates" : "1.2.0"
+  },
+  "category" : "workflow",
+  "_overwrite" : "reinstall",
+  "defaults" : {
+    "data" : "data",
+    "address-by-id" : false,
+    "odd-root" : "resources/odd",
+    "languages" : [ "bg", "cs", "zh_CN", "zh_TW", "de", "en", "es", "el", "fr", "fi", "it", "ka", "nl", "no", "pl", "pt", "ro", "ru", "sl", "sv", "tr", "uk" ],
+    "data-default" : "",
+    "direction" : "ltr",
+    "template" : "basic.html",
+    "browse" : "browse.html",
+    "search" : "div",
+    "landing" : "index.html",
+    "odd-internal" : [ "docx.odd" ],
+    "view" : "div",
+    "data-exclude" : [ "doc($config:data-root || '/taxonomy.xml')//tei:text", "collection($config:register-root)//tei:text" ],
+    "site-root" : "/exist/apps/tei-publisher",
+    "odd" : "teipublisher.odd",
+    "pagination" : {
+      "fill" : 5,
+      "depth" : 10
+    },
+    "media" : [ "web", "print", "epub", "markdown" ],
+    "register-root" : "registers"
+  },
+  "templating" : {
+    "use" : [ "templates/markdown-blocks.html", "templates/iiif-blocks.html", "templates/playground-blocks.html", "templates/upload-blocks.html" ],
+    "modules" : {
+      "http://teipublisher.com/ns/templates/browse" : {
+        "at" : "modules/templates/browse.xqm",
+        "prefix" : "browse"
+      },
+      "http://teipublisher.com/ns/templates/landing-page" : {
+        "at" : "modules/templates/landing-page.xqm",
+        "prefix" : "landing"
+      },
+      "http://teipublisher.com/ns/templates/page" : {
+        "at" : "modules/templates/page.xqm",
+        "prefix" : "page"
+      }
+    }
+  },
+  "script" : {
+    "custom" : [ ],
+    "webcomponents" : "3.0.4",
+    "extra-components" : [ ],
+    "cdn" : "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components"
+  },
+  "order" : 103,
+  "$schema" : "../../schema/jinks.json",
+  "collection-config" : {
+    "demo" : {
+      "template" : "basic.html"
+    },
+    "jats" : {
+      "odd" : "jats.odd",
+      "template" : "jats.html"
+    },
+    "doc" : {
+      "odd" : "docbook.odd",
+      "media" : [ "web", "print", "fo", "epub", "markdown" ],
+      "template" : "documentation.html"
+    },
+    "docx" : {
+      "odd" : "docx-output.odd",
+      "template" : "docx.html"
+    }
+  },
+  "_update" : false,
+  "generator" : {
+    "templates" : {
+      "config-odd-available" : "xmldb:get-child-resources($config:odd-root)[ends-with(., '.odd')][not(. = ('teipublisher_odds.odd', 'teilite.odd'))]"
+    }
+  },
+  "i18n" : [ "landing-page" ],
+  "api" : [ {
+    "spec" : "markdown-api.json",
+    "prefix" : "markdown"
+  }, {
+    "spec" : "iiif-api.json",
+    "prefix" : "iiif",
+    "id" : "https://e-editiones.org/api/iiif",
+    "path" : "iiif-api.xql"
+  }, {
+    "spec" : "docs-api.json",
+    "prefix" : "demo",
+    "id" : "http://teipublisher.com/api/documentation-and-demo",
+    "path" : "docs-api.xql"
+  } ],
+  "depends" : [ "base10", "demo-data", "upload", "ci", "docbook", "jats", "markdown", "iiif", "playground", "docx", "docker", "landing-page" ],
+  "static" : {
+    "fields" : {
+      "index" : [ "content" ],
+      "store" : [ "content", "title", "link" ]
+    },
+    "templating" : {
+      "use" : [ "templates/iiif-blocks.html" ]
+    },
+    "styles" : [ "resources/css/static.css", "transform/docbook.css" ],
+    "collections" : {
+      "demo" : {
+        "fetch" : [ {
+          "target" : "[[$doc?path]]/manifest.json",
+          "url" : "[[$context?base-uri]]/api/iiif/[[$doc?path]]"
+        } ],
+        "index" : false,
+        "include" : [ "demo/F-rom.xml" ],
+        "path-prefix" : "",
+        "paginate" : {
+          "toc" : false,
+          "parts" : [ {
+            "id" : "default",
+            "view" : "page",
+            "odd" : "shakespeare.odd"
+          }, {
+            "user.mode" : "breadcrumb",
+            "id" : "breadcrumb",
+            "view" : "single"
+          } ],
+          "template" : "static/templates/facsimile.html"
+        },
+        "template" : "static/templates/index.html"
+      },
+      "doc" : {
+        "index" : false,
+        "path-prefix" : "",
+        "paginate" : {
+          "toc" : true,
+          "parts" : [ {
+            "odd" : "docbook.odd"
+          }, {
+            "user.mode" : "breadcrumb",
+            "id" : "breadcrumb",
+            "odd" : "docbook.odd"
+          } ],
+          "template" : "static/templates/documentation.html"
+        },
+        "template" : "static/templates/index.html"
+      }
+    },
+    "copy" : [ {
+      "to" : "images",
+      "filter" : "\\.(?:png|jpg|jpeg|gif|svg)$",
+      "from" : "data/doc"
+    } ]
+  }
+}

@@ -1,0 +1,1 @@
+Ukrainian web and product designer based in Warsaw with over four years of experience. She created visual identities, design systems and UI/UX designs for customers globally, including research and cultural heritage institutions like the TEI Consortium, Jagiellonian University and the University of Warsaw.

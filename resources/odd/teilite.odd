@@ -1,0 +1,121 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:svg="http://www.w3.org/2000/svg" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xmlns:math="http://www.w3.org/1998/Math/MathML">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Title</title>
+      </titleStmt>
+      <publicationStmt>
+        <p>Publication Information</p>
+      </publicationStmt>
+      <sourceDesc>
+        <p>Information about the source</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <schemaSpec ident="newLite" start="TEI">
+        <moduleRef key="header" except="appInfo application biblFull citeData citeStructure           conversion correction cRefPattern funder geoDecl hyphenation interpretation           normalization punctuation quotation segmentation stdVals namespace principal refsDecl refState samplingDecl           fsdDecl schemaSpec styleDefDecl sponsor tagUsage"/>
+        <moduleRef key="core" except="address addressLine binaryObject divGen email headItem headLabel index            postBox meeting mentioned postCode said soCalled street teiCorpus pubPlace"/>
+        <!-- corpus module is excluded  -->
+        <moduleRef key="tei"/>
+        <moduleRef key="textstructure" except="argument back body div1 div2 div3 div4 div5 div6 div7 docAuthor docDate docEdition           docImprint docTitle front group titlePage titlePart trailer"/>
+        <moduleRef key="msdescription" include="msName msDesc msIdentifier repository altIdentifier physDesc history incipit           explicit locus msContents"/>
+        <moduleRef key="figures"/>
+        <moduleRef key="analysis" include="s w pc"/>
+        <moduleRef key="linking" include="ab anchor seg standOff listAnnotation"/>
+        <moduleRef key="namesdates" except="age bloc climate district faith forename surname addName nameLink genName           geogName langKnowledge langKnown nationality objectIdentifier offset persona persPronouns population            settlement residence socecStatus trait terrain"/>
+        <!--        In person we only use gender -->
+        <!--        objectName must be allowed as a direct child of object -->
+        <!-- roleName -->
+        <moduleRef key="textcrit" include="app lem rdg listApp rdgGrp listWit wit witDetail "/>
+        <moduleRef key="transcr" except="damageSpan handShift line listTranspose mod path redo sourceDoc"/>
+        <moduleRef key="cmc"/>
+        <moduleRef key="iso-fs" include="f fs"/>
+        <!--        dictionaries module is excluded -->
+        <moduleRef key="verse" except="metDecl metSym"/>
+        <moduleRef key="drama" except="actor camera caption move performance sound           tech view"/>
+        <!--        epilogue and prologue, tech -->
+        <!--        spoken module is excluded -->
+        <!--        nets module is excluded -->
+        <!--        certainty module is excluded -->
+        <moduleRef key="tagdocs" include="code eg listRef"/>
+        <moduleRef key="gaiji" include="g charDecl char glyph"/>
+        <elementSpec module="core" ident="text" mode="change">
+          <desc>This element must have one or more <gi>text</gi> elements or one or more
+              <gi>div</gi> elements.</desc>
+          <content>
+            <alternate>
+              <elementRef key="text" minOccurs="1" maxOccurs="unbounded"/>
+              <elementRef key="div" minOccurs="1" maxOccurs="unbounded"/>
+            </alternate>
+          </content>
+        </elementSpec>
+
+        <elementSpec module="msdescription" ident="msIdentifier" mode="change">
+          <content>
+            <!--            This will be simplified when interleave is adopted-->
+            <sequence minOccurs="1" maxOccurs="unbounded">
+              <alternate>
+                <elementRef key="msName"/>
+                <elementRef key="placeName"/>
+                <elementRef key="repository"/>
+                <elementRef key="idno" maxOccurs="unbounded"/>
+              </alternate>
+              <alternate minOccurs="0" maxOccurs="unbounded">
+                <elementRef key="msName"/>
+                <elementRef key="placeName"/>
+                <elementRef key="repository"/>
+                <elementRef key="idno" maxOccurs="unbounded"/>
+              </alternate>
+            </sequence>
+          </content>
+        </elementSpec>
+
+        <elementSpec ident="person" module="namesdates" mode="change">
+          <constraintSpec ident="no-sex" scheme="schematron">
+            <constraint>
+              <sch:rule context="tei:person">
+                <sch:report test="tei:sex">Element &lt;sex&gt; is not allowed </sch:report>
+                <sch:report test="@sex">Attribute &lt;sex&gt; is not allowed </sch:report>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+        </elementSpec>
+
+        <elementSpec ident="publicationStmt" mode="change">
+          <content>
+            <sequence minOccurs="1" maxOccurs="unbounded">
+              <alternate>
+                <elementRef key="placeName" maxOccurs="unbounded"/>
+                <elementRef key="publisher" maxOccurs="unbounded"/>
+                <elementRef key="authority" maxOccurs="unbounded"/>
+                <elementRef key="distributor" maxOccurs="unbounded"/>
+                <elementRef key="name" maxOccurs="unbounded"/>
+                <elementRef key="date" maxOccurs="unbounded"/>
+                <elementRef key="p" maxOccurs="unbounded"/>
+                <elementRef key="ref" maxOccurs="unbounded"/>
+                <elementRef key="availability" maxOccurs="unbounded"/>  
+                <elementRef key="idno" maxOccurs="unbounded"/>
+                <elementRef key="listRef" maxOccurs="unbounded"/>
+              </alternate>
+              <alternate minOccurs="0" maxOccurs="unbounded">
+                <elementRef key="placeName" maxOccurs="unbounded"/>
+                <elementRef key="publisher" maxOccurs="unbounded"/>
+                <elementRef key="authority" maxOccurs="unbounded"/>
+                <elementRef key="distributor" maxOccurs="unbounded"/>
+                <elementRef key="name" maxOccurs="unbounded"/>
+                <elementRef key="date" maxOccurs="unbounded"/>
+                <elementRef key="p" maxOccurs="unbounded"/>
+                <elementRef key="ref" maxOccurs="unbounded"/>
+                <elementRef key="availability" maxOccurs="unbounded"/>  
+                <elementRef key="idno" maxOccurs="unbounded"/>
+                <elementRef key="listRef" maxOccurs="unbounded"/>
+              </alternate>
+            </sequence>
+          </content>
+        </elementSpec>
+      </schemaSpec>
+    </body>
+  </text>
+</TEI>

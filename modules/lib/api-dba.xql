@@ -8,7 +8,7 @@ import module namespace router="http://e-editiones.org/roaster";
 import module namespace rutil="http://e-editiones.org/roaster/util";
 import module namespace dapi="http://teipublisher.com/api/documents" at "api/document.xql";
 import module namespace vapi="http://teipublisher.com/api/view" at "api/view.xql";
-import module namespace deploy="http://teipublisher.com/api/generate" at "api/generate.xql";
+import module namespace action="http://teipublisher.com/api/actions" at "api/actions.xql";
 
 let $lookup := function($name as xs:string) {
     try {

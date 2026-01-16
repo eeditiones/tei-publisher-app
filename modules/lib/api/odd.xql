@@ -7,6 +7,7 @@ declare namespace pb="http://teipublisher.com/1.0";
 
 declare default element namespace "http://www.tei-c.org/ns/1.0";
 
+import module namespace tmpl="http://e-editiones.org/xquery/templates";
 import module namespace router="http://e-editiones.org/roaster";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
@@ -47,30 +48,25 @@ declare function oapi:get-line($src, $line as xs:int?) {
 };
 
 declare function oapi:recompile($request as map(*)) {
-    let $oddParam := $request?parameters?odd
+    let $odd := $request?parameters?odd
     let $oddRoot := head(($request?parameters?root, $config:odd-root))
     let $outputRoot := head(($request?parameters?output-root, $config:output-root))
     let $outputPrefix := head(($request?parameters?output-prefix, $config:output))
     let $oddConfig := doc($oddRoot || "/configuration.xml")/*
-    (: Normalize ODD sources to a flat sequence of strings :)
-    let $oddSources :=
-        if (exists($oddParam)) then
-            (: request param may be a single string or an array of strings :)
-            if ($oddParam instance of array(*)) then $oddParam?* else $oddParam
+    let $odd :=
+        if (exists($odd)) then
+            $odd
         else
-            let $avail := if ($config:odd-available instance of array(*)) then $config:odd-available?* else $config:odd-available
-            let $internal := if ($config:odd-internal instance of array(*)) then $config:odd-internal?* else $config:odd-internal
-            return ($avail, $internal)
+            ($config:odd-available, $config:odd-internal)
     let $result :=
-        for $source in $oddSources
-        let $src := xs:string($source)
-        let $odd := doc($oddRoot || "/" || $src)
-        let $pi := tpu:parse-pi($odd, (), $src)
+        for $source in if ($odd instance of array(*)) then $odd?* else $odd
+        let $odd := doc($oddRoot || "/" || $source)
+        let $pi := tpu:parse-pi($odd, (), $source)
         for $module in
             if ($pi?output) then
                 tokenize($pi?output)
             else
-                ("web", "print", "latex", "epub", "fo")
+                $config:odd-media
         return
             try {
                 for $output in pmu:process-odd(
@@ -127,9 +123,7 @@ declare function oapi:recompile($request as map(*)) {
 
 declare function oapi:list-odds($request as map(*)) {
     array {
-        let $avail := if ($config:odd-available instance of array(*)) then $config:odd-available?* else $config:odd-available
-        let $internal := if ($config:odd-internal instance of array(*)) then $config:odd-internal?* else $config:odd-internal
-        for $doc in distinct-values(($avail, $internal))
+        for $doc in distinct-values(($config:odd-available, $config:odd-internal))
         let $resource := $config:odd-root || "/" || $doc
         let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
         let $displayName := (
@@ -161,46 +155,21 @@ declare function oapi:delete-odd($request as map(*)) {
             error($errors:NOT_FOUND, "Document " || $path || " not found")
 };
 
-declare %private function oapi:parse-template($nodes as node()*, $odd as xs:string, $title as xs:string?) {
-    for $node in $nodes
+declare %private function oapi:parse-template($template as xs:string, $title as xs:string?) {
+    let $context := map {
+        "label": $title
+    }
     return
-        typeswitch ($node)
-            case document-node()
-                return
-                    oapi:parse-template($node/node(), $odd, $title)
-            case element(schemaSpec)
-                return
-                    element {node-name($node)} {
-                        $node/@*,
-                        attribute ident {$odd},
-                        oapi:parse-template($node/node(), $odd, $title)
-                    }
-            case element(title)
-                return
-                    element {node-name($node)} {
-                        $node/@*,
-                        $title
-                    }
-            case element(change)
-                return
-                    element {node-name($node)} {
-                        attribute when {current-date()},
-                        "Initial version"
-                    }
-            case element()
-                return
-                    element {node-name($node)} {
-                        $node/@*,
-                        oapi:parse-template($node/node(), $odd, $title)
-                    }
-            default
-                return
-                    $node
+        tmpl:process($template, $context, map {
+            "plainText": false(),
+            "ignoreImports": true(),
+            "ignoreUse": true()
+        })
 };
 
 declare function oapi:create-odd($request as map(*)) {
-    let $template := doc($config:odd-root || "/template.odd.xml")
-    let $parsed := document {oapi:parse-template($template, $request?parameters?odd, $request?parameters?title)}
+    let $template := doc($config:odd-root || "/template.odd.xml") => serialize()
+    let $parsed := document { oapi:parse-template($template, $request?parameters?title) }
     let $stored := xmldb:store($config:odd-root, $request?parameters?odd || ".odd", $parsed, "text/xml")
     return (
         oapi:compile($request?parameters?odd),
@@ -243,7 +212,7 @@ return
 };
 
 declare %private function oapi:compile($odd) {
-    for $module in ("web", "print", "latex", "epub", "fo")
+    for $module in $config:odd-media
     let $result :=
         pmu:process-odd(
             odd:get-compiled($config:odd-root, $odd || ".odd"),
@@ -436,8 +405,9 @@ declare function oapi:update($nodes as node()*, $data as document-node(), $orig 
                 }
             case element(TEI) return
                     element { node-name($node) } {
-                        for $prefix in in-scope-prefixes($node)[. != "http://www.tei-c.org/ns/1.0"][. != ""]
+                        for $prefix in in-scope-prefixes($node)[. != ""][. != "xml"][. != "xmlns"]
                         let $namespace := namespace-uri-for-prefix($prefix, $node)
+                        where $namespace != "http://www.tei-c.org/ns/1.0"
                         return
                             namespace { $prefix } { $namespace }
                         ,
@@ -501,8 +471,9 @@ declare %private function oapi:normalize-ns($nodes as node()*) {
                 document { oapi:normalize-ns($node/node()) }
             case element(TEI) return
                 element { node-name($node) } {
-                    for $prefix in in-scope-prefixes($node)[. != "http://www.tei-c.org/ns/1.0"][. != ""]
+                    for $prefix in in-scope-prefixes($node)[. != ""][. != "xml"][. != "xmlns"]
                     let $namespace := namespace-uri-for-prefix($prefix, $node)
+                    where $namespace != "http://www.tei-c.org/ns/1.0"
                     return
                         namespace { $prefix } { $namespace },
                     $node/@*,
@@ -514,7 +485,7 @@ declare %private function oapi:normalize-ns($nodes as node()*) {
                     oapi:normalize-ns($node/node())
                 }
             case element(pb:template) return
-                <pb:template xmlns="" xml:space="preserve">
+                <pb:template xml:space="preserve">
                 { $node/node() }
                 </pb:template>
             case element() return
@@ -536,8 +507,9 @@ declare function oapi:add-tags-decl($nodes as node()*) {
                 }
             case element(TEI) return
                 element { node-name($node) } {
-                    for $prefix in in-scope-prefixes($node)[. != "http://www.tei-c.org/ns/1.0"][. != ""]
+                    for $prefix in in-scope-prefixes($node)[. != ""][. != "xml"][. != "xmlns"]
                     let $namespace := namespace-uri-for-prefix($prefix, $node)
+                    where $namespace != "http://www.tei-c.org/ns/1.0"
                     return
                         namespace { $prefix } { $namespace },
                     $node/@*,

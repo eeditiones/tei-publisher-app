@@ -1,0 +1,2 @@
+[TEI Publisher](https://teipublisher.com/) is a sustainable, open source publication platform for Digital Humanities created with interoperability, ease of maintenance and long-term preservation of projects in mind. It is a community effort based on ideas and contributions by TEI enthusiasts all over the world.
+Development of TEI Publisher is coordinated by the e-editiones society.
