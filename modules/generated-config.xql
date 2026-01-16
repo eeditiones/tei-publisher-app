@@ -7,7 +7,7 @@ module namespace config="https://e-editiones.org/tei-publisher/generator/config"
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
-declare variable $config:webcomponents := "3.0.4";
+declare variable $config:webcomponents := "3.0.5";
 declare variable $config:webcomponents-cdn := "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components";
 declare variable $config:fore := "";
 

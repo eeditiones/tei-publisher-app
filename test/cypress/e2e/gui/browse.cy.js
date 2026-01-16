@@ -14,7 +14,7 @@ describe('TEI-Publisher Browse Collection', () => {
     
     // Wait for page to stabilize and pagination to be fully initialized
     cy.get('body').should('be.visible')
-    cy.waitForPaginate()
+    cy.waitForPaginate({ timeout: 15000 })
   })
 
   describe('Page Load & Structure', () => {

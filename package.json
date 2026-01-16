@@ -4,7 +4,7 @@
     "description": "TEI Publisher Documentation and Demo",
     "license": "GPL-3.0",
     "dependencies": {
-        "@teipublisher/pb-components": "^3.0.4",
+        "@teipublisher/pb-components": "^3.0.5",
         "@jinntec/fore": "^2.8.0",
         "@picocss/pico": "^2.1.1"
     },
@@ -12,7 +12,7 @@
         "ajv": "^8.17.1",
         "ajv-draft-04": "^1.0.0",
         "ajv-formats": "^3.0.1",
-        "cypress": "^15.8.2",
+        "cypress": "^15.9.0",
         "cypress-ajv-schema-validator": "^2.0.2",
         "fflate": "^0.8.2",
         "glob": "^13.0.0"

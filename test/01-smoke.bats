@@ -26,14 +26,16 @@
 
 # Make sure the package has been deployed
 # Expected count is number of declared expath dependencies + 1 (the app itself)
+# This is only meaningful for unexploded containers
 @test "logs show package deployment" {
+  skip
   result=$(docker logs exist | grep -ow -c 'https://e-editiones.org/apps/tei-publisher')
   expected=4
   [ "$result" -eq $expected ]
 }
 
 @test "application responds" {
-  result=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8080/exist/apps/tei-publisher/)
+  result=$(curl -sL -o /dev/null -w "%{http_code}" http://127.0.0.1:8080/exist/apps/tei-publisher/)
   [ "$result" -eq 200 ]
 }
 

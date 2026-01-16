@@ -76,18 +76,25 @@ jobs:
           done
           echo "Timeout waiting for server"
           exit 1
+
+      # Setup Node.js (needed for Ant build which calls npm install)
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "lts/*"
+          cache: 'npm'
       
       - name: Run npm install
         run: npm install
       
       - name: Run tests
         if: matrix.experimental != true
-        run: npx cypress run -b firefox
+        run: npx cypress run --browser firefox
       
       - name: Run tests [expect failures]
         if: matrix.experimental == true
         continue-on-error: true
-        run: npx cypress run -b firefox
+        run: npx cypress run --browser firefox
       
       - name: Retrieve eXist log
         if: failure()
@@ -95,7 +102,7 @@ jobs:
       
       - name: Publish log as artifact
         if: failure()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: exist-${{matrix.EXIST_BASE}}-teipublisher.log
           path: ./exist.log

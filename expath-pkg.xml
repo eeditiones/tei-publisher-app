@@ -1,4 +1,4 @@
-<package xmlns="http://expath.org/ns/pkg" name="https://e-editiones.org/apps/tei-publisher" abbrev="tei-publisher" version="1.0.0" spec="1.0">
+<package xmlns="http://expath.org/ns/pkg" name="https://e-editiones.org/apps/tei-publisher" abbrev="tei-publisher" version="10.0.0" spec="1.0">
     <title>TEI Publisher Documentation and Demo</title>
     <dependency processor="http://exist-db.org" semver-min="6.2.0"/>
     
