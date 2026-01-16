@@ -82,12 +82,12 @@ jobs:
       
       - name: Run tests
         if: matrix.experimental != true
-        run: npm test
+        run: npx cypress run -b firefox
       
       - name: Run tests [expect failures]
         if: matrix.experimental == true
         continue-on-error: true
-        run: npm test
+        run: npx cypress run -b firefox
       
       - name: Retrieve eXist log
         if: failure()
