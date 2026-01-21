@@ -5,7 +5,7 @@
     "license": "GPL-3.0",
     "dependencies": {
         "@teipublisher/pb-components": "^3.0.5",
-        "@jinntec/fore": "^2.8.0",
+        "@jinntec/fore": "^2.9.0",
         "@picocss/pico": "^2.1.1"
     },
     "devDependencies": {
