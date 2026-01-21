@@ -120,14 +120,14 @@ jobs:
 
       - name: Run Cypress e2e test
         if: matrix.experimental != true
-        uses: cypress-io/github-action@v6
+        uses: cypress-io/github-action@v7
         with:
           browser: firefox
 
       - name: Run Cypress e2e test (expect fail)
         if: matrix.experimental == true
         continue-on-error: true
-        uses: cypress-io/github-action@v6
+        uses: cypress-io/github-action@v7
         with:
           browser: firefox
 
