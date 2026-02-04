@@ -15,7 +15,7 @@
         "cypress": "^15.9.0",
         "cypress-ajv-schema-validator": "^2.0.2",
         "fflate": "^0.8.2",
-        "glob": "^13.0.0"
+        "glob": "^13.0.1"
     },
     "scripts": {
         "test": "cypress run",
