@@ -113,7 +113,7 @@ jobs:
 
       - name: Upload logs artifact
         if: failure()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: exist-${{ matrix.exist-version }}-log
           path: exist.log
@@ -133,7 +133,7 @@ jobs:
 
       - name: Upload cypress screenshots
         if: failure()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: cypress-screenshots-${{ matrix.exist-version }}-${{ matrix.java-version }}-${{ matrix.experimental && 'experimental' || 'stable' }}
           path: test/cypress/screenshots/
@@ -141,7 +141,7 @@ jobs:
       # Upload build artifacts
       - name: Upload build artifacts
         if: success()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: xar-package-${{ matrix.exist-version }}-${{ matrix.java-version }}-${{ matrix.experimental && 'experimental' || 'stable' }}
           path: build/*.xar
