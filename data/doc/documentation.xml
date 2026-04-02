@@ -68,7 +68,7 @@
       </varlistentry>
     </variablelist>
     <section xml:id="jinks">
-    <title>Jinks: edition in few clicks</title>
+    <title>Jinks: an edition in a few clicks</title>
     <para>With the <link xlink:href="quickstart.xml?id=intro-jinks#intro-jinks">Jinks</link> application manager, the core TEI Publisher idea of assembling an edition from the modular "lego" blocks is taken to the next level. The core of TEI Publisher is now decomposed into a set of small, modular profiles, which can be combined and configured to assemble concrete applications. Each profile provides end-to-end implementation for a particular aspect of a digital edition, e.g. support for a certain input format, integration of facsimile images, timelines or map display. Check the <link xlink:href="quickstart.xml?id=using-jinks#using-jinks">hands-on tutorial</link> for a walk through.</para>
     <para>Using Jinks is very simple on the surface, nevertheless it operates over the complex, heterogeneous spectrum of conceivable scholarly projects. Therefore it still requires from the user the usual intellectual and scholarly rigour to assure the end result matches the expectations. Similarly, to customize or create a new feature profile, the understanding of the orchestration across the technical layers is necessary.</para>
     </section>
