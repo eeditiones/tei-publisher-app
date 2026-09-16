@@ -574,10 +574,10 @@
             </listitem>
           </varlistentry>
           <varlistentry>
-            <term>Reconciliation</term>
+            <term>ReconciliationService</term>
             <listitem>
               <para><link xlink:href="https://reconciliation-api.github.io/testbench/">Reconciliation Service</link> – arbitrary entities, provided by any
-                reconciliation service</para>
+                reconciliation service (including your own, see <link xlink:href="reconcile.xml">Reconciliation Service API</link>)</para>
             </listitem>
           </varlistentry>
           <varlistentry>
@@ -758,10 +758,12 @@
           In addition to the general attributes described above, the only additional bit of
           configuration is the service URL that should be queried. You specify it in the "endpoint"
           attribute:</para>
-        <programlisting language="xml" xml:space="preserve">&lt;pb-authority connector="Reconciliation" name="term" prefix="wd" endpoint="https://wikidata.reconci.link/api"/&gt;</programlisting>
+        <programlisting language="xml" xml:space="preserve">&lt;pb-authority connector="ReconciliationService" name="term" prefix="wd" endpoint="https://wikidata.reconci.link/api"/&gt;</programlisting>
         <para>This will retrieve authority entries from wikidata.</para>
-        <para>Currently, the Reconciliation connector cannot be used as a data provider for the
-          Custom connector described below. This will be added in a future release.</para>
+        <para>The Reconciliation Service connector can also be nested inside the <emphasis
+            >Custom</emphasis> connector described below, exactly like any other connector,
+          allowing matches from a reconciliation service to be copied into and enriched within
+          your local TEI register.</para>
       </section>
       <section xml:id="connector-custom">
         <title>Custom Connector</title>
@@ -812,10 +814,12 @@
             <filename>modules/annotation-config.xqm</filename>. You can also change the function
             <function>rapi:insert-point</function> to configure where exactly the local entity
           definitions will be stored.</para>
-        <note>
-          <para>Currently, it is not possible to use the Reconciliation connector described above in
-            the context of the Custom connector. This will be added in a future release.</para>
-        </note>
+        <para>Any of the connectors described above — including the Reconciliation Service
+          connector — can be nested inside the custom connector in exactly the same way. For
+          example:</para>
+        <programlisting language="xml" xml:space="preserve">&lt;pb-authority connector="Custom" name="person"&gt;
+    &lt;pb-authority connector="ReconciliationService" prefix="wd" endpoint="https://wikidata.reconci.link/api"&gt;&lt;/pb-authority&gt;
+&lt;/pb-authority&gt;</programlisting>
       </section>
     </section>
     <section xml:id="annotations-config">

@@ -3620,7 +3620,9 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       <title>Extending the API</title>
       <para>Every Jinks profile or custom application may add additional API endpoints on top of the core API.
         For example, the <emphasis>IIIF profile</emphasis> adds an API endpoint to generate a IIIF manifest from a TEI
-        document, and the <emphasis>timeline</emphasis> profile provides endpoints for retrieving timeline data.
+        document, the <emphasis>timeline</emphasis> profile provides endpoints for retrieving timeline data, and the
+        <emphasis>reconcile</emphasis> profile turns an application into a full <link
+          xlink:href="reconcile.xml">OpenRefine Reconciliation Service</link>.
         Custom applications and blueprints may implement endpoints in the same way.</para>
       <para>TEI Publisher allows an arbitrary number of Open API configurations, each defining
         different endpoints. Simply provide one or more relevant
