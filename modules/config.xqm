@@ -391,6 +391,26 @@ declare variable $config:data-exclude := (
  : The root of the collection hierarchy containing registers data.
  :)
 declare variable $config:register-root := $config:data-root || "/registers";
+
+(:~
+ : XPath expressions a client may pass in the xpath parameter of the /api/parts
+ : endpoint (e.g. via the xpath attribute of pb-view). Any other expression is
+ : rejected, except /id('...'), which is always allowed. Add the expressions
+ : used by your own templates here.
+ :)
+declare variable $config:allowed-xpath := (
+    "//teiHeader",
+    "//teiHeader/fileDesc/titleStmt",
+    "//teiHeader/fileDesc/titleStmt/title",
+    "//teiHeader/fileDesc/titleStmt/title[1]",
+    "//teiHeader/fileDesc/titleStmt/title[@type='main']",
+    "//text[@type='source']",
+    "//text[@type='source']/body",
+    "//text[@xml:lang='pl']/body",
+    "! (.//text[@xml:lang = 'la']/body | .//text/body)[1]",
+    "//div[@type='original']",
+    "//article-meta"
+);
 declare variable $config:register-forms := $config:data-root || "/registers/templates";
 
 declare variable $config:register-map := map {
@@ -608,13 +628,40 @@ declare function config:document-type($div as element()) {
             "jats"
 };
 
+(:~
+ : Collections from which documents may be loaded via config:get-document. Documents
+ : outside these collections are never returned, even if addressed by an absolute path.
+ : Extend this list if your app needs to display documents stored elsewhere.
+ :)
+declare variable $config:document-roots := distinct-values((
+    $config:data-root, $config:data-default, $config:register-root
+));
+
+(:~
+ : Filter the given documents, keeping only those stored below one of $config:document-roots.
+ :)
+declare function config:in-document-roots($docs as node()*) as node()* {
+    for $doc in $docs
+    let $uri := document-uri(root($doc))
+    where some $root in $config:document-roots satisfies
+        starts-with($uri, replace($root, "/+$", "") || "/")
+    return
+        $doc
+};
+
 declare function config:get-document($idOrName as xs:string) {
-    if ($config:address-by-id) then
-        root(collection($config:data-root)/id($idOrName))
-    else if (starts-with($idOrName, '/')) then
-        doc(xmldb:encode-uri($idOrName))
+    (: reject relative path segments to prevent escaping the document roots :)
+    if (tokenize($idOrName, "/") = "..") then
+        ()
     else
-        doc(xmldb:encode-uri($config:data-root || "/" || $idOrName))
+        config:in-document-roots(
+            if ($config:address-by-id) then
+                root(collection($config:data-root)/id($idOrName))
+            else if (starts-with($idOrName, '/')) then
+                doc(xmldb:encode-uri($idOrName))
+            else
+                doc(xmldb:encode-uri($config:data-root || "/" || $idOrName))
+        )
 };
 
 (:~

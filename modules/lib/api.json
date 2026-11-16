@@ -2147,6 +2147,9 @@
 				"description": "Generate a stand-alone application based on an ODD, template and other settings",
 				"tags": ["apps"],
 				"operationId": "deploy:generate",
+				"x-constraints": {
+					"groups": ["tei"]
+				},
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -3046,7 +3049,7 @@
 				],
 				"operationId": "rapi:form-template",
 				"x-constraints": {
-					"group": "tei"
+					"groups": ["tei"]
 				},
 				"parameters": [
 					{
@@ -3128,6 +3131,9 @@
                 "description": "Create a copy of an authority record in the local register based on the passed JSON structure. Used by the custom authority connector.",
                 "tags": ["register"],
                 "operationId": "rapi:save-local-copy",
+                "x-constraints": {
+                    "groups": ["tei"]
+                },
                 "requestBody": {
                     "description": "JSON record providing base information for the entry",
                     "content": {
@@ -3230,7 +3236,7 @@
                 "tags": ["register"],
                 "operationId": "rapi:save",
                 "x-constraints": {
-                    "group": ["tei"]
+                    "groups": ["tei"]
                 },
                 
                 "requestBody": {
@@ -3322,7 +3328,7 @@
                 "tags": ["register"],
                 "operationId": "rapi:delete",
                 "x-constraints": {
-                    "group": ["tei"]
+                    "groups": ["tei"]
                 },
                 "parameters": [
                     {
@@ -3356,7 +3362,7 @@
                 "tags": ["register"],
                 "operationId": "rapi:save",
                 "x-constraints": {
-                    "group": ["tei"]
+                    "groups": ["tei"]
                 },
                 
                 "requestBody": {
