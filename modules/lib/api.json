@@ -2078,6 +2078,9 @@
 				"description": "Generate a stand-alone application based on an ODD, template and other settings",
 				"tags": ["apps"],
 				"operationId": "deploy:generate",
+				"x-constraints": {
+					"groups": ["tei"]
+				},
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -2851,6 +2854,9 @@
                 "description": "Create a local register entry based on the provided data",
                 "tags": ["register"],
                 "operationId": "anno:save-local-copy",
+                "x-constraints": {
+                    "groups": ["tei"]
+                },
                 "requestBody": {
                     "description": "JSON record providing base information for the entry",
                     "content": {

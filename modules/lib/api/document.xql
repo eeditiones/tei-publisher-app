@@ -59,7 +59,9 @@ declare function dapi:delete($request as map(*)) {
 declare function dapi:source($request as map(*)) {
     let $doc := xmldb:decode($request?parameters?id)
     return
-        if ($doc) then
+        if (tokenize($doc, "/") = "..") then
+            error($errors:BAD_REQUEST, "Invalid path: " || $doc)
+        else if ($doc) then
             let $path := xmldb:encode-uri($config:data-root || "/" || $doc)
             let $filename := replace($doc, "^.*/([^/]+)$", "$1")
             let $mime := ($request?parameters?type, xmldb:get-mime-type($path))[1]
@@ -408,9 +410,7 @@ declare function dapi:get-fragment($request as map(*), $docs as node()*, $path a
     let $xml :=
         if ($request?parameters?xpath) then
             for $document in $docs
-            let $namespace := namespace-uri-from-QName(node-name(root($document)/*))
-            let $xquery := "declare default element namespace '" || $namespace || "'; $document" || $request?parameters?xpath
-            let $data := util:eval($xquery)
+            let $data := dapi:apply-xpath($request, $document)
             return
                 if ($data) then
                     pages:load-xml($data, $view, $request?parameters?root, $path)
@@ -535,6 +535,30 @@ declare function dapi:get-fragment($request as map(*), $docs as node()*, $path a
                         )
         else
             error($errors:NOT_FOUND, "Document " || $path || " not found")
+};
+
+(:~
+ : Narrow $data to the nodes selected by the xpath request parameter.
+ :
+ : The expression is only evaluated if it is white-listed in $config:allowed-xpath.
+ : As a special case, an expression of the form /id('some-id') is resolved
+ : directly without evaluation. Anything else is rejected.
+ :)
+declare %private function dapi:apply-xpath($request as map(*), $data as node()) {
+    let $xpath := normalize-space($request?parameters?xpath)
+    return
+        if ($xpath = "") then
+            $data
+        else if (matches($xpath, "^/id\('[\i-[:]][\c-[:]]*'\)$")) then
+            $data/id(replace($xpath, "^/id\('(.*)'\)$", "$1"))
+        else if ($xpath = $config:allowed-xpath ! normalize-space(.)) then
+            let $namespace := namespace-uri-from-QName(node-name(root($data)/*))
+            let $xquery := "declare default element namespace '" || $namespace || "'; $data" || $xpath
+            return
+                util:eval($xquery)
+        else
+            error($errors:BAD_REQUEST, "XPath expression not allowed: " || $xpath ||
+                ". Add it to $config:allowed-xpath in modules/config.xqm.")
 };
 
 declare function dapi:get-collection($data) {

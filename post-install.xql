@@ -16,7 +16,9 @@ if (not(sm:user-exists("tei-demo"))) then
     sm:create-account("tei-demo", "demo", "tei", ())
 else
     (),
-(: API needs dba rights for LaTeX :)
+(: API needs dba rights for LaTeX and app generation. The module is owned by admin,
+ : so the app user cannot modify a script which runs with dba privileges. :)
+sm:chown(xs:anyURI($target || "/modules/lib/api-dba.xql"), "admin"),
 sm:chgrp(xs:anyURI($target || "/modules/lib/api-dba.xql"), "dba"),
 sm:chmod(xs:anyURI($target || "/modules/lib/api-dba.xql"), "rwxr-Sr-x"),
 
