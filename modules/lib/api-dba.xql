@@ -10,12 +10,22 @@ import module namespace dapi="http://teipublisher.com/api/documents" at "api/doc
 import module namespace vapi="http://teipublisher.com/api/view" at "api/view.xql";
 import module namespace deploy="http://teipublisher.com/api/generate" at "api/generate.xql";
 
+(:~
+ : This module runs with dba group privileges (setgid), which are required to
+ : call pdflatex and to generate apps. To avoid exposing other endpoints with
+ : elevated rights, the lookup only resolves these operations and the error handler.
+ :)
+declare variable $local:allowed := ("dapi:latex", "deploy:generate", "vapi:handle-error");
+
 let $lookup := function($name as xs:string) {
-    try {
-        function-lookup(xs:QName($name), 1)
-    } catch * {
+    if ($name = $local:allowed) then
+        try {
+            function-lookup(xs:QName($name), 1)
+        } catch * {
+            ()
+        }
+    else
         ()
-    }
 }
 let $resp := router:route("modules/lib/api.json", $lookup)
 return
