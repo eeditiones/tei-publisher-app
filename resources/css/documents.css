@@ -1,7 +1,24 @@
+/* Browse: pin above-content (timeline, etc.) and scroll only the result list.
+   Overrides layouts.css `.fixed-layout > main > * { flex: 1 }` and avoids making
+   main itself the scrollport (which dragged the timeline away with the cards). */
+.fixed-layout main:has(#document-list) {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+}
+
+.fixed-layout main:has(#document-list) pb-timeline,
+.fixed-layout main:has(#document-list) #timeline-options,
+.fixed-layout main:has(#document-list) .hero {
+    flex: 0 0 auto;
+}
+
 #document-list {
-    flex-grow: 2;
+    flex: 1 1 auto;
     width: 100%;
-    height: 100%;
+    min-height: 0;
+    height: auto;
 }
 
 #document-list pb-load {
@@ -70,6 +87,45 @@ li.document .actions {
     gap: .5rem;
     align-items: center;
     justify-content: flex-end;
+}
+
+li.document.card {
+    margin-bottom: var(--jinks-document-card-gap);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+li.document.card:hover {
+    transform: var(--jinks-document-card-hover-transform);
+    box-shadow: var(--jinks-document-card-hover-shadow);
+}
+
+/* The hover transform creates a stacking context; lift the active card so its
+   download dropdown is not painted beneath the following card. */
+li.document.card:is(:hover, :focus-within, :has(details[open])) {
+    z-index: 2;
+}
+
+/* Touch devices cannot hover, so actions stay visible there. */
+@media (hover: hover) {
+    li.document.card .actions {
+        opacity: var(--jinks-document-card-actions-opacity);
+        transition: opacity 0.2s ease;
+    }
+
+    li.document.card:is(:hover, :focus-within, :has(details[open])) .actions {
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    li.document.card,
+    li.document.card .actions {
+        transition: none;
+    }
+
+    li.document.card:hover {
+        transform: none;
+    }
 }
 
 li.document .thumbnail {

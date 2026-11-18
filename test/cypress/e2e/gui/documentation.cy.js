@@ -7,6 +7,7 @@ describe('TEI-Publisher Documentation Page', () => {
     cy.viewport(1280, 720)
     // Universal intercepts (loginStub, timelineStub) are automatically set up in support/e2e.js
     cy.visit('/doc/documentation.xml')
+    cy.wait('@loginStub', { timeout: 10000 })
   })
 
   describe('Documentation Page Load', () => {
@@ -169,51 +170,6 @@ describe('TEI-Publisher Documentation Page', () => {
     })
   })
 
-  describe('Documentation Responsive Design', () => {
-    it('adapts to mobile viewport', () => {
-      cy.viewport(375, 667) // iPhone SE
-      
-      // Reload page to ensure layout adjusts to new viewport
-      cy.reload()
-      
-      // Wait for page to stabilize
-      cy.get('body').should('be.visible')
-      
-      // Wait for documentation content to load (check for pb-view which loads the content)
-      cy.get('pb-view').should('exist')
-      
-      // On mobile, main content should be visible and ToC should be hidden by default
-      cy.get('main').should('be.visible')
-      
-      // ToC should be hidden on mobile (has hidden-mobile class)
-      // Note: This may expose a bug if ToC is visible when it shouldn't be
-      cy.get('aside.before.hidden-mobile').should('have.css', 'display', 'none')
-      
-      // Mobile navigation should be available
-      cy.get('.mobile.menubar').should('exist')
-    })
-
-    it('adapts to tablet viewport', () => {
-      cy.viewport(768, 1024) // iPad
-      
-      // Reload page to ensure layout adjusts to new viewport
-      cy.reload()
-      
-      // Wait for page to stabilize
-      cy.get('body').should('be.visible')
-      
-      // Wait for documentation content to load (check for pb-view which loads the content)
-      cy.get('pb-view').should('exist')
-      
-      // Wait for main to become visible - layout should adjust once content is loaded
-      cy.get('main').should('be.visible')
-      
-      // Check that page structure is responsive
-      cy.get('nav').should('be.visible')
-      cy.get('.before-top').should('exist') // Navigation elements should exist
-    })
-  })
-
   describe('Documentation Accessibility', () => {
     it('has proper heading structure', () => {
       cy.get('h1, h2, h3, h4, h5, h6').should('have.length.at.least', 1)
@@ -272,6 +228,39 @@ describe('TEI-Publisher Documentation Page', () => {
         expect($el.attr('src')).to.include('document1')
       })
     })
+  })
+})
+
+// Separate suite: load once at target viewport (avoid mid-test resize waking mobile pb-login)
+describe('TEI-Publisher Documentation Page (responsive)', () => {
+  const waitForDocPage = () => {
+    cy.get('body').should('be.visible')
+    cy.get('pb-view').should('exist')
+    cy.get('main').should('be.visible')
+  }
+
+  const waitForLoginProbes = () => {
+    cy.wait('@loginStub', { timeout: 10000 })
+  }
+
+  it('adapts to mobile viewport', () => {
+    cy.viewport(375, 667) // iPhone SE
+    cy.visit('/doc/documentation.xml')
+    waitForLoginProbes()
+    waitForDocPage()
+
+    cy.get('aside.before.hidden-mobile').should('have.css', 'display', 'none')
+    cy.get('.mobile.menubar').should('exist')
+  })
+
+  it('adapts to tablet viewport', () => {
+    cy.viewport(768, 1024) // iPad
+    cy.visit('/doc/documentation.xml')
+    waitForLoginProbes()
+    waitForDocPage()
+
+    cy.get('nav').should('be.visible')
+    cy.get('.before-top').should('exist')
   })
 })
 

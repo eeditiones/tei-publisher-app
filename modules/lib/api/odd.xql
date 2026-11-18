@@ -52,7 +52,8 @@ declare function oapi:recompile($request as map(*)) {
     let $oddRoot := head(($request?parameters?root, $config:odd-root))
     let $outputRoot := head(($request?parameters?output-root, $config:output-root))
     let $outputPrefix := head(($request?parameters?output-prefix, $config:output))
-    let $oddConfig := doc($oddRoot || "/configuration.xml")/*
+    (: in-memory copy for $oddConfig/*:module; see config.xqm / post-install.xql :)
+    let $oddConfig := util:expand(doc($oddRoot || "/configuration.xml"))/*
     let $odd :=
         if (exists($odd)) then
             $odd

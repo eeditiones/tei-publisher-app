@@ -6,7 +6,6 @@
             <analyzer class="org.exist.indexing.lucene.analyzers.NoDiacriticsStandardAnalyzer">
                 <param name="stopwords" type="org.apache.lucene.analysis.util.CharArraySet"/>
             </analyzer>
-            <parser class="org.apache.lucene.queryparser.analyzing.AnalyzingQueryParser"/>
             
             <text match="/tei:TEI/tei:text">
                 <!--ignore qname="tei:div"/-->

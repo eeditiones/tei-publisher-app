@@ -11,6 +11,10 @@
         }
     }
     ---
+    [% template title %]
+    <title>[[ page:transform($context?doc?fragment, map { "mode": "title" }, $context?doc?odd || ".odd")/string() ]]</title>
+    [% endtemplate %]
+
     [% template breadcrumb %]
     [% if exists($context?doc) %]
     <li>
@@ -29,7 +33,20 @@
     <h5>
         <pb-i18n key="document.contents">Contents</pb-i18n>
     </h5>
-    <pb-load class="toc" url="api/document/{doc}/contents?target=transcription&amp;icons=true[[ if ($context?features?toc?collapse) then '&amp;collapse=true' else '' ]]" expand="expand" src="document1" subscribe="toc" emit="toc" load-once="load-once" auto="auto"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
+    [% if ($context?view-static or $context?defaults?view-static) and $context?defaults?data-static %]
+    <pb-load class="toc" url="[[$context-path]]/[[$context?defaults?data-static]]/[[$context?doc?path]]/toc.html" expand="expand" auto="auto" subscribe="toc" emit="toc" load-once="load-once">
+        <pb-i18n key="dialogs.loading">Loading</pb-i18n>
+    </pb-load>
+    [% else %]
+    <pb-load class="toc" url="api/document/{doc}/contents?lang=[[page:resolve-language($context)]]&amp;target=transcription&amp;icons=true[[ if ($context?features?toc?collapse) then '&amp;collapse=true' else '' ]]" expand="expand" src="document1" subscribe="toc" emit="toc" load-once="load-once" auto="auto"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
+    [% endif %]
+    [% endif %]
+
+    [% if $context?features?toc-odd?enabled and exists($context?doc) %]
+        <pb-view src="document1" subscribe="none" view="single" emit="transcription" disable-history="disable-history">
+            <pb-param name="mode" value="toc"/>
+            <pb-param name="mode-sub" value="toc-odd"/>
+        </pb-view>
     [% endif %]
     [% endtemplate %]
 

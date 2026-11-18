@@ -7,14 +7,15 @@ describe('TEI-Publisher Browse Collection', () => {
     // Universal intercepts (loginStub, timelineStub) are automatically set up in support/e2e.js
     // Setup search-specific intercepts for search and facet tests
     cy.setupSearchIntercepts()
-    
+
     // Desktop viewport is set centrally in cypress.config.cjs (1280x720)
-    
+
     cy.visit('/browse.html?collection=demo')
-    
+
     // Wait for page to stabilize and pagination to be fully initialized
+    cy.wait('@loginStub', { timeout: 10000 })
     cy.get('body').should('be.visible')
-    cy.waitForPaginate({ timeout: 15000 })
+    cy.waitForPaginateAttributes({ timeout: 15000 })
   })
 
   describe('Page Load & Structure', () => {
@@ -61,7 +62,8 @@ describe('TEI-Publisher Browse Collection', () => {
   describe('Search Functionality', () => {
     it('displays search input field', () => {
       // Find visible pb-search (not in hidden-mobile parent) and access shadow DOM
-      cy.get('pb-search:not(.mobile)').first()
+      cy.get('pb-search:not(.mobile)')
+        .first()
         .should('exist')
         .shadow()
         .find('input[name="query"]')
@@ -70,7 +72,8 @@ describe('TEI-Publisher Browse Collection', () => {
 
     it('accepts text input', () => {
       // Find visible pb-search and access input in shadow DOM
-      cy.get('pb-search:not(.mobile)').first()
+      cy.get('pb-search:not(.mobile)')
+        .first()
         .shadow()
         .find('input[name="query"]')
         .type('test query')
@@ -81,43 +84,45 @@ describe('TEI-Publisher Browse Collection', () => {
       // Get initial total
       cy.getPaginationAttrs()
       cy.get('@total').as('initialTotal')
-      
+
       // Perform search using shadow DOM
-      cy.get('pb-search:not(.mobile)').first()
+      cy.get('pb-search:not(.mobile)')
+        .first()
         .shadow()
         .find('input[name="query"]')
         .type('kant{enter}')
-      
+
       // Wait for URL to update (search navigates to search.html, not browse.html)
       cy.url({ timeout: 10000 }).should((url) => {
         expect(url).to.match(/query=.*kant/i)
       })
-      
+
       // Wait for page to stabilize after search (navigates to search.html)
       cy.get('body', { timeout: 10000 }).should('be.visible')
-      
+
       // Note: search.html doesn't have pb-paginate, so we don't check for it here
       // The search results page uses a different pagination mechanism
     })
 
     it('displays search results after query', () => {
       // Perform search using shadow DOM
-      cy.get('pb-search:not(.mobile)').first()
+      cy.get('pb-search:not(.mobile)')
+        .first()
         .shadow()
         .find('input[name="query"]')
         .type('kant{enter}')
-      
+
       // Wait for URL to update (search navigates to search.html, not browse.html)
       cy.url({ timeout: 10000 }).should((url) => {
         expect(url).to.match(/query=.*kant/i)
       })
-      
+
       // Wait for page to stabilize after search (navigates to search.html)
       cy.get('body', { timeout: 10000 }).should('be.visible')
-      
+
       // Note: search.html doesn't have pb-paginate, so we don't check for it here
       // The search results page uses a different pagination mechanism
-      
+
       // Verify search results are displayed (search.html shows results differently)
       cy.get('main', { timeout: 10000 })
         .should('be.visible')
@@ -127,30 +132,31 @@ describe('TEI-Publisher Browse Collection', () => {
 
     it('handles empty search results gracefully', () => {
       // Search for something unlikely to exist using shadow DOM
-      cy.get('pb-search:not(.mobile)').first()
+      cy.get('pb-search:not(.mobile)')
+        .first()
         .shadow()
         .find('input[name="query"]')
         .type('nonexistentxyzabc123{enter}')
-      
+
       // Wait for URL to update (search navigates to search.html, not browse.html)
       cy.url({ timeout: 10000 }).should((url) => {
         expect(url).to.match(/query=.*nonexistentxyzabc123/i)
       })
-      
+
       // Wait for page to stabilize after search (navigates to search.html)
       cy.get('body', { timeout: 10000 }).should('be.visible')
-      
+
       // Note: search.html doesn't have pb-paginate, so we don't check for it here
       // The search results page uses a different pagination mechanism
-      
+
       // Verify page shows empty state for empty search
-      cy.get('main', { timeout: 10000 })
-        .should('be.visible')
+      cy.get('main', { timeout: 10000 }).should('be.visible')
     })
 
     it('clears search query', () => {
       // Clear search using shadow DOM
-      cy.get('pb-search:not(.mobile)').first()
+      cy.get('pb-search:not(.mobile)')
+        .first()
         .shadow()
         .find('input[name="query"]')
         .type('test query')
@@ -162,39 +168,41 @@ describe('TEI-Publisher Browse Collection', () => {
       // Get initial total
       cy.getPaginationAttrs()
       cy.get('@total').as('initialTotal')
-      
+
       // Perform search using shadow DOM
-      cy.get('pb-search:not(.mobile)').first()
+      cy.get('pb-search:not(.mobile)')
+        .first()
         .shadow()
         .find('input[name="query"]')
         .type('kant{enter}')
-      
+
       // Wait for URL to update (search navigates to search.html, not browse.html)
       cy.url({ timeout: 10000 }).should((url) => {
         expect(url).to.match(/query=.*kant/i)
       })
-      
+
       // Wait for page to stabilize after search (navigates to search.html)
       cy.get('body', { timeout: 10000 }).should('be.visible')
-      
+
       // Note: search.html doesn't have pb-paginate, so we don't check for it here
-      
+
       // Clear search (empty query) using shadow DOM
-      cy.get('pb-search:not(.mobile)').first()
+      cy.get('pb-search:not(.mobile)')
+        .first()
         .shadow()
         .find('input[name="query"]')
         .clear()
         .type('{enter}')
-      
+
       // Wait for URL to update after clearing (should navigate back to browse.html)
       cy.url({ timeout: 10000 }).should((url) => {
         // URL should not contain query=kant anymore (may have no query param or empty query)
         expect(url).to.not.include('query=kant')
       })
-      
+
       // Wait for page to stabilize after clearing (may navigate back to browse.html)
       cy.get('body', { timeout: 10000 }).should('be.visible')
-      
+
       // If we're back on browse.html, pagination should exist
       cy.url().then((url) => {
         if (url.includes('browse.html')) {
@@ -207,15 +215,14 @@ describe('TEI-Publisher Browse Collection', () => {
 
   describe('Pagination', () => {
     it('displays pagination component with total count', () => {
-      cy.get('pb-paginate')
-        .should('be.visible')
-        .should('have.attr', 'total')
-      
+      cy.waitForPaginateAttributes({ timeout: 15000 })
+      cy.get('pb-paginate').should('have.attr', 'total')
+
       cy.get('pb-paginate')
         .invoke('attr', 'total')
         .should('not.be.empty')
         .and('not.eq', '0')
-      
+
       // Verify found count is displayed (in Shadow DOM)
       cy.get('pb-paginate')
         .shadow()
@@ -226,9 +233,8 @@ describe('TEI-Publisher Browse Collection', () => {
     })
 
     it('displays per-page configuration', () => {
-      cy.get('pb-paginate')
-        .should('have.attr', 'per-page')
-      
+      cy.get('pb-paginate').should('have.attr', 'per-page')
+
       cy.get('pb-paginate')
         .invoke('attr', 'per-page')
         .then((perPage) => {
@@ -239,7 +245,7 @@ describe('TEI-Publisher Browse Collection', () => {
     it('verifies total documents equals pagination count', () => {
       // Get total from pagination component
       cy.getPaginationAttrs()
-      
+
       // Get count from found span in Shadow DOM
       cy.get('pb-paginate')
         .shadow()
@@ -249,7 +255,7 @@ describe('TEI-Publisher Browse Collection', () => {
           // Extract number from text like "Found 7 items"
           const match = foundText.match(/\d+/)
           const foundNumber = match ? parseInt(match[0], 10) : 0
-          
+
           cy.get('@total').then((total) => {
             const totalNumber = parseInt(total, 10)
             expect(foundNumber).to.equal(totalNumber)
@@ -266,7 +272,7 @@ describe('TEI-Publisher Browse Collection', () => {
             .invoke('attr', 'per-page')
             .then((perPageStr) => {
               const perPage = parseInt(perPageStr, 10)
-              
+
               if (total > perPage) {
                 // There is a next page - pagination controls are in Shadow DOM
                 cy.get('pb-paginate')
@@ -276,13 +282,13 @@ describe('TEI-Publisher Browse Collection', () => {
                   .closest('span, button, a')
                   .should('not.have.class', 'disabled')
                   .click({ force: true })
-                
+
                 // Wait for pagination active page to update
                 cy.get('pb-paginate', { timeout: 10000 })
                   .shadow()
                   .find('span.active')
                   .should('exist')
-                
+
                 // Verify we're on page 2 or later
                 cy.get('pb-paginate')
                   .shadow()
@@ -309,8 +315,9 @@ describe('TEI-Publisher Browse Collection', () => {
             .then((perPageStr) => {
               const perPage = parseInt(perPageStr, 10)
               const modulo = total % perPage
-              const expectedPages = modulo === 0 ? total / perPage : Math.floor(total / perPage) + 1
-              
+              const expectedPages =
+                modulo === 0 ? total / perPage : Math.floor(total / perPage) + 1
+
               if (total > perPage) {
                 // Navigate to last page - pagination controls are in Shadow DOM
                 cy.get('pb-paginate')
@@ -318,7 +325,7 @@ describe('TEI-Publisher Browse Collection', () => {
                   .find('iron-icon[icon="last-page"]')
                   .closest('span, button, a')
                   .click({ force: true })
-                
+
                 // Wait for pagination active page to update to last page and verify
                 cy.get('pb-paginate', { timeout: 10000 })
                   .shadow()
@@ -329,15 +336,19 @@ describe('TEI-Publisher Browse Collection', () => {
                     const pageNum = parseInt(pageText.trim(), 10)
                     expect(pageNum).to.equal(expectedPages)
                   })
-                
+
                 // Verify document count on last page
                 if (modulo > 0) {
                   cy.get('main')
-                    .find('.tei-fileDesc3, .collection-item, [class*="document"]')
+                    .find(
+                      '.tei-fileDesc3, .collection-item, [class*="document"]',
+                    )
                     .should('have.length', modulo)
                 } else {
                   cy.get('main')
-                    .find('.tei-fileDesc3, .collection-item, [class*="document"]')
+                    .find(
+                      '.tei-fileDesc3, .collection-item, [class*="document"]',
+                    )
                     .should('have.length', perPage)
                 }
               } else {
@@ -352,7 +363,7 @@ describe('TEI-Publisher Browse Collection', () => {
         .invoke('attr', 'per-page')
         .then((perPageStr) => {
           const perPage = parseInt(perPageStr, 10)
-          
+
           if (perPage > 0) {
             // Count documents on current page - count visible li elements in ul.documents
             // Only visible documents count toward the per-page limit
@@ -370,24 +381,29 @@ describe('TEI-Publisher Browse Collection', () => {
     it('verifies pagination calculates page count correctly', () => {
       // Get pagination attributes using shared helper
       cy.getPaginationAttrs()
-      
+
       cy.get('@total').then((totalStr) => {
         const total = parseInt(totalStr, 10)
-        
+
         cy.get('@perPage').then((perPageStr) => {
           const perPage = parseInt(perPageStr, 10)
-          
+
           // Ensure perPage is valid
           expect(perPage).to.be.greaterThan(0)
           expect(total).to.be.at.least(0)
-          
+
           // Calculate expected page count (even with 0 results, we have 1 page conceptually)
           const modulo = total % perPage
-          const expectedPages = total === 0 ? 1 : (modulo === 0 ? total / perPage : Math.floor(total / perPage) + 1)
-          
+          const expectedPages =
+            total === 0
+              ? 1
+              : modulo === 0
+                ? total / perPage
+                : Math.floor(total / perPage) + 1
+
           // Verify expected page count is at least 1
           expect(expectedPages).to.be.greaterThan(0)
-          
+
           // Verify document count matches expectations
           if (total > 0) {
             // If there are documents, verify that the first page shows documents
@@ -397,10 +413,9 @@ describe('TEI-Publisher Browse Collection', () => {
               .and('have.length.at.most', perPage)
           } else {
             // If no documents, verify "No documents" message or empty state
-            cy.get('main')
-              .should('exist')
+            cy.get('main').should('exist')
           }
-          
+
           // Verify pagination controls reflect the page count
           if (expectedPages > 1) {
             // Pagination should show page numbers or next/last buttons (in Shadow DOM)
@@ -426,7 +441,8 @@ describe('TEI-Publisher Browse Collection', () => {
     it('displays facet sections', () => {
       // Facets may be in sidebar or aside
       cy.get('body').then(($body) => {
-        const hasFacets = $body.find('aside, [class*="facet"], [class*="filter"]').length > 0
+        const hasFacets =
+          $body.find('aside, [class*="facet"], [class*="filter"]').length > 0
         // Facets are optional, so we just check if page loaded
         expect($body.length).to.be.greaterThan(0)
       })
@@ -440,20 +456,21 @@ describe('TEI-Publisher Browse Collection', () => {
     it('applies facet filters when available', () => {
       // Check if facets exist
       cy.get('body').then(($body) => {
-        const facetInputs = $body.find('[data-dimension*="facet"], [class*="facet"] input, aside input[type="checkbox"]')
-        
+        const facetInputs = $body.find(
+          '[data-dimension*="facet"], [class*="facet"] input, aside input[type="checkbox"]',
+        )
+
         if (facetInputs.length > 0) {
           // Get initial total
           cy.getPaginationAttrs()
           cy.get('@total').as('initialTotal')
-          
+
           // Click first available facet
-          cy.wrap(facetInputs.first())
-            .click({ force: true })
-          
+          cy.wrap(facetInputs.first()).click({ force: true })
+
           // Wait for search/facets API calls triggered by facet change
           cy.wait(['@searchApi', '@facetsApi'], { timeout: 10000 })
-          
+
           // Wait for pagination to exist and be re-initialized after facet change
           cy.waitForPaginate()
           cy.waitForPaginateAttributes()
@@ -472,7 +489,7 @@ describe('TEI-Publisher Browse Collection', () => {
   describe('Responsive Design', () => {
     it('adapts to mobile viewport', () => {
       cy.viewport(375, 667) // iPhone SE
-      
+
       cy.get('nav').should('be.visible')
       cy.get('main').should('be.visible')
       // On mobile, aside elements are hidden by design (inside .mobile.menubar.hidden)
@@ -482,7 +499,7 @@ describe('TEI-Publisher Browse Collection', () => {
 
     it('adapts to tablet viewport', () => {
       cy.viewport(768, 1024) // iPad
-      
+
       cy.get('nav').should('be.visible')
       cy.get('main').should('be.visible')
       // On tablet, check that the page structure is responsive
@@ -510,4 +527,3 @@ describe('TEI-Publisher Browse Collection', () => {
     })
   })
 })
-

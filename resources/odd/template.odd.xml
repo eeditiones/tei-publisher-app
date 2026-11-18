@@ -7,16 +7,9 @@
             <publicationStmt>
                 <publisher>e-editiones</publisher>
                 <availability>
-                    <licence target="https://www.gnu.org/licenses/gpl-3.0.en.html">Distributed under GNU General Public License</licence>
-                    <p>Copyright 2017 <ref target="https://e-editiones.org">e-editiones.org</ref></p>
-                    <p>This program is free software: you can redistribute it and/or modify
-                        it under the terms of the GNU General Public License as published by
-                        the Free Software Foundation, either version 3 of the License, or
-                        (at your option) any later version.</p>
-                    <p>This program is distributed in the hope that it will be useful,
-                        but WITHOUT ANY WARRANTY; without even the implied warranty of
-                        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-                        GNU General Public License for more details.</p>
+                    <licence target="https://creativecommons.org/licenses/by/4.0/">Distributed under a Creative Commons Attribution 4.0 International License</licence>
+                    <p>Copyright 2017–2026 <ref target="https://e-editiones.org">e-editiones</ref> and individual contributors.</p>
+                    <p>Based on TEI materials © TEI Consortium (CC BY 3.0 / BSD-2-Clause).</p>
                 </availability>
             </publicationStmt>
             <sourceDesc>

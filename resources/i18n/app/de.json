@@ -11,6 +11,7 @@
     "menu": {
         "explore": "Explore",
         "collections": "Sammlungen",
+        "quickstart": "Schnellstart",
         "about": "Über die Edition",
         "team": "Team",
         "contact": "Kontakt",
@@ -28,6 +29,10 @@
         "author": "Autor",
         "title": "Title"
     },
+    "download": {
+        "label": "Herunterladen",
+        "title": "Herunterladen"
+    },
     "search": {
         "title": "Titel",
         "content": "Inhalt",
@@ -41,7 +46,11 @@
     "odd": {
         "licence": "Lizenz",
         "sources": "Quellen",
-        "metadata": "Metadaten"
+        "metadata": "Metadaten",
+        "previous": "Vorherige",
+        "next": "Nächste",
+        "birth": "geboren: ",
+        "death": "gestorben: "
     },
     "facets": {
         "place": "Ort",

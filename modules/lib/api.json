@@ -93,12 +93,12 @@
 						}
 					},
 					{
-						"name": "lang",
-						"in": "query",
-						"schema": {
-							"type": "string"
-						}
-					}
+                        "name": "lang",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
 				],
 				"responses": {
 					"200": {
@@ -174,7 +174,14 @@
 						"schema": {
 							"type": "string"
 						}
-					}
+					},
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
 				],
 				"responses": {
 					"200": {
@@ -874,6 +881,9 @@
                 "description": "Update the document",
                 "tags": ["documents"],
                 "operationId": "dapi:save",
+                "x-constraints": {
+                    "groups": ["tei"]
+                },
                 "requestBody": {
                     "content": {
                         "application/xml": {
@@ -1070,21 +1080,33 @@
 				}
 			}
 		},
-        "/api/document/{id}/md": {
+        "/api/document/{doc}/md": {
             "get": {
                 "summary": "Retrieve document content as markdown",
+                "description": "Returns the document (or an optional section identified by xml:id) transformed to markdown via ODD.",
                 "tags": [
                     "documents"
                 ],
                 "operationId": "dapi:markdown",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "doc",
                         "in": "path",
                         "required": true,
+                        "description": "Path to the document relative to the data root",
                         "schema": {
                             "type": "string",
-                            "example": "test/F-rom.xml"
+                            "example": "doc/documentation.xml"
+                        },
+                        "allowReserved": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "Optional xml:id of a section to export instead of the entire document",
+                        "schema": {
+                            "type": "string",
+                            "example": "templates-syntax"
                         }
                     },
                     {
@@ -1106,7 +1128,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Returns the entire document as markdown",
+                        "description": "Returns the document or section as markdown",
                         "content": {
                             "text/markdown": {
                                 "schema": {
@@ -1116,7 +1138,7 @@
                         }
                     },
                     "404": {
-                        "description": "Document not found",
+                        "description": "Document or section not found",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1465,6 +1487,22 @@
 						},
 						"description": "Should an expand/collapse icon be displayed next to headings having nested child sections?"
 					},
+                    {
+                        "name": "map",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The name of an optional mapping function to apply to the document before generating the table of contents"
+                    },
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The language to use for the table of contents"
+                    },
 					{
 						"name": "If-Modified-Since",
 						"in": "header",
@@ -1564,7 +1602,7 @@
 						"schema": {
 							"type": "string"
 						},
-						"description": "an XPath expression to directly select a sub-part of the document, e.g. the TEI body, front or back matter, or teiHeader. Usually only makes sense in combination with `view=single`."
+						"description": "an XPath expression to directly select a sub-part of the document, e.g. the TEI body, front or back matter, or teiHeader. Usually only makes sense in combination with `view=single`. For security reasons, only expressions listed in `defaults.allowed-xpath` of the app configuration are accepted, plus `/id('...')` with a valid xml:id. Other expressions result in a 400 error."
 					},
 					{
 						"name": "map",
@@ -1599,6 +1637,26 @@
 							"default": false
 						},
 						"description": "should returned HTML be wrapped into a div?"
+					},
+					{
+						"name": "content",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"enum": ["full", "none"],
+							"default": "full"
+						},
+						"description": "set to `none` to skip the ODD transform and return navigation metadata only (no rendered content/footnotes). Used by pb-view when the fragment was already server-rendered into its light DOM (SSR), to avoid rendering the same content twice."
+					},
+					{
+						"name": "user.track-ids",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"default": "no",
+							"enum": ["yes", "no"]
+						},
+						"description": "passed by the annotation editor to track IDs in the HTML"
 					},
 					{
 						"name": "If-Modified-Since",
@@ -2498,8 +2556,7 @@
 						"name": "lang",
 						"in": "query",
 						"schema": {
-							"type": "string",
-							"default": "en"
+							"type": "string"
 						}
 					},
 					{
@@ -2557,7 +2614,10 @@
 						"name": "string",
 						"in": "query",
 						"schema": {
-							"type": "string"
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
 						},
 						"required": true
 					},
@@ -2839,7 +2899,7 @@
 				],
 				"operationId": "rapi:form-template",
 				"x-constraints": {
-					"group": "tei"
+					"groups": ["tei"]
 				},
 				"parameters": [
 					{
@@ -2921,6 +2981,9 @@
                 "description": "Create a copy of an authority record in the local register based on the passed JSON structure. Used by the custom authority connector.",
                 "tags": ["register"],
                 "operationId": "rapi:save-local-copy",
+                "x-constraints": {
+                    "groups": ["tei"]
+                },
                 "requestBody": {
                     "description": "JSON record providing base information for the entry",
                     "content": {
@@ -3023,9 +3086,9 @@
                 "tags": ["register"],
                 "operationId": "rapi:save",
                 "x-constraints": {
-                    "group": ["tei"]
+                    "groups": ["tei"]
                 },
-                
+
                 "requestBody": {
                     "content": {
                         "application/xml": {
@@ -3065,7 +3128,7 @@
                 "description": "Get the XML fragment for a given register entry. Used by the registry forms in the annotation editor.",
                 "tags": ["register"],
                 "operationId": "rapi:entry",
-                
+
                 "parameters": [
                     {
                         "name": "id",
@@ -3073,7 +3136,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "example": "gnd-139890289" 
+                            "example": "gnd-139890289"
                         }
                     },
                     {
@@ -3115,7 +3178,7 @@
                 "tags": ["register"],
                 "operationId": "rapi:delete",
                 "x-constraints": {
-                    "group": ["tei"]
+                    "groups": ["tei"]
                 },
                 "parameters": [
                     {
@@ -3142,16 +3205,16 @@
                     }
                 }
             },
-        
+
             "put": {
                 "summary": "Save a register entry",
                 "description": "Replace an entry with the current version from the editor",
                 "tags": ["register"],
                 "operationId": "rapi:save",
                 "x-constraints": {
-                    "group": ["tei"]
+                    "groups": ["tei"]
                 },
-                
+
                 "requestBody": {
                     "content": {
                         "application/xml": {
@@ -3202,7 +3265,7 @@
                 "description": "Get the HTML fragment for a given register entry. May be used when retrieving e.g. registry content for popups asynchronously",
                 "tags": ["register"],
                 "operationId": "rapi:html",
-                
+
                 "parameters": [
                     {
                         "name": "id",
@@ -3210,7 +3273,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "example": "gnd-139890289" 
+                            "example": "gnd-139890289"
                         }
                     },
                     {
@@ -3272,6 +3335,9 @@
 				"description": "Recompile ODDs",
                 "tags": ["actions"],
 				"operationId": "action:fix-odds",
+				"x-constraints": {
+					"groups": ["tei"]
+				},
 				"parameters": [],
 				"responses": {
 					"200": {

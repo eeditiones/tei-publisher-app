@@ -1,5 +1,6 @@
 {
   "label" : "TEI Publisher Documentation and Demo",
+  "version" : "11.0.2",
   "id" : "http://existsolutions.com/apps/tei-publisher",
   "defaults" : {
     "site-root" : "/exist/apps/tei-publisher"

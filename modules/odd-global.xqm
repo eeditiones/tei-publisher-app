@@ -47,3 +47,5 @@ declare variable $config:register-root := $config:data-root || "/registers";
 
     declare variable $config:address-by-id as xs:boolean :=  false() ;
 
+
+declare variable $config:browse-page := "browse.html";

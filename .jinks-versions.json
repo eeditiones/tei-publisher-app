@@ -1,0 +1,19 @@
+{
+  "profiles" : {
+    "markdown" : "1.0.1",
+    "base10" : "1.1.0",
+    "theme-base10" : "1.1.0",
+    "jats" : "1.1.0",
+    "ci" : "1.0.0",
+    "docx" : "1.1.0",
+    "iiif" : "1.1.0",
+    "playground" : "1.1.0",
+    "docs" : "11.0.2",
+    "docbook" : "1.1.0",
+    "demo-data" : "1.0.1",
+    "docker" : "1.0.0",
+    "landing-page" : "1.1.0",
+    "upload" : "1.0.0"
+  },
+  "jinks" : "11.0.2"
+}

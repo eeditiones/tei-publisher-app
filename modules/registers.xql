@@ -5,7 +5,6 @@ module namespace rapi="http://teipublisher.com/api/registers";
 import module namespace router="http://e-editiones.org/roaster";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace annocfg = "http://teipublisher.com/api/annotations/config" at "annotations/annotation-config.xqm";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
 

@@ -103,16 +103,27 @@ declare function nav:is-filler($config as map(*), $div) {
 };
 
 declare function nav:output-footnotes($footnotes as element()*) {
-    <div class="popovers">
-    {
-        $footnotes/self::pb-popover
-    }
-    </div>,
-    <div class="footnotes">
-    {
-        $footnotes[not(self::pb-popover)]
-    }
-    </div>
+    let $sorted :=
+        for $fn in $footnotes
+        let $label := normalize-space(($fn//*[@class = "fn-number"])[1])
+        (: Letter/text-critical marks (a, b, c…) before numbered commentary (1, 2, 3…). :)
+        let $group := if (matches($label, '^\d+$')) then 1 else 0
+        order by $group,
+            if ($group = 1) then xs:integer($label) else $label
+        return
+            $fn
+    return (
+        <div class="popovers">
+        {
+            $sorted/self::pb-popover
+        }
+        </div>,
+        <div class="footnotes">
+        {
+            $sorted[not(self::pb-popover)]
+        }
+        </div>
+    )
 };
 
 declare function nav:toc-entry($context as map(*), $content as node()?, $collapse as xs:boolean?) {

@@ -107,7 +107,10 @@ declare function capi:documents($request as map(*)) {
     return
         array {
             for $doc in $worksAll?all
-            let $config := tpu:parse-pi(root($doc), $config:default-view, $config:default-odd)
+            (: Pass () as the view so the document's own PI view is honored. Passing a
+             : concrete view here would make tpu:parse-pi drop any PI view that differs
+             : from it (see util.xql), reporting the default view for every document. :)
+            let $config := tpu:parse-pi(root($doc), (), $config:default-odd)
             let $teiHeader := nav:get-header($config, root($doc)/*)
             let $relPath := config:get-identifier($doc)
             let $header :=
@@ -115,7 +118,8 @@ declare function capi:documents($request as map(*)) {
                     "display": "browse",
                     "doc": $relPath,
                     "context-path": $request?parameters?link,
-                    "static": true()
+                    "static": true(),
+                    "root": $doc
                 }, $config?odd)
             return
                 map {

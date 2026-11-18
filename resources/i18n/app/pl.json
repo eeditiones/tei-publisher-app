@@ -11,6 +11,7 @@
     "menu": {
         "explore": "Zobacz",
         "collections": "Kolekcje",
+        "quickstart": "Quickstart",
         "about": "O projekcie",
         "team": "Zespół",
         "contact": "Kontakt",
@@ -28,6 +29,10 @@
         "author": "Autor",
         "title": "Tytuł"
     },
+    "download": {
+        "label": "Pobierz",
+        "title": "Pobierz"
+    },
     "search": {
         "title": "Tytuł",
         "content": "Treść",
@@ -41,7 +46,19 @@
     "odd": {
         "licence": "Licencja",
         "sources": "Źródła",
-        "metadata": "Metadane"
+        "metadata": "Metadane",
+        "previous": "wstecz",
+        "next": "dalej",
+        "birth": "ur. ",
+        "death": "zm. ",
+        "nav-previous": {
+            "before": "",
+            "after": ""
+        },
+        "nav-next": {
+            "before": "",
+            "after": ""
+        }
     },
     "facets": {
         "place": "Miejsce",

@@ -1,4 +1,4 @@
-<html>
+<html lang="[[page:resolve-language($context)]]">
     <head>
         [% if $context?defaults?base %]
         <base href="[[ $context-path ]]/[[ $context?defaults?base ]]"/>
@@ -30,7 +30,9 @@
         </style>
         [% block styles %][% endblock %]
 
+        [% block title %]
         <title>[[ $label ]]</title>
+        [% endblock %]
 
         [% if $script?webcomponents = 'dev' %]
         <script type="module" src="[[$script?cdn]]/src/pb-components-bundle.js"/>
@@ -50,13 +52,6 @@
         [% endfor %]
         [% endif %]
 
-        [% if $script?fore %]
-            [% if $script?webcomponents = "local" %]
-            <script type="module" src="[[ $context-path ]]/resources/lib/fore.js"/>
-            [% else %]
-            <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/fore@[[ $script?fore ]]/dist/fore.js"/>
-            [% endif %]
-        [% endif %]
         [% block scripts %][% endblock %]
     </head>
     <body data-theme="light" class="[[ string-join($context?theme?body?classes?*, ' ') ]]">
@@ -69,7 +64,7 @@
                 <pb-i18n key="dialogs.close">Close</pb-i18n>
             </button>
         </pb-dialog>
-        <pb-page endpoint="[[ $context-path ]]" app-root="[[ $context-path ]]" api-version="1.0.0" supported-languages="[[ string-join($context?defaults?languages?*, ', ') ]]" language="[[ if ($request?parameters?lang) then $request?parameters?lang else $defaults?language ]]" locales="resources/i18n/{{ns}}/{{lng}}.json" locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]" unresolved="unresolved" url-template="[[ $context?urls?template ]]" url-ignore="[[ $context?urls?ignore ]]" class="[[ $context?theme?layout?class ]]" require-language="require-language" theme="resources/css/components.css">
+        <pb-page endpoint="[[ $context-path ]]" app-root="[[ $context-path ]]" api-version="1.0.0" supported-languages="[[ string-join($context?defaults?languages?*, ', ') ]]" locales="resources/i18n/{{ns}}/{{lng}}.json" locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]" unresolved="unresolved" url-template="[[ $context?urls?template ]]" url-ignore="[[ $context?urls?ignore ]]" class="[[ string-join((tokenize($context?theme?layout?class, '\s+'), if (not($context?theme?layout?before?collapsible)) then 'before-fixed' else (), if (not($context?theme?layout?after?collapsible)) then 'after-fixed' else ()), ' ') ]]" require-language="require-language" theme="resources/css/components.css">
             <header class="page-header">
                 <div>
                     [% if $features?menubar %]
@@ -128,18 +123,31 @@
                     </li>
                 </ul>
                 [% endif %]
+                <ul>[% block after-top %][% endblock %]</ul>
             </nav>
-            <aside class="after hidden-mobile [[ if ($context?theme?layout?after?hidden) then 'hidden' else '' ]]">
+            <aside class="after hidden-mobile [[ if ($context?theme?layout?after?hidden) then 'hidden' else '' ]] [[ if ($context?theme?layout?after?mode = 'tabs') then 'after-tabs' else '' ]]">
                 [% block after %][% endblock %]
             </aside>
+            [% block footer %][% endblock %]
             [% if $context?theme?layout?footer?mobile?enabled %]
                 [% include 'templates/footer-mobile.html' %]
             [% endif %]
         </pb-page>
         <div class="splash"/>
+
+        [% for $icons in $context?theme?icons?* %]
+        [% include "resources/css/" || $icons %]
+        [% endfor %]
+
         <script src="[[ $context-path ]]/resources/scripts/layout.js"/>
         [% for $src in $context?script?custom?* %]
         <script src="[[ if (matches($src, '^https?://')) then $src else $context-path || '/' || $src ]]"/>
         [% endfor %]
+        <!-- Statically determine the language for the page, might be overridden once i18n is loaded -->
+        <script type="application/json" id="language-default">
+            {
+                "language": "[[ page:resolve-language($context) ]]"
+            }
+        </script>
     </body>
 </html>

@@ -40,14 +40,14 @@ describe('TEI-Publisher Search API', () => {
     it('runs a search', () => {
       cy.request({ method: 'GET', url: '/api/search', qs: { query: 'power' } }).then(({ status, headers }) => {
         expect(status).to.eq(200)
-        expect(headers['pb-total']).to.eq('8')
+        expect(headers['pb-total']).to.eq('9')
       })
     })
 
     it('retrieves next page', () => {
       cy.request({ method: 'GET', url: '/api/search', qs: { query: 'power', start: 5 } }).then(({ status, headers, body }) => {
         expect(status).to.eq(200)
-        expect(headers['pb-total']).to.eq('8')
+        expect(headers['pb-total']).to.eq('9')
         expect(headers['pb-start']).to.eq('5')
         expect(body).to.include('<div class="count">5</div>')
       })

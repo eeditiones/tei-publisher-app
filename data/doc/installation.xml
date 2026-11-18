@@ -1,4 +1,4 @@
-<?teipublisher odd="docbook.odd" template="documentation.html" depth="2" fill="1" media="print fo epub markdown"?><?xml-model href="https://cdn.docbook.org/schema/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en" label="a">
+<?teipublisher odd="docbook.odd" template="documentation.html" depth="2" fill="1"?><?xml-model href="https://cdn.docbook.org/schema/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en" label="a">
     <info>
         <title>Installing TEI Publisher</title>
         <author>
@@ -16,7 +16,7 @@
         <para>TEI Publisher requires the <link xlink:show="new" xlink:href="http://exist-db.org">eXist XML database</link> to operate. It is distributed as an eXist application
             package, making it easy to install on any eXist database instance – either on your local
             machine or any remote server. </para>
-        <para>The quickest way to get TEI Publisher and associated apps up and running is to use docker. 
+        <para>The quickest way to get TEI Publisher and associated apps up and running is to use docker.
             However, you can also install eXist and TEI Publisher manually, as <link linkend="exist-installation">described below</link>.</para>
         <section xml:id="docker">
             <title>Using docker</title>
@@ -35,12 +35,13 @@
                 <step>
                     <para>Run the following command. This will automatically download the image if not yet available:</para>
                     <synopsis>docker run -p 8080:8080 -v exist-data:/exist/data --name teipublisher existdb/teipublisher:latest</synopsis>
-                    <para>Startup should be fast because the database is already pre-populated.
-                        However, changes you make may not persist if the docker container is deleted
-                        or updated to a newer release. If you want to be sure that your changes are
-                        safe, you should specify a local volume for storing the database by
-                        adding:</para>
-                    <synopsis>-v exist-data:/exist/data</synopsis>
+                    <para>Startup should be fast because the database is already pre-populated.</para>
+                    <note>
+                        <title>Caveat</title>
+                        <para>If you already had a previous version of TEI Publisher installed via docker, make sure to run a <code>docker pull existdb/teipublisher:latest</code> first.</para>
+                        <para>Also use a different name for <option>-v</option> in the <code>run</code> command, e.g. <code>exist-data10</code>. Otherwise you may
+                            get the old version.</para>
+                    </note>
                     <para>See below for an explanation of the parameters:</para>
                     <variablelist>
                         <varlistentry>

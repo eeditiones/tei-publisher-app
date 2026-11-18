@@ -15,6 +15,13 @@
         "urls": {
             "template": "encyclopedia/:search?",
             "ignore": "path,odd,view,userParams"
+        },
+        "theme": {
+            "layout": {
+                "before": {
+                    "collapsible": false
+                }
+            }
         }
     }
     ---
@@ -64,7 +71,9 @@
     <pb-view src="document1" view="single"/>
     [% endtemplate %]
 
-    <pb-view id="view" src="document1" subscribe="detail" view="other" map="encyclopedia" append-footnotes="">
-    </pb-view>
-    <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]" root-path="[[ $config:data-root ]]" source-view="[[ $page:EXIDE ]]"/>
+    <div class="center">
+        <pb-view id="view" src="document1" subscribe="detail" view="other" map="encyclopedia" append-footnotes="">
+        </pb-view>
+        <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]" root-path="[[ $config:data-root ]]" source-view="[[ $page:EXIDE ]]"/>
+    </div>
 </template>

@@ -27,13 +27,38 @@
   } ],
   "profiles" : [ "base10", "markdown", "demo-data", "theme-base10", "jats", "docbook", "iiif", "playground", "landing-page", "docs", "docker", "ci", "docx", "upload" ],
   "label" : "TEI Publisher Documentation and Demo",
-  "version" : "1.0.0",
-  "id" : "https://e-editiones.org/apps/tei-publisher",
+  "editable" : [ "^collection\\.xconf$", "^index\\.xql$", "^modules/navigation[^/]*\\.xql$", "^modules/query[^/]*\\.xql$", "^modules/facets-config\\.xql$" ],
+  "version" : "11.0.2",
+  "id" : "http://existsolutions.com/apps/tei-publisher",
   "styles" : [ "https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/classic.min.css", "resources/css/pico-components.css", "resources/css/jinks-theme.css" ],
   "_noDeploy" : false,
   "ci" : {
     "provider" : "github",
     "enabled" : true
+  },
+  "profile-versions" : {
+    "markdown" : "1.0.1",
+    "base10" : "1.1.0",
+    "theme-base10" : "1.1.0",
+    "jats" : "1.1.0",
+    "ci" : "1.0.0",
+    "docx" : "1.1.0",
+    "iiif" : "1.1.0",
+    "playground" : "1.1.0",
+    "docs" : "11.0.2",
+    "docbook" : "1.1.0",
+    "demo-data" : "1.0.1",
+    "docker" : "1.0.0",
+    "landing-page" : "1.1.0",
+    "upload" : "1.0.0"
+  },
+  "profile-changes" : {
+    "upload" : {
+      "2.0.0" : "Adds support for multiple formats, currently TEI and JATS. Splits annotate.html into format-specific templates. Existing customizations may need to be updated."
+    }
+  },
+  "changes" : {
+    "2.0.0" : "Adds support for multiple formats, currently TEI and JATS. Splits annotate.html into format-specific templates. Existing customizations may need to be updated."
   },
   "template-suffix" : "\\.tpl",
   "ignore" : [ "repo.xml", "resources/odd/teilite.rng", "resources/css/components.css" ],
@@ -68,12 +93,14 @@
       "after" : {
         "width" : "min(30vw, 356px)",
         "hidden" : false,
-        "toggle" : true
+        "toggle" : true,
+        "collapsible" : true
       },
       "before" : {
         "width" : "min(30vw, 356px)",
         "hidden" : false,
-        "toggle" : true
+        "toggle" : true,
+        "collapsible" : true
       },
       "max-width" : "84rem"
     },
@@ -98,6 +125,7 @@
       "color" : "#ffffff",
       "background-image" : "none"
     },
+    "icons" : [ ],
     "splash" : {
       "width" : "320px",
       "image" : "../images/tei-publisher-logo-color.svg",
@@ -126,7 +154,8 @@
         "teal" : "palette-teal.css",
         "neutral" : "palette-neutral.css",
         "blue" : "palette-blue.css",
-        "beige" : "palette-beige.css"
+        "beige" : "palette-beige.css",
+        "dark" : "palette-dark.css"
       },
       "palette" : "beige"
     },
@@ -138,7 +167,8 @@
         "size" : "14px"
       },
       "footnote" : {
-        "size" : "0.9em"
+        "size" : "0.9em",
+        "padding" : "0 0 0 .25em"
       },
       "base" : {
         "family" : "'Inter', 'Noto', sans-serif",
@@ -149,7 +179,7 @@
       "heading" : {
         "family" : "'Inter', 'Noto', sans-serif",
         "size" : "1.2rem",
-        "weight" : "400"
+        "weight" : "600"
       },
       "breadcrumbs" : {
         "size" : "0.9rem"
@@ -199,20 +229,53 @@
       "read-only" : false
     },
     "menubar" : true,
+    "dts" : {
+      "member" : [ {
+        "type" : "collection",
+        "id" : "demo",
+        "title" : "Demo Collection",
+        "path" : "demo"
+      }, {
+        "type" : "collection",
+        "dublinCore" : {
+          "creator" : [ "Anna Skolimowska", "Waldemar Bukowski", "Tomasz Płóciennik" ],
+          "title" : [ {
+            "lang" : "pl",
+            "value" : "Korespondencja żupnika krakowskiego Mikołaja Serafina z lat 1437-1459"
+          } ]
+        },
+        "id" : "serafin",
+        "title" : "Korespondencja żupnika krakowskiego Mikołaja Serafina z lat 1437-1459",
+        "path" : "letters"
+      } ]
+    },
     "upload" : {
       "target" : "",
       "accept" : ".xml, .tei, .odd, .docx, .md, .mei",
       "enabled" : true
     },
+    "annotate" : {
+      "configs" : {
+        "jats" : {
+          "id" : "http://teipublisher.com/api/annotations/config/jats",
+          "path" : "jats-annotation-config.xqm",
+          "key" : "specific-use"
+        }
+      }
+    },
+    "docx" : {
+      "template" : "templates/docx/default.docx"
+    },
     "iiif" : {
       "viewer" : "pb-tify",
       "base_uri" : "https://apps.existsolutions.com/cantaloupe/iiif/2/",
       "milestone_xpath" : "//tei:pb",
-      "enabled" : false,
       "replace_facs" : {
         "regex" : "^[^:]+:(.*)",
         "replace" : "$1"
-      }
+      },
+      "enabled" : false,
+      "page_label" : "'Page ' || $pb/@n"
     },
     "toolbar" : {
       "zoom" : true,
@@ -256,13 +319,14 @@
     "website" : "http://tei-publisher.org",
     "abbrev" : "tei-publisher",
     "author" : "Wolfgang Meier et al.",
-    "version" : "1.0.0",
+    "version" : "11.0.2",
     "dependencies" : [ {
       "semver" : "1",
       "package" : "http://e-editiones.org/roaster"
     }, {
-      "semver" : "6",
-      "package" : "http://existsolutions.com/apps/tei-publisher-lib"
+      "semver-min" : "6.1",
+      "package" : "http://existsolutions.com/apps/tei-publisher-lib",
+      "semver-max" : "6"
     }, {
       "semver" : "1",
       "package" : "http://tei-publisher.com/library/jinks-templates"
@@ -279,7 +343,7 @@
   "source" : "/db/apps/jinks/profiles/upload",
   "type" : "feature",
   "skip" : [ "^doc/.*$", "setup.xql", "config.json" ],
-  "odds" : [ "teipublisher.odd", "dta.odd", "shakespeare.odd", "vangogh.odd", "osinski.odd", "jats.odd", "docbook.odd", "landing.odd", "docx.odd", "docx-output.odd" ],
+  "odds" : [ "teipublisher.odd", "dta.odd", "shakespeare.odd", "vangogh.odd", "osinski.odd", "jats.odd", "jats-annotations.odd", "docbook.odd", "landing.odd", "docx.odd", "docx-output.odd" ],
   "docker" : {
     "eXist" : "6.4.0",
     "features" : {
@@ -289,26 +353,29 @@
       "tex" : false
     },
     "jwt" : "2.0.1",
-    "roaster" : "1.11.0",
+    "roaster" : "1.12.1",
     "ports" : {
       "https" : 8443,
       "http" : 8080
     },
     "crypto" : "6.0.1",
-    "tei-publisher-lib" : "6.0.2",
+    "tei-publisher-lib" : "6.1.2",
     "ant" : "1.10.15",
-    "jinks-templates" : "1.2.0"
+    "jinks-templates" : "1.4.1"
   },
   "category" : "workflow",
   "_overwrite" : "quick",
   "defaults" : {
+    "language" : "en",
+    "language-label" : "label",
     "data" : "data",
     "address-by-id" : false,
     "odd-root" : "resources/odd",
     "languages" : [ "bg", "cs", "zh_CN", "zh_TW", "de", "en", "es", "el", "fr", "fi", "it", "ka", "nl", "no", "pl", "pt", "ro", "ru", "sl", "sv", "tr", "uk" ],
+    "allowed-xpath" : [ "//text[@type='source']", "//teiHeader", "//div[@type='original']" ],
     "data-default" : "",
     "direction" : "ltr",
-    "template" : "basic.html",
+    "template" : "jats.html",
     "browse" : "browse.html",
     "search" : "div",
     "landing" : "index.html",
@@ -321,11 +388,11 @@
       "fill" : 5,
       "depth" : 10
     },
-    "media" : [ "web", "print", "epub", "markdown" ],
+    "media" : [ "web", "print", "epub", "markdown", "docx", "fo" ],
     "register-root" : "registers"
   },
   "templating" : {
-    "use" : [ "templates/markdown-blocks.html", "templates/iiif-blocks.html", "templates/playground-blocks.html", "templates/upload-blocks.html" ],
+    "use" : [ "templates/markdown-blocks.html", "templates/iiif-blocks.html", "templates/playground-blocks.html", "templates/docx-blocks.html", "templates/upload-blocks.html" ],
     "modules" : {
       "http://teipublisher.com/ns/templates/browse" : {
         "at" : "modules/templates/browse.xqm",
@@ -343,7 +410,7 @@
   },
   "script" : {
     "custom" : [ ],
-    "webcomponents" : "3.0.5",
+    "webcomponents" : "3.6.8",
     "extra-components" : [ ],
     "cdn" : "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components"
   },
@@ -359,7 +426,7 @@
     },
     "doc" : {
       "odd" : "docbook.odd",
-      "media" : [ "web", "print", "fo", "epub", "markdown" ],
+      "media" : [ "web", "print", "fo", "epub", "markdown", "docx" ],
       "template" : "documentation.html"
     },
     "docx" : {
@@ -387,8 +454,13 @@
     "prefix" : "demo",
     "id" : "http://teipublisher.com/api/documentation-and-demo",
     "path" : "docs-api.xql"
+  }, {
+    "spec" : "docx-api.json",
+    "prefix" : "docx",
+    "id" : "http://teipublisher.com/api/docx",
+    "path" : "docx-api.xql"
   } ],
-  "depends" : [ "base10", "demo-data", "upload", "ci", "docbook", "jats", "markdown", "iiif", "playground", "docx", "docker", "landing-page" ],
+  "depends" : [ "base10", "docbook", "jats", "markdown", "iiif", "playground", "docx", "demo-data", "docker", "ci", "landing-page", "upload" ],
   "static" : {
     "fields" : {
       "index" : [ "content" ],

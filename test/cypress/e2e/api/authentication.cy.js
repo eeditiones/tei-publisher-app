@@ -45,7 +45,7 @@ describe('TEI-Publisher Authentication API', () => {
     })
 
     it('handles missing credentials', () => {
-      // Test login with missing credentials
+      // Empty login clears the session rather than returning 401
       cy.request({
         method: 'POST',
         url: '/api/login',
@@ -53,7 +53,9 @@ describe('TEI-Publisher Authentication API', () => {
         body: {},
         failOnStatusCode: false
       }).then((response) => {
-        expect(response.status).to.eq(401)
+        expect(response.status).to.eq(200)
+        expect(response.body).to.have.property('user')
+        expect(response.body.user).to.be.null
       })
     })
   })

@@ -41,8 +41,8 @@ declare namespace ep="http://www.idpf.org/2007/ops";
     @see http://demo.exist-db.org/exist/functions/compression/zip
 :)
 declare function epub:generate-epub($config as map(*), $doc, $css, $filename) {
-    let $docConfig := map:merge((tpu:parse-pi(root($doc), "div"), map { "view": "div" }))
-    let $config := map:merge(($config, map { "docConfig": $docConfig }, map { "type": $docConfig?type }))
+    let $docConfig := map:merge((tpu:parse-pi(root($doc), "div"), map { "view": "div" }), map { "duplicates": "use-last" })
+    let $config := map:merge(($config, map { "docConfig": $docConfig }, map { "type": $docConfig?type }), map { "duplicates": "use-last" })
     let $xhtml := epub:body-xhtml-entries(root($doc), $config)
     let $entries :=
         (
@@ -119,7 +119,7 @@ declare function epub:content-opf-entry($config as map(*), $text, $xhtml as elem
     let $content-opf :=
         <package xmlns="http://www.idpf.org/2007/opf" unique-identifier="bookid" version="3.0">
             <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
-                <dc:title>{$config?metadata?title}</dc:title>
+                <dc:title>{string-join($config?metadata?title, ' ')}</dc:title>
                 <dc:creator>{$config?metadata?creator}</dc:creator>
                 <dc:identifier id="bookid">{$config?metadata?urn}</dc:identifier>
                 <dc:language>{$config?metadata?language}</dc:language>
@@ -219,17 +219,28 @@ declare function epub:body-xhtml-entries($doc as document-node(), $config) {
         $entries
 };
 
+declare function epub:chapter-title($node, $content, $config) as xs:string {
+    let $heading := nav:get-section-heading($config?docConfig, $content)
+    return
+        if ($heading[1] instance of element(tei:head)) then
+            let $html := $pm-config:epub-transform($heading/node(), map { "root": $node }, $config?odd)
+            return
+                head((normalize-space(string-join($html)), "--no title---"))
+        else
+            (: No tei:head: get-section-heading returns the section itself. Transforming
+               that (or its children) dumps the whole chapter into <title>. Use document
+               metadata instead. :)
+            let $meta := nav:get-metadata($config?docConfig, root($node)/*, "title")
+            return
+                head((normalize-space(string-join($meta)), "--no title---"))
+};
+
 declare function epub:body-xhtml($node, $config) {
     let $next := nav:get-next($config?docConfig, $node, "div")
     let $content := pages:get-content($config?docConfig, $node)
-    let $title := nav:get-section-heading($config?docConfig, $content)/node()
-    let $title :=
-        if ($title) then
-            $pm-config:epub-transform($title, map { "root": $node }, $config?odd)
-        else
-            "--no title---"
+    let $title := epub:chapter-title($node, $content, $config)
     let $body := $pm-config:epub-transform($content, map { "root": $node }, $config?odd)
-    let $body-xhtml:= epub:assemble-xhtml(string-join($title), $config?metadata?language, epub:fix-namespaces($body))
+    let $body-xhtml:= epub:assemble-xhtml($title, $config?metadata?language, epub:fix-namespaces($body))
     return (
         <entry name="{concat('OEBPS/', epub:generate-id($node), '.xhtml')}" type="xml">{$body-xhtml}</entry>,
         if ($next) then
@@ -367,13 +378,52 @@ declare function epub:assemble-xhtml($title, $language, $body) {
             <body>
                 {
                     if ($footnotes) then (
-                        epub:strip-footnotes($body),
-                        <section epub:type="footnotes">{$footnotes}</section>
+                        epub:enhance-footnote(epub:strip-footnotes($body)),
+                        <section epub:type="footnotes">
+                        { epub:enhance-footnote($footnotes) }
+                        </section>
                     ) else
-                        $body
+                        epub:enhance-footnote($body)
                 }
             </body>
         </html>
+};
+
+(:~
+ : Ensure noteref / footnote pairs carry DPUB-ARIA roles. Thorium and Books
+ : key off epub:type, but several builds also expect role="doc-noteref" /
+ : role="doc-footnote" before they intercept the click as a popup instead of
+ : navigating to the (reader-hidden) aside.
+ :)
+declare function epub:enhance-footnote($nodes as item()*) {
+    for $node in $nodes
+    return
+        typeswitch ($node)
+            case element(xhtml:a) return
+                element { node-name($node) } {
+                    $node/@* except $node/@role,
+                    if ($node[@ep:type = "noteref"] and empty($node/@role)) then
+                        attribute role { "doc-noteref" }
+                    else
+                        $node/@role,
+                    epub:enhance-footnote($node/node())
+                }
+            case element(xhtml:aside) return
+                element { node-name($node) } {
+                    $node/@* except $node/@role,
+                    if ($node[@ep:type = "footnote"] and empty($node/@role)) then
+                        attribute role { "doc-footnote" }
+                    else
+                        $node/@role,
+                    epub:enhance-footnote($node/node())
+                }
+            case element() return
+                element { node-name($node) } {
+                    $node/@*,
+                    epub:enhance-footnote($node/node())
+                }
+            default return
+                $node
 };
 
 declare function epub:strip-footnotes($nodes as node()*) {

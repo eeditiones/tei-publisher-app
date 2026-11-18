@@ -7,7 +7,7 @@ import module namespace page="http://teipublisher.com/ns/templates/page" at "pag
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare function landing:section($context as map(*), $name as xs:string, $root as node(), $odd as xs:string?) {
-    let $lang := page:parameter($context, 'lang')
+    let $lang := page:resolve-language($context)
     let $nodes := head(($root//tei:div[@type=$name][@xml:lang=$lang], $root//tei:div[@type=$name], $root/id($name)))
     let $odd := head(($odd, $context?defaults?odd, 'landing.odd'))
     return
@@ -15,7 +15,7 @@ declare function landing:section($context as map(*), $name as xs:string, $root a
 };
 
 declare function landing:lang($context as map(*), $name as xs:string, $root as node(), $odd as xs:string?) {
-    let $lang := page:parameter($context, 'lang')
+    let $lang := page:resolve-language($context)
    
     return
         $lang

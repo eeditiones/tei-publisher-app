@@ -60,7 +60,7 @@
                     for a particular aspect of a digital edition, e.g. support for a certain input
                     format, integration of facsimile images, timelines or map display.</para>
             </section>
-            <section>
+            <section xml:id="intro-assembling">
                 <title>Assembling an application</title>
                 <para>An actual application is created by selecting desired features and customizing
                     their configuration. This is achieved through a central configuration file,
@@ -81,7 +81,7 @@
                     blueprint.</para>
             </section>
 
-            <section>
+            <section xml:id="intro-continuous-development">
                 <title>Continuous development</title>
                 <para>TEI Publisher comes with a central application manager, Jinks, which manages
                     all profiles and the applications generated from it.</para>
@@ -100,7 +100,7 @@
                     manually migrate to a new version of TEI Publisher. </para>
             </section>
 
-            <section>
+            <section xml:id="intro-vocabulary">
                 <title>Basic vocabulary</title>
                 <para>To clarify how various parts fit together, let us summarize some key concepts,
                     which will be used in the rest of this documentation:</para>
@@ -1065,7 +1065,9 @@
             <para>Tightly connected to updates and conflict detection are the three different
                 operation modes <productname>Jinks</productname> provides. You can switch between
                 them through the select on the bottom of the <guilabel>Application
-                    Configuration</guilabel> tab:<variablelist>
+                    Configuration</guilabel> tab:
+                </para>
+            <variablelist>
                     <varlistentry>
                         <term><guilabel>Quick update</guilabel></term>
                         <listitem>
@@ -1098,7 +1100,6 @@
                         </listitem>
                     </varlistentry>
                 </variablelist>
-            </para>
         </section>
 
     </section>
@@ -1284,7 +1285,7 @@ padding: 0 2rem;</synopsis>
     &lt;/model&gt;
 &lt;/elementSpec&gt;</programlisting>
         </section>
-        <section>
+        <section xml:id="pi-conditions">
             <title>Conditions and multiple models</title>
             <para>Next, we'd like to format the bible quote and make the text italic. If you add an
                 <tag>elementSpec</tag> for quote, you will see that it has two models by default. The first one
@@ -1415,10 +1416,67 @@ text-align: center;</programlisting>
         </section>
     </section>
     <section xml:id="next">
-        <title>Further steps</title>
+        <title>Next steps</title>
         <para>This brief introduction aims to give a very basic orientation in using Jinks and TEI
-            Publisher. For more in depth discussion of various subjects you may want to check the
-                <link xlink:href="documentation.xml">Reference Manual</link> and <link xlink:href="webcomponents.xml">Web Components</link>.</para>
+            Publisher. As a next step, we would recommend to read the section on <link xlink:href="documentation.xml?id=development-workflows">development workflows</link> in the 
+            reference manual.</para>
+        <para>The reference manual also discusses other subjects in much more detail, including:</para>
+        <variablelist>
+        <varlistentry>
+            <term><link xlink:href="documentation.xml?id=development-workflow">Development Workflows</link></term>
+            <listitem>
+                <para>Recommended workflows for building, updating, and collaborating on TEI Publisher applications.</para>
+            </listitem>
+        </varlistentry>
+            <varlistentry>
+                <term><link xlink:href="documentation.xml?id=development-workflow-agents">Using Coding Agents</link></term>
+                <listitem>
+                    <para>How to use coding agents to automate tasks and improve productivity.</para>
+                </listitem>
+            </varlistentry>
+        <varlistentry>
+            <term><link xlink:href="documentation.xml?id=odd">TEI Processing Model</link></term>
+            <listitem>
+                <para>In-depth explanation of the TEI Processing Model (ODD), models, and transformation mechanisms.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><link xlink:href="documentation.xml?id=anatomy-profile">Anatomy of a Profile</link></term>
+            <listitem>
+                <para>Structure and essential components of a TEI Publisher profile.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><link xlink:href="documentation.xml?id=templates">Jinks Templates</link></term>
+            <listitem>
+                <para>Overview of the template system and instructions for customizing views and outputs.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><link xlink:href="documentation.xml?id=layout">Layout</link></term>
+            <listitem>
+                <para>Information on UI configuration, views, page structure, and appearance customization.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><link xlink:href="documentation.xml?id=search">Search</link></term>
+            <listitem>
+                <para>Guidance on configuring and using full-text search, faceted search, and custom search options in TEI Publisher.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><link xlink:href="documentation.xml?id=seo">Web Search Engine Optimization</link></term>
+            <listitem>
+                <para>Best practices and built-in support for making TEI Publisher projects more discoverable through web search engines.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><link xlink:href="documentation.xml?id=server-api">Server-Side API</link></term>
+            <listitem>
+                <para>Reference for the server-side API and instructions on accessing and integrating programmatic functions.</para>
+            </listitem>
+        </varlistentry>
+        </variablelist>
         <para>e-editiones runs a series of monthly community meet-ups and also maintains a Slack
             community, which provide a space for discussion, coordination of efforts and community
             support. Check the <link xlink:href="https://www.e-editiones.org">website</link> to find

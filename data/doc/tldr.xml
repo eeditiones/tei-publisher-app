@@ -1,4 +1,4 @@
-<?teipublisher odd="docbook.odd" template="documentation.html" fill="1" depth="1" media="print fo epub markdown"?><?xml-model href="https://cdn.docbook.org/schema/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
+<?teipublisher odd="docbook.odd" template="documentation.html" fill="1" depth="1"?><?xml-model href="https://cdn.docbook.org/schema/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
     <info>
         <title>TLDR</title>
         <author>
@@ -20,17 +20,17 @@
                     <td>Description</td>
                 </tr>
             </thead>
-            <tbody>                    
-                <tr>
-                    <td>Local installation</td>
-                    <td>
-                        <link linkend="installation">Quick setup with Docker</link>
-                    </td>
-                </tr>
+            <tbody>
                 <tr>
                     <td>TEI Publisher for Beginners</td>
                     <td>
                         <link linkend="new">Introduction for new users</link>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Local installation</td>
+                    <td>
+                        <link linkend="installation">Quick setup with Docker</link>
                     </td>
                 </tr>
                 <tr>
@@ -50,15 +50,21 @@
                     <td>
                         <link linkend="support">Community &amp; support</link>
                     </td>
-                </tr>                    
+                </tr>
+                <tr>
+                    <td>Note on AI</td>
+                    <td>
+                        <link linkend="ai">Best practice considerations for AI workflows</link>
+                    </td>
+                </tr>
             </tbody>
         </informaltable>
-        <para>This document serves as a cheat-sheet to help you navigate the TEI Publisher ecosystem.</para>                    
-    </section>       
-    
+        <para>This document serves as a cheat-sheet to help you navigate the TEI Publisher ecosystem.</para>
+    </section>
+
     <section xml:id="installation">
         <title>Local installation</title>
-        <subtitle>Quick Installation Guide using Docker</subtitle> 
+        <subtitle>Quick Installation Guide using Docker</subtitle>
         <para>Docker is an open-source container platform. Containers are lightweight, standalone packages that include everything needed to run an application.</para>
         <para>Using Docker, you can quickly run everything needed for TEI Publisher.</para>
         <section xml:id="prerequisites">
@@ -66,12 +72,12 @@
             <itemizedlist>
                 <listitem>
                     <para>
-                        Docker ( 
-                            <link xlink:href="https://www.docker.com/products/docker-desktop/" xlink:show="new">Docker Desktop (Windows/Mac)</link>, 
+                        Docker (
+                            <link xlink:href="https://www.docker.com/products/docker-desktop/" xlink:show="new">Docker Desktop (Windows/Mac)</link>,
                             <link xlink:href="https://docs.docker.com/engine/install" xlink:show="new">Docker Engine (Linux)</link> or
                             <link xlink:href="https://podman.io/docs/installation" xlink:show="new">Podman</link>
                         )
-                    </para>                    
+                    </para>
                 </listitem>
                 <listitem>
                     <para>A modern web browser</para>
@@ -80,7 +86,7 @@
             <para>If you do <emphasis role="bold">not</emphasis> want to use the Docker
                 continue with <link xlink:href="installation.xml?id=exist-installation">installing
                     into an eXist instance</link>. Find more information on TEI Publisher and Docker
-                    <link xlink:href="installation.xml?id=docker">here</link>. 
+                    <link xlink:href="installation.xml?id=docker">here</link>.
                     </para>
                     <note><para>When using the Docker image, you do <emphasis role="bold">not</emphasis> need
                     <link xlink:href="https://www.java.com/" xlink:show="new">Java</link> or <link xlink:href="https://exist-db.org/" xlink:show="new">eXist-db</link> installed
@@ -88,21 +94,25 @@
         </section>
         <section xml:id="running">
             <title>Running TEI Publisher and Jinks</title>
-            
+
             <para>
                 <emphasis role="bold">
                     Please be aware that the TEI Publisher Dev Docker Container is not safe for use on public servers!
                     To run TEI Publisher on the server please make sure to read <link xlink:href="tldr.xml#production">Running TEI Publisher in Production</link> below.
                 </emphasis>
             </para>
-           
-            
+
+
             <para>Make sure Docker is running and start TEI Publisher using the official pre-built
                 Docker image by running the following command from your terminal: </para>
-            <para>
             <programlisting>docker run -p 8080:8080 -v exist-data:/exist/data
                 existdb/teipublisher:latest</programlisting>
-            </para>
+            <note>
+                <title>Caveat</title>
+                <para>If you already had a previous version of TEI Publisher installed via docker, make sure to run a <code>docker pull existdb/teipublisher:latest</code> first.</para>
+                <para>Also use a different name for <option>-v</option> in the <code>run</code> command, e.g. <code>exist-data10</code>. Otherwise you may
+                    get the old version.</para>
+            </note>
             <para>Point your browser to <link xlink:href="http://localhost:8080/exist/apps/tei-publisher/doc/tldr.xml" xlink:show="new">localhost:8080/exist/apps/tei-publisher/doc/tldr.xml</link> to verify everthing
                 works fine. You should see this page but now served by the TEI Publisher Dev Docker
                 Container you just started.</para>
@@ -115,11 +125,11 @@
             <itemizedlist>
                 <listitem>
                     <para>
-                        <link xlink:href="browse.html" xlink:show="new">Documentation &amp; Demo </link> - this article is part of the profile for self-guided learning.
+                        <link xlink:href="../browse.html" xlink:show="new">Documentation &amp; Demo </link> - this article is part of the profile for self-guided learning.
                     </para>
-                </listitem>                    
+                </listitem>
                 <listitem>
-                    <para>    
+                    <para>
                         <link xlink:href="/exist/apps/tp-serafin/" xlink:show="new">Serafin</link> - Real-world correspondence edition example
                     </para>
                 </listitem>
@@ -128,7 +138,7 @@
                         <link xlink:href="/exist/apps/tp-workbench/">Workbench</link> - Interactive TEI editing
                     </para>
                 </listitem>
-                    
+
             </itemizedlist>
             <para>Via the <link xlink:href="/exist/apps/dashboard" xlink:show="new">eXist-db Dashboard</link> you can see the TEI Publisher application manager <link xlink:href="/exist/apps/jinks" xlink:show="new">Jinks</link> itself, all applications created with Jinks, and all other
              eXist-db applications.</para>
@@ -157,16 +167,16 @@
                         a Jinks profile</link>: nerves and muscles of Publisher and how to train your own. For developers planning to customize or create Jinks profiles and applications.
                     </para>
                 </listitem>
-                    
+
                 <listitem>
                     <para>
                         <link xlink:href="https://www.e-editiones.org/pages/getting-started/" xlink:show="new">Getting started</link>: a collection of resources and tutorials
-                        around TEI and TEI Publisher curated by e-editiones. 
+                        around TEI and TEI Publisher curated by e-editiones.
                     </para>
                 </listitem>
-            </itemizedlist>   
+            </itemizedlist>
         </para>
-    </section>    
+    </section>
     <section xml:id="production">
         <title>Server installation</title>
         <subtitle>TEI Publisher in Production Environment</subtitle>
@@ -186,7 +196,7 @@
                 </listitem>
                 <listitem>
                     <para>
-                        <important>                            
+                        <important>
                             <para>
                             <emphasis role="bold">
                             It is strongly recommended to use a <link xlink:href="https://en.wikipedia.org/wiki/Proxy_server" xlink:show="new">proxy server
@@ -207,7 +217,7 @@
                 </listitem>
             </itemizedlist>
         </para>
-    </section>    
+    </section>
     <section xml:id="advanced">
         <title>Advanced Topics</title>
         <section>
@@ -271,7 +281,31 @@
                     </para>
                 </listitem>
             </itemizedlist>
-        </section>                
+        </section>
+    </section>
+    <section xml:id="ai">
+        <title>AI-supported workflows</title>
+        <para>
+            We acknowledge that AI tools are now a core part of many workflows. 
+            To save you time, protect precious resources, and prevent common pitfalls, 
+            we have curated and tested specific agentic skills for key tasks. These are located 
+            under <emphasis>AGENTS.md</emphasis> and within the <emphasis>skills</emphasis> subdirectories.
+        </para>
+        <para>
+            We strongly recommend working with AI agents in <emphasis role="bold">small, incremental steps</emphasis>, ensuring a 
+            competent human reviews every stage of the process. 
+        </para>
+        <para>
+            Jinks and TEI Publisher are designed with flexibility, interoperability, 
+            and sustainability in mind. To maintain these standards, reviewers should ensure 
+            that automated solutions do not just solve an immediate technical 
+            problem, but <emphasis role="bold">accord with these core architectural principles</emphasis>.
+        </para>
+        <para>
+            Last but not least, open source is a shared ecosystem.
+            We rely on <emphasis role="bold">fair reciprocity</emphasis> for survival and request 
+            financial or in-kind contributions to support ongoing development and maintenance.
+        </para>
     </section>
     <section xml:id="support">
         <title>Support &amp; Community</title>

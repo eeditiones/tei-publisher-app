@@ -1,17 +1,4 @@
-(:~
- : Open API module to generate a IIIF presentation manifest.
- : By default walks through all pb in the document, using the @facs
- : attribute to resolve images. It contacts the configured image api service
- : to retrieve measurements for each image.
- :
- : While the XQuery code is quite generic, it may need to be adjusted for
- : concrete use-cases.
- :
- : The general assumption is that for each milestone element in the TEI (usually a pb or milestone),
- : a canvas is created, containing one image. The image service URL is generated
- : by appending the string returned by iiif:milestone-id to $iiif:IMAGE_API_BASE.
- : The canvas id will correspond to $iiif:CANVAS_ID_PREFIX with iiif:milestone-id appended.
- :)
+
 module namespace iiif="https://e-editiones.org/api/iiif";
 
 import module namespace iiifc="https://e-editiones.org/api/iiif/config" at "iiif-config.xqm";
@@ -22,7 +9,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 (:~ Contact the IIIF image api to get the dimensions of an image :)
 declare %private function iiif:image-info($path as xs:string) {
-    let $request := <http:request method="GET" href="{$iiifc:IMAGE_API_BASE}/{$path}/info.json"/>
+    let $request := <http:request method="GET" href="{string-join(($iiifc:IMAGE_API_BASE, $path), '/')}/info.json"/>
     let $response := http:send-request($request)
     return
         if ($response[1]/@status = 200) then
@@ -45,7 +32,7 @@ declare %private function iiif:canvases($doc as node()) {
         map {
             "@id": $iiifc:CANVAS_ID_PREFIX || $id,
             "@type": "sc:Canvas",
-            "label": "Page " || $pb/@n,
+            "label":  'Page ' || $pb/@n,
             "width": $info?width,
             "height": $info?height,
             "images": [
@@ -53,14 +40,14 @@ declare %private function iiif:canvases($doc as node()) {
                     "@type": "oa:Annotation",
                     "motivation": "sc:painting",
                     "resource": map {
-                        "@id": $iiifc:IMAGE_API_BASE || "/" || $id || "/full/full/0/default.jpg",
+                        "@id": string-join(($iiifc:IMAGE_API_BASE, $id), '/') || "/full/max/0/default.jpg",
                         "@type": "dctypes:Image",
                         "format": "image/jpeg",
                         "width": $info?width,
                         "height": $info?height,
                         "service": map {
                             "@context": "http://iiif.io/api/image/2/context.json",
-                            "@id": $iiifc:IMAGE_API_BASE || "/" || $id,
+                            "@id": string-join(($iiifc:IMAGE_API_BASE, $id), '/'),
                             "profile": "http://iiif.io/api/image/2/level2.json"
                         }
                     },
@@ -121,4 +108,16 @@ declare function iiif:manifest($request as map(*)) {
             },
             iiifc:metadata($doc, $id)
         ))
+};
+
+(:~
+ : Get the facsimiles that are relevant for the given document file
+ :)
+declare function iiif:facsimiles ($request as map(*)) {
+    let $id := $request?parameters?path
+    let $document := config:get-document($id)
+    let $milestones := iiifc:milestones($document)
+    let $entries := for $milestone in $milestones
+      return map:entry(($milestone/@facs, $milestone/@url)[1], $iiifc:IMAGE_API_BASE || iiifc:milestone-id($milestone))
+    return map:merge($entries)
 };

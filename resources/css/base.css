@@ -103,7 +103,10 @@ pb-page[unresolved]~.splash {
 
 /* check should take the theming settings */
 .toolbar {
-    background-image: none;
+    background-image: var(--jinks-toolbar-background-image);
+    background-size: var(--jinks-toolbar-background-size);
+    background-position: var(--jinks-toolbar-background-position);
+    background-repeat: var(--jinks-toolbar-background-repeat);
     position: relative;
     width: 100%;
     background-color: var(--jinks-toolbar-background-color);
@@ -116,14 +119,44 @@ pb-page[unresolved]~.splash {
     row-gap: var(--s-1);
 }
 
+.toolbar > ul:last-of-type {
+    display: flex;
+    align-items: center;
+    column-gap: var(--s-1);
+    flex-wrap: wrap;
+    row-gap: var(--s-1);
+}
+
 .toolbar ul {
     padding-left: var(--s-2);
     padding-right: var(--s-2);
+    column-gap: var(--s-2);
 }
 
 .toolbar li {
     padding-top: 0;
     padding-bottom: 0;
+}
+
+.toolbar > ul:last-of-type > li {
+    padding-inline: 0;
+    margin-inline: 0 !important;
+}
+
+.toolbar [role="group"] {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-1);
+}
+
+.toolbar [role="group"] button,
+.toolbar [role="group"] a {
+    margin-inline: 0;
+}
+
+.toolbar > ul:last-of-type > li > a > button,
+.toolbar > ul:last-of-type > li > button {
+    margin-inline: 0 !important;
 }
 
 .toolbar a {
@@ -150,6 +183,10 @@ a[role="button"] svg, .theme-toggle svg, .icon {
 
 .content-top:has(.toolbar) {
     background-color: var(--jinks-toolbar-background-color);
+    background-image: var(--jinks-toolbar-background-image);
+    background-size: var(--jinks-toolbar-background-size);
+    background-position: var(--jinks-toolbar-background-position);
+    background-repeat: var(--jinks-toolbar-background-repeat);
 }
 
 @media (max-width: 1024px) {
@@ -197,6 +234,7 @@ pb-document {
     background-repeat: no-repeat;
     background-position: top;
     background-color: var(--jinks-menubar-background-color);
+    border-bottom: var(--jinks-page-header-border-bottom);
 }
 
 /* hero covers 100% of the viewport height */
@@ -239,7 +277,7 @@ pb-document {
 .logo {
     background-image: var(--jinks-logo-light);
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-size: var(--jinks-logo-image-width) var(--jinks-logo-image-height);
     background-position: left center;
     width: var(--jinks-logo-image-width);
     height: var(--jinks-logo-image-height);
@@ -279,7 +317,6 @@ pb-dialog h3 {
 }
 
 pb-view, pb-view-annotate {
-    --jinks-heading-font-family: var(--jinks-content-font-family);
     font-family: var(--jinks-content-font-family);
     font-size: var(--jinks-content-font-size);
     line-height: var(--jinks-content-line-height);
@@ -289,6 +326,7 @@ pb-view, pb-view-annotate {
 
 pb-view::part(content) {
     padding-top: 1rem;
+    padding-bottom: 2rem;
     --pico-color: var(--jinks-color-primary);
     --pico-h1-color: var(--jinks-h1-color);
     --pico-h2-color: var(--jinks-h2-color);
@@ -577,4 +615,64 @@ main {
 
 .metadata-panel {
     margin-block-start: 1rem;
+}
+
+.after.after-tabs {
+    display: flex;
+    flex-direction: column;
+}
+
+.after-tab-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    flex-shrink: 0;
+    justify-content: flex-start;
+    align-items: flex-end;
+    padding: 0;
+    margin-bottom: .5rem;
+    border-bottom: 1px solid var(--jinks-colors-300);
+}
+
+.after-tab-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2rem;
+    padding: .375rem .75rem;
+    border: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+    cursor: pointer;
+    font-size: .8125rem;
+    color: var(--jinks-colors-500);
+    font-weight: 400;
+    margin-bottom: -1px;
+    transition: color .15s ease, border-color .15s ease;
+}
+
+.after-tab-btn:hover {
+    background-color: transparent;
+    color: var(--jinks-color-primary);
+    box-shadow: none;
+}
+
+.after-tab-btn.active {
+    color: var(--jinks-color-primary);
+    font-weight: 600;
+    border-bottom-color: var(--jinks-colors-600);
+    box-shadow: none;
+}
+
+.after-tab-btn:focus-visible {
+    outline: none;
+    box-shadow: 0px 0px 0px 1px var(--jinks-form-focus-color1), 0px 0px 0px 4px var(--jinks-form-focus-color2);
+}
+
+/* tab panels use all available space */
+.tab-panel {
+    height: 100%;
+    width: 100%;
 }

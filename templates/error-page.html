@@ -70,8 +70,10 @@
         </header>
         <main>
             <h1>An error occurred – <span class="error">[[ $type ]]</span></h1>
-
-            [% if ends-with($type, ':error-dynamic') %]
+            [% if ends-with($type, ':FOJS0001') %]
+            <p>The system encountered a JSON syntax error. This might be due to
+                an error in the HTML template frontmatter.</p>
+            [% elif ends-with($type, ':error-dynamic') %]
             <p>The system encountered a dynamic error rendering the HTML template. This might be due to
                 a problem in the template itself or an XQuery module being imported.</p>
             <p>The XQuery code the template was compiled into and which triggered the error is display at the bottom.</p>

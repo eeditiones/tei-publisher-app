@@ -1,92 +1,359 @@
-/*********************** Fonts ***********************/
+/* Baseline typography for EPUB 3 reading systems.
+ *
+ * Loaded first, before the ODD stylesheet and any [transform.epub] css, so a
+ * project can override anything here. Sizes are relative throughout: reading
+ * systems scale the root font, and absolute units fight the user's setting.
+ */
 
-@font-face {
-  src: url('Fonts/Junicode.ttf') format('truetype');
-}
-@font-face {
-  src: url('Fonts/Junicode-Bold.ttf') format('truetype');
-}
-@font-face {
-  src: url('Fonts/Junicode-Italic.ttf') format('truetype');
-}
-@font-face {
-  src: url('Fonts/Junicode-BoldItalic.ttf') format('truetype');
+/* Required before any rule may select on epub:type. */
+@namespace epub url("http://www.idpf.org/2007/ops");
+
+:root {
+    --opm-body-font: Georgia, "Iowan Old Style", "Times New Roman", serif;
+    --opm-heading-font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --opm-mono-font: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+    --opm-rule: #d5dde8;
+    --opm-muted: #5b6b7c;
+    --opm-accent: #0b6bcb;
+    --opm-surface: #f2f5f9;
+    --opm-radius: 0.3em;
+
+    /* Fallbacks for variables that web-oriented ODD stylesheets reference, so
+       rules carried over from the reading view degrade instead of dropping. */
+    --jinks-base-font-family: var(--opm-body-font);
+    --jinks-heading-font-family: var(--opm-heading-font);
+    --jinks-heading-font-weight: 600;
+    --jinks-font-size-smaller: 0.85em;
+    --jinks-form-border-radius: var(--opm-radius);
+    --jinks-colors-accent: var(--opm-accent);
+    --pb-color-lighter: var(--opm-rule);
+    --pb-color-focus: var(--opm-accent);
+    --pb-heading-font-family: var(--opm-heading-font);
+    --pb-footnote-font-size: 0.85em;
 }
 
 /*********************** Base ***********************/
+
 body {
-  font-family: "Junicode", Georgia, "Times New Roman", serif;
-  hyphens: auto;
-  -epub-hyphens: auto;
-  line-height: 1.42857;
-  orphans: 2;
-  widows: 2;
-}
-
-h1,h2,h3,h4 {
-    margin-top: 2em;
-    margin-bottom: 1em;
-    page-break-after: avoid;
-    page-break-inside: avoid;
-}
-
-h1 { font-size: 2.441em; }
-h2 { font-size: 1.953em; }
-h3 { font-size: 1.563em; }
-h4 { font-size: 1.25em; }
-
-
-/* Tables */
-.table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-.table td {
-    font-size: 0.875em;
-    padding: 15px 12px;
+    /* Reading systems add their own page gutter, but not all of them do, and a
+       column of text touching the screen edge is unreadable. A small inset
+       costs little where a gutter already exists. */
+    margin: 0;
+    padding: 0 1em;
+    font-family: var(--opm-body-font);
     line-height: 1.5;
+    hyphens: auto;
+    -epub-hyphens: auto;
+    orphans: 2;
+    widows: 2;
+}
+
+p {
+    margin: 0 0 0.85em;
+    text-indent: 0;
+}
+
+a {
+    color: var(--opm-accent);
+    text-decoration: underline;
+}
+
+/*********************** Headings ***********************/
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--opm-heading-font);
+    font-weight: 600;
+    line-height: 1.25;
+    /* Reading systems paginate; a heading stranded at a page foot is worse
+       than a short page. */
+    page-break-after: avoid;
+    break-after: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    -webkit-hyphens: none;
+    hyphens: none;
+}
+
+h1 {
+    margin: 0 0 0.8em;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid var(--opm-rule);
+    font-size: 1.7em;
+}
+
+h2 { margin: 1.6em 0 0.6em; font-size: 1.35em; }
+h3 { margin: 1.4em 0 0.5em; font-size: 1.15em; }
+h4, h5, h6 { margin: 1.2em 0 0.4em; font-size: 1em; }
+
+/* A chapter opens on a fresh page — no leading whitespace above its title,
+   however deeply the ODD wrapped it. Also cancel the common reader default
+   ``break-before: page`` on h1: each spine item is already a new chapter, so
+   that default inserts a blank page before the heading (e.g. between
+   transcription and translation when both start with an h1). */
+body > h1:first-child,
+body > h2:first-child,
+body > :first-child h1:first-child,
+body > :first-child h2:first-child {
+    margin-top: 0;
+    page-break-before: auto;
+    break-before: auto;
+}
+
+.doc-title { font-size: 1.9em; }
+
+/*********************** Title page ***********************/
+
+#title {
+    /* Padding, not margin: a top margin here collapses through <body> and the
+       title lands back at the top of the page. */
+    padding-top: 25%;
+    text-align: center;
+}
+
+#title h1,
+#title .doc-title {
+    border-bottom: none;
+    text-wrap: balance;
+}
+
+#title .tei-author,
+#title .author,
+#title .tei-editor,
+#title .editor {
+    display: block;
+    margin-top: 1.5em;
+    font-family: var(--opm-heading-font);
+    font-size: 1.1em;
+    color: var(--opm-muted);
+}
+
+/*********************** Lists ***********************/
+
+ul, ol {
+    margin: 0 0 0.85em;
+    padding-left: 1.4em;
+}
+
+li { margin-bottom: 0.3em; }
+
+li > p, dd > p {
+    margin-top: 0;
+    margin-bottom: 0.4em;
+}
+
+dl { margin: 0 0 0.85em; }
+
+dt {
+    margin-top: 0.6em;
+    font-weight: 600;
+    page-break-after: avoid;
+    break-after: avoid;
+}
+
+dd { margin: 0 0 0.5em 1.4em; }
+
+/*********************** Code ***********************/
+
+code, kbd, samp, .code {
+    font-family: var(--opm-mono-font);
+    font-size: 0.85em;
+}
+
+/* Inline code: a tinted chip, as in the reading view. */
+:not(pre) > code, span.code {
+    padding: 0.05em 0.3em;
+    border-radius: var(--opm-radius);
+    background-color: var(--opm-surface);
+}
+
+pre, .programlisting, div.tei-programlisting, div.tei-synopsis {
+    margin: 1em 0;
+    padding: 0.7em 0.8em;
+    border: 1px solid var(--opm-rule);
+    border-radius: var(--opm-radius);
+    background-color: var(--opm-surface);
+    font-family: var(--opm-mono-font);
+    font-size: 0.8em;
+    line-height: 1.45;
+    /* Reading systems cannot scroll a block horizontally: wrap instead. */
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+pre code {
+    padding: 0;
+    background: transparent;
+    font-size: inherit;
+}
+
+/*********************** Quotes ***********************/
+
+blockquote {
+    margin: 1.2em 0;
+    padding: 0.1em 0 0.1em 1em;
+    border-left: 3px solid var(--opm-rule);
+    color: var(--opm-muted);
+}
+
+blockquote cite {
+    display: block;
+    text-align: right;
+}
+
+/*********************** Figures and images ***********************/
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+figure {
+    margin: 1.4em 0;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    text-align: center;
+}
+
+figure img {
+    display: block;
+    margin: 0 auto;
+}
+
+figcaption, .tei-figDesc {
+    margin-top: 0.5em;
+    font-family: var(--opm-heading-font);
+    font-size: 0.8em;
+    color: var(--opm-muted);
+    text-align: center;
+}
+
+/*********************** Tables ***********************/
+
+table, .table {
+    width: 100%;
+    margin: 1.2em 0;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 0.9em;
+}
+
+th, td, .table td {
+    padding: 0.4em 0.5em;
+    border-bottom: 1px solid var(--opm-rule);
+    text-align: left;
     vertical-align: top;
+    line-height: 1.4;
 }
 
-.table-bordered {
-  border: 1px solid #e4e4e4;
-}
-
-.table-bordered td {
-  border: 1px solid #e4e4e4;
-}
-
-.table-striped > tbody > tr:nth-of-type(odd) {
-    background-color: #f8f7f5;
-}
-
-.table-head {
+th, .table-head {
+    font-family: var(--opm-heading-font);
+    font-size: 0.9em;
+    font-weight: 600;
     text-align: left;
 }
 
-/* Code */
-.code {
-    font-size: .85em;
-    white-space: pre-wrap;
+.table-bordered, .table-bordered td {
+    border: 1px solid var(--opm-rule);
 }
 
-/* Quotes */
-blockquote cite {
-  display: block;
-  text-align: right;
-}
+/*********************** Notes and footnotes ***********************/
 
-/* Images */
-.tei-graphic {
-  width: 100%;
-}
-
-/* Notes */
 .noteref {
-  font-size: x-small;
-  vertical-align: super;
+    font-size: 0.75em;
+    vertical-align: super;
+    text-decoration: none;
 }
+
+/* Footnotes are hoisted into a section at the end of each chapter file;
+   reading systems with popup support (Apple Books, Thorium, …) lift each
+   aside into a floating panel. Prefer class selectors here: several readers
+   drop or ignore ``aside[epub|type=…]`` rules inside that chrome, which left
+   register entries looking like chapter titles. The runtime wraps the body in
+   ``.fn-body`` and demotes headings to ``.fn-title``. */
+aside.note,
+aside.altcontent {
+    margin: 0 0 0.85em;
+}
+
+.fn-body {
+    margin: 0;
+    padding: 0.85em 1em 0.95em;
+    font-family: var(--opm-body-font);
+    font-size: 0.95em !important;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1.6 !important;
+    text-align: left;
+    text-indent: 0;
+}
+
+.fn-body > :first-child {
+    margin-top: 0;
+}
+
+.fn-body > :last-child {
+    margin-bottom: 0;
+}
+
+/* Register entry name, rendered as a paragraph rather than a heading (see
+   teipublisher.odd's person/place ``output="epub"`` models) — kept modest in
+   size so it reads as a footnote label, not a section title. ``!important``
+   throughout this block: Apple Books renders footnote/alternate asides in its
+   own native popover chrome, which applies its own font-size/line-height on
+   top of the page stylesheet — normal-specificity rules lose that fight even
+   though the class selector matches. */
+.fn-body .fn-title {
+    display: block;
+    margin: 0 0 0.55em;
+    padding: 0;
+    border: none;
+    font-family: var(--opm-body-font);
+    font-size: 0.9em !important;
+    font-weight: 600;
+    font-style: normal;
+    line-height: 1.35 !important;
+    text-indent: 0;
+}
+
+.fn-body p {
+    margin: 0.45em 0 0;
+    text-indent: 0;
+    line-height: 1.6 !important;
+}
+
+.fn-body .fn-title + p {
+    margin-top: 0;
+}
+
+.fn-body ul,
+.fn-body ol {
+    margin: 0.55em 0 0;
+    padding-left: 1.2em;
+}
+
+.fn-body ul:empty,
+.fn-body p:empty {
+    display: none;
+}
+
+section[epub|type="footnotes"] {
+    margin-top: 2em;
+    padding-top: 0.6em;
+    border-top: 1px solid var(--opm-rule);
+    font-size: 0.85em;
+}
+
+section[epub|type="footnotes"] .fn-body {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/*********************** Milestones ***********************/
+
+/* Page breaks from the source are navigation targets, not visible markers. */
 .pagebreak {
     display: none;
 }

@@ -130,9 +130,17 @@
         [% endif %]
         [% if $menu?language %]
         <li class="hidden-mobile">
-            <pb-lang name="lang">
-                [% for $lang in filter(map:keys($languages), function($lang) { contains($context?defaults?languages?*, $lang) }) %]
-                <option value="[[ $lang ]]">[[ $languages?($lang) ]]</option>
+            <pb-lang name="lang" display="label">
+                [% for $lang in filter(map:keys($languages), function($lang) { contains($defaults?languages?*, $lang) }) %]
+                [% let $langConf = $languages?($lang) %]
+                [% if $langConf instance of map(*) %]
+                <option value="[[ $lang ]]" label="[[ $langConf?($defaults?language-label) ]]">
+                [[ $langConf?label ]]
+                </option>
+                [% else %]
+                <option value="[[ $lang ]]" label="[[ if ($defaults?language-label = 'text') then $langConf else $lang ]]">[[ $langConf ]]</option>
+                [% endif %]
+                [% endlet %]
                 [% endfor %]
             </pb-lang>
         </li>
