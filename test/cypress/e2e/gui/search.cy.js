@@ -7,12 +7,12 @@ describe('TEI-Publisher Search Results', () => {
     // Universal intercepts (loginStub, timelineStub) are automatically set up in support/e2e.js
     // Setup search-specific intercepts for search and facet tests
     cy.setupSearchIntercepts()
-    
+
     // Desktop viewport is set centrally in cypress.config.cjs (1280x720)
-    
+
     // Visit search results page with a query that returns results
     cy.visit('/search.html?query=kant&start=1')
-    
+
     // Wait for page to stabilize
     cy.get('body').should('be.visible')
     cy.get('main', { timeout: 10000 }).should('be.visible')
@@ -26,13 +26,16 @@ describe('TEI-Publisher Search Results', () => {
     })
 
     it('displays breadcrumb navigation', () => {
-      cy.get('nav[aria-label="breadcrumb"], nav.breadcrumb').should('be.visible')      
-      cy.get('nav[aria-label="breadcrumb"] a pb-i18n[key="breadcrumb.collection-root"]')
-        .should('be.visible')
-      cy.get('nav[aria-label="breadcrumb"], nav.breadcrumb pb-i18n[key="search.results"]')
-        .should('be.visible')
+      cy.get('nav[aria-label="breadcrumb"], nav.breadcrumb').should(
+        'be.visible',
+      )
+      cy.get(
+        'nav[aria-label="breadcrumb"] a pb-i18n[key="breadcrumb.collection-root"]',
+      ).should('be.visible')
+      cy.get(
+        'nav[aria-label="breadcrumb"], nav.breadcrumb pb-i18n[key="search.results"]',
+      ).should('be.visible')
     })
-
 
     it('shows main content area with results', () => {
       cy.get('main').should('be.visible')
@@ -46,7 +49,8 @@ describe('TEI-Publisher Search Results', () => {
   describe('Search Input on Results Page', () => {
     it('displays search input field with query value', () => {
       // Find visible pb-search (not in hidden-mobile parent) and access shadow DOM
-      cy.get('pb-search:not(.mobile)').first()
+      cy.get('pb-search:not(.mobile)')
+        .first()
         .should('exist')
         .shadow()
         .find('input[name="query"]')
@@ -56,7 +60,8 @@ describe('TEI-Publisher Search Results', () => {
 
     it('allows modifying search query', () => {
       // Find visible pb-search and access input in shadow DOM
-      cy.get('pb-search:not(.mobile)').first()
+      cy.get('pb-search:not(.mobile)')
+        .first()
         .shadow()
         .find('input[name="query"]')
         .clear()
@@ -66,17 +71,18 @@ describe('TEI-Publisher Search Results', () => {
 
     it('performs new search when query is modified and submitted', () => {
       // Modify search query
-      cy.get('pb-search:not(.mobile)').first()
+      cy.get('pb-search:not(.mobile)')
+        .first()
         .shadow()
         .find('input[name="query"]')
         .clear()
         .type('philosophy{enter}')
-      
+
       // Wait for URL to update with new query
       cy.url({ timeout: 10000 }).should((url) => {
         expect(url).to.match(/query=.*philosophy/i)
       })
-      
+
       // Wait for page to stabilize after new search
       cy.get('body', { timeout: 10000 }).should('be.visible')
       cy.get('main', { timeout: 10000 }).should('be.visible')
@@ -89,7 +95,7 @@ describe('TEI-Publisher Search Results', () => {
       cy.get('main')
         .find('[class*="result"], [class*="hit"], [class*="item"]')
         .should('have.length.at.least', 1)
-      
+
       // Check for numbered result items
       cy.get('main')
         .contains(/\b[1-9]\d*\b/)
@@ -108,11 +114,9 @@ describe('TEI-Publisher Search Results', () => {
       cy.get('main')
         .find('p, [class*="snippet"], [class*="excerpt"]')
         .should('have.length.at.least', 1)
-      
+
       // Snippets should contain the search term (case-insensitive)
-      cy.get('main')
-        .contains(/kant/i)
-        .should('exist')
+      cy.get('main').contains(/kant/i).should('exist')
     })
 
     it('displays document links within results', () => {
@@ -141,25 +145,26 @@ describe('TEI-Publisher Search Results', () => {
     it('allows filtering by facets', () => {
       // Check if facet checkboxes exist
       cy.get('body').then(($body) => {
-        const facetInputs = $body.find('aside input[type="checkbox"], [class*="facet"] input[type="checkbox"]')
-        
+        const facetInputs = $body.find(
+          'aside input[type="checkbox"], [class*="facet"] input[type="checkbox"]',
+        )
+
         if (facetInputs.length > 0) {
           // Get initial result count
           cy.get('main')
             .find('[class*="result"], [class*="hit"], [class*="item"]')
             .its('length')
             .as('initialResultCount')
-          
+
           // Click first available facet checkbox
-          cy.wrap(facetInputs.first())
-            .click({ force: true })
-          
+          cy.wrap(facetInputs.first()).click({ force: true })
+
           // Wait for search/facets API calls triggered by facet change
           cy.wait(['@searchApi', '@facetsApi'], { timeout: 10000 })
-          
+
           // Wait for results to update
           cy.get('main', { timeout: 10000 }).should('be.visible')
-          
+
           // Results should have changed (may be more or fewer)
           cy.get('main')
             .find('[class*="result"], [class*="hit"], [class*="item"]')
@@ -175,49 +180,66 @@ describe('TEI-Publisher Search Results', () => {
     it('displays pagination controls when multiple pages exist', () => {
       // Check for pagination links or controls
       cy.get('body').then(($body) => {
-        const paginationLinks = $body.find('nav a[href*="start="], a[href*="page="], [class*="pagination"] a')
-        
+        const paginationLinks = $body.find(
+          'nav a[href*="start="], a[href*="page="], [class*="pagination"] a',
+        )
+
         if (paginationLinks.length > 0) {
           // Pagination exists - verify it's visible
-          cy.get('nav a[href*="start="], a[href*="page="], [class*="pagination"]')
-            .should('exist')
+          cy.get(
+            'nav a[href*="start="], a[href*="page="], [class*="pagination"]',
+          ).should('exist')
         } else {
           // If no pagination, there might be only one page of results
-          cy.log('No pagination controls found - may have single page of results')
+          cy.log(
+            'No pagination controls found - may have single page of results',
+          )
         }
       })
     })
 
     it('navigates to next page when available', () => {
       cy.get('body').then(($body) => {
-        const nextLinks = $body.find('a[href*="start="]:contains("Next"), a[href*="start="]:contains(">"), nav a[href*="start="]')
-        
+        const nextLinks = $body.find(
+          'a[href*="start="]:contains("Next"), a[href*="start="]:contains(">"), nav a[href*="start="]',
+        )
+
         if (nextLinks.length > 0) {
           // Get current start parameter
           cy.url().then((url) => {
             const urlObj = new URL(url)
-            const currentStart = parseInt(urlObj.searchParams.get('start') || '1', 10)
-            
+            const currentStart = parseInt(
+              urlObj.searchParams.get('start') || '1',
+              10,
+            )
+
             // Click next page link
-            cy.get('a[href*="start="]').first().then(($link) => {
-              const href = $link.attr('href')
-              if (href && href.includes('start=')) {
-                cy.wrap($link).click({ force: true })
-                
-                // Wait for URL to update
-                cy.url({ timeout: 10000 }).should((url) => {
-                  const newUrlObj = new URL(url)
-                  const newStart = parseInt(newUrlObj.searchParams.get('start') || '1', 10)
-                  expect(newStart).to.be.greaterThan(currentStart)
-                })
-                
-                // Wait for page to stabilize
-                cy.get('main', { timeout: 10000 }).should('be.visible')
-              }
-            })
+            cy.get('a[href*="start="]')
+              .first()
+              .then(($link) => {
+                const href = $link.attr('href')
+                if (href && href.includes('start=')) {
+                  cy.wrap($link).click({ force: true })
+
+                  // Wait for URL to update
+                  cy.url({ timeout: 10000 }).should((url) => {
+                    const newUrlObj = new URL(url)
+                    const newStart = parseInt(
+                      newUrlObj.searchParams.get('start') || '1',
+                      10,
+                    )
+                    expect(newStart).to.be.greaterThan(currentStart)
+                  })
+
+                  // Wait for page to stabilize
+                  cy.get('main', { timeout: 10000 }).should('be.visible')
+                }
+              })
           })
         } else {
-          cy.log('No next page link available - may be on last page or single page')
+          cy.log(
+            'No next page link available - may be on last page or single page',
+          )
         }
       })
     })
@@ -225,12 +247,12 @@ describe('TEI-Publisher Search Results', () => {
     it('displays current page indicator', () => {
       // Check for page number indicators in pagination
       cy.get('body').then(($body) => {
-        const hasPagination = $body.find('nav a[href*="start="], [class*="pagination"]').length > 0
-        
+        const hasPagination =
+          $body.find('nav a[href*="start="], [class*="pagination"]').length > 0
+
         if (hasPagination) {
           // Pagination exists, verify it shows current page info
-          cy.get('nav, [class*="pagination"]')
-            .should('exist')
+          cy.get('nav, [class*="pagination"]').should('exist')
         } else {
           cy.log('No pagination to verify page indicator')
         }
@@ -242,11 +264,11 @@ describe('TEI-Publisher Search Results', () => {
     it('handles empty search results gracefully', () => {
       // Navigate to search with query that returns no results
       cy.visit('/search.html?query=nonexistentxyzabc123&start=1')
-      
+
       // Wait for page to load
       cy.get('body', { timeout: 10000 }).should('be.visible')
       cy.get('main', { timeout: 10000 }).should('be.visible')
-      
+
       // Page should still be visible and show empty state or message
       cy.get('main').should('exist')
     })
@@ -264,7 +286,7 @@ describe('TEI-Publisher Search Results', () => {
           if (href) {
             // Click the link
             cy.wrap($link).click({ force: true })
-            
+
             // Should navigate to document page
             cy.url({ timeout: 10000 }).should('include', href.split('?')[0])
           }
@@ -282,7 +304,7 @@ describe('TEI-Publisher Search Results', () => {
   describe('Responsive Design', () => {
     it('adapts to mobile viewport', () => {
       cy.viewport(375, 667) // iPhone SE
-      
+
       cy.get('nav').should('be.visible')
       cy.get('main').should('be.visible')
       // On mobile, check that the page structure is responsive
@@ -291,7 +313,7 @@ describe('TEI-Publisher Search Results', () => {
 
     it('adapts to tablet viewport', () => {
       cy.viewport(768, 1024) // iPad
-      
+
       cy.get('nav').should('be.visible')
       cy.get('main').should('be.visible')
       cy.get('body').should('be.visible')
@@ -309,11 +331,11 @@ describe('TEI-Publisher Search Results', () => {
     })
 
     it('has accessible search inputs', () => {
-      cy.get('pb-search:not(.mobile)').first()
+      cy.get('pb-search:not(.mobile)')
+        .first()
         .shadow()
         .find('input[name="query"]')
         .should('have.attr', 'name')
     })
   })
 })
-

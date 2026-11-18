@@ -1,24 +1,33 @@
 ARG EXIST_VERSION=6.4.0
 ARG BUILD=local
 
+# Latest published releases. Cloning master and running ant packages
+# jinks-templates as 1.0.0 and tei-publisher-lib at the version on the default
+# branch, both behind the GitHub releases.
+FROM ghcr.io/eeditiones/builder:latest AS libs
+
+WORKDIR /tmp
+
+ADD https://github.com/eeditiones/jinks-templates/releases/latest/download/jinks-templates.xar /tmp/004.xar
+
+# Asset name includes the version. The atom feed changes when a release is published.
+ADD https://github.com/eeditiones/tei-publisher-lib/releases.atom /tmp/tei-publisher-lib.atom
+RUN set -eu; \
+    url=$(curl -fsSL https://api.github.com/repos/eeditiones/tei-publisher-lib/releases/latest \
+        | grep -o 'https://github.com/eeditiones/tei-publisher-lib/releases/download/[^"]*\.xar' \
+        | head -1); \
+    test -n "$url"; \
+    curl -fsSL -L -o /tmp/005.xar "$url"; \
+    rm /tmp/tei-publisher-lib.atom
+
 # START STAGE 1
 FROM ghcr.io/eeditiones/builder:latest AS builder
 
-ARG ROUTER_VERSION=1.11.0
+ARG ROUTER_VERSION=1.12.1
 
 
 
 WORKDIR /tmp
-
-# Build jinks-template
-RUN git clone https://github.com/eeditiones/jinks-templates.git \
-    && cd jinks-templates \
-    && ant
-
-# Build tei-publisher-lib
-RUN git clone https://github.com/eeditiones/tei-publisher-lib.git \
-    && cd tei-publisher-lib \
-    && ant 
 
 
 # Build tei-publisher-app with local webcomponents (only for docs blueprint)
@@ -40,8 +49,8 @@ ARG USR=root
 USER ${USR}
 
 ONBUILD COPY --from=builder /tmp/*.xar /exist/autodeploy/
-ONBUILD COPY --from=builder /tmp/jinks-templates/build/*.xar /exist/autodeploy/004.xar
-ONBUILD COPY --from=builder /tmp/tei-publisher-lib/build/*.xar /exist/autodeploy/005.xar
+ONBUILD COPY --from=libs /tmp/004.xar /exist/autodeploy/004.xar
+ONBUILD COPY --from=libs /tmp/005.xar /exist/autodeploy/005.xar
 ONBUILD COPY --from=builder /tmp/tei-publisher/build/*.xar /exist/autodeploy/006.xar
 
 # TODO(DP): Tagging scheme add EXIST_VERSION to the tag
@@ -55,8 +64,8 @@ USER ${USR}
 
 # Copy latest release of EXPATH dependencies
 # DP: see Jinntec/tp-app-base#4
-ONBUILD ADD --chown=${USR} https://github.com/eeditiones/jinks-templates/releases/latest/download/jinks-templates.xar /exist/autodeploy/004.xar
-ONBUILD ADD --chown=${USR} https://github.com/eeditiones/tei-publisher-libs/releases/latest/download/tei-publisher-lib.xar /exist/autodeploy/005.xar
+ONBUILD COPY --from=libs --chown=${USR} /tmp/004.xar /exist/autodeploy/004.xar
+ONBUILD COPY --from=libs --chown=${USR} /tmp/005.xar /exist/autodeploy/005.xar
 
 # This assumes that a local xar file is persent for building production images
 COPY --chown=${USR} ./build/*.xar /exist/autodeploy/

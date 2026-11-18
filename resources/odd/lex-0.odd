@@ -174,7 +174,6 @@
             <param name="content" value="teiHeader/fileDesc"/>
         </model>
                 </elementSpec>
-                <elementSpec ident="title" mode="change"/>
             <elementSpec ident="note" mode="change">
                     <model behaviour="omit"/>
                 </elementSpec>
@@ -193,7 +192,6 @@ hyphen: auto;
             </outputRendition>
         </model>
                 </elementSpec>
-            <elementSpec ident="titleStmt" mode="change"/>
             </schemaSpec>
         </body>
     </text>

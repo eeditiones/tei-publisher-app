@@ -111,11 +111,10 @@ describe('TEI-Publisher Authentication UI', () => {
       // Wait for login dialog to open and verify it's visible on mobile
       cy.get('pb-dialog[open], dialog[open]', { timeout: 5000 }).first().should('be.visible')
       cy.get('pb-dialog[open], dialog[open]').first().within(() => {
-        // TODO: should('be.visible') must work but does not - investigate
-        cy.get('button[slot="footer"]').should('exist')  
+        cy.get('button[slot="footer"]').should('exist')
+        cy.get('input[name="user"]', { timeout: 5000 }).should('exist')
+        cy.get('input[name="password"]', { timeout: 5000 }).should('exist')
       })
-      cy.get('input[name="user"]').should('be.visible')
-      cy.get('input[name="password"]').should('be.visible')
     })
 
     it('adapts login UI to tablet viewport', () => {

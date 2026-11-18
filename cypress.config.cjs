@@ -19,7 +19,8 @@ module.exports = defineConfig({
     includeShadowDom: true,
     retries: 2,
     pageLoadTimeout: 90000,
-    supportFile: 'test/cypress/support/e2e.js', 
+    env: {},
+    supportFile: 'test/cypress/support/e2e.js',
     specPattern: 'test/cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
     screenshotsFolder: 'test/cypress/screenshots',
     videosFolder: 'test/cypress/videos',
@@ -27,4 +28,3 @@ module.exports = defineConfig({
     downloadsFolder: 'test/cypress/downloads'
   },
 });
-

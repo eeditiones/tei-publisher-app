@@ -35,7 +35,7 @@
     </teiHeader>
     <text>
         <body>
-            <schemaSpec start="TEI teiCorpus" source="teipublisher.odd">
+            <schemaSpec ident="landing" start="TEI teiCorpus" source="teipublisher.odd">
                 <elementSpec ident="head" mode="change">
                     <model predicate="parent::figure" behaviour="block" cssClass="figure-head"/>
                     <model predicate="parent::table" behaviour="block" cssClass="table-head"/>
@@ -54,6 +54,17 @@
             <param name="level" value="count(ancestor::div)"/>
         </model>
                     <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="ptr" mode="change">
+                    <model predicate="@type='avatar'" behaviour="pass-through">
+                        <param name="avatar" value="@target"/>
+                        <param name="name" value="parent::*/persName"/>
+                            <pb:template xml:space="preserve"><img xmlns="" foo="foo" src="[[avatar]]" alt="[[name]]" class="avatar"/></pb:template>
+                    </model>
+                    <model predicate="@target" behaviour="link">
+                        <param name="uri" value="@target"/>
+                        <param name="content" value="if (@type) then @type else ."/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="hi" mode="change">
                     <model predicate="@rend='strong'" behaviour="pass-through">
@@ -94,10 +105,11 @@
                     <model predicate="@type='section'" behaviour="pass-through">
             <param name="header" value="* except div"/>
             <param name="label" value="@n"/>
+            <param name="label-class" value="if (@n) then 'label' else 'label-hide'"/>
             <param name="content" value="div"/>
             <param name="rend" value="@rend"/>
             <pb:template xml:space="preserve"><div xmlns="" class="center-l">
-    <span class="label">[[label]]</span>
+    <span class="[[label-class]]">[[label]]</span>
     <div class="row [[rend]]">
       <header>
         [[header]]
@@ -130,7 +142,7 @@
     <header class="row [[rend]]">
       [[header]]
     </header>
-    <div class="long-desc">
+    <div class="long-desc [[rend]]">
     [[content]]
     </div>
 </div></pb:template>
@@ -183,15 +195,17 @@
                 <elementSpec ident="person" mode="change">
                     <model behaviour="pass-through">
             <param name="label" value="@n"/>
+            <param name="rend" value="@rend"/>
+            <param name="label-class" value="if (@n) then 'label' else 'no-label'"/>
             <param name="name" value="persName"/>
             <param name="role" value="occupation"/>
             <param name="email" value="ptr[@type='email']/@target"/>
             <param name="content" value="note/node()"/>
-            <param name="avatar" value="ptr[@type='avatar']/@target"/>
-            <pb:template xml:space="preserve"><div xmlns="" class="member-card">
+            <param name="avatar" value="ptr[@type='avatar']"/>
+            <pb:template xml:space="preserve"><div xmlns="" class="member-card [[rend]]">
   <div class="member-card--top">
-    <div class="label">[[label]]</div>
-    <img src="[[avatar]]" alt="[[name]]" class="avatar"/>
+    <div class="[[label-class]]">[[label]]</div>
+    [[avatar]]
   </div>
   <div class="member-card--middle">
       <header>
@@ -208,11 +222,41 @@
 </div></pb:template>
         </model>
                 </elementSpec>
+                <elementSpec ident="note" mode="change">
+                <model behaviour="inline" predicate="ancestor::div[@type='highlights']"/>
+                <model behaviour="note">
+                    <param name="place" value="@place"/>
+                    <param name="label" value="@n"/>
+                </model>
+                </elementSpec>
                 <elementSpec ident="item" mode="change">
                     <model predicate="parent::list/@type='links'" behaviour="listItem"/>
-                    <model predicate="ancestor::div[@type='highlights'] and @corresp and not(index-of(repo:list(), @corresp))" behaviour="omit">
-            <desc>For the highlights, first check if an application with URI given in @context is actually installed</desc>
-        </model>
+                    <model predicate="ancestor::div[@type='highlights'] and @ana='demo' and @corresp and not(index-of(repo:list(), @corresp))" behaviour="omit">
+                        <desc>For demo highlights marked @ana='demo', omit the card when the application URI in @corresp is not installed</desc>
+                    </model>
+                    <model predicate="ancestor::div[@type='highlights'] and @corresp" behaviour="pass-through">
+                        <desc>For highlights with corresp, make entire tile a link without nesting anchors (nested a breaks the CSS grid)</desc>
+                        <param name="pos" value="count(preceding-sibling::item) + 1"/>
+                        <param name="label" value="@n"/>
+                        <param name="label-class" value="if (@n) then 'label' else 'no-label'"/>
+                        <param name="href" value="(list[@type='links']//ref/@target, desc/ref/@target)[1]"/>
+                        <param name="link-target" value="if ((list[@type='links']//ref, desc/ref)[1]/@rend = 'new') then '_blank' else '_self'"/>
+                        <param name="content" value="note/node()"/>
+                        <param name="image" value="ptr[@type='image']/@target"/>
+                        <param name="title" value="normalize-space(desc)"/>
+                        <param name="links" value="list[@type='links']"/>
+                        <pb:template xml:space="preserve"><article xmlns="" class="highlight-card area-[[pos]]" style="background-image: var(--lg), url('[[image]]');">
+    <a class="highlight-stretched-link" href="[[href]]" target="[[link-target]]"><span class="visually-hidden">[[title]]</span></a>
+    <span class="label label-dark [[label-class]]">[[label]]</span>
+    <div class="desc">
+        <h3>[[title]]</h3>
+        <p>
+            [[content]]
+        </p>
+        [[links]]
+    </div>
+</article></pb:template>
+                    </model>
                     <model predicate="ancestor::div[@type='highlights']" behaviour="pass-through">
             <desc>Output a highlight card linking to an installed application</desc>
             <param name="pos" value="count(preceding-sibling::item) + 1"/>
@@ -260,7 +304,7 @@
             <elementSpec ident="list" mode="change">
                     <model predicate="@type='links'" behaviour="list" cssClass="buttons"/>
                     <model behaviour="list" useSourceRendition="true">
-            <param name="content" value="item"/>
+            <param name="content" value="child::node()"/>
         </model>
                 </elementSpec>
             <elementSpec ident="figure" mode="change">

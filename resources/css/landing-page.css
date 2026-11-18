@@ -63,6 +63,14 @@ footer div {
     align-items: center;
 }
 
+footer a {
+    color: var(--jinks-colors-light);
+}
+
+footer a:hover {
+    color: var(--jinks-colors-medium);
+}
+
 /* floating menu bar */
 
 .landing-layout .page-header {
@@ -91,7 +99,7 @@ footer div {
     justify-items: flex-start;
 }
 
-.two-column.row, .long-desc {
+.two-column.row, .two-column.long-desc {
     display:flex;
     flex-direction: row;
     justify-items: stretch;
@@ -225,10 +233,10 @@ header.row {
     min-height: 36rem;
 }
 
-/* First item spans all rows in column 1 */
-/* .highlights > *:first-child {
-    grid-row: 1 / 2;
-} */
+/* With exactly 3 cards, first item spans both rows on the left */
+.highlights:has(> :nth-child(3):last-child) > :first-child {
+    grid-row: 1 / -1;
+}
 
 .highlight-card {
     --from: color-mix(in srgb, var(--jinks-colors-700) 22%, transparent);
@@ -236,6 +244,7 @@ header.row {
     --lg: linear-gradient(180deg, var(--from), var(--to));
     --card-text-color: var(--jinks-colors-light);
 
+    position: relative;
     border-radius: var(--pico-border-radius);
     background-image: var(--lg);
     background-origin: border-box;
@@ -251,6 +260,46 @@ header.row {
     padding: var(--s0);
 }
 
+/* Whole-tile link without wrapping the card in <a> (avoids nested-anchor grid bugs) */
+.highlight-stretched-link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+    text-decoration: none;
+    color: inherit;
+}
+
+.highlight-stretched-link .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.highlight-card .desc,
+.highlight-card .label {
+    position: relative;
+    z-index: 0;
+}
+
+/* Let the stretched link receive clicks on the card body; keep Open buttons clickable */
+.highlight-card:has(.highlight-stretched-link) .desc,
+.highlight-card:has(.highlight-stretched-link) .label {
+    pointer-events: none;
+}
+
+.highlight-card:has(.highlight-stretched-link) .desc .buttons {
+    position: relative;
+    z-index: 2;
+    pointer-events: auto;
+}
+
 .highlight-card:hover {
     --from: color-mix(in srgb, var(--jinks-colors-700) 33%, transparent);
     --to: color-mix(in srgb, var(--jinks-colors-700) 66%, transparent);
@@ -262,11 +311,16 @@ header.row {
     align-self: start;
 }
 
+.highlight-card .no-label {
+   display: none;
+}
+
 .highlight-card .desc {
     padding: calc(var(--s1)*0.5);
 }
 
 .highlight-card .desc  h3 {
+    color: var(--card-text-color);
     backdrop-filter: blur(10px);
     padding: calc(var(--s1)*0.5);
     border-radius: 10px;
@@ -289,6 +343,11 @@ header.row {
 
 .highlight-card .desc p {
     color: var(--card-text-color);
+}
+
+/* Cards fill their grid cell; avoid fixed heights that dwarf the production layout */
+.highlights > article {
+    min-height: 100%;
 }
 
 #about {
@@ -500,7 +559,7 @@ header.row {
     .partner-logo img {
         margin-block: var(--s-1);
     }
-    .two-column.row, .long-desc {
+    .two-column.row, .two-column.long-desc {
         flex-direction: column;
     }
     #bottom > div {

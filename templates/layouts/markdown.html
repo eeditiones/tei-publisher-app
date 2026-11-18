@@ -7,6 +7,9 @@
         "features": {
             "upload": {
                 "enabled": false
+            },
+            "playground": {
+                "enabled": false
             }
         }
     }
@@ -19,7 +22,9 @@
         }
     </style>
     [% endtemplate %]
-    <pb-markdown>
-    [% block content %][% endblock %]
-    </pb-markdown>
+    <div class="center">
+        <pb-markdown>
+        [% block content %][% endblock %]
+        </pb-markdown>
+    </div>
 </main>

@@ -24,6 +24,7 @@
     [% template content %]
     <pb-view class="overflow" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" direction="[[$context?defaults?direction]]">
         <pb-param name="iiif-viewer" value="pb-facsimile"/>
+        [[ page:content($context, (), map { "iiif-viewer": "pb-facsimile" }) ]]
     </pb-view>
     [% endtemplate %]
 </template>

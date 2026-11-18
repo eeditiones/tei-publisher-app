@@ -160,116 +160,96 @@
         <fn-group content-type="footnotes">
             <title>Footnotes</title>
             <fn id="fn1">
-                <label>1</label>
                 <p>International Image Interoperability Framework, <ext-link ext-link-type="uri" xlink:href="https://iiif.io/">https://iiif.io/</ext-link>.
                 </p>
             </fn>
             <fn id="fn2">
-                <label>2</label>
                 <p>
                     <xref ref-type="bibr" rid="eb_Q5LGNTJI">(Kelli and Di Cresce 2019)</xref>.
                 </p>
             </fn>
             <fn id="fn3">
-                <label>3</label>
                 <p>
                     <ext-link ext-link-type="uri" xlink:href="https://books.google.com/">https://books.google.com/</ext-link>.
                 </p>
             </fn>
             <fn id="fn4">
-                <label>4</label>
                 <p>
                     <ext-link ext-link-type="uri" xlink:href="https://archive.org/">https://archive.org/.</ext-link>
                 </p>
             </fn>
             <fn id="fn5">
-                <label>5</label>
                 <p>
                     <ext-link ext-link-type="uri" xlink:href="https://transkribus.eu/Transkribus">https://transkribus.eu/Transkribus</ext-link>.                    <xref ref-type="bibr" rid="eb_S6ZKXJNB">(Kahle et al. 2017)</xref>
                 </p>
             </fn>
             <fn id="fn6">
-                <label>6</label>
                 <p>
                     <ext-link ext-link-type="uri" xlink:href="https://readcoop.eu/">https://readcoop.eu/</ext-link>.
                 </p>
             </fn>
             <fn id="fn7">
-                <label>7</label>
                 <p>
                     <ext-link ext-link-type="uri" xlink:href="https://dlib.biblhertz.it/">https://dlib.biblhertz.it/</ext-link>.
                 </p>
             </fn>
             <fn id="fn8">
-                <label>8</label>
                 <p>
                     <ext-link ext-link-type="uri" xlink:href="https://dlc.mpg.de/index/">https://dlc.mpg.de/index/</ext-link>.
                 </p>
             </fn>
             <fn id="fn9">
-                <label>9</label>
                 <p>
                     <xref ref-type="bibr" rid="eb_8SY3YMAF">(Zathammer 2022)</xref>.
                 </p>
             </fn>
             <fn id="fn10">
-                <label>10</label>
                 <p>
                     <xref ref-type="bibr" rid="eb_MQTHC5Q2">(Transkribus Team 2022)</xref>.
                 </p>
             </fn>
             <fn id="fn11">
-                <label>11</label>
                 <p>
                     <ext-link ext-link-type="uri" xlink:href="https://transkribus.humanitiesconnect.pub">https://transkribus.humanitiesconnect.pub.</ext-link>
                 </p>
             </fn>
             <fn id="fn12">
-                <label>12</label>
                 <p>
                     <ext-link ext-link-type="uri" xlink:href="http://www.kubikat.org/">http://www.kubikat.org/</ext-link>.
                 </p>
             </fn>
             <fn id="fn13">
-                <label>13</label>
                 <p>
                     <ext-link ext-link-type="uri" xlink:href="https://help.transkribus.com/p2pala">https://help.transkribus.com/p2pala</ext-link>.
                 </p>
             </fn>
             <fn id="fn14">
-                <label>14</label>
                 <p>I must acknowledge the support of Viviana Nocerino, Iolanda Pagano and Andrea Pecorella for completing this tedious task.</p>
             </fn>
             <fn id="fn15">
-                <label>15</label>
                 <p>The conversion workflow was developed with Reto Baumgartner, and will be released as open source once the cleanup and documentation will be finished.</p>
             </fn>
             <fn id="fn16">
-                <label>16</label>
                 <p>
                     <ext-link ext-link-type="uri" xlink:href="https://teipublisher.com/index.html">https://teipublisher.com/index.html</ext-link>.
                 </p>
             </fn>
             <fn id="fn17">
-                <label>17</label>
                 <p>
                     <ext-link ext-link-type="uri" xlink:href="http://rems.humanitiesconnect.pub">http://rems.humanitiesconnect.pub</ext-link>.
                 </p>
             </fn>
             <fn id="fn18">
-                <label>18</label>
                 <p>
                     <ext-link ext-link-type="uri" xlink:href="https://www.dnb.de/EN/Professionell/Standardisierung/GND/gnd_node.html">https://www.dnb.de/EN/Professionell/Standardisierung/GND/gnd_node.html</ext-link>.
                 </p>
             </fn>
             <fn id="fn19">
-                <label>19</label>
                 <p>
                     <ext-link ext-link-type="uri" xlink:href="http://www.geonames.org/">http://www.geonames.org/</ext-link>.
                 </p>
             </fn>
             <fn id="fn20">
-                <label>20</label>
                 <p>
                     <ext-link ext-link-type="uri" xlink:href="https://www.wikidata.org/">https://www.wikidata.org/</ext-link>.
                 </p>

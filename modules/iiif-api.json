@@ -31,13 +31,50 @@
         }
     ],
     "paths": {
+        "/api/facsimiles/{path}": {
+            "get": {
+                "summary": "Retrieve the links to the facsimiles (info.json) that a manuscript references",
+                "operationId": "iiif:facsimiles",
+                "tags": ["iiif"],
+                "parameters": [
+                    {
+                        "name": "path",
+                        "in": "path",
+                        "required": true,
+                        "description": "The path to the document for which manifests should be retrieved",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The facsimiles, per milestone",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "string",
+                                        "description": "The absolute location of the facsimile of that page"
+                                    }
+                                },
+                                "example": {
+                                    "https://apps.existsolutions.com/cantaloupe/iiif/2/15929_000_IDL5772_BOss12034_IIIp79.jpg/info.json": "https://apps.existsolutions.com/cantaloupe/iiif/2/15929_000_IDL5772_BOss12034_IIIp79.jpg/info.json",
+                                    "15929_000_IDL5772_BOss12034_IIIp79.jpg": "https://apps.existsolutions.com/cantaloupe/iiif/2/15929_000_IDL5772_BOss12034_IIIp79.jpg/info.json",
+                                    "#p79": "https://apps.existsolutions.com/cantaloupe/iiif/2/15929_000_IDL5772_BOss12034_IIIp79.jpg/info.json"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/iiif/{path}": {
             "get": {
                 "summary": "Retrieve IIIF presentation manifest for document",
                 "operationId": "iiif:manifest",
-                "tags": [
-                    "iiif"
-                ],
+                "tags": ["iiif"],
                 "parameters": [
                     {
                         "name": "path",

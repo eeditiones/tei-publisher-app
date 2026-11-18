@@ -1,4 +1,4 @@
-function addResizeHandler(resizeContainer, elementsToResize, direction) {
+function addResizeHandler(resizeContainer, layoutContainer, widthProperty, direction) {
     if (!resizeContainer) {
         return;
     }
@@ -47,7 +47,7 @@ function addResizeHandler(resizeContainer, elementsToResize, direction) {
             resizeData.startWidth +
             cursorScreenXDelta * (direction === "left" ? 1 : -1);
 
-        elementsToResize.forEach((t) => (t.style.width = `${newWidth}px`));
+        layoutContainer.style.setProperty(widthProperty, `${Math.max(0, newWidth)}px`);
     });
 
     window.addEventListener("mouseup", () => {
@@ -62,15 +62,16 @@ function addResizeHandler(resizeContainer, elementsToResize, direction) {
 
 function setUpResizeContainers() {
     const container = document.body.querySelector("pb-page");
+    if (!container) {
+        return;
+    }
     // Setup for left
-    const [beforeTop, before] = container.querySelectorAll(
-        ".fixed-layout > .before-top,.fixed-layout > .before",
-    );
+    const before = container.querySelector(".fixed-layout > .before");
 
-    addResizeHandler(before, [beforeTop, before], "left");
+    addResizeHandler(before, container, "--jinks-layout-before-width", "left");
 
-    const [afterTop, after] = container.querySelectorAll(".fixed-layout > .after-top,.fixed-layout > .after");
-    addResizeHandler(after, [afterTop, after], "right");
+    const after = container.querySelector(".fixed-layout > .after");
+    addResizeHandler(after, container, "--jinks-layout-after-width", "right");
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -104,7 +105,10 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Hide mobile asides on pb-refresh event
+    // Close mobile asides on pb-refresh (e.g. page navigation) and keep main visible.
+    // main and .before are toggled as opposites: when the TOC is open, main has
+    // .hidden-mobile. Closing the TOC must remove that class from main — adding it
+    // here left main hidden after every navigation (empty content).
     const mobileAsideToggles = document.querySelectorAll(".aside-toggle.mobile");
     if (mobileAsideToggles.length > 0) {
         document.addEventListener("pb-refresh", function () {
@@ -120,17 +124,59 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (topPanel && !topPanel.classList.contains('hidden-mobile')) {
                         topPanel.classList.add('hidden-mobile');
                     }
-                    const main = document.querySelector('.fixed-layout > main');
-                    if (main && !main.classList.contains('hidden-mobile')) {
-                        main.classList.add('hidden-mobile');
-                    }
                 }
             });
+            const main = document.querySelector('.fixed-layout > main');
+            if (main) {
+                main.classList.remove('hidden-mobile');
+            }
         });
     }
 
     setUpResizeContainers();
 });
+
+function initAfterTabs() {
+    const container = document.querySelector('.after.after-tabs');
+    if (!container) return;
+    const panels = [...container.querySelectorAll(':scope > .tab-panel')];
+    if (panels.length === 0) return;
+
+    const nav = document.createElement('nav');
+    nav.className = 'after-tab-nav';
+    nav.setAttribute('role', 'tablist');
+    nav.setAttribute('aria-label', 'Sidebar tabs');
+    panels.forEach((panel, i) => {
+        const panelId = `after-tab-panel-${i}`;
+        panel.id = panelId;
+        const titleEl = panel.querySelector(':scope > .tab-title');
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'after-tab-btn' + (i === 0 ? ' active' : '');
+        btn.setAttribute('role', 'tab');
+        btn.setAttribute('aria-controls', panelId);
+        btn.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+        if (titleEl) {
+            btn.appendChild(titleEl.cloneNode(true));
+            titleEl.hidden = true;
+        }
+        btn.addEventListener('click', () => {
+            panels.forEach(p => { p.hidden = true; });
+            nav.querySelectorAll('.after-tab-btn').forEach((b) => {
+                b.classList.remove('active');
+                b.setAttribute('aria-selected', 'false');
+            });
+            panel.hidden = false;
+            btn.classList.add('active');
+            btn.setAttribute('aria-selected', 'true');
+        });
+        nav.appendChild(btn);
+        panel.hidden = (i !== 0);
+    });
+    panels[0].before(nav);
+}
+
+document.addEventListener('DOMContentLoaded', initAfterTabs);
 
 document.addEventListener('click', (e) => {
     const summary = e.target.closest('summary');

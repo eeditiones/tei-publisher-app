@@ -29,6 +29,10 @@
         "author": "Author",
         "title": "Title"
     },
+    "download": {
+        "label": "Download",
+        "title": "Download"
+    },
     "search": {
         "title": "Title",
         "content": "Content",
@@ -42,7 +46,19 @@
     "odd": {
         "licence": "Licence",
         "sources": "Sources",
-        "metadata": "Metadata"
+        "metadata": "Metadata",
+        "previous": "Previous",
+        "next": "Next",
+        "birth": "b. ",
+        "death": "d. ",
+        "nav-previous": {
+            "before": "",
+            "after": ""
+        },
+        "nav-next": {
+            "before": "",
+            "after": ""
+        }
     },
     "facets": {
         "place": "Place",

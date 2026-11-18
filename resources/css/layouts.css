@@ -14,10 +14,12 @@
      *  regulate their width either by using variables (--column-before-width / column-after-width)
      *  or by being resized and getting an absolute width set in HTML
      */
+    --jinks-layout-before-track: minmax(0, var(--jinks-layout-before-width));
+    --jinks-layout-after-track: minmax(0, var(--jinks-layout-after-width));
     grid-template-columns:
-        0.001fr
-        1fr
-        0.001fr;
+        var(--jinks-layout-before-track)
+        minmax(0, 1fr)
+        var(--jinks-layout-after-track);
     grid-template-areas:
         "header header header"
         "before-top content-top after-top"
@@ -90,6 +92,25 @@
     display: none;
 }
 
+.fixed-layout:not(:has(> .before > :not(.resize-handler))),
+.fixed-layout:has(> .before.hidden):not(:has(> .before-top .aside-toggle)) {
+    --jinks-layout-before-track: 0;
+}
+
+.fixed-layout:not(:has(> .after > :not(.resize-handler))),
+.fixed-layout:has(> .after.hidden):not(:has(> .after-top .aside-toggle)) {
+    --jinks-layout-after-track: 0;
+}
+
+/* Collapsed sidebars with a toggle: keep the top bar wide enough for the button only */
+.fixed-layout:has(> .before.hidden):has(> .before-top .aside-toggle) {
+    --jinks-layout-before-track: max-content;
+}
+
+.fixed-layout:has(> .after.hidden):has(> .after-top .aside-toggle) {
+    --jinks-layout-after-track: max-content;
+}
+
 .fixed-layout > .before-top.hidden svg,
 .fixed-layout > .after-top svg {
     rotate: 180deg;
@@ -113,8 +134,10 @@
 .fixed-layout > .before.hidden,
 .fixed-layout > .after.hidden {
     visibility: hidden;
-    /* Make sure this is actually hidden and takes no more width */
-    width: auto !important;
+    /* Collapsed panel must not widen the grid column (after-top/before-top keep the toggle) */
+    width: 0 !important;
+    min-width: 0;
+    overflow: hidden;
     padding: 0;
 }
 
@@ -128,7 +151,6 @@
 .fixed-layout > main {
     grid-area: content;
     display: flex;    
-    justify-content: center;
     overflow: auto;
 }
 
@@ -144,6 +166,59 @@
 
 .fixed-layout > .before-top {
     grid-area: before-top;
+}
+
+/* Fixed before sidebar */
+.fixed-layout.before-fixed > .before-top {
+    display: none;
+}
+
+.fixed-layout.before-fixed > .before,
+.fixed-layout.before-fixed > .before-top {
+    border-right: none;
+}
+
+.fixed-layout.before-fixed > .before-top .aside-toggle {
+    display: none;
+}
+
+/* content-top should span across before-top */
+.fixed-layout.before-fixed > .content-top {
+    grid-column: before-top / content-top;
+}
+
+/* Fixed after sidebar */
+.fixed-layout.after-fixed > .after-top {
+    display: none;
+}
+
+.fixed-layout.after-fixed > .after,
+.fixed-layout.after-fixed > .after-top {
+    border-left: none;
+}
+
+.fixed-layout.after-fixed > .after-top .aside-toggle {
+    display: none;
+}
+
+/* content-top should span across after-top */
+.fixed-layout.after-fixed > .content-top {
+    grid-column: content-top / after-top;
+}
+
+/* content-top should span across before-top and after-top */
+.fixed-layout.before-fixed.after-fixed > .content-top {
+    grid-column: before-top / after-top;
+}
+
+/* before should have default background color when it is fixed */
+.fixed-layout.before-fixed >.before:not(:empty) {
+    background-color: var(--jinks-background-color);
+}
+
+/* after should have default background color when it is fixed */
+.fixed-layout.after-fixed > .after:not(:empty) {
+    background-color: var(--jinks-background-color);
 }
 
 .fixed-layout>.after-top {
@@ -218,6 +293,59 @@
     justify-content: center;
 }
 
+/* Opt-in multi-column pb-view layout: add class "column" to each pb-view in main.
+   For more than two columns, set --jinks-columns-count on :root or the page template.
+   Numbered classes column1–column6 are still accepted for backward compatibility. */
+.fixed-layout > main:has(> :is(.column, .column1, .column2, .column3, .column4, .column5, .column6)) {
+    display: grid;
+    grid-template-columns: repeat(var(--jinks-columns-count, 2), minmax(0, 1fr));
+    column-gap: var(--jinks-columns-gap);
+    padding: var(--jinks-columns-padding);
+    box-sizing: border-box;
+    max-width: min(
+        100%,
+        calc(
+            var(--pb-view-max-width) * var(--jinks-columns-count, 2)
+            + var(--jinks-columns-gap) * (var(--jinks-columns-count, 2) - 1)
+        )
+    );
+    margin: 0 auto;
+}
+
+.fixed-layout > main:has(> :is(.column, .column1, .column2, .column3, .column4, .column5, .column6)) > header {
+    grid-column: 1 / -1;
+    height: auto;
+}
+
+.fixed-layout > main:has(> :is(.column, .column1, .column2, .column3, .column4, .column5, .column6)) > header .tei-date {
+    display: block;
+    text-align: right;
+    font-size: var(--jinks-content-font-size);
+    line-height: var(--jinks-content-line-height);
+}
+
+.fixed-layout > main:has(> :is(.column, .column1, .column2, .column3, .column4, .column5, .column6)) > :is(.column, .column1, .column2, .column3, .column4, .column5, .column6) {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    margin-inline: 0;
+}
+
+@media (max-width: 1023px) {
+    .fixed-layout > main:has(> :is(.column, .column1, .column2, .column3, .column4, .column5, .column6)) {
+        column-gap: var(--jinks-columns-gap-md);
+    }
+}
+
+@media (max-width: 639px) {
+    .fixed-layout > main:has(> :is(.column, .column1, .column2, .column3, .column4, .column5, .column6)) {
+        grid-template-columns: 1fr;
+        column-gap: 0;
+        row-gap: var(--jinks-columns-row-gap-sm);
+        max-width: calc(var(--pb-view-max-width) + var(--jinks-columns-padding) * 2);
+    }
+}
+
 @media (max-width: 768px) {
     .fixed-layout main {
         display: block;
@@ -226,6 +354,18 @@
     .fixed-layout > .before {
         width: 100vw;
         max-width: unset;
+    }
+
+    /* When the mobile TOC is open, main is hidden. Collapse to a single column so
+       content-top (toolbar) and .before both span the full width — otherwise the
+       toolbar stays in the middle track and looks cramped beside a wide TOC. */
+    .fixed-layout:has(> main.hidden-mobile) {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "header"
+            "content-top"
+            "before"
+            "footer";
     }
 
     /* Hide aside toggle if .before is empty */
@@ -252,6 +392,30 @@
     .fixed-layout > .before.hidden-mobile,
     .fixed-layout > .after.hidden-mobile {
         display: none !important;
+    }
+
+    /* Same for main: mobile TOC toggle adds .hidden-mobile to main while .before is
+       shown. Without this, .fixed-layout > main { display: flex } / the 768px
+       display:block rule keep main visible and the TOC draws over the text. */
+    .fixed-layout > main.hidden-mobile {
+        display: none !important;
+    }
+
+    /* Page prev/next live in the mobile footer; hide the toolbar duplicates.
+       Beat .toolbar ul / li display rules that outrank plain .hidden-mobile. */
+    .toolbar li.toolbar-navigation {
+        display: none !important;
+    }
+
+    /* The desktop zero-out rules above only match .hidden: a panel hidden on mobile via
+       .hidden-mobile keeps its grid column reserved at full width, squeezing the content
+       column even though the panel itself is invisible. Zero out the track here too. */
+    .fixed-layout:has(> .before.hidden-mobile) {
+        --jinks-layout-before-track: 0;
+    }
+
+    .fixed-layout:has(> .after.hidden-mobile) {
+        --jinks-layout-after-track: 0;
     }
 }
 @media (min-width: 1024px) {

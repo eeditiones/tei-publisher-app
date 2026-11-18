@@ -74,6 +74,68 @@
     --jinks-toolbar-background-color: var(--jinks-colors-200);
     --jinks-toolbar-color: var(--jinks-color-primary);
 
+    /* ---------------------------------------------------------------------
+       Customization hooks — defaults match theme-base10; override in app CSS
+       or config.json (e.g. theme.content.max-width, theme.texture).
+       --------------------------------------------------------------------- */
+
+    --jinks-toolbar-background-image: none;
+    --jinks-toolbar-background-size: cover;
+    --jinks-toolbar-background-position: center;
+    --jinks-toolbar-background-repeat: no-repeat;
+    --jinks-chrome-inset-inline: var(--s0);
+    --jinks-page-header-border-bottom: none;
+    --jinks-highlight-accent-percent: 100%;
+
+    /* Segmented toolbar controls (opt-in styling in app CSS) */
+    --jinks-toolbar-segment-height: 2rem;
+    --jinks-toolbar-segment-cell-width: 2.25rem;
+    --jinks-toolbar-segment-gap: 0.5rem;
+    --jinks-toolbar-segment-icon-size: 1rem;
+    --jinks-toolbar-segment-radius: var(--jinks-form-border-radius);
+    --jinks-toolbar-segment-bg: var(--jinks-colors-light);
+    --jinks-toolbar-segment-border-color: var(--jinks-colors-400);
+    --jinks-toolbar-segment-color: var(--jinks-toolbar-color);
+    --jinks-toolbar-segment-hover-bg: var(--jinks-colors-500);
+    --jinks-toolbar-segment-hover-color: var(--jinks-colors-light);
+    --jinks-toolbar-segment-unavailable-opacity: 0.35;
+    --jinks-toolbar-segment-transition: background-color 0.12s ease, color 0.12s ease;
+
+    /* Toolbar breadcrumb typography (opt-in styling in app CSS) */
+    --jinks-toolbar-breadcrumb-label-size: var(--jinks-breadcrumbs-font-size);
+    --jinks-toolbar-breadcrumb-label-letter-spacing: normal;
+    --jinks-toolbar-breadcrumb-title-size: var(--jinks-h3-font-size);
+    --jinks-toolbar-breadcrumb-title-letter-spacing: normal;
+    --jinks-toolbar-breadcrumb-title-line-height: var(--jinks-heading-line-height);
+    --jinks-toolbar-breadcrumb-title-shadow: none;
+
+    /* Fixed side panels (opt-in styling in app CSS) */
+    --jinks-aside-after-bg: var(--jinks-colors-50);
+    --jinks-aside-after-border-color: var(--jinks-color-border);
+    --jinks-aside-after-padding: var(--s-1) var(--s-1) var(--s1) var(--s-1);
+
+    /* Document browse cards (opt-in styling in app CSS) */
+    --jinks-document-card-radius: var(--pico-border-radius);
+    --jinks-document-card-shadow: var(--pico-card-box-shadow);
+    --jinks-document-card-border-color: var(--jinks-color-border);
+    --jinks-document-card-gap: 0.875rem;
+    --jinks-document-card-hover-shadow: 0 2px 4px rgba(0, 0, 0, 0.08), 0 12px 28px rgba(0, 0, 0, 0.12);
+    --jinks-document-card-hover-transform: translateY(-2px);
+    /* Set to 1 to always show the actions row instead of revealing it on hover */
+    --jinks-document-card-actions-opacity: 0;
+
+    /* Multi-column pb-view layout: class "column" on each pb-view in main;
+       set --jinks-columns-count when using more than two columns (default 2). */
+    --jinks-columns-count: 2;
+    --jinks-columns-gap: var(--s1);
+    --jinks-columns-gap-md: calc(var(--s1) * var(--ratio));
+    --jinks-columns-padding: var(--s0);
+    --jinks-columns-row-gap-sm: calc(var(--s1) * var(--ratio));
+
+    /* Menubar search field on dark bars */
+    --jinks-menubar-search-border-color: transparent;
+    --jinks-menubar-search-bg-color: var(--jinks-menubar-button-color);
+
     /* Splash */
 
     --jinks-splash-background-light: url("../images/tei-publisher-logo-color.svg");
@@ -103,20 +165,20 @@
     --jinks-heading-line-height: 1.2;
 
     --jinks-h1-font-size: 1.625em;
-    --jinks-h1-font-weight: 600;
+    --jinks-h1-font-weight: var(--jinks-heading-font-weight);
     --jinks-h1-line-height: 130%;
 
     --jinks-h2-font-size: 1.25em;
-    --jinks-h2-font-weight: 600;
+    --jinks-h2-font-weight: var(--jinks-heading-font-weight);
     --jinks-h2-line-height: 120%;
 
     --jinks-h3-font-size: 1.125em;
-    --jinks-h3-font-weight: 600;
+    --jinks-h3-font-weight: var(--jinks-heading-font-weight);
     --jinks-h3-line-height: 140%;
 
     --jinks-h4-font-size: 1em;
     --jinks-h4-line-height: 140%;
-    --jinks-h4-font-weight: 500;
+    --jinks-h4-font-weight: calc(var(--jinks-heading-font-weight) - 100);
 
     --jinks-breadcrumbs-font-size: 0.9rem;
     --jinks-breadcrumbs-max: 40ch;
@@ -125,7 +187,7 @@
 
     --jinks-font-size-smaller: 0.875rem;
     --jinks-footnote-font-size: 0.9em;
-    --jinks-footnote-padding: 0 0 0 .25em;
+    --jinks-footnote-padding: 0 0 0 .25em ;
 
     --jinks-content-max-width: 70ch;
     --jinks-page-max-width: 84rem;
@@ -235,20 +297,20 @@
     --pb-footnote-font-family: var(--jinks-content-font-family);
     --pb-footnote-font-weight: var(--jinks-content-font-weight);
     /* --pb-footnote-color: #303030; */
-    --pb-footnote-padding: 0 0 0 .25em;
+    --pb-footnote-padding: var(--jinks-footnote-padding);
 
     /* pb-popover */
     --pb-popover-theme: "light-border";
     --pb-popover-max-width: 480px;
     --pb-popover-font-size: 16px;
-    --pb-popover-line-height: 1.2;
+    --pb-popover-line-height: 1.5;
     --pb-popover-placement: "bottom";
     --pb-popover-fallback-placement: "top right left";
 
     --pb-zoom-factor: 1;
     --pb-min-zoom: 0.5;
     --pb-max-zoom: 3.0;
-    --pb-highlight-color: var(--jinks-colors-highlight);
+    --pb-highlight-color: color-mix(in srgb, var(--jinks-colors-highlight) var(--jinks-highlight-accent-percent), var(--jinks-colors-200));
 }
 
 
@@ -287,6 +349,7 @@
         --pico-primary: var(--jinks-colors-600);
         --pico-primary-hover: var(--jinks-colors-700);
         --pico-color: var(--jinks-color-primary);
+        --pico-background-color: var(--jinks-background-color);
         --pico-h1-color: var(--jinks-h1-color);
         --pico-h2-color: var(--jinks-h2-color);
         --pico-h3-color: var(--jinks-h3-color);
@@ -302,6 +365,7 @@
     --pico-primary: var(--jinks-colors-600);
     --pico-primary-hover: var(--jinks-colors-700);
     --pico-color: var(--jinks-color-primary);
+    --pico-background-color: var(--jinks-background-color);
     --pico-h1-color: var(--jinks-h1-color);
     --pico-h2-color: var(--jinks-h2-color);
     --pico-h3-color: var(--jinks-h3-color);
@@ -346,7 +410,6 @@ input[type="checkbox"] {
     background-color: var(--jinks-form-background-color);
     border: 1px solid var(--jinks-form-border-color);
     border-radius: 3.429px;
-    margin: 0;
 }
 
 input[type="checkbox"]:checked {
@@ -531,7 +594,7 @@ button:has(svg):not(:has(span)),
 }
 
 /* Group of buttons, e.g. navigate left/right */
-[role="group"] {
+:not(fx-group)[role="group"] {
     list-style-type: none;
     display: inline-flex;
     align-items: center;
@@ -549,32 +612,53 @@ button:has(svg):not(:has(span)),
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
 }
 
-[role="group"] a {
+:not(fx-group)[role="group"] a {
     color: inherit;
     text-decoration: none;
     margin: 0;
     padding: 0;
 }
 
-[role="group"] button {
+:not(fx-group)[role="group"] button {
     box-shadow: none;
     width: 1.5rem;
     height: 1.5rem;
 }
 
-[role="group"] li {
+/* Buttons carrying a text label rather than an icon need intrinsic width
+   instead of the fixed icon-button square, otherwise the label is clipped. */
+:not(fx-group)[role="group"] button:not(:has(svg)) {
+    width: auto;
+    min-width: 1.5rem;
+    padding-inline: 0.45rem;
+    font-size: 0.7rem;
+    line-height: 1;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--jinks-color-border, rgba(0, 0, 0, 0.18));
+    border-radius: var(--jinks-form-border-radius);
+}
+
+:not(fx-group)[role="group"] button:not(:has(svg)):not([disabled]):hover {
+    background-color: var(--jinks-colors-light, rgba(0, 0, 0, 0.06));
+    cursor: pointer;
+}
+
+:not(fx-group)[role="group"] li {
     display: inline-block;
     padding: 0;
     margin: 0;
 }
 
-[role="group"] input {
+:not(fx-group)[role="group"] input {
     border: none;
     background-color: transparent;
     margin: 0;
 }
 
-[role="group"] input:focus {
+:not(fx-group)[role="group"] input:focus {
     box-shadow: none;
 }
 
@@ -589,9 +673,9 @@ pb-link .btn.accent a {
     color: var(--jinks-colors-light);
 }
 
-[role="group"] pb-zoom,
-[role="group"] pb-navigation,
-[role="group"] pb-link {
+:not(fx-group)[role="group"] pb-zoom,
+:not(fx-group)[role="group"] pb-navigation,
+:not(fx-group)[role="group"] pb-link {
     width: 1.5rem;
     height: 1.5rem;
     display: inline-flex;
@@ -599,7 +683,8 @@ pb-link .btn.accent a {
     justify-content: center;
 }
 
-[role="group"] pb-navigation {
+[role="group"] pb-navigation:has(> span+svg),
+[role="group"] pb-navigation:has(> svg+span) {
     width: auto;
 }
 
@@ -608,7 +693,7 @@ pb-link .btn.accent a {
     gap: 0.75rem;
 }
 
-button.icon svg, .dropdown-button summary svg, [role="group"] svg, button svg, .btn svg {
+button.icon svg, .dropdown-button summary svg, :not(fx-group)[role="group"] svg, button svg, .btn svg {
     width: 1rem;
     height: 1rem;
 }
@@ -739,6 +824,10 @@ dialog > article > header > button[rel="prev"] {
     opacity: 0.8;
 }
 
+tr.nested td {
+    padding-left: 1rem;
+}
+
 
 /*
  * The styles in here overwrite the look of selected TEI Publisher webcomponents.
@@ -822,12 +911,12 @@ h4 {
 }
 
 :host(pb-lang) summary {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
     height: 36px;
-    padding: 13.5px 7.2px;
+    min-width: 36px;
+    padding: 6px 12px;
     border-radius: 81px;
     background-color: var(--jinks-menubar-button-color);
     font-size: var(--jinks-menubar-font-size);
@@ -939,6 +1028,12 @@ h4 {
     color: var(--jinks-colors-light);
 }
 
+:host(pb-authority-lookup) .badge {
+    height: 1.25rem;
+    border-radius: 0;
+    padding: 0px 6px;
+}
+
 :host(pb-toggle-feature) {
     display: inline-flex;
     align-items: center;
@@ -1003,4 +1098,11 @@ h4 {
     font-size: var(--jinks-dialog-header-font-size);
     font-weight: normal;
     margin-bottom: 0;
+}
+
+:host(pb-navigation) a,
+:host(pb-navigation) a:link,
+:host(pb-navigation) a:visited {
+    text-decoration: none;
+    color: var(--jinks-color-primary);
 }

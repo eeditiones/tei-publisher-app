@@ -1,4 +1,4 @@
-<?teipublisher odd="docbook.odd" template="documentation.html" depth="5" fill="2" media="print fo epub markdown"?><?xml-model href="https://cdn.docbook.org/schema/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en" label="d">
+<?teipublisher odd="docbook.odd" template="documentation.html" depth="5" fill="2"?><?xml-model href="https://cdn.docbook.org/schema/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en" label="d">
     <info>
         <title>Web Components</title>
         <author>
@@ -455,7 +455,7 @@
                         <para><link xlink:href="templates/pages/shakespeare.html" role="source">templates/pages/shakespeare.html</link> includes the
                                 <tag>pb-tify</tag> web component, pointing it to the custom API
                             endpoint:</para>
-                        <synopsis language="xml" xml:space="preserve">&lt;pb-tify subscribe="transcription" emit="transcription" manifest="api/iiif/${docid}" 
+                        <synopsis language="xml" xml:space="preserve">&lt;pb-tify subscribe="transcription" emit="transcription" manifest="api/iiif/${docid}"
     data-template="pages:parse-params"&gt;&lt;/pb-tify&gt;</synopsis>
                     </step>
                 </procedure>
@@ -585,7 +585,7 @@
             </step>
             <step>
                 <para>build your application package with the command <code>ant xar-local</code> (instead
-                    of just calling ant) and deploy as usual</para>
+                    of just calling ant) or <code>npm run build:local</code>, and deploy as usual</para>
             </step>
         </procedure>
     </section>
@@ -719,7 +719,7 @@ import '@polymer/iron-icons';
 /**
  * A component with a button which copies the contained content to the clipboard.
  * Use for the typical 'quote this content as' hints on a webpage.
- * 
+ *
  * @slot content – contains the actual content to copy to the clipboard
  */
 export class PbClipboard extends pbMixin(LitElement) {
@@ -757,13 +757,13 @@ static get properties() {
 
     _copy() {
         const slot = this.shadowRoot.querySelector('slot');
-        
+
         // first import nodes from the slot into a temporary div
         const content = document.createElement('div');
         slot.assignedNodes().forEach((node) =&gt; {
             content.appendChild(document.importNode(node, true));
         });
-        
+
         // copy the innerText of the temp div into the clipboard
         navigator.clipboard.writeText(content.innerText);
     }
@@ -900,7 +900,7 @@ static get styles() {
  * @slot foo-content – content to be shown when foo happens
  *
  * events specification:
- * 
+ *
  * @fires pb-foo-open – Fires opening the foo section
  */
       </programlisting>
@@ -982,7 +982,7 @@ static get styles() {
             <programlisting language="js" xml:space="preserve">
 "dependencies": {
    "@teipublisher/pb-extension-template": "git+https://github.com/eeditiones/pb-extension-template#master"
-} 
+}
         </programlisting>
             <para> then change <filename>build.properties</filename> to contain: </para>
             <programlisting language="js" xml:space="preserve">scripts.dir=node_modules/@teipublisher/pb-extension-template/dist</programlisting>
@@ -1008,7 +1008,7 @@ static get styles() {
             react or angular). All that is needed is a TEI Publisher instance available on the web
             which stores the source TEI and provides a communication endpoint for the components to
             talk to. </para>
-        
+
         <section xml:id="embedding-examples">
             <title>Live Examples</title>
             <para>The embedded example below demonstrates such a use case: it provides a sandbox
@@ -1023,7 +1023,7 @@ static get styles() {
             <para> And if you would like to read <emphasis>Romeo and Juliet</emphasis> in two-column mode,
                 just add <code>column-separator=".tei-cb"</code> to the main <tag>pb-view</tag>. </para>
         </section>
-        
+
         <section xml:id="embedding-whole-doc">
             <title>Retrieving the whole document as a simple HTML</title>
             <para>Embedding results of applying a Processing Model transformation on a document is
@@ -1066,7 +1066,7 @@ static get styles() {
                 Publisher. Note that here <code>pb-components@latest</code> points to the latest
                 available bundle, but you could specify a concrete version number to make sure your
                 website uses a fixed release. </para>
-            
+
             <para>Now let's actually use the components to display Shakespeare's <emphasis>Romeo and
                     Juliet</emphasis> : in the HTML <tag>body</tag>, include the following snippet: </para>
             <programlisting language="html" xml:space="preserve">&lt;pb-page endpoint="https://tei-publisher.org/exist/apps/tei-publisher"&gt;

@@ -8,7 +8,7 @@ declare variable $exist:controller external;
 declare variable $exist:prefix external;
 declare variable $exist:root external;
 
-
+ 
 declare variable $landingPage := "index.html";
 
 declare variable $allowOrigin := local:allowOriginDynamic(request:get-header("Origin"));
@@ -31,7 +31,29 @@ declare function local:checkOriginWhitelist($regexes, $origin) {
         local:checkOriginWhitelist(tail($regexes), $origin)
 };
 
-if ($exist:path eq '') then
+(:~
+ : True if the request path or a query parameter contains a ".." path segment.
+ : Many endpoints build database paths from request input, so such requests are
+ : rejected up front to prevent access outside the intended collections.
+ : Only the query string is inspected: reading parameters via request:get-parameter
+ : would consume form-encoded request bodies before they reach the API.
+ :)
+declare function local:has-parent-segment() as xs:boolean {
+    let $decode := function($str as xs:string) {
+        try { xmldb:decode($str) } catch * { $str }
+    }
+    return
+        matches($decode($exist:path), "(^|/)\.\.(/|$)") or
+        (some $param in tokenize(request:get-query-string(), "&amp;")
+            satisfies matches($decode(substring-after($param, "=")), "(^|/)\.\.(/|$)"))
+};
+
+if (local:has-parent-segment()) then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{$exist:controller}/modules/lib/bad-request.xql"/>
+    </dispatch>
+
+else if ($exist:path eq '') then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <redirect url="{request:get-uri()}/"/>
     </dispatch>
@@ -48,12 +70,12 @@ else if ($exist:path eq '/api.html') then
         <forward url="{$exist:controller}/templates/api.html"/>
     </dispatch>
     
-(: static resources from the resources, transform, templates, odd or modules subirectories are directly returned :)
-else if (matches($exist:path, "^.*/(resources|transform|templates)/.*$")
+(: static resources from the resources, transform, templates, data-static, static or odd subdirectories are directly returned :)
+else if (matches($exist:path, "^.*/(resources|transform|templates|static|)/.*$")
     or matches($exist:path, "^.*/odd/.*\.css$")
     or $exist:path eq '/robots.txt'
     or matches($exist:path, "^.*/modules/.*\.json$")) then
-    let $dir := replace($exist:path, "^.*/(resources|transform|modules|templates|odd)/.*$", "$1")
+    let $dir := replace($exist:path, "^.*/(resources|transform|modules|templates|static||odd)/.*$", "$1")
     return
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
             <forward url="{$exist:controller}/{$dir}/{substring-after($exist:path, '/' || $dir || '/')}">
@@ -70,8 +92,12 @@ else if (matches($exist:path, "^.*/(resources|transform|templates)/.*$")
             </forward>
         </dispatch>
 
-(: other images are resolved against the data collection and also returned directly :)
-else if (matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|txt|mei)$", "s")) then
+(: other images are resolved against the data collection and also returned directly.
+ : Skip /api/… — those must reach the OpenAPI router (e.g. /api/jinntap/assets/foo.png). :)
+else if (
+    matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|txt|mei)$", "s")
+    and not(matches($exist:path, "^/+api/+"))
+) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/data/{$exist:path}"/>
     </dispatch>
@@ -81,7 +107,10 @@ else
     let $main :=
         if (matches($exist:path, "^/+api/+(?:odd|lint)")) then 
             "api-odd.xql" 
-        else if (matches($exist:path, "/+tex$") or matches($exist:path, "/+api/+(?:actions/reindex|actions/file-sync)$")) then
+        else if (matches($exist:path, "^/+api/+actions/+fix-odds$")) then
+            "api-actions.xql"
+        (: only the LaTeX endpoint may run with dba privileges :)
+        else if (matches($exist:path, "^/+api/+document/+.+/+tex$")) then
             "api-dba.xql"
         else 
             "api.xql"

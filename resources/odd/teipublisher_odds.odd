@@ -64,15 +64,31 @@
         <elementSpec ident="template" ns="http://teipublisher.com/1.0" mode="add">
           <desc versionDate="2020-10-23" xml:lang="en">Define a template expression to be used in place of the content. If present in a <gi>model</gi>, the <gi>pb:template</gi> is expanded first and the result is passed into the behaviour specified for the model, replacing the default content parameter accepted by all behaviours.</desc>
           <content>
-            <alternate minOccurs="1" maxOccurs="unbounded">
-              <textNode/>
-              <anyElement require="http://relaxng.org/ns/structure/1.0" minOccurs="0" maxOccurs="unbounded"/>
-            </alternate>
+            <macroRef key="anyMarkup"/>
           </content>
           <attList>
             <attRef class="att.global" name="xml:space"/>
           </attList>
         </elementSpec>
+        <macroSpec ident="anyMarkup" mode="add">
+          <desc>Text and elements of any namespace, TEI included, with any attributes, as the output a <gi>pb:template</gi> writes may need them. <gi>anyElement</gi> cannot express this, because it always excludes the namespaces of the schema itself.</desc>
+          <content>
+            <rng:zeroOrMore>
+              <rng:choice>
+                <rng:text/>
+                <rng:element>
+                  <rng:anyName/>
+                  <rng:zeroOrMore>
+                    <rng:attribute>
+                      <rng:anyName/>
+                    </rng:attribute>
+                  </rng:zeroOrMore>
+                  <rng:ref name="anyMarkup"/>
+                </rng:element>
+              </rng:choice>
+            </rng:zeroOrMore>
+          </content>
+        </macroSpec>
         <elementSpec ident="model" mode="change">
           <content>
             <sequence>

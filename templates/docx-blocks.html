@@ -1,0 +1,20 @@
+<template>
+    [% template document-download %]
+    [% if empty($options?media) or "docx" = $options?media %]
+    <li>
+        <pb-download type="docx" dialog="downloadDialog" odd="[[ $options?odd ]]" params="template=[[$context?features?docx?template]]" url="api/document/[[ escape-uri($options?relpath, true()) ]]">
+            DOCX
+        </pb-download>
+    </li>
+    [% endif %]
+    [% endtemplate %]
+    [% template menu.download %]
+    [% if empty($context?media) or "docx" = $context?media %]
+    <li>
+        <pb-download type="docx" src="document1" dialog="downloadDialog" params="template=[[$context?features?docx?template]]">
+            DOCX
+        </pb-download>
+    </li>
+    [% endif %]
+    [% endtemplate %]
+</template>

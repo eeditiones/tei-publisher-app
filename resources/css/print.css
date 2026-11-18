@@ -44,7 +44,7 @@
     .footnote {
         float: footnote;
         counter-increment: footnote;
-        padding: var(--pb-footnote-padding);
+        padding: var(--jinks-footnote-padding);
     }
 
     ::footnote-call {
@@ -55,7 +55,16 @@
     }
 
     ::footnote-marker {
-        content: counter(footnote-marker, decimal) ". ";
+        /* Not `counter(footnote-marker, …)`: that's the UA-auto-incremented
+           counter CSS Generated Content for Paged Media specifies for this
+           pseudo-element, but Prince 16.2 never advances it past 0 — every
+           marker rendered "0." regardless of position. `footnote` is the
+           counter incremented on .footnote above (already proven correct:
+           it's what ::footnote-call uses for the in-text reference number),
+           so reusing it here keeps call and marker numbers in step. Makes
+           the @supports(sidenote) override below redundant, but it's
+           harmless — left in place rather than restructured. */
+        content: counter(footnote, decimal) ". ";
         font-size: var(--jinks-footnote-font-size);
         vertical-align: super;
     }

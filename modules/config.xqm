@@ -227,7 +227,7 @@ declare variable $config:epub-config := function ($doc as document-node(), $lang
     return
         map {
             "metadata": map {
-                "title": nav:get-metadata($properties, $root, "title"),
+                "title": string-join(nav:get-metadata($properties, $root, "title"), ' '),
                 "creator": string-join(nav:get-metadata($properties, $root, "author"), ", "),
                 "urn": util:uuid(),
                 "language": nav:get-metadata($properties, $root, "language")
@@ -288,6 +288,12 @@ declare variable $config:data-default := $gen:data-default;
  : documents displayed in the browsing view.
  :)
 declare variable $config:data-exclude := $gen:data-exclude;
+
+(:~
+ : XPath expressions a client may pass in the xpath parameter of the /api/parts
+ : endpoint. Any other expression is rejected.
+ :)
+declare variable $config:allowed-xpath := $gen:allowed-xpath;
 
 (:~
  : The root of the collection hierarchy containing registers data.
@@ -361,7 +367,12 @@ declare variable $config:default-odd-for-docx := $config:default-odd;
 
 declare variable $config:default-docx-pi := 'odd="' || $config:default-odd-for-docx || '"]';
 
-declare variable $config:module-config := doc($config:odd-root || "/configuration.xml")/*;
+(:
+    In-memory copy of configuration.xml so $config:module-config/*:module does not
+    depend on DB node navigation. Empty module list makes pmu fall back to config.xqm
+    as "global" instead of odd-global.xqm.
+:)
+declare variable $config:module-config := util:expand(doc($config:odd-root || "/configuration.xml"))/*;
 
 declare variable $config:repo-descriptor := doc(concat($config:app-root, "/repo.xml"))/repo:meta;
 
@@ -370,54 +381,6 @@ declare variable $config:expath-descriptor := doc(concat($config:app-root, "/exp
 declare variable $config:session-prefix := $config:expath-descriptor/@abbrev/string();
 
 declare variable $config:default-fields := ();
-
-declare variable $config:dts-collections := map {
-    "id": "default",
-    "title": $config:expath-descriptor/expath:title/string(),
-    "memberCollections": (
-            map {
-                "id": "documents",
-                "title": "Document Collection",
-                "path": $config:data-default,
-                "members": function() {
-                    nav:get-root((), map {
-                        "leading-wildcard": "yes",
-                        "filter-rewrite": "yes"
-                    })
-                },
-                "metadata": function($doc as document-node()) {
-                    let $properties := tpu:parse-pi($doc, ())
-                    return
-                        map:merge((
-                            map:entry("title", nav:get-metadata($properties, $doc/*, "title")/string()),
-                            map {
-                                "dts:dublincore": map {
-                                    "dc:creator": string-join(nav:get-metadata($properties, $doc/*, "author"), "; "),
-                                    "dc:license": nav:get-metadata($properties, $doc/*, "license")
-                                }
-                            }
-                        ))
-                }
-            },
-            map {
-                "id": "odd",
-                "title": "ODD Collection",
-                "path": $config:odd-root,
-                "members": function() {
-                    collection($config:odd-root)/tei:TEI
-                },
-                "metadata": function($doc as document-node()) {
-                    map {
-                        "title": string-join($doc//tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[not(@type)], "; ")
-                    }
-                }
-            }
-    )
-};
-
-declare variable $config:dts-page-size := 10;
-
-declare variable $config:dts-import-collection := $config:data-default || "/playground";
 
 (:~
  : Returns a default display configuration as a map for the given collection and
@@ -498,28 +461,60 @@ declare function config:default-config($docUri as xs:string?) {
 
 declare function config:document-type($div as element()) {
     switch (namespace-uri($div))
-        case "http://www.tei-c.org/ns/1.0" return
+        case xs:anyURI("http://www.tei-c.org/ns/1.0") return
             "tei"
-        case "http://docbook.org/ns/docbook" return
+        case xs:anyURI("http://docbook.org/ns/docbook") return
             "docbook"
         default return
             "jats"
 };
 
+(:~
+ : Collections from which documents may be loaded via config:get-document. Documents
+ : outside these collections are never returned, even if addressed by an absolute path.
+ : Extend this list if your app needs to display documents stored elsewhere.
+ :)
+declare variable $config:document-roots := distinct-values((
+    $config:data-root, $config:data-default, $config:register-root
+));
+
+(:~
+ : Filter the given documents, keeping only those stored below one of $config:document-roots.
+ :)
+declare function config:in-document-roots($docs as node()*) as node()* {
+    for $doc in $docs
+    let $uri := document-uri(root($doc))
+    where some $root in $config:document-roots satisfies
+        starts-with($uri, replace($root, "/+$", "") || "/")
+    return
+        $doc
+};
+
 declare function config:get-document($idOrName as xs:string) {
-    let $document :=
-        if ($config:address-by-id) then
-            root(collection($config:data-root)/id($idOrName))
-        else if (starts-with($idOrName, '/')) then
-            doc(xmldb:encode-uri($idOrName))
-        else
-            doc(xmldb:encode-uri($config:data-root || "/" || $idOrName))
-    return 
-        if (count($document)) then 
-            $document 
-        else 
-            (: if document not found, try to find it again in any way: by id, or by path in data-root or data-default  :)
-            head((collection($config:data-root)/id($idOrName), doc(xmldb:encode-uri($idOrName)), doc(xmldb:encode-uri($config:data-root || "/" || $idOrName)), doc(xmldb:encode-uri($config:data-default || "/" || $idOrName))))
+    (: reject relative path segments to prevent escaping the document roots :)
+    if (tokenize($idOrName, "/") = "..") then
+        ()
+    else
+        let $document :=
+            if ($config:address-by-id) then
+                root(collection($config:data-root)/id($idOrName))
+            else if (starts-with($idOrName, '/')) then
+                doc(xmldb:encode-uri($idOrName))
+            else
+                doc(xmldb:encode-uri($config:data-root || "/" || $idOrName))
+        let $document := config:in-document-roots($document)
+        return
+            if (exists($document)) then
+                $document
+            else
+                (: if document not found, try to find it again: by id, or by path in data-root or data-default :)
+                head(
+                    config:in-document-roots((
+                        root(collection($config:data-root)/id($idOrName)),
+                        doc(xmldb:encode-uri($config:data-root || "/" || $idOrName)),
+                        doc(xmldb:encode-uri($config:data-default || "/" || $idOrName))
+                    ))
+                )
 };
 
 (:~

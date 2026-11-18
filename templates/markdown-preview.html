@@ -16,6 +16,9 @@
             "timeline": {
                 "enabled": false,
                 "document-view": false
+            },
+            "playground": {
+                "enabled": false
             }
         }
     }
@@ -45,5 +48,7 @@
     </li>
     [% endtemplate %]
 
-    <pb-markdown url="[[ $context-path ]]/api/document/[[ encode-for-uri($doc?path) ]]/md" emit="transcription"/>
+    <div class="center">
+        <pb-markdown url="[[ $context-path ]]/api/document/[[ encode-for-uri($doc?path) ]]/md" emit="transcription"/>
+    </div>
 </main>

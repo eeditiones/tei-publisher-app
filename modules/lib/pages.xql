@@ -42,7 +42,7 @@ declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc a
 declare function pages:load-xml($data as node()*, $view as xs:string?, $root as xs:string?, $doc as xs:string) {
     let $config :=
         (: parse processing instructions and remember original context :)
-        map:merge((tpu:parse-pi(root($data[1]), $view), map { "context": $data }))
+        map:merge((tpu:parse-pi(root($data[1]), $view), map { "context": $data }), map { "duplicates": "use-last" })
     return
         map {
             "config": $config,
@@ -78,7 +78,16 @@ declare function pages:process-content($xml as node()*, $root as node()*, $confi
                 "context-path": $config:context-path
             },
             $userParams))
-	let $html := $pm-config:web-transform($xml, $params, $config?odd)
+	let $transformed := $pm-config:web-transform($xml, $params, $config?odd)
+    (: When the whole document is processed (view=single), the schema's root
+     : element (tei:TEI, JATS article, …) renders via behaviour="document" as a
+     : complete standalone <html> document. For the embedded pb-view content we
+     : only want the <body>, so unwrap it. Other views never produce an <html>
+     : wrapper, so this is a no-op for them. :)
+    let $html :=
+        let $doc := $transformed/descendant-or-self::html
+        return
+            if (exists($doc)) then $doc/body else $transformed
     let $class := if ($html//*[@class = ('margin-note')]) then "margin-right" else ()
     let $body := pages:clean-footnotes($html)
     let $footnotes := 

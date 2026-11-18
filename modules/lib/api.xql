@@ -14,7 +14,6 @@ import module namespace iapi="http://teipublisher.com/api/info" at "api/info.xql
 import module namespace vapi="http://teipublisher.com/api/view" at "api/view.xql";
 import module namespace nlp="http://teipublisher.com/api/nlp" at "api/nlp.xql";
 import module namespace rapi="http://teipublisher.com/api/registers" at "../registers.xql";
-import module namespace action="http://teipublisher.com/api/actions" at "api/actions.xql";
 import module namespace deploy="https://teipublisher.org/api/deploy" at "api/deploy.xql";
 
 
@@ -26,6 +25,10 @@ import module namespace iiif="https://e-editiones.org/api/iiif" at "../iiif-api.
  
 
 import module namespace demo="http://teipublisher.com/api/documentation-and-demo" at "../docs-api.xql";
+
+ 
+
+import module namespace docx="http://teipublisher.com/api/docx" at "../docx-api.xql";
 
 
 
@@ -41,6 +44,10 @@ let $lookup := function($name as xs:string) {
 let $resp := roaster:route(
     (
         
+        
+        "modules/docx-api.json",
+        
+         
         
         "modules/docs-api.json",
         

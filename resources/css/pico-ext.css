@@ -33,6 +33,7 @@
         --pico-primary: var(--jinks-colors-600);
         --pico-primary-hover: var(--jinks-colors-700);
         --pico-color: var(--jinks-color-primary);
+        --pico-background-color: var(--jinks-background-color);
         --pico-h1-color: var(--jinks-h1-color);
         --pico-h2-color: var(--jinks-h2-color);
         --pico-h3-color: var(--jinks-h3-color);
@@ -48,6 +49,7 @@
     --pico-primary: var(--jinks-colors-600);
     --pico-primary-hover: var(--jinks-colors-700);
     --pico-color: var(--jinks-color-primary);
+    --pico-background-color: var(--jinks-background-color);
     --pico-h1-color: var(--jinks-h1-color);
     --pico-h2-color: var(--jinks-h2-color);
     --pico-h3-color: var(--jinks-h3-color);

@@ -1,4 +1,4 @@
-<?teipublisher odd="docbook.odd" template="documentation.html" depth="2" fill="2" media="print fo epub markdown"?><?xml-model href="https://cdn.docbook.org/schema/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en" label="e">
+<?teipublisher odd="docbook.odd" template="documentation.html" depth="2" fill="2"?><?xml-model href="https://cdn.docbook.org/schema/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en" label="e">
     <info>
         <title>Annotating Documents</title>
         <author>
@@ -639,8 +639,8 @@
           more complex configuration is necessary to specify how to access relevant tables and
           extract the required information. An example configuration for a single table is shown
           below:</para>
-        <programlisting language="xml" xml:space="preserve">&lt;pb-authority connector="Airtable" name="topic" api-key="my-api-key" base="database-id" 
-  table="Topics" fields="Name, Variants, Definition, Term Type" label="${Name}" 
+        <programlisting language="xml" xml:space="preserve">&lt;pb-authority connector="Airtable" name="topic" api-key="my-api-key" base="database-id"
+  table="Topics" fields="Name, Variants, Definition, Term Type" label="${Name}"
   tokenize="Name, Variants" tokenize-regex="\s*;\s*"
   filter="or(find('${key}', lower({Name})), find('${key}', lower({Variants})))"&gt;
   &lt;template class="info"&gt;
@@ -958,7 +958,7 @@
         parameter:</para>
       <para>To achieve this, go back to <filename>templates/pages/annotate.html</filename> and
         remove the <option>toggle</option> class from the <tag>paper-icon-button</tag>:</para>
-      <programlisting>&lt;paper-icon-button class="annotation-action" title="Foreign" 
+      <programlisting>&lt;paper-icon-button class="annotation-action" title="Foreign"
         data-type="foreign" icon="icons:language" data-shortcut="⌘+⇧+b,ctrl+⇧+b"
         disabled="disabled"&gt;&lt;/paper-icon-button&gt;</programlisting>
       <para>We would also like to provide an input field into which the user can enter the language.

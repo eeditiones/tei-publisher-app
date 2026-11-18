@@ -27,11 +27,19 @@ declare %private function action:generate-pm-config() {
     let $_ := xmldb:store($config:app-root || "/modules", "pm-config.xql", $pmuConfig, "application/xquery")
     return map {
         "type": "action:fix-odds",
-        "message": "recreated pm-config.xql"
+        "message": "recreated pm-config.xql",
+        "files": map {
+            "modules/pm-config.xql": $pmuConfig
+        }
     }
 };
 
 declare %private function action:generate-code() {
+    (:
+        In-memory copy of configuration.xml for pmu:process-odd ($config/*:module).
+        If that step is empty, pmu falls back to config.xqm as "global". See post-install.xql.
+    :)
+    let $modulesConfig := util:expand(doc($config:app-root || "/resources/odd/configuration.xml"))/*
     for $source in ($config:odd-available, $config:odd-internal)
     let $odd := doc($config:app-root || "/resources/odd/" || $source)
     let $pi := tpu:parse-pi($odd, (), $source)
@@ -51,11 +59,11 @@ declare %private function action:generate-code() {
             (:    $relPath as xs:string    :)
             "transform",
             (:    $config as element(modules)?    :)
-            doc($config:app-root || "/resources/odd/configuration.xml")/*,
+            $modulesConfig,
             $module = "web"
         )
     return
-        action:report-odd-status($report),
+        action:report-odd-status($report, $module),
     let $permissions := $action:repoxml//repo:permissions[1]
     return (
         for $file in xmldb:get-child-resources($config:app-root || "/transform")
@@ -67,9 +75,41 @@ declare %private function action:generate-code() {
     )
 };
 
-declare %private function action:report-odd-status($report) {
-    map {
-        "type": if ($report?error) then "conflict" else "update",
-        "message": $report?module
-    }
+(:~
+ : Report the result of compiling one ODD for one output mode. On failure, the previously
+ : compiled version stays active and the generated code is kept in a .invalid.xql file.
+ :)
+declare %private function action:report-odd-status($report as map(*), $mode as xs:string) {
+    let $invalid := $report?id || "-" || $mode || ".invalid.xql"
+    return
+        if ($report?error) then
+            let $error := ($report?error//error)[1]
+            let $line := xs:integer(($error/@line, 0)[1])
+            let $lines := tokenize($report?code, "\n")
+            return
+                map {
+                    "type": "error",
+                    "message":
+                        "Code generated from " || $report?id || ".odd for " || $mode || " doesn't compile, " ||
+                        "the previous version stays active: " || normalize-space($error),
+                    "path": "transform/" || $invalid,
+                    "line": $line,
+                    "column": xs:integer(($error/@column, 0)[1]),
+                    "code": string-join(
+                        for $n in max((1, $line - 3)) to min((count($lines), $line + 3))
+                        return
+                            $n || ": " || $lines[$n],
+                        "&#10;"
+                    )
+                }
+        else (
+            if (util:binary-doc-available($config:app-root || "/transform/" || $invalid)) then
+                xmldb:remove($config:app-root || "/transform", $invalid)
+            else
+                (),
+            map {
+                "type": "update",
+                "message": $report?module
+            }
+        )
 };

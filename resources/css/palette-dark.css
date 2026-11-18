@@ -1,0 +1,27 @@
+:root {
+    /* Base color: #1a1715 (very dark brownish-gray) */
+    /* HSL: 30° 8% 9% */
+    --base-hue: 30;
+    --base-saturation: 8%;
+    --base-lightness: 9%;
+    
+    /* Computed color palette using HSL functions */
+    --jinks-colors-700: hsl(var(--base-hue), var(--base-saturation), 4%);
+    --jinks-colors-600: hsl(var(--base-hue), var(--base-saturation), 6%);
+    --jinks-colors-500: #1a1715; /* Base color */
+    --jinks-colors-400: hsl(var(--base-hue), var(--base-saturation), 20%);
+    --jinks-colors-300: hsl(var(--base-hue), var(--base-saturation), 40%);
+    --jinks-colors-200: hsl(var(--base-hue), var(--base-saturation), 65%);
+    --jinks-colors-100: hsl(var(--base-hue), var(--base-saturation), 80%);
+    --jinks-colors-50: hsl(var(--base-hue), var(--base-saturation), 92%);
+
+    /* Additional theme colors */
+    --jinks-colors-light: hsl(var(--base-hue), var(--base-saturation), 92%);
+    --jinks-colors-grey: hsl(var(--base-hue), var(--base-saturation), 30%);
+    --jinks-colors-dark: hsl(var(--base-hue), var(--base-saturation), 6%);
+    --jinks-colors-medium: hsl(var(--base-hue), var(--base-saturation), 55%);
+    --jinks-colors-accent: #ffb81c; /* Warm golden accent */
+    --jinks-colors-black-300: hsl(var(--base-hue), var(--base-saturation), 40%);
+
+    --jinks-colors-highlight: #e2c9bc;
+}

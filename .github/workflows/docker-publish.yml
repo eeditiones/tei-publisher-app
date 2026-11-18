@@ -164,7 +164,7 @@ jobs:
           echo -e "${{ steps.meta.outputs.tags }}\nlatest" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
         id: tags_with_latest
-      
+
       - name: Push to GHCR
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
         run: |

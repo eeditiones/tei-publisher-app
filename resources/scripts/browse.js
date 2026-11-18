@@ -20,6 +20,17 @@ document.addEventListener('DOMContentLoaded', function () {
         const breadcrumbs = document.querySelector('.toolbar [aria-label="breadcrumb"] ul');
         breadcrumbs.innerHTML = '';
 
+        // Set the <title> header element to the current collection
+        const titleElement = document.querySelector('title');
+        if (titleElement) {
+            // Use the last part of the collection path as the label,
+            // or "Home" if at root
+            const label = (collection && collection.trim()) 
+                ? collection.split('/').filter(x => x).pop() 
+                : 'Home';
+            titleElement.textContent = `${label} – Browsing Documents`;
+        }
+        
         // Tokenize the collection path and create breadcrumb navigation
         const pathComponents = collection.split('/').filter(component => component.length > 0);
 

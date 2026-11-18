@@ -7,13 +7,13 @@ module namespace config="https://e-editiones.org/tei-publisher/generator/config"
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
-declare variable $config:webcomponents := "3.0.5";
+declare variable $config:webcomponents := "3.6.8";
 declare variable $config:webcomponents-cdn := "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components";
 declare variable $config:fore := "";
 
 declare variable $config:default-view := "div";
-declare variable $config:default-template := "basic.html";
-declare variable $config:default-media := ("web", "print", "epub", "markdown");
+declare variable $config:default-template := "jats.html";
+declare variable $config:default-media := ("web", "print", "epub", "markdown", "docx", "fo");
 declare variable $config:search-default := "";
 declare variable $config:sort-default := "category";
 
@@ -38,7 +38,13 @@ declare variable $config:data-exclude := (
  collection($config:register-root)//tei:text
 );
 
-declare variable $config:odd-root := $config:app-root || "/resources/odd";
+declare variable $config:allowed-xpath := (
+    "//text[@type='source']",
+ "//teiHeader",
+ "//div[@type='original']"
+);
+
+declare variable $config:odd-root :=$config:app-root || "/resources/odd";
 declare variable $config:default-odd := "teipublisher.odd";
 declare variable $config:odd-internal := 
     ( "docx.odd" );
@@ -46,7 +52,7 @@ declare variable $config:odd-internal :=
 declare variable $config:odd-available :=
 xmldb:get-child-resources($config:odd-root)[ends-with(., '.odd')][not(. = ('teipublisher_odds.odd', 'teilite.odd'))];
 
-declare variable $config:odd-media := ("web", "print", "epub", "markdown");
+declare variable $config:odd-media := ("web", "print", "epub", "markdown", "docx", "fo");
 
 (:
     Determine the application root collection from the current module load path.
@@ -72,7 +78,7 @@ declare variable $config:pagination-fill := 5;
 
 declare variable $config:address-by-id as xs:boolean :=  false() ;
 
-declare variable $config:default-language as xs:string := "";
+declare variable $config:default-language as xs:string := "en";
 
 declare variable $config:context-path :=
     
@@ -104,7 +110,7 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
             map{"odd":"jats.odd","template":"jats.html"}
          
         case "doc" return
-            map{"odd":"docbook.odd","media":["web","print","fo","epub","markdown"],"template":"documentation.html"}
+            map{"odd":"docbook.odd","media":["web","print","fo","epub","markdown","docx"],"template":"documentation.html"}
          
         case "docx" return
             map{"odd":"docx-output.odd","template":"docx.html"}

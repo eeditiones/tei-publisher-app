@@ -51,10 +51,12 @@
                 <exclude name="*.tmpl"/>
                 <exclude name="*.properties"/>
                 <exclude name="build.xml"/>
+                <exclude name="build.cjs"/>
                 <exclude name="README.md"/>
                 <exclude name="node_modules/**"/>
                 <exclude name="package*.json"/>
                 <exclude name=".existdb.json"/>
+                <exclude name=".gitignore"/>
                 <exclude name="gulpfile.js"/>
                 <exclude name=".devcontainer"/>
                 <exclude name="test/cypress/screenshots/**"/>

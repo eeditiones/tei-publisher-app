@@ -99,9 +99,11 @@ declare function vapi:view($request as map(*)) {
                 map {
                     "doc": map {
                         "content": $data,
+                        "fragment": page:fragment(map { "request": $request }, $data, $config?view, $path, ())?data,
                         "path": $path,
                         "odd": replace($config?odd, '^(.*)\.odd', '$1'),
                         "view": $config?view,
+                        "type": $config?type,
                         "transform": page:transform(?, ?, $config?odd),
                         "transform-with": page:transform#3
                     },

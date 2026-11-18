@@ -41,7 +41,7 @@
     <li>
         <nav aria-label="breadcrumb">
             <ul>
-                <li><a href="[[ $context-path ]]/browse.html"><pb-i18n key="breadcrumb.collection-root"/></a></li>
+                <li><a href="[[ $context-path ]]/[[ $context?defaults?browse ]]"><pb-i18n key="breadcrumb.collection-root"/></a></li>
                 <li><pb-i18n key="search.results"/></li>
             </ul>
         </nav>
@@ -49,6 +49,7 @@
     [% endtemplate %]
 
     <main>
+        <pb-paginate id="paginate" per-page="10" range="5" subscribe="results" emit="search"/>
         <pb-load class="results" url="api/search" emit="results"/>
     </main>
 

@@ -94,11 +94,15 @@ return
 };
 
 declare function mapping:suffix-translation($root, $userParams as map(*)) {
-    let $language := head((if ($userParams?language) then $userParams?language else (), request:get-parameter('language', ()), 'en'))
+    let $language := head((
+        if ($userParams?lang) then $userParams?lang else (),
+        if ($userParams?language) then $userParams?language else (), 
+        request:get-parameter('lang', ()),
+        'en'
+    ))
     return
     if (matches($language, "^pl*")) then 
             doc(util:collection-name($root) || "/" || replace(util:document-name($root), "^(.+)\.xml$", "$1") || "-pl.xml")
         else
             $root
 };
-

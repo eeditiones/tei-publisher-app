@@ -51,12 +51,21 @@ declare function idx:get-metadata($root as element(), $field as xs:string) {
                 substring($header//tei:correspDesc/tei:correspAction/tei:date/@when, 1, 4)
             case "title" return
                 string-join((
-                    $header//tei:msDesc/tei:head, $header//tei:titleStmt/tei:title[@type = 'main'],
-                    $header//tei:titleStmt/tei:title,
+                    head((
+                        $header//tei:msDesc/tei:head, 
+                        $header//tei:titleStmt/tei:title[@type = 'main'],
+                        $header//tei:titleStmt/tei:title
+                    )),
                     $root/dbk:info/dbk:title,
                     root($root)//article-meta/title-group/article-title,
                     root($root)//article-meta/title-group/subtitle
-                ), " - ")
+                ), " – ")
+            case "author" return
+                string-join((
+                    $header//tei:titleStmt/tei:author,
+                    $root/dbk:info/dbk:author,
+                    $root//article-meta/contrib-group/contrib/name
+                ), ' – ')
             case "language" return
                 head((
                     $header//tei:langUsage/tei:language/@ident,

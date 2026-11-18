@@ -16,10 +16,16 @@
 
     [% template after 1 %]
     [% if empty($context?doc) and $context?features?playground?enabled %]
+    [% if $context?menu?login %]
     <div class="alert" xml:space="preserve">
         <p><pb-i18n key="browse.login-1">Log in as</pb-i18n> "tei" <pb-i18n key="browse.login-2">with password</pb-i18n>
             "simple" <pb-i18n key="browse.login-3">to experiment with your own files and ODDs</pb-i18n></p>
     </div>
+    [% else %]
+    <div class="alert">
+        <p>This server is read-only. For the full experience, please install TEI Publisher locally. See <a href="browse.html?collection=doc">the documentation</a> for instructions.</p>
+    </div>
+    [% endif %]
     [% endif %]
     [% endtemplate %]
     

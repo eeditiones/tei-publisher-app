@@ -31,5 +31,5 @@
         <pb-param name="mode" value="metadata"/>
     </pb-view>
     [% endtemplate %]
-    <pb-view class="content" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
+    <pb-view class="content" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription">[[ page:content($context) ]]</pb-view>
 </template>

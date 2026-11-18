@@ -1,0 +1,109 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "version": "1.0.0",
+        "title": "TEI Publisher Documentation and Demo – DOCX API",
+        "description": "Adds a route to generate DOCX from TEI documents"
+    },
+    "servers": [
+        {
+            "description": "Endpoint for testing on localhost",
+            "url": "/exist/apps/tei-publisher"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "basicAuth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "cookieAuth": {
+                "type": "apiKey",
+                "name": "teipublisher.com.login",
+                "in": "cookie"
+            }
+        }
+    },
+    "tags": [],
+    "paths": {
+        "/api/document/{id}/docx": {
+			"get": {
+				"summary": "Retrieve document content as DOCX",
+				"description": "Retrieve whole document as DOCX transformed via ODD",
+				"tags": ["documents"],
+				"operationId": "docx:generate",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"example": "doc/documentation.xml"
+						}
+					},
+					{
+						"name": "token",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "lang",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "odd",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"example": "docbook.odd"
+						}
+					},
+					{
+						"name": "template",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Retrieve whole document as DOCX transformed via ODD",
+						"content": {
+							"application/vnd.openxmlformats-officedocument.wordprocessingml.document": {
+								"schema": {
+									"type": "string",
+									"format": "binary"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Document not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+    },
+    "security": [
+        {
+            "cookieAuth": []
+        },
+        {
+            "basicAuth": []
+        }
+    ]
+}

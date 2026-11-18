@@ -87,7 +87,7 @@ declare function nlp:strings($request as map(*)) {
                 collection($config:data-root || "/" || $path)/tei:TEI/tei:text
         for $doc in $docs
         where config:get-relpath($doc) != $exclude
-        let $regex := string-join(distinct-values($request?parameters?string), "|")
+        let $regex := string-join(distinct-values($request?parameters?string?*), "|")
         let $properties := parse-json($request?parameters?properties)
         let $text := (
             nlp:extract-plain-text($doc, true(), $regex, $request?parameters?type, $properties),
@@ -95,7 +95,7 @@ declare function nlp:strings($request as map(*)) {
         )
         let $plain := string-join($text)
         let $matches := nlp:match-string(
-            $request?parameters?string,
+            $request?parameters?string?*,
             $request?parameters?type,
             $properties,
             $plain)

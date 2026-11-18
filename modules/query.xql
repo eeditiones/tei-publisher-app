@@ -39,7 +39,7 @@ declare function query:field-prefix($elem as element()) {
             "jats."
 };
 
-declare %private function query:sort($items as element()*, $sortBy as xs:string?) {
+declare function query:sort($items as element()*, $sortBy as xs:string?) {
     let $items :=
         if (exists($config:data-exclude)) then
             $items except $config:data-exclude

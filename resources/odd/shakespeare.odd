@@ -3,23 +3,18 @@
         <fileDesc>
             <titleStmt>
                 <title>Shakespeare Plays 
-                  <desc>Output of a classic play with facsimile links</desc>
+                  
+                 <desc>Output of a classic play with facsimile links</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
-                <publisher>eXistSolutions GmbH</publisher>
+                <publisher>e-editiones</publisher>
                 <availability>
-                    <licence target="https://www.gnu.org/licenses/gpl-3.0.en.html">Distributed under GNU General Public License</licence>
-                    <p>Copyright 2017 <ref target="http://existsolutions.com">eXistSolutions GmbH</ref>
-                    </p>
-                    <p>This program is free software: you can redistribute it and/or modify
-                        it under the terms of the GNU General Public License as published by
-                        the Free Software Foundation, either version 3 of the License, or
-                        (at your option) any later version.</p>
-                    <p>This program is distributed in the hope that it will be useful,
-                        but WITHOUT ANY WARRANTY; without even the implied warranty of
-                        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-                        GNU General Public License for more details.</p>
+                    <licence target="https://creativecommons.org/licenses/by/4.0/">Distributed under a
+                        Creative Commons Attribution 4.0 International License</licence>
+                    <p>Copyright 2017–2026 <ref target="https://e-editiones.org">e-editiones</ref> and
+                        individual contributors.</p>
+                    <p>Based on TEI materials © TEI Consortium (CC BY 3.0 / BSD-2-Clause).</p>
                 </availability>
             </publicationStmt>
             <sourceDesc>
@@ -48,6 +43,10 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="speaker" mode="change">
+                    <model output="typst" behaviour="inline" cssClass="speaker">
+                        <desc>Small-caps speech prefix; the gap after it is set in the
+                            template, since a CSS margin means nothing to Typst.</desc>
+                    </model>
                     <model behaviour="inline">
             <outputRendition xml:space="preserve">
             font-style:italic; margin-right: 1rem; display: inline-block;
@@ -87,6 +86,36 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="head" mode="change">
+                    <!-- Typst: the title page already carries the play title. -->
+                    <model output="typst" predicate="parent::div[@type='play']" behaviour="omit"/>
+                    <!-- Every scene carries a supplied head ("[Act 1, Scene 2]"), which
+                         is the only place the act and scene numbers are stated in a
+                         head. The first scene of an act opens with the act heading. -->
+                    <modelSequence output="typst" predicate="@type='supplied' and not(parent::div/preceding-sibling::div)">
+                        <model behaviour="heading">
+                            <param name="level" value="1"/>
+                            <param name="content" value="'ACT ' || ancestor::div[@type='act']/@n"/>
+                        </model>
+                        <model behaviour="heading">
+                            <param name="level" value="2"/>
+                            <param name="content" value="'Scene ' || parent::div/@n"/>
+                        </model>
+                        <model predicate="parent::div/head[not(@type)]" behaviour="block" cssClass="folio-head">
+                            <param name="content" value="normalize-space(parent::div/head[not(@type)])"/>
+                        </model>
+                    </modelSequence>
+                    <modelSequence output="typst" predicate="@type='supplied'">
+                        <model behaviour="heading">
+                            <param name="level" value="2"/>
+                            <param name="content" value="'Scene ' || parent::div/@n"/>
+                        </model>
+                        <model predicate="parent::div/head[not(@type)]" behaviour="block" cssClass="folio-head">
+                            <param name="content" value="normalize-space(parent::div/head[not(@type)])"/>
+                        </model>
+                    </modelSequence>
+                    <!-- The Folio's own heading is pulled in above, after the editorial
+                         one; where it stands it would print before the act opening. -->
+                    <model output="typst" predicate="parent::div[@type='scene']" behaviour="omit"/>
                     <model predicate="$parameters?mode='toc'" behaviour="inline"/>
                     <model predicate="@type='supplied'" behaviour="omit"/>
                     <model predicate="parent::figure" behaviour="block">
@@ -114,7 +143,35 @@
         </model>
                     <model behaviour="block"/>
                 </elementSpec>
+                <elementSpec ident="choice" mode="change">
+                    <desc>The Folio transcription pairs orig with corr, which
+                        teipublisher.odd does not cover — without a model for it
+                        both readings print, one after the other
+                        ("vveele weele obey you").</desc>
+                    <model predicate="orig and corr" behaviour="alternate">
+                        <param name="default" value="corr[1]"/>
+                        <param name="alternate" value="orig[1]"/>
+                    </model>
+                    <!-- Restated from teipublisher.odd: a local elementSpec
+                         replaces the inherited one outright. -->
+                    <model predicate="sic and corr" behaviour="alternate">
+                        <param name="default" value="corr[1]"/>
+                        <param name="alternate" value="sic[1]"/>
+                    </model>
+                    <model predicate="abbr and expan" behaviour="alternate">
+                        <param name="default" value="expan[1]"/>
+                        <param name="alternate" value="abbr[1]"/>
+                    </model>
+                    <model predicate="orig and reg" behaviour="alternate">
+                        <param name="default" value="reg[1]"/>
+                        <param name="alternate" value="orig[1]"/>
+                    </model>
+                </elementSpec>
                 <elementSpec ident="c" mode="change">
+                    <model output="typst" behaviour="inline">
+                        <desc>No 3em decorated capital in print: it would blow out the
+                            leading of the line it starts, and the numbers alongside.</desc>
+                    </model>
                     <model predicate="@rend='decoratedCapital'" behaviour="inline">
             <outputRendition xml:space="preserve">
             font-size: 3em; line-height: 0.9;
@@ -138,9 +195,11 @@
             
             
             
+            
             float: right;
                             margin-top: 1em;
                             color: #CCC;
+            
             
             
             
@@ -155,9 +214,11 @@
             
             
             
+            
             text-align: center;
                             margin-top: 1em;
                             color: #CCC;
+            
             
             
             
@@ -168,37 +229,37 @@
                     <model behaviour="omit"/>
                 </elementSpec>
             <elementSpec ident="titleStmt" mode="change">
-                    <model output="latex" behaviour="meta">
-            <param name="content" value="."/>
-        </model>
-                    <model output="fo" behaviour="heading"/>
-                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
-            <desc>for breadcrumbs, pick title/@type='statement'</desc>
-            <param name="content" value="title[@type='statement']"/>
-        </model>
-                    <modelSequence output="web" predicate="$parameters?display='browse'">
-            <desc>Display short header in document lists</desc>
-            <model predicate="$parameters?static" behaviour="link">
-                <param name="content" value="title[1]"/>
-                <param name="uri" value="$parameters?context-path || '/' || util:document-name(.) || '/1/index.html'"/>
-            </model>
-            <model predicate="not($parameters?static)" behaviour="link">
-                <param name="content" value="title[1]"/>
-                <param name="uri" value="$parameters?doc"/>
-            </model>
-            <model behaviour="block">
-                <param name="content" value="subsequence(title, 2)"/>
-            </model>
-            <model behaviour="block">
-                <param name="content" value="author"/>
-            </model>
-        </modelSequence>
-                    <model predicate="$parameters?mode='register-details'" behaviour="listItem">
-            <desc>List of letters in register detail view</desc>
-            <param name="content" value="head((title[@type='main'], title))"/>
-        </model>
-                    <model output="web" behaviour="block"/>
-                </elementSpec>
+                <model output="latex" behaviour="meta">
+                    <param name="content" value="."/>
+                </model>
+                <model output="fo" behaviour="heading"/>
+                <model predicate="$parameters?mode=('breadcrumb', 'title')" behaviour="inline">
+                    <desc>for breadcrumbs, pick title/@type='statement'</desc>
+                    <param name="content" value="title[@type='statement']"/>
+                </model>
+                <modelSequence output="web" predicate="$parameters?display='browse'">
+                    <desc>Display short header in document lists</desc>
+                    <model predicate="$parameters?static" behaviour="link">
+                        <param name="content" value="title[1]"/>
+                        <param name="uri" value="$parameters?context-path || '/' || util:document-name(.) || '/1/index.html'"/>
+                    </model>
+                    <model predicate="not($parameters?static)" behaviour="link">
+                        <param name="content" value="title[1]"/>
+                        <param name="uri" value="$parameters?doc"/>
+                    </model>
+                    <model behaviour="block">
+                        <param name="content" value="subsequence(title, 2)"/>
+                    </model>
+                    <model behaviour="block">
+                        <param name="content" value="author"/>
+                    </model>
+                </modelSequence>
+                <model predicate="$parameters?mode='register-details'" behaviour="listItem">
+                    <desc>List of letters in register detail view</desc>
+                    <param name="content" value="head((title[@type='main'], title))"/>
+                </model>
+                <model output="web" behaviour="block"/>
+            </elementSpec>
             <elementSpec ident="sp" mode="change">
                     <model behaviour="block">
             <outputRendition xml:space="preserve">
@@ -215,7 +276,6 @@
                     <model predicate="parent::body or parent::front or parent::back" behaviour="section"/>
                     <model behaviour="block"/>
                 </elementSpec>
-            <elementSpec ident="teiHeader" mode="change"/>
             </schemaSpec>
         </body>
     </text>

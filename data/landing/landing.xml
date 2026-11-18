@@ -81,7 +81,7 @@
             <head>Highlights</head>
             <list>
                <item n="Corpus">
-                  <desc>Collection of sources encoded with the TEI standard</desc>
+                  <desc><ref target="#">Collection of sources encoded with the TEI standard</ref></desc>
                   <note>Fascinating collection of sources encoded in the TEI standard, comprising records of rulers and individuals belonging to the social elite of European states provide insight into the mechanisms of power, the relationship between the center and the peripheries of a state, and the way of life of different social groups. They reveal the mobility of their representatives, networks of contacts, and their engagement in social, political, and economic life.</note>
                   <ptr type="image" target="resources/images/books.jpg"/>
                   <list type="links">
@@ -89,7 +89,7 @@
                   </list>
                </item>
                <item n="Indexes">
-                  <desc>Registers of individuals and places</desc>
+                  <desc><ref target="places">Registers of individuals and places</ref></desc>
                   <note>Registers of individuals and places mentioned in the corpus offer a point of entry into the intricate social and geographical network of that era.</note>
                   <ptr type="image" target="resources/images/header-bg.jpg"/>
                   <list type="links">
@@ -97,11 +97,11 @@
                   </list>
                </item>
                <item n="User Guide">
-                  <desc>User guide</desc>
+                  <desc><ref target="#">User guide</ref></desc>
                   <note>Facets are the fastest way to conduct your searches, simply ticking a box for e.g. the Place, Country or Period that interest you. Current search results will be constrained to show only entries that match exactly all your specified criteria.</note>
                   <ptr type="image" target="resources/images/typewriter2.jpg"/>
                   <list type="links">
-                     <item><ref target="places">Explore</ref></item>
+                     <item><ref target="#">Explore</ref></item>
                   </list>
                </item>
             </list>

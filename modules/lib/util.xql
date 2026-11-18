@@ -32,14 +32,14 @@ declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd
 
 declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd as xs:string?, $fill as xs:double?) {
     let $defaultConfig := config:default-config(document-uri($doc))
+    let $newConfig := map {
+        "view": ($view, $defaultConfig?view)[1],
+        "type": config:document-type($doc/*),
+        "fill": ($fill, $defaultConfig?fill)[1]
+    }
     let $default := map:merge((
-        $defaultConfig,
-        map {
-            "view": ($view, $defaultConfig?view)[1],
-            "type": config:document-type($doc/*),
-            "fill": ($fill, $defaultConfig?fill)[1]
-        }
-    ))
+        $defaultConfig, $newConfig
+    ), map { "duplicates": "use-last" })
     let $pis :=
         map:merge(
             for $pi in $doc/processing-instruction("teipublisher")
@@ -56,7 +56,7 @@ declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd
                     map:entry($key, tokenize($value, '[\s,]+'))
                 else
                     map:entry($key, $value)
-        )
+        , map { "duplicates": "use-last" })
     (: Check if ODD configured in PI is available :)
     let $cfgOddAvail :=
         if ($pis?odd) then
@@ -66,19 +66,19 @@ declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd
     let $pisWithOdd :=
         if ($defaultConfig?overwrite) then
             if ($cfgOddAvail) then
-                map:merge(($default, map { "odd": $pis?odd, "output": $pis?output }))
+                map:merge(($default, map { "odd": $pis?odd, "output": $pis?output }), map { "duplicates": "use-last" })
             else
-                map:merge(($default, map { "output": $pis?output }))
+                map:merge(($default, map { "output": $pis?output }), map { "duplicates": "use-last" })
         else
             $pis
     (: ODD from parameter should overwrite ODD defined in PI :)
     let $config :=
         if ($odd) then
-            map:merge(($pisWithOdd, map { "odd": $odd }))
+            map:merge(($pisWithOdd, map { "odd": $odd }), map { "duplicates": "use-last" })
         else if ($cfgOddAvail) then
             $pisWithOdd
         else
-            map:merge(($pisWithOdd, map { "odd": $defaultConfig?odd }))
+            map:merge(($pisWithOdd, map { "odd": $defaultConfig?odd }), map { "duplicates": "use-last" })
     return
-        map:merge(($default, $config))
+        map:merge(($default, $config), map { "duplicates": "use-last" })
 };

@@ -18,6 +18,31 @@
     content: ", ISSN: "
 }
 
+/* Article browse cards (article-meta[display='browse'] in jats.odd).
+   Structural rules only; colors/flourishes live in the active theme. */
+
+.card-kicker {
+    margin: 0 0 0.35em;
+    font-size: var(--pb-footnote-font-size);
+    text-transform: uppercase;
+}
+
+.card-abstract {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 0.5em 0;
+}
+
+.card-doi,
+.card-license {
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--pb-footnote-font-size);
+    margin-right: 0.6em;
+}
+
 .footnotes {
     margin-top: 1em;
     padding-top: .5em;

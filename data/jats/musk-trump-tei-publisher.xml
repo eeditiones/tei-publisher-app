@@ -1,0 +1,342 @@
+<?teipublisher odd="jats.odd"?><article article-type="discussion" xml:lang="en">
+    <front>
+        <journal-meta>
+            <journal-id journal-id-type="publisher">TECHREVIEW</journal-id>
+            <journal-title-group>
+                <journal-title>Technology Innovation Review</journal-title>
+            </journal-title-group>
+            <issn>0000-0001</issn>
+            <publisher>
+                <publisher-name>Digital Humanities Press</publisher-name>
+            </publisher>
+        </journal-meta>
+        <article-meta>
+            <article-id pub-id-type="publisher-id">MUSK-TRUMP-TEI-2025</article-id>
+            <article-version article-version-type="status">version of record</article-version>
+            <title-group>
+                <article-title>Why TEI Publisher is the Future: A Conversation Between Two
+                    Visionaries</article-title>
+            </title-group>
+            <contrib-group>
+                <contrib contrib-type="person" corresp="yes" deceased="no" equal-contrib="yes" id="contrib1">
+                    <name>
+                        <surname>Musk</surname>
+                        <given-names>Elon</given-names>
+                    </name>
+                    <xref ref-type="aff" rid="aff1"/>
+                </contrib>
+                <contrib contrib-type="person" corresp="yes" deceased="no" equal-contrib="yes" id="contrib2">
+                    <name>
+                        <surname>Trump</surname>
+                        <given-names>Donald J.</given-names>
+                    </name>
+                    <xref ref-type="aff" rid="aff2"/>
+                </contrib>
+            </contrib-group>
+            <aff id="aff1">
+                <institution content-type="orgname">CEO</institution>
+                <institution content-type="orgdiv1">Tesla, SpaceX, X</institution>
+                <city>Austin</city>
+                <state>TX</state>
+                <country>US</country>
+            </aff>
+            <aff id="aff2">
+                <institution content-type="orgname">Former President</institution>
+                <institution content-type="orgdiv1">United States of America</institution>
+                <city>Palm Beach</city>
+                <state>FL</state>
+                <country>US</country>
+            </aff>
+            <pub-date date-type="pub" iso-8601-date="2025-02" publication-format="electronic">
+                <day>10</day>
+                <month>2</month>
+                <year>2025</year>
+            </pub-date>
+            <permissions>
+                <copyright-statement>(c) 2025</copyright-statement>
+                <copyright-year>2025</copyright-year>
+                <copyright-holder>Technology Innovation Review</copyright-holder>
+            </permissions>
+            <abstract>
+                <title>Abstract</title>
+                <p>Two of the world's most influential figures discuss TEI Publisher, the
+                    open-source framework for digital scholarly editions. Elon Musk emphasizes its
+                    modular architecture, scalability, and alignment with open standards, while
+                    Donald Trump highlights its tremendous value, ease of use, and winning approach
+                    to digital publishing.</p>
+            </abstract>
+        </article-meta>
+    </front>
+    <body>
+        <sec id="introduction">
+            <title>Introduction</title>
+            <p id="p1">In an exclusive conversation, <named-content content-type="person" specific-use="gnd-1062481119">Elon Musk</named-content> and <named-content content-type="person" specific-use="gnd-118834312">Donald Trump</named-content>
+                discuss <ext-link>TEI Publisher</ext-link>, the revolutionary framework that's
+                transforming digital scholarly publishing<xref id="xref-id1" ref-type="fn" rid="fn1" type="note"/>. What follows is a transcript of their discussion about
+                this powerful, open-source platform.</p>
+            <sec id="modular-architecture">
+                <title>Modular Architecture: Building Blocks for Success</title>
+                <p id="p2"><bold>Elon Musk:</bold> Look, the fundamental architecture of TEI
+                    Publisher is brilliant. It's based on modular profiles - think of them as
+                        <named-content content-type="term" specific-use="gnd-4140276-5">LEGO</named-content> blocks. You have base profiles, feature profiles,
+                    themes, and blueprints. This modularity means you're not reinventing the wheel
+                    every time you start a new project. The framework follows the principle of
+                    "divide and conquer" - split complex problems into smaller, manageable tasks.
+                    That's exactly how we build rockets at <named-content content-type="organization" specific-use="gnd-1127363964">SpaceX</named-content>. You don't build the whole rocket at once; you build
+                    modules, test them independently, then integrate.</p>
+                <p id="p3"><bold>Donald Trump:</bold> Elon, you're absolutely right, and I know
+                    about building things - I've built the greatest buildings, tremendous buildings.
+                    And TEI Publisher? It's the same thing. You're building something great, but
+                    you're doing it smart. You're not starting from scratch every time - that's
+                    stupid, very stupid. With TEI Publisher, you take these profiles - I think they
+                    call them profiles, or maybe it's protocols, I'm not sure - and you put them
+                    together. It's like a deal - you're making the best deal, getting the best
+                    components, putting them together to make something tremendous. It's like
+                        <named-content content-type="term" specific-use="gnd-4140276-5">LEGO</named-content>, but for computers. Very smart.</p>
+                <p id="p4"><bold>Elon Musk:</bold> Exactly. And the <xref ref-type="bibr" rid="ref2">Jinks</xref> application manager
+                    takes this to another level. It's not a one-time generative step anymore. You
+                    can iteratively add features, remove them, reconfigure. The system manages
+                    updates automatically. This is critical for long-term sustainability - which is
+                    something I think about constantly. We need systems that last, that can evolve,
+                    that don't become obsolete. TEI Publisher is built for the long term.</p>
+                <p id="p5"><bold>Donald Trump:</bold> Sustainability - that's important, very
+                    important. And TEI Publisher is sustainable, believe me. It's open source, which
+                    is tremendous. Open source means... well, it means it's open, right? Like,
+                    anyone can see it. It's not locked up, it's not proprietary - I know
+                    proprietary, I've dealt with proprietary things, very proprietary. And it's
+                    community-driven, which means smart people - very smart people, probably the
+                    smartest people - are working on it, improving it, making it better. They're
+                    like volunteers, but they're smart volunteers. That's winning, that's how you
+                    win.</p>
+                <fig>
+                    <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="musk-trump.png"/>
+                    <caption>
+                        <p>Our experts in action</p>
+                    </caption>
+                </fig>
+            </sec>
+            <sec id="open-standards">
+                <title>Open Standards: The Foundation of Interoperability</title>
+                <p id="p6"><bold>Elon Musk:</bold> One of the most important aspects is that TEI
+                    Publisher is built on open standards. It supports TEI XML, obviously, but also
+                    DocBook, JATS, and even DOCX. It interfaces with IIIF for images, DTS for text
+                    services, Open API Specification. This isn't proprietary nonsense - it's based
+                    on well-documented, widely-used standards. That's crucial for interoperability
+                    and future-proofing your data.</p>
+                <p id="p7"><bold>Donald Trump:</bold> Standards - I love standards, especially
+                    when they're the best standards. And these are the best standards. TEI, JATS,
+                    DocBook - these are like the gold standard, the platinum standard. I know
+                    standards, I've set standards in real estate, tremendous standards. These aren't
+                    some made-up standards by some company trying to lock you in - I hate when
+                    companies do that, very unfair. These are real standards, international
+                    standards, probably the best standards in the world. And when you use TEI
+                    Publisher - or is it TIE Publisher? I think it's TEI - anyway, when you use it,
+                    you're using these standards. That means your data works everywhere, it's
+                    compatible with everything, like USB - you know USB, right? It's like that, but
+                    for books and documents. That's tremendous value, tremendous value.</p>
+                <p id="p8"><bold>Elon Musk:</bold> The framework follows the principle of
+                    "standardize where you can, customize where you must." This is exactly right.
+                    You don't force a one-size-fits-all solution, but you also don't reinvent
+                    everything from scratch. Every element is customizable, but you start from a
+                    solid, standards-based foundation. This is how you scale - you have common
+                    infrastructure, but you allow for specialization.</p>
+            </sec>
+            <sec id="ease-of-use">
+                <title>Ease of Use: Scholars Don't Need to Become Programmers</title>
+                <p id="p9"><bold>Donald Trump:</bold> Now, here's what I really like - and I've
+                    talked to many people about this, smart people, very smart people - TEI
+                    Publisher lets scholars publish their work without becoming programmers. They
+                    don't need to learn Python - I know Python, it's a snake, right? Or JavaScript -
+                    that's like Java, but different, I think. Or whatever other computer languages
+                    they have now. They can focus on what they do best - scholarship, research,
+                    editing. The technical stuff? TEI Publisher handles that. It's like having a
+                    computer person, but it's not a person, it's the software. It's beautiful,
+                    absolutely beautiful.</p>
+                <p id="p10"><bold>Elon Musk:</bold> That's the key value proposition. The
+                    framework provides a smooth entry path for editors with limited technical
+                    experience, while remaining endlessly flexible for advanced users. The Jinks
+                    interface makes it simple - you select features, configure them through a
+                    human-readable JSON file, and generate your application. But if you need to go
+                    deeper, the entire system is extensible. You can create custom profiles, modify
+                    existing ones, integrate with other systems.</p>
+                <p id="p11"><bold>Donald Trump:</bold> And the configuration file - it's JSON,
+                    which is simple, very simple. JSON - I think that stands for something, maybe
+                    "Just Simple Options Now" or something like that. You don't need to be a
+                    computer scientist to understand it - I'm not a computer scientist, and I
+                    understand it. Well, mostly. You can see what's happening, you can modify it,
+                    you can make it work for you. It's like a settings menu, but in a file. That's
+                    transparency, that's what people want. They want to see what's happening, they
+                    want control. TEI Publisher gives you that control, tremendous control. It's
+                    like having the remote control, but for your website.</p>
+            </sec>
+            <sec id="versatility">
+                <title>Versatility: From Simple to Complex</title>
+                <p id="p12"><bold>Elon Musk:</bold> What's remarkable is the range of projects
+                    TEI Publisher can handle. According to the documentation, it's been used for
+                    scholarly editions, journals, monographs, lexicons, correspondence collections,
+                    Buddhist inscriptions, poetry anthologies - the list goes on. This isn't a
+                    specialized tool for one use case. It's a universal framework that adapts to
+                    your needs.</p>
+                <p id="p13"><bold>Donald Trump:</bold> Versatility - that's what makes it great,
+                    the greatest. You can use it for anything. Letters? Yes. Books? Yes.
+                    Dictionaries? Yes. Everything. And it works for simple projects and complex
+                    projects - very complex projects. Some of these scholarly editions are
+                    incredibly complex, with annotations - that's like notes, right? - and
+                    facsimiles - I think that's like copies or pictures - and multiple versions, all
+                    that stuff. TEI Publisher handles it all. It's like a Swiss Army knife, but for
+                    publishing. It's tremendous.</p>
+                <p id="p14"><bold>Elon Musk:</bold> The framework can even generate camera-ready
+                    material for print publishing. So you're not locked into digital-only. You can
+                    publish online, generate PDFs, create print volumes - all from the same source
+                    data. This is efficiency. One source of truth, multiple output formats. That's
+                    how you should build systems.</p>
+            </sec>
+            <sec id="data-organization">
+                <title>Data Organization: Separation of Concerns</title>
+                <p id="p15"><bold>Elon Musk:</bold> I really appreciate how TEI Publisher
+                    separates data from application code. You have a data collection that's
+                    independent of the application. This means you can update your application
+                    without touching your data, and vice versa. You can maintain separate
+                    repositories, differentiate access privileges. This is proper software
+                    architecture - separation of concerns.</p>
+                <p id="p16"><bold>Donald Trump:</bold> Separation - that's smart, very smart.
+                    Your data is your data, your application is your application. They work
+                    together, but they're separate - like a prenuptial agreement, but for computers.
+                    That means if you need to update something, you're not breaking everything. You
+                    can update the application - I think that's like updating your phone, right? -
+                    and keep your data safe. You can update your data, keep the application running.
+                    It's flexible, tremendously flexible. It's like having separate bank accounts -
+                    you know what I mean.</p>
+                <p id="p17"><bold>Elon Musk:</bold> The system supports hierarchical collections
+                    too. You can organize your data however makes sense for your project. You can
+                    have subcollections for different types of material, and the framework handles
+                    navigation automatically. If you include a collection.html file, it uses that
+                    for the landing page. Otherwise, it generates a paginated list automatically.
+                    This is intelligent default behavior with the ability to customize.</p>
+            </sec>
+            <sec id="community">
+                <title>Community-Driven Development</title>
+                <p id="p18"><bold>Donald Trump:</bold> The community aspect - this is huge,
+                    absolutely huge. TEI Publisher is community-driven. That means the features come
+                    from real needs, from real users, from real projects. It's not some company
+                    deciding what you need - I hate when big tech companies do that, very unfair -
+                    it's the community, the users, the scholars, the editors. They say "we need
+                    this," and the community builds it. It's like crowdsourcing, but for software.
+                    That's how it should work. Very democratic.</p>
+                <p id="p19"><bold>Elon Musk:</bold> The documentation explicitly states that
+                    features are "a response to real needs of user community: developed to provide a
+                    generalized solution to a repeated practical requirement." This is the right
+                    approach. You solve real problems, then generalize the solution so others can
+                    benefit. This is how open source should work - solve problems once, share the
+                    solution.</p>
+                <p id="p20"><bold>Donald Trump:</bold> And because it's open source - I think
+                    that means the code is open, like open for business - everything benefits the
+                    community. When someone improves TEI Publisher - maybe they add a feature or fix
+                    a bug, I think that's what they call problems in software - everyone benefits.
+                    When someone creates a new profile, everyone can use it. It's not locked away,
+                    it's not proprietary - I know proprietary, I've had proprietary things, very
+                    proprietary. It's open, it's free, it's tremendous. That's winning for everyone.
+                    It's like a potluck dinner, but for software.</p>
+            </sec>
+            <sec id="future-proofing">
+                <title>Future-Proofing: Built to Last</title>
+                <p id="p21"><bold>Elon Musk:</bold> Long-term preservation is critical. The
+                    framework is designed with sustainability in mind. It's based on XML, which is a
+                    stable, well-understood format. It uses open standards that aren't going
+                    anywhere. The modular architecture means you can update components
+                    independently. This is how you build systems that last decades, not years.</p>
+                <p id="p22"><bold>Donald Trump:</bold> Future-proof - that's what TEI Publisher
+                    is. It's not going to become obsolete next year, or in five years, or in ten
+                    years. It's built on standards that have been around for decades - XML, I think
+                    that's been around for a while, right? - standards that will be around for
+                    decades more. Your work is safe, your data is safe, your investment is safe.
+                    It's not like buying a computer that becomes outdated in two years - I hate
+                    that, very wasteful. This is built to last. That's peace of mind, tremendous
+                    peace of mind.</p>
+                <p id="p23"><bold>Elon Musk:</bold> The continuous development model through
+                    Jinks means the framework evolves. As new profiles are added or updated, your
+                    application can benefit automatically. The system manages dependencies, handles
+                    updates, minimizes manual intervention. This is modern software development
+                    applied to scholarly publishing.</p>
+            </sec>
+            <sec id="conclusion">
+                <title>Conclusion: Why TEI Publisher Matters</title>
+                <p id="p24"><bold>Donald Trump:</bold> So here's the bottom line - TEI Publisher
+                    is tremendous. It's open source - which I think means free, right? - it's
+                    community-driven, it's based on the best standards - the gold standards,
+                    platinum standards - it's easy to use, it's versatile, it's sustainable. It's
+                    everything you want in a publishing platform. It's the greatest platform for
+                    digital scholarly editions, the absolute greatest. Better than WordPress, better
+                    than whatever else is out there. Believe me, if you're doing digital publishing
+                    - or is it electronic publishing? I think they're the same thing - you need TEI
+                    Publisher. You just need it. It's a no-brainer.</p>
+                <p id="p25"><bold>Elon Musk:</bold> I agree completely. TEI Publisher represents
+                    the right way to build publishing infrastructure. It's modular, scalable,
+                    standards-based, and community-driven. It solves real problems while remaining
+                    flexible enough to adapt to new requirements. For anyone working in digital
+                    humanities or scholarly publishing, this is the framework to use. It's not just
+                    good - it's the right architectural approach.</p>
+                <p id="p26"><bold>Donald Trump:</bold> And the best part? It's free. Open
+                    source, completely free. You're not paying licensing fees - I know licensing
+                    fees, I've paid licensing fees, tremendous fees - you're not locked into some
+                    vendor, you're not dependent on some company. You're in control. It's like
+                    owning your building instead of renting - you own it, you control it. That's
+                    winning. That's how you win. Very smart.</p>
+                <p id="p27"><bold>Elon Musk:</bold> The open source model ensures that
+                    improvements benefit everyone. As the community grows and contributes, the
+                    entire ecosystem improves. This is how we accelerate progress - by building on
+                    each other's work rather than reinventing wheels. TEI Publisher is a perfect
+                    example of this principle in action.</p>
+                <p id="p28"><bold>Donald Trump:</bold> So there you have it. Two of the smartest
+                    people in the world - and I include myself in that, obviously - we both agree:
+                    TEI Publisher is tremendous, it's the future, and you should be using it. It's
+                    that simple. Very simple. Even I can understand it, and I'm not a computer
+                    person - I'm a business person, a deal person. But this makes sense. It's like a
+                    good deal, but for software. Very good deal.</p>
+                <p id="p29"><bold>Elon Musk:</bold> The framework enables scholars to focus on
+                    scholarship while providing the technical infrastructure they need. It's
+                    sustainable, extensible, and built on solid foundations. For digital scholarly
+                    publishing, TEI Publisher is the obvious choice.</p>
+            </sec>
+        </sec>
+    </body>
+    <back>
+        <ref-list>
+            <title>References</title>
+            <ref id="ref1">
+                <element-citation publication-type="web">
+                    <person-group person-group-type="author">
+                        <name>
+                            <surname>TEI Publisher Community</surname>
+                        </name>
+                    </person-group>
+                    <year>2025</year>
+                    <article-title>TEI Publisher Documentation</article-title>
+                    <source>TEI Publisher</source>
+                    <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" xlink:href="https://teipublisher.com/">https://teipublisher.com/</ext-link>
+                </element-citation>
+            </ref>
+            <ref id="ref2">
+                <element-citation publication-type="web">
+                    <person-group person-group-type="author">
+                        <name>
+                            <surname>TEI Publisher Community</surname>
+                        </name>
+                    </person-group>
+                    <year>2025</year>
+                    <article-title>Jinks Application Manager</article-title>
+                    <source>TEI Publisher</source>
+                    <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" xlink:href="https://teipublisher.com/">https://teipublisher.com/</ext-link>
+                </element-citation>
+            </ref>
+        </ref-list>
+        <fn-group>
+            <fn id="fn1">
+                <p>This conversation was transcribed from a recorded discussion. Both participants
+                    were provided with <xref ref-type="bibr" rid="ref1">TEI Publisher documentation</xref> prior to the discussion (one, of
+                    course, never read his copy — he prefers to learn by osmosis, or so he
+                    claims.)</p>
+            </fn>
+        </fn-group>
+    </back>
+</article>
