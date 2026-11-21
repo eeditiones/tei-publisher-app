@@ -1,0 +1,43 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: TEI Publisher
+message: >-
+  Sustainable publishing toolbox – rooted in standards,
+  built by the community, meant to last. 
+type: software
+authors:
+  - name: e-editiones
+    address: Notkerstrasse 22
+    city: St. Gallen
+    country: CH
+    post-code: CH-9000
+    email: info@e-editiones.org
+    website: 'https://www.e-editiones.org'
+identifiers:
+  - type: url
+    value: >-
+      https://github.com/eeditiones/tei-publisher-app/releases/tag/v10.0.0
+    description: The URL of the latest GitHub release
+repository-code: 'https://github.com/eeditiones/tei-publisher-app'
+url: 'https://tei-publisher.org'
+abstract: >-
+  TEI Publisher is designed as a working environment for
+  creating and publishing of digital scholarly editions.
+  Editions created with this framework are aiming to meet
+  the varied needs of several humanities disciplines
+  (textual scholarship, literary studies, linguistics,
+  history and more). TEI Publisher builds on what is common,
+  at the same time providing the choice and customisation
+  possibilities to the editors and developers.
+keywords:
+  - TEI
+  - eXist-db
+  - Digital Scholarly Edition
+  - xml
+  - publishing
+license: GPL-3.0
+commit: 78eb90f9b68c64139e44d2a2c6727de3cb67cf3c
+version: 10.0.0
+date-released: '2026-01-16'
